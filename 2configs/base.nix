@@ -39,6 +39,7 @@ with lib;
     '';
 
   environment.systemPackages = with pkgs; [
+      jq
       git
       vim
       gnumake

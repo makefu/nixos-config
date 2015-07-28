@@ -8,8 +8,8 @@
   imports =
     [ # Include the results of the hardware scan.
       <nixpkgs/nixos/modules/profiles/qemu-guest.nix>
-      ../../2configs/makefu/base.nix
-      ../../2configs/makefu/cgit-retiolum.nix
+      ../2configs/base.nix
+      ../2configs/cgit-retiolum.nix
     ];
   krebs.build.host = config.krebs.hosts.pnp;
 

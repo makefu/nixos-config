@@ -1,10 +1,10 @@
 { config, lib, pkgs, ... }:
 # TODO: remove tv lib :)
-with import ../../4lib/tv { inherit lib pkgs; };
+with import ../../tv/4lib/{ inherit lib pkgs; };
 let
 
   out = {
-    imports = [ ../../3modules/krebs/git.nix ];
+    imports = [ ];
     krebs.git = {
       enable = true;
       root-title = "public repositories ";
