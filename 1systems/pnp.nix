@@ -40,6 +40,7 @@
 
 # networking.firewall is enabled by default
   networking.firewall.allowedTCPPorts = [ 80 ];
+  networking.firewall.allowPing = true;
 
   fileSystems."/" =
   { device = "/dev/disk/by-label/nixos";
