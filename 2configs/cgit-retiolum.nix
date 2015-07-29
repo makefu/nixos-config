@@ -30,12 +30,13 @@ let
       post-receive = git.irc-announce {
         nick = config.networking.hostName;
         channel = "#retiolum";
+        # TODO remove the hardcoded hostname
         server = "cd.retiolum";
       };
     };
   };
 
-  set-owners = with git; repo: user:
+  set-owners = with git;repo: user:
       singleton {
         inherit user;
         repo = [ repo ];
@@ -52,17 +53,26 @@ let
   # TODO: get the list of all krebsministers
   krebsminister = with config.krebs.users; [ lass tv uriel ];
 
-  priv-rules = with config.krebs.users; repo:
-    set-owners repo [ makefu ];
+  #all-makefu =  with config.krebs.users; [ makefu ];
 
-  krebs-rules = with config.krebs.users; repo:
-    set-owners repo [ makefu ] ++ set-ro-access repo krebsminister ;
+
+  all-makefu = with config.krebs.users; [ makefu makefu-omo ];
+
+  priv-rules = repo: set-owners repo all-makefu;
+
+  krebs-rules = repo:
+    set-owners repo all-makefu ++ set-ro-access repo krebsminister;
 
 in {
-  imports = [ ../../3modules/krebs/git.nix ];
+  imports = [{
+    krebs.users.makefu-omo = {
+        name = "makefu-omo" ;
+        pubkey= with builtins; readFile ../../Zpubkeys/makefu_omo.ssh.pub;
+    };
+  }];
   krebs.git = {
     enable = true;
-    root-title = "public repositories ";
+    root-title = "public repositories";
     root-desc = "keep on krebsing";
     inherit repos rules;
   };
