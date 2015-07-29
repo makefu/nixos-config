@@ -1,17 +1,8 @@
 { config, lib, pkgs, ... }:
 # TODO: remove tv lib :)
-with import ../../tv/4lib/{ inherit lib pkgs; };
+with import ../../tv/4lib { inherit lib pkgs; };
 let
 
-  out = {
-    imports = [ ];
-    krebs.git = {
-      enable = true;
-      root-title = "public repositories ";
-      root-desc = "keep on krebsing";
-      inherit repos rules;
-    };
-  };
   repos = priv-repos // krebs-repos ;
   rules = concatMap krebs-rules (attrValues krebs-repos) ++ concatMap priv-rules (attrValues priv-repos);
 
@@ -67,4 +58,12 @@ let
   krebs-rules = with config.krebs.users; repo:
     set-owners repo [ makefu ] ++ set-ro-access repo krebsminister ;
 
-in out
+in {
+  imports = [ ../../3modules/krebs/git.nix ];
+  krebs.git = {
+    enable = true;
+    root-title = "public repositories ";
+    root-desc = "keep on krebsing";
+    inherit repos rules;
+  };
+}

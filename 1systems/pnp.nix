@@ -12,6 +12,21 @@
       ../2configs/cgit-retiolum.nix
     ];
   krebs.build.host = config.krebs.hosts.pnp;
+  krebs.build.user = config.krebs.users.makefu;
+  krebs.build.target = "root@pnp";
+
+  krebs.build.deps = {
+    nixpkgs = {
+      url = https://github.com/NixOS/nixpkgs;
+      rev = "4c01e6d91993b6de128795f4fbdd25f6227fb870";
+    };
+    secrets = {
+      url = "/home/makefu/secrets/${config.krebs.build.host.name}";
+    };
+    stockholm = {
+      url = toString ../..;
+    };
+  };
 
   boot.loader.grub.enable = true;
   boot.loader.grub.version = 2;
