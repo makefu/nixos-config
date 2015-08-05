@@ -23,7 +23,8 @@
       #url = https://github.com/NixOS/nixpkgs;
       url = https://github.com/makefu/nixpkgs;
       #rev = "4c01e6d91993b6de128795f4fbdd25f6227fb870";
-      rev = "08275910ba86ed9bd7a2608e6a1e5285faf24cb2";
+      #rev = "08275910ba86ed9bd7a2608e6a1e5285faf24cb2";
+      rev = "53d79a8074e7a4465515e67ea565dc73cbc14c5c";
     };
     # TODO generalize in base.nix
     secrets = {
