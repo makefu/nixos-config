@@ -10,6 +10,7 @@
       <nixpkgs/nixos/modules/profiles/qemu-guest.nix>
       ../2configs/base.nix
       ../2configs/cgit-retiolum.nix
+      ../2configs/graphite-standalone.nix
     ];
   krebs.build.host = config.krebs.hosts.pnp;
   krebs.build.user = config.krebs.users.makefu;
@@ -38,8 +39,13 @@
   hardware.enableAllFirmware = true;
   hardware.cpu.amd.updateMicrocode = true;
 
-# networking.firewall is enabled by default
-  networking.firewall.allowedTCPPorts = [ 80 ];
+  networking.firewall.allowedTCPPorts = [
+  # nginx runs on 80
+                                          80
+  # graphite-web runs on 8080, carbon cache runs on 2003 tcp and udp
+                                          8080 2003
+                                        ];
+  networking.firewall.allowedUDPPorts = [ 2003 ];
   networking.firewall.rejectPackets = true;
   networking.firewall.allowPing = true;
 
