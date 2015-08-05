@@ -3,13 +3,24 @@
 with lib;
 {
   imports = [ ];
-  services.xserver.enable = true;
-  services.xserver.layout = "us";
+  services.xserver = {
+    enable = true;
+    layout = "us";
 
 # use awesome, direct boot into
-  services.xserver.displayManager.auto.enable =true;
-  services.xserver.displayManager.auto.user =config.krebs.users.makefu;
-  services.xserver.windowManager.awesome.enable = true;
+    displayManager.auto.enable = true;
+# TODO: use config.krebs.users.makefu ... or not
+    displayManager.auto.user = "makefu";
+
+    windowManager = {
+      awesome.enable = true;
+      awesome.luaModules = [ pkgs.luaPackages.vicious ];
+      default = "awesome";
+    };
+
+    desktopManager.xterm.enable = false;
+    desktopManager.default = "none";
+  };
 
   security.setuidPrograms = [ "slock" ];
 

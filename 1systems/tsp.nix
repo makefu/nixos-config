@@ -10,17 +10,20 @@
       ../2configs/base.nix
       ../2configs/base-gui.nix
     ];
-  services.xserver = {
-    videoDriver = "intel";
-  };
+  # not working in vm
+  #services.xserver = {
+  #  videoDriver = "intel";
+  #};
   krebs.build.host = config.krebs.hosts.tsp;
   krebs.build.user = config.krebs.users.makefu;
   krebs.build.target = "root@tsp";
 
   krebs.build.deps = {
     nixpkgs = {
-      url = https://github.com/NixOS/nixpkgs;
-      rev = "4c01e6d91993b6de128795f4fbdd25f6227fb870";
+      #url = https://github.com/NixOS/nixpkgs;
+      url = https://github.com/makefu/nixpkgs;
+      #rev = "4c01e6d91993b6de128795f4fbdd25f6227fb870";
+      rev = "08275910ba86ed9bd7a2608e6a1e5285faf24cb2";
     };
     # TODO generalize in base.nix
     secrets = {
