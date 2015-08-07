@@ -15,6 +15,8 @@ in
   services.xserver = {
     enable = true;
     layout = "us";
+    xkbVariant = "altgr-intl";
+    xkbOptions = "ctrl:nocaps";
 
     windowManager = {
       awesome.enable = true;
@@ -27,10 +29,8 @@ in
     desktopManager.xterm.enable = false;
   };
 
-  security.setuidPrograms = [ "slock" ];
-
   environment.systemPackages = [
-    pkgs.slock
+    pkgs.xlockmore
     pkgs.rxvt_unicode-with-plugins
   ];
 

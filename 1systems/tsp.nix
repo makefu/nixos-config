@@ -9,8 +9,10 @@
     [ # Include the results of the hardware scan.
       ../2configs/base.nix
       ../2configs/base-gui.nix
-      ../2configs/tp-x200.nix
+      ../2configs/tinc-basic-retiolum.nix
       ../2configs/sda-crypto-root.nix
+      # hardware specifics are in here
+      ../2configs/tp-x200.nix
     ];
   # not working in vm
   krebs.build.host = config.krebs.hosts.tsp;
@@ -26,24 +28,9 @@
     };
   };
 
-  krebs.retiolum = {
-    enable = true;
-    hosts = ../../Zhosts;
-    connectTo = [
-      "gum"
-      "pigstarter"
-      "fastpoke"
-    ];
-  };
-
-  # hardware specifics
-
-
   networking.firewall.rejectPackets = true;
   networking.firewall.allowPing = true;
 
-
-  # $ nix-env -qaP | grep wget
   environment.systemPackages = with pkgs; [
     vim
     jq
