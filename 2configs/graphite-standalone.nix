@@ -5,6 +5,7 @@
 with lib;
 {
   imports = [ ];
+
   services.graphite = {
     web = {
       enable = true;
