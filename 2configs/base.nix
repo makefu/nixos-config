@@ -2,7 +2,13 @@
 
 with lib;
 {
-  imports = [ ];
+  imports = [
+    {
+      users.extraUsers =
+        mapAttrs (_: h: { hashedPassword = h; })
+                 (import /root/src/secrets/hashedPasswords.nix);
+    }
+  ];
   krebs.enable = true;
   krebs.search-domain = "retiolum";
 
@@ -39,7 +45,7 @@ with lib;
   services.openssh.enable = true;
   nix.useChroot = true;
 
-  users.mutableUsers = true;
+  users.mutableUsers = false;
 
   boot.tmpOnTmpfs = true;
   systemd.tmpfiles.rules = [
