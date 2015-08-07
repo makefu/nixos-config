@@ -6,7 +6,7 @@ with lib;
   krebs.enable = true;
   krebs.search-domain = "retiolum";
 
-  networking.hostName = config.krebs.build.host.name;
+
   users.extraUsers = {
     root = {
         openssh.authorizedKeys.keys = [ config.krebs.users.makefu.pubkey ];
@@ -21,6 +21,18 @@ with lib;
         "wheel"
       ];
         openssh.authorizedKeys.keys = [ config.krebs.users.makefu.pubkey ];
+    };
+  };
+
+  networking.hostName = config.krebs.build.host.name;
+  nix.maxJobs = config.krebs.build.host.cores + 1;
+
+  krebs.build.deps = {
+    secrets = {
+      url = "/home/makefu/secrets/${config.krebs.build.host.name}";
+    };
+    stockholm = {
+      url = toString ../..;
     };
   };
 

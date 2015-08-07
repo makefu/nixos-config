@@ -1,16 +1,20 @@
 { config, lib, pkgs, ... }:
-
+##
+# of course this name is a lie - it prepares a GUI environment close to my
+# current configuration.
+#
+# autologin with mainUser into awesome
+##
+#
 with lib;
+let
+  mainUser = config.krebs.build.user.name;
+in
 {
   imports = [ ];
   services.xserver = {
     enable = true;
     layout = "us";
-
-# use awesome, direct boot into
-    displayManager.auto.enable = true;
-# TODO: use config.krebs.users.makefu ... or not
-    displayManager.auto.user = "makefu";
 
     windowManager = {
       awesome.enable = true;
@@ -18,14 +22,18 @@ with lib;
       default = "awesome";
     };
 
+    displayManager.auto.enable = true;
+    displayManager.auto.user = mainUser;
     desktopManager.xterm.enable = false;
-    desktopManager.default = "none";
   };
 
   security.setuidPrograms = [ "slock" ];
 
-# use pulseaudio
-  environment.systemPackages = [ pkgs.slock ];
+  environment.systemPackages = [
+    pkgs.slock
+    pkgs.rxvt_unicode-with-plugins
+  ];
+
   hardware.pulseaudio = {
     enable = true;
     systemWide = true;

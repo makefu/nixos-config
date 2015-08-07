@@ -9,11 +9,10 @@
     [ # Include the results of the hardware scan.
       ../2configs/base.nix
       ../2configs/base-gui.nix
+      ../2configs/tp-x200.nix
+      ../2configs/sda-crypto-root.nix
     ];
   # not working in vm
-  #services.xserver = {
-  #  videoDriver = "intel";
-  #};
   krebs.build.host = config.krebs.hosts.tsp;
   krebs.build.user = config.krebs.users.makefu;
   krebs.build.target = "root@tsp";
@@ -21,18 +20,9 @@
   krebs.build.deps = {
     nixpkgs = {
       #url = https://github.com/NixOS/nixpkgs;
+      # rev=$(curl https://nixos.org/channels/nixos-unstable/git-revision -L)
       url = https://github.com/makefu/nixpkgs;
-      #rev = "4c01e6d91993b6de128795f4fbdd25f6227fb870";
-      #rev = "08275910ba86ed9bd7a2608e6a1e5285faf24cb2";
-      rev = "53d79a8074e7a4465515e67ea565dc73cbc14c5c";
-    };
-    # TODO generalize in base.nix
-    secrets = {
-      url = "/home/makefu/secrets/${config.krebs.build.host.name}";
-    };
-    # TODO generalize in base.nix
-    stockholm = {
-      url = toString ../..;
+      rev = "8b8b65da24f13f9317504e8bcba476f9161613fe";
     };
   };
 
@@ -46,40 +36,7 @@
     ];
   };
 
-  boot = {
-    #x200 specifics
-    kernelModules = [ "tp_smapi" "msr" ];
-    extraModulePackages = [ config.boot.kernelPackages.tp_smapi ];
-
-    loader.grub.enable =true;
-    loader.grub.version =2;
-    loader.grub.device = "/dev/sda";
-
-    # crypto boot
-    # TODO: use UUID
-    initrd.luks.devices = [ { name = "luksroot"; device= "/dev/sda2";}];
-    initrd.luks.cryptoModules = ["aes" "sha512" "sha1" "xts" ];
-    initrd.availableKernelModules = ["xhci_hcd" "ehci_pci" "ahci" "usb_storage" ];
-  };
-  fileSystems = {
-    "/" = {
-      device = "/dev/mapper/luksroot";
-      fsType = "ext4";
-    };
-    "/boot" = {
-      device = "/dev/disk/by-label/nixboot";
-      fsType = "ext4";
-    };
-  };
-
   # hardware specifics
-  networking.wireless.enable = true;
-
-  hardware.enableAllFirmware = true;
-  nixpkgs.config.allowUnfree = true;
-
-  # TODO: generalize to numCPU + 1
-  nix.maxJobs = 3;
 
 
   networking.firewall.rejectPackets = true;
