@@ -8,6 +8,7 @@ with lib;
         mapAttrs (_: h: { hashedPassword = h; })
                  (import /root/src/secrets/hashedPasswords.nix);
     }
+    ./vim.nix
   ];
   krebs.enable = true;
   krebs.search-domain = "retiolum";
@@ -32,6 +33,7 @@ with lib;
 
   networking.hostName = config.krebs.build.host.name;
   nix.maxJobs = config.krebs.build.host.cores + 1;
+  #nix.maxJobs = 1;
 
   krebs.build.deps = {
     secrets = {
