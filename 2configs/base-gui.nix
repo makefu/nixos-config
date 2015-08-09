@@ -29,14 +29,28 @@ in
     desktopManager.xterm.enable = false;
   };
 
-  environment.systemPackages = [
-    pkgs.xlockmore
-    pkgs.rxvt_unicode-with-plugins
+## FONTS
+# TODO: somewhere else?
+
+  i18n.consoleFont = "Lat2-Terminus16";
+
+  fonts = {
+    enableCoreFonts = true;
+    enableFontDir = true;
+    enableGhostscriptFonts = false;
+    fonts = [ pkgs.terminus_font ];
+  };
+
+  environment.systemPackages = with pkgs;[
+    xlockmore
+    rxvt_unicode-with-plugins
+    vlc
+    firefox
+    chromium
   ];
 
   hardware.pulseaudio = {
     enable = true;
     systemWide = true;
   };
-
 }
