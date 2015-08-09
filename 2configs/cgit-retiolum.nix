@@ -52,11 +52,7 @@ let
 
   # TODO: get the list of all krebsministers
   krebsminister = with config.krebs.users; [ lass tv uriel ];
-
-  #all-makefu =  with config.krebs.users; [ makefu ];
-
-
-  all-makefu = with config.krebs.users; [ makefu makefu-omo ];
+  all-makefu = with config.krebs.users; [ makefu makefu-omo makefu-tsp ];
 
   priv-rules = repo: set-owners repo all-makefu;
 
@@ -68,6 +64,10 @@ in {
     krebs.users.makefu-omo = {
         name = "makefu-omo" ;
         pubkey= with builtins; readFile ../../Zpubkeys/makefu_omo.ssh.pub;
+    };
+    krebs.users.makefu-tsp = {
+        name = "makefu-tsp" ;
+        pubkey= with builtins; readFile ../../Zpubkeys/makefu_tsp.ssh.pub;
     };
   }];
   krebs.git = {
