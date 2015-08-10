@@ -48,9 +48,10 @@ in
     firefox
     chromium
   ];
-
+  # TODO: use mainUser
+  users.extraUsers.makefu.extraGroups = [ "audio" ];
   hardware.pulseaudio = {
     enable = true;
-    systemWide = true;
+  #  systemWide = true;
   };
 }
