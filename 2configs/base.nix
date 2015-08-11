@@ -50,6 +50,10 @@ with lib;
   users.mutableUsers = false;
 
   boot.tmpOnTmpfs = true;
+
+  networking.firewall.rejectPackets = true;
+  networking.firewall.allowPing = true;
+
   systemd.tmpfiles.rules = [
     "d /tmp 1777 root root - -"
   ];

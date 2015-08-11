@@ -33,11 +33,4 @@
   ];
   networking.firewall.allowedUDPPorts = [ 2003 ];
 
-  networking.firewall.rejectPackets = true;
-  networking.firewall.allowPing = true;
-
-# $ nix-env -qaP | grep wget
-  environment.systemPackages = with pkgs; [
-    jq
-  ];
 }
