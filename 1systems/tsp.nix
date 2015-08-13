@@ -18,6 +18,13 @@
   krebs.build.user = config.krebs.users.makefu;
   krebs.build.target = "root@tsp";
 
+  krebs.exim-retiolum.enable = true;
+  networking.firewall.allowedTCPPorts = [
+  # nginx runs on 80
+  # graphite-web runs on 8080, carbon cache runs on 2003 tcp and udp
+    25
+  ];
+
   krebs.build.deps = {
     nixpkgs = {
       #url = https://github.com/NixOS/nixpkgs;
