@@ -28,6 +28,11 @@ in
     displayManager.auto.user = mainUser;
     desktopManager.xterm.enable = false;
   };
+  services.redshift = {
+    enable = true;
+    latitude = "48.7";
+    longitude = "9.1";
+  };
 
 ## FONTS
 # TODO: somewhere else?
