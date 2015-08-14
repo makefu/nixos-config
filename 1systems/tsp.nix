@@ -12,6 +12,9 @@
       ../2configs/sda-crypto-root.nix
       # hardware specifics are in here
       ../2configs/tp-x200.nix
+
+      ../2configs/disable_v6.nix
+      ../2configs/rad1o.nix
     ];
   # not working in vm
   krebs.build.host = config.krebs.hosts.tsp;
@@ -20,8 +23,6 @@
 
   krebs.exim-retiolum.enable = true;
   networking.firewall.allowedTCPPorts = [
-  # nginx runs on 80
-  # graphite-web runs on 8080, carbon cache runs on 2003 tcp and udp
     25
   ];
 
