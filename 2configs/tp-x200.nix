@@ -17,6 +17,9 @@ with lib;
   hardware.enableAllFirmware = true;
   nixpkgs.config.allowUnfree = true;
 
+  zramSwap.enable = true;
+  zramSwap.numDevices = 2;
+
   hardware.trackpoint.enable = true;
   hardware.trackpoint.sensitivity = 255;
   hardware.trackpoint.speed = 255;
