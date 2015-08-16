@@ -32,7 +32,9 @@ with lib;
   };
 
   networking.hostName = config.krebs.build.host.name;
-  nix.maxJobs = config.krebs.build.host.cores + 1;
+  nix.maxJobs = config.krebs.build.host.cores;
+
+  time.timeZone = "Europe/Berlin";
   #nix.maxJobs = 1;
 
   krebs.build.deps = {
@@ -68,6 +70,7 @@ with lib;
       vim
       gnumake
       rxvt_unicode.terminfo
+      htop
   ];
 
   programs.bash = {
@@ -80,7 +83,6 @@ with lib;
       shopt -s checkhash
       shopt -s histappend histreedit histverify
       shopt -s no_empty_cmd_completion
-      complete -d cd
       '';
 
     promptInit = ''
