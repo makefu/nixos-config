@@ -15,13 +15,15 @@
 
       ../2configs/disable_v6.nix
       ../2configs/rad1o.nix
+
+      ../2configs/exim-retiolum.nix
     ];
   # not working in vm
   krebs.build.host = config.krebs.hosts.tsp;
   krebs.build.user = config.krebs.users.makefu;
   krebs.build.target = "root@tsp";
 
-  krebs.exim-retiolum.enable = true;
+
   networking.firewall.allowedTCPPorts = [
     25
   ];
@@ -31,8 +33,8 @@
       #url = https://github.com/NixOS/nixpkgs;
       # rev=$(curl https://nixos.org/channels/nixos-unstable/git-revision -L)
       url = https://github.com/makefu/nixpkgs;
-      rev = "8b8b65da24f13f9317504e8bcba476f9161613fe";
+      #rev = "8b8b65da24f13f9317504e8bcba476f9161613fe";
+      rev = "f5fe787f778b872c6b2221598501c9310cb83915";
     };
   };
-
 }
