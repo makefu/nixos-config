@@ -25,10 +25,6 @@
   krebs.build.user = config.krebs.users.makefu;
   krebs.build.target = "root@pornocauster";
 
-
-  boot.kernelModules = [ "kvm-intel" ];
-
-
   networking.firewall.allowedTCPPorts = [
     25
   ];
