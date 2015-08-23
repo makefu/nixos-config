@@ -1,8 +1,12 @@
 { config, lib, pkgs, ... }:
 
+# ssd #
 # sda:  bootloader grub2
 # sda1: boot ext4 (label nixboot)
-# sda2: cryptoluks -> ext4
+# sda2: cryptoluks -> lvm:
+#       /     (main-root)
+#       /home (main-home)
+
 with lib;
 {
   boot = {

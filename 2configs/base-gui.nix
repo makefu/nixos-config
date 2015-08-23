@@ -1,11 +1,15 @@
 { config, lib, pkgs, ... }:
 ##
-# of course this name is a lie - it prepares a GUI environment close to my
-# current configuration.
+# of course this name is a lie
+# - it prepares a GUI environment close to my
+# current configuration,specifically:
 #
-# autologin with mainUser into awesome
-##
+# * autologin with mainUser into awesome
+# * audio
+# * terminus font
 #
+# if this is not enough, check out main-laptop.nix
+
 with lib;
 let
   mainUser = config.krebs.build.user.name;
@@ -28,14 +32,6 @@ in
     displayManager.auto.user = mainUser;
     desktopManager.xterm.enable = false;
   };
-  services.redshift = {
-    enable = true;
-    latitude = "48.7";
-    longitude = "9.1";
-  };
-
-## FONTS
-# TODO: somewhere else?
 
   i18n.consoleFont = "Lat2-Terminus16";
 
@@ -49,14 +45,12 @@ in
   environment.systemPackages = with pkgs;[
     xlockmore
     rxvt_unicode-with-plugins
-    vlc
     firefox
-    chromium
   ];
-  # TODO: use mainUser
-  users.extraUsers.makefu.extraGroups = [ "audio" ];
+  users.extraUsers.${mainUser}.extraGroups = [ "audio" ];
+
   hardware.pulseaudio = {
-    enable = true;
-  #  systemWide = true;
+     enable = true;
+   #  systemWide = true;
   };
 }
