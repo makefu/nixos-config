@@ -8,7 +8,7 @@ let
 
   krebs-repos = mapAttrs make-krebs-repo {
     stockholm = {
-      desc = "take all the computers hostage, they'll love you!";
+      desc = "Make all the systems into 1systems!";
     };
   };
 
