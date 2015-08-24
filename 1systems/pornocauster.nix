@@ -9,13 +9,19 @@
       ../2configs/base.nix
       ../2configs/main-laptop.nix #< base-gui
 
+      # Krebs
       ../2configs/tinc-basic-retiolum.nix
+      #../2configs/disable_v6.nix
+
       #../2configs/sda-crypto-root.nix
       ../2configs/sda-crypto-root-home.nix
 
       ../2configs/zsh-user.nix
+
+      # applications
       ../2configs/exim-retiolum.nix
-      #../2configs/disable_v6.nix
+      ../2configs/virtualization.nix
+      ../2configs/wwan.nix
 
       # hardware specifics are in here
       ../2configs/tp-x220.nix

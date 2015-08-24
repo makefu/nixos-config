@@ -1,5 +1,7 @@
 { config, lib, pkgs, ... }:
 
+#usage: $ wvdial
+
 let
   mainUser = config.krebs.build.user;
 in {
