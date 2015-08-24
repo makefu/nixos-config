@@ -18,7 +18,8 @@
   krebs.build.deps = {
     nixpkgs = {
       url = https://github.com/NixOS/nixpkgs;
-      rev = "4c01e6d91993b6de128795f4fbdd25f6227fb870";
+      #url = https://github.com/makefu/nixpkgs;
+      rev = "13576925552b1d0751498fdda22e91a055a1ff6c";
     };
     secrets = {
       url = "/home/makefu/secrets/${config.krebs.build.host.name}";

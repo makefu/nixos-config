@@ -37,10 +37,9 @@
 
   krebs.build.deps = {
     nixpkgs = {
-      #url = https://github.com/NixOS/nixpkgs;
-      # rev=$(curl https://nixos.org/channels/nixos-unstable/git-revision -L)
-      url = https://github.com/makefu/nixpkgs;
-      rev = "f5fe787f778b872c6b2221598501c9310cb83915";
+      url = https://github.com/NixOS/nixpkgs;
+      #url = https://github.com/makefu/nixpkgs;
+      rev = "13576925552b1d0751498fdda22e91a055a1ff6c";
     };
   };
 }
