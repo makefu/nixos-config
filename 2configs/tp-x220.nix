@@ -7,7 +7,8 @@ with lib;
 
   boot.kernelModules = [ "kvm-intel" ];
 
-  services.xserver.vaapiDrivers = [pkgs.vaapiIntel pkgs.vaapiVdpau ];
+  #services.xserver.vaapiDrivers = [pkgs.vaapiIntel pkgs.vaapiVdpau ];
+  services.xserver.vaapiDrivers = [];
 
   services.xserver.displayManager.sessionCommands =''
   xinput set-int-prop "TPPS/2 IBM TrackPoint" "Evdev Wheel Emulation" 8 1

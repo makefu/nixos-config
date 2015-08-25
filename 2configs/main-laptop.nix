@@ -12,6 +12,9 @@ with lib;
     firefox
     chromium
     keepassx
+
+    virtmanager
+    at_spi2_core # dep for virtmanager?
   ];
 
   services.redshift = {

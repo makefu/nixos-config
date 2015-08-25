@@ -6,6 +6,9 @@ with lib;
   environment.systemPackages = with pkgs; [
     msmtp
     mutt-kz
+    notmuch
+    # TODO: put this somewhere else
+    offlineimap
   ];
 
 }
