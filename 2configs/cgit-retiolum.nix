@@ -63,11 +63,11 @@ in {
   imports = [{
     krebs.users.makefu-omo = {
         name = "makefu-omo" ;
-        pubkey= with builtins; readFile ../../Zpubkeys/makefu_omo.ssh.pub;
+        pubkey= with builtins; readFile ../../krebs/Zpubkeys/makefu_omo.ssh.pub;
     };
     krebs.users.makefu-tsp = {
         name = "makefu-tsp" ;
-        pubkey= with builtins; readFile ../../Zpubkeys/makefu_tsp.ssh.pub;
+        pubkey= with builtins; readFile ../../krebs/Zpubkeys/makefu_tsp.ssh.pub;
     };
   }];
   krebs.git = {
