@@ -21,6 +21,8 @@
   krebs.build.user = config.krebs.users.makefu;
   krebs.build.target = "root@pnp";
 
+  krebs.Reaktor.enable = true;
+
   krebs.build.deps = {
     nixpkgs = {
       url = https://github.com/NixOS/nixpkgs;
