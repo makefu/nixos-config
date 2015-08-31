@@ -23,6 +23,8 @@
       ../2configs/virtualization.nix
       ../2configs/wwan.nix
 
+      ../2configs/Reaktor/simpleExtend.nix
+
       # hardware specifics are in here
       ../2configs/tp-x220.nix
     ];
