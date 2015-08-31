@@ -7,14 +7,11 @@ with lib;
 
   boot.kernelModules = [ "kvm-intel" ];
 
-  #services.xserver.vaapiDrivers = [pkgs.vaapiIntel pkgs.vaapiVdpau ];
-
   services.xserver = {
     videoDriver = "intel";
-    vaapiDrivers = [ pkgs.vaapiIntel ];
+    vaapiDrivers = [ pkgs.vaapiIntel pkgs.vaapiVdpau ];
     deviceSection = ''
       Option "AccelMethod" "sna"
-      BusID "PCI:0:2:0"
     '';
   };
 

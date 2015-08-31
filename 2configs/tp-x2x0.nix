@@ -11,9 +11,13 @@ with lib;
   zramSwap.enable = true;
   zramSwap.numDevices = 2;
 
-  hardware.trackpoint.enable = true;
-  hardware.trackpoint.sensitivity = 220;
-  hardware.trackpoint.speed = 220;
+  hardware.trackpoint = {
+    enable = true;
+    sensitivity = 220;
+    speed = 220;
+    emulateWheel = true;
+    };
+
 
   services.tlp.enable = true;
   services.tlp.extraConfig = ''
