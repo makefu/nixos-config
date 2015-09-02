@@ -1,6 +1,6 @@
 { config, lib, ... }:
 
-with import ../../krebs/4lib { inherit lib; };
+with lib;
 let
   cfg = config.krebs;
 

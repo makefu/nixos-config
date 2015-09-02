@@ -9,9 +9,9 @@
       ../2configs/base.nix
       ../2configs/base-gui.nix
       ../2configs/tinc-basic-retiolum.nix
-      ../2configs/sda-crypto-root.nix
+      ../2configs/fs/sda-crypto-root.nix
       # hardware specifics are in here
-      ../2configs/tp-x200.nix #< imports tp-x2x0.nix
+      ../2configs/hw/tp-x200.nix #< imports tp-x2x0.nix
 
       ../2configs/disable_v6.nix
       ../2configs/rad1o.nix

@@ -9,9 +9,9 @@
     [ # Include the results of the hardware scan.
       <nixpkgs/nixos/modules/profiles/qemu-guest.nix>
       ../2configs/base.nix
-      ../2configs/cgit-retiolum.nix
+      ../2configs/git/cgit-retiolum.nix
       # ../2configs/graphite-standalone.nix
-      ../2configs/vm-single-partition.nix
+      ../2configs/fs/vm-single-partition.nix
       ../2configs/tinc-basic-retiolum.nix
 
       ../2configs/exim-retiolum.nix
@@ -26,7 +26,7 @@
   krebs.build.deps = {
     nixpkgs = {
       url = https://github.com/NixOS/nixpkgs;
-      rev = "13576925552b1d0751498fdda22e91a055a1ff6c";
+      rev = "03921972268934d900cc32dad253ff383926771c";
     };
   };
 
