@@ -7,21 +7,33 @@
 {
   imports =
     [ # Include the results of the hardware scan.
-      <nixpkgs/nixos/modules/profiles/qemu-guest.nix>
+      # Base
       ../2configs/base.nix
-      ../2configs/git/cgit-retiolum.nix
-      # ../2configs/graphite-standalone.nix
-      ../2configs/fs/vm-single-partition.nix
       ../2configs/tinc-basic-retiolum.nix
+
+      # HW/FS
+      <nixpkgs/nixos/modules/profiles/qemu-guest.nix>
+      ../2configs/fs/vm-single-partition.nix
+
+      # Services
+      ../2configs/git/cgit-retiolum.nix
+
+      ## Reaktor
+      ## \/ are only plugins, must enable Reaktor explicitly
+      ../2configs/Reaktor/stockholmLentil.nix
+      ../2configs/Reaktor/simpleExtend.nix
 
       ../2configs/exim-retiolum.nix
       ../2configs/urlwatch.nix
+
+      # ../2configs/graphite-standalone.nix
     ];
+  krebs.Reaktor.enable = true;
+
   krebs.build.host = config.krebs.hosts.pnp;
   krebs.build.user = config.krebs.users.makefu;
   krebs.build.target = "root@pnp";
 
-  krebs.Reaktor.enable = true;
 
   krebs.build.deps = {
     nixpkgs = {
