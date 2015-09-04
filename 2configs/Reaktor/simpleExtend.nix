@@ -8,8 +8,6 @@ let
   echo "$PRETTY_NAME"
   '';
 in {
-  krebs.Reaktor.enable = true;
-  krebs.Reaktor.nickname = "test-reaktor";
   krebs.Reaktor.extraConfig = ''
   public_commands.insert(0,{
     'capname' : "nixos-version",

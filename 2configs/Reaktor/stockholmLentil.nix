@@ -9,10 +9,7 @@ let
                         gnused
                         lentil]);
 in {
-  krebs.Reaktor.enable = true;
-  krebs.Reaktor.debug = true;
-  # krebs.Reaktor.nickname = "test-reaktor";
-  # TODO: make origin variable
+  # TODO: make origin a variable, <- module is generic enough to handle different origins, not only stockholm
   krebs.Reaktor.extraConfig = ''
   public_commands.insert(0,{
     'capname' : "stockholm-issue",
