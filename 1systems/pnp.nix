@@ -34,6 +34,7 @@
   krebs.build.user = config.krebs.users.makefu;
   krebs.build.target = "root@pnp";
 
+  nixpkgs.config.packageOverrides = pkgs: { tinc = pkgs.tinc_pre; };
 
   krebs.build.deps = {
     nixpkgs = {
