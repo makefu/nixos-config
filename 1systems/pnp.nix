@@ -22,6 +22,7 @@
       ## \/ are only plugins, must enable Reaktor explicitly
       ../2configs/Reaktor/stockholmLentil.nix
       ../2configs/Reaktor/simpleExtend.nix
+      ../2configs/Reaktor/titlebot.nix
 
       ../2configs/exim-retiolum.nix
       ../2configs/urlwatch.nix
@@ -29,6 +30,7 @@
       # ../2configs/graphite-standalone.nix
     ];
   krebs.Reaktor.enable = true;
+  krebs.Reaktor.debug = true;
 
   krebs.build.host = config.krebs.hosts.pnp;
   krebs.build.user = config.krebs.users.makefu;
