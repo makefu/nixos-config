@@ -9,6 +9,7 @@
     [ # Include the results of the hardware scan.
       # Base
       ../2configs/base.nix
+      ../2configs/base-sources.nix
       ../2configs/tinc-basic-retiolum.nix
 
       # HW/FS
@@ -38,12 +39,6 @@
 
   nixpkgs.config.packageOverrides = pkgs: { tinc = pkgs.tinc_pre; };
 
-  krebs.build.deps = {
-    nixpkgs = {
-      url = https://github.com/NixOS/nixpkgs;
-      rev = "03921972268934d900cc32dad253ff383926771c";
-    };
-  };
 
   networking.firewall.allowedTCPPorts = [
   # nginx runs on 80
