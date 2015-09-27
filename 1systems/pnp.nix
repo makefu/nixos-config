@@ -32,6 +32,10 @@
     ];
   krebs.Reaktor.enable = true;
   krebs.Reaktor.debug = true;
+  krebs.Reaktor.nickname = "Reaktor|bot";
+  krebs.Reaktor.extraEnviron = {
+    REAKTOR_CHANNELS = "#krebs,#binaergewitter";
+  };
 
   krebs.build.host = config.krebs.hosts.pnp;
   krebs.build.user = config.krebs.users.makefu;

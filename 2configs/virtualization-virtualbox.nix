@@ -9,7 +9,7 @@ let
         sha256 = "1ykwpjvfgj11iwhx70bh2hbxhyy3hg6rnqzl4qac7xzg8xw8wqg4";
       };
 in {
-  inherit vboxguestpkg;
+  #inherit vboxguestpkg;
   virtualisation.virtualbox.host.enable = true;
   nixpkgs.config.virtualbox.enableExtensionPack = true;
 
