@@ -37,15 +37,6 @@ with lib;
   time.timeZone = "Europe/Berlin";
   #nix.maxJobs = 1;
 
-  krebs.build.deps = {
-    secrets = {
-      url = "/home/makefu/secrets/${config.krebs.build.host.name}";
-    };
-    stockholm = {
-      url = toString ../..;
-    };
-  };
-
   services.openssh.enable = true;
   nix.useChroot = true;
 
