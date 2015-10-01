@@ -2,11 +2,12 @@
 
 let
 
-  ip = (lib.elemAt config.krebs.build.host.nets.internet.addrs4 0);
+  ip = (lib.head config.krebs.build.host.nets.internet.addrs4);
 in {
   imports = [
     ../../tv/2configs/CAC-CentOS-7-64bit.nix
     ../2configs/base.nix
+    ../2configs/base-sources.nix
     ../2configs/tinc-basic-retiolum.nix
     {
     }
@@ -18,13 +19,17 @@ in {
         prefixLength = 24;
       }
     ];
-    networking.defaultGateway = "104.233.80.1";
+    networking.defaultGateway = "104.233.87.1";
     networking.nameservers = [
       "8.8.8.8"
     ];
 
   # based on ../../tv/2configs/CAC-Developer-2.nix
   sound.enable = false;
+
+  # prepare graphs
+  nixpkgs.config.packageOverrides = pkgs: { tinc = pkgs.tinc_pre; };
+
   krebs.build = {
     user = config.krebs.users.makefu;
     target = "root@${ip}";
