@@ -24,21 +24,22 @@ let
       # configure krebs nginx to serve the new graphs
       enable = mkEnableOption "tinc_graphs nginx";
 
-      hostnames_complete = {
+      hostnames_complete = mkOption {
         #TODO: this is not a secure way to serve these graphs,better listen to
         #      the correct interface, krebs.nginx does not support this yet
 
         type = with types; listOf str;
         description = "hostname which serves complete graphs";
-        default = config.krebs.build.host.name;
+        default = [ "graphs.${config.krebs.build.host.name}" ];
       };
 
-      hostnames_anonymous = {
+      hostnames_anonymous = mkOption {
         type = with types; listOf str;
         description = ''
           hostname which serves anonymous graphs
           must be different from hostname_complete
         '';
+        default = [ "anongraphs.${config.krebs.build.host.name}" ];
       };
     };
 
@@ -74,18 +75,29 @@ let
         EXTERNAL_FOLDER = external_dir;
         INTERNAL_FOLDER = internal_dir;
         GEODB = cfg.geodbPath;
+        TINC_HOSTPATH=config.krebs.retiolum.hosts;
       };
 
       restartIfChanged = true;
 
       serviceConfig = {
         Type = "simple";
+
         ExecStartPre = pkgs.writeScript "tinc_graphs-init" ''
           #!/bin/sh
           mkdir -p "${external_dir}" "${internal_dir}"
         '';
+
         ExecStart = "${pkgs.tinc_graphs}/bin/all-the-graphs";
-        User = "root"; # tinc cannot be queried as user, 
+
+        ExecStartPost = pkgs.writeScript "tinc_graphs-post" ''
+          #!/bin/sh
+          # TODO: this may break if workingDir is set to something stupid
+          # this is needed because homedir is created with 700
+          chmod 755  "${cfg.workingDir}"
+        '';
+
+        User = "root"; # tinc cannot be queried as user,
                        #  seems to be a tinc-pre issue
         privateTmp = true;
       };
@@ -93,7 +105,7 @@ let
 
     users.extraUsers.tinc_graphs = {
       uid = 3925439960; #genid tinc_graphs
-      home = "/var/cache/tinc_graphs";
+      home = "/var/spool/tinc_graphs";
       createHome = true;
     };
 
@@ -102,15 +114,16 @@ let
         server-names = cfg.krebsNginx.hostnames_complete;
         locations = [
           (nameValuePair "/" ''
+            autoindex on;
             root ${internal_dir};
           '')
         ];
       };
       tinc_graphs_anonymous = {
         server-names = cfg.krebsNginx.hostnames_anonymous;
-        #server-names = [ "dick" ];
         locations = [
           (nameValuePair "/" ''
+            autoindex on;
             root ${external_dir};
           '')
         ];

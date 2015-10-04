@@ -32,8 +32,8 @@ in {
   makefu.tinc_graphs.enable = true;
   makefu.tinc_graphs.krebsNginx = {
     enable = true;
-    hostnames_complete = [ "graphs.wry" "graphs.wry.retiolum" ];
-    # TODO: remove hard-coded path
+    # TODO: remove hard-coded hostname
+    hostnames_complete  = [ "graphs.wry" ];
     hostnames_anonymous = [ "graphs.krebsco.de" ];
   };
   networking.firewall.allowedTCPPorts = [80];
