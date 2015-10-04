@@ -1,19 +1,8 @@
-{ config, lib, ... }:
+_:
 
-with lib;
-let
-  cfg = config.krebs;
+{
+  imports = [
+    ./tinc_graphs.nix
+  ];
+}
 
-  out = {
-    imports = [
-    ];
-    options.krebs = api;
-    config = mkIf cfg.enable imp;
-  };
-
-  api = { };
-
-  imp = { };
-
-in
-out
