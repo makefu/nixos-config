@@ -9,9 +9,8 @@ in {
     ../2configs/base.nix
     ../2configs/base-sources.nix
     ../2configs/tinc-basic-retiolum.nix
-    {
-    }
   ];
+
   networking.firewall.allowPing = true;
   networking.interfaces.enp2s1.ip4 = [
       {
@@ -29,6 +28,15 @@ in {
 
   # prepare graphs
   nixpkgs.config.packageOverrides = pkgs: { tinc = pkgs.tinc_pre; };
+  krebs.nginx.enable = true;
+  makefu.tinc_graphs.enable = true;
+  makefu.tinc_graphs.krebsNginx = {
+    enable = true;
+    hostnames_complete = [ "graphs.wry" "graphs.wry.retiolum" ];
+    # TODO: remove hard-coded path
+    hostnames_anonymous = [ "graphs.krebsco.de" ];
+  };
+  networking.firewall.allowedTCPPorts = [80];
 
   krebs.build = {
     user = config.krebs.users.makefu;
