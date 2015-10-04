@@ -9,10 +9,12 @@ python3Packages.buildPythonPackage rec {
   ];
   src = fetchurl {
     url = "https://pypi.python.org/packages/source/t/tinc_graphs/tinc_graphs-${version}.tar.gz";
-    sha256 = "1rvy07ybjpqlsf9qizdp0zyq4ibd6w74k4glbbkw0x7j3j2skzdk";
+    sha256 = "0fm063qhjlb8g1xahwcqqrd2dxgd38wwi55rhl1k5chr7zajsqfz";
   };
   preFixup = with pkgs;''
-    wrapProgram $out/bin/build-graphs --prefix PATH : "${imagemagick}/bin:${graphviz}/bin"
+    wrapProgram $out/bin/build-graphs --prefix PATH : "$out/bin"
+    wrapProgram $out/bin/all-the-graphs --prefix PATH : "${imagemagick}/bin:${graphviz}/bin:$out/bin"
+    wrapProgram $out/bin/tinc-stats2json --prefix PATH : "${tinc}/bin"
   '';
   meta = {
     homepage = http://krebsco.de/;
