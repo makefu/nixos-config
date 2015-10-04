@@ -42,7 +42,7 @@
   krebs.build.user = config.krebs.users.makefu;
   krebs.build.target = "root@pornocauster";
 
-
+  environment.systemPackages = with pkgs;[ get];
   networking.firewall.allowedTCPPorts = [
     25
   ];
