@@ -8,16 +8,38 @@ let
 
   out = {
     options.makefu.tinc_graphs = api;
-    config = mkIf cfg.enable imp;
+    config = mkIf cfg.enable imp ;
   };
 
   api = {
-    enable = mkEnableOption "makefu.tinc_graphs";
+    enable = mkEnableOption "tinc graphs";
 
     geodbPath = mkOption {
       type = types.str;
       description = "Path to geocitydb, defaults to geolite-legacy";
-      default = "${geolite-legacy}/share/GeoIP/GeoIPCity.dat";
+      default = "${pkgs.geolite-legacy}/share/GeoIP/GeoIPCity.dat";
+    };
+
+    krebsNginx = {
+      # configure krebs nginx to serve the new graphs
+      enable = mkEnableOption "tinc_graphs nginx";
+
+      hostnames_complete = {
+        #TODO: this is not a secure way to serve these graphs,better listen to
+        #      the correct interface, krebs.nginx does not support this yet
+
+        type = with types; listOf str;
+        description = "hostname which serves complete graphs";
+        default = config.krebs.build.host.name;
+      };
+
+      hostnames_anonymous = {
+        type = with types; listOf str;
+        description = ''
+          hostname which serves anonymous graphs
+          must be different from hostname_complete
+        '';
+      };
     };
 
     workingDir = mkOption {
@@ -26,7 +48,7 @@ let
         Path to working dir, will create interal and external/.
         Defaults to the new users home dir which defaults to
         /var/cache/tinc_graphs'';
-      default = users.extraUsers.tinc_graphs.home;
+      default = config.users.extraUsers.tinc_graphs.home;
     };
 
     timerConfig = mkOption {
@@ -38,7 +60,7 @@ let
   };
 
   imp = {
-
+    environment.systemPackages = [ pkgs.tinc_graphs];
     systemd.timers.tinc_graphs = {
       description = "Build Tinc Graphs via via timer";
 
@@ -48,22 +70,23 @@ let
       description = "Build Tinc Graphs";
       wantedBy = [ "multi-user.target" ];
       after = [ "network.target" ];
+      environment = {
+        EXTERNAL_FOLDER = external_dir;
+        INTERNAL_FOLDER = internal_dir;
+        GEODB = cfg.geodbPath;
+      };
 
       restartIfChanged = true;
 
       serviceConfig = {
         Type = "simple";
-        environment = {
-          EXTERNAL_FOLDER = external_dir;
-          INTERNAL_FOLDER = internal_dir;
-          GEODB = cfg.geodbPath;
-        };
-        ExecStartPre = ''
+        ExecStartPre = pkgs.writeScript "tinc_graphs-init" ''
           #!/bin/sh
-          mkdir -p "$EXTERNAL_FOLDER" "$INTERNAL_FOLDER"
+          mkdir -p "${external_dir}" "${internal_dir}"
         '';
         ExecStart = "${pkgs.tinc_graphs}/bin/all-the-graphs";
-        User = "tinc_graphs";
+        User = "root"; # tinc cannot be queried as user, 
+                       #  seems to be a tinc-pre issue
         privateTmp = true;
       };
     };
@@ -72,6 +95,26 @@ let
       uid = 3925439960; #genid tinc_graphs
       home = "/var/cache/tinc_graphs";
       createHome = true;
+    };
+
+    krebs.nginx.servers = mkIf cfg.krebsNginx.enable {
+      tinc_graphs_complete = {
+        server-names = cfg.krebsNginx.hostnames_complete;
+        locations = [
+          (nameValuePair "/" ''
+            root ${internal_dir};
+          '')
+        ];
+      };
+      tinc_graphs_anonymous = {
+        server-names = cfg.krebsNginx.hostnames_anonymous;
+        #server-names = [ "dick" ];
+        locations = [
+          (nameValuePair "/" ''
+            root ${external_dir};
+          '')
+        ];
+      };
     };
   };
 
