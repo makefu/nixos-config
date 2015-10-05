@@ -23,6 +23,7 @@
       ## \/ are only plugins, must enable Reaktor explicitly
       ../2configs/Reaktor/stockholmLentil.nix
       ../2configs/Reaktor/simpleExtend.nix
+      ../2configs/Reaktor/random-emoji.nix
       ../2configs/Reaktor/titlebot.nix
 
       ../2configs/exim-retiolum.nix
