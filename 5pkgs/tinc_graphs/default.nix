@@ -2,14 +2,14 @@
 
 python3Packages.buildPythonPackage rec {
   name = "tinc_graphs-${version}";
-  version = "0.2.9";
+  version = "0.2.12";
   propagatedBuildInputs = with pkgs;[
     python3Packages.pygeoip
     ## ${geolite-legacy}/share/GeoIP/GeoIPCity.dat
   ];
   src = fetchurl {
     url = "https://pypi.python.org/packages/source/t/tinc_graphs/tinc_graphs-${version}.tar.gz";
-    sha256 = "0fm063qhjlb8g1xahwcqqrd2dxgd38wwi55rhl1k5chr7zajsqfz";
+    sha256 = "03jxvxahpcbpnz4668x32b629dwaaz5jcjkyaijm0zzpgcn4cbgp";
   };
   preFixup = with pkgs;''
     wrapProgram $out/bin/build-graphs --prefix PATH : "$out/bin"
