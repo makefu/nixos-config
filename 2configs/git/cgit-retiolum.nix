@@ -29,6 +29,7 @@ let
     hooks = {
       post-receive = git.irc-announce {
         nick = config.networking.hostName;
+        verbose = config.krebs.build.host.name == "pnp";
         channel = "#retiolum";
         # TODO remove the hardcoded hostname
         server = "cd.retiolum";
