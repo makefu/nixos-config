@@ -64,13 +64,11 @@ let
     environment.systemPackages = [ pkgs.tinc_graphs];
     systemd.timers.tinc_graphs = {
       description = "Build Tinc Graphs via via timer";
-
+      wantedBy = [ "timers.target"];
       timerConfig = cfg.timerConfig;
     };
     systemd.services.tinc_graphs = {
       description = "Build Tinc Graphs";
-      wantedBy = [ "multi-user.target" ];
-      after = [ "network.target" ];
       environment = {
         EXTERNAL_FOLDER = external_dir;
         INTERNAL_FOLDER = internal_dir;
