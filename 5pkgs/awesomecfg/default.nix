@@ -1,5 +1,5 @@
 _:
 
 {
-  full = ./cfg/full.cfg;
+  full = ./full.cfg;
 }
