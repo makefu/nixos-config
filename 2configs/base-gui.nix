@@ -13,6 +13,7 @@
 with lib;
 let
   mainUser = config.krebs.build.user.name;
+  awesomecfg = pkgs.awesomecfg.full;
 in
 {
   imports = [ ];
@@ -31,6 +32,13 @@ in
     displayManager.auto.enable = true;
     displayManager.auto.user = mainUser;
     desktopManager.xterm.enable = false;
+  };
+  nixpkgs.config.packageOverrides = pkgs: rec {
+    awesome = pkgs.stdenv.lib.overrideDerivation pkgs.awesome (oldAttrs : {
+      postInstall = ''
+      cp ${awesomecfg}  $out/etc/xdg/awesome/rc.lua
+      '';
+    });
   };
 
   i18n.consoleFont = "Lat2-Terminus16";
