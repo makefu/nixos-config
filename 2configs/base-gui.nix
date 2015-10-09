@@ -13,6 +13,7 @@
 with lib;
 let
   mainUser = config.krebs.build.user.name;
+  awesomecfg = pkgs.awesomecfg.full;
 in
 {
   imports = [ ];
@@ -34,9 +35,8 @@ in
   };
   nixpkgs.config.packageOverrides = pkgs: rec {
     awesome = pkgs.stdenv.lib.overrideDerivation pkgs.awesome (oldAttrs : {
-      awesomecfg = ./awesome/rc.lua;
       postInstall = ''
-      cp $awesomecfg $out/etc/xdg/awesome/rc.lua
+      cp ${awesomecfg}  $out/etc/xdg/awesome/rc.lua
       '';
     });
   };

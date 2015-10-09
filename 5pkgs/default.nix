@@ -8,4 +8,5 @@ in
   alsa-hdspconf = callPackage ./alsa-tools { alsaToolTarget="hdspconf";};
   alsa-hdsploader = callPackage ./alsa-tools { alsaToolTarget="hdsploader";};
   tinc_graphs = callPackage ./tinc_graphs {};
+  awesomecfg = callPackage ./awesomecfg {};
 }
