@@ -25,6 +25,7 @@
       ../2configs/Reaktor/simpleExtend.nix
       ../2configs/Reaktor/random-emoji.nix
       ../2configs/Reaktor/titlebot.nix
+      ../2configs/Reaktor/shack-correct.nix
 
       ../2configs/exim-retiolum.nix
       ../2configs/urlwatch.nix
@@ -35,7 +36,7 @@
   krebs.Reaktor.debug = true;
   krebs.Reaktor.nickname = "Reaktor|bot";
   krebs.Reaktor.extraEnviron = {
-    REAKTOR_CHANNELS = "#krebs,#binaergewitter";
+    REAKTOR_CHANNELS = "#krebs,#binaergewitter,#shackspace";
   };
 
   krebs.build.host = config.krebs.hosts.pnp;
