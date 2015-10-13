@@ -51,6 +51,7 @@ in
   };
 
   environment.systemPackages = with pkgs;[
+    pavucontrol
     xlockmore
     rxvt_unicode-with-plugins
     firefox
