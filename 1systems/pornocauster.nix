@@ -42,7 +42,13 @@
   krebs.build.user = config.krebs.users.makefu;
   krebs.build.target = "root@pornocauster";
 
-  environment.systemPackages = with pkgs;[ get];
+  environment.systemPackages = with pkgs;[ get ];
+
+  services.logind.extraConfig = "HandleLidSwitch=ignore";
+  # configure pulseAudio to provide a HDMI sink as well
+  hardware.pulseaudio.configFile = pkgs.writeText "pulse-default-pa" ''
+    ${builtins.readFile "${config.hardware.pulseaudio.package}/etc/pulse/default.pa"}
+    load-module module-alsa-sink device=hw:0,3 sink_properties=device.description="HDMIOutput" sink_name="HDMI"'';
   networking.firewall.allowedTCPPorts = [
     25
   ];

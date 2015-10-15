@@ -43,7 +43,7 @@ let
       };
 
   set-ro-access = with git; repo: user:
-      optional repo.public {
+      singleton {
         inherit user;
         repo = [ repo ];
         perm = fetch;

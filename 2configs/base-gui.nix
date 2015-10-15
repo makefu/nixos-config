@@ -35,7 +35,7 @@ in
   };
   nixpkgs.config.packageOverrides = pkgs: rec {
     awesome = pkgs.stdenv.lib.overrideDerivation pkgs.awesome (oldAttrs : {
-      postInstall = ''
+      postFixup = ''
       cp ${awesomecfg}  $out/etc/xdg/awesome/rc.lua
       '';
     });
@@ -51,6 +51,7 @@ in
   };
 
   environment.systemPackages = with pkgs;[
+    pavucontrol
     xlockmore
     rxvt_unicode-with-plugins
     firefox
