@@ -83,7 +83,9 @@ let
 
         ExecStartPre = pkgs.writeScript "tinc_graphs-init" ''
           #!/bin/sh
-          mkdir -p "${external_dir}" "${internal_dir}"
+          if ! test -e "${cfg.workingDir}/internal/index.html"; then
+            cp -fr "$(${pkgs.tinc_graphs}/bin/tincstats-static-dir)/internal/" "${internal_dir}"
+          fi
         '';
 
         ExecStart = "${pkgs.tinc_graphs}/bin/all-the-graphs";
@@ -94,10 +96,10 @@ let
           # this is needed because homedir is created with 700
           chmod 755  "${cfg.workingDir}"
         '';
+        PrivateTmp = "yes";
 
         User = "root"; # tinc cannot be queried as user,
                        #  seems to be a tinc-pre issue
-        privateTmp = true;
       };
     };
 
