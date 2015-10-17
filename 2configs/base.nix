@@ -51,9 +51,7 @@ with lib;
     "d /tmp 1777 root root - -"
   ];
 
-  environment.extraInit = ''
-    EDITOR=vim
-    '';
+  environment.variables.EDITOR = mkForce "vim";
 
   environment.systemPackages = with pkgs; [
       jq
