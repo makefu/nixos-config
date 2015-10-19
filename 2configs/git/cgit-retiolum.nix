@@ -10,6 +10,9 @@ let
     stockholm = {
       desc = "Make all the systems into 1systems!";
     };
+    tinc_graphs = {
+      desc = "Tinc Advanced Graph Generation";
+    };
   };
 
   priv-repos = mapAttrs make-priv-repo {
