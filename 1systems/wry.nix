@@ -11,6 +11,8 @@ in {
       ../2configs/base-sources.nix
       ../2configs/tinc-basic-retiolum.nix
 
+      ../2configs/iodined.nix
+
       # Reaktor
       ../2configs/Reaktor/simpleExtend.nix
   ];
@@ -46,7 +48,7 @@ in {
     hostnames_anonymous = [ "graphs.krebsco.de" ];
   };
 
-  networking.firewall.allowedTCPPorts = [ 80 443 ];
+  networking.firewall.allowedTCPPorts = [ 53 80 443 ];
 
   krebs.build = {
     user = config.krebs.users.makefu;
