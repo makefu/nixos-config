@@ -34,15 +34,19 @@ in {
 
   # prepare graphs
   nixpkgs.config.packageOverrides = pkgs: { tinc = pkgs.tinc_pre; };
+
   krebs.nginx.enable = true;
+  krebs.retiolum-bootstrap.enable = true;
   makefu.tinc_graphs.enable = true;
+
   makefu.tinc_graphs.krebsNginx = {
     enable = true;
     # TODO: remove hard-coded hostname
     hostnames_complete  = [ "graphs.wry" ];
     hostnames_anonymous = [ "graphs.krebsco.de" ];
   };
-  networking.firewall.allowedTCPPorts = [80];
+
+  networking.firewall.allowedTCPPorts = [ 80 443 ];
 
   krebs.build = {
     user = config.krebs.users.makefu;
