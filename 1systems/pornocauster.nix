@@ -21,6 +21,7 @@
 
       # applications
       ../2configs/exim-retiolum.nix
+      ../2configs/mail-client.nix
       #../2configs/virtualization.nix
       ../2configs/virtualization-virtualbox.nix
       ../2configs/wwan.nix
