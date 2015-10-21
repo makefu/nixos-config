@@ -6,10 +6,10 @@ let
   bepasty = pkgs.pythonPackages.bepasty-server;
   gevent = pkgs.pythonPackages.gevent;
   python = pkgs.pythonPackages.python;
-  cfg = config.makefu.bepasty-server;
+  cfg = config.krebs.bepasty;
 
   out = {
-    options.makefu.bepasty-server = api;
+    options.krebs.bepasty = api;
     config = mkIf cfg.enable (mkMerge [(mkIf cfg.serveNginx nginx-imp) imp ]) ;
   };
 
@@ -20,27 +20,20 @@ let
     servers = mkOption {
       type = with types; attrsOf optionSet;
       options = singleton {
-        nginxCfg = mkOption {
+        nginx = mkOption {
           # TODO use the correct type
           type = with types; attrsOf unspecified;
           description = ''
             additional nginx configuration. see krebs.nginx for all options
           '' ;
         };
-        debug = mkOption {
-          type = types.bool;
-          description = ''
-            run server in debug mode
-          '';
-          default = false;
-        };
 
-        # TODO: assert secretKey
         secretKey = mkOption {
           type = types.str;
           description = ''
             server secret for safe session cookies, must be set.
           '';
+          default = "";
         };
 
         # we create a wsgi socket in $workDir/gunicorn-${name}.wsgi
@@ -66,6 +59,7 @@ let
         extraConfig = mkOption {
           type = types.str;
           default = "";
+          # TODO configure permissions in separate
           example = ''
             PERMISSIONS = {
               'myadminsecret': 'admin,list,create,read,delete',
@@ -75,8 +69,13 @@ let
         };
 
         defaultPermissions = mkOption {
+          # TODO: listOf str
           type = types.str;
-          default = "list";
+          description = ''
+          default permissions for all unauthenticated users.
+          '';
+          example = "read,create,delete";
+          default = "read";
         };
 
       };
@@ -102,21 +101,22 @@ let
           serviceConfig = {
             Type = "simple";
             PrivateTmp = true;
-            ExecStartPre = pkgs.writeScript "bepasty-server.${name}-init" ''
+
+            ExecStartPre = assert server.secretKey != ""; pkgs.writeScript "bepasty-server.${name}-init" ''
               #!/bin/sh
-              chmod 755 "${server.workDir}"
-              mkdir -p "${server.dataDir}"
-              cat > ${server.workDir}/bepasty-${name}.conf <<EOF
+              mkdir -p "${server.dataDir}" "${server.workDir}"
+              chown bepasty:bepasty "${server.workDir}" "${server.dataDir}"
+              cat > "${server.workDir}/bepasty-${name}.conf" <<EOF
               SITENAME="${name}"
               STORAGE_FILESYSTEM_DIRECTORY="${server.dataDir}"
-              SECRET_KEY="${escape server.secretKey}"
+              SECRET_KEY="${server.secretKey}"
               DEFAULT_PERMISSIONS="${server.defaultPermissions}"
               ${server.extraConfig}
               EOF
             '';
-            Directory = "${bepasty}/lib/${python.libPrefix}/site-packages";
-            # we use Gunicorn to start a wsgi server
             ExecStart = ''${gunicorn}/bin/gunicorn bepasty.wsgi --name ${name} \
+              -u bepasty \
+              -g bepasty \
               --workers 3 --log-level=info \
               --bind=unix:${server.workDir}/gunicorn-${name}.sock \
               --pid ${server.workDir}/gunicorn-${name}.pid \
@@ -128,17 +128,21 @@ let
 
     users.extraUsers.bepasty = {
       uid = 2796546855; #genid bepasty
+      group = "bepasty";
       home = "/var/lib/bepasty-server";
-      createHome = true;
+    };
+    users.extraGroups.bepasty = {
+      gid = 2796546855; #genid bepasty
     };
   };
+
   nginx-imp = {
     assertions = [ { assertion = config.krebs.nginx.enable;
                       message = "krebs.nginx.enable must be true"; }];
 
     krebs.nginx.servers = mapAttrs' (name: server:
       nameValuePair("bepasty-server-${name}")
-      (server.nginxCfg // {
+      (mkMerge [ server.nginx  {
         extraConfig = ''
           client_max_body_size 32M;
           '';
@@ -153,7 +157,7 @@ let
             alias ${bepasty}/lib/${python.libPrefix}/site-packages/bepasty/static/;
           ''))
           ];
-      })
+      }])
     ) cfg.servers ;
   };
 in
