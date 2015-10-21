@@ -104,12 +104,12 @@ let
             PrivateTmp = true;
             ExecStartPre = pkgs.writeScript "bepasty-server.${name}-init" ''
               #!/bin/sh
-              chmod 755 ${server.workDir}
-              mkdir -p ${server.dataDir}
+              chmod 755 "${server.workDir}"
+              mkdir -p "${server.dataDir}"
               cat > ${server.workDir}/bepasty-${name}.conf <<EOF
               SITENAME="${name}"
               STORAGE_FILESYSTEM_DIRECTORY="${server.dataDir}"
-              SECRET_KEY="${escapeShellArg server.secretKey}"
+              SECRET_KEY="${escape server.secretKey}"
               DEFAULT_PERMISSIONS="${server.defaultPermissions}"
               ${server.extraConfig}
               EOF
