@@ -31,6 +31,7 @@ let
         };
 
         listen = mkOption {
+          # use the type of the nginx listen option
           type = with types; listOf str;
           description = "listen address for anonymous graphs";
           default = [ "80" ];
@@ -120,23 +121,23 @@ let
       createHome = true;
     };
 
-    krebs.nginx.servers = mkIf cfg.krebsNginx.enable {
-      tinc_graphs_complete = cfg.nginx.complete {
+    krebs.nginx.servers = mkIf cfg.nginx.enable {
+      tinc_graphs_complete = mkMerge [ cfg.nginx.complete  {
         locations = [
           (nameValuePair "/" ''
             autoindex on;
             root ${internal_dir};
           '')
         ];
-      };
-      tinc_graphs_anonymous = cfg.nginx.anonymous // {
+      }] ;
+      tinc_graphs_anonymous = mkMerge [ cfg.nginx.anonymous {
         locations = [
           (nameValuePair "/" ''
             autoindex on;
             root ${external_dir};
           '')
         ];
-      };
+      }];
     };
   };
 
