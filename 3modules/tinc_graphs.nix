@@ -20,26 +20,37 @@ let
       default = "${pkgs.geolite-legacy}/share/GeoIP/GeoIPCity.dat";
     };
 
-    krebsNginx = {
-      # configure krebs nginx to serve the new graphs
-      enable = mkEnableOption "tinc_graphs nginx";
+    nginx = {
+      enable = mkEnableOption "enable tinc_graphs to be served with nginx";
 
-      hostnames_complete = mkOption {
-        #TODO: this is not a secure way to serve these graphs,better listen to
-        #      the correct interface, krebs.nginx does not support this yet
+      anonymous = {
+        server-names = mkOption {
+          type = with types; listOf str;
+          description = "hostnames which serve anonymous graphs";
+          default = [ "graphs.${config.krebs.build.host.name}" ];
+        };
 
-        type = with types; listOf str;
-        description = "hostname which serves complete graphs";
-        default = [ "graphs.${config.krebs.build.host.name}" ];
+        listen = mkOption {
+          type = with types; listOf str;
+          description = "listen address for anonymous graphs";
+          default = [ "80" ];
+        };
+
       };
 
-      hostnames_anonymous = mkOption {
-        type = with types; listOf str;
-        description = ''
-          hostname which serves anonymous graphs
-          must be different from hostname_complete
-        '';
-        default = [ "anongraphs.${config.krebs.build.host.name}" ];
+      complete = {
+        server-names = mkOption {
+          type = with types; listOf str;
+          description = "hostname which serves complete graphs";
+          default = [ "graphs.${config.krebs.build.host.name}" ];
+        };
+
+        listen = mkOption {
+          type = with types; listOf str;
+          description = "listen address for complete graphs";
+          default = [ "127.0.0.1:80" ];
+        };
+
       };
     };
 
@@ -110,8 +121,7 @@ let
     };
 
     krebs.nginx.servers = mkIf cfg.krebsNginx.enable {
-      tinc_graphs_complete = {
-        server-names = cfg.krebsNginx.hostnames_complete;
+      tinc_graphs_complete = cfg.nginx.complete {
         locations = [
           (nameValuePair "/" ''
             autoindex on;
@@ -119,8 +129,7 @@ let
           '')
         ];
       };
-      tinc_graphs_anonymous = {
-        server-names = cfg.krebsNginx.hostnames_anonymous;
+      tinc_graphs_anonymous = cfg.nginx.anonymous // {
         locations = [
           (nameValuePair "/" ''
             autoindex on;
