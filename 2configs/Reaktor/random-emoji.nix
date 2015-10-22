@@ -12,6 +12,7 @@ let
                         coreutils
                         gnused
                         gnugrep
+                        xmlstarlet
                         curl]);
 in {
   # TODO: make origin a variable, <- module is generic enough to handle different origins, not only stockholm
