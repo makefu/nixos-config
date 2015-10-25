@@ -47,7 +47,7 @@ in {
       # TODO: remove hard-coded hostname
       complete = {
         listen = [ "${internal-ip}:80" ];
-        server-names = [ "graphs.wry" ];
+        server-names = [ "graphs.wry" "graphs.retiolum" "graphs.wry.retiolum" ];
       };
       anonymous = {
         listen = [ "${external-ip}:80" ] ;
