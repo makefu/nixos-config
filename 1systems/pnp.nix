@@ -32,6 +32,8 @@
 
       # ../2configs/graphite-standalone.nix
     ];
+  krebs.urlwatch.verbose = true;
+
   krebs.Reaktor.enable = true;
   krebs.Reaktor.debug = true;
   krebs.Reaktor.nickname = "Reaktor|bot";
