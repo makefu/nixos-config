@@ -19,6 +19,9 @@ in {
 
       # Reaktor
       ../2configs/Reaktor/simpleExtend.nix
+
+      # collectd
+      ../2configs/collectd/collectd-base.nix
   ];
 
   krebs.build = {
