@@ -1,6 +1,7 @@
 { config, lib, pkgs, ... }:
 
 {
+  system.stateVersion = "15.09";
   krebs.build.source = {
     git.nixpkgs = {
       #url = https://github.com/NixOS/nixpkgs;
