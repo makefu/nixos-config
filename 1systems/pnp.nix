@@ -11,6 +11,7 @@
       ../2configs/base.nix
       ../2configs/base-sources.nix
       ../2configs/tinc-basic-retiolum.nix
+      ../2configs/headless.nix
 
       # HW/FS
       <nixpkgs/nixos/modules/profiles/qemu-guest.nix>

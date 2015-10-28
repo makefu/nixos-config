@@ -11,6 +11,7 @@ in {
       ../../tv/2configs/CAC-CentOS-7-64bit.nix
       ../2configs/base.nix
       ../2configs/unstable-sources.nix
+      ../2configs/headless.nix
       ../2configs/tinc-basic-retiolum.nix
 
       ../2configs/bepasty-dual.nix
@@ -67,6 +68,4 @@ in {
   };
 
 
-  # based on ../../tv/2configs/CAC-Developer-2.nix
-  sound.enable = false;
 }
