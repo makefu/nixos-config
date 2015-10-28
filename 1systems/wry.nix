@@ -23,6 +23,8 @@ in {
 
       # other nginx
       ../2configs/nginx/euer.wiki.nix
+      # collectd
+      ../2configs/collectd/collectd-base.nix
   ];
 
   krebs.build = {
