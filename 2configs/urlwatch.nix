@@ -10,7 +10,7 @@
       https://api.github.com/repos/ovh/python-ovh/tags
       https://api.github.com/repos/embray/d2to1/tags
       http://git.sysphere.org/vicious/log/?qt=grep&q=Next+release
-      https://github.com/bepasty/bepasty-server/tags
+      https://pypi.python.org/simple/bepasty/
       https://pypi.python.org/simple/xstatic/
 
     ];
