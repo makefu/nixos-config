@@ -20,6 +20,9 @@ in {
 
       # Reaktor
       ../2configs/Reaktor/simpleExtend.nix
+
+      # other nginx
+      ../2configs/nginx/euer.wiki.nix
   ];
 
   krebs.build = {
@@ -27,8 +30,6 @@ in {
     target = "root@wry";
     host = config.krebs.hosts.wry;
   };
-
-
 
   krebs.Reaktor.enable = true;
 
@@ -59,6 +60,7 @@ in {
   networking = {
     firewall.allowPing = true;
     firewall.allowedTCPPorts = [ 53 80 443 ];
+    firewall.allowedUDPPorts = [ 655 ];
     interfaces.enp2s1.ip4 = [{
       address = external-ip;
       prefixLength = 24;
