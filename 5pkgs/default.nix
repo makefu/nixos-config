@@ -8,4 +8,5 @@ in
   alsa-hdspconf = callPackage ./alsa-tools { alsaToolTarget="hdspconf";};
   alsa-hdsploader = callPackage ./alsa-tools { alsaToolTarget="hdsploader";};
   awesomecfg = callPackage ./awesomecfg {};
+  tw-upload-plugin = callPackage ./tw-upload-plugin {};
 }
