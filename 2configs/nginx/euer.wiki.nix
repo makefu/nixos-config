@@ -2,8 +2,9 @@
 
 with lib;
 let
-  ssl_cert = "/root/secrets/wildcard.krebsco.de.crt";
-  ssl_key  = "/root/secrets/wildcard.krebsco.de.key";
+  sec = toString <secrets>;
+  ssl_cert = "${sec}/wildcard.krebsco.de.crt";
+  ssl_key  = "${sec}/wildcard.krebsco.de.key";
   user = config.services.nginx.user;
   group = config.services.nginx.group;
   fpm-socket = "/var/run/php5-fpm.sock";
@@ -16,7 +17,7 @@ let
   # contains:
   #  user1 = pass1
   #  userN = passN
-  tw-pass-file = "/root/secrets/tw-pass.ini";
+  tw-pass-file = "${sec}/tw-pass.ini";
   external-ip = head config.krebs.build.host.nets.internet.addrs4;
   internal-ip = head config.krebs.build.host.nets.retiolum.addrs4;
 in {

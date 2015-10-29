@@ -2,8 +2,9 @@
 
 with lib;
 let
-  ssl_cert = "/root/secrets/wildcard.krebsco.de.crt";
-  ssl_key  = "/root/secrets/wildcard.krebsco.de.key";
+  sec = toString <secrets>;
+  ssl_cert = "${sec}/wildcard.krebsco.de.crt";
+  ssl_key  = "${sec}/wildcard.krebsco.de.key";
   hostname = krebs.build.host.name;
 in {
   krebs.nginx = {
