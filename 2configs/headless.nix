@@ -1,0 +1,4 @@
+_:
+{
+  sound.enable = false;
+}
