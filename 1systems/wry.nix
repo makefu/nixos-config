@@ -8,7 +8,8 @@ let
 in {
   imports = [
       # TODO: copy this config or move to krebs
-      ../../tv/2configs/CAC-CentOS-7-64bit.nix
+      ../../tv/2configs/hw/CAC.nix
+      ../../tv/2configs/fs/CAC-CentOS-7-64bit.nix
       ../2configs/base.nix
       ../2configs/unstable-sources.nix
       ../2configs/headless.nix
@@ -23,6 +24,8 @@ in {
 
       # other nginx
       ../2configs/nginx/euer.wiki.nix
+      ../2configs/nginx/euer.blog.nix
+
       # collectd
       ../2configs/collectd/collectd-base.nix
   ];
@@ -71,5 +74,5 @@ in {
     nameservers = [ "8.8.8.8" ];
   };
 
-
+  environment.systemPackages = [ pkgs.translate-shell ];
 }

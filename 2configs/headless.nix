@@ -1,4 +1,4 @@
-_:
+{lib,... }:
 {
-  sound.enable = false;
+  sound.enable = lib.mkForce false;
 }
