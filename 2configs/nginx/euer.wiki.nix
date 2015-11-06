@@ -51,18 +51,21 @@ in {
     serviceConfig = {
       ExecStart = pkgs.writeScript "prepare-tw-service" ''
         #!/bin/sh
-        mkdir -p "${wiki-dir}" "${backup-dir}"
+        if ! test -d "${base-dir}" ;then
+          mkdir -p "${wiki-dir}" "${backup-dir}"
 
-        # write the base configuration
-        cat > "${base-cfg}" <<EOF
+          # write the base configuration
+          cat > "${base-cfg}" <<EOF
         [users]
         $(cat "${tw-pass-file}")
         [directories]
         backupdir = ${backup-dir}
         savedir = ${wiki-dir}
         EOF
-        chown -R ${user}:${group} "${base-dir}"
-        chmod 700  -R "${base-dir}"
+
+          chown -R ${user}:${group} "${base-dir}"
+          chmod 700  -R "${base-dir}"
+        fi
       '';
       Type = "oneshot";
       RemainAfterExit = "yes";
