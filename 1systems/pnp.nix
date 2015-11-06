@@ -14,6 +14,8 @@
       ../2configs/headless.nix
 
       # HW/FS
+
+      # enables virtio kernel modules in initrd
       <nixpkgs/nixos/modules/profiles/qemu-guest.nix>
       ../2configs/fs/vm-single-partition.nix
 

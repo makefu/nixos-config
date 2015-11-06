@@ -6,8 +6,8 @@
 with lib;
 {
   boot = {
-    loader.grub.enable =true;
-    loader.grub.version =2;
+    loader.grub.enable = true;
+    loader.grub.version = 2;
     loader.grub.device = "/dev/sda";
 
     initrd.luks.devices = [ { name = "luksroot"; device = "/dev/sda2"; allowDiscards=true; }];

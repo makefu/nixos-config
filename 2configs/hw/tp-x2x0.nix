@@ -8,6 +8,8 @@ with lib;
   hardware.enableAllFirmware = true;
   nixpkgs.config.allowUnfree = true;
 
+  hardware.cpu.intel.updateMicrocode = true;
+
   zramSwap.enable = true;
   zramSwap.numDevices = 2;
 

@@ -9,25 +9,12 @@
     [ # Include the results of the hardware scan.
       <nixpkgs/nixos/modules/profiles/qemu-guest.nix>
       ../2configs/base.nix
+      ../2configs/base-sources.nix
       ../2configs/cgit-retiolum.nix
     ];
   krebs.build.host = config.krebs.hosts.repunit;
   krebs.build.user = config.krebs.users.makefu;
   krebs.build.target = "root@repunit";
-
-  krebs.build.deps = {
-    nixpkgs = {
-      url = https://github.com/NixOS/nixpkgs;
-      #url = https://github.com/makefu/nixpkgs;
-      rev = "13576925552b1d0751498fdda22e91a055a1ff6c";
-    };
-    secrets = {
-      url = "/home/makefu/secrets/${config.krebs.build.host.name}";
-    };
-    stockholm = {
-      url = toString ../..;
-    };
-  };
 
   boot.loader.grub.enable = true;
   boot.loader.grub.version = 2;

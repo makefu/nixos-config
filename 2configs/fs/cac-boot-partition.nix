@@ -18,6 +18,4 @@ with lib;
 
   hardware.enableAllFirmware = true;
   nixpkgs.config.allowUnfree = true;
-  hardware.cpu.amd.updateMicrocode = true;
-
 }
