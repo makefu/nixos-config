@@ -2,6 +2,8 @@
 
 with lib;
 {
+  system.stateVersion = "15.09";
+
   imports = [
     {
       users.extraUsers =
@@ -10,9 +12,35 @@ with lib;
     }
     ./vim.nix
   ];
-  krebs.enable = true;
-  krebs.search-domain = "retiolum";
 
+
+  krebs = {
+    enable = true;
+    search-domain = "retiolum";
+    build =  {
+      target = mkDefault "root@${config.krebs.build.host.name}";
+      user = config.krebs.users.makefu;
+      source = {
+        git.nixpkgs = {
+          #url = https://github.com/NixOS/nixpkgs;
+          url = mkDefault https://github.com/makefu/nixpkgs;
+          rev = mkDefault "78340b042463fd35caa587b0db2e400e5666dbe1"; # nixos-15.09 + cherry-picking
+          target-path = "/var/src/nixpkgs";
+        };
+
+        dir.secrets = {
+          host = config.krebs.hosts.pornocauster;
+          path = "/home/makefu/secrets/${config.krebs.build.host.name}/";
+        };
+
+        dir.stockholm = {
+          host = config.krebs.hosts.pornocauster;
+          path = "/home/makefu/stockholm" ;
+          target-path = "/var/src/stockholm";
+        };
+      };
+    };
+  };
 
   users.extraUsers = {
     root = {
@@ -56,7 +84,6 @@ with lib;
   environment.systemPackages = with pkgs; [
       jq
       git
-      vim
       gnumake
       rxvt_unicode.terminfo
       htop

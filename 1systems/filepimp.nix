@@ -7,15 +7,12 @@
 {
   imports =
     [ # Include the results of the hardware scan.
-      ../2configs/base.nix
+      ../2configs/default.nix
       ../2configs/fs/vm-single-partition.nix
       ../2configs/fs/single-partition-ext4.nix
       ../2configs/tinc-basic-retiolum.nix
-      ../2configs/base-sources.nix
     ];
   krebs.build.host = config.krebs.hosts.filepimp;
-  krebs.build.user = config.krebs.users.makefu;
-  krebs.build.target = "root@filepimp";
 
   # AMD N54L
   boot = {

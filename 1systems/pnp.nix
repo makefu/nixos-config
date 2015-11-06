@@ -8,8 +8,6 @@
   imports =
     [ # Include the results of the hardware scan.
       # Base
-      ../2configs/base.nix
-      ../2configs/base-sources.nix
       ../2configs/tinc-basic-retiolum.nix
       ../2configs/headless.nix
 
@@ -45,8 +43,6 @@
   };
 
   krebs.build.host = config.krebs.hosts.pnp;
-  krebs.build.user = config.krebs.users.makefu;
-  krebs.build.target = "root@pnp";
 
   nixpkgs.config.packageOverrides = pkgs: { tinc = pkgs.tinc_pre; };
 

@@ -7,8 +7,6 @@ let
 in {
   imports = [
       # TODO: copy this config or move to krebs
-      ../2configs/base.nix
-      ../2configs/base-sources.nix
       ../2configs/tinc-basic-retiolum.nix
       ../2configs/headless.nix
       # ../2configs/iodined.nix
@@ -17,11 +15,7 @@ in {
       ../2configs/Reaktor/simpleExtend.nix
   ];
 
-  krebs.build = {
-    user = config.krebs.users.makefu;
-    target = "root@gum.krebsco.de";
-    host = config.krebs.hosts.gum;
-  };
+  krebs.build.host = config.krebs.hosts.gum;
 
   krebs.Reaktor.enable = true;
 
