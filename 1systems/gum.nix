@@ -13,18 +13,36 @@ in {
       # ../2configs/iodined.nix
 
   ];
-  boot.loader.grub.device = "/dev/sda";
-  boot.loader.grub.splashImage = null;
-  boot.initrd.availableKernelModules = [ "pata_via" "uhci_hcd" ];
-  boot.kernelModules = [ "kvm-intel" ];
+
   krebs.build.target = "root@gum.krebsco.de";
   krebs.build.host = config.krebs.hosts.gum;
+
+  # Hardware
+  boot.loader.grub.device = "/dev/sda";
+  boot.initrd.availableKernelModules = [ "pata_via" "uhci_hcd" ];
+  boot.kernelModules = [ "kvm-intel" ];
+
+  # Network
 
   services.udev.extraRules = ''
     SUBSYSTEM=="net", ATTR{address}=="c8:0a:a9:c8:ee:dd", NAME="et0"
   '';
   networking = {
-    firewall.allowPing = true;
+  firewall = {
+      allowPing = true;
+      allowedTCPPorts = [
+        # smtp
+        25
+        # http
+        80 443
+        # tinc
+        655
+      ];
+      allowedUDPPorts = [
+        # tinc
+        655 53
+      ];
+    };
     interfaces.et0.ip4 = [{
       address = external-ip;
       prefixLength = 24;
