@@ -17,6 +17,12 @@ in {
   krebs.build.target = "root@gum.krebsco.de";
   krebs.build.host = config.krebs.hosts.gum;
 
+  # Chat
+  environment.systemPackages = with pkgs;[
+    weechat
+  ];
+  services.bitlbee.enable = true;
+
   # Hardware
   boot.loader.grub.device = "/dev/sda";
   boot.initrd.availableKernelModules = [ "pata_via" "uhci_hcd" ];
