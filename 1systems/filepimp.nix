@@ -7,8 +7,6 @@
 {
   imports =
     [ # Include the results of the hardware scan.
-      ../2configs/default.nix
-      ../2configs/fs/vm-single-partition.nix
       ../2configs/fs/single-partition-ext4.nix
       ../2configs/tinc-basic-retiolum.nix
     ];
