@@ -12,7 +12,7 @@ with lib;
     firefox
     chromium
     keepassx
-
+    ntfs3g
     virtmanager
     at_spi2_core # dep for virtmanager?
   ];

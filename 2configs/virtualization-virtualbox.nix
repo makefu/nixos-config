@@ -2,11 +2,11 @@
 
 let
   mainUser = config.krebs.build.user;
-  version = "5.0.4";
-  rev = "102546";
+  version = "5.0.6";
+  rev = "103037";
   vboxguestpkg = pkgs.fetchurl {
         url = "http://download.virtualbox.org/virtualbox/${version}/Oracle_VM_VirtualBox_Extension_Pack-${version}-${rev}.vbox-extpack";
-        sha256 = "1ykwpjvfgj11iwhx70bh2hbxhyy3hg6rnqzl4qac7xzg8xw8wqg4";
+        sha256 = "1dc70x2m7x266zzw5vw36mxqj7xykkbk357fc77f9zrv4lylzvaf";
       };
 in {
   #inherit vboxguestpkg;
