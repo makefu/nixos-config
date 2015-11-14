@@ -9,6 +9,7 @@ in {
       # TODO: copy this config or move to krebs
       ../2configs/tinc-basic-retiolum.nix
       ../2configs/headless.nix
+      ../2configs/fs/simple-swap.nix
       ../2configs/fs/single-partition-ext4.nix
       # ../2configs/iodined.nix
 
