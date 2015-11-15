@@ -59,9 +59,12 @@ in {
   };
 
   networking = {
-    firewall.allowPing = true;
-    firewall.allowedTCPPorts = [ 53 80 443 ];
-    firewall.allowedUDPPorts = [ 655 ];
+  firewall = {
+      allowPing = true;
+      logRefusedConnections = false;
+      allowedTCPPorts = [ 53 80 443 ];
+      allowedUDPPorts = [ 655 ];
+    };
     interfaces.enp2s1.ip4 = [{
       address = external-ip;
       prefixLength = 24;

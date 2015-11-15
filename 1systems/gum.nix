@@ -17,7 +17,6 @@ in {
 
   krebs.build.target = "root@gum.krebsco.de";
   krebs.build.host = config.krebs.hosts.gum;
-
   # Chat
   environment.systemPackages = with pkgs;[
     weechat
@@ -34,21 +33,24 @@ in {
   services.udev.extraRules = ''
     SUBSYSTEM=="net", ATTR{address}=="c8:0a:a9:c8:ee:dd", NAME="et0"
   '';
+  boot.kernelParams = [ "ipv6.disable=1" ];
   networking = {
-  firewall = {
-      allowPing = true;
-      allowedTCPPorts = [
-        # smtp
-        25
-        # http
-        80 443
-        # tinc
-        655
-      ];
-      allowedUDPPorts = [
-        # tinc
-        655 53
-      ];
+    enableIPv6 = false;
+    firewall = {
+        allowPing = true;
+        logRefusedConnections = false;
+        allowedTCPPorts = [
+          # smtp
+          25
+          # http
+          80 443
+          # tinc
+          655
+        ];
+        allowedUDPPorts = [
+          # tinc
+          655 53
+        ];
     };
     interfaces.et0.ip4 = [{
       address = external-ip;
