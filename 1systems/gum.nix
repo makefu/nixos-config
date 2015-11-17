@@ -12,6 +12,7 @@ in {
       ../2configs/fs/simple-swap.nix
       ../2configs/fs/single-partition-ext4.nix
       # ../2configs/iodined.nix
+      ../2configs/git/cgit-retiolum.nix
 
   ];
 
