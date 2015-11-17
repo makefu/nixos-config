@@ -22,7 +22,7 @@ let
   };
 
   connector-repos = mapAttrs make-priv-repo {
-    autosync = { };
+    connector = { };
   };
 
 
@@ -36,7 +36,7 @@ let
     inherit name desc;
     public = true;
     hooks = {
-      post-receive = git.irc-announce {
+      post-receive = pkgs.git-hooks.irc-announce {
         nick = config.networking.hostName;
         verbose = config.krebs.build.host.name == "pnp";
         channel = "#retiolum";
@@ -51,11 +51,11 @@ let
   # TODO: get the list of all krebsministers
   krebsminister = with config.krebs.users; [ lass tv uriel ];
   all-makefu = with config.krebs.users; [ makefu makefu-omo makefu-tsp ];
-  exco = with config.krebs.users; [ exco ];
+  all-exco = with config.krebs.users; [ exco ];
 
   priv-rules = repo: set-owners repo all-makefu;
 
-  connector-rules = repo: set-owners repo (all-makefu ++ exco);
+  connector-rules = repo: set-owners repo all-makefu ++ set-owners repo all-exco;
 
   krebs-rules = repo:
     set-owners repo all-makefu ++ set-ro-access repo krebsminister;
@@ -76,18 +76,19 @@ let
 
 in {
   imports = [{
-    krebs.users.makefu-omo = {
+    krebs.users = {
+      makefu-omo = {
         name = "makefu-omo" ;
         pubkey= with builtins; readFile ../../../krebs/Zpubkeys/makefu_omo.ssh.pub;
-    };
-    krebs.users.makefu-tsp = {
+      };
+      makefu-tsp = {
         name = "makefu-tsp" ;
         pubkey= with builtins; readFile ../../../krebs/Zpubkeys/makefu_tsp.ssh.pub;
-    };
-
-    krebs.users.exco = {
-        name = "exco" ;
+      };
+      exco = {
+        name = "exco";
         pubkey= with builtins; readFile ../../../krebs/Zpubkeys/exco.ssh.pub;
+      };
     };
   }];
   krebs.git = {
