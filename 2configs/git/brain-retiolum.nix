@@ -1,6 +1,6 @@
 { config, lib, pkgs, ... }:
 # TODO: remove tv lib :)
-with import ../../../tv/4lib { inherit lib pkgs; };
+with lib;
 let
 
   repos = priv-repos // krebs-repos ;
@@ -26,7 +26,7 @@ let
     inherit name desc;
     public = false;
     hooks = {
-      post-receive = git.irc-announce {
+      post-receive = pkgs.git-hooks.irc-announce {
         nick = config.networking.hostName;
         channel = "#retiolum";
         # TODO remove the hardcoded hostname

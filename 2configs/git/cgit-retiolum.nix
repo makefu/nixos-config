@@ -1,10 +1,12 @@
 { config, lib, pkgs, ... }:
 # TODO: remove tv lib :)
-with import ../../../tv/4lib { inherit lib pkgs; };
+with lib;
 let
 
-  repos = priv-repos // krebs-repos ;
-  rules = concatMap krebs-rules (attrValues krebs-repos) ++ concatMap priv-rules (attrValues priv-repos);
+  repos = priv-repos // krebs-repos // connector-repos ;
+  rules = concatMap krebs-rules (attrValues krebs-repos)
+    ++ concatMap priv-rules (attrValues priv-repos)
+    ++ concatMap connector-rules (attrValues connector-repos);
 
   krebs-repos = mapAttrs make-krebs-repo {
     stockholm = {
@@ -16,6 +18,10 @@ let
   };
 
   priv-repos = mapAttrs make-priv-repo {
+    autosync = { };
+  };
+
+  connector-repos = mapAttrs make-priv-repo {
     autosync = { };
   };
 
@@ -40,12 +46,19 @@ let
     };
   };
 
-  set-owners = with git;repo: user:
-      singleton {
-        inherit user;
-        repo = [ repo ];
-        perm = push "refs/*" [ non-fast-forward create delete merge ];
-      };
+
+
+  # TODO: get the list of all krebsministers
+  krebsminister = with config.krebs.users; [ lass tv uriel ];
+  all-makefu = with config.krebs.users; [ makefu makefu-omo makefu-tsp ];
+  exco = with config.krebs.users; [ exco ];
+
+  priv-rules = repo: set-owners repo all-makefu;
+
+  connector-rules = repo: set-owners repo (all-makefu ++ exco);
+
+  krebs-rules = repo:
+    set-owners repo all-makefu ++ set-ro-access repo krebsminister;
 
   set-ro-access = with git; repo: user:
       optional repo.public {
@@ -54,14 +67,12 @@ let
         perm = fetch;
       };
 
-  # TODO: get the list of all krebsministers
-  krebsminister = with config.krebs.users; [ lass tv uriel ];
-  all-makefu = with config.krebs.users; [ makefu makefu-omo makefu-tsp ];
-
-  priv-rules = repo: set-owners repo all-makefu;
-
-  krebs-rules = repo:
-    set-owners repo all-makefu ++ set-ro-access repo krebsminister;
+  set-owners = with git;repo: user:
+      singleton {
+        inherit user;
+        repo = [ repo ];
+        perm = push "refs/*" [ non-fast-forward create delete merge ];
+      };
 
 in {
   imports = [{
@@ -72,6 +83,11 @@ in {
     krebs.users.makefu-tsp = {
         name = "makefu-tsp" ;
         pubkey= with builtins; readFile ../../../krebs/Zpubkeys/makefu_tsp.ssh.pub;
+    };
+
+    krebs.users.exco = {
+        name = "exco" ;
+        pubkey= with builtins; readFile ../../../krebs/Zpubkeys/exco.ssh.pub;
     };
   }];
   krebs.git = {
