@@ -13,14 +13,20 @@ in {
       ../2configs/fs/single-partition-ext4.nix
       # ../2configs/iodined.nix
       ../2configs/git/cgit-retiolum.nix
-
+      ../2configs/mattermost-docker.nix
   ];
 
+
+
+  ###### stable
   krebs.build.target = "root@gum.krebsco.de";
   krebs.build.host = config.krebs.hosts.gum;
+
+
   # Chat
   environment.systemPackages = with pkgs;[
     weechat
+    get
   ];
   services.bitlbee.enable = true;
 
@@ -30,7 +36,6 @@ in {
   boot.kernelModules = [ "kvm-intel" ];
 
   # Network
-
   services.udev.extraRules = ''
     SUBSYSTEM=="net", ATTR{address}=="c8:0a:a9:c8:ee:dd", NAME="et0"
   '';
