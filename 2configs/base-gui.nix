@@ -10,6 +10,17 @@
 #
 # if this is not enough, check out main-laptop.nix
 
+## TODO: .Xdefaults:
+# URxvt*termName:         rxvt
+# URxvt.scrollBar : false
+# URxvt*scrollBar_right:  false
+# URxvt*borderLess:       false
+# URxvt.foreground: white
+# URxvt.background: black
+# URxvt.urgentOnBell: true
+# URxvt.visualBell: false
+# URxvt.font : xft:Terminus
+
 with lib;
 let
   mainUser = config.krebs.build.user.name;
