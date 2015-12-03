@@ -21,6 +21,7 @@ in {
   # Chat
   environment.systemPackages = with pkgs;[
     weechat
+    bepasty-client-cli
   ];
   services.bitlbee.enable = true;
 
