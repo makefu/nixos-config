@@ -65,6 +65,7 @@ with lib;
   time.timeZone = "Europe/Berlin";
   #nix.maxJobs = 1;
 
+  programs.ssh.startAgent = false;
   services.openssh.enable = true;
   nix.useChroot = true;
 
