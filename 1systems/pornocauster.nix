@@ -36,6 +36,7 @@
       # ../2configs/mediawiki.nix
       #../2configs/wordpress.nix
     ];
+  nixpkgs.config.packageOverrides = pkgs: { tinc = pkgs.tinc_pre; };
   #krebs.Reaktor.enable = true;
   #krebs.Reaktor.nickname = "makefu|r";
 
@@ -45,6 +46,7 @@
     get
     virtmanager
     gnome3.dconf
+    krebspaste
     ];
 
   services.logind.extraConfig = "HandleLidSwitch=ignore";
