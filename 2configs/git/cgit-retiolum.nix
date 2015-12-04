@@ -15,6 +15,7 @@ let
     tinc_graphs = {
       desc = "Tinc Advanced Graph Generation";
     };
+    cac = { };
   };
 
   priv-repos = mapAttrs make-priv-repo {
@@ -23,6 +24,9 @@ let
 
   connector-repos = mapAttrs make-priv-repo {
     connector = { };
+    mattermost = {
+      desc = "Mattermost Docker files";
+    };
   };
 
 
