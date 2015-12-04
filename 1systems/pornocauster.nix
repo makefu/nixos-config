@@ -16,11 +16,13 @@
       ../2configs/zsh-user.nix
 
       # applications
+
       ../2configs/exim-retiolum.nix
       ../2configs/mail-client.nix
+      ../2configs/printer.nix
       #../2configs/virtualization.nix
       ../2configs/virtualization.nix
-      #../2configs/virtualization-virtualbox.nix
+      ../2configs/virtualization-virtualbox.nix
       ../2configs/wwan.nix
 
       # services
