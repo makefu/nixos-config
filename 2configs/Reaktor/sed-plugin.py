@@ -21,8 +21,8 @@ m = is_regex(line)
 
 if m:
     f,t,flagstr = m.groups()
-    f = f.replace('\/','/')
-    t = t.replace('\/','/')
+    fn = f.replace('\/','/')
+    tn = t.replace('\/','/')
     flags =  0
     count = 1
     if flagstr:
@@ -30,10 +30,20 @@ if m:
             flags = re.IGNORECASE
         if 'g' in flagstr:
             count = 0
+    else:
+        flagstr = ''
     last = d.get(environ['_from'],None)
     if last:
-        print(f,t,last)
-        print(re.sub(f,t,last,count=count,flags=flags))
+        print(fn,tn,last)
+        #print(re.sub(fn,tn,last,count=count,flags=flags))
+        from subprocess import Popen,PIPE
+        p = Popen(['sed','s/{}/{}/{}'.format(f,t,flagstr)],stdin=PIPE,stdout=PIPE )
+        so,_ = p.communicate(last+"\n")
+        if p.returncode:
+            print("something went wrong when trying to process your regex")
+        print(so)
+
+
     else:
         print("no last message")
 else:
