@@ -6,7 +6,10 @@
 
 with lib;
 {
-  imports = [ ./base-gui.nix ];
+  imports = [
+    ./base-gui.nix
+    ./fetchWallpaper.nix
+  ];
   environment.systemPackages = with pkgs;[
     vlc
     firefox
