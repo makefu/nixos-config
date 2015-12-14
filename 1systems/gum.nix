@@ -14,14 +14,20 @@ in {
       # ../2configs/iodined.nix
       ../2configs/git/cgit-retiolum.nix
       ../2configs/mattermost-docker.nix
+      ../2configs/nginx/euer.test.nix
   ];
 
 
+  nixpkgs.config.packageOverrides = pkgs: { tinc = pkgs.tinc_pre; };
 
   ###### stable
   krebs.build.target = "root@gum.krebsco.de";
   krebs.build.host = config.krebs.hosts.gum;
-
+  krebs.retiolum.extraConfig = ''
+    ListenAddress = ${external-ip} 53
+    ListenAddress = ${external-ip} 655
+    ListenAddress = ${external-ip} 21031
+  '';
 
   # Chat
   environment.systemPackages = with pkgs;[
@@ -53,10 +59,18 @@ in {
           80 443
           # tinc
           655
+          # tinc-shack
+          21032
+          # tinc-retiolum
+          21031
         ];
         allowedUDPPorts = [
           # tinc
           655 53
+          # tinc-retiolum
+          21031
+          # tinc-shack
+          21032
         ];
     };
     interfaces.et0.ip4 = [{
