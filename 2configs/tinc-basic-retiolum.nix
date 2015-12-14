@@ -9,6 +9,7 @@ with lib;
       "gum"
       "pigstarter"
       "fastpoke"
+      "ire"
     ];
   };
 }
