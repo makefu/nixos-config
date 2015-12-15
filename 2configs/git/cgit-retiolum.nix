@@ -80,26 +80,6 @@ let
       };
 
 in {
-  imports = [{
-    krebs.users = {
-      makefu-omo = {
-        name = "makefu-omo" ;
-        pubkey= with builtins; readFile ../../../krebs/Zpubkeys/makefu_omo.ssh.pub;
-      };
-      makefu-vbob = {
-        name = "makefu-vbob" ;
-        pubkey= with builtins; readFile ../../../krebs/Zpubkeys/makefu_vbob.ssh.pub;
-      };
-      makefu-tsp = {
-        name = "makefu-tsp" ;
-        pubkey= with builtins; readFile ../../../krebs/Zpubkeys/makefu_tsp.ssh.pub;
-      };
-      exco = {
-        name = "exco";
-        pubkey= with builtins; readFile ../../../krebs/Zpubkeys/exco.ssh.pub;
-      };
-    };
-  }];
   krebs.git = {
     enable = true;
     root-title = "public repositories";

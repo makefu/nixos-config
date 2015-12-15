@@ -1,7 +1,7 @@
 #
 #
 #
-{ config, pkgs, ... }:
+{ lib, config, pkgs, ... }:
 
 {
   krebs.build.host = config.krebs.hosts.vbob;
@@ -12,13 +12,21 @@
       ../2configs/main-laptop.nix #< base-gui
 
       # environment
+
       ../2configs/zsh-user.nix
       ../2configs/virtualization.nix
     ];
+
+  # allow vbob to deploy self
+  users.extraUsers = {
+    root = {
+        openssh.authorizedKeys.keys = [ config.krebs.users.makefu-vbob.pubkey  ];
+    };
+  };
   nixpkgs.config.packageOverrides = pkgs: { tinc = pkgs.tinc_pre; };
   environment.systemPackages = with pkgs;[
     get
-    ];
+  ];
 
   networking.firewall.allowedTCPPorts = [
     25
