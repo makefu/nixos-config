@@ -12,7 +12,8 @@ let
     c['slaves'] = []
     # TODO: template potential buildslaves
     # TODO: set password?
-    for i in [ 'testslave' ]:
+    slavenames= [ 'testslave' ]
+    for i in slavenames:
       c['slaves'].append(buildslave.BuildSlave(i, "krebspass"))
 
     c['protocols'] = {'pb': {'port': 9989}}
@@ -56,7 +57,7 @@ let
     c['builders'].append(
         util.BuilderConfig(name="runtests",
           # TODO: only some slaves being used in builder?
-          slavenames=c['slaves'],
+          slavenames=slavenames,
           factory=factory))
 
     ####### Status of Builds
@@ -84,7 +85,7 @@ let
     irc = words.IRC("irc.freenode.net", "krebsbuild",
                     channels=["krebs"],
                     notify_events={
-                      'sucess': 1,
+                      'success': 1,
                       'failure': 1,
                       'exception': 1,
                       'successToFailure': 1,
@@ -145,26 +146,34 @@ let
       description = "Buildbot Master";
       after = [ "network.target" ];
       wantedBy = [ "multi-user.target" ];
-      serviceConfig = {
+      serviceConfig = let
+        workdir="${lib.shell.escape cfg.workDir}";
+      in {
+        pidfile="${workdir}/twistd.pid";
         PermissionsStartOnly = true;
+        Type = "forking";
+        PIDFile = "${workdir}/twistd.pid";
         # TODO: maybe also prepare buildbot.tac?
         ExecStartPre = pkgs.writeScript "buildbot-master-init" ''
           #!/bin/sh
           set -efux
-          workdir=${lib.shell.escape cfg.workDir}
-          if [ ! -e $workdir ];then
-            mkdir -p $workdir
-            ${buildbot}/bin/buildbot create-master -r -l 10 -f $workdir
-            chown buildbotMaster:buildbotMaster  $workdir
+          if [ ! -e ${workdir} ];then
+            mkdir -p ${workdir}
+            ${buildbot}/bin/buildbot create-master -r -l 10 -f ${workdir}
           fi
           # always override the master.cfg
-          cp ${toString buildbot-master-config} "$workdir/master.cfg"
+          cp ${buildbot-master-config} ${workdir}/master.cfg
           # sanity
-          ${buildbot}/bin/buildbot checkconfig $workdir
-          # upgrade
-          ${buildbot}/bin/buildbot upgrade-master $workdir
+          ${buildbot}/bin/buildbot checkconfig ${workdir}
+
+          # TODO: maybe upgrade?
+          # ${buildbot}/bin/buildbot upgrade-master ${workdir}
+
+          chown buildbotMaster:buildbotMaster -R ${workdir}
         '';
-        ExecStart = "${buildbot}/bin/buildbot ${lib.shell.escape cfg.workDir}";
+        ExecStart = "${buildbot}/bin/buildbot start ${workdir}";
+        ExecStop = "${buildbot}/bin/buildbot stop ${workdir}";
+        ExecReload = "${buildbot}/bin/buildbot reconfig ${workdir}";
         PrivateTmp = "true";
         User = "buildbotMaster";
         Restart = "always";
