@@ -13,10 +13,17 @@
 
       # environment
 
-      ../2configs/zsh-user.nix
-      ../2configs/virtualization.nix
     ];
-
+  krebs.build.source.git.nixpkgs = {
+    #url = https://github.com/nixos/nixpkgs;
+    # HTTP Everywhere
+    rev = "a3974e";
+  };
+  fileSystems."/nix" = {
+    device ="/dev/disk/by-label/nixstore";
+    fsType = "ext4";
+  };
+  #makefu.buildbot.master.enable = true;
   # allow vbob to deploy self
   users.extraUsers = {
     root = {
@@ -40,8 +47,8 @@
     connectTo = [
       "gum"
     ];
-
   };
+
   networking.proxy.default = "http://global.proxy.alcatel-lucent.com:8000";
   fileSystems."/media/share" = {
     fsType = "vboxsf";
@@ -50,3 +57,4 @@
   };
 
 }
+
