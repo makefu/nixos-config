@@ -38,7 +38,7 @@ let
                   allow_shutdown=allow_shutdown)
     s.setServiceParent(application)
     '';
-
+  default-packages = [ pkgs.git pkgs.bash ];
   cfg = config.makefu.buildbot.slave;
 
   api = {
@@ -91,6 +91,26 @@ let
       '';
     };
 
+    packages = mkOption {
+      default = [ pkgs.git ];
+      type = with types; listOf package;
+      description = ''
+        packages which should be in path for buildslave
+      '';
+    };
+
+    extraEnviron = mkOption {
+      default = {};
+      example = {
+        NIX_PATH = "nixpkgs=/path/to/my/nixpkgs";
+      };
+      type = types.attrsOf types.str;
+      description = ''
+        extra environment variables to be provided to the buildslave service
+        if you need nixpkgs, e.g. for running nix-shell you can set NIX_PATH here.
+      '';
+    };
+
     extraConfig = mkOption {
       default = "";
       type = types.lines;
@@ -121,6 +141,12 @@ let
       description = "Buildbot Slave for ${cfg.username}@${cfg.masterhost}";
       after = [ "network.target" ];
       wantedBy = [ "multi-user.target" ];
+      path = default-packages ++ cfg.packages;
+
+      environment = {
+          NIX_REMOTE="daemon";
+      } // cfg.extraEnviron;
+
       serviceConfig = let
         workdir = "${lib.shell.escape cfg.workDir}";
         contact = "${lib.shell.escape cfg.contact}";
