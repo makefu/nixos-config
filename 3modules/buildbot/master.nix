@@ -25,50 +25,71 @@ let
             stockholm_repo,
             workdir='stockholm-poller', branch='master',
             project='stockholm',
-            pollinterval=300))
+            pollinterval=120))
 
     ####### Build Scheduler
     # TODO: configure scheduler
-    important_files = util.ChangeFilter(
-                  project_re="^((krebs|share)/.*|Makefile|default.nix)",
-                  branch='master')
     c['schedulers'] = []
-    c['schedulers'].append(schedulers.SingleBranchScheduler(
-                                name="all-important-files",
-                                change_filter=important_files,
-                                # 3 minutes stable tree
-                                treeStableTimer=3*60,
-                                builderNames=["runtests"]))
-    c['schedulers'].append(schedulers.ForceScheduler(
+
+    # test the master real quick
+    fast = schedulers.SingleBranchScheduler(
+                                change_filter=util.ChangeFilter(branch="master"),
+                                name="fast-master-test",
+                                builderNames=["fast-tests"])
+
+    force = schedulers.ForceScheduler(
                                 name="force",
-                                builderNames=["runtests"]))
+                                builderNames=["full-tests"])
+
+    # files everyone depends on or are part of the share branch
+    def shared_files(change):
+      import re
+      r =re.compile("^((krebs|share)/.*|Makefile|default.nix)")
+      for file in change.files:
+        if r.match(file):
+          return True
+      return False
+
+    full = schedulers.SingleBranchScheduler(
+                                change_filter=util.ChangeFilter(branch="master"),
+                                fileIsImportant=shared_files,
+                                name="full-master-test",
+                                builderNames=["full-tests"])
+    c['schedulers'] = [ fast, force, full ]
     ###### The actual build
+    # couple of fast steps:
     f = util.BuildFactory()
-    f.addStep(steps.Git(repourl=stockholm_repo, mode='incremental'))
+    ## fetch repo
+    grab_repo = steps.Git(repourl=stockholm_repo, mode='incremental')
+    f.addStep(grab_repo)
 
     # the dependencies which are used by the test script
     deps = [ "gnumake", "jq" ]
     nixshell = ["nix-shell", "-p" ] + deps + [ "--run" ]
-    def addShell(**kwargs):
+    def addShell(f,**kwargs):
       f.addStep(steps.ShellCommand(**kwargs))
 
-    # TODO: combined strings somewhat defeat the reason why an array was used in first place
-    addShell(name=env={"LOGNAME": "shared",
+    addShell(f,name="centos7-eval",env={"LOGNAME": "shared",
                   "get" : "krebs.deploy",
                   "filter" : "json"
                  },
              command=nixshell + ["make -s eval system=test-centos7"])
-    addShell(env={"LOGNAME": "shared",
+
+    addShell(f,name="wolf-eval",env={"LOGNAME": "shared",
                   "get" : "krebs.deploy",
                   "filter" : "json"
                  },
              command=nixshell + ["make -s eval system=wolf"])
 
-    # TODO: different Builders?
     c['builders'] = []
     c['builders'].append(
-        util.BuilderConfig(name="runtests",
-          # TODO: only some slaves being used in builder?
+        util.BuilderConfig(name="fast-tests",
+          slavenames=slavenames,
+          factory=f))
+
+    # TODO slow build
+    c['builders'].append(
+        util.BuilderConfig(name="full-tests",
           slavenames=slavenames,
           factory=f))
 
@@ -111,7 +132,9 @@ let
     c['title'] = "Stockholm"
     c['titleURL'] = "http://krebsco.de"
 
-    c['buildbotURL'] = "http://buildbot.krebsco.de/"
+    #c['buildbotURL'] = "http://buildbot.krebsco.de/"
+    # TODO: configure url
+    c['buildbotURL'] = "http://vbob:8010/"
 
     ####### DB URL
     c['db'] = {
@@ -124,7 +147,6 @@ let
 
   api = {
     enable = mkEnableOption "Buildbot Master";
-
     workDir = mkOption {
       default = "/var/lib/buildbot/master";
       type = types.str;
@@ -169,6 +191,7 @@ let
         };
       });
     };
+
     extraConfig = mkOption {
       default = "";
       type = types.lines;
