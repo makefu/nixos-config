@@ -35,6 +35,8 @@ in {
     masterhost = "localhost";
     username = "testslave";
     password = "krebspass";
+    packages = with pkgs;[ git nix ];
+    extraEnviron = { NIX_PATH="nixpkgs=${toString <nixpkgs>}"; };
   };
 
   krebs.build.source.git.nixpkgs = {
@@ -63,6 +65,7 @@ in {
   networking.firewall.allowedTCPPorts = [
     25
     80
+    8010
   ];
 
   krebs.retiolum = {
