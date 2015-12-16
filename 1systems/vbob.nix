@@ -2,8 +2,9 @@
 #
 #
 { lib, config, pkgs, ... }:
-
-{
+let
+    pkgs-unst = import (fetchTarball https://github.com/NixOS/nixpkgs-channels/archive/nixos-unstable.tar.gz) {};
+in {
   krebs.build.host = config.krebs.hosts.vbob;
   krebs.build.target = "root@10.10.10.220";
   imports =
@@ -14,6 +15,28 @@
       # environment
 
     ];
+  nixpkgs.config.packageOverrides = pkgs: {
+    tinc = pkgs.tinc_pre;
+    buildbot = pkgs-unst.buildbot;
+    buildbot-slave = pkgs-unst.buildbot-slave;
+  };
+
+  makefu.buildbot.master = {
+    enable = true;
+    irc = {
+      enable = true;
+      server = "cd.retiolum";
+      channel = "retiolum";
+      allowForce = true;
+    };
+  };
+  makefu.buildbot.slave = {
+    enable = true;
+    masterhost = "localhost";
+    username = "testslave";
+    password = "krebspass";
+  };
+
   krebs.build.source.git.nixpkgs = {
     #url = https://github.com/nixos/nixpkgs;
     # HTTP Everywhere
@@ -30,9 +53,11 @@
         openssh.authorizedKeys.keys = [ config.krebs.users.makefu-vbob.pubkey  ];
     };
   };
-  nixpkgs.config.packageOverrides = pkgs: { tinc = pkgs.tinc_pre; };
   environment.systemPackages = with pkgs;[
+    buildbot
+    buildbot-slave
     get
+    genid
   ];
 
   networking.firewall.allowedTCPPorts = [
