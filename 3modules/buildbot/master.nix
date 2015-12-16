@@ -6,6 +6,7 @@ let
   buildbot-master-config = pkgs.writeText "buildbot-master.cfg" ''
     # -*- python -*-
     from buildbot.plugins import *
+    import re
 
     c = BuildmasterConfig = {}
 
@@ -43,7 +44,6 @@ let
 
     # files everyone depends on or are part of the share branch
     def shared_files(change):
-      import re
       r =re.compile("^((krebs|share)/.*|Makefile|default.nix)")
       for file in change.files:
         if r.match(file):
@@ -119,8 +119,8 @@ let
                       # TODO: multiple channels
                       channels=["${cfg.irc.channel}"],
                       notify_events={
-                        'success': 1,
-                        'failure': 1,
+                        #'success': 1,
+                        #'failure': 1,
                         'exception': 1,
                         'successToFailure': 1,
                         'failureToSuccess': 1,
