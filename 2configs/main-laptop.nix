@@ -9,6 +9,7 @@ with lib;
   imports = [
     ./base-gui.nix
     ./fetchWallpaper.nix
+    ./zsh-user.nix
   ];
   environment.systemPackages = with pkgs;[
     vlc

@@ -6,14 +6,12 @@
 {
   imports =
     [ # Include the results of the hardware scan.
-      ../2configs/main-laptop.nix #< base-gui
+      ../2configs/main-laptop.nix #< base-gui + zsh
 
       # Krebs
       ../2configs/tinc-basic-retiolum.nix
       #../2configs/disable_v6.nix
 
-      # environment
-      ../2configs/zsh-user.nix
 
       # applications
 
