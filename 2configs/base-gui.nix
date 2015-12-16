@@ -73,4 +73,33 @@ in
      enable = true;
    #  systemWide = true;
   };
+  services.xserver.displayManager.sessionCommands = let
+    xdefaultsfile = pkgs.writeText "Xdefaults"  ''
+      cat |derp <<EOF
+      XTerm*background: black
+      XTerm*foreground: white
+      XTerm*FaceName  : Terminus:pixelsize=14
+
+      URxvt*termName:         rxvt
+      URxvt.scrollBar : False
+      URxvt*scrollBar_right:  false
+      URxvt*borderLess:       false
+      URxvt.foreground: white
+      URxvt.background: black
+      URxvt.urgentOnBell: true
+      URxvt.visualBell: false
+      URxvt.font : xft:Terminus
+
+      ! blue
+      URxvt*color4:                         #268bd2
+
+
+      URxvt.perl-ext:      default,url-select
+      URxvt.keysym.M-u:    perl:url-select:select_next
+      #URxvt.url-select.launcher:   firefox -new-tab
+      URxvt.url-select.launcher:   chromium
+      URxvt.url-select.underline: true
+      URxvt.searchable-scrollback: CM-s
+    '';
+    in "cat ${xdefaultsfile} | xrdb -merge";
 }
