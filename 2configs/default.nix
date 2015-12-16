@@ -104,6 +104,8 @@ with lib;
       HISTSIZE=900001
       HISTFILESIZE=$HISTSIZE
 
+      PYTHONSTARTUP="~/.pythonrc";
+
       shopt -s checkhash
       shopt -s histappend histreedit histverify
       shopt -s no_empty_cmd_completion
@@ -123,6 +125,9 @@ with lib;
 
   environment.shellAliases = {
     lsl = "ls -lAtr";
+    psg = "ps -ef | grep";
+    nmap = "nmap -oN $HOME/loot/scan-`date +\%s`.nmap -oX $HOME/loot/scan-`date +%s`.xml";
+    grep = "grep --color=auto";
   };
 
   nixpkgs.config.packageOverrides = pkgs: {
