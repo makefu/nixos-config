@@ -9,6 +9,10 @@ in {
     wvdial
   ];
 
+  environment.shellAliases = {
+    umts = "sudo wvdial netzclub";
+  };
+
   # configure for NETZCLUB
   environment.wvdial.dialerDefaults = ''
     Phone = *99***1#
