@@ -43,14 +43,26 @@ let
                                 name="force",
                                 builderNames=["runtests"]))
     ###### The actual build
-    factory = util.BuildFactory()
-    factory.addStep(steps.Git(repourl=stockholm_repo, mode='incremental'))
+    f = util.BuildFactory()
+    f.addStep(steps.Git(repourl=stockholm_repo, mode='incremental'))
 
+    # the dependencies which are used by the test script
     deps = [ "gnumake", "jq" ]
-    factory.addStep(steps.ShellCommand(command=["nix-shell", "-p" ] + deps ))
-    factory.addStep(steps.ShellCommand(env={"LOGNAME": "shared"},
-                                       command=["make", "get=krebs.deploy",
-                                                        "system=test-centos7"]))
+    nixshell = ["nix-shell", "-p" ] + deps + [ "--run" ]
+    def addShell(**kwargs):
+      f.addStep(steps.ShellCommand(**kwargs))
+
+    # TODO: combined strings somewhat defeat the reason why an array was used in first place
+    addShell(name=env={"LOGNAME": "shared",
+                  "get" : "krebs.deploy",
+                  "filter" : "json"
+                 },
+             command=nixshell + ["make -s eval system=test-centos7"])
+    addShell(env={"LOGNAME": "shared",
+                  "get" : "krebs.deploy",
+                  "filter" : "json"
+                 },
+             command=nixshell + ["make -s eval system=wolf"])
 
     # TODO: different Builders?
     c['builders'] = []
@@ -58,7 +70,7 @@ let
         util.BuilderConfig(name="runtests",
           # TODO: only some slaves being used in builder?
           slavenames=slavenames,
-          factory=factory))
+          factory=f))
 
     ####### Status of Builds
     c['status'] = []
@@ -183,8 +195,10 @@ let
       description = "Buildbot Master";
       after = [ "network.target" ];
       wantedBy = [ "multi-user.target" ];
+      path = [ pkgs.git ];
       serviceConfig = let
         workdir="${lib.shell.escape cfg.workDir}";
+        # TODO: check if git is the only dep
       in {
         PermissionsStartOnly = true;
         Type = "forking";
