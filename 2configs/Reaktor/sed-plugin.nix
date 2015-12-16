@@ -7,7 +7,7 @@ in {
   #TODO: this will eat up the last regex, fix Reaktor
   krebs.Reaktor.extraConfig = ''
   public_commands.append({
-    'capname' : "shack-correct",
+    'capname' : "sed-plugin",
     # only support s///gi
     'pattern' : '^(?P<args>.*)$$',
     'argv'    : ["${pkgs.python3}/bin/python3","${script}"],
