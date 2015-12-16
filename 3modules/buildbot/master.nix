@@ -81,17 +81,19 @@ let
     c['status'].append(html.WebStatus(http_port=8010, authz=authz_cfg))
 
     from buildbot.status import words
-    # TODO: configure IRC Bot
-    irc = words.IRC("irc.freenode.net", "krebsbuild",
-                    channels=["krebs"],
-                    notify_events={
-                      'success': 1,
-                      'failure': 1,
-                      'exception': 1,
-                      'successToFailure': 1,
-                      'failureToSuccess': 1,
-                    },allowForce=True)
-    c['status'].append(irc)
+    ${optionalString (cfg.irc.enable) ''
+      irc = words.IRC("${cfg.irc.server}", "krebsbuild",
+                      # TODO: multiple channels
+                      channels=["${cfg.irc.channel}"],
+                      notify_events={
+                        'success': 1,
+                        'failure': 1,
+                        'exception': 1,
+                        'successToFailure': 1,
+                        'failureToSuccess': 1,
+                      }${optionalString cfg.irc.allowForce ",allowForce=True"})
+      c['status'].append(irc)
+      ''}
 
     ####### PROJECT IDENTITY
     c['title'] = "Stockholm"
@@ -119,7 +121,42 @@ let
         Will be created on startup.
       '';
     };
-
+    irc = mkOption {
+      default = {};
+      type = types.submodule ({ config, ... }: {
+        options = {
+          enable = mkEnableOption "Buildbot Master IRC Status";
+          channel = mkOption {
+            default = "nix-buildbot-meetup";
+            type = types.str;
+            description = ''
+              irc channel the bot should connect to
+            '';
+          };
+          allowForce = mkOption {
+            default = false;
+            type = types.bool;
+            description = ''
+              Determines if builds can be forced via IRC
+            '';
+          };
+          nick = mkOption {
+            default = "nix-buildbot";
+            type = types.str;
+            description = ''
+              nickname for IRC
+            '';
+          };
+          server = mkOption {
+            default = "irc.freenode.net";
+            type = types.str;
+            description = ''
+              Buildbot Status IRC Server to connect to
+            '';
+          };
+        };
+      });
+    };
     extraConfig = mkOption {
       default = "";
       type = types.lines;
@@ -149,7 +186,6 @@ let
       serviceConfig = let
         workdir="${lib.shell.escape cfg.workDir}";
       in {
-        pidfile="${workdir}/twistd.pid";
         PermissionsStartOnly = true;
         Type = "forking";
         PIDFile = "${workdir}/twistd.pid";
@@ -166,9 +202,11 @@ let
           # sanity
           ${buildbot}/bin/buildbot checkconfig ${workdir}
 
-          # TODO: maybe upgrade?
+          # TODO: maybe upgrade? not sure about this
+          #       normally we should write buildbot.tac by our own
           # ${buildbot}/bin/buildbot upgrade-master ${workdir}
 
+          chmod 700 -R ${workdir}
           chown buildbotMaster:buildbotMaster -R ${workdir}
         '';
         ExecStart = "${buildbot}/bin/buildbot start ${workdir}";
