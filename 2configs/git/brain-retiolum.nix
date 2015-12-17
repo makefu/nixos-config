@@ -59,16 +59,7 @@ let
     set-owners repo all-makefu ++ set-ro-access repo krebsminister;
 
 in {
-  imports = [{
-    krebs.users.makefu-omo = {
-        name = "makefu-omo" ;
-        pubkey= with builtins; readFile ../../../krebs/Zpubkeys/makefu_omo.ssh.pub;
-    };
-    krebs.users.makefu-tsp = {
-        name = "makefu-tsp" ;
-        pubkey= with builtins; readFile ../../../krebs/Zpubkeys/makefu_tsp.ssh.pub;
-    };
-  }];
+  imports = [ ];
   krebs.git = {
     enable = true;
     cgit = false;
