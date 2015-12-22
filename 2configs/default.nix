@@ -24,7 +24,7 @@ with lib;
         git.nixpkgs = {
           #url = https://github.com/NixOS/nixpkgs;
           url = mkDefault https://github.com/makefu/nixpkgs;
-          rev = mkDefault "78340b042463fd35caa587b0db2e400e5666dbe1"; # nixos-15.09 + cherry-picking
+          rev = mkDefault "3fd2c24685f604edc925f73ed56600b8c66236b3"; # nixos-15.09 + cherry-picking
           target-path = "/var/src/nixpkgs";
         };
 
