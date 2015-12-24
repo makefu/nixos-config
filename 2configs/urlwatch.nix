@@ -12,7 +12,7 @@
       http://git.sysphere.org/vicious/log/?qt=grep&q=Next+release
       https://pypi.python.org/simple/bepasty/
       https://pypi.python.org/simple/xstatic/
-
+      http://cvs2svn.tigris.org/servlets/ProjectDocumentList?folderID=2976
     ];
   };
 }
