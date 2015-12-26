@@ -28,9 +28,6 @@
       ../2configs/Reaktor/titlebot.nix
       ../2configs/Reaktor/shack-correct.nix
 
-      ../2configs/exim-retiolum.nix
-      ../2configs/urlwatch.nix
-
       # ../2configs/graphite-standalone.nix
     ];
   krebs.urlwatch.verbose = true;
