@@ -127,7 +127,7 @@ let
   imp = {
 
     users.extraUsers.buildbotSlave = {
-      uid = 1408105834; #genid buildbotMaster
+      uid = genid "buildbotSlave";
       description = "Buildbot Slave";
       home = cfg.workDir;
       createHome = false;
