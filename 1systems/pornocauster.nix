@@ -26,6 +26,7 @@
       # services
       ../2configs/git/brain-retiolum.nix
       ../2configs/tor.nix
+      # ../2configs/buildbot-standalone.nix
 
       # hardware specifics are in here
       ../2configs/hw/tp-x220.nix
@@ -36,14 +37,14 @@
     ];
   nixpkgs.config.packageOverrides = pkgs: {
     tinc = pkgs.tinc_pre;
-    buildbot = let
-      pkgs1509 = import (fetchTarball https://github.com/NixOS/nixpkgs-channels/archive/nixos-unstable.tar.gz) {};
-      in pkgs1509.buildbot;
   };
-  makefu.buildbot.master.enable = true;
 
-  #krebs.Reaktor.enable = true;
-  #krebs.Reaktor.nickname = "makefu|r";
+  krebs.Reaktor = {
+    enable = true;
+    nickname = "makefu|r";
+    plugins = with pkgs.ReaktorPlugins; [ nixos-version random-emoji ];
+  };
+
   # nix.binaryCaches = [ "http://acng.shack/nixos" "https://cache.nixos.org" ];
 
   environment.systemPackages = with pkgs;[
