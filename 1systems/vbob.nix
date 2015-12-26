@@ -59,7 +59,6 @@ in {
     buildbot
     buildbot-slave
     get
-    genid
   ];
 
   networking.firewall.allowedTCPPorts = [
