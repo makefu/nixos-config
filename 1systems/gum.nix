@@ -6,11 +6,11 @@ let
   internal-ip = head config.krebs.build.host.nets.retiolum.addrs4;
 in {
   imports = [
-      # TODO: copy this config or move to krebs
       ../2configs/tinc-basic-retiolum.nix
       ../2configs/headless.nix
       ../2configs/fs/simple-swap.nix
       ../2configs/fs/single-partition-ext4.nix
+      ../2configs/smart-monitor.nix
       # ../2configs/iodined.nix
       ../2configs/git/cgit-retiolum.nix
       ../2configs/mattermost-docker.nix
@@ -18,6 +18,7 @@ in {
 
       ../2configs/exim-retiolum.nix
       ../2configs/urlwatch.nix
+
   ];
 
 
