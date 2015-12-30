@@ -18,8 +18,6 @@ in {
 
       ../2configs/iodined.nix
 
-      # Reaktor
-      ../2configs/Reaktor/simpleExtend.nix
 
       # other nginx
       ../2configs/nginx/euer.wiki.nix
@@ -29,9 +27,22 @@ in {
       # collectd
       ../2configs/collectd/collectd-base.nix
   ];
+
   krebs.build.host = config.krebs.hosts.wry;
 
-  krebs.Reaktor.enable = true;
+  krebs.Reaktor = {
+    nickname = "Reaktor|bot";
+    channels = [ "#krebs_test" ];
+    enable = true;
+    debug = true;
+    plugins = with pkgs.ReaktorPlugins;[
+                               titlebot
+                               # stockholm-issue
+                               nixos-version
+                               shack-correct
+                               sed-plugin
+                               random-emoji ];
+  };
 
   # bepasty to listen only on the correct interfaces
   krebs.bepasty.servers.internal.nginx.listen  = [ "${internal-ip}:80" ];
@@ -59,11 +70,11 @@ in {
   };
 
   networking = {
-  firewall = {
+    firewall = {
       allowPing = true;
       logRefusedConnections = false;
       allowedTCPPorts = [ 53 80 443 ];
-      allowedUDPPorts = [ 655 ];
+      allowedUDPPorts = [ 655 53 ];
     };
     interfaces.enp2s1.ip4 = [{
       address = external-ip;
