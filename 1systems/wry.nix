@@ -32,9 +32,8 @@ in {
 
   krebs.Reaktor = {
     nickname = "Reaktor|bot";
-    channels = [ "#krebs_test" ];
+    channels = [ "#krebs" "#shackspace" "#binaergewitter" ];
     enable = true;
-    debug = true;
     plugins = with pkgs.ReaktorPlugins;[
                                titlebot
                                # stockholm-issue
