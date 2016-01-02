@@ -17,15 +17,15 @@
     loader.grub.device = "/dev/sda";
 
     initrd.availableKernelModules = [
-      "usb_storage"
       "ahci"
-      "xhci_hcd"
-      "ata_piix"
-      "uhci_hcd"
+      "ohci_pci"
       "ehci_pci"
+      "pata_atiixp"
+      "usb_storage"
+      "usbhid"
     ];
 
-    kernelModules = [ ];
+    kernelModules = [ "kvm-amd" ];
     extraModulePackages = [ ];
   };
 
