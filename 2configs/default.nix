@@ -23,8 +23,8 @@ with lib;
       source = {
         git.nixpkgs = {
           #url = https://github.com/NixOS/nixpkgs;
-          url = mkDefault https://github.com/makefu/nixpkgs;
-          rev = mkDefault "3fd2c24685f604edc925f73ed56600b8c66236b3"; # nixos-15.09 + cherry-picking
+          url = mkDefault https://github.com/nixos/nixpkgs;
+          rev = mkDefault "93d8671e2c6d1d25f126ed30e5e6f16764330119"; # unstable @ 2015-01-03, tested on filepimp
           target-path = "/var/src/nixpkgs";
         };
 
