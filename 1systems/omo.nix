@@ -13,6 +13,7 @@
       ../2configs/zsh-user.nix
       ../2configs/exim-retiolum.nix
       ../2configs/smart-monitor.nix
+      ../2configs/mail-client.nix
     ];
   krebs.build.host = config.krebs.hosts.omo;
   services.smartd.devices = [
