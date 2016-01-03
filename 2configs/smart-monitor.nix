@@ -1,5 +1,6 @@
-{ config, ... }:
+{ config, lib, ... }:
 {
+  krebs.exim-retiolum.enable = lib.mkDefault true;
   services.smartd = {
     enable = true;
     notifications = {
@@ -11,7 +12,7 @@
     # short daily, long weekly, check on boot
     defaults.monitored = "-a -o on -s (S/../.././02|L/../../7/04)";
 
-    devices = [{
+    devices = lib.mkDefault [{
       device = "/dev/sda";
     }];
   };
