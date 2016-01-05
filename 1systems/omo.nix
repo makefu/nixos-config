@@ -8,6 +8,10 @@ let
   keyFile = "/dev/disk/by-id/usb-Verbatim_STORE_N_GO_070B3CEE0B223954-0:0";
   rootDisk = byid "ata-INTEL_SSDSA2M080G2GC_CVPO003402PB080BGN";
   homePartition = byid "ata-INTEL_SSDSA2M080G2GC_CVPO003402PB080BGN-part3";
+  # cryptsetup luksFormat $dev --cipher aes-xts-plain64 -s 512 -h sha512
+  # cryptsetup luksAddKey $dev tmpkey
+  # cryptsetup luksOpen $dev crypt0
+  # mkfs.xfs /dev/mapper/crypt0 -L crypt0
   cryptDisk0 = byid "ata-ST2000DM001-1CH164_Z240XTT6";
   cryptDisk1 = byid "ata-TP02000GB_TPW151006050068";
   cryptDisk2 = byid "ata-WDC_WD20EARS-00MVWB0_WD-WCAZA5548487";
@@ -23,15 +27,30 @@ in {
       ../2configs/exim-retiolum.nix
       ../2configs/smart-monitor.nix
       ../2configs/mail-client.nix
+      ../3modules
     ];
   krebs.build.host = config.krebs.hosts.omo;
   services.smartd.devices = builtins.map (x: { device = x; }) allDisks;
-
-  # AMD E350
-  fileSystems."/home" = {
-    device = "/dev/mapper/home";
-    fsType = "ext4";
+  makefu.snapraid = let
+    toMapper = id: "/media/crypt${builtins.toString id}";
+  in {
+    enable = true;
+    disks = map toMapper [ 0 1 ];
+    parity = toMapper 2;
   };
+  # AMD E350
+  fileSystems = let
+    cryptMount = name:
+      { "/media/${name}" = { device = "/dev/mapper/${name}"; fsType = "xfs"; };};
+  in {
+    "/home" = {
+      device = "/dev/mapper/home";
+      fsType = "ext4";
+    };
+  } // cryptMount "crypt0"
+    // cryptMount "crypt1"
+    // cryptMount "crypt2";
+
   powerManagement.powerUpCommands = lib.concatStrings (map (disk: ''
       ${pkgs.hdparm}/sbin/hdparm -S 100 ${disk}
       ${pkgs.hdparm}/sbin/hdparm -B 127 ${disk}

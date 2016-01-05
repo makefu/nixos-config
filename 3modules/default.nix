@@ -2,6 +2,7 @@ _:
 
 {
   imports = [
+    ./snapraid.nix
   ];
 }
 
