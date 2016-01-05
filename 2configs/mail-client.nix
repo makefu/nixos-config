@@ -7,6 +7,8 @@ with lib;
     mutt-kz
     notmuch
     offlineimap
+    imapfilter
+    gnupg
   ];
 
 }
