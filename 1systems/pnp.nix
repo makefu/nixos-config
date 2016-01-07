@@ -1,59 +1,51 @@
-# Edit this configuration file to define what should be installed on
-# your system.  Help is available in the configuration.nix(5) man page
-# and in the NixOS manual (accessible by running ‘nixos-help’).
-
+# Usage:
+#  NIX_PATH=secrets=/home/makefu/secrets/wry:nixpkgs=/var/src/nixpkgs  nix-build -A users.makefu.pnp.config.system.build.vm
+#  result/bin/run-pnp-vm -virtfs local,path=/home/makefu/secrets/pnp,security_model=none,mount_tag=secrets
 { config, pkgs, ... }:
 
 {
   imports =
-    [ # Include the results of the hardware scan.
-      # Base
+    [
       ../2configs/tinc-basic-retiolum.nix
       ../2configs/headless.nix
+      ../../krebs/3modules/Reaktor.nix
 
-      # HW/FS
-
-      # enables virtio kernel modules in initrd
+      # these will be overwritten by qemu-vm.nix but will be used if the system
+      # is directly deployed
       <nixpkgs/nixos/modules/profiles/qemu-guest.nix>
       ../2configs/fs/vm-single-partition.nix
 
-      # Services
-      ../2configs/git/cgit-retiolum.nix
-
-      ## Reaktor
-      ## \/ are only plugins, must enable Reaktor explicitly
-      ../2configs/Reaktor/stockholmLentil.nix
-      ../2configs/Reaktor/simpleExtend.nix
-      ../2configs/Reaktor/random-emoji.nix
-      ../2configs/Reaktor/titlebot.nix
-      ../2configs/Reaktor/shack-correct.nix
-
-      # ../2configs/graphite-standalone.nix
+      # config.system.build.vm
+      <nixpkgs/nixos/modules/virtualisation/qemu-vm.nix>
     ];
-  krebs.urlwatch.verbose = true;
 
-  krebs.Reaktor.enable = true;
-  krebs.Reaktor.debug = true;
-  krebs.Reaktor.nickname = "Reaktor|bot";
-  krebs.Reaktor.extraEnviron = {
-    REAKTOR_CHANNELS = "#krebs,#binaergewitter,#shackspace";
+  virtualisation.graphics = false;
+  # also export secrets, see Usage above
+  fileSystems = pkgs.lib.mkVMOverride {
+    "${builtins.toString <secrets>}" =
+      { device = "secrets";
+        fsType = "9p";
+        options = "trans=virtio,version=9p2000.L,cache=loose";
+        neededForBoot = true;
+      };
+  };
+
+  krebs.Reaktor = {
+    enable = true;
+    debug = true;
+    extraEnviron = {
+      REAKTOR_HOST = "cd.retiolum";
+    };
+    plugins = with pkgs.ReaktorPlugins; [ stockholm-issue nixos-version sed-plugin ];
+    channels = [ "#retiolum" ];
   };
 
   krebs.build.host = config.krebs.hosts.pnp;
 
   nixpkgs.config.packageOverrides = pkgs: { tinc = pkgs.tinc_pre; };
 
-
   networking.firewall.allowedTCPPorts = [
-  # nginx runs on 80
-  80
-  # graphite-web runs on 8080, carbon cache runs on 2003 tcp and udp
-  # 8080 2003
-
-  # smtp
   25
   ];
-
-  # networking.firewall.allowedUDPPorts = [ 2003 ];
 
 }
