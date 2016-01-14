@@ -12,8 +12,6 @@
     # short daily, long weekly, check on boot
     defaults.monitored = "-a -o on -s (S/../.././02|L/../../7/04)";
 
-    devices = lib.mkDefault [{
-      device = "/dev/sda";
-    }];
+    devices = lib.mkDefault [ ];
   };
 }

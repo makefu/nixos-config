@@ -27,9 +27,12 @@ in {
       ../2configs/exim-retiolum.nix
       ../2configs/smart-monitor.nix
       ../2configs/mail-client.nix
+      ../2configs/share-user-sftp.nix
       ../3modules
     ];
+  # services.openssh.allowSFTP = false;
   krebs.build.host = config.krebs.hosts.omo;
+  
 
   # copy config from <secrets/sabnzbd.ini> to /var/lib/sabnzbd/
   services.sabnzbd.enable = true;
@@ -102,5 +105,6 @@ in {
 
   zramSwap.enable = true;
   zramSwap.numDevices = 2;
+
 
 }
