@@ -35,12 +35,14 @@
       # ../2configs/mediawiki.nix
       #../2configs/wordpress.nix
     ];
+  hardware.sane.enable = true;
+  hardware.sane.extraBackends = [ pkgs.samsungUnifiedLinuxDriver ];
   nixpkgs.config.packageOverrides = pkgs: {
     tinc = pkgs.tinc_pre;
   };
 
   krebs.Reaktor = {
-    enable = true;
+    enable = false;
     nickname = "makefu|r";
     plugins = with pkgs.ReaktorPlugins; [ nixos-version random-emoji ];
   };
@@ -59,6 +61,7 @@
   hardware.pulseaudio.configFile = pkgs.writeText "pulse-default-pa" ''
     ${builtins.readFile "${config.hardware.pulseaudio.package}/etc/pulse/default.pa"}
     load-module module-alsa-sink device=hw:0,3 sink_properties=device.description="HDMIOutput" sink_name="HDMI"'';
+  networking.firewall.enable = false;
   networking.firewall.allowedTCPPorts = [
     25
   ];
