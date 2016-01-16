@@ -33,6 +33,7 @@ in {
     ];
   # services.openssh.allowSFTP = false;
   krebs.build.host = config.krebs.hosts.omo;
+  krebs.build.source.git.nixpkgs.rev = "d0e3cca04edd5d1b3d61f188b4a5f61f35cdf1ce";
 
   # copy config from <secrets/sabnzbd.ini> to /var/lib/sabnzbd/
   services.sabnzbd.enable = true;
