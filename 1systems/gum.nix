@@ -21,7 +21,7 @@ in {
 
   ];
 
-
+  services.smartd.devices = [ { device = "/dev/sda";} ];
   nixpkgs.config.packageOverrides = pkgs: { tinc = pkgs.tinc_pre; };
 
   ###### stable
@@ -32,6 +32,9 @@ in {
     ListenAddress = ${external-ip} 655
     ListenAddress = ${external-ip} 21031
   '';
+  krebs.nginx.servers.cgit.server-names = [
+    "cgit.euer.krebsco.de"
+  ];
 
   # Chat
   environment.systemPackages = with pkgs;[

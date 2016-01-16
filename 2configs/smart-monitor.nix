@@ -3,6 +3,7 @@
   krebs.exim-retiolum.enable = lib.mkDefault true;
   services.smartd = {
     enable = true;
+    autodetect = false;
     notifications = {
       mail = {
         enable = true;
