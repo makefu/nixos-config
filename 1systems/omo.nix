@@ -28,11 +28,11 @@ in {
       ../2configs/smart-monitor.nix
       ../2configs/mail-client.nix
       ../2configs/share-user-sftp.nix
+      ../2configs/nginx/omo-share.nix
       ../3modules
     ];
   # services.openssh.allowSFTP = false;
   krebs.build.host = config.krebs.hosts.omo;
-  
 
   # copy config from <secrets/sabnzbd.ini> to /var/lib/sabnzbd/
   services.sabnzbd.enable = true;
@@ -98,7 +98,7 @@ in {
 
   networking.firewall.allowedUDPPorts = [ 655 ];
   # 8080: sabnzbd
-  networking.firewall.allowedTCPPorts = [ 655 8080 ];
+  networking.firewall.allowedTCPPorts = [ 80 655 8080 ];
 
   hardware.enableAllFirmware = true;
   hardware.cpu.amd.updateMicrocode = true;
