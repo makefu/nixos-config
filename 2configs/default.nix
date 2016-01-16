@@ -13,7 +13,7 @@ with lib;
     ./vim.nix
   ];
 
-
+  nixpkgs.config.allowUnfreePredicate =  (pkg: pkgs.lib.hasPrefix "unrar-" pkg.name);
   krebs = {
     enable = true;
     search-domain = "retiolum";
