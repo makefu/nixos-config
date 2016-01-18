@@ -19,8 +19,7 @@ in
       bindkey -e
       # shift-tab
       bindkey '^[[Z' reverse-menu-complete
-
-      autoload -U compinit && compinit
+      bindkey "\e[3~" delete-char
       zstyle ':completion:*' menu select
 
       # load gpg-agent

@@ -6,18 +6,22 @@ let
   internal-ip = head config.krebs.build.host.nets.retiolum.addrs4;
 in {
   imports = [
-      # TODO: copy this config or move to krebs
       ../2configs/tinc-basic-retiolum.nix
       ../2configs/headless.nix
       ../2configs/fs/simple-swap.nix
       ../2configs/fs/single-partition-ext4.nix
+      ../2configs/smart-monitor.nix
       # ../2configs/iodined.nix
       ../2configs/git/cgit-retiolum.nix
       ../2configs/mattermost-docker.nix
       ../2configs/nginx/euer.test.nix
+
+      ../2configs/exim-retiolum.nix
+      ../2configs/urlwatch.nix
+
   ];
 
-
+  services.smartd.devices = [ { device = "/dev/sda";} ];
   nixpkgs.config.packageOverrides = pkgs: { tinc = pkgs.tinc_pre; };
 
   ###### stable
@@ -28,6 +32,9 @@ in {
     ListenAddress = ${external-ip} 655
     ListenAddress = ${external-ip} 21031
   '';
+  krebs.nginx.servers.cgit.server-names = [
+    "cgit.euer.krebsco.de"
+  ];
 
   # Chat
   environment.systemPackages = with pkgs;[

@@ -122,7 +122,7 @@ in {
       vimrcConfig.vam.knownPlugins = pkgs.vimPlugins // customPlugins;
       vimrcConfig.vam.pluginDictionaries = [
         { names = [ "undotree"
-          "YouCompleteMe"
+          # "YouCompleteMe"
           "vim-better-whitespace" ]; }
         { names = [ "vim-addon-nix" ]; ft_regex = "^nix\$"; }
       ];
