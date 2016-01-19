@@ -16,6 +16,9 @@ let
       desc = "Tinc Advanced Graph Generation";
     };
     cac = { };
+    init-stockholm = {
+      desc = "Init stuff for stockholm";
+    };
   };
 
   priv-repos = mapAttrs make-priv-repo {
