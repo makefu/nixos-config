@@ -32,9 +32,35 @@ in {
       ../3modules
     ];
   # services.openssh.allowSFTP = false;
-  krebs.build.host = config.krebs.hosts.omo;
   krebs.build.source.git.nixpkgs.rev = "d0e3cca04edd5d1b3d61f188b4a5f61f35cdf1ce";
 
+  # samba share /media/crypt1/share
+  users.extraUsers.smbguest = {
+    name = "smbguest";
+    uid = config.ids.uids.smbguest;
+    description = "smb guest user";
+    home = "/var/empty";
+  };
+  services.samba = {
+    enable = true;
+    shares = {
+      winshare = {
+        path = "/media/crypt1/share";
+        "read only" = "no";
+        browseable = "yes";
+        "guest ok" = "yes";
+      };
+    };
+    extraConfig = ''
+      guest account = smbguest
+      map to guest = bad user
+      # disable printing
+      load printers = no
+      printing = bsd
+      printcap name = /dev/null
+      disable spoolss = yes
+    '';
+  };
   # copy config from <secrets/sabnzbd.ini> to /var/lib/sabnzbd/
   services.sabnzbd.enable = true;
   systemd.services.sabnzbd.environment.SSL_CERT_FILE = "${pkgs.cacert}/etc/ssl/certs/ca-bundle.crt";
@@ -97,9 +123,22 @@ in {
     extraModulePackages = [ ];
   };
 
-  networking.firewall.allowedUDPPorts = [ 655 ];
-  # 8080: sabnzbd
-  networking.firewall.allowedTCPPorts = [ 80 655 8080 ];
+  networking.firewall.allowedUDPPorts = [
+    # tinc
+    655
+    # samba
+    137 138
+  ];
+  networking.firewall.allowedTCPPorts = [
+    # nginx
+    80
+    # tinc
+    655
+    # samba
+    445 139
+    # sabnzbd
+    8080
+  ];
 
   hardware.enableAllFirmware = true;
   hardware.cpu.amd.updateMicrocode = true;
@@ -107,5 +146,5 @@ in {
   zramSwap.enable = true;
   zramSwap.numDevices = 2;
 
-
+  krebs.build.host = config.krebs.hosts.omo;
 }
