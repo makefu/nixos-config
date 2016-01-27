@@ -31,11 +31,19 @@ in {
       ../2configs/nginx/omo-share.nix
       ../3modules
     ];
+  networking.firewall.trustedInterfaces = [ "enp3s0" ];
+  # udp:137 udp:138 tcp:445 tcp:139 - samba, allowed in local net
+  # tcp:80          - nginx for sharing files
+  # tcp:655 udp:655 - tinc
+  # tcp:8080        - sabnzbd
+  networking.firewall.allowedUDPPorts = [ 655 ];
+  networking.firewall.allowedTCPPorts = [ 80 655 8080 ];
+
   # services.openssh.allowSFTP = false;
   krebs.build.source.git.nixpkgs.rev = "d0e3cca04edd5d1b3d61f188b4a5f61f35cdf1ce";
 
   # samba share /media/crypt1/share
-  users.extraUsers.smbguest = {
+  users.users.smbguest = {
     name = "smbguest";
     uid = config.ids.uids.smbguest;
     description = "smb guest user";
@@ -61,6 +69,7 @@ in {
       disable spoolss = yes
     '';
   };
+
   # copy config from <secrets/sabnzbd.ini> to /var/lib/sabnzbd/
   services.sabnzbd.enable = true;
   systemd.services.sabnzbd.environment.SSL_CERT_FILE = "${pkgs.cacert}/etc/ssl/certs/ca-bundle.crt";
@@ -93,6 +102,7 @@ in {
       ${pkgs.hdparm}/sbin/hdparm -y ${disk}
     '') allDisks);
 
+  # crypto unlocking
   boot = {
     initrd.luks = {
       devices = let
@@ -122,23 +132,6 @@ in {
     kernelModules = [ "kvm-amd" ];
     extraModulePackages = [ ];
   };
-
-  networking.firewall.allowedUDPPorts = [
-    # tinc
-    655
-    # samba
-    137 138
-  ];
-  networking.firewall.allowedTCPPorts = [
-    # nginx
-    80
-    # tinc
-    655
-    # samba
-    445 139
-    # sabnzbd
-    8080
-  ];
 
   hardware.enableAllFirmware = true;
   hardware.cpu.amd.updateMicrocode = true;
