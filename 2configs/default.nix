@@ -20,10 +20,10 @@ with lib;
     build =  {
       target = mkDefault "root@${config.krebs.build.host.name}";
       user = config.krebs.users.makefu;
-      source =  {
+      source =  mapAttrs (_: mkDefault) {
         upstream-nixpkgs = {
-          url = mkDefault https://github.com/nixos/nixpkgs;
-          rev = mkDefault "93d8671e2c6d1d25f126ed30e5e6f16764330119"; # unstable @ 2015-01-03, tested on filepimp
+          url = https://github.com/nixos/nixpkgs;
+          rev = "93d8671e2c6d1d25f126ed30e5e6f16764330119"; # unstable @ 2015-01-03, tested on filepimp
         };
         secrets = "/home/makefu/secrets/${config.krebs.build.host.name}/";
         stockholm = "/home/makefu/stockholm";
@@ -80,11 +80,7 @@ with lib;
   ];
 
   environment.variables = {
-    NIX_PATH = with config.krebs.build.source; with dir; with git;
-      mkForce (concatStringsSep ":" [
-        "nixpkgs=${nixpkgs.target-path}"
-        "${nixpkgs.target-path}"
-      ]);
+    NIX_PATH = mkForce "/var/src";
     EDITOR = mkForce "vim";
   };
 
