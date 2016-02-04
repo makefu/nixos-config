@@ -37,8 +37,8 @@
     extraEnviron = { NIX_PATH="nixpkgs=${toString <nixpkgs>}"; };
   };
 
-  krebs.build.source.git.nixpkgs = {
-    #url = https://github.com/nixos/nixpkgs;
+  krebs.build.source.nixpkgs = {
+    # url = https://github.com/nixos/nixpkgs;
     # HTTP Everywhere + libredir
     rev = "8239ac6";
   };
