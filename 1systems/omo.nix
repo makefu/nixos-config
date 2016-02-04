@@ -29,7 +29,6 @@ in {
       ../2configs/mail-client.nix
       ../2configs/share-user-sftp.nix
       ../2configs/omo-share.nix
-      ../3modules
     ];
   networking.firewall.trustedInterfaces = [ "enp3s0" ];
   # udp:137 udp:138 tcp:445 tcp:139 - samba, allowed in local net
