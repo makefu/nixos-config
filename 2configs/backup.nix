@@ -24,7 +24,7 @@ let
     };
   };
 in {
-  krebs.backup.plans = addNames {
+  krebs.backup.plans = {
     wry-to-omo_var-www = defaultPull wry "/var/www";
   };
 }
