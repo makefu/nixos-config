@@ -18,27 +18,8 @@
     tinc = pkgs.tinc_pre;
   };
 
-  makefu.buildbot.master = {
-    enable = false;
-    irc = {
-      enable = true;
-      server = "cd.retiolum";
-      channel = "retiolum";
-      allowForce = true;
-    };
-  };
-  # services.logstash.enable = true;
-  makefu.buildbot.slave = {
-    enable = false;
-    masterhost = "localhost";
-    username = "testslave";
-    password = "krebspass";
-    packages = with pkgs;[ git nix ];
-    extraEnviron = { NIX_PATH="nixpkgs=${toString <nixpkgs>}"; };
-  };
-
-  krebs.build.source.git.nixpkgs = {
-    #url = https://github.com/nixos/nixpkgs;
+  krebs.build.source.nixpkgs = {
+    # url = https://github.com/nixos/nixpkgs;
     # HTTP Everywhere + libredir
     rev = "8239ac6";
   };

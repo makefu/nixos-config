@@ -28,8 +28,7 @@ in {
       ../2configs/smart-monitor.nix
       ../2configs/mail-client.nix
       ../2configs/share-user-sftp.nix
-      ../2configs/nginx/omo-share.nix
-      ../3modules
+      ../2configs/omo-share.nix
     ];
   networking.firewall.trustedInterfaces = [ "enp3s0" ];
   # udp:137 udp:138 tcp:445 tcp:139 - samba, allowed in local net
@@ -40,35 +39,7 @@ in {
   networking.firewall.allowedTCPPorts = [ 80 655 8080 ];
 
   # services.openssh.allowSFTP = false;
-  krebs.build.source.git.nixpkgs.rev = "d0e3cca04edd5d1b3d61f188b4a5f61f35cdf1ce";
-
-  # samba share /media/crypt1/share
-  users.users.smbguest = {
-    name = "smbguest";
-    uid = config.ids.uids.smbguest;
-    description = "smb guest user";
-    home = "/var/empty";
-  };
-  services.samba = {
-    enable = true;
-    shares = {
-      winshare = {
-        path = "/media/crypt1/share";
-        "read only" = "no";
-        browseable = "yes";
-        "guest ok" = "yes";
-      };
-    };
-    extraConfig = ''
-      guest account = smbguest
-      map to guest = bad user
-      # disable printing
-      load printers = no
-      printing = bsd
-      printcap name = /dev/null
-      disable spoolss = yes
-    '';
-  };
+  krebs.build.source.nixpkgs.rev = "d0e3cca04edd5d1b3d61f188b4a5f61f35cdf1ce";
 
   # copy config from <secrets/sabnzbd.ini> to /var/lib/sabnzbd/
   services.sabnzbd.enable = true;
