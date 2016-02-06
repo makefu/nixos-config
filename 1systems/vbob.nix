@@ -71,7 +71,6 @@
   krebs.retiolum = {
     enable = true;
     extraConfig = "Proxy = http global.proxy.alcatel-lucent.com 8000";
-    hosts = ../../krebs/Zhosts;
     connectTo = [
       "gum"
     ];
