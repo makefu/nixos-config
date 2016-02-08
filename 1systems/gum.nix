@@ -26,7 +26,6 @@ in {
   nixpkgs.config.packageOverrides = pkgs: { tinc = pkgs.tinc_pre; };
 
   ###### stable
-  krebs.build.target = "root@gum.krebsco.de";
   krebs.build.host = config.krebs.hosts.gum;
   krebs.retiolum.extraConfig = ''
     ListenAddress = ${external-ip} 53
