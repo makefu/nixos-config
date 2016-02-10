@@ -18,8 +18,8 @@
     tinc = pkgs.tinc_pre;
   };
 
-  krebs.build.source.nixpkgs = {
-    # url = https://github.com/nixos/nixpkgs;
+  krebs.build.source.upstream-nixpkgs = {
+    url = https://github.com/makefu/nixpkgs;
     # HTTP Everywhere + libredir
     rev = "8239ac6";
   };
@@ -39,7 +39,6 @@
     buildbot
     buildbot-slave
     get
-    genid
     logstash
   ];
 
