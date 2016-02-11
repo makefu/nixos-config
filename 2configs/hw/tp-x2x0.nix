@@ -18,18 +18,18 @@ with lib;
     sensitivity = 220;
     speed = 220;
     emulateWheel = true;
-    };
+  };
 
 
   services.tlp.enable = true;
   services.tlp.extraConfig = ''
-  START_CHARGE_THRESH_BAT0=80
+    START_CHARGE_THRESH_BAT0=80
 
-  CPU_SCALING_GOVERNOR_ON_AC=performance
-  CPU_SCALING_GOVERNOR_ON_BAT=ondemand
-  CPU_MIN_PERF_ON_AC=0
-  CPU_MAX_PERF_ON_AC=100
-  CPU_MIN_PERF_ON_BAT=0
-  CPU_MAX_PERF_ON_BAT=30
+    CPU_SCALING_GOVERNOR_ON_AC=performance
+    CPU_SCALING_GOVERNOR_ON_BAT=ondemand
+    CPU_MIN_PERF_ON_AC=0
+    CPU_MAX_PERF_ON_AC=100
+    CPU_MIN_PERF_ON_BAT=0
+    CPU_MAX_PERF_ON_BAT=30
   '';
 }

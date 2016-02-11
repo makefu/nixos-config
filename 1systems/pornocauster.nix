@@ -18,7 +18,6 @@
       ../2configs/exim-retiolum.nix
       ../2configs/mail-client.nix
       ../2configs/printer.nix
-      #../2configs/virtualization.nix
       ../2configs/virtualization.nix
       ../2configs/virtualization-virtualbox.nix
       ../2configs/wwan.nix
@@ -35,33 +34,13 @@
       # ../2configs/mediawiki.nix
       #../2configs/wordpress.nix
     ];
-  hardware.sane.enable = true;
-  hardware.sane.extraBackends = [ pkgs.samsungUnifiedLinuxDriver ];
+
   nixpkgs.config.packageOverrides = pkgs: {
     tinc = pkgs.tinc_pre;
   };
 
-  krebs.Reaktor = {
-    enable = false;
-    nickname = "makefu|r";
-    plugins = with pkgs.ReaktorPlugins; [ nixos-version random-emoji ];
-  };
-
-  # nix.binaryCaches = [ "http://acng.shack/nixos" "https://cache.nixos.org" ];
-
-  environment.systemPackages = with pkgs;[
-    get
-    virtmanager
-    gnome3.dconf
-    krebspaste
-    ];
-
-  services.logind.extraConfig = "HandleLidSwitch=ignore";
   # configure pulseAudio to provide a HDMI sink as well
-  hardware.pulseaudio.configFile = pkgs.writeText "pulse-default-pa" ''
-    ${builtins.readFile "${config.hardware.pulseaudio.package}/etc/pulse/default.pa"}
-    load-module module-alsa-sink device=hw:0,3 sink_properties=device.description="HDMIOutput" sink_name="HDMI"'';
-  networking.firewall.enable = false;
+  networking.firewall.enable = true;
   networking.firewall.allowedTCPPorts = [
     25
   ];

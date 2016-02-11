@@ -44,6 +44,8 @@ in
     displayManager.auto.user = mainUser;
     desktopManager.xterm.enable = false;
   };
+  # lid switch is handled via button presses
+  services.logind.extraConfig = mkDefault "HandleLidSwitch=ignore";
   nixpkgs.config.packageOverrides = pkgs: rec {
     awesome = pkgs.stdenv.lib.overrideDerivation pkgs.awesome (oldAttrs : {
       postFixup = ''

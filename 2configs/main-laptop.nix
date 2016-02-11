@@ -3,6 +3,7 @@
 # stuff for the main laptop
 # this is pretty much nice-to-have and does
 # not fit into base-gui
+# TODO split generic desktop stuff and laptop-specifics like lidswitching
 
 with lib;
 {
@@ -17,8 +18,10 @@ with lib;
     chromium
     keepassx
     ntfs3g
+    at_spi2_core
+    gnome3.dconf
     virtmanager
-    at_spi2_core # dep for virtmanager?
+    krebspaste
   ];
 
   services.redshift = {
