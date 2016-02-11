@@ -4,7 +4,6 @@
 { lib, config, pkgs, ... }:
 {
   krebs.build.host = config.krebs.hosts.vbob;
-  krebs.build.target = "root@10.10.10.220";
   imports =
     [ # Include the results of the hardware scan.
       <nixpkgs/nixos/modules/virtualisation/virtualbox-image.nix>
@@ -51,7 +50,6 @@
   krebs.retiolum = {
     enable = true;
     extraConfig = "Proxy = http global.proxy.alcatel-lucent.com 8000";
-    hosts = ../../krebs/Zhosts;
     connectTo = [
       "gum"
     ];
