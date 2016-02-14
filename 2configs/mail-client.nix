@@ -1,6 +1,6 @@
 { config, lib, pkgs, ... }:
 
-with lib;
+with config.krebs.lib;
 {
   environment.systemPackages = with pkgs; [
     msmtp

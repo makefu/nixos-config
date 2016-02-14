@@ -1,6 +1,6 @@
 { config, lib, pkgs, ... }:
 
-with lib;
+with config.krebs.lib;
 let
 
   external-ip = head config.krebs.build.host.nets.internet.addrs4;

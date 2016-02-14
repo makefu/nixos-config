@@ -1,6 +1,6 @@
 { config, lib, pkgs, ... }:
 
-with lib;
+with config.krebs.lib;
 {
 
   imports = [ ./tp-x2x0.nix ];

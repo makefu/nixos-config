@@ -1,6 +1,6 @@
 { config, lib, pkgs, ... }:
 
-with lib;
+with config.krebs.lib;
 {
   # TODO: put this somewhere else
   networking.wireless.enable = true;

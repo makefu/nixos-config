@@ -1,7 +1,7 @@
 { config, lib, pkgs, ... }:
 
 # vda1 ext4 (label nixos) -> only root partition
-with lib;
+with config.krebs.lib;
 {
   imports = [
     ./single-partition-ext4.nix

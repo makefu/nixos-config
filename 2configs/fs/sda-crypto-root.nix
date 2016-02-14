@@ -3,7 +3,7 @@
 # sda:  bootloader grub2
 # sda1: boot ext4 (label nixboot)
 # sda2: cryptoluks -> ext4
-with lib;
+with config.krebs.lib;
 {
   boot = {
     loader.grub.enable = true;

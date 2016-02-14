@@ -1,7 +1,7 @@
 { config, lib, pkgs, ... }:
 
 # vda1 ext4 (label nixos) -> only root partition
-with lib;
+with config.krebs.lib;
 {
   boot.loader.grub.enable = true;
   boot.loader.grub.version = 2;

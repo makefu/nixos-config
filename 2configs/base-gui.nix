@@ -21,7 +21,7 @@
 # URxvt.visualBell: false
 # URxvt.font : xft:Terminus
 
-with lib;
+with config.krebs.lib;
 let
   mainUser = config.krebs.build.user.name;
   awesomecfg = pkgs.awesomecfg.full;
