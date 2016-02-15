@@ -2,6 +2,7 @@
 {
   imports =
     [ # Include the results of the hardware scan.
+      ../.
       ../2configs/main-laptop.nix
     ];
   krebs = {

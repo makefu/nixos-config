@@ -7,6 +7,7 @@
 {
   imports =
     [ # Include the results of the hardware scan.
+      ../.
       <nixpkgs/nixos/modules/profiles/qemu-guest.nix>
       ../2configs/cgit-retiolum.nix
     ];
