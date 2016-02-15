@@ -32,7 +32,7 @@ let
 
   out = {
     options.makefu.umts = api;
-    config = mkIf cfg.enable imp;
+    config = lib.mkIf cfg.enable imp;
   };
 
   api = {

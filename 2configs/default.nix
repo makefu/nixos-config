@@ -18,7 +18,6 @@ with config.krebs.lib;
     enable = true;
     search-domain = "retiolum";
     build =  {
-      target = mkDefault "root@${config.krebs.build.host.name}";
       user = config.krebs.users.makefu;
       source =  mapAttrs (_: mkDefault) {
         nixpkgs = {

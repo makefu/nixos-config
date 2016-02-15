@@ -28,7 +28,7 @@ let
 
   out = {
     options.makefu.snapraid = api;
-    config = mkIf cfg.enable imp;
+    config = lib.mkIf cfg.enable imp;
   };
 
   api = {
