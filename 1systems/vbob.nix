@@ -6,6 +6,7 @@
   krebs.build.host = config.krebs.hosts.vbob;
   imports =
     [ # Include the results of the hardware scan.
+      ../.
       <nixpkgs/nixos/modules/virtualisation/virtualbox-image.nix>
       ../2configs/main-laptop.nix #< base-gui
 

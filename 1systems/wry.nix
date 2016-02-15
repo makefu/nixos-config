@@ -1,12 +1,13 @@
 { config, lib, pkgs, ... }:
 
-with lib;
+with config.krebs.lib;
 let
 
   external-ip = head config.krebs.build.host.nets.internet.addrs4;
   internal-ip = head config.krebs.build.host.nets.retiolum.addrs4;
 in {
   imports = [
+      ../.
       # TODO: copy this config or move to krebs
       ../../tv/2configs/hw/CAC.nix
       ../../tv/2configs/fs/CAC-CentOS-7-64bit.nix

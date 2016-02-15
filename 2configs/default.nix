@@ -1,6 +1,6 @@
 { config, lib, pkgs, ... }:
 
-with lib;
+with config.krebs.lib;
 {
   system.stateVersion = "15.09";
 
@@ -20,7 +20,7 @@ with lib;
     build =  {
       user = config.krebs.users.makefu;
       source =  mapAttrs (_: mkDefault) {
-        upstream-nixpkgs = {
+        nixpkgs = {
           url = https://github.com/nixos/nixpkgs;
           rev = "77f8f35d57618c1ba456d968524f2fb2c3448295"; # unstable @ 2015-01-27, tested on wry
         };
@@ -29,8 +29,6 @@ with lib;
 
         # Defaults for all stockholm users?
         nixos-config = "symlink:stockholm/${config.krebs.build.user.name}/1systems/${config.krebs.build.host.name}.nix";
-        nixpkgs = symlink:stockholm/nixpkgs;
-        stockholm-user = "symlink:stockholm/${config.krebs.build.user.name}";
       };
     };
   };

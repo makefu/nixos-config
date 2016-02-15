@@ -1,11 +1,12 @@
 { config, lib, pkgs, ... }:
 
-with lib;
+with config.krebs.lib;
 let
   external-ip = head config.krebs.build.host.nets.internet.addrs4;
   internal-ip = head config.krebs.build.host.nets.retiolum.addrs4;
 in {
   imports = [
+      ../.
       ../2configs/tinc-basic-retiolum.nix
       ../2configs/headless.nix
       ../2configs/fs/simple-swap.nix

@@ -1,5 +1,5 @@
 { config, lib, ... }:
-with lib;
+with config.krebs.lib;
 let
   startAt = "0,6,12,18:00";
   defaultBackupServer = config.krebs.hosts.omo;

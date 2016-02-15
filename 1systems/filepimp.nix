@@ -11,6 +11,7 @@ let
 in {
   imports =
     [ # Include the results of the hardware scan.
+      ../.
       ../2configs/fs/single-partition-ext4.nix
       ../2configs/tinc-basic-retiolum.nix
       ../2configs/smart-monitor.nix

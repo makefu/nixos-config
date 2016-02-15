@@ -1,6 +1,6 @@
 { config, lib, pkgs, ... }:
 # TODO: remove tv lib :)
-with lib;
+with config.krebs.lib;
 let
 
   repos = priv-repos // krebs-repos ;

@@ -5,7 +5,7 @@
 # not fit into base-gui
 # TODO split generic desktop stuff and laptop-specifics like lidswitching
 
-with lib;
+with config.krebs.lib;
 {
   imports = [
     ./base-gui.nix

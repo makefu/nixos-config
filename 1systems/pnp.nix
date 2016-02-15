@@ -6,6 +6,7 @@
 {
   imports =
     [
+      ../.
       ../2configs/tinc-basic-retiolum.nix
       ../2configs/headless.nix
       ../../krebs/3modules/Reaktor.nix

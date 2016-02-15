@@ -2,7 +2,7 @@
 
 # graphite-web on port 8080
 # carbon cache on port 2003 (tcp/udp)
-with lib;
+with config.krebs.lib;
 let
   connect-time-cfg = with pkgs; writeText "collectd-connect-time.cfg" ''
     LoadPlugin python

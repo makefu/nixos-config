@@ -20,6 +20,7 @@ let
 in {
   imports =
     [
+      ../.
       # TODO: unlock home partition via ssh
       ../2configs/fs/single-partition-ext4.nix
       ../2configs/tinc-basic-retiolum.nix

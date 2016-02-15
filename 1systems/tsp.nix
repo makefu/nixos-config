@@ -6,6 +6,7 @@
 {
   imports =
     [ # Include the results of the hardware scan.
+      ../.
       ../2configs/base-gui.nix
       ../2configs/tinc-basic-retiolum.nix
       ../2configs/fs/sda-crypto-root.nix
