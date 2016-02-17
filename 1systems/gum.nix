@@ -17,6 +17,7 @@ in {
       ../2configs/mattermost-docker.nix
       ../2configs/nginx/euer.test.nix
       ../2configs/nginx/update.connector.one.nix
+      ../2configs/deployment/mycube.connector.one.nix
 
       ../2configs/exim-retiolum.nix
       ../2configs/urlwatch.nix

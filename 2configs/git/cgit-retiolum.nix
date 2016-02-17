@@ -57,7 +57,7 @@ let
 
 
   # TODO: get the list of all krebsministers
-  krebsminister = with config.krebs.users; [ lass tv uriel ];
+  krebsminister = with config.krebs.users; [ lass tv ];
   all-makefu = with config.krebs.users; [ makefu makefu-omo makefu-tsp makefu-vbob ];
   all-exco = with config.krebs.users; [ exco ];
 
