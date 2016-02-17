@@ -2,8 +2,7 @@
 
 with config.krebs.lib;
 {
-  # TODO: put this somewhere else
-  networking.wireless.enable = true;
+  networking.wireless.enable = lib.mkDefault true;
 
   hardware.enableAllFirmware = true;
   nixpkgs.config.allowUnfree = true;
