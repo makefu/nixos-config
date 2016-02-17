@@ -3,7 +3,6 @@
 with pkgs.pythonPackages;buildPythonPackage rec {
   name = "mycube-flask-${version}";
   version = "0.2.3";
-  disabled = isPy3k || isPyPy;
   propagatedBuildInputs = [
     flask
     redis
