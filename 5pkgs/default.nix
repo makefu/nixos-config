@@ -10,5 +10,6 @@ in
     alsa-hdsploader = callPackage ./alsa-tools { alsaToolTarget="hdsploader";};
     awesomecfg = callPackage ./awesomecfg {};
     tw-upload-plugin = callPackage ./tw-upload-plugin {};
+    mycube-flask = callPackage ./mycube-flask {};
   };
 }
