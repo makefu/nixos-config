@@ -16,7 +16,7 @@ in {
       vassals = {
         mycube-flask = {
           type = "normal";
-          python2Packages = self: with self; [ pkgs.mycube-flask self.flask self.redis self.werkzeug self.jinja2 self.markupsafe itsdangerous ];
+          python2Packages = self: with self; [ pkgs.mycube-flask flask redis werkzeug jinja2 markupsafe itsdangerous ];
           socket = wsgi-sock;
         };
       };
