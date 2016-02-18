@@ -12,6 +12,9 @@ with config.krebs.lib;
     ./fetchWallpaper.nix
     ./zsh-user.nix
   ];
+
+  users.users.${config.krebs.build.user.name}.extraGroups = [ "dialout" ];
+
   environment.systemPackages = with pkgs;[
     vlc
     firefox
