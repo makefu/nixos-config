@@ -15,7 +15,7 @@ let
     tinc_graphs = {
       desc = "Tinc Advanced Graph Generation";
     };
-    cac = { };
+    cac-api = { };
     init-stockholm = {
       desc = "Init stuff for stockholm";
     };
