@@ -3,6 +3,7 @@
 with config.krebs.lib;
 {
   environment.systemPackages = with pkgs; [
+    abook
     msmtp
     mutt-kz
     notmuch
@@ -10,5 +11,4 @@ with config.krebs.lib;
     imapfilter
     gnupg
   ];
-
 }

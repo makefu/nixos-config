@@ -11,21 +11,11 @@ with config.krebs.lib;
     ./base-gui.nix
     ./fetchWallpaper.nix
     ./zsh-user.nix
+    ./laptop-utils.nix
   ];
 
   users.users.${config.krebs.build.user.name}.extraGroups = [ "dialout" ];
 
-  environment.systemPackages = with pkgs;[
-    vlc
-    firefox
-    chromium
-    keepassx
-    ntfs3g
-    at_spi2_core
-    gnome3.dconf
-    virtmanager
-    krebspaste
-  ];
 
   services.redshift = {
     enable = true;
