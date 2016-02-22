@@ -9,7 +9,8 @@ in
     alsa-hdspconf = callPackage ./alsa-tools { alsaToolTarget="hdspconf";};
     alsa-hdsploader = callPackage ./alsa-tools { alsaToolTarget="hdsploader";};
     awesomecfg = callPackage ./awesomecfg {};
-    tw-upload-plugin = callPackage ./tw-upload-plugin {};
+    nodemcu-uploader = callPackage ./nodemcu-uploader {};
     mycube-flask = callPackage ./mycube-flask {};
+    tw-upload-plugin = callPackage ./tw-upload-plugin {};
   };
 }
