@@ -14,6 +14,7 @@ let
 
   priv-repos = mapAttrs make-priv-repo {
     autosync = { };
+    pass     = { };
   };
 
   # TODO move users to separate module
