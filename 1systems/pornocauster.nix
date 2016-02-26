@@ -8,6 +8,7 @@
     [ # Include the results of the hardware scan.
       ../.
       ../2configs/main-laptop.nix #< base-gui + zsh
+      ../2configs/laptop-utils.nix
 
       # Krebs
       ../2configs/tinc-basic-retiolum.nix
@@ -39,6 +40,9 @@
   nixpkgs.config.packageOverrides = pkgs: {
     tinc = pkgs.tinc_pre;
   };
+  # steam
+  hardware.opengl.driSupport32Bit = true;
+  hardware.pulseaudio.support32Bit = true;
 
   # configure pulseAudio to provide a HDMI sink as well
   networking.firewall.enable = true;
