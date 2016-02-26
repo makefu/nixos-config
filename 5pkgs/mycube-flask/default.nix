@@ -2,7 +2,7 @@
 
 with pkgs.pythonPackages;buildPythonPackage rec {
   name = "mycube-flask-${version}";
-  version = "0.2.3";
+  version = "0.2.3.4";
   propagatedBuildInputs = [
     flask
     redis
