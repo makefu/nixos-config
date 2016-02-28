@@ -6,6 +6,10 @@
 # essentially `nix-env -q` of the main user
 # TODO: split gui and non-gui
 {
+  nixpkgs.config.firefox = {
+    enableAdobeFlash = true;
+  };
+
   krebs.per-user.makefu.packages = with pkgs; [
     # core
     at_spi2_core

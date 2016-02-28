@@ -11,7 +11,6 @@ in {
       # TODO: copy this config or move to krebs
       ../../tv/2configs/hw/CAC.nix
       ../../tv/2configs/fs/CAC-CentOS-7-64bit.nix
-      ../2configs/unstable-sources.nix
       ../2configs/headless.nix
       ../2configs/tinc-basic-retiolum.nix
 
@@ -28,7 +27,8 @@ in {
       # collectd
       ../2configs/collectd/collectd-base.nix
   ];
-
+  services.nixosManual.enable = false;
+  programs.man.enable = false;
   krebs.build.host = config.krebs.hosts.wry;
 
   krebs.Reaktor = {
