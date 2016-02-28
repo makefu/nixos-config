@@ -4,13 +4,6 @@ with config.krebs.lib;
 {
   system.stateVersion = "15.09";
 
-  system.replaceRuntimeDependencies = with pkgs.lib;
-        [{original = pkgs.glibc; replacement = pkgs.stdenv.lib.overrideDerivation pkgs.glibc (oldAttr: { patches = oldAttr.patches ++
-          [(pkgs.fetchurl { url = "https://raw.githubusercontent.com/NixOS/nixpkgs/fc48bf5a2ceb908b73dc035374e2ec5a31086aa2/pkgs/development/libraries/glibc/cve-2015-7547.patch";
-                            sha256 = "0awpc4rp2x27rjpj83ps0rclmn73hsgfv2xxk18k82w4hdxqpp5r";})];
-        });}
-        ];
-
   imports = [
     {
       users.extraUsers =
@@ -29,7 +22,7 @@ with config.krebs.lib;
       source =  mapAttrs (_: mkDefault) {
         nixpkgs = {
           url = https://github.com/nixos/nixpkgs;
-          rev = "77f8f35d57618c1ba456d968524f2fb2c3448295"; # unstable @ 2015-01-27, tested on wry
+          rev = "40c586b7ce2c559374df435f46d673baf711c543"; # unstable @ 2016-02-27, tested on wry
         };
         secrets = "/home/makefu/secrets/${config.krebs.build.host.name}/";
         stockholm = "/home/makefu/stockholm";
