@@ -1,4 +1,4 @@
-{ services,builtins,environment,pkgs, ... }:
+{ pkgs, config, ... }:
 
 let
   # TODO: make this a parameter
@@ -10,7 +10,7 @@ in {
     enable = true;
     domain = domain;
     ip = "172.16.10.1/24";
-    extraConfig = "-P ${pw}";
+    extraConfig = "-P ${pw} -l ${pkgs.lib.head config.krebs.build.host.nets.internet.addrs4}";
   };
 
 }
