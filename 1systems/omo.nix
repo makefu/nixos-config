@@ -12,11 +12,25 @@ let
   # cryptsetup luksAddKey $dev tmpkey
   # cryptsetup luksOpen $dev crypt0
   # mkfs.xfs /dev/mapper/crypt0 -L crypt0
+
+  # omo Chassis:
+  # __FRONT_
+  # |* d2   |
+  # |       |
+  # |* d3   |
+  # |       |
+  # |* d0   |
+  # |       |
+  # |* d1   |
+  # |*      |
+  # |  * r0 |
+  # |_______|
   cryptDisk0 = byid "ata-ST2000DM001-1CH164_Z240XTT6";
   cryptDisk1 = byid "ata-TP02000GB_TPW151006050068";
-  cryptDisk2 = byid "ata-WDC_WD20EARS-00MVWB0_WD-WCAZA5548487";
+  # cryptDisk2 = byid "ata-WDC_WD20EARS-00MVWB0_WD-WCAZA5548487";
+  cryptDisk3 = byid "ata-WDC_WD20EARS-00MVWB0_WD-WMAZA1786907";
   # all physical disks
-  allDisks = [ rootDisk cryptDisk0 cryptDisk1 cryptDisk2 ];
+  allDisks = [ rootDisk cryptDisk0 cryptDisk1 cryptDisk3 ];
 in {
   imports =
     [
@@ -85,7 +99,7 @@ in {
         (usbkey "home" homePartition)
         (usbkey "crypt0" cryptDisk0)
         (usbkey "crypt1" cryptDisk1)
-        (usbkey "crypt2" cryptDisk2)
+        (usbkey "crypt2" cryptDisk3)
       ];
     };
     loader.grub.device = rootDisk;
