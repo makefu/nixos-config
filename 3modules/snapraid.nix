@@ -35,7 +35,7 @@ let
     enable = mkEnableOption "snapraid";
 
     timerConfig = mkOption {
-      type = types.unspecified;
+      type = with types;attrsOf str;
       description = ''
         Start snapraid service
       '';
