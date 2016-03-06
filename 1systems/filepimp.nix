@@ -3,11 +3,19 @@ let
   byid = dev: "/dev/disk/by-id/" + dev;
   part1 = disk: disk + "-part1";
   rootDisk = byid "ata-SanDisk_SDSSDP064G_140237402890";
-  jDisk0 = byid "ata-ST4000DM000-1F2168_Z303HVSG";
+  # N54L Chassis:
+  # ____________________
+  # |______FRONT_______|
+  # |   [             ]|
+  # |   [ d1 ** d3 d4 ]|
+  # |___[_____________]|
   jDisk1 = byid "ata-ST4000DM000-1F2168_Z3040NEA";
+
+  # transfer to omo
+  # jDisk0 = byid "ata-ST4000DM000-1F2168_Z303HVSG";
   jDisk2 = byid "ata-WDC_WD40EFRX-68WT0N0_WD-WCC4E0621363";
   jDisk3 = byid "ata-TOSHIBA_MD04ACA400_156GK89OFSBA";
-  allDisks = [ rootDisk jDisk0 jDisk1 jDisk2 jDisk3 ];
+  allDisks = [ rootDisk jDisk1 jDisk2 jDisk3 ];
 in {
   imports =
     [ # Include the results of the hardware scan.
@@ -44,7 +52,11 @@ in {
   in {
     enable = true;
     # todo combine creation when enabling the mount point
-    disks = map toMedia [ "j0" "j1" "j2" ];
+    disks = map toMedia [
+                        # "j0"
+                          "j1"
+                          "j2"
+                        ];
     parity = toMedia "par0";
   };
   # TODO: refactor, copy-paste from omo
@@ -58,8 +70,9 @@ in {
     xfsmount = name: dev:
       { "/media/${name}" = { device = dev; fsType = "xfs"; }; };
   in
-        (xfsmount "j0" (part1 jDisk0))
-    //  (xfsmount "j1" (part1 jDisk1))
-    //  (xfsmount "j2" (part1 jDisk2))
-    //  (xfsmount "par0" (part1 jDisk3));
+  # (xfsmount "j0" (part1 jDisk0))   //
+    (xfsmount "j1" (part1 jDisk1))   //
+    (xfsmount "j2" (part1 jDisk2))   //
+    (xfsmount "par0" (part1 jDisk3))
+    ;
 }
