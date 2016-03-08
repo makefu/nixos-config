@@ -10,8 +10,8 @@ let
   homePartition = byid "ata-INTEL_SSDSA2M080G2GC_CVPO003402PB080BGN-part3";
   # cryptsetup luksFormat $dev --cipher aes-xts-plain64 -s 512 -h sha512
   # cryptsetup luksAddKey $dev tmpkey
-  # cryptsetup luksOpen $dev crypt0
-  # mkfs.xfs /dev/mapper/crypt0 -L crypt0
+  # cryptsetup luksOpen $dev crypt0 --key-file tmpkey --keyfile-size=4096
+  # mkfs.ext4 /dev/mapper/crypt0 -L crypt0 -T largefile
 
   # omo Chassis:
   # __FRONT_
@@ -27,10 +27,10 @@ let
   # |_______|
   cryptDisk0 = byid "ata-ST2000DM001-1CH164_Z240XTT6";
   cryptDisk1 = byid "ata-TP02000GB_TPW151006050068";
-  # cryptDisk2 = byid "ata-WDC_WD20EARS-00MVWB0_WD-WCAZA5548487";
-  cryptDisk3 = byid "ata-WDC_WD20EARS-00MVWB0_WD-WMAZA1786907";
+  cryptDisk2 = byid "ata-ST4000DM000-1F2168_Z303HVSG";
+  # cryptDisk3 = byid "ata-WDC_WD20EARS-00MVWB0_WD-WMAZA1786907";
   # all physical disks
-  allDisks = [ rootDisk cryptDisk0 cryptDisk1 cryptDisk3 ];
+  allDisks = [ rootDisk cryptDisk0 cryptDisk1 cryptDisk2 ];
 in {
   imports =
     [
@@ -99,7 +99,7 @@ in {
         (usbkey "home" homePartition)
         (usbkey "crypt0" cryptDisk0)
         (usbkey "crypt1" cryptDisk1)
-        (usbkey "crypt2" cryptDisk3)
+        (usbkey "crypt2" cryptDisk2)
       ];
     };
     loader.grub.device = rootDisk;
