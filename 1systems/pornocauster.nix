@@ -49,6 +49,7 @@
   networking.firewall.enable = true;
   networking.firewall.allowedTCPPorts = [
     25
+    80
   ];
 
   krebs.build.host = config.krebs.hosts.pornocauster;

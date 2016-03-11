@@ -10,6 +10,7 @@ with config.krebs.lib;
 
   krebs.build.host = config.krebs.hosts.darth;
   krebs.retiolum.enable = true;
+  nixpkgs.config.packageOverrides = pkgs: { tinc = pkgs.tinc_pre; };
 
   boot.loader.grub.device = "/dev/disk/by-id/ata-ADATA_SSD_S599_64GB_10460000000000000039";
 }
