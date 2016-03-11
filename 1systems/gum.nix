@@ -7,7 +7,6 @@ let
 in {
   imports = [
       ../.
-      ../2configs/tinc-basic-retiolum.nix
       ../2configs/headless.nix
       ../2configs/fs/simple-swap.nix
       ../2configs/fs/single-partition-ext4.nix
@@ -29,11 +28,20 @@ in {
 
   ###### stable
   krebs.build.host = config.krebs.hosts.gum;
-  krebs.retiolum.extraConfig = ''
-    ListenAddress = ${external-ip} 53
-    ListenAddress = ${external-ip} 655
-    ListenAddress = ${external-ip} 21031
-  '';
+  krebs.retiolum = {
+    enable = true;
+    extraConfig = ''
+      ListenAddress = ${external-ip} 53
+      ListenAddress = ${external-ip} 655
+      ListenAddress = ${external-ip} 21031
+    '';
+    connectTo = [
+      "muhbaasu" "tahoe" "flap" "wry"
+      "ire" "cd" "mkdir" "rmdir"
+      "fastpoke" "prism" "dishfire" "echelon" "cloudkrebs"
+    ];
+  };
+
   krebs.nginx.servers.cgit.server-names = [
     "cgit.euer.krebsco.de"
   ];

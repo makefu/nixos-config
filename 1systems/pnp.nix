@@ -7,7 +7,6 @@
   imports =
     [
       ../.
-      ../2configs/tinc-basic-retiolum.nix
       ../2configs/headless.nix
       ../../krebs/3modules/Reaktor.nix
 
@@ -20,6 +19,7 @@
       <nixpkgs/nixos/modules/virtualisation/qemu-vm.nix>
     ];
 
+  krebs.retiolum.enable = true;
   virtualisation.graphics = false;
   # also export secrets, see Usage above
   fileSystems = pkgs.lib.mkVMOverride {

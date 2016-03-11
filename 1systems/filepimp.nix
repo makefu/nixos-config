@@ -21,9 +21,9 @@ in {
     [ # Include the results of the hardware scan.
       ../.
       ../2configs/fs/single-partition-ext4.nix
-      ../2configs/tinc-basic-retiolum.nix
       ../2configs/smart-monitor.nix
     ];
+  krebs.retiolum.enable = true;
   krebs.build.host = config.krebs.hosts.filepimp;
   # AMD N54L
   boot = {

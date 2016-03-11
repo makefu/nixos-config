@@ -12,7 +12,6 @@ in {
       ../../tv/2configs/hw/CAC.nix
       ../../tv/2configs/fs/CAC-CentOS-7-64bit.nix
       ../2configs/headless.nix
-      ../2configs/tinc-basic-retiolum.nix
 
       ../2configs/bepasty-dual.nix
 
@@ -27,6 +26,7 @@ in {
       # collectd
       ../2configs/collectd/collectd-base.nix
   ];
+  krebs.retiolum.enable = true;
   services.nixosManual.enable = false;
   programs.man.enable = false;
   krebs.build.host = config.krebs.hosts.wry;

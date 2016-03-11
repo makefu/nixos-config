@@ -37,7 +37,6 @@ in {
       ../.
       # TODO: unlock home partition via ssh
       ../2configs/fs/single-partition-ext4.nix
-      ../2configs/tinc-basic-retiolum.nix
       ../2configs/zsh-user.nix
       ../2configs/exim-retiolum.nix
       ../2configs/smart-monitor.nix
@@ -45,6 +44,7 @@ in {
       ../2configs/share-user-sftp.nix
       ../2configs/omo-share.nix
     ];
+  krebs.retiolum.enable = true;
   networking.firewall.trustedInterfaces = [ "enp3s0" ];
   # udp:137 udp:138 tcp:445 tcp:139 - samba, allowed in local net
   # tcp:80          - nginx for sharing files
