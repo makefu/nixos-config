@@ -13,4 +13,7 @@ with config.krebs.lib;
   nixpkgs.config.packageOverrides = pkgs: { tinc = pkgs.tinc_pre; };
 
   boot.loader.grub.device = "/dev/disk/by-id/ata-ADATA_SSD_S599_64GB_10460000000000000039";
+  users.users.root.openssh.authorizedKeys.keys = [
+    config.krebs.users.makefu-omo.pubkey
+  ];
 }
