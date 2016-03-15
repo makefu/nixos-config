@@ -38,9 +38,6 @@
     ];
 
   krebs.retiolum.enable = true;
-  nixpkgs.config.packageOverrides = pkgs: {
-    tinc = pkgs.tinc_pre;
-  };
   # steam
   hardware.opengl.driSupport32Bit = true;
   hardware.pulseaudio.support32Bit = true;

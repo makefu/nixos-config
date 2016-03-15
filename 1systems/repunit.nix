@@ -41,7 +41,7 @@
   };
 
 # $ nix-env -qaP | grep wget
-    environment.systemPackages = with pkgs; [
-      jq
-    ];
+  environment.systemPackages = with pkgs; [
+    jq
+  ];
 }

@@ -122,7 +122,6 @@ in {
   hardware.cpu.amd.updateMicrocode = true;
 
   zramSwap.enable = true;
-  zramSwap.numDevices = 2;
 
   krebs.build.host = config.krebs.hosts.omo;
 }

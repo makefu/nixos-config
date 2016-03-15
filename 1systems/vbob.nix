@@ -14,9 +14,6 @@
 
     ];
   nixpkgs.config.allowUnfree = true;
-  nixpkgs.config.packageOverrides = pkgs: {
-    tinc = pkgs.tinc_pre;
-  };
 
   krebs.build.source.upstream-nixpkgs = {
     url = https://github.com/makefu/nixpkgs;

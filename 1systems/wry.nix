@@ -52,7 +52,6 @@ in {
   krebs.nginx.enable = true;
   krebs.retiolum-bootstrap.enable = true;
 
-  nixpkgs.config.packageOverrides = pkgs: { tinc = pkgs.tinc_pre; };
   krebs.tinc_graphs = {
     enable = true;
     nginx = {

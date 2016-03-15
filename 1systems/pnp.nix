@@ -43,10 +43,8 @@
 
   krebs.build.host = config.krebs.hosts.pnp;
 
-  nixpkgs.config.packageOverrides = pkgs: { tinc = pkgs.tinc_pre; };
-
   networking.firewall.allowedTCPPorts = [
-  25
+    25
   ];
 
 }

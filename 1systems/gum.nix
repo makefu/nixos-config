@@ -24,7 +24,6 @@ in {
   ];
 
   services.smartd.devices = [ { device = "/dev/sda";} ];
-  nixpkgs.config.packageOverrides = pkgs: { tinc = pkgs.tinc_pre; };
 
   ###### stable
   krebs.build.host = config.krebs.hosts.gum;
