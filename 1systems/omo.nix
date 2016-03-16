@@ -11,7 +11,7 @@ let
   # cryptsetup luksFormat $dev --cipher aes-xts-plain64 -s 512 -h sha512
   # cryptsetup luksAddKey $dev tmpkey
   # cryptsetup luksOpen $dev crypt0 --key-file tmpkey --keyfile-size=4096
-  # mkfs.ext4 /dev/mapper/crypt0 -L crypt0 -T largefile
+  # mkfs.xfs /dev/mapper/crypt0 -L crypt0
 
   # omo Chassis:
   # __FRONT_
@@ -30,6 +30,8 @@ let
   cryptDisk2 = byid "ata-ST4000DM000-1F2168_Z303HVSG";
   # cryptDisk3 = byid "ata-WDC_WD20EARS-00MVWB0_WD-WMAZA1786907";
   # all physical disks
+
+  # TODO callPackage ../3modules/MonitorDisks { disks = allDisks }
   allDisks = [ rootDisk cryptDisk0 cryptDisk1 cryptDisk2 ];
 in {
   imports =
