@@ -125,6 +125,7 @@ with config.krebs.lib;
 
   nixpkgs.config.packageOverrides = pkgs: {
     nano = pkgs.runCommand "empty" {} "mkdir -p $out";
+    tinc = pkgs.tinc_pre;
   };
 
   services.cron.enable = false;
