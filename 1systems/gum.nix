@@ -45,6 +45,12 @@ in {
     "cgit.euer.krebsco.de"
   ];
 
+  # access
+  users.users = {
+    root.openssh.authorizedKeys.keys = [ config.krebs.users.makefu-omo.pubkey ];
+    makefu.openssh.authorizedKeys.keys = [ config.krebs.users.makefu-vbob.pubkey ];
+  };
+
   # Chat
   environment.systemPackages = with pkgs;[
     weechat
