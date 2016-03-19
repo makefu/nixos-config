@@ -41,9 +41,10 @@ in {
     ];
   };
 
-  krebs.nginx.servers.cgit.server-names = [
-    "cgit.euer.krebsco.de"
-  ];
+  krebs.nginx.servers.cgit = {
+    server-names = [ "cgit.euer.krebsco.de" ];
+    listen = [ "${external-ip}:80" "${internal-ip}:80" ];
+  };
 
   # access
   users.users = {

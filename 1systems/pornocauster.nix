@@ -36,7 +36,11 @@
       #../2configs/wordpress.nix
       ../2configs/nginx/public_html.nix
     ];
-
+  krebs.nginx = {
+    default404 = false;
+    servers.default.listen = [ "80 default_server" ];
+    servers.default.server-names = [ "_" ];
+  };
   krebs.retiolum.enable = true;
   # steam
   hardware.opengl.driSupport32Bit = true;
