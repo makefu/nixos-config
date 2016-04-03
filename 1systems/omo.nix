@@ -44,16 +44,21 @@ in {
       ../2configs/smart-monitor.nix
       ../2configs/mail-client.nix
       ../2configs/share-user-sftp.nix
+      ../2configs/graphite-standalone.nix
       ../2configs/omo-share.nix
     ];
+
   krebs.retiolum.enable = true;
   networking.firewall.trustedInterfaces = [ "enp3s0" ];
   # udp:137 udp:138 tcp:445 tcp:139 - samba, allowed in local net
   # tcp:80          - nginx for sharing files
   # tcp:655 udp:655 - tinc
-  # tcp:8080        - sabnzbd
+  # tcp:8111        - graphite
+  # tcp:9090        - sabnzbd
+  # tcp:9200        - elasticsearch
+  # tcp:5601        - kibana
   networking.firewall.allowedUDPPorts = [ 655 ];
-  networking.firewall.allowedTCPPorts = [ 80 655 8080 ];
+  networking.firewall.allowedTCPPorts = [ 80 655 5601 8111 9200 9090 ];
 
   # services.openssh.allowSFTP = false;
 
