@@ -15,11 +15,6 @@
     ];
   nixpkgs.config.allowUnfree = true;
 
-  krebs.build.source.upstream-nixpkgs = {
-    url = https://github.com/makefu/nixpkgs;
-    # HTTP Everywhere + libredir
-    rev = "8239ac6";
-  };
   fileSystems."/nix" = {
     device ="/dev/disk/by-label/nixstore";
     fsType = "ext4";
