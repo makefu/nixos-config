@@ -48,6 +48,13 @@ in {
         browseable = "yes";
         "guest ok" = "yes";
       };
+
+      emu = {
+        path = "/media/crypt1/emu";
+        "read only" = "yes";
+        browseable = "yes";
+        "guest ok" = "yes";
+      };
       usenet = {
         path = "/media/crypt0/usenet/dst";
         "read only" = "yes";
