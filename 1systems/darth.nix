@@ -10,14 +10,26 @@ let
   allDisks = [ rootDisk auxDisk ];
 in {
   imports = [
-        ../.
-        ../2configs/fs/single-partition-ext4.nix
-        ../2configs/zsh-user.nix
-        ../2configs/smart-monitor.nix
+      ../.
+      ../2configs/fs/single-partition-ext4.nix
+      ../2configs/zsh-user.nix
+      ../2configs/smart-monitor.nix
+      ../2configs/exim-retiolum.nix
+      ../2configs/virtualization.nix
   ];
 
+  networking.firewall.allowedUDPPorts = [ 80 655 67 ];
+  networking.firewall.allowedTCPPorts = [ 80 655 ];
+  networking.firewall.checkReversePath = false;
+  #networking.firewall.enable = false;
   # virtualisation.nova.enableSingleNode = true;
   krebs.retiolum.enable = true;
+
+  boot.kernelModules = [ "coretemp" "f71882fg" ];
+
+  hardware.enableAllFirmware = true;
+  nixpkgs.config.allowUnfree = true;
+  networking.wireless.enable = true;
 
   # TODO smartd omo darth gum all-in-one
   services.smartd.devices = builtins.map (x: { device = x; }) allDisks;
