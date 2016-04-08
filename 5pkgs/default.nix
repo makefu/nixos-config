@@ -12,5 +12,6 @@ in
     nodemcu-uploader = callPackage ./nodemcu-uploader {};
     mycube-flask = callPackage ./mycube-flask {};
     tw-upload-plugin = callPackage ./tw-upload-plugin {};
+    taskserver = callPackage ./taskserver {};
   };
 }
