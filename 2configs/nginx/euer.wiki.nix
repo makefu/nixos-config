@@ -18,8 +18,8 @@ let
   #  user1 = pass1
   #  userN = passN
   tw-pass-file = "${sec}/tw-pass.ini";
-  external-ip = head config.krebs.build.host.nets.internet.addrs4;
-  internal-ip = head config.krebs.build.host.nets.retiolum.addrs4;
+  external-ip = config.krebs.build.host.nets.internet.ip4.addr;
+  internal-ip = config.krebs.build.host.nets.retiolum.ip4.addr;
 in {
   services.phpfpm = {
     # phpfpm does not have an enable option
