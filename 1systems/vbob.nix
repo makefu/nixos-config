@@ -1,6 +1,3 @@
-#
-#
-#
 { lib, config, pkgs, ... }:
 {
   krebs.build.host = config.krebs.hosts.vbob;
@@ -42,18 +39,17 @@
 
   krebs.retiolum = {
     enable = true;
-    extraConfig = "Proxy = http global.proxy.alcatel-lucent.com 8000";
+    #extraConfig = "Proxy = http global.proxy.alcatel-lucent.com 8000";
     connectTo = [
       "gum"
     ];
   };
 
-  networking.proxy.default = "http://global.proxy.alcatel-lucent.com:8000";
+  #networking.proxy.default = "http://global.proxy.alcatel-lucent.com:8000";
   fileSystems."/media/share" = {
     fsType = "vboxsf";
     device = "share";
-    options = "rw,uid=9001,gid=9001";
+    options = [ "rw" "uid=9001" "gid=9001" ];
   };
 
 }
-
