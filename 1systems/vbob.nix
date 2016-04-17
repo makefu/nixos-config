@@ -1,6 +1,7 @@
 { lib, config, pkgs, ... }:
 {
   krebs.build.host = config.krebs.hosts.vbob;
+  makefu.awesome.modkey = "Mod1";
   imports =
     [ # Include the results of the hardware scan.
       ../.
