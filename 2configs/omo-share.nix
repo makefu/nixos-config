@@ -61,6 +61,13 @@ in {
         browseable = "yes";
         "guest ok" = "yes";
       };
+      usenet-rw = {
+        path = "/media/crypt0/usenet";
+        "read only" = "no";
+        browseable = "yes";
+        "guest ok" = "no";
+        "valid users" = "makefu";
+      };
     };
     extraConfig = ''
       guest account = smbguest
