@@ -138,6 +138,9 @@ with config.krebs.lib;
     "time.apple.com"
     "time.nist.gov"
   ];
+  nix.extraOptions = ''
+    auto-optimise-store = true
+  '';
 
   security.setuidPrograms = [ "sendmail" ];
   services.journald.extraConfig = ''
