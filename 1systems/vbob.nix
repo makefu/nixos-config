@@ -15,13 +15,12 @@
     ];
   nixpkgs.config.allowUnfree = true;
 
-  krebs.build.source.upstream-nixpkgs = {
-    url = https://github.com/makefu/nixpkgs;
-    # HTTP Everywhere + libredir
-    rev = "8239ac6";
-  };
   fileSystems."/nix" = {
     device ="/dev/disk/by-label/nixstore";
+    fsType = "ext4";
+  };
+  fileSystems."/var/lib/docker" = {
+    device ="/dev/disk/by-label/nix-docker";
     fsType = "ext4";
   };
   #makefu.buildbot.master.enable = true;
@@ -33,11 +32,14 @@
   };
   environment.systemPackages = with pkgs;[
     fortclientsslvpn
-    buildbot
-    buildbot-slave
     get
     logstash
+    docker
+    devpi-web
+    devpi-client
   ];
+  # virtualisation.docker.enable = true;
+
 
   networking.firewall.allowedTCPPorts = [
     25
@@ -47,17 +49,21 @@
 
   krebs.retiolum = {
     enable = true;
-    extraConfig = "Proxy = http global.proxy.alcatel-lucent.com 8000";
     connectTo = [
+      "omo"
       "gum"
     ];
   };
 
-  networking.proxy.default = "http://global.proxy.alcatel-lucent.com:8000";
+  networking.extraHosts = ''
+    172.17.20.190  gitlab
+    172.17.62.27   svbittool01 tool
+  '';
+
   fileSystems."/media/share" = {
     fsType = "vboxsf";
     device = "share";
-    options = "rw,uid=9001,gid=9001";
+    options = [ "rw" "uid=9001" "gid=9001" ];
   };
 
 }
