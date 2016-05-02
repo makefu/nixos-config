@@ -17,6 +17,10 @@
     device ="/dev/disk/by-label/nixstore";
     fsType = "ext4";
   };
+  fileSystems."/var/lib/docker" = {
+    device ="/dev/disk/by-label/nix-docker";
+    fsType = "ext4";
+  };
   #makefu.buildbot.master.enable = true;
   # allow vbob to deploy self
   users.extraUsers = {
@@ -26,11 +30,14 @@
   };
   environment.systemPackages = with pkgs;[
     fortclientsslvpn
-    buildbot
-    buildbot-slave
     get
     logstash
+    docker
+    devpi-web
+    devpi-client
   ];
+  # virtualisation.docker.enable = true;
+
 
   networking.firewall.allowedTCPPorts = [
     25
@@ -40,13 +47,17 @@
 
   krebs.retiolum = {
     enable = true;
-    #extraConfig = "Proxy = http global.proxy.alcatel-lucent.com 8000";
     connectTo = [
+      "omo"
       "gum"
     ];
   };
 
-  #networking.proxy.default = "http://global.proxy.alcatel-lucent.com:8000";
+  networking.extraHosts = ''
+    172.17.20.190  gitlab
+    172.17.62.27   svbittool01 tool
+  '';
+
   fileSystems."/media/share" = {
     fsType = "vboxsf";
     device = "share";

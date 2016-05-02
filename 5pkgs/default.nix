@@ -12,6 +12,7 @@ in
     mycube-flask = callPackage ./mycube-flask {};
     nodemcu-uploader = callPackage ./nodemcu-uploader {};
     tw-upload-plugin = callPackage ./tw-upload-plugin {};
+    inherit (callPackage ./devpi {}) devpi-web devpi-server;
     taskserver = callPackage ./taskserver {};
   };
 }
