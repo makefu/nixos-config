@@ -19,7 +19,7 @@ with config.krebs.lib;
     "/home" = {
       device = "/dev/mapper/main-home";
       fsType = "ext4";
-      options="defaults,discard";
+      options = [ "defaults" "discard" ];
     };
   };
 }

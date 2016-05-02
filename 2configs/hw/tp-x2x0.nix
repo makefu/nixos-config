@@ -23,6 +23,7 @@ with config.krebs.lib;
   services.tlp.enable = true;
   services.tlp.extraConfig = ''
     START_CHARGE_THRESH_BAT0=80
+    STOP_CHARGE_THRESH_BAT0=95
 
     CPU_SCALING_GOVERNOR_ON_AC=performance
     CPU_SCALING_GOVERNOR_ON_BAT=ondemand

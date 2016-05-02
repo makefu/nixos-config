@@ -10,16 +10,6 @@
 #
 # if this is not enough, check out main-laptop.nix
 
-## TODO: .Xdefaults:
-# URxvt*termName:         rxvt
-# URxvt.scrollBar : false
-# URxvt*scrollBar_right:  false
-# URxvt*borderLess:       false
-# URxvt.foreground: white
-# URxvt.background: black
-# URxvt.urgentOnBell: true
-# URxvt.visualBell: false
-# URxvt.font : xft:Terminus
 
 with config.krebs.lib;
 let
@@ -83,7 +73,9 @@ in
       XTerm*FaceName  : Terminus:pixelsize=14
 
       URxvt*termName:         rxvt
-      URxvt.scrollBar : False
+      URxvt*saveLines:            10000
+      URxvt*loginShell:           false
+      URxvt.scrollBar : false
       URxvt*scrollBar_right:  false
       URxvt*borderLess:       false
       URxvt.foreground: white

@@ -41,6 +41,8 @@ in {
     ];
   };
 
+  makefu.taskserver.enable = true;
+
   krebs.nginx.servers.cgit = {
     server-names = [ "cgit.euer.krebsco.de" ];
     listen = [ "${external-ip}:80" "${internal-ip}:80" ];
@@ -86,6 +88,8 @@ in {
           21032
           # tinc-retiolum
           21031
+          # taskserver
+          53589
         ];
         allowedUDPPorts = [
           # tinc

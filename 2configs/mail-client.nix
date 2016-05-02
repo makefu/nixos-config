@@ -7,7 +7,7 @@ with config.krebs.lib;
     gnupg
     imapfilter
     msmtp
-    mutt-kz
+    mutt
     notmuch
     offlineimap
     openssl

@@ -10,8 +10,8 @@ with pkgs.pythonPackages;buildPythonPackage rec {
   src = fetchFromGitHub {
     owner = "makefu";
     repo = "mycube-flask";
-    rev = "5f5260a";
-    sha256 = "1jx0h81nlmi1xry2vw46rvsanq0sdca6hlq31lhh7klqrg885hgh";
+    rev = "48dc6857";
+    sha256 = "1ax1vz6m5982l1mmp9vmywn9nw9p9h4m3ss74zazyspxq1wjim0v";
   };
   meta = {
     homepage = https://github.com/makefu/mycube-flask;

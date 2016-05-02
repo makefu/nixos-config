@@ -18,12 +18,12 @@ with config.krebs.lib;
     "/" = {
       device = "/dev/mapper/luksroot";
       fsType = "ext4";
-      options="defaults,discard";
+      options = [ "defaults" "discard" ];
     };
     "/boot" = {
       device = "/dev/disk/by-label/nixboot";
       fsType = "ext4";
-      options="defaults,discard";
+      options = [ "defaults" "discard" ];
     };
   };
 }
