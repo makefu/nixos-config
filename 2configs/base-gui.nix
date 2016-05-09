@@ -14,7 +14,6 @@
 with config.krebs.lib;
 let
   mainUser = config.krebs.build.user.name;
-  awesomecfg = pkgs.awesomecfg.full;
 in
 {
   imports = [ ];
@@ -36,14 +35,7 @@ in
   };
   # lid switch is handled via button presses
   services.logind.extraConfig = mkDefault "HandleLidSwitch=ignore";
-  nixpkgs.config.packageOverrides = pkgs: rec {
-    awesome = pkgs.stdenv.lib.overrideDerivation pkgs.awesome (oldAttrs : {
-      postFixup = ''
-      cp ${awesomecfg}  $out/etc/xdg/awesome/rc.lua
-      '';
-    });
-  };
-
+  makefu.awesome.enable = true;
   i18n.consoleFont = "Lat2-Terminus16";
 
   fonts = {

@@ -13,6 +13,16 @@ in {
       omo-share = {
         listen = [ "${local-ip}:80" ];
         locations = singleton (nameValuePair "/" ''
+
+          access_log off;
+          # sendfile off;
+          # tcp_nopush on;
+          # aio on;
+          sendfile on;
+          sendfile_max_chunk 512k;
+          directio 512;
+          aio threads;
+          mp4;
           autoindex on;
           root /media;
           limit_rate_after 100m;
@@ -24,7 +34,6 @@ in {
           keepalive_timeout  65;
           keepalive_requests 200;
           reset_timedout_connection on;
-          sendfile on;
           tcp_nopush on;
           gzip off;
         '');
@@ -48,7 +57,6 @@ in {
         browseable = "yes";
         "guest ok" = "yes";
       };
-
       emu = {
         path = "/media/crypt1/emu";
         "read only" = "yes";
@@ -60,6 +68,20 @@ in {
         "read only" = "yes";
         browseable = "yes";
         "guest ok" = "yes";
+      };
+      usenet-rw = {
+        path = "/media/crypt0/usenet";
+        "read only" = "no";
+        browseable = "yes";
+        "guest ok" = "no";
+        "valid users" = "makefu";
+      };
+      emu-rw = {
+        path = "/media/crypt1/emu";
+        "read only" = "no";
+        browseable = "yes";
+        "guest ok" = "no";
+        "valid users" = "makefu";
       };
     };
     extraConfig = ''

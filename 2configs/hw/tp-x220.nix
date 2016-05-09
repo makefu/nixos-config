@@ -4,8 +4,10 @@ with config.krebs.lib;
 {
 
   imports = [ ./tp-x2x0.nix ];
-
-  boot.kernelModules = [ "kvm-intel" ];
+  boot = {
+    kernelModules = [ "kvm-intel" "acpi_call" ];
+    extraModulePackages = [ config.boot.kernelPackages.tp_smapi ];
+  };
 
   services.xserver = {
     videoDriver = "intel";
@@ -14,6 +16,8 @@ with config.krebs.lib;
       Option "AccelMethod" "sna"
     '';
   };
+
+  security.rngd.enable = true;
 
   services.xserver.displayManager.sessionCommands =''
     xinput set-int-prop "TPPS/2 IBM TrackPoint" "Evdev Wheel Emulation" 8 1
