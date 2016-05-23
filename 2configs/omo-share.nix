@@ -69,15 +69,15 @@ in {
         browseable = "yes";
         "guest ok" = "yes";
       };
-      usenet-rw = {
-        path = "/media/crypt0/usenet";
+      crypt0-rw = {
+        path = "/media/crypt0/";
         "read only" = "no";
         browseable = "yes";
         "guest ok" = "no";
         "valid users" = "makefu";
       };
-      emu-rw = {
-        path = "/media/crypt1/emu";
+      crypt1-rw = {
+        path = "/media/crypt1/";
         "read only" = "no";
         browseable = "yes";
         "guest ok" = "no";
