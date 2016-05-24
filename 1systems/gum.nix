@@ -2,8 +2,8 @@
 
 with config.krebs.lib;
 let
-  external-ip = head config.krebs.build.host.nets.internet.addrs4;
-  internal-ip = head config.krebs.build.host.nets.retiolum.addrs4;
+  external-ip = config.krebs.build.host.nets.internet.ip4.addr;
+  internal-ip = config.krebs.build.host.nets.retiolum.ip4.addr;
 in {
   imports = [
       ../.

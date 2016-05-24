@@ -5,8 +5,8 @@ let
   hostname = config.krebs.build.host.name;
   user = config.services.nginx.user;
   group = config.services.nginx.group;
-  external-ip = head config.krebs.build.host.nets.internet.addrs4;
-  internal-ip = head config.krebs.build.host.nets.retiolum.addrs4;
+  external-ip = config.krebs.build.host.nets.internet.ip4.addr;
+  internal-ip = config.krebs.build.host.nets.retiolum.ip4.addr;
 in {
   krebs.nginx = {
     enable = mkDefault true;

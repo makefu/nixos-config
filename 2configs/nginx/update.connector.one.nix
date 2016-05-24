@@ -3,7 +3,7 @@
 with config.krebs.lib;
 let
   hostname = config.krebs.build.host.name;
-  external-ip = head config.krebs.build.host.nets.internet.addrs4;
+  external-ip = config.krebs.build.host.nets.internet.ip4.addr;
 in {
   krebs.nginx = {
     enable = mkDefault true;
