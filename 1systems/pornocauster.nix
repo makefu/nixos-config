@@ -26,6 +26,7 @@
       # services
       ../2configs/git/brain-retiolum.nix
       ../2configs/tor.nix
+      ../2configs/steam.nix
       # ../2configs/buildbot-standalone.nix
 
       # hardware specifics are in here
@@ -35,23 +36,36 @@
       # ../2configs/mediawiki.nix
       #../2configs/wordpress.nix
       ../2configs/nginx/public_html.nix
+
+      # temporary modules
+      # ../2configs/temp/share-samba.nix
+      # ../2configs/temp/elkstack.nix
+      # ../2configs/temp/sabnzbd.nix
     ];
+
   krebs.nginx = {
     default404 = false;
     servers.default.listen = [ "80 default_server" ];
     servers.default.server-names = [ "_" ];
   };
-  krebs.retiolum.enable = true;
-  # steam
-  hardware.opengl.driSupport32Bit = true;
-  hardware.pulseaudio.support32Bit = true;
+
+  environment.systemPackages = [ pkgs.passwdqc-utils pkgs.bintray-upload ];
+
+  virtualisation.docker.enable = true;
 
   # configure pulseAudio to provide a HDMI sink as well
   networking.firewall.enable = true;
-  networking.firewall.allowedTCPPorts = [
-    25
-    80
-  ];
+  networking.firewall.allowedTCPPorts = [ 80 ];
+  networking.firewall.allowedUDPPorts = [ 665 ];
 
   krebs.build.host = config.krebs.hosts.pornocauster;
+
+  krebs.hosts.omo.nets.retiolum.via.ip4.addr = "192.168.1.11";
+  krebs.retiolum = {
+    enable = true;
+    connectTo = [ "omo" "gum" "prism" ];
+  };
+  networking.extraHosts = ''
+    192.168.1.11 omo.local
+  '';
 }
