@@ -22,7 +22,7 @@ with config.krebs.lib;
       source =  mapAttrs (_: mkDefault) {
         nixpkgs = {
           url = https://github.com/nixos/nixpkgs;
-          rev = "40c586b7ce2c559374df435f46d673baf711c543"; # unstable @ 2016-02-27, tested on wry
+          rev = "63b9785"; # stable @ 2016-06-01
         };
         secrets = "/home/makefu/secrets/${config.krebs.build.host.name}/";
         stockholm = "/home/makefu/stockholm";
@@ -75,7 +75,7 @@ with config.krebs.lib;
   systemd.tmpfiles.rules = [
     "d /tmp 1777 root root - -"
   ];
-
+  nix.nixPath = [ "/var/src" ];
   environment.variables = {
     NIX_PATH = mkForce "/var/src";
     EDITOR = mkForce "vim";
@@ -126,6 +126,7 @@ with config.krebs.lib;
   nixpkgs.config.packageOverrides = pkgs: {
     nano = pkgs.runCommand "empty" {} "mkdir -p $out";
     tinc = pkgs.tinc_pre;
+    gnupg1compat = super.gnupg1compat.override { gnupg = self.gnupg21; };
   };
 
   services.cron.enable = false;
