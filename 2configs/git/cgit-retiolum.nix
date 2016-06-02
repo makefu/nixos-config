@@ -15,6 +15,9 @@ let
     tinc_graphs = {
       desc = "Tinc Advanced Graph Generation";
     };
+    stockholm-init = {
+      desc = "Build new Stockholm hosts";
+    };
     cac-api = { };
     init-stockholm = {
       desc = "Init stuff for stockholm";
