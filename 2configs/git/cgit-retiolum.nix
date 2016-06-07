@@ -10,17 +10,17 @@ let
 
   krebs-repos = mapAttrs make-krebs-repo {
     stockholm = {
-      desc = "Make all the systems into 1systems!";
+      cgit.desc = "Make all the systems into 1systems!";
     };
     tinc_graphs = {
-      desc = "Tinc Advanced Graph Generation";
+      cgit.desc = "Tinc Advanced Graph Generation";
     };
     stockholm-init = {
-      desc = "Build new Stockholm hosts";
+      cgit.desc = "Build new Stockholm hosts";
     };
     cac-api = { };
     init-stockholm = {
-      desc = "Init stuff for stockholm";
+      cgit.desc = "Init stuff for stockholm";
     };
   };
 
@@ -32,19 +32,19 @@ let
     connector = { };
     minikrebs = { };
     mattermost = {
-      desc = "Mattermost Docker files";
+      cgit.desc = "Mattermost Docker files";
     };
   };
 
 
   # TODO move users to separate module
-  make-priv-repo = name: { desc ? null, ... }: {
-    inherit name desc;
+  make-priv-repo = name: { ... }: {
+    inherit name;
     public = false;
   };
 
-  make-krebs-repo = with git; name: { desc ? null, ... }: {
-    inherit name desc;
+  make-krebs-repo = with git; name: { cgit ? {}, ... }: {
+    inherit cgit name;
     public = true;
     hooks = {
       post-receive = pkgs.git-hooks.irc-announce {
@@ -88,8 +88,12 @@ let
 in {
   krebs.git = {
     enable = true;
-    root-title = "public repositories";
-    root-desc = "keep on krebsing";
+    cgit = {
+      settings = {
+        root-title = "public repositories";
+        root-desc = "keep on krebsing";
+      };
+    };
     inherit repos rules;
   };
 }

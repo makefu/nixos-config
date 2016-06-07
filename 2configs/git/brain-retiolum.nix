@@ -7,9 +7,7 @@ let
   rules = concatMap krebs-rules (attrValues krebs-repos) ++ concatMap priv-rules (attrValues priv-repos);
 
   krebs-repos = mapAttrs make-krebs-repo {
-    brain = {
-      desc = "braiiiins";
-    };
+    brain = { };
   };
 
   priv-repos = mapAttrs make-priv-repo {
@@ -18,13 +16,13 @@ let
   };
 
   # TODO move users to separate module
-  make-priv-repo = name: { desc ? null, ... }: {
-    inherit name desc;
+  make-priv-repo = name: { ... }: {
+    inherit name;
     public = false;
   };
 
-  make-krebs-repo = with git; name: { desc ? null, ... }: {
-    inherit name desc;
+  make-krebs-repo = with git; name: { ... }: {
+    inherit name;
     public = false;
     hooks = {
       post-receive = pkgs.git-hooks.irc-announce {
@@ -63,7 +61,7 @@ in {
   imports = [ ];
   krebs.git = {
     enable = true;
-    cgit = false;
+    cgit.enable = false;
     inherit repos rules;
   };
 }
