@@ -3,6 +3,14 @@
 with config.krebs.lib;
 
 let
+  nixpkgs-1509 = import (pkgs.fetchFromGitHub {
+    owner = "NixOS"; repo = "nixpkgs-channels";
+    rev = "91371c2bb6e20fc0df7a812332d99c38b21a2bda";
+    sha256 = "1as1i0j9d2n3iap9b471y4x01561r2s3vmjc5281qinirlr4al73";
+  }) {};
+
+  wvdial = nixpkgs-1509.wvdial; # https://github.com/NixOS/nixpkgs/issues/16113
+
   # TODO: currently it is only netzclub
   umts-bin = pkgs.writeScriptBin "umts" ''
     #!/bin/sh
@@ -62,7 +70,7 @@ let
         Type = "simple";
         Restart = "always";
         RestartSec = "10s";
-        ExecStart = "${pkgs.wvdial}/bin/wvdial -n";
+        ExecStart = "${wvdial}/bin/wvdial -n";
       };
     };
   };
