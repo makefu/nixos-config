@@ -5,9 +5,10 @@
 { config, pkgs, lib, ... }:
 let
   byid = dev: "/dev/disk/by-id/" + dev;
-  keyFile = "/dev/disk/by-id/usb-Verbatim_STORE_N_GO_070B3CEE0B223954-0:0";
-  rootDisk = byid "ata-INTEL_SSDSA2M080G2GC_CVPO003402PB080BGN";
-  homePartition = byid "ata-INTEL_SSDSA2M080G2GC_CVPO003402PB080BGN-part3";
+  keyFile = byid "usb-Verbatim_STORE_N_GO_070B3CEE0B223954-0:0";
+  rootDisk = byid "ata-SanDisk_SD8SNAT128G1122_162099420904";
+  rootPartition = byid "ata-SanDisk_SD8SNAT128G1122_162099420904-part2";
+  primaryInterface = "enp1s0";
   # cryptsetup luksFormat $dev --cipher aes-xts-plain64 -s 512 -h sha512
   # cryptsetup luksAddKey $dev tmpkey
   # cryptsetup luksOpen $dev crypt0 --key-file tmpkey --keyfile-size=4096
@@ -15,14 +16,14 @@ let
 
   # omo Chassis:
   # __FRONT_
-  # |* d2   |
+  # |* d0   |
   # |       |
   # |* d3   |
   # |       |
-  # |* d0   |
+  # |* d3   |
   # |       |
-  # |* d1   |
   # |*      |
+  # |* d2   |
   # |  * r0 |
   # |_______|
   cryptDisk0 = byid "ata-ST2000DM001-1CH164_Z240XTT6";
@@ -38,33 +39,40 @@ in {
     [
       ../.
       # TODO: unlock home partition via ssh
-      ../2configs/fs/single-partition-ext4.nix
+      ../2configs/fs/sda-crypto-root.nix
       ../2configs/zsh-user.nix
       ../2configs/exim-retiolum.nix
       ../2configs/smart-monitor.nix
       ../2configs/mail-client.nix
-      ../2configs/share-user-sftp.nix
-      ../2configs/graphite-standalone.nix
+      #../2configs/graphite-standalone.nix
+      #../2configs/share-user-sftp.nix
       ../2configs/omo-share.nix
+
+      ## as long as pyload is not in nixpkgs:
+      # docker run -d -v /var/lib/pyload:/opt/pyload/pyload-config -v /media/crypt0/pyload:/opt/pyload/Downloads --name pyload --restart=always -p 8112:8000 -P writl/pyload
     ];
 
   krebs.retiolum.enable = true;
-  networking.firewall.trustedInterfaces = [ "enp3s0" ];
+  networking.firewall.trustedInterfaces = [ primaryInterface ];
   # udp:137 udp:138 tcp:445 tcp:139 - samba, allowed in local net
   # tcp:80          - nginx for sharing files
   # tcp:655 udp:655 - tinc
   # tcp:8111        - graphite
+  # tcp:8112        - pyload
   # tcp:9090        - sabnzbd
   # tcp:9200        - elasticsearch
   # tcp:5601        - kibana
   networking.firewall.allowedUDPPorts = [ 655 ];
-  networking.firewall.allowedTCPPorts = [ 80 655 5601 8111 9200 9090 ];
+  networking.firewall.allowedTCPPorts = [ 80 655 5601 8111 8112 9200 9090 ];
 
   # services.openssh.allowSFTP = false;
 
   # copy config from <secrets/sabnzbd.ini> to /var/lib/sabnzbd/
   services.sabnzbd.enable = true;
   systemd.services.sabnzbd.environment.SSL_CERT_FILE = "${pkgs.cacert}/etc/ssl/certs/ca-bundle.crt";
+
+  virtualisation.docker.enable = true;
+
 
   # HDD Array stuff
   services.smartd.devices = builtins.map (x: { device = x; }) allDisks;
@@ -76,15 +84,11 @@ in {
     disks = map toMapper [ 0 1 ];
     parity = toMapper 2;
   };
+
   fileSystems = let
     cryptMount = name:
       { "/media/${name}" = { device = "/dev/mapper/${name}"; fsType = "xfs"; };};
-  in {
-    "/home" = {
-      device = "/dev/mapper/home";
-      fsType = "ext4";
-    };
-  } // cryptMount "crypt0"
+  in   cryptMount "crypt0"
     // cryptMount "crypt1"
     // cryptMount "crypt2";
 
@@ -101,15 +105,16 @@ in {
         usbkey = name: device: {
           inherit name device keyFile;
           keyFileSize = 4096;
+          allowDiscards = true;
         };
       in [
-        (usbkey "home" homePartition)
+        (usbkey "luksroot" rootPartition)
         (usbkey "crypt0" cryptDisk0)
         (usbkey "crypt1" cryptDisk1)
         (usbkey "crypt2" cryptDisk2)
       ];
     };
-    loader.grub.device = rootDisk;
+    loader.grub.device = lib.mkForce rootDisk;
 
     initrd.availableKernelModules = [
       "ahci"
@@ -121,12 +126,12 @@ in {
       "usbhid"
     ];
 
-    kernelModules = [ "kvm-amd" ];
+    kernelModules = [ "kvm-intel" ];
     extraModulePackages = [ ];
   };
 
   hardware.enableAllFirmware = true;
-  hardware.cpu.amd.updateMicrocode = true;
+  hardware.cpu.intel.updateMicrocode = true;
 
   zramSwap.enable = true;
 
