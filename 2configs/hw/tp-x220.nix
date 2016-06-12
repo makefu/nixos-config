@@ -5,7 +5,7 @@ with config.krebs.lib;
 
   imports = [ ./tp-x2x0.nix ];
   boot = {
-    kernelModules = [ "kvm-intel" "acpi_call" ];
+    kernelModules = [ "kvm-intel" "acpi_call" "tpm-rng" ];
     extraModulePackages = [ config.boot.kernelPackages.tp_smapi ];
   };
 
@@ -28,7 +28,7 @@ with config.krebs.lib;
 
   # enable HDMI output switching with pulseaudio
   hardware.pulseaudio.configFile = pkgs.writeText "pulse-default-pa" ''
-    ${builtins.readFile "${config.hardware.pulseaudio.package}/etc/pulse/default.pa"}
+    ${builtins.readFile "${config.hardware.pulseaudio.package.out}/etc/pulse/default.pa"}
     load-module module-alsa-sink device=hw:0,3 sink_properties=device.description="HDMIOutput" sink_name="HDMI"
   '';
 
