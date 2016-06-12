@@ -31,6 +31,7 @@
 
       # hardware specifics are in here
       ../2configs/hw/tp-x220.nix
+      ../2configs/hw/rtl8812au.nix
       # mount points
       ../2configs/fs/sda-crypto-root-home.nix
       # ../2configs/mediawiki.nix
@@ -59,7 +60,6 @@
   networking.firewall.allowedUDPPorts = [ 665 ];
 
   krebs.build.host = config.krebs.hosts.pornocauster;
-
   krebs.hosts.omo.nets.retiolum.via.ip4.addr = "192.168.1.11";
   krebs.retiolum = {
     enable = true;
@@ -68,4 +68,6 @@
   networking.extraHosts = ''
     192.168.1.11 omo.local
   '';
+  # hard dependency because otherwise the device will not be unlocked
+  boot.initrd.luks.devices = [ { name = "luksroot"; device = "/dev/sda2"; allowDiscards=true; }];
 }
