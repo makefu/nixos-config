@@ -22,7 +22,8 @@ with config.krebs.lib;
 
   services.tlp.enable = true;
   services.tlp.extraConfig = ''
-    START_CHARGE_THRESH_BAT0=80
+    # BUG: http://linrunner.de/en/tlp/docs/tlp-faq.html#erratic-battery
+    #START_CHARGE_THRESH_BAT0=80
     STOP_CHARGE_THRESH_BAT0=95
 
     CPU_SCALING_GOVERNOR_ON_AC=performance
