@@ -154,6 +154,15 @@ with config.krebs.lib;
     "net.ipv6.conf.default.use_tempaddr" = 2;
   };
 
+  system.activationScripts.nix-defexpr = ''
+    (set -euf
+     for i in /home/makefu /root/;do
+       f="$i/.nix-defexpr"
+       rm -fr "$f"
+       ln -s /var/src/nixpkgs "$f"
+     done)
+  '';
+
   i18n = {
     consoleKeyMap = "us";
     defaultLocale = "en_US.UTF-8";
