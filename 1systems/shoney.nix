@@ -13,6 +13,7 @@ in {
   ];
 
 
+  services.tinc.networks.siem.name = "sjump";
 
   # minimal resources
   services.nixosManual.enable = false;
@@ -29,6 +30,7 @@ in {
     { address = ip; prefixLength = 24; }
     { address = alt-ip; prefixLength = 24; }
   ];
+
   networking.defaultGateway = gw;
   networking.nameservers = [ "8.8.8.8" ];
   networking.firewall.allowedUDPPorts = [ 655 1655 ];
