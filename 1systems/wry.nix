@@ -9,8 +9,8 @@ in {
   imports = [
       ../.
       # TODO: copy this config or move to krebs
-      ../../tv/2configs/hw/CAC.nix
-      ../../tv/2configs/fs/CAC-CentOS-7-64bit.nix
+      ../2configs/hw/CAC.nix
+      ../2configs/fs/CAC-CentOS-7-64bit.nix
       ../2configs/headless.nix
 
       ../2configs/bepasty-dual.nix
