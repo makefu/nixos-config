@@ -17,19 +17,37 @@ in {
       ../2configs/exim-retiolum.nix
       ../2configs/virtualization.nix
   ];
-
-  networking.firewall.allowedUDPPorts = [ 80 655 67 ];
-  networking.firewall.allowedTCPPorts = [ 80 655 ];
-  networking.firewall.checkReversePath = false;
+  services.tinc.networks.siem = {
+    name = "sdarth";
+    extraConfig = "ConnectTo = sjump";
+  };
   #networking.firewall.enable = false;
-  # virtualisation.nova.enableSingleNode = true;
   krebs.retiolum.enable = true;
 
   boot.kernelModules = [ "coretemp" "f71882fg" ];
 
   hardware.enableAllFirmware = true;
   nixpkgs.config.allowUnfree = true;
-  networking.wireless.enable = true;
+  networking = {
+    wireless.enable = true;
+    firewall = {
+      allowPing = true;
+      logRefusedConnections = false;
+      allowedUDPPorts = [ 80 655 67 ];
+      allowedTCPPorts = [ 80 655 ];
+    };
+    nat = {
+      enable = true;
+      internalIPs = [ "10.8.10.0/24" ];
+      #internalInterfaces = [ "tinc.siem" ];
+      externalIP = "10.8.8.2";
+      externalInterface = "virbr3";
+    };
+    interfaces.virbr3.ip4 =  [{
+      address = "10.8.8.2";
+      prefixLength = 24;
+    }];
+  };
 
   # TODO smartd omo darth gum all-in-one
   services.smartd.devices = builtins.map (x: { device = x; }) allDisks;
