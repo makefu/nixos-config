@@ -26,7 +26,9 @@ with config.krebs.lib;
           url = https://github.com/nixos/nixpkgs;
           rev = "63b9785"; # stable @ 2016-06-01
         };
-        secrets = "/home/makefu/secrets/${config.krebs.build.host.name}/";
+        secrets = if getEnv "dummy_secrets" == "true"
+                  then toString <stockholm/makefu/6tests/data/secrets>
+                  else "/home/makefu/secrets/${config.krebs.build.host.name}";
         stockholm = "/home/makefu/stockholm";
 
         # Defaults for all stockholm users?
