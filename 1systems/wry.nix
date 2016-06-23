@@ -11,7 +11,7 @@ in {
       # TODO: copy this config or move to krebs
       ../2configs/hw/CAC.nix
       ../2configs/fs/CAC-CentOS-7-64bit.nix
-      ../2configs/headless.nix
+      ../2configs/save-diskspace.nix
 
       ../2configs/bepasty-dual.nix
 
@@ -27,8 +27,7 @@ in {
       ../2configs/collectd/collectd-base.nix
   ];
   krebs.retiolum.enable = true;
-  services.nixosManual.enable = false;
-  programs.man.enable = false;
+
   krebs.build.host = config.krebs.hosts.wry;
 
   krebs.Reaktor = {
@@ -82,10 +81,6 @@ in {
     defaultGateway = "104.233.87.1";
     nameservers = [ "8.8.8.8" ];
   };
-
-  # small machine - do not forget to gc every day
-  nix.gc.automatic = true;
-  nix.gc.dates = "03:10";
 
   environment.systemPackages = [ ];
 }
