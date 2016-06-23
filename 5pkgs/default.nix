@@ -13,7 +13,8 @@ in
     nodemcu-uploader = callPackage ./nodemcu-uploader {};
     tw-upload-plugin = callPackage ./tw-upload-plugin {};
     inherit (callPackage ./devpi {}) devpi-web devpi-server;
-    skytraq-logger = callPackage ./skytraq-logger/ {};
+    skytraq-logger = callPackage ./skytraq-logger {};
     taskserver = callPackage ./taskserver {};
+    bintray-upload = callPackage ./bintray-upload {};
   };
 }
