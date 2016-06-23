@@ -16,6 +16,8 @@ with config.krebs.lib;
   nixpkgs.config.allowUnfreePredicate =  (pkg: pkgs.lib.hasPrefix "unrar-" pkg.name);
   krebs = {
     enable = true;
+
+    dns.providers.siem = "hosts";
     search-domain = "retiolum";
     build =  {
       user = config.krebs.users.makefu;
