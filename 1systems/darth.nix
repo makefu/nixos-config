@@ -33,16 +33,10 @@ in {
     firewall = {
       allowPing = true;
       logRefusedConnections = false;
-      allowedUDPPorts = [ 80 655 67 ];
-      allowedTCPPorts = [ 80 655 ];
+      allowedUDPPorts = [ 80 655 1655 67 ];
+      allowedTCPPorts = [ 80 655 1655 ];
     };
-    nat = {
-      enable = true;
-      internalIPs = [ "10.8.10.0/24" ];
-      #internalInterfaces = [ "tinc.siem" ];
-      externalIP = "10.8.8.2";
-      externalInterface = "virbr3";
-    };
+    # fallback connection to the internal virtual network
     interfaces.virbr3.ip4 =  [{
       address = "10.8.8.2";
       prefixLength = 24;
