@@ -44,6 +44,14 @@
       # ../2configs/temp/sabnzbd.nix
     ];
 
+  services.tinc.networks.siem = {
+    name = "makefu";
+    extraConfig = ''
+      ConnectTo = sdarth
+      ConnectTo = sjump
+    '';
+  };
+
   krebs.nginx = {
     default404 = false;
     servers.default.listen = [ "80 default_server" ];
