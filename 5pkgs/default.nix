@@ -16,5 +16,6 @@ in
     skytraq-logger = callPackage ./skytraq-logger {};
     taskserver = callPackage ./taskserver {};
     bintray-upload = callPackage ./bintray-upload {};
+    ps3netsrv = callPackage ./ps3netsrv/ {};
   };
 }
