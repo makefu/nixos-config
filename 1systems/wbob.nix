@@ -1,5 +1,9 @@
 { config, pkgs, ... }:
 {
+  makefu.awesome = {
+    modkey = "Mod1";
+    baseConfig = pkgs.awesomecfg.kiosk;
+  };
   imports =
     [ # Include the results of the hardware scan.
       ../.
@@ -9,6 +13,15 @@
       enable = true;
       retiolum.enable = true;
       build.host = config.krebs.hosts.wbob;
+  };
+  networking.firewall.allowedUDPPorts = [ 1655 ];
+  networking.firewall.allowedTCPPorts = [ 1655 ];
+  services.tinc.networks.siem = {
+    name = "display";
+    extraConfig = ''
+      ConnectTo = sjump
+      Port = 1655
+    '';
   };
 
   # rt2870.bin wifi card, part of linux-unfree
@@ -39,23 +52,18 @@
         xrandr --output HDMI2 --right-of HDMI1
       '';
   };
-  ## TODO Awesomecfg + autostart chrome
-  #
-  #local current_screen = 1
-  #awful.rules.rules = {
-  #  { rule = { class = "chromium-browser" },
-  #    callback = function()
-  #      awful.client.movetotag(tags[current_screen][1],c)
-  #      if (current_screen == 1) then
-  #        current_screen = current_screen+1
-  #      else
-  #        current_screen = current_screen-1
-  #      end
-  #    end
-  #  },
-  #}
-  #awful.util.spawn_with_shell("chromium --new-window --kiosk http://wolf:3000/dashboard/db/soc-critical-values")
-  # prevent Race Condition
-  #awful.util.spawn_with_shell("sleep 0.5;chromium --new-window --kiosk http://wolf:3000/dashboard/db/aralast")
+  # TODO: update synergy package with these extras (username)
+  # TODO: add crypto layer
+  systemd.services."synergy-client" = {
+    environment.DISPLAY = ":0";
+    serviceConfig.User = "makefu";
+  };
 
+  services.synergy = {
+    client = {
+      enable = true;
+      screenName = "wbob";
+      serverAddress = "pornocauster.r";
+    };
+  };
 }
