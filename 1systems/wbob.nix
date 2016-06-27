@@ -2,6 +2,7 @@
 {
   makefu.awesome = {
     modkey = "Mod1";
+    #TODO: integrate kiosk config into full config by templating the autostart
     baseConfig = pkgs.awesomecfg.kiosk;
   };
   imports =
