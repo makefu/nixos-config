@@ -64,7 +64,7 @@
 
   # configure pulseAudio to provide a HDMI sink as well
   networking.firewall.enable = true;
-  networking.firewall.allowedTCPPorts = [ 80 ];
+  networking.firewall.allowedTCPPorts = [ 80 24800 ];
   networking.firewall.allowedUDPPorts = [ 665 ];
 
   krebs.build.host = config.krebs.hosts.pornocauster;
