@@ -9,13 +9,15 @@ in
     alsa-hdspconf = callPackage ./alsa-tools { alsaToolTarget="hdspconf";};
     alsa-hdsploader = callPackage ./alsa-tools { alsaToolTarget="hdsploader";};
     awesomecfg = callPackage ./awesomecfg {};
+    bintray-upload = callPackage ./bintray-upload {};
     mycube-flask = callPackage ./mycube-flask {};
     nodemcu-uploader = callPackage ./nodemcu-uploader {};
     tw-upload-plugin = callPackage ./tw-upload-plugin {};
     inherit (callPackage ./devpi {}) devpi-web devpi-server;
     skytraq-logger = callPackage ./skytraq-logger {};
     taskserver = callPackage ./taskserver {};
-    bintray-upload = callPackage ./bintray-upload {};
-    ps3netsrv = callPackage ./ps3netsrv/ {};
+    ps3netsrv = callPackage ./ps3netsrv {};
+    honeyd = callPackage ./honeyd {};
+    farpd = callPackage ./farpd {};
   };
 }
