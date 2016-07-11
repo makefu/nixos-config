@@ -3,8 +3,9 @@ let
   tinc-siem-ip = "10.8.10.1";
 
   ip     = "64.137.234.215";
-  alt-ip = "64.137.234.210";
-  extra-ip = "64.137.234.114"; #currently unused
+  alt-ip = "64.137.234.210";    # honeydrive honeyd
+  extra-ip1 = "64.137.234.114"; # floating tinc.siem
+  extra-ip2 = "64.137.234.232"; # honeydrive
   gw = "64.137.234.1";
 in {
   imports = [
@@ -15,7 +16,7 @@ in {
   ];
 
 
-
+  environment.systemPackages = [ pkgs.honeyd ];
   services.tinc.networks.siem.name = "sjump";
 
   krebs = {
@@ -37,10 +38,15 @@ in {
       };
     };
   };
+  makefu.forward-journal = {
+    enable = true;
+    src = "10.8.10.1";
+    dst = "10.8.10.6";
+  };
   networking =  {
     interfaces.enp2s1.ip4 = [
       { address = ip; prefixLength = 24; }
-      { address = alt-ip; prefixLength = 24; }
+      # { address = alt-ip; prefixLength = 24; }
     ];
 
     defaultGateway = gw;
