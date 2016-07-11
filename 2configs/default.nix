@@ -24,7 +24,7 @@ with config.krebs.lib;
       source =  mapAttrs (_: mkDefault) {
         nixpkgs = {
           url = https://github.com/nixos/nixpkgs;
-          rev = "8bf31d7"; # stable @ 2016-06-11
+          rev = "0546a4a"; # stable @ 2016-06-11
         };
         secrets = if getEnv "dummy_secrets" == "true"
                   then toString <stockholm/makefu/6tests/data/secrets>
