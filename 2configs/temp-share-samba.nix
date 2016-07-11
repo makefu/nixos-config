@@ -1,9 +1,12 @@
 {config, ... }:{
+  networking.firewall.allowedUDPPorts = [ 137 138 ];
+  networking.firewall.allowedTCPPorts = [ 139 445 ];
   users.users.smbguest = {
     name = "smbguest";
     uid = config.ids.uids.smbguest;
     description = "smb guest user";
-    home = "/var/empty";
+    home = "/home/share";
+    createHome = true;
   };
   services.samba = {
     enable = true;

@@ -16,16 +16,32 @@ in {
       ../2configs/smart-monitor.nix
       ../2configs/exim-retiolum.nix
       ../2configs/virtualization.nix
+
+      ../2configs/temp-share-samba.nix
   ];
+  services.samba.shares = {
+      isos = {
+        path = "/data/isos/";
+        "read only" = "yes";
+        browseable = "yes";
+        "guest ok" = "yes";
+      };
+  };
   services.tinc.networks.siem = {
     name = "sdarth";
     extraConfig = "ConnectTo = sjump";
   };
+
+  makefu.forward-journal = {
+    enable = true;
+    src = "10.8.10.2";
+    dst = "10.8.10.6";
+  };
+
   #networking.firewall.enable = false;
   krebs.retiolum.enable = true;
 
   boot.kernelModules = [ "coretemp" "f71882fg" ];
-
   hardware.enableAllFirmware = true;
   nixpkgs.config.allowUnfree = true;
   networking = {
@@ -33,6 +49,7 @@ in {
     firewall = {
       allowPing = true;
       logRefusedConnections = false;
+      trustedInterfaces = [ "eno1" ];
       allowedUDPPorts = [ 80 655 1655 67 ];
       allowedTCPPorts = [ 80 655 1655 ];
     };
