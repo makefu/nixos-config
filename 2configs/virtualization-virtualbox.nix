@@ -14,5 +14,10 @@ in {
   nixpkgs.config.virtualbox.enableExtensionPack = true;
 
   users.extraGroups.vboxusers.members = [ "${mainUser.name}" ];
-  environment.systemPackages = [ vboxguestpkg ];
+  nixpkgs.config.packageOverrides = super: {
+    boot.kernelPackages = super.boot.kernelPackages.virtualbox.override {
+      buildInputs = super.boot.kernelPackages.virtualBox.buildInputs
+        ++ [ vboxguestpkg ];
+    };
+  };
 }
