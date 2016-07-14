@@ -2,8 +2,6 @@
 
 with config.krebs.lib;
 {
-  system.stateVersion = "15.09";
-
   imports = [
     {
       users.extraUsers =
@@ -11,6 +9,8 @@ with config.krebs.lib;
                  (import <secrets/hashedPasswords.nix>);
     }
     ./vim.nix
+    ./binary-cache/nixos.nix
+    ./binary-cache/lass.nix
   ];
 
   nixpkgs.config.allowUnfreePredicate =  (pkg: pkgs.lib.hasPrefix "unrar-" pkg.name);
