@@ -62,9 +62,6 @@ with config.krebs.lib;
 
   programs.ssh = {
     startAgent = false;
-    extraConfig = ''
-      UseRoaming no
-    '';
   };
   services.openssh.enable = true;
   nix.useChroot = true;
