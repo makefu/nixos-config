@@ -10,6 +10,8 @@ in
     alsa-hdsploader = callPackage ./alsa-tools { alsaToolTarget="hdsploader";};
     awesomecfg = callPackage ./awesomecfg {};
     bintray-upload = callPackage ./bintray-upload {};
+    git-xlsx-textconv = callPackage ./git-xlsx-textconv {};
+    mergerfs = callPackage ./mergerfs {};
     mycube-flask = callPackage ./mycube-flask {};
     nodemcu-uploader = callPackage ./nodemcu-uploader {};
     tw-upload-plugin = callPackage ./tw-upload-plugin {};
