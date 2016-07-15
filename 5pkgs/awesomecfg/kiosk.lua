@@ -521,13 +521,15 @@ awful.rules.rules = {
 }
 
 -- awful.util.spawn_with_shell("chromium --new-window --kiosk https://www.checkpoint.com/ThreatPortal/livemap.html")
-awful.util.spawn_with_shell("chromium --new-window --kiosk http://wolf:3000/dashboard/db/soc-critical-values")
+--awful.util.spawn_with_shell("chromium --new-window --kiosk http://wolf:3000/dashboard/db/soc-critical-values")
 -- awful.util.spawn_with_shell("sleep 0.5;chromium --new-window --kiosk http://wolf:3000/dashboard/db/aralast")
 --awful.util.spawn_with_shell("chromium --new-window --kiosk http://gast.aramark.de/thales-deutschland/menu/pdf/woche_de.php")
 
-awful.util.spawn_with_shell("sleep 0.5;chromium --new-window --kiosk http://map.norsecorp.com")
+--awful.util.spawn_with_shell("sleep 0.5;chromium --new-window --kiosk http://map.norsecorp.com")
 --awful.util.spawn_with_shell("sleep 0.5;chromium --new-window --kiosk http://threatmap.fortiguard.com")
 
+awful.util.spawn_with_shell("chromium --new-window --kiosk 'https://ossim.siem/ossim/#dashboard/overview/overview'")
+awful.util.spawn_with_shell("chromium --new-window --kiosk 'https://ossim.siem/ossim/#analysis/alarms/alarms'")
 
 -- }}}
 
