@@ -5,23 +5,23 @@
   imports =
     [ # Include the results of the hardware scan.
       ../.
-      <nixpkgs/nixos/modules/virtualisation/virtualbox-image.nix>
+      (toString <nixpkgs/nixos/modules/virtualisation/virtualbox-image.nix>)
+      (toString <nixpkgs/nixos/modules/virtualisation/virtualbox-guest.nix>)
       ../2configs/main-laptop.nix #< base-gui
+      # (toString <secrets>)/extra-hosts.nix
 
       # environment
 
     ];
-  nixpkgs.config.allowUnfree = true;
+  # workaround for https://github.com/NixOS/nixpkgs/issues/16641
+  services.xserver.videoDrivers = lib.mkOverride 45 [ "virtualbox" "modesetting" ];
 
+  nixpkgs.config.allowUnfree = true;
   fileSystems."/nix" = {
     device ="/dev/disk/by-label/nixstore";
     fsType = "ext4";
   };
-  fileSystems."/var/lib/docker" = {
-    device ="/dev/disk/by-label/nix-docker";
-    fsType = "ext4";
-  };
-  #makefu.buildbot.master.enable = true;
+
   # allow vbob to deploy self
   users.extraUsers = {
     root = {
@@ -52,11 +52,7 @@
       "gum"
     ];
   };
-
-  networking.extraHosts = ''
-    172.17.20.190  gitlab
-    172.17.62.27   svbittool01 tool
-  '';
+  virtualisation.docker.enable = false;
 
   fileSystems."/media/share" = {
     fsType = "vboxsf";
