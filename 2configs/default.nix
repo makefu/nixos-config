@@ -20,20 +20,22 @@ with config.krebs.lib;
     dns.providers.siem = "hosts";
     dns.providers.lan  = "hosts";
     search-domain = "retiolum";
-    build =  {
+    build = {
       user = config.krebs.users.makefu;
-      source =  mapAttrs (_: mkDefault) {
-        nixpkgs = {
+      source = let inherit (config.krebs.build) host user; in {
+        nixpkgs.git = {
           url = https://github.com/nixos/nixpkgs;
           rev = "0546a4a"; # stable @ 2016-06-11
         };
-        secrets = if getEnv "dummy_secrets" == "true"
-                  then toString <stockholm/makefu/6tests/data/secrets>
-                  else "/home/makefu/secrets/${config.krebs.build.host.name}";
-        stockholm = "/home/makefu/stockholm";
+        secrets.file =
+          if getEnv "dummy_secrets" == "true"
+            then toString <stockholm/makefu/6tests/data/secrets>
+            else "/home/makefu/secrets/${host.name}";
+        stockholm.file = "/home/makefu/stockholm";
 
         # Defaults for all stockholm users?
-        nixos-config = "symlink:stockholm/${config.krebs.build.user.name}/1systems/${config.krebs.build.host.name}.nix";
+        nixos-config.symlink =
+          "stockholm/${user.name}/1systems/${host.name}.nix";
       };
     };
   };
