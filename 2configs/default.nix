@@ -18,6 +18,7 @@ with config.krebs.lib;
     enable = true;
 
     dns.providers.siem = "hosts";
+    dns.providers.lan  = "hosts";
     search-domain = "retiolum";
     build =  {
       user = config.krebs.users.makefu;
