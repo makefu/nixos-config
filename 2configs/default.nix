@@ -25,7 +25,7 @@ with config.krebs.lib;
       source = let inherit (config.krebs.build) host user; in {
         nixpkgs.git = {
           url = https://github.com/nixos/nixpkgs;
-          rev = "0546a4a"; # stable @ 2016-06-11
+          ref = "0546a4a"; # stable @ 2016-06-11
         };
         secrets.file =
           if getEnv "dummy_secrets" == "true"
