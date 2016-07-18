@@ -15,6 +15,9 @@ let
   sec = toString <secrets>;
   # secKey is nothing worth protecting on a local machine
   secKey = import <secrets/bepasty-secret.nix>;
+  acmepath = "/var/lib/acme/";
+  acmechall = acmepath + "/challenges/";
+  ext-dom = "paste.krebsco.de" ;
 in {
 
   krebs.nginx.enable = mkDefault true;
@@ -25,7 +28,7 @@ in {
     servers = {
       internal = {
         nginx = {
-          server-names = [ "paste.retiolum" "paste.${config.krebs.build.host.name}" ];
+          server-names = [ "paste.retiolum" "paste.r" "paste.${config.krebs.build.host.name}" ];
         };
         defaultPermissions = "admin,list,create,read,delete";
         secretKey = secKey;
@@ -33,17 +36,25 @@ in {
 
       external = {
         nginx = {
-          server-names = [ "paste.krebsco.de" ];
+          server-names = [ ext-dom ];
+          ssl = {
+            enable = true;
+            certificate = "${acmepath}/${ext-dom}/fullchain.pem";
+            certificate_key = "${acmepath}/${ext-dom}/key.pem";
+            # these certs will be needed if acme has not yet created certificates:
+            #certificate =   "${sec}/wildcard.krebsco.de.crt";
+            #certificate_key = "${sec}/wildcard.krebsco.de.key";
+            ciphers = "RC4:HIGH:!aNULL:!MD5" ;
+          };
+          locations = singleton ( nameValuePair  "/.well-known/acme-challenge" ''
+            root ${acmechall}/${ext-dom}/;
+          '');
           extraConfig = ''
           ssl_session_cache    shared:SSL:1m;
           ssl_session_timeout  10m;
-          ssl_certificate     ${sec}/wildcard.krebsco.de.crt;
-          ssl_certificate_key ${sec}/wildcard.krebsco.de.key;
           ssl_verify_client off;
           proxy_ssl_session_reuse off;
-          ssl_protocols        TLSv1 TLSv1.1 TLSv1.2;
-          ssl_ciphers RC4:HIGH:!aNULL:!MD5;
-          ssl_prefer_server_ciphers on;
+
           if ($scheme = http){
             return 301 https://$server_name$request_uri;
           }'';
@@ -52,5 +63,13 @@ in {
         secretKey = secKey;
       };
     };
+  };
+  security.acme.certs."${ext-dom}" = {
+    email = "acme@syntax-fehler.de";
+    webroot = "${acmechall}/${ext-dom}/";
+    group = "nginx";
+    allowKeysForGroup = true;
+    postRun = "systemctl reload nginx.service";
+    extraDomains."${ext-dom}" = null ;
   };
 }
