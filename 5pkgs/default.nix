@@ -19,7 +19,6 @@ in
     skytraq-logger = callPackage ./skytraq-logger {};
     taskserver = callPackage ./taskserver {};
     ps3netsrv = callPackage ./ps3netsrv {};
-    honeyd = callPackage ./honeyd {};
     farpd = callPackage ./farpd {};
   };
 }
