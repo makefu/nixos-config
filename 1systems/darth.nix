@@ -17,6 +17,7 @@ in {
       ../2configs/exim-retiolum.nix
       ../2configs/virtualization.nix
 
+      ../2configs/tinc/retiolum.nix
       ../2configs/temp-share-samba.nix
   ];
   services.samba.shares = {
@@ -39,7 +40,6 @@ in {
   };
 
   #networking.firewall.enable = false;
-  krebs.retiolum.enable = true;
 
   boot.kernelModules = [ "coretemp" "f71882fg" ];
   hardware.enableAllFirmware = true;

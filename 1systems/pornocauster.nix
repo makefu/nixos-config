@@ -38,8 +38,9 @@
       #../2configs/wordpress.nix
       ../2configs/nginx/public_html.nix
 
+      ../2configs/tinc/retiolum.nix
       # temporary modules
-      # ../2configs/temp/share-samba.nix
+      ../2configs/temp/share-samba.nix
       # ../2configs/temp/elkstack.nix
       # ../2configs/temp/sabnzbd.nix
     ];
@@ -69,10 +70,9 @@
 
   krebs.build.host = config.krebs.hosts.pornocauster;
   krebs.hosts.omo.nets.retiolum.via.ip4.addr = "192.168.1.11";
-  krebs.retiolum = {
-    enable = true;
-    connectTo = [ "omo" "gum" "prism" ];
-  };
+
+  krebs.tinc.retiolum.connectTo = [ "omo" "gum" "prism" ];
+
   networking.extraHosts = ''
     192.168.1.11 omo.local
   '';

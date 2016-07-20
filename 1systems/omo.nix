@@ -47,12 +47,12 @@ in {
       #../2configs/graphite-standalone.nix
       #../2configs/share-user-sftp.nix
       ../2configs/omo-share.nix
+      ../2configs/tinc/retiolum.nix
 
       ## as long as pyload is not in nixpkgs:
       # docker run -d -v /var/lib/pyload:/opt/pyload/pyload-config -v /media/crypt0/pyload:/opt/pyload/Downloads --name pyload --restart=always -p 8112:8000 -P writl/pyload
     ];
 
-  krebs.retiolum.enable = true;
   networking.firewall.trustedInterfaces = [ primaryInterface ];
   # udp:137 udp:138 tcp:445 tcp:139 - samba, allowed in local net
   # tcp:80          - nginx for sharing files

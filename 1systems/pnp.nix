@@ -15,11 +15,12 @@
       <nixpkgs/nixos/modules/profiles/qemu-guest.nix>
       ../2configs/fs/vm-single-partition.nix
 
+      ../2configs/tinc/retiolum.nix
+
       # config.system.build.vm
-      <nixpkgs/nixos/modules/virtualisation/qemu-vm.nix>
+      (toString <nixpkgs/nixos/modules/virtualisation/qemu-vm.nix>)
     ];
 
-  krebs.retiolum.enable = true;
   virtualisation.graphics = false;
   # also export secrets, see Usage above
   fileSystems = pkgs.lib.mkVMOverride {

@@ -11,6 +11,7 @@
       <secrets/extra-hosts.nix>
 
       # environment
+      ../2configs/tinc/retiolum.nix
 
     ];
   # workaround for https://github.com/NixOS/nixpkgs/issues/16641
@@ -52,13 +53,6 @@
     8010
   ];
 
-  krebs.retiolum = {
-    enable = true;
-    connectTo = [
-      "omo"
-      "gum"
-    ];
-  };
   virtualisation.docker.enable = false;
 
   fileSystems."/media/share" = {

@@ -25,8 +25,9 @@ in {
 
       # collectd
       ../2configs/collectd/collectd-base.nix
+
+      ../2configs/tinc/retiolum.nix
   ];
-  krebs.retiolum.enable = true;
 
   krebs.build.host = config.krebs.hosts.wry;
 

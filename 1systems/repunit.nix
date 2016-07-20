@@ -10,6 +10,7 @@
       ../.
       <nixpkgs/nixos/modules/profiles/qemu-guest.nix>
       ../2configs/git/cgit-retiolum.nix
+      ../2configs/tinc/retiolum.nix
     ];
   krebs.build.host = config.krebs.hosts.repunit;
 
@@ -30,14 +31,6 @@
   fileSystems."/" =
   { device = "/dev/disk/by-label/nixos";
     fsType = "ext4";
-  };
-  krebs.retiolum = {
-    enable = true;
-    connectTo = [
-      "gum"
-      "pigstarter"
-      "fastpoke"
-    ];
   };
 
 # $ nix-env -qaP | grep wget

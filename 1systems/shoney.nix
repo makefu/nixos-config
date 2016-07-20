@@ -13,6 +13,7 @@ in {
     ../2configs/save-diskspace.nix
     ../2configs/hw/CAC.nix
     ../2configs/fs/CAC-CentOS-7-64bit.nix
+    ../2configs/tinc/retiolum.nix
   ];
 
 
@@ -21,7 +22,6 @@ in {
 
   krebs = {
     enable = true;
-    retiolum.enable = true;
     build.host = config.krebs.hosts.shoney;
     nginx.enable = true;
     tinc_graphs = {

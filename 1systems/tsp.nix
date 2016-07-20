@@ -17,9 +17,9 @@
 
       ../2configs/zsh-user.nix
       ../2configs/exim-retiolum.nix
+      ../2configs/tinc/retiolum.nix
     ];
   # not working in vm
-  krebs.retiolum.enable = true;
   krebs.build.host = config.krebs.hosts.tsp;
 
   networking.firewall.allowedTCPPorts = [

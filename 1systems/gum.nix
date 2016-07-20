@@ -19,6 +19,7 @@ in {
       ../2configs/deployment/mycube.connector.one.nix
 
       ../2configs/exim-retiolum.nix
+      ../2configs/tinc/retiolum.nix
       ../2configs/urlwatch.nix
 
   ];
@@ -27,8 +28,7 @@ in {
 
   ###### stable
   krebs.build.host = config.krebs.hosts.gum;
-  krebs.retiolum = {
-    enable = true;
+  krebs.tinc.retiolum = {
     extraConfig = ''
       ListenAddress = ${external-ip} 53
       ListenAddress = ${external-ip} 655
