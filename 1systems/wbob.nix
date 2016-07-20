@@ -1,5 +1,7 @@
 { config, pkgs, ... }:
-{
+let rootdisk = "/dev/disk/by-id/ata-TS256GMTS800_C613840115";
+in {
+
   makefu.awesome = {
     modkey = "Mod1";
     #TODO: integrate kiosk config into full config by templating the autostart
@@ -9,19 +11,19 @@
     [ # Include the results of the hardware scan.
       ../.
       ../2configs/main-laptop.nix
+      ../2configs/virtualization.nix
+      ../2configs/tinc/retiolum.nix
     ];
   krebs = {
       enable = true;
-      retiolum.enable = true;
       build.host = config.krebs.hosts.wbob;
   };
   networking.firewall.allowedUDPPorts = [ 1655 ];
-  networking.firewall.allowedTCPPorts = [ 1655 ];
+  networking.firewall.allowedTCPPorts = [ 1655 49152 ];
   services.tinc.networks.siem = {
     name = "display";
     extraConfig = ''
       ConnectTo = sjump
-      Port = 1655
     '';
   };
 
@@ -35,12 +37,12 @@
 
 
   # nuc hardware
-  boot.loader.grub.device = "/dev/sda";
+  boot.loader.grub.device = rootdisk;
   hardware.cpu.intel.updateMicrocode = true;
   boot.initrd.availableKernelModules = [ "xhci_pci" "ehci_pci" "ahci" "usbhid" "usb_storage" "sd_mod" ];
   boot.kernelModules = [ "kvm-intel" ];
   fileSystems."/" = {
-      device = "/dev/sda1";
+      device = rootdisk + "-part1";
       fsType = "ext4";
   };
 
