@@ -17,9 +17,6 @@ in {
   ];
 
 
-  environment.systemPackages = [ pkgs.honeyd ];
-  services.tinc.networks.siem.name = "sjump";
-
   krebs = {
     enable = true;
     build.host = config.krebs.hosts.shoney;

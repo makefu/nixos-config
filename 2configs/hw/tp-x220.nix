@@ -8,10 +8,9 @@ with config.krebs.lib;
     kernelModules = [ "kvm-intel" "acpi_call" "tpm-rng" ];
     extraModulePackages = [ config.boot.kernelPackages.tp_smapi ];
   };
-
+  hardware.opengl.extraPackages =  [ pkgs.vaapiIntel pkgs.vaapiVdpau ];
   services.xserver = {
     videoDriver = "intel";
-    vaapiDrivers = [ pkgs.vaapiIntel pkgs.vaapiVdpau ];
     deviceSection = ''
       Option "AccelMethod" "sna"
     '';

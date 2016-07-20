@@ -66,7 +66,7 @@ with config.krebs.lib;
     startAgent = false;
   };
   services.openssh.enable = true;
-  nix.useChroot = true;
+  nix.useSandbox = true;
 
   users.mutableUsers = false;
 
