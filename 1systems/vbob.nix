@@ -8,7 +8,7 @@
       (toString <nixpkgs/nixos/modules/virtualisation/virtualbox-image.nix>)
       (toString <nixpkgs/nixos/modules/virtualisation/virtualbox-guest.nix>)
       ../2configs/main-laptop.nix #< base-gui
-      <secrets/extra-hosts.nix>
+      # <secrets/extra-hosts.nix>
 
       # environment
       ../2configs/tinc/retiolum.nix
