@@ -17,7 +17,6 @@ with config.krebs.lib;
   krebs = {
     enable = true;
 
-    dns.providers.siem = "hosts";
     dns.providers.lan  = "hosts";
     search-domain = "retiolum";
     build = {
@@ -25,7 +24,7 @@ with config.krebs.lib;
       source = let inherit (config.krebs.build) host user; in {
         nixpkgs.git = {
           url = https://github.com/nixos/nixpkgs;
-          ref = "0546a4a"; # stable @ 2016-06-11
+          ref = "125ffff"; # stable @ 2016-07-20
         };
         secrets.file =
           if getEnv "dummy_secrets" == "true"
@@ -171,4 +170,10 @@ with config.krebs.lib;
     consoleKeyMap = "us";
     defaultLocale = "en_US.UTF-8";
   };
+  # suppress chrome autit event messages
+  security.audit = {
+      rules = [
+        "-a task,never"
+      ];
+    };
 }
