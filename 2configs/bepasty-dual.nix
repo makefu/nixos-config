@@ -45,6 +45,7 @@ in {
             #certificate =   "${sec}/wildcard.krebsco.de.crt";
             #certificate_key = "${sec}/wildcard.krebsco.de.key";
             ciphers = "RC4:HIGH:!aNULL:!MD5" ;
+            force_encryption = true;
           };
           locations = singleton ( nameValuePair  "/.well-known/acme-challenge" ''
             root ${acmechall}/${ext-dom}/;
@@ -54,10 +55,7 @@ in {
           ssl_session_timeout  10m;
           ssl_verify_client off;
           proxy_ssl_session_reuse off;
-
-          if ($scheme = http){
-            return 301 https://$server_name$request_uri;
-          }'';
+          '';
         };
         defaultPermissions = "read";
         secretKey = secKey;
