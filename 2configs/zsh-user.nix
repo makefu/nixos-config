@@ -22,15 +22,11 @@ in
       bindkey "\e[3~" delete-char
       zstyle ':completion:*' menu select
 
-      # load gpg-agent
-      envfile="$HOME/.gnupg/gpg-agent.env"
-      if [ -e "$envfile" ] && kill -0 $(grep GPG_AGENT_INFO "$envfile" | cut -d: -f 2) 2>/dev/null; then
-        eval "$(cat "$envfile")"
-      else
-        eval "$(${pkgs.gnupg}/bin/gpg-agent --daemon --enable-ssh-support --write-env-file "$envfile")"
-      fi
-      export GPG_AGENT_INFO
-      export SSH_AUTH_SOCK
+      gpg-connect-agent updatestartuptty /bye >/dev/null
+      GPG_TTY=$(tty)
+      export GPG_TTY
+      unset SSH_AGENT_PID
+      export SSH_AUTH_SOCK="/run/user/$UID/gnupg/S.gpg-agent.ssh"
       '';
 
     promptInit = ''
