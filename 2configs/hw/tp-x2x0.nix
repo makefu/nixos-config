@@ -12,13 +12,18 @@ with config.krebs.lib;
   zramSwap.enable = true;
   zramSwap.numDevices = 2;
 
+  # enable synaptics so we can easily disable the touchpad
+  #   enable the touchpad with `synclient TouchpadOff=0`
+  services.xserver.synaptics = {
+    enable = true;
+    additionalOptions = ''Option "TouchpadOff" "1"'';
+  };
   hardware.trackpoint = {
     enable = true;
     sensitivity = 220;
     speed = 220;
     emulateWheel = true;
   };
-
 
   services.tlp.enable = true;
   services.tlp.extraConfig = ''
