@@ -22,7 +22,7 @@ in
       bindkey "\e[3~" delete-char
       zstyle ':completion:*' menu select
 
-      gpg-connect-agent updatestartuptty /bye >/dev/null
+      ${pkgs.gnupg}/bin/gpg-connect-agent updatestartuptty /bye >/dev/null
       GPG_TTY=$(tty)
       export GPG_TTY
       unset SSH_AGENT_PID
