@@ -1,6 +1,6 @@
-{ stdenv, lib, goPackages, fetchFromGitHub }:
+{ stdenv, lib, buildGoPackage, fetchFromGitHub }:
 let
-  go-xlsx = goPackages.buildGoPackage rec {
+  go-xlsx = buildGoPackage rec {
   name = "go-xlsx-${version}";
   version = "46e6e472d";
 
@@ -13,7 +13,7 @@ let
   };
 };
 in
-(goPackages.buildGoPackage rec {
+(buildGoPackage rec {
   name = "git-xlsx-textconv-${version}";
   version = "70685e7f8";
 
