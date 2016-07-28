@@ -10,7 +10,7 @@ stdenv.mkDerivation rec {
     url = "https://github.com/dirkvdb/ps3netsrv--";
     fetchSubmodules = true;
     rev = "e54a66cbf142b86e2cffc1701984b95adb921e81"; # latest @ 2016-05-24
-    sha256 = "0l7bp18cs3xr2qgsmcf18diccski49mj9whngxm9isi8wd4r9inj";
+    sha256 = "09hvmfzqy2jckpsml0z1gkcnar8sigmgs1q66k718fph2d3g54sa";
   };
 
   nativeBuildInputs = [ gnugrep ];
