@@ -3,8 +3,15 @@
 with config.krebs.lib;
 let
   sec = toString <secrets>;
-  ssl_cert = "${sec}/wildcard.krebsco.de.crt";
-  ssl_key  = "${sec}/wildcard.krebsco.de.key";
+  ext-dom = "wiki.euer.krebsco.de";
+  acmepath = "/var/lib/acme/";
+  acmechall = acmepath + "/challenges/";
+
+  #ssl_cert = "${sec}/wildcard.krebsco.de.crt";
+  #ssl_key  = "${sec}/wildcard.krebsco.de.key";
+  ssl_cert = "${acmepath}/${ext-dom}/fullchain.pem";
+  ssl_key = "${acmepath}/${ext-dom}/key.pem";
+
   user = config.services.nginx.user;
   group = config.services.nginx.group;
   fpm-socket = "/var/run/php5-fpm.sock";
@@ -80,21 +87,22 @@ in {
         listen = [ "${external-ip}:80" "${external-ip}:443 ssl"
                    "${internal-ip}:80" "${internal-ip}:443 ssl" ];
         server-names = [
-          "wiki.euer.krebsco.de"
+          ext-dom
           "wiki.makefu.retiolum"
           "wiki.makefu"
         ];
+        ssl = {
+          enable = true;
+          # these certs will be needed if acme has not yet created certificates:
+          certificate =   ssl_cert;
+          certificate_key = ssl_key;
+          force_encryption = true;
+        };
         extraConfig = ''
           gzip on;
           gzip_buffers 4 32k;
           gzip_types  text/plain application/x-javascript text/css;
-          ssl_certificate ${ssl_cert};
-          ssl_certificate_key ${ssl_key};
           default_type text/plain;
-
-          if ($scheme = http){
-            return 301 https://$server_name$request_uri;
-          }
 
         '';
         locations = [
@@ -111,8 +119,20 @@ in {
             include ${pkgs.nginx}/conf/fastcgi_params;
             include ${pkgs.nginx}/conf/fastcgi.conf;
           '')
+          (nameValuePair  "/.well-known/acme-challenge" ''
+            root ${acmechall}/${ext-dom}/;
+          '')
+
         ];
       };
     };
+  };
+  security.acme.certs."${ext-dom}" = {
+    email = "acme@syntax-fehler.de";
+    webroot = "${acmechall}/${ext-dom}/";
+    group = "nginx";
+    allowKeysForGroup = true;
+    postRun = "systemctl reload nginx.service";
+    extraDomains."${ext-dom}" = null ;
   };
 }

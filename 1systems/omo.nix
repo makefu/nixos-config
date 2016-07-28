@@ -74,7 +74,10 @@ in {
   systemd.services.sabnzbd.environment.SSL_CERT_FILE = "${pkgs.cacert}/etc/ssl/certs/ca-bundle.crt";
 
   virtualisation.docker.enable = true;
-
+  makefu.ps3netsrv = {
+    enable = true;
+    servedir = "/media/cryptX/emu/ps3";
+  };
   # HDD Array stuff
   services.smartd.devices = builtins.map (x: { device = x; }) allDisks;
 
