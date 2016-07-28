@@ -66,7 +66,7 @@ in {
     client = {
       enable = true;
       screenName = "wbob";
-      serverAddress = "pornocauster.r";
+      serverAddress = "x.r";
     };
   };
 }
