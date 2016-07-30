@@ -3,6 +3,7 @@ let
   byid = dev: "/dev/disk/by-id/" + dev;
   part1 = disk: disk + "-part1";
   rootDisk = byid "ata-SanDisk_SDSSDP064G_140237402890";
+  primary-interface = "enp2s0"; # c8:cb:b8:cf:e4:dc
   # N54L Chassis:
   # ____________________
   # |______FRONT_______|
@@ -75,4 +76,11 @@ in {
     (xfsmount "j2" (part1 jDisk2))   //
     (xfsmount "par0" (part1 jDisk3))
     ;
+  services.wakeonlan.interfaces = [
+    {
+      interface = primary-interface;
+      method = "password";
+      password = "CA:FE:BA:BE:13:37";
+    }
+  ];
 }
