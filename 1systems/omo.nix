@@ -93,7 +93,10 @@ in {
       (d: "install -m 755 -d " + (toMapper d) )
       [ 0 1 2 "X" ]}
   '';
-  environment.systemPackages = [ pkgs.mergerfs ];
+  environment.systemPackages = with pkgs;[ 
+    mergerfs # hard requirement for mount
+    wol # wake up filepimp
+  ];
   fileSystems = let
     cryptMount = name:
       { "/media/${name}" = { device = "/dev/mapper/${name}"; fsType = "xfs"; };};
