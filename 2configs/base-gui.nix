@@ -87,5 +87,8 @@ in
       URxvt.url-select.underline: true
       URxvt.searchable-scrollback: CM-s
     '';
-    in "cat ${xdefaultsfile} | xrdb -merge";
+    in ''
+      cat ${xdefaultsfile} | xrdb -merge
+      ${pkgs.xorg.xhost}/bin/xhost +local:
+    '';
 }
