@@ -11,6 +11,7 @@ in
     awesomecfg = callPackage ./awesomecfg {};
     bintray-upload = callPackage ./bintray-upload {};
     inherit (callPackage ./devpi {}) devpi-web devpi-server;
+    f3 = callPackage ./f3 {};
     farpd = callPackage ./farpd {};
     git-xlsx-textconv = callPackage ./git-xlsx-textconv {};
     mergerfs = callPackage ./mergerfs {};
