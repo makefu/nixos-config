@@ -6,7 +6,10 @@
 # TODO split generic desktop stuff and laptop-specifics like lidswitching
 
 with config.krebs.lib;
-{
+let
+  window-manager = "awesome";
+  user = config.krebs.build.user.name;
+in {
   imports = [
     ./base-gui.nix
     ./fetchWallpaper.nix
@@ -17,23 +20,32 @@ with config.krebs.lib;
   users.users.${config.krebs.build.user.name}.extraGroups = [ "dialout" ];
 
   krebs.power-action = let
-    speak = "${pkgs.espeak}/bin/espeak";
-    whisper = text: ''${pkgs.espeak}/bin/espeak -v +whisper -s 110 "${text}"'';
-    note = "${pkgs.libnotify}/bin/notify-send";
+    #speak = "XDG_RUNTIME_DIR=/run/user/$(id -u) ${pkgs.espeak}/bin/espeak"; # when run as user
+    speak = "${pkgs.espeak}/bin/espeak"; # systemwide pulse
+    whisper = text: ''${speak} -v +whisper -s 110 "${text}"'';
+
+    note = pkgs.writeDash "note-as-user" ''
+      eval "export $(egrep -z DBUS_SESSION_BUS_ADDRESS /proc/$(${pkgs.procps}/bin/pgrep -u ${user} ${window-manager})/environ)"
+      ${pkgs.libnotify}/bin/notify-send "$@";
+    '';
   in {
     enable = true;
+    inherit user;
     plans.low-battery = {
       upperLimit = 25;
       lowerLimit = 15;
       charging = false;
-      action = whisper "power level low, please plug me in";
+      action = pkgs.writeDash "low-speak" ''
+        ${whisper "power level low, please plug me in"}
+      '';
     };
     plans.nag-harder = {
       upperLimit = 15;
       lowerLimit = 5;
+      charging = false;
       action = pkgs.writeDash "crit-speak" ''
+        ${note} Battery -u critical -t 60000 "Power level critical, do something!"
         ${whisper "Power level critical, do something"}
-        ${note} Battery -u critical -t 600000 "Power level critical, do something!"
       '';
     };
     plans.last-chance = {
@@ -52,8 +64,7 @@ with config.krebs.lib;
       '';
     };
   };
-  users.users.power-action.extraGroups = [ "audio" ];
-  security.sudo.extraConfig = "${config.krebs.power-action.user.name} ALL= (root) NOPASSWD: ${pkgs.systemd}/bin/systemctl suspend";
+  security.sudo.extraConfig = "${config.krebs.power-action.user} ALL= (root) NOPASSWD: ${pkgs.systemd}/bin/systemctl suspend";
 
   services.redshift = {
     enable = true;

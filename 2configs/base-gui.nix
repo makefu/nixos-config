@@ -55,7 +55,7 @@ in
 
   hardware.pulseaudio = {
      enable = true;
-   #  systemWide = true;
+     systemWide = true;
   };
   services.xserver.displayManager.sessionCommands = let
     xdefaultsfile = pkgs.writeText "Xdefaults"  ''
