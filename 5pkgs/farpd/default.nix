@@ -17,7 +17,7 @@ stdenv.mkDerivation rec {
     libpcap
     libdnet
     pcre
-    libevent
+    libevent.out # requires .so and .h
     readline
     autoconf
     libtool
@@ -27,7 +27,10 @@ stdenv.mkDerivation rec {
     pythonPackages.sqlite3
   ];
   patches = [
-    ./farpd_0.2-11.diff
+    ( fetchurl {
+      url = https://launchpad.net/ubuntu/+archive/primary/+files/farpd_0.2-11.diff.gz;
+      sha256 = "2c246b37de8aab9c73f955fb77101adefd90637d03f582b9f8ffae2903af2f94";
+    })
   ];
   # removes user install script from Makefile before automake
   #patches = [ ./autoconf.patch ];
@@ -35,6 +38,7 @@ stdenv.mkDerivation rec {
     autoreconf -fi
 
     substituteInPlace configure \
+      --replace "dumbnet" "dnet" \
       --replace "libpcap.a" "libpcap.so" \
       --replace "libevent.a" "libevent.so" \
       --replace "net/bpf.h" "pcap/bpf.h"
