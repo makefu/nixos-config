@@ -30,7 +30,7 @@ with config.krebs.lib;
           if getEnv "dummy_secrets" == "true"
             then toString <stockholm/makefu/6tests/data/secrets>
             else "/home/makefu/secrets/${host.name}";
-        stockholm.file = "/home/makefu/stockholm";
+        stockholm.file = getEnv "PWD";
 
         # Defaults for all stockholm users?
         nixos-config.symlink =
