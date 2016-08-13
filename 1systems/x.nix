@@ -32,6 +32,7 @@
       # hardware specifics are in here
       ../2configs/hw/tp-x220.nix
       ../2configs/hw/rtl8812au.nix
+      ../2configs/hw/bcm4352.nix
       # mount points
       ../2configs/fs/sda-crypto-root-home.nix
       # ../2configs/mediawiki.nix
