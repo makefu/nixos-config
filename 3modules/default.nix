@@ -8,6 +8,7 @@ _:
     ./snapraid.nix
     ./taskserver.nix
     ./umts.nix
+    ./deluge.nix
   ];
 }
 
