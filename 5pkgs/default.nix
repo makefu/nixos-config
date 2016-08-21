@@ -21,6 +21,7 @@ in
     tw-upload-plugin = callPackage ./tw-upload-plugin {};
     skytraq-logger = callPackage ./skytraq-logger {};
     taskserver = callPackage ./taskserver {};
+    udpt = callPackage ./udpt {};
     wol = callPackage ./wol {};
   };
 }
