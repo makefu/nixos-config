@@ -24,9 +24,10 @@ in {
       ../2configs/nginx/euer.test.nix
 
       # collectd
-      ../2configs/collectd/collectd-base.nix
+      # ../2configs/collectd/collectd-base.nix
 
       ../2configs/tinc/retiolum.nix
+      ../2configs/torrent.nix
   ];
 
   krebs.build.host = config.krebs.hosts.wry;
@@ -83,5 +84,5 @@ in {
     nameservers = [ "8.8.8.8" ];
   };
 
-  environment.systemPackages = [ ];
+  environment.systemPackages = [ pkgs.screen ];
 }

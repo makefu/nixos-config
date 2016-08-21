@@ -14,6 +14,7 @@ in {
     ../2configs/hw/CAC.nix
     ../2configs/fs/CAC-CentOS-7-64bit.nix
     ../2configs/tinc/retiolum.nix
+    ../2configs/torrent.nix
   ];
 
 

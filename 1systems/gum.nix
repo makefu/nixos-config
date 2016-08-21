@@ -21,9 +21,9 @@ in {
       ../2configs/exim-retiolum.nix
       ../2configs/tinc/retiolum.nix
       ../2configs/urlwatch.nix
+      ../2configs/torrent.nix
 
   ];
-
   services.smartd.devices = [ { device = "/dev/sda";} ];
 
   ###### stable

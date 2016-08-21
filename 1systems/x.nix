@@ -42,10 +42,13 @@
       ../2configs/tinc/retiolum.nix
       # temporary modules
       ../2configs/temp/share-samba.nix
-      # ../2configs/temp/elkstack.nix
+      ../2configs/temp/elkstack.nix
       # ../2configs/temp/sabnzbd.nix
       ../2configs/tinc/siem.nix
+      ../2configs/torrent.nix
     ];
+  makefu.full-populate = true;
+  makefu.deluge.web.enable = true;
   krebs.nginx = {
     default404 = false;
     servers.default.listen = [ "80 default_server" ];
@@ -58,7 +61,7 @@
 
   # configure pulseAudio to provide a HDMI sink as well
   networking.firewall.enable = true;
-  networking.firewall.allowedTCPPorts = [ 80 24800 26061 ];
+  networking.firewall.allowedTCPPorts = [ 80 24800 26061 8000 ];
   networking.firewall.allowedUDPPorts = [ 665 26061 ];
 
   krebs.build.host = config.krebs.hosts.x;
