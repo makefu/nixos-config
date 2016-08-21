@@ -5,12 +5,13 @@ with config.krebs.lib;
 let
   cfg_daemon = config.makefu.deluge;
   homedir = cfg_daemon.homedir;
+  delugedir = "${homedir}/.config/deluge";
   cfg_web = config.makefu.deluge.web;
   core_conf = pkgs.writeText "deluge-core-cfg" ''
     {
       "file": 1,
       "format": 1
-    }${builtins.toJSON (recursiveUpdate default_core_cfg cfg_daemon.cfg)}
+    }${builtins.toJSON (default_core_cfg // cfg_daemon.cfg)}
   '';
 
   default_core_cfg = {
@@ -145,9 +146,11 @@ let
       wantedBy = [ "multi-user.target" ];
       serviceConfig = {
         ExecStart = "${pkgs.pythonPackages.deluge}/bin/deluged -d";
-        ExecStartPre = pkgs.writeDash "deluged-init" ''
-          mkdir -p ${homedir}/.config/deluge
-          cp ${core_conf} ${homedir}/.config/deluge/core.conf
+        ExecStartPre =  let
+        in  pkgs.writeDash "deluged-init" ''
+          mkdir -p ${delugedir}
+          echo ${shell.escape cfg_daemon.auth} > ${delugedir}/auth
+          cp -f ${core_conf} ${delugedir}/core.conf
         '';
         Restart = "on-success";
         User = "deluge";
