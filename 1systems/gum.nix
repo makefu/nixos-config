@@ -22,6 +22,7 @@ in {
       ../2configs/tinc/retiolum.nix
       ../2configs/urlwatch.nix
       ../2configs/torrent.nix
+      ../2configs/opentracker.nix
 
   ];
   services.smartd.devices = [ { device = "/dev/sda";} ];
