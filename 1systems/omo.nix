@@ -50,11 +50,24 @@ in {
       #../2configs/share-user-sftp.nix
       ../2configs/omo-share.nix
       ../2configs/tinc/retiolum.nix
+      ../2configs/torrent.nix
 
       ## as long as pyload is not in nixpkgs:
       # docker run -d -v /var/lib/pyload:/opt/pyload/pyload-config -v /media/crypt0/pyload:/opt/pyload/Downloads --name pyload --restart=always -p 8112:8000 -P writl/pyload
     ];
+  makefu.full-populate = true;
+  makefu.deluge.cfg = {
+    max_active_seeding = 1;
+    stop_seed_ratio = 1;
+    natpmp = true;
+    upnp = true;
+    max_upload_speed = 200;
 
+  };
+  users.groups.share = {
+    gid = config.krebs.lib.genid "share";
+    members = [ "makefu" "misa" ];
+  };
   networking.firewall.trustedInterfaces = [ primaryInterface ];
   # udp:137 udp:138 tcp:445 tcp:139 - samba, allowed in local net
   # tcp:80          - nginx for sharing files
