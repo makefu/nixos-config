@@ -101,6 +101,7 @@ let
       default = pkgs.rtorrent;
     };
 
+    # TODO: enable xmlrpc with web.enable
     xmlrpc = mkOption {
       type = with types; nullOr str;
       description = ''
