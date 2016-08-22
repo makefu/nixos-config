@@ -55,20 +55,21 @@ in {
       autoadd_enable = true;
       download_location = dl-dir + "/finished";
       torrentfiles_location = dl-dir + "/torrents"; copy_torrent_file = true;
-      lsd = true;
-      dht = true;
-      upnp = true;
-      natpmp = true;
+      lsd = false;
+      dht = false;
+      upnp = false;
+      natpmp = false;
       add_paused = false;
       allow_remote = true;
       remove_seed_at_ratio = false;
       move_completed = false;
       daemon_port = daemon-port;
+      random_port = false;
+      random_outgoing_ports = true;
       listen_ports = [ peer-port peer-port ];
-      outgoing_ports = [ peer-port peer-port ];
       # performance tuning
       cache_expiry = 3600;
-      stop_seed_at_ratio = true;
+      stop_seed_at_ratio = false;
     };
   };
 
