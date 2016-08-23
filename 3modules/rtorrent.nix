@@ -78,7 +78,8 @@ let
     # This only works because none of the attrsets returns the same key
     config = with lib; mkIf cfg.enable (lib.mkMerge [
       (lib.mkIf webcfg.enable rpcweb-imp)
-      (lib.mkIf rucfg.enable rutorrent-imp)
+      # only build rutorrent-imp if webcfg is enabled as well
+      (lib.mkIf (webcfg.enable && rucfg.enable) rutorrent-imp)
       imp
     ]);
   };
@@ -111,7 +112,8 @@ let
     };
 
     rutorrent = {
-      enable = mkEnableOption "rutorrent";
+      enable = mkEnableOption "rutorrent"; # requires rtorrent.web.enable
+
       package = mkOption {
         type = types.package;
         description = ''
