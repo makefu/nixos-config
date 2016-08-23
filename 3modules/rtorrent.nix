@@ -2,6 +2,10 @@
 
 with config.krebs.lib;
 let
+  cfg = config.makefu.rtorrent;
+  webcfg = config.makefu.rtorrent.web;
+  rucfg = config.makefu.rtorrent.rutorrent;
+
   nginx-user = config.services.nginx.user;
   nginx-group = config.services.nginx.group;
   rutorrent-deps = with pkgs; [ curl php coreutils procps ffmpeg mediainfo ] ++
@@ -17,9 +21,17 @@ let
       rev = "b727523a153454d4976f04b0c47336ae57cc50d5";
       sha256 = "0s5wa0jnck781amln9c2p4pc0i5mq3j5693ra151lnwhz63aii4a";
     };
-    phases = [ "installPhase" ];
+    phases = [ "patchPhase" "installPhase" ];
+    patchPhase = ''
+      cp -r $src src/
+      chmod u+w -R src/
+      sed -i -e 's#^\s*$scgi_port.*#$scgi_port = 0;#' \
+          -e 's#^\s*$scgi_host.*#$scgi_host = "unix://${cfg.xmlrpc-socket}";#' \
+             "src/conf/config.php"
+    '';
     installPhase = ''
-      cp -r $src $out
+      cp -r src/ $out
+      echo "replacing scgi port and host variable in conf/config.php"
     '';
   };
   fpm-socket = "/var/run/php5-fpm.sock";
@@ -38,8 +50,12 @@ let
     directory = ${cfg.downloadDir}
     session = ${cfg.sessionDir}
 
-    ${optionalString (cfg.xmlrpc != null) ''
-      scgi_port = ${cfg.xmlrpc}
+    ${optionalString (cfg.enableXMLRPC ) ''
+      # prepare socket and set permissions. rtorrent user is part of group nginx
+      # TODO: configure a shared torrent group
+      execute_nothrow = rm,${cfg.xmlrpc-socket}
+      scgi_local = ${cfg.xmlrpc-socket}
+      schedule = scgi_permission,0,0,"execute.nothrow=chmod,\"ug+w,o=\",${cfg.xmlrpc-socket}"
     ''}
 
     system.file_allocate.set = ${if cfg.preAllocate then "yes" else "no"}
@@ -55,34 +71,51 @@ let
     ${cfg.extraConfig}
   '';
 
-  cfg = config.makefu.rtorrent;
-  webcfg = config.makefu.rtorrent.web;
   out = {
     options.makefu.rtorrent = api;
-    config = lib.recursiveUpdate (lib.mkIf cfg.enable imp) (lib.mkIf cfg.web.enable web-imp);
+    config = lib.recursiveUpdate (lib.mkIf cfg.enable imp)
+           ( lib.recursiveUpdate (lib.mkIf cfg.web.enable rpcweb-imp)
+                                 (lib.mkIf cfg.rutorrent.enable rutorrent-imp));
   };
 
   api = {
     enable = mkEnableOption "rtorrent";
 
     web = {
-      enable = mkEnableOption "rtorrent";
-
-      package = mkOption {
-        type = types.package;
-        description = ''
-          path to rutorrent package
-        '';
-        default = rutorrent;
-      };
+      # configure NGINX to provide /RPC2 for listen address
+      # authentication also applies to rtorrent.rutorrent
+      enable = mkEnableOption "rtorrent nginx web RPC";
 
       listenAddress = mkOption {
         type = types.str;
         description =''
-          nginx listen address
+          nginx listen address for rtorrent web
         '';
         default = "localhost:8005";
       };
+
+      enableAuth = mkEnableOption "rutorrent authentication";
+      authfile = mkOption {
+        type = types.path;
+        description = ''
+          basic authentication file to be used.
+          Use `${pkgs.apacheHttpd}/bin/htpasswd -c <file> <username>` to create the file.
+          Only in use if authentication is enabled.
+        '';
+      };
+    };
+
+    rutorrent = {
+      enable = mkEnableOption "rutorrent";
+      package = mkOption {
+        type = types.package;
+        description = ''
+          path to rutorrent package. When using your own ruTorrent package,
+          make sure you patch the scgi_port and scgi_host.
+        '';
+        default = rutorrent;
+      };
+
 
       webdir = mkOption {
         type = types.path;
@@ -94,6 +127,7 @@ let
         '';
         default = "/var/lib/rutorrent";
       };
+
     };
 
     package = mkOption {
@@ -102,17 +136,18 @@ let
     };
 
     # TODO: enable xmlrpc with web.enable
-    xmlrpc = mkOption {
-      type = with types; nullOr str;
+    enableXMLRPC = mkEnableOption "rtorrent xmlrpc via socket";
+    xmlrpc-socket = mkOption {
+      type = types.str;
       description = ''
-        enable xmlrpc at given interface and port.
+        enable xmlrpc at given socket. Required for web-interface.
 
         for documentation see:
         https://github.com/rakshasa/rtorrent/wiki/RPC-Setup-XMLRPC
       '';
-      example = "localhost:5000";
-      default = null;
+      default = cfg.workDir + "/rtorrent.sock";
     };
+
     preAllocate = mkOption {
       type = types.bool;
       description = ''
@@ -234,41 +269,60 @@ let
       groups.rtorrent.gid = genid "rtorrent";
     };
   };
-  web-imp = {
+
+  rpcweb-imp = {
+    krebs.nginx.enable = mkDefault true;
+    krebs.nginx.servers.rtorrent = {
+      listen = [ webcfg.listenAddress ];
+      server-names = [ "default" ];
+      extraConfig = ''
+        ${optionalString webcfg.enableAuth ''
+          auth_basic "rtorrent";
+          auth_basic_user_file ${webcfg.authfile};
+        ''}
+      '';
+      locations = [
+        (nameValuePair "/RPC2" ''
+          include ${pkgs.nginx}/conf/scgi_params;
+          scgi_param    SCRIPT_NAME  /RPC2;
+          scgi_pass unix:${cfg.xmlrpc-socket};
+        '')
+      ];
+    };
+  };
+
+  rutorrent-imp = let
+    webdir = rucfg.webdir;
+  in {
     systemd.services.rutorrent-prepare = {
       after = [ "rtorrent-daemon.service" ];
+      bindsTo = [ "rtorrent-daemon.service" ];
+      wantedBy = [ "rtorrent-daemon.service" ];
       serviceConfig = {
         Type = "oneshot";
         # we create the folder and set the permissions to allow nginx
         # TODO: update files if the version of rutorrent changed
         ExecStart = pkgs.writeDash "create-webconfig-dir" ''
-          if [ ! -e ${webcfg.webdir} ];then
-            echo "creating webconfiguration directory for rutorrent: ${webcfg.webdir}"
-            cp -r ${webcfg.package} ${webcfg.webdir}
-            chown -R ${cfg.user}:${nginx-group} ${webcfg.webdir}
-            chmod -R 770 ${webcfg.webdir}
+          if [ ! -e ${webdir} ];then
+            echo "creating webconfiguration directory for rutorrent: ${webdir}"
+            cp -r ${rucfg.package} ${webdir}
+            chown -R ${cfg.user}:${nginx-group} ${webdir}
+            chmod -R 770 ${webdir}
           else
-            echo "not overwriting ${webcfg.webdir}"
+            echo "not overwriting ${webdir}"
           fi
         '';
       };
     };
-    krebs.nginx.enable = true;
-    krebs.nginx.servers.rutorrent = {
-      listen = [ webcfg.listenAddress ];
-      extraConfig = "root ${webcfg.webdir};";
-      # TODO: authentication
+    krebs.nginx.servers.rtorrent = {
+      extraConfig = ''
+        root ${webdir};
+      '';
       locations = [
-        # auth_basic "Restricted";        ##auth zone - whatever you want to use
-        # auth_basic_user_file torpasswd; ##auth file - relative to /etc/nginx/.
 
-        (nameValuePair "/RPC2" ''
-          scgi_pass localhost:5000;
-          include ${pkgs.nginx}/conf/scgi_params;
-        '')
         (nameValuePair "~ \.php$" ''
-          root ${webcfg.webdir};
           client_max_body_size 200M;
+          root ${webdir};
           fastcgi_split_path_info ^(.+\.php)(/.+)$;
           fastcgi_pass unix:${fpm-socket};
           try_files $uri =404;
