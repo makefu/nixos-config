@@ -49,7 +49,7 @@ in {
     };
   };
 
-  makefu.rtorrent = {
+  krebs.rtorrent = {
     enable = true;
     web = {
       enable = true;

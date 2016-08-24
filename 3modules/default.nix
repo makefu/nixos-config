@@ -8,7 +8,6 @@ _:
     ./forward-journal.nix
     ./opentracker.nix
     ./ps3netsrv.nix
-    ./rtorrent.nix
     ./snapraid.nix
     ./taskserver.nix
     ./udpt.nix
