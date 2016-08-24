@@ -18,6 +18,7 @@ in
     mycube-flask = callPackage ./mycube-flask {};
     nodemcu-uploader = callPackage ./nodemcu-uploader {};
     ps3netsrv = callPackage ./ps3netsrv {};
+    rutorrent = callPackage ./rutorrent {};
     tw-upload-plugin = callPackage ./tw-upload-plugin {};
     skytraq-logger = callPackage ./skytraq-logger {};
     taskserver = callPackage ./taskserver {};
