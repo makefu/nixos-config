@@ -4,7 +4,7 @@ with config.krebs.lib;
 
 let
   daemon-user = "tor";
-  daemon-pw = (import <torrent-secrets/daemon-pw>);
+  authfile = <torrent-secrets/authfile>;
   peer-port = 51412;
   web-port = 8112;
   daemon-port = 58846;
@@ -27,9 +27,10 @@ in {
       openssh.authorizedKeys.keys = [ ];
     };
   };
+
   # todo: race condition, do this after download user has been created
   system.activationScripts."download-dir-chmod" = ''
-    for i in finished torrents; do
+    for i in finished watch torrents; do
       mkdir -p "${dl-dir}/$i"
       chown download:download "${dl-dir}/$i"
       chmod 770 "${dl-dir}/$i"
@@ -42,39 +43,30 @@ in {
       members = [
         config.krebs.build.user.name
         "download"
-        "deluge"
+        "rtorrent"
+        "nginx"
       ];
     };
   };
 
-  makefu.deluge = {
+  makefu.rtorrent = {
     enable = true;
-    auth = "${daemon-user}:${daemon-pw}:10";
-    # web.enable = true;
-    cfg = {
-      autoadd_enable = true;
-      download_location = dl-dir + "/finished";
-      torrentfiles_location = dl-dir + "/torrents"; copy_torrent_file = true;
-      lsd = false;
-      dht = false;
-      upnp = false;
-      natpmp = false;
-      add_paused = false;
-      allow_remote = true;
-      remove_seed_at_ratio = false;
-      move_completed = false;
-      daemon_port = daemon-port;
-      random_port = false;
-      random_outgoing_ports = true;
-      listen_ports = [ peer-port peer-port ];
-      # performance tuning
-      cache_expiry = 3600;
-      stop_seed_at_ratio = false;
+    web = {
+      enable = true;
+      enableAuth = true;
+      listenAddress = toString web-port;
+      inherit authfile;
     };
+    rutorrent.enable = true;
+    enableXMLRPC = true;
+    listenPort = peer-port;
+    downloadDir = dl-dir + "/finished";
+    # dump old torrents into watch folder to have them re-added
+    watchDir = dl-dir +"/watch";
   };
 
   networking.firewall.extraCommands = ''
-    iptables -A INPUT -i retiolum -p tcp --dport ${toString daemon-port} -j ACCEPT
+    iptables -A INPUT -i retiolum -p tcp --dport ${toString web-port} -j ACCEPT
   '';
 
   networking.firewall.allowedTCPPorts = [ peer-port ];
