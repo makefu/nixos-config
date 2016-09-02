@@ -43,9 +43,11 @@ in {
       # TODO: unlock home partition via ssh
       ../2configs/fs/sda-crypto-root.nix
       ../2configs/zsh-user.nix
+      ../2configs/urlwatch.nix
       ../2configs/exim-retiolum.nix
       ../2configs/smart-monitor.nix
       ../2configs/mail-client.nix
+      ../2configs/disable_v6.nix
       #../2configs/graphite-standalone.nix
       #../2configs/share-user-sftp.nix
       ../2configs/omo-share.nix
@@ -56,13 +58,11 @@ in {
       # docker run -d -v /var/lib/pyload:/opt/pyload/pyload-config -v /media/crypt0/pyload:/opt/pyload/Downloads --name pyload --restart=always -p 8112:8000 -P writl/pyload
     ];
   makefu.full-populate = true;
-  makefu.deluge.cfg = {
-    max_active_seeding = 1;
-    stop_seed_ratio = 1;
-    natpmp = true;
-    upnp = true;
-    max_upload_speed = 200;
-
+  krebs.rtorrent = {
+    downloadDir = lib.mkForce "/media/crypt0/torrent";
+    extraConfig = ''
+      upload_rate = 200
+    '';
   };
   users.groups.share = {
     gid = config.krebs.lib.genid "share";
@@ -109,6 +109,7 @@ in {
   environment.systemPackages = with pkgs;[ 
     mergerfs # hard requirement for mount
     wol # wake up filepimp
+    f3
   ];
   fileSystems = let
     cryptMount = name:
