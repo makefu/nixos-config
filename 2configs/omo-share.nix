@@ -21,7 +21,6 @@ in {
           sendfile on;
           sendfile_max_chunk 512k;
           directio 512;
-          aio threads;
           mp4;
           autoindex on;
           root /media;
