@@ -2,9 +2,11 @@
   users.users.smbguest = {
     name = "smbguest";
     uid = config.ids.uids.smbguest;
+    group = "share";
     description = "smb guest user";
     home = "/var/empty";
   };
+  users.groups.share.members = [ "makefu" ];
 
   networking.firewall.allowedTCPPorts = [
     139 445 # samba
