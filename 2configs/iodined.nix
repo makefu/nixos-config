@@ -7,10 +7,12 @@ let
 in {
 
   services.iodined = {
-    enable = true;
-    domain = domain;
-    ip = "172.16.10.1/24";
-    extraConfig = "-P ${pw} -l ${config.krebs.build.host.nets.internet.ip4.addr}";
+    server = {
+      enable = true;
+      domain = domain;
+      ip = "172.16.10.1/24";
+      extraConfig = "-P ${pw} -l ${config.krebs.build.host.nets.internet.ip4.addr}";
+    };
   };
 
 }
