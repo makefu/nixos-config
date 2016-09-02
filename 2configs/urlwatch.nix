@@ -1,22 +1,6 @@
 { config, lib, ... }:
 
 {
-  nixpkgs.config.packageOverrides = pkgs: {
-    urlwatch = with pkgs.pythonPackages; buildPythonPackage rec {
-      name = "urlwatch-1.18";
-
-      propagatedBuildInputs =  [ futures ];
-
-      src = pkgs.fetchurl {
-        url = "http://thp.io/2008/urlwatch/${name}.tar.gz";
-        sha256 = "090qfgx249ks7103sap6w47f8302ix2k46wxhfssxwsqcqdl25vb";
-      };
-
-      postFixup = ''
-        wrapProgram "$out/bin/urlwatch" --prefix "PYTHONPATH" : "$PYTHONPATH"
-      '';
-    };
-  };
   krebs.urlwatch = {
     enable = true;
     mailto = config.krebs.users.makefu.mail;
