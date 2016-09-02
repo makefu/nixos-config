@@ -22,6 +22,8 @@ in {
       ../2configs/tinc/retiolum.nix
       ../2configs/urlwatch.nix
       ../2configs/torrent.nix
+      ../2configs/sabnzbd.nix
+
       ../2configs/opentracker.nix
 
   ];
