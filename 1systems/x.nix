@@ -9,6 +9,7 @@
       ../.
       ../2configs/main-laptop.nix #< base-gui + zsh
       ../2configs/laptop-utils.nix
+      ../2configs/laptop-backup.nix
 
       # Krebs
       #../2configs/disable_v6.nix
@@ -42,13 +43,14 @@
       ../2configs/tinc/retiolum.nix
       # temporary modules
       ../2configs/temp/share-samba.nix
-      ../2configs/temp/elkstack.nix
+      ../2configs/laptop-backup.nix
+      # ../2configs/temp/elkstack.nix
       # ../2configs/temp/sabnzbd.nix
       ../2configs/tinc/siem.nix
-      ../2configs/torrent.nix
+      #../2configs/torrent.nix
     ];
   makefu.full-populate = true;
-  makefu.deluge.web.enable = true;
+
   krebs.nginx = {
     default404 = false;
     servers.default.listen = [ "80 default_server" ];
