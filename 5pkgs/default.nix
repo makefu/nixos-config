@@ -24,6 +24,7 @@ in
         sha256 = "18ddzyh11bywrhzdkzvrl7nvgp5gdb4k1s0zxbz2bkhd14vi72bb";
       };
     };
+    qcma = pkgs.qt5.callPackage ./qcma {};
     tw-upload-plugin = callPackage ./tw-upload-plugin {};
     skytraq-logger = callPackage ./skytraq-logger {};
     taskserver = callPackage ./taskserver {};
