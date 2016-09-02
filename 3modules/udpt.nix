@@ -40,8 +40,9 @@ let
       restartIfChanged = true;
       serviceConfig = {
         Type = "simple";
-        ExecStart = "${cfg.package}/bin/udpt -c ${shell.escape cfg.cfgfile}";
+        ExecStart = "${cfg.package}/bin/udpt -i -c ${shell.escape cfg.cfgfile}";
         PrivateTmp = true;
+        WorkingDirectory = "/tmp";
         User = "${cfg.user}";
       };
     };

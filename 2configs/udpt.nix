@@ -1,6 +1,7 @@
 {pkgs, ...}:
 
 let
+  daemon-port = 6969;
   cfgfile = pkgs.writeText "udpt-config" ''
     [db]
     driver=sqlite3
@@ -11,7 +12,9 @@ let
     port=6969
     threads=5
     allow_remotes=yes
-    allow_iana_ips=no
+
+    # allow retiolum:
+    allow_iana_ips=yes
     announce_interval=1800
     cleanup_interval=120
 
@@ -19,7 +22,7 @@ let
     enable=yes
 
     [logging]
-    filename=-
+    filename=/tmp/udpt.log
     level=warning
   '';
 in {
@@ -27,5 +30,8 @@ in {
     enable = true;
     inherit cfgfile;
   };
+  networking.firewall.extraCommands = ''
+    iptables -A INPUT -i retiolum -p udp --dport ${toString daemon-port} -j ACCEPT
+  '';
 
 }
