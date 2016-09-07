@@ -24,7 +24,7 @@ with config.krebs.lib;
       source = let inherit (config.krebs.build) host user; in {
         nixpkgs = if config.makefu.full-populate or (getEnv "dummy_secrets" == "true") then
           { # stable @ 2016-07-20
-            git = { url = https://github.com/nixos/nixpkgs; ref = "125ffff"; };
+            git = trace "Populating nixpkgs via full clone" { url = https://github.com/nixos/nixpkgs; ref = "125ffff"; };
           }
             else
             # TODO use http, once it is implemented
@@ -32,7 +32,7 @@ with config.krebs.lib;
 
             ## prepare so we do not have to wait for rsync:
             ## cd /var/src; curl https://github.com/nixos/nixpkgs/tarball/125ffff  -L | tar zx  && mv NixOS-nixpkgs-125ffff nixpkgs
-            { file = "/home/makefu/store/125ffff";};
+            trace "Populating nixpkgs with local directory" { file = "/home/makefu/store/125ffff";};
         secrets.file =
           if getEnv "dummy_secrets" == "true"
             then toString <stockholm/makefu/6tests/data/secrets>
