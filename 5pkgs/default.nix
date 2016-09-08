@@ -2,9 +2,16 @@
 
 let
   inherit (pkgs) callPackage;
+  nixpkgs-1509 = import (pkgs.fetchFromGitHub {
+    owner = "NixOS"; repo = "nixpkgs-channels";
+    rev = "91371c2bb6e20fc0df7a812332d99c38b21a2bda";
+    sha256 = "1as1i0j9d2n3iap9b471y4x01561r2s3vmjc5281qinirlr4al73";
+  }) {};
+
 in
 {
   nixpkgs.config.packageOverrides = rec {
+    cups = nixpkgs-1509.cups;
     alsa-hdspconf = callPackage ./alsa-tools { alsaToolTarget="hdspconf";};
     alsa-hdspmixer = callPackage ./alsa-tools { alsaToolTarget="hdspmixer";};
     alsa-hdsploader = callPackage ./alsa-tools { alsaToolTarget="hdsploader";};
