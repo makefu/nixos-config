@@ -38,4 +38,8 @@ with config.krebs.lib;
     CPU_MIN_PERF_ON_BAT=0
     CPU_MAX_PERF_ON_BAT=30
   '';
+
+  powerManagement.resumeCommands = ''
+    {pkgs.rfkill}/bin/rfkill unblock all
+  '';
 }
