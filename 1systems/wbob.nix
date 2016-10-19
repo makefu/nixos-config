@@ -55,6 +55,10 @@ in {
   # rt2870 with nonfree creates wlp2s0 from wlp0s20u2
   # not explicitly setting the interface results in wpa_supplicant to crash
   networking.wireless.interfaces = [ "wlp2s0" ];
+  networking.interfaces.virbr1.ip4 = [{
+    address = "10.8.8.11";
+    prefixLength = 24;
+  }];
 
 
   # nuc hardware

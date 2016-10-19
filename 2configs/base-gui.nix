@@ -82,7 +82,6 @@ in
 
       URxvt.perl-ext:      default,url-select
       URxvt.keysym.M-u:    perl:url-select:select_next
-      #URxvt.url-select.launcher:   firefox -new-tab
       URxvt.url-select.launcher:   chromium
       URxvt.url-select.underline: true
       URxvt.searchable-scrollback: CM-s

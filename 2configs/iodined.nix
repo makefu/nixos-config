@@ -5,8 +5,9 @@ let
   domain = "io.krebsco.de";
   pw = import <secrets/iodinepw.nix>;
 in {
+  networking.firewall.allowedUDPPorts = [ 53 ];
 
-  services.iodined = {
+  services.iodine = {
     server = {
       enable = true;
       domain = domain;

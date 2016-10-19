@@ -16,12 +16,14 @@ in {
       ../2configs/bepasty-dual.nix
 
       ../2configs/iodined.nix
-
+      ../2configs/backup.nix
 
       # other nginx
       ../2configs/nginx/euer.wiki.nix
       ../2configs/nginx/euer.blog.nix
       ../2configs/nginx/euer.test.nix
+
+      #../2configs/elchos/stats.nix
 
       # collectd
       # ../2configs/collectd/collectd-base.nix

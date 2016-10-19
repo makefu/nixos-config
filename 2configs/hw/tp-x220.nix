@@ -5,7 +5,7 @@ with config.krebs.lib;
 
   imports = [ ./tp-x2x0.nix ];
   boot = {
-    kernelModules = [ "kvm-intel" "acpi_call" "tpm-rng" ];
+    kernelModules = [ "kvm-intel" "acpi_call" "tpm-rng" "tp_smapi" ];
     extraModulePackages = [ config.boot.kernelPackages.tp_smapi ];
   };
   hardware.opengl.extraPackages =  [ pkgs.vaapiIntel pkgs.vaapiVdpau ];

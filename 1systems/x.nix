@@ -63,11 +63,10 @@
 
   # configure pulseAudio to provide a HDMI sink as well
   networking.firewall.enable = true;
-  networking.firewall.allowedTCPPorts = [ 80 24800 26061 8000 ];
+  networking.firewall.allowedTCPPorts = [ 80 24800 26061 8000 3000 ];
   networking.firewall.allowedUDPPorts = [ 665 26061 ];
 
   krebs.build.host = config.krebs.hosts.x;
-  krebs.hosts.omo.nets.retiolum.via.ip4.addr = "192.168.1.11";
 
   krebs.tinc.retiolum.connectTo = [ "omo" "gum" "prism" ];
 

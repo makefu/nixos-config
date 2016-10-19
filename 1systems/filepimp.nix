@@ -24,7 +24,9 @@ in {
       ../2configs/fs/single-partition-ext4.nix
       ../2configs/smart-monitor.nix
       ../2configs/tinc/retiolum.nix
+      ../2configs/filepimp-share.nix
     ];
+
   krebs.build.host = config.krebs.hosts.filepimp;
   # AMD N54L
   boot = {
@@ -76,6 +78,9 @@ in {
     (xfsmount "j2" (part1 jDisk2))   //
     (xfsmount "par0" (part1 jDisk3))
     ;
+
+  networking.firewall.trustedInterfaces = [ primary-interface ];
+
   services.wakeonlan.interfaces = [
     {
       interface = primary-interface;

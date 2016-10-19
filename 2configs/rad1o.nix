@@ -3,7 +3,7 @@
 {
 
   environment.systemPackages = with pkgs; [
-    gnuradio-full
+    gnuradio-with-packages
     gnuradio-osmosdr
     gqrx
     ];
