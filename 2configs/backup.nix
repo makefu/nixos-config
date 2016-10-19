@@ -1,6 +1,10 @@
 { config, lib, ... }:
 with config.krebs.lib;
 let
+  # preparation:
+  # mkdir -p defaultBackupDir/host.name/src
+  # as root on omo:
+  #   ssh-copy-id root@src
   startAt = "0,6,12,18:00";
   defaultBackupServer = config.krebs.hosts.omo;
   defaultBackupDir = "/home/backup";
@@ -12,7 +16,7 @@ let
     };
     dst = {
       host = defaultBackupServer;
-      path = defaultBackupDir + src;
+      path = "${defaultBackupDir}/${host.name}${src}";
     };
     startAt = "0,6,12,18:00";
     snapshots = {
@@ -25,6 +29,6 @@ let
   };
 in {
   krebs.backup.plans = {
-    wry-to-omo_var-www = defaultPull wry "/var/www";
+    wry-to-omo_var-www = defaultPull config.krebs.hosts.wry "/";
   };
 }
