@@ -1,6 +1,6 @@
 { config, pkgs, lib, ... }:
 
-with config.krebs.lib;
+with import <stockholm/lib>;
 
 let
   icecult = pkgs.fetchFromGitHub {

@@ -1,6 +1,6 @@
 { config, lib, pkgs, ... }:
 
-with config.krebs.lib;
+with import <stockholm/lib>;
 let
   external-ip = config.krebs.build.host.nets.internet.ip4.addr;
   internal-ip = config.krebs.build.host.nets.retiolum.ip4.addr;

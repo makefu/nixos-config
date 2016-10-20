@@ -1,6 +1,6 @@
 { config, pkgs, lib, ... }:
 
-with config.krebs.lib;
+with import <stockholm/lib>;
 let
   byid = dev: "/dev/disk/by-id/" + dev;
   rootDisk = byid "ata-ADATA_SSD_S599_64GB_10460000000000000039";

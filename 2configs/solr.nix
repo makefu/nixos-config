@@ -2,7 +2,7 @@
 
 # graphite-web on port 8080
 # carbon cache on port 2003 (tcp/udp)
-with config.krebs.lib;
+with import <stockholm/lib>;
 let
   solrHome = "/var/db/solr";
 in {

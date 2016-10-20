@@ -66,7 +66,7 @@ in {
     '';
   };
   users.groups.share = {
-    gid = config.krebs.lib.genid "share";
+    gid = (import <stockholm/lib>).genid "share";
     members = [ "makefu" "misa" ];
   };
   networking.firewall.trustedInterfaces = [ primaryInterface ];

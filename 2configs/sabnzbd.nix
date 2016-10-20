@@ -1,6 +1,6 @@
 { pkgs, config, ... }:
 
-with config.krebs.lib;
+with import <stockholm/lib>;
 let
   web-port = 8080;
 in {

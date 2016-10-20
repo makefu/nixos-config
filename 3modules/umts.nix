@@ -1,6 +1,6 @@
 { config, lib, pkgs, ... }:
 
-with config.krebs.lib;
+with import <stockholm/lib>;
 
 let
   nixpkgs-1509 = import (pkgs.fetchFromGitHub {

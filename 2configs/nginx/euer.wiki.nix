@@ -1,6 +1,6 @@
 { config, lib, pkgs, ... }:
 
-with config.krebs.lib;
+with import <stockholm/lib>;
 let
   sec = toString <secrets>;
   ext-dom = "wiki.euer.krebsco.de";

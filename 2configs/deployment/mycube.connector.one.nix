@@ -1,6 +1,6 @@
 { config, lib, pkgs, ... }:
 # more than just nginx config but not enough to become a module
-with config.krebs.lib;
+with import <stockholm/lib>;
 let
   hostname = config.krebs.build.host.name;
   external-ip = config.krebs.build.host.nets.internet.ip4.addr;

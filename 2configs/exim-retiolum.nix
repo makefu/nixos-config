@@ -1,6 +1,6 @@
 { config, lib, pkgs, ... }:
 
-with config.krebs.lib;
+with import <stockholm/lib>;
 {
   networking.firewall.allowedTCPPorts = [ 25 ];
 

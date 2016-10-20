@@ -1,6 +1,6 @@
 { config, lib, pkgs, ... }:
 # based on <nixpkgs>/nixos/modules/services/torrent/deluge.nix
-with config.krebs.lib;
+with import <stockholm/lib>;
 
 let
   cfg_daemon = config.makefu.deluge;
