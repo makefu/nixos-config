@@ -48,7 +48,7 @@
 
     # sectools
     aria2
-    binwalk
+    pythonPackages.binwalk-full
     dnsmasq
     iodine
     mtr
