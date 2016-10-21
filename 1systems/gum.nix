@@ -40,7 +40,7 @@ in {
     '';
     connectTo = [
       "muhbaasu" "tahoe" "flap" "wry"
-      "ire" "cd" "mkdir" "rmdir"
+      "cd"
       "fastpoke" "prism" "dishfire" "echelon" "cloudkrebs"
     ];
   };
