@@ -11,9 +11,9 @@ in {
       ../2configs/fs/simple-swap.nix
       ../2configs/fs/single-partition-ext4.nix
       ../2configs/smart-monitor.nix
-      # ../2configs/iodined.nix
+      ../2configs/iodined.nix
       ../2configs/git/cgit-retiolum.nix
-      ../2configs/mattermost-docker.nix
+      # ../2configs/mattermost-docker.nix
       ../2configs/nginx/euer.test.nix
       ../2configs/nginx/update.connector.one.nix
       ../2configs/deployment/mycube.connector.one.nix
