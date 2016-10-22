@@ -13,6 +13,7 @@
 
       # Krebs
       #../2configs/disable_v6.nix
+      ../2configs/rad1o.nix
 
 
       # applications
@@ -38,19 +39,21 @@
       ../2configs/fs/sda-crypto-root-home.nix
       # ../2configs/mediawiki.nix
       #../2configs/wordpress.nix
-      ../2configs/nginx/public_html.nix
+      #../2configs/nginx/public_html.nix
+      ../2configs/nginx/icecult.nix
 
       ../2configs/tinc/retiolum.nix
       # temporary modules
       ../2configs/temp/share-samba.nix
       ../2configs/laptop-backup.nix
-      # ../2configs/temp/elkstack.nix
+      ../2configs/temp/elkstack.nix
       # ../2configs/temp/sabnzbd.nix
       ../2configs/tinc/siem.nix
       #../2configs/torrent.nix
     ];
   makefu.full-populate = true;
 
+  nixpkgs.config.allowUnfree = true;
   krebs.nginx = {
     default404 = false;
     servers.default.listen = [ "80 default_server" ];
@@ -59,7 +62,7 @@
 
   environment.systemPackages = [ pkgs.passwdqc-utils pkgs.bintray-upload ];
 
-  virtualisation.docker.enable = true;
+  # virtualisation.docker.enable = true;
 
   # configure pulseAudio to provide a HDMI sink as well
   networking.firewall.enable = true;
