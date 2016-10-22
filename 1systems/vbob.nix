@@ -40,7 +40,7 @@
     fortclientsslvpn ppp xclip
     get
     logstash
-    docker
+  #  docker
     devpi-web
     devpi-client
   ];
@@ -52,8 +52,6 @@
     80
     8010
   ];
-
-  virtualisation.docker.enable = false;
 
   fileSystems."/media/share" = {
     fsType = "vboxsf";
