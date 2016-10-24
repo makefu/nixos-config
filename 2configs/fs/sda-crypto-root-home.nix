@@ -8,7 +8,7 @@
 #             /     (main-root)
 #             /home (main-home)
 
-with config.krebs.lib;
+with import <stockholm/lib>;
 {
 
   imports = [

@@ -5,7 +5,7 @@
 # not fit into base-gui
 # TODO split generic desktop stuff and laptop-specifics like lidswitching
 
-with config.krebs.lib;
+with import <stockholm/lib>;
 let
   window-manager = "awesome";
   user = config.krebs.build.user.name;

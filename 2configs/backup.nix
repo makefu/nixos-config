@@ -1,5 +1,5 @@
 { config, lib, ... }:
-with config.krebs.lib;
+with import <stockholm/lib>;
 let
   # preparation:
   # mkdir -p defaultBackupDir/host.name/src

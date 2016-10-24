@@ -4,7 +4,7 @@
 # sda1: boot ext4 (label nixboot) - must be unlocked on boot if required:
   # boot.initrd.luks.devices = [ { name = "luksroot"; device = "/dev/sda2"; allowDiscards=true; }];
 # sda2: cryptoluks -> ext4
-with config.krebs.lib;
+with import <stockholm/lib>;
 {
   boot = {
     loader.grub.enable = true;

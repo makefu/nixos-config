@@ -1,6 +1,6 @@
 { config, lib, pkgs, ... }:
 
-with config.krebs.lib;
+with import <stockholm/lib>;
 let
   hostname = config.krebs.build.host.name;
 in {

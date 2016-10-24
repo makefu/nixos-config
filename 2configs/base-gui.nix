@@ -11,7 +11,7 @@
 # if this is not enough, check out main-laptop.nix
 
 
-with config.krebs.lib;
+with import <stockholm/lib>;
 let
   mainUser = config.krebs.build.user.name;
 in

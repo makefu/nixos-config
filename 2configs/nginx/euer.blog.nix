@@ -1,6 +1,6 @@
 { config, lib, pkgs, ... }:
 
-with config.krebs.lib;
+with import <stockholm/lib>;
 let
   sec = toString <secrets>;
   ssl_cert = "${sec}/wildcard.krebsco.de.crt";
