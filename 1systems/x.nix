@@ -32,7 +32,7 @@
       # ../2configs/buildbot-standalone.nix
 
       # hardware specifics are in here
-      ../2configs/hw/tp-x220.nix
+      ../2configs/hw/tp-x230.nix
       ../2configs/hw/rtl8812au.nix
       ../2configs/hw/bcm4352.nix
       # mount points
@@ -46,7 +46,7 @@
       # temporary modules
       ../2configs/temp/share-samba.nix
       ../2configs/laptop-backup.nix
-      ../2configs/temp/elkstack.nix
+      #../2configs/temp/elkstack.nix
       # ../2configs/temp/sabnzbd.nix
       ../2configs/tinc/siem.nix
       #../2configs/torrent.nix
@@ -62,7 +62,7 @@
 
   environment.systemPackages = [ pkgs.passwdqc-utils pkgs.bintray-upload ];
 
-  # virtualisation.docker.enable = true;
+  virtualisation.docker.enable = true;
 
   # configure pulseAudio to provide a HDMI sink as well
   networking.firewall.enable = true;

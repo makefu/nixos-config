@@ -5,9 +5,19 @@ with import <stockholm/lib>;
 
   imports = [ ./tp-x2x0.nix ];
   boot = {
-    kernelModules = [ "kvm-intel" "acpi_call" "tpm-rng" "tp_smapi" ];
-    extraModulePackages = [ config.boot.kernelPackages.tp_smapi ];
+    # tp-smapi is not supported bt x230 anymore
+    kernelModules = [
+      "kvm-intel"
+      "thinkpad_ec"
+   #   "acpi_call"
+   #   "thinkpad_acpi"
+   #   "tpm-rng"
+    ];
+    extraModulePackages = [
+    #  config.boot.kernelPackages.acpi_call
+    ];
   };
+  services.acpid.enable = true;
   hardware.opengl.extraPackages =  [ pkgs.vaapiIntel pkgs.vaapiVdpau ];
   services.xserver = {
     videoDriver = "intel";
@@ -15,8 +25,8 @@ with import <stockholm/lib>;
       Option "AccelMethod" "sna"
     '';
   };
-
-  security.rngd.enable = true;
+  # no entropy source working
+  # security.rngd.enable = true;
 
   services.xserver.displayManager.sessionCommands =''
     xinput set-int-prop "TPPS/2 IBM TrackPoint" "Evdev Wheel Emulation" 8 1
