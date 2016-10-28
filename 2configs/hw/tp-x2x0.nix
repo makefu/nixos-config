@@ -28,8 +28,9 @@ with import <stockholm/lib>;
   services.tlp.enable = true;
   services.tlp.extraConfig = ''
     # BUG: http://linrunner.de/en/tlp/docs/tlp-faq.html#erratic-battery
-    #START_CHARGE_THRESH_BAT0=80
-    STOP_CHARGE_THRESH_BAT0=95
+    START_CHARGE_THRESH_BAT0=67
+    STOP_CHARGE_THRESH_BAT0=100
+
 
     CPU_SCALING_GOVERNOR_ON_AC=performance
     CPU_SCALING_GOVERNOR_ON_BAT=ondemand
@@ -40,6 +41,6 @@ with import <stockholm/lib>;
   '';
 
   powerManagement.resumeCommands = ''
-    {pkgs.rfkill}/bin/rfkill unblock all
+    ${pkgs.rfkill}/bin/rfkill unblock all
   '';
 }
