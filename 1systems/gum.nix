@@ -24,6 +24,7 @@ in {
       ../2configs/torrent.nix
       ../2configs/graphite-standalone.nix
       ../2configs/sabnzbd.nix
+      ../2configs/gum-share.nix
 
       ../2configs/opentracker.nix
 
