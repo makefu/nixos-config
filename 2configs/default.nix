@@ -90,9 +90,14 @@ with import <stockholm/lib>;
     "d /tmp 1777 root root - -"
   ];
   nix.nixPath = [ "/var/src" ];
-  environment.variables = {
+  environment.variables = let
+    ca-bundle = "${pkgs.cacert}/etc/ssl/certs/ca-bundle.crt";
+  in {
     NIX_PATH = mkForce "/var/src";
     EDITOR = mkForce "vim";
+    CURL_CA_BUNDLE = ca-bundle;
+    GIT_SSL_CAINFO = ca-bundle;
+    SSL_CERT_FILE  = ca-bundle;
   };
 
   environment.systemPackages = with pkgs; [
