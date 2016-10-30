@@ -10,7 +10,6 @@ with import <stockholm/lib>;
     }
     ./vim.nix
     ./binary-cache/nixos.nix
-    ./binary-cache/lass.nix
   ];
 
   nixpkgs.config.allowUnfreePredicate =  (pkg: pkgs.lib.hasPrefix "unrar-" pkg.name);
