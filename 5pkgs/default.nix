@@ -10,7 +10,9 @@ in
     alsa-hdsploader = callPackage ./alsa-tools { alsaToolTarget="hdsploader";};
     awesomecfg = callPackage ./awesomecfg {};
     bintray-upload = callPackage ./bintray-upload {};
-    inherit (callPackage ./devpi {}) devpi-web devpi-server;
+    debmirror = callPackage ./debmirror {};
+    inherit (callPackage ./devpi {}) devpi-web devpi-server devpi-client;
+    elchhub = callPackage ./elchhub {};
     f3 = callPackage ./f3 {};
     farpd = callPackage ./farpd {};
     git-xlsx-textconv = callPackage ./git-xlsx-textconv {};
