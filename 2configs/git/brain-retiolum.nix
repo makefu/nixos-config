@@ -29,7 +29,7 @@ let
         nick = config.networking.hostName;
         channel = "#retiolum";
         # TODO remove the hardcoded hostname
-        server = "cd.retiolum";
+        server = "ni.r";
       };
     };
   };
