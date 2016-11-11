@@ -36,7 +36,7 @@
     enable = true;
     debug = true;
     extraEnviron = {
-      REAKTOR_HOST = "cd.retiolum";
+      REAKTOR_HOST = "ni.r";
     };
     plugins = with pkgs.ReaktorPlugins; [ stockholm-issue nixos-version sed-plugin ];
     channels = [ "#retiolum" ];

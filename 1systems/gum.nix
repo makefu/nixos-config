@@ -40,7 +40,7 @@ in {
     '';
     connectTo = [
       "muhbaasu" "tahoe" "flap" "wry"
-      "cd"
+      "ni"
       "fastpoke" "prism" "dishfire" "echelon" "cloudkrebs"
     ];
   };
