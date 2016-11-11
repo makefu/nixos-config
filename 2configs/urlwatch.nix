@@ -15,7 +15,7 @@
       http://guest:derpi@cvs2svn.tigris.org/svn/cvs2svn/tags/
       http://ftp.debian.org/debian/pool/main/a/apt-cacher-ng/
       https://github.com/amadvance/snapraid/releases.atom
-      https://erdgeist.org/gitweb/opentracker/commit/
+      https://erdgeist.org/gitweb/opentracker/info/refs?service=git-upload-pack
     ];
   };
 }

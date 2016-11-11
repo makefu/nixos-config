@@ -6,7 +6,11 @@ let
   external-ip = config.krebs.build.host.nets.internet.ip4.addr;
   wsgi-sock = "${config.services.uwsgi.runDir}/uwsgi.sock";
 in {
-  services.redis.enable = true;
+  services.redis = {
+    enable = true;
+  };
+  systemd.services.redis.serviceConfig.LimitNOFILE=10032;
+
   services.uwsgi = {
     enable = true;
     user = "nginx";
