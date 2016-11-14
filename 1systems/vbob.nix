@@ -8,12 +8,12 @@
       (toString <nixpkgs/nixos/modules/virtualisation/virtualbox-image.nix>)
       (toString <nixpkgs/nixos/modules/virtualisation/virtualbox-guest.nix>)
       ../2configs/main-laptop.nix #< base-gui
-      # <secrets/extra-hosts.nix>
 
       # environment
       ../2configs/tinc/retiolum.nix
 
     ];
+  networking.extraHosts = import (toString <secrets/extra-hosts.nix>);
   # workaround for https://github.com/NixOS/nixpkgs/issues/16641
   services.xserver.videoDrivers = lib.mkOverride 45 [ "virtualbox" "modesetting" ];
 
@@ -41,8 +41,10 @@
     get
     logstash
   #  docker
-    devpi-web
-    devpi-client
+    #devpi-web
+    #devpi-client
+    debmirror
+    ansible
   ];
   # virtualisation.docker.enable = true;
 
