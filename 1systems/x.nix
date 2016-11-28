@@ -5,25 +5,39 @@
 
 {
   imports =
-    [ # Include the results of the hardware scan.
+    [ # base
       ../.
-      ../2configs/main-laptop.nix #< base-gui + zsh
+      ../2configs/main-laptop.nix
       ../2configs/laptop-utils.nix
       ../2configs/laptop-backup.nix
 
-      # Krebs
-      #../2configs/disable_v6.nix
-      ../2configs/rad1o.nix
+      # testing
+      #../2configs/elchos/search.nix
+      #../2configs/temp/share-samba.nix
+      # ../2configs/mediawiki.nix
+      # ../2configs/wordpress.nix
+      # ../2configs/nginx/public_html.nix
+      # ../2configs/nginx/icecult.nix
+      ../2configs/laptop-backup.nix
+      #../2configs/temp/elkstack.nix
+      # ../2configs/temp/sabnzbd.nix
+      ../2configs/tinc/siem.nix
+      #../2configs/torrent.nix
 
+
+
+      # Krebs
+      ../2configs/disable_v6.nix
+      ../2configs/tinc/retiolum.nix
 
       # applications
-
       ../2configs/exim-retiolum.nix
       ../2configs/mail-client.nix
       ../2configs/printer.nix
       ../2configs/virtualization.nix
       ../2configs/virtualization-virtualbox.nix
       ../2configs/wwan.nix
+      ../2configs/rad1o.nix
 
       # services
       ../2configs/git/brain-retiolum.nix
@@ -37,19 +51,8 @@
       ../2configs/hw/bcm4352.nix
       # mount points
       ../2configs/fs/sda-crypto-root-home.nix
-      # ../2configs/mediawiki.nix
-      #../2configs/wordpress.nix
-      #../2configs/nginx/public_html.nix
-      ../2configs/nginx/icecult.nix
 
-      ../2configs/tinc/retiolum.nix
       # temporary modules
-      ../2configs/temp/share-samba.nix
-      ../2configs/laptop-backup.nix
-      #../2configs/temp/elkstack.nix
-      # ../2configs/temp/sabnzbd.nix
-      ../2configs/tinc/siem.nix
-      #../2configs/torrent.nix
     ];
   makefu.full-populate = true;
 
