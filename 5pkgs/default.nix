@@ -5,6 +5,7 @@ let
 in
 {
   nixpkgs.config.packageOverrides = rec {
+    acdcli = callPackage ./acdcli {};
     alsa-hdspconf = callPackage ./alsa-tools { alsaToolTarget="hdspconf";};
     alsa-hdspmixer = callPackage ./alsa-tools { alsaToolTarget="hdspmixer";};
     alsa-hdsploader = callPackage ./alsa-tools { alsaToolTarget="hdsploader";};
