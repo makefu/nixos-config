@@ -4,7 +4,7 @@ with import <stockholm/lib>;
 
 let
   daemon-user = "tor";
-  authfile = <torrent-secrets/authfile>;
+  basicAuth = import <torrent-secrets/auth.nix>;
   peer-port = 51412;
   web-port = 8112;
   daemon-port = 58846;
@@ -53,9 +53,8 @@ in {
     enable = true;
     web = {
       enable = true;
-      enableAuth = true;
-      listenAddress = toString web-port;
-      inherit authfile;
+      port = web-port;
+      inherit basicAuth;
     };
     rutorrent.enable = true;
     enableXMLRPC = true;
