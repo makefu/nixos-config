@@ -48,12 +48,16 @@ in {
       ../2configs/exim-retiolum.nix
       ../2configs/smart-monitor.nix
       ../2configs/mail-client.nix
-      ../2configs/disable_v6.nix
+      # ../2configs/disable_v6.nix
       #../2configs/graphite-standalone.nix
       #../2configs/share-user-sftp.nix
       ../2configs/omo-share.nix
       ../2configs/tinc/retiolum.nix
-      ../2configs/torrent.nix
+      # ../2configs/torrent.nix
+
+      # ../2configs/elchos/search.nix
+      # ../2configs/elchos/log.nix
+      # ../2configs/elchos/irc-token.nix
 
       ## as long as pyload is not in nixpkgs:
       # docker run -d -v /var/lib/pyload:/opt/pyload/pyload-config -v /media/crypt0/pyload:/opt/pyload/Downloads --name pyload --restart=always -p 8112:8000 -P writl/pyload
@@ -121,7 +125,8 @@ in {
     // { "/media/cryptX" = {
             device = (lib.concatMapStringsSep ":" (d: (toMapper d)) [ 0 1 2 ]);
             fsType = "mergerfs";
-            options = [ "defaults" "allow_other" ];
+            noCheck = true;
+            options = [ "defaults" "allow_other" "nofail" "nonempty" ];
           };
        };
 
