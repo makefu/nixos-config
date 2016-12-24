@@ -13,7 +13,7 @@ in {
       ../2configs/fs/CAC-CentOS-7-64bit.nix
       ../2configs/save-diskspace.nix
 
-      ../2configs/bepasty-dual.nix
+      # ../2configs/bepasty-dual.nix
 
       ../2configs/iodined.nix
       ../2configs/backup.nix
@@ -21,9 +21,7 @@ in {
       # other nginx
       ../2configs/nginx/euer.wiki.nix
       ../2configs/nginx/euer.blog.nix
-      ../2configs/nginx/euer.test.nix
-
-      #../2configs/elchos/stats.nix
+      # ../2configs/nginx/euer.test.nix
 
       # collectd
       # ../2configs/collectd/collectd-base.nix
@@ -52,7 +50,7 @@ in {
   krebs.bepasty.servers.external.nginx.listen  = [ "${external-ip}:80" "${external-ip}:443 ssl" ];
 
   # prepare graphs
-  krebs.nginx.enable = true;
+  services.nginx.enable = true;
   krebs.retiolum-bootstrap.enable = true;
 
   krebs.tinc_graphs = {
@@ -61,12 +59,17 @@ in {
       enable = true;
       # TODO: remove hard-coded hostname
       complete = {
-        listen = [ "${internal-ip}:80" ];
-        server-names = [ "graphs.wry" "graphs.retiolum" "graphs.wry.retiolum" ];
+        extraConfig = ''
+          if ( $server_addr = "${external-ip}" ) {
+            return 403;
+          }
+        '';
+        serverAliases = [  "graphs.retiolum" "graphs.wry" "graphs.retiolum" "graphs.wry.retiolum" ];
       };
       anonymous = {
-        listen = [ "${external-ip}:80" ] ;
-        server-names = [ "graphs.krebsco.de" ];
+        enableSSL = true;
+        forceSSL = true;
+        enableACME = true;
       };
     };
   };
