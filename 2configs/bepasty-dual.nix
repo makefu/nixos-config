@@ -26,8 +26,7 @@ in {
     serveNginx= true;
 
     servers = {
-      internal = {
-        domain  = "paste.r";
+      "paste.r" = {
         nginx = {
           serverAliases = [ "paste.retiolum" "paste.${config.krebs.build.host.name}" ];
         };
@@ -35,8 +34,7 @@ in {
         secretKey = secKey;
       };
 
-      external = {
-        domain = ext-dom;
+      "${ext-dom}" = {
         nginx = {
           enableSSL = true;
           forceSSL = true;
@@ -46,13 +44,5 @@ in {
         secretKey = secKey;
       };
     };
-  };
-  security.acme.certs."${ext-dom}" = {
-    email = "acme@syntax-fehler.de";
-    webroot = "${acmechall}/${ext-dom}/";
-    group = "nginx";
-    allowKeysForGroup = true;
-    postRun = "systemctl reload nginx.service";
-    extraDomains."${ext-dom}" = null ;
   };
 }
