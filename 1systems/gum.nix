@@ -15,6 +15,7 @@ in {
       ../2configs/git/cgit-retiolum.nix
       # ../2configs/mattermost-docker.nix
       ../2configs/nginx/euer.test.nix
+      ../2configs/nginx/public_html.nix
       ../2configs/nginx/update.connector.one.nix
       ../2configs/deployment/mycube.connector.one.nix
 
@@ -31,7 +32,9 @@ in {
   ];
   services.smartd.devices = [ { device = "/dev/sda";} ];
 
+
   ###### stable
+  services.nginx.virtualHosts.cgit.serverAliases = [ "cgit.euer.krebsco.de" ];
   krebs.build.host = config.krebs.hosts.gum;
   krebs.tinc.retiolum = {
     extraConfig = ''
@@ -48,10 +51,6 @@ in {
 
   makefu.taskserver.enable = true;
 
-  krebs.nginx.servers.cgit = {
-    server-names = [ "cgit.euer.krebsco.de" ];
-    listen = [ "${external-ip}:80" "${internal-ip}:80" ];
-  };
 
   # access
   users.users = {
@@ -76,9 +75,8 @@ in {
   services.udev.extraRules = ''
     SUBSYSTEM=="net", ATTR{address}=="c8:0a:a9:c8:ee:dd", NAME="et0"
   '';
-  boot.kernelParams = [ "ipv6.disable=1" ];
+  boot.kernelParams = [ ];
   networking = {
-    enableIPv6 = false;
     firewall = {
         allowPing = true;
         logRefusedConnections = false;
