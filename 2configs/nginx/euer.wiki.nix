@@ -4,13 +4,6 @@ with import <stockholm/lib>;
 let
   sec = toString <secrets>;
   ext-dom = "wiki.euer.krebsco.de";
-  acmepath = "/var/lib/acme/";
-  acmechall = acmepath + "/challenges/";
-
-  #ssl_cert = "${sec}/wildcard.krebsco.de.crt";
-  #ssl_key  = "${sec}/wildcard.krebsco.de.key";
-  ssl_cert = "${acmepath}/${ext-dom}/fullchain.pem";
-  ssl_key = "${acmepath}/${ext-dom}/key.pem";
 
   user = config.services.nginx.user;
   group = config.services.nginx.group;
@@ -25,8 +18,7 @@ let
   #  user1 = pass1
   #  userN = passN
   tw-pass-file = "${sec}/tw-pass.ini";
-  external-ip = config.krebs.build.host.nets.internet.ip4.addr;
-  internal-ip = config.krebs.build.host.nets.retiolum.ip4.addr;
+
 in {
   services.phpfpm = {
     # phpfpm does not have an enable option
@@ -79,24 +71,18 @@ in {
     };
   };
 
-  krebs.nginx = {
+  services.nginx = {
     enable = mkDefault true;
-    servers = {
-      euer-wiki = {
-        listen = [ "${external-ip}:80" "${external-ip}:443 ssl"
-                   "${internal-ip}:80" "${internal-ip}:443 ssl" ];
-        server-names = [
-          ext-dom
-          "wiki.makefu.retiolum"
-          "wiki.makefu"
-        ];
-        ssl = {
-          enable = true;
-          # these certs will be needed if acme has not yet created certificates:
-          certificate =   ssl_cert;
-          certificate_key = ssl_key;
-          force_encryption = true;
-        };
+    virtualHosts = {
+      "${ext-dom}" = {
+        #serverAliases = [
+        #  "wiki.makefu.retiolum"
+        #  "wiki.makefu"
+        #];
+        enableSSL = true;
+        forceSSL = true;
+        enableACME = true;
+        # recommendedGzipSettings = true;
         extraConfig = ''
           gzip on;
           gzip_buffers 4 32k;
@@ -104,34 +90,26 @@ in {
           default_type text/plain;
 
         '';
-        locations = [
-          (nameValuePair "/" ''
-            root ${wiki-dir};
-            expires -1;
-            autoindex on;
-          '')
-          (nameValuePair "/store.php" ''
-            root ${tw-upload};
-            client_max_body_size 200M;
-            fastcgi_split_path_info ^(.+\.php)(/.+)$;
-            fastcgi_pass unix:${fpm-socket};
-            include ${pkgs.nginx}/conf/fastcgi_params;
-            include ${pkgs.nginx}/conf/fastcgi.conf;
-          '')
-          (nameValuePair  "/.well-known/acme-challenge" ''
-            root ${acmechall}/${ext-dom}/;
-          '')
-
-        ];
+        locations = {
+          "/" = {
+            root = wiki-dir;
+            extraConfig = ''
+              expires -1;
+              autoindex on;
+            '';
+          };
+          "/store.php" = {
+            root = tw-upload;
+            extraConfig = ''
+              client_max_body_size 200M;
+              fastcgi_split_path_info ^(.+\.php)(/.+)$;
+              fastcgi_pass unix:${fpm-socket};
+              include ${pkgs.nginx}/conf/fastcgi_params;
+              include ${pkgs.nginx}/conf/fastcgi.conf;
+            '';
+          };
+        };
       };
     };
-  };
-  security.acme.certs."${ext-dom}" = {
-    email = "acme@syntax-fehler.de";
-    webroot = "${acmechall}/${ext-dom}/";
-    group = "nginx";
-    allowKeysForGroup = true;
-    postRun = "systemctl reload nginx.service";
-    extraDomains."${ext-dom}" = null ;
   };
 }

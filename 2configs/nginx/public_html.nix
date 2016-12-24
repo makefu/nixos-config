@@ -3,13 +3,16 @@
 with import <stockholm/lib>;
 
 {
-  krebs.nginx = {
+  services.nginx = {
     enable = true;
-    servers.default.locations = [
-      (nameValuePair "~ ^/~(.+?)(/.*)?\$" ''
-        alias /home/$1/public_html$2;
-        autoindex on;
-      '')
-    ];
+    virtualHosts.default = {
+      default = true;
+      locations = {
+        "~ ^/~(.+?)(/.*)?\$".extraConfig = ''
+          alias /home/$1/public_html$2;
+          autoindex on;
+        '';
+      };
+    };
   };
 }

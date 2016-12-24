@@ -3,13 +3,9 @@
 with import <stockholm/lib>;
 let
   sec = toString <secrets>;
-  ssl_cert = "${sec}/wildcard.krebsco.de.crt";
-  ssl_key  = "${sec}/wildcard.krebsco.de.key";
   hostname = config.krebs.build.host.name;
   user = config.services.nginx.user;
   group = config.services.nginx.group;
-  external-ip = config.krebs.build.host.nets.internet.ip4.addr;
-  internal-ip = config.krebs.build.host.nets.retiolum.ip4.addr;
   base-dir = "/var/www/blog.euer";
 in {
   # Prepare Blog directory
@@ -32,24 +28,15 @@ in {
     };
   };
 
-  krebs.nginx = {
+  services.nginx = {
     enable = mkDefault true;
-    servers = {
-      euer-blog = {
-        listen = [ "${external-ip}:80" "${external-ip}:443 ssl"
-                   "${internal-ip}:80" "${internal-ip}:443 ssl" ];
-        server-names = [ "euer.krebsco.de" "blog.euer.krebsco.de" "blog.${hostname}" ];
-        extraConfig = ''
-          gzip on;
-          gzip_buffers 4 32k;
-          gzip_types  text/plain application/x-javascript text/css;
-          ssl_certificate ${ssl_cert};
-          ssl_certificate_key ${ssl_key};
-          default_type text/plain;
-        '';
-        locations = singleton (nameValuePair "/" ''
-          root ${base-dir};
-        '');
+    virtualHosts = {
+      "euer.krebsco.de" = {
+        #serverAliases = [ "blog.euer.krebsco.de" "blog.${hostname}" ];
+        enableSSL = true;
+        enableACME = true;
+        forceSSL = true;
+        root = base-dir;
       };
     };
   };

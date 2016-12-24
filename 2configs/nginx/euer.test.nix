@@ -8,18 +8,16 @@ let
   external-ip = config.krebs.build.host.nets.internet.ip4.addr;
   internal-ip = config.krebs.build.host.nets.retiolum.ip4.addr;
 in {
-  krebs.nginx = {
+  services.nginx = {
     enable = mkDefault true;
-    servers = {
-      euer-share = {
-        listen = [ ];
-        server-names = [ "share.euer.krebsco.de" ];
-        locations = singleton (nameValuePair "/" ''
+    virtualHosts."share.euer.krebsco.de" = {
+      locations."/" =  {
+        proxyPass = "http://localhost:8000/";
+        extraConfig = ''
           proxy_set_header   Host $host;
           proxy_set_header   X-Real-IP          $remote_addr;
           proxy_set_header   X-Forwarded-For $proxy_add_x_forwarded_for;
-          proxy_pass http://localhost:8000/;
-        '');
+        '';
       };
     };
   };

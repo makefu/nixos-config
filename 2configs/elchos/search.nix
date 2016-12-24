@@ -1,11 +1,12 @@
 { config, lib, pkgs, ... }:
 
-# graphite-web on port 8080
-# carbon cache on port 2003 (tcp/udp)
+# search also generates ddclient entries for all other logs
+
 with import <stockholm/lib>;
 let
   #primary-itf = "eth0";
-  primary-itf = "wlp2s0";
+  #primary-itf = "wlp2s0";
+  primary-itf = config.makefu.server.primary-itf;
   elch-sock = "${config.services.uwsgi.runDir}/uwsgi-elch.sock";
   ddclientUser = "ddclient";
   sec = toString <secrets>;
@@ -14,15 +15,7 @@ let
   cfg = "${stateDir}/cfg";
   ddclientPIDFile = "${stateDir}/ddclient.pid";
 
-  acmepath = "/var/lib/acme/";
-  acmechall = acmepath + "/challenges/";
   # TODO: correct cert generation requires a `real` internet ip address
-  stats-dom = "stats.nsupdate.info";
-  search-dom = "search.nsupdate.info";
-  search_ssl_cert = "${acmepath}/${search-dom}/fullchain.pem";
-  search_ssl_key = "${acmepath}/${search-dom}/key.pem";
-  stats_ssl_cert = "${acmepath}/${stats-dom}/fullchain.pem";
-  stats_ssl_key = "${acmepath}/${stats-dom}/key.pem";
 
   gen-cfg = dict: ''
     ssl=yes
@@ -64,75 +57,22 @@ in {
     };
   };
 
-  security.acme.certs = {
-    "${stats-dom}" = {
-      email = "acme@syntax-fehler.de";
-      webroot = "${acmechall}/${stats-dom}/";
-      group = "nginx";
-      allowKeysForGroup = true;
-      postRun = "systemctl reload nginx.service";
-      extraDomains = {
-        "${stats-dom}" = null ;
-      };
-    };
-    "${search-dom}" = {
-      email = "acme@syntax-fehler.de";
-      webroot = "${acmechall}/${search-dom}/";
-      group = "nginx";
-      allowKeysForGroup = true;
-      postRun = "systemctl reload nginx.service";
-      extraDomains = {
-        "${stats-dom}" = null ;
-      };
-    };
-  };
-
-  krebs.nginx = {
+  services.nginx = {
     enable = mkDefault true;
-    servers = {
-      elch-stats = {
-        server-names = [ stats-dom ];
-        # listen = [ "80" "443 ssl" ];
-        ssl = {
-            enable = true;
-            certificate =   stats_ssl_cert;
-            certificate_key = stats_ssl_key;
-            force_encryption = true;
-        };
+    virtualHosts = {
+      "search.nsupdate.info" = {
+        enableACME = true;
+        forceSSL = true;
+        locations = {
+          "/".extraConfig = ''
+            uwsgi_pass unix://${elch-sock};
+            uwsgi_param         UWSGI_CHDIR     ${pkgs.elchhub}/${pkgs.python3.sitePackages};
+            uwsgi_param         UWSGI_MODULE    elchhub.wsgi;
+            uwsgi_param         UWSGI_CALLABLE  app;
 
-        locations = [
-            (nameValuePair "/" ''
-              proxy_set_header   Host $host;
-              proxy_set_header   X-Real-IP          $remote_addr;
-              proxy_set_header   X-Forwarded-For $proxy_add_x_forwarded_for;
-              proxy_pass http://localhost:3000/;
-            '')
-            (nameValuePair  "/.well-known/acme-challenge" ''
-             root ${acmechall}/${search-dom}/;
-            '')
-        ];
-      };
-      elchhub = {
-        server-names = [ "search.nsupdate.info" ];
-        # listen = [ "80" "443 ssl" ];
-        ssl = {
-            enable = true;
-            certificate =   search_ssl_cert;
-            certificate_key = search_ssl_key;
-            force_encryption = true;
+            include ${pkgs.nginx}/conf/uwsgi_params;
+          '';
         };
-        locations = [ (nameValuePair "/" ''
-          uwsgi_pass unix://${elch-sock};
-          uwsgi_param         UWSGI_CHDIR     ${pkgs.elchhub}/${pkgs.python3.sitePackages};
-          uwsgi_param         UWSGI_MODULE    elchhub.wsgi;
-          uwsgi_param         UWSGI_CALLABLE  app;
-
-          include ${pkgs.nginx}/conf/uwsgi_params;
-        '')
-        (nameValuePair  "/.well-known/acme-challenge" ''
-          root ${acmechall}/${search-dom}/;
-        '')
-        ];
       };
     };
   };
@@ -147,7 +87,7 @@ in {
         ExecStart = "${pkgs.elchhub}/bin/elch-manager";
       };
     };
-    register-elchos-nsupdate = {
+    ddclient-nsupdate-elchos = {
       wantedBy = [ "multi-user.target" ];
       after = [ "ip-up.target" ];
       serviceConfig = {
@@ -163,49 +103,8 @@ in {
     };
   };
 
-  services.grafana = {
-    enable = true;
-    addr = "127.0.0.1";
-    users.allowSignUp = false;
-    users.allowOrgCreate = false;
-    users.autoAssignOrg = false;
-    auth.anonymous.enable = true;
-    security = import <secrets/grafana_security.nix>; # { AdminUser = ""; adminPassword = ""}
-  };
-
-  services.graphite = {
-    api = {
-      enable = true;
-      listenAddress = "127.0.0.1";
-      port = 8080;
-    };
-    carbon = {
-      enableCache = true;
-      # save disk usage by restricting to 1 bulk update per second
-      config = ''
-        [cache]
-        MAX_CACHE_SIZE = inf
-        MAX_UPDATES_PER_SECOND = 1
-        MAX_CREATES_PER_MINUTE = 500
-        '';
-      storageSchemas = ''
-        [carbon]
-        pattern = ^carbon\.
-        retentions = 60:90d
-
-        [elchos]
-        patterhn = ^elchos\.
-        retentions = 10s:30d,60s:3y
-
-        [default]
-        pattern = .*
-        retentions = 30s:30d,300s:1y
-        '';
-    };
-  };
-
   networking.firewall = {
-    allowedTCPPorts = [ 2003 80 443 ];
-    allowedUDPPorts = [ 2003 ];
+    allowedTCPPorts = [ 80 443 ];
+    allowedUDPPorts = [ ];
   };
 }

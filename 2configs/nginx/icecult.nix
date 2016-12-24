@@ -10,19 +10,17 @@ let
     sha256 = "0l8q7kw3w1kpvmy8hza9vr5liiycivbljkmwpacaifbay5y98z58";
   };
 in{
-  krebs.nginx = {
+  services.nginx = {
     enable = true;
-    servers.default = {
-        extraConfig = ''
-          root ${icecult}/app;
+    virtualHosts.default = {
+      root = "${icecult}/app";
+      locations = {
+        "/rpc".proxyPass = "http://10.42.22.163:3121";
+        "/rpc".extraConfig = ''
+          rewrite /rpc/(.*) /$1 break;
+          proxy_http_version 1.1;
         '';
-        locations = [
-          (nameValuePair "/rpc" ''
-        rewrite /rpc/(.*) /$1 break;
-        proxy_http_version 1.1;
-        proxy_pass http://10.42.22.163:3121;
-          '')
-      ];
+      };
     };
   };
 }

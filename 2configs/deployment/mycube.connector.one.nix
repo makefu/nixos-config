@@ -27,23 +27,18 @@ in {
     };
   };
 
-  krebs.nginx = {
+  services.nginx = {
     enable = mkDefault true;
-    servers = {
-      mybox-connector-one = {
-        listen = [ "${external-ip}:80" ];
-        server-names = [
-          "mycube.connector.one"
-          "mybox.connector.one"
-        ];
-        locations = singleton (nameValuePair "/" ''
+    virtualHosts."mybox.connector.one" = {
+        locations = {
+          "/".extraConfig = ''
           uwsgi_pass unix://${wsgi-sock};
           uwsgi_param         UWSGI_CHDIR     ${pkgs.mycube-flask}/${pkgs.python.sitePackages};
           uwsgi_param         UWSGI_MODULE    mycube.websrv;
           uwsgi_param         UWSGI_CALLABLE  app;
 
           include ${pkgs.nginx}/conf/uwsgi_params;
-        '');
+        '';
       };
     };
   };
