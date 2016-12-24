@@ -7,38 +7,6 @@ let
   local-ip = "192.168.1.11";
   # local-ip = config.krebs.build.host.nets.retiolum.ip4.addr;
 in {
-  krebs.nginx = {
-    enable = mkDefault true;
-    servers = {
-      omo-share = {
-        listen = [ "${local-ip}:80" ];
-        locations = singleton (nameValuePair "/" ''
-
-          access_log off;
-          # sendfile off;
-          # tcp_nopush on;
-          # aio on;
-          sendfile on;
-          sendfile_max_chunk 512k;
-          directio 512;
-          mp4;
-          autoindex on;
-          root /media;
-          limit_rate_after 100m;
-          limit_rate 5m;
-          mp4_buffer_size     4M;
-          mp4_max_buffer_size 10M;
-          allow all;
-          access_log off;
-          keepalive_timeout  65;
-          keepalive_requests 200;
-          reset_timedout_connection on;
-          tcp_nopush on;
-          gzip off;
-        '');
-      };
-    };
-  };
 
   # samba share /media/crypt1/share
   users.users.smbguest = {
@@ -64,6 +32,12 @@ in {
       };
       usenet = {
         path = "/media/crypt0/usenet/dst";
+        "read only" = "yes";
+        browseable = "yes";
+        "guest ok" = "yes";
+      };
+      pyload = {
+        path = "/media/crypt0/pyload";
         "read only" = "yes";
         browseable = "yes";
         "guest ok" = "yes";
