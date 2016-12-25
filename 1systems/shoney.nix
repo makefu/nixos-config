@@ -21,7 +21,6 @@ in {
   krebs = {
     enable = true;
     build.host = config.krebs.hosts.shoney;
-    nginx.enable = true;
     tinc_graphs = {
       enable = true;
       network = "siem";
@@ -29,9 +28,15 @@ in {
       nginx = {
         enable = true;
         # TODO: remove hard-coded hostname
+        anonymous-domain = "localhost.localdomain";
+        anonymous.extraConfig = "return 403;";
         complete = {
-          listen = [ "${tinc-siem-ip}:80" ];
-          server-names = [ "graphs.siem" ];
+          serverAliases = [ "graphs.siem" ];
+          extraConfig = ''
+            if ( $server_addr = "${ip}" ) {
+              return 403;
+            }
+          '';
         };
       };
     };
