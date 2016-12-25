@@ -13,7 +13,7 @@ in {
       ../2configs/fs/CAC-CentOS-7-64bit.nix
       ../2configs/save-diskspace.nix
 
-      # ../2configs/bepasty-dual.nix
+      ../2configs/bepasty-dual.nix
 
       ../2configs/iodined.nix
       ../2configs/backup.nix
@@ -45,14 +45,14 @@ in {
                                random-emoji ];
   };
 
-  # bepasty to listen only on the correct interfaces
-  krebs.bepasty.servers.internal.nginx.listen  = [ "${internal-ip}:80" ];
-  krebs.bepasty.servers.external.nginx.listen  = [ "${external-ip}:80" "${external-ip}:443 ssl" ];
-
   # prepare graphs
   services.nginx.enable = true;
   krebs.retiolum-bootstrap.enable = true;
-
+  krebs.bepasty.servers."paste.r".nginx.extraConfig = ''
+    if ( $server_addr = "${external-ip}" ) {
+      return 403;
+    }
+  '';
   krebs.tinc_graphs = {
     enable = true;
     nginx = {
