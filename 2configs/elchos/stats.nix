@@ -39,8 +39,57 @@ with import <stockholm/lib>;
   };
 
   services.graphite = {
-    api = {
+    beacon = {
       enable = true;
+      config = {
+        graphite_url = "http://localhost:18080";
+
+        no_data = "critical";
+        loading_error = "normal";
+
+        prefix = "[elchos]";
+
+        cli = {
+          command = ''${pkgs.irc-announce}/bin/irc-announce irc.freenode.org 6667 alert0r \#elchos ' [elchos] ''${level} ''${name} ''${value}' '';
+        };
+        #smtp = {
+        #  from = "beacon@mors.r";
+        #  to = [
+        #    "lass@mors.r"
+        #  ];
+        #};
+        normal_handlers = [
+          # "smtp"
+          "cli"
+        ];
+        warning_handlers = [
+          # "smtp"
+          "cli"
+        ];
+        critical_handlers = [
+          # "smtp"
+          "cli"
+        ];
+        alerts = let
+          high-load = hostid: let
+              host = "elch-${toString hostid}"; in {
+              name = "high-cpu-load-${host}";
+              query = "aliasByNode(perSecond(elchos.${host}.cpu.0.cpu.idle),1)";
+              method = "average";
+              interval = "1minute";
+              logging = "info";
+              repeat_interval = "5minute";
+              rules = [
+  #              "warning: < 30.0"
+                "critical: < 1.0"
+              ];
+            };
+          in map high-load [ 1 2 3 4 5 6 7 8 ];
+      };
+   };
+   api = {
+      enable = true;
+      package = pkgs.graphiteApi;
       listenAddress = "127.0.0.1";
       port = 18080;
     };
@@ -50,8 +99,8 @@ with import <stockholm/lib>;
       config = ''
         [cache]
         MAX_CACHE_SIZE = inf
-        MAX_UPDATES_PER_SECOND = 1
-        MAX_CREATES_PER_MINUTE = 500
+        MAX_UPDATES_PER_SECOND = 10
+        MAX_CREATES_PER_MINUTE = 5000
         '';
       storageSchemas = ''
         [carbon]
@@ -62,6 +111,10 @@ with import <stockholm/lib>;
         patterhn = ^elchos\.
         retentions = 10s:30d,60s:3y
 
+
+        [default]
+        pattern = ^krebs\.
+        retentions = 1s:30d,30s:3m,300s:1y
         [default]
         pattern = .*
         retentions = 30s:30d,300s:1y
