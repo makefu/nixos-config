@@ -3,19 +3,20 @@ with import <stockholm/lib>;
 let
   secret = (import <secrets/elchos-token.nix>);
 in {
-  systemd.services.elchos-irctoken = {
-    startAt = "*:0/30";
+  systemd.services.elchos-irctoken2 = {
+    startAt = "*:0/5";
     serviceConfig = {
       RuntimeMaxSec = "20";
     };
     script = ''
       set -euf
       now=$(date -u +%Y-%m-%dT%H:%M)
-      sec=$(echo -n "${secret}$now" | md5sum | cut -d\  -f1)
-      message="The secret valid for 30 minutes is $sec"
-      echo "token for $now (UTC) is $sec"
+      sleep 5
+      sec=$(cat /tmp/irc-secret)
+      message="The current secret is $sec"
+      echo "$message"
       LOGNAME=sec-announcer
-      HOSTNAME=$(${pkgs.systemd}/bin/hostnamectl --static)
+      HOSTNAME=$(${pkgs.systemd}/bin/hostnamectl --transient)
       IRC_SERVER=irc.freenode.net
       IRC_PORT=6667
       IRC_NICK=$HOSTNAME-$$
@@ -57,6 +58,20 @@ in {
         echo2 'QUIT :Gone to have lunch'
       } < ircin \
         | ${pkgs.netcat}/bin/netcat "$IRC_SERVER" "$IRC_PORT" |tee -a ircin
+    '';
+  };
+  systemd.services.elchos-create-token = {
+    startAt = "*:0/30";
+    serviceConfig = {
+      RuntimeMaxSec = "20";
+    };
+    script = ''
+      set -euf
+      now=$(date -u +%Y-%m-%dT%H:%M)
+      sec=$(echo -n "${secret}$now" | md5sum | cut -d\  -f1)
+      message="The secret valid for 30 minutes is $sec"
+      echo -n "$sec" > /tmp/irc-secret
+      echo "token for $now (UTC) is $sec"
     '';
   };
 }
