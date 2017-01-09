@@ -42,6 +42,12 @@ in {
         browseable = "yes";
         "guest ok" = "yes";
       };
+      crypt0 = {
+        path = "/media/crypt0";
+        "read only" = "yes";
+        browseable = "yes";
+        "guest ok" = "yes";
+      };
       crypt0-rw = {
         path = "/media/crypt0/";
         "read only" = "no";
