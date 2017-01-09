@@ -21,9 +21,9 @@ in {
         }
       '';
       outputConfig = ''
-        stdout {
-          codec => rubydebug
-        }
+        #stdout {
+        #  codec => rubydebug
+        #}
         elasticsearch { }
         '';
 	};
