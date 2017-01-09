@@ -2,11 +2,11 @@
 
 with import <stockholm/lib>;
 let
-	collectd-port = 25826;
-	influx-port = 8086;
+  collectd-port = 25826;
+  influx-port = 8086;
   grafana-port = 3000; # TODO nginx forward
 in {
-	services.grafana.enable = true;
+  services.grafana.enable = true;
   services.grafana.addr = "0.0.0.0";
 
   services.influxdb.enable = true;
@@ -21,7 +21,7 @@ in {
       enabled = false;
       # write-interval = "24h";
     };
-		collectd = [{
+    collectd = [{
       enabled = true;
       typesdb = "${pkgs.collectd}/share/collectd/types.db";
       database = "collectd_db";
