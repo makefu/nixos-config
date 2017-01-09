@@ -7,6 +7,11 @@
 with import <stockholm/lib>;
 {
 
+  networking.firewall = {
+    allowedTCPPorts = [ 2003 80 443 18080 ];
+    allowedUDPPorts = [ 2003 ];
+  };
+
   services.nginx = {
     enable = mkDefault true;
     virtualHosts = {
@@ -39,58 +44,11 @@ with import <stockholm/lib>;
   };
 
   services.graphite = {
-    beacon = {
-      enable = true;
-      config = {
-        graphite_url = "http://localhost:18080";
-
-        no_data = "critical";
-        loading_error = "normal";
-
-        prefix = "[elchos]";
-
-        cli = {
-          command = ''${pkgs.irc-announce}/bin/irc-announce irc.freenode.org 6667 alert0r \#elchos ' [elchos] ''${level} ''${name} ''${value}' '';
-        };
-        #smtp = {
-        #  from = "beacon@mors.r";
-        #  to = [
-        #    "lass@mors.r"
-        #  ];
-        #};
-        normal_handlers = [
-          # "smtp"
-          "cli"
-        ];
-        warning_handlers = [
-          # "smtp"
-          "cli"
-        ];
-        critical_handlers = [
-          # "smtp"
-          "cli"
-        ];
-        alerts = let
-          high-load = hostid: let
-              host = "elch-${toString hostid}"; in {
-              name = "high-cpu-load-${host}";
-              query = "aliasByNode(perSecond(elchos.${host}.cpu.0.cpu.idle),1)";
-              method = "average";
-              interval = "1minute";
-              logging = "info";
-              repeat_interval = "5minute";
-              rules = [
-  #              "warning: < 30.0"
-                "critical: < 1.0"
-              ];
-            };
-          in map high-load [ 1 2 3 4 5 6 7 8 ];
-      };
-   };
    api = {
       enable = true;
-      package = pkgs.graphiteApi;
-      listenAddress = "127.0.0.1";
+      # package = pkgs.graphiteApi;
+      #listenAddress = "127.0.0.1";
+      listenAddress = "0.0.0.0";
       port = 18080;
     };
     carbon = {
@@ -99,8 +57,11 @@ with import <stockholm/lib>;
       config = ''
         [cache]
         MAX_CACHE_SIZE = inf
-        MAX_UPDATES_PER_SECOND = 10
+        MAX_UPDATES_PER_SECOND = 3
         MAX_CREATES_PER_MINUTE = 5000
+        LOG_UPDATES = False
+        LOG_CACHE_HITS = False
+        LOG_CACHE_QUEUE_SORTS = False
         '';
       storageSchemas = ''
         [carbon]
@@ -122,8 +83,4 @@ with import <stockholm/lib>;
     };
   };
 
-  networking.firewall = {
-    allowedTCPPorts = [ 2003 80 443 ];
-    allowedUDPPorts = [ 2003 ];
-  };
 }
