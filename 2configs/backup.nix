@@ -29,6 +29,7 @@ let
   };
 in {
   krebs.backup.plans = {
-    wry-to-omo_var-www = defaultPull config.krebs.hosts.wry "/";
+    wry-to-omo_root = defaultPull config.krebs.hosts.wry "/";
+    gum-to-omo_root = defaultPull config.krebs.hosts.gum "/";
   };
 }
