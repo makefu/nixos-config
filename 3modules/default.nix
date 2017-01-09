@@ -8,9 +8,11 @@ _:
     ./forward-journal.nix
     ./opentracker.nix
     ./ps3netsrv.nix
+    ./logging-config.nix
     ./server-config.nix
     ./snapraid.nix
     ./taskserver.nix
+    ./torrent.nix
     ./udpt.nix
     ./umts.nix
   ];

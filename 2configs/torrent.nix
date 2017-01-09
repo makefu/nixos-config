@@ -8,13 +8,13 @@ let
   peer-port = 51412;
   web-port = 8112;
   daemon-port = 58846;
-  dl-dir = "/var/download";
+  dl-dir = config.makefu.dl-dir;
 in {
   # prepare secrets
   krebs.build.source.torrent-secrets.file =
     if getEnv "dummy_secrets" == "true"
     then toString <stockholm/makefu/6tests/data/secrets>
-    else "/home/makefu/secrets/torrent";
+    else config.makefu.torrent-secrets ;
 
   users.users = {
     download = {
