@@ -24,10 +24,10 @@ in {
       # ../2configs/nginx/euer.test.nix
 
       # collectd
-      # ../2configs/collectd/collectd-base.nix
+      ../2configs/logging/central-stats-client.nix
 
       ../2configs/tinc/retiolum.nix
-      ../2configs/torrent.nix
+      # ../2configs/torrent.nix
   ];
 
   krebs.build.host = config.krebs.hosts.wry;
