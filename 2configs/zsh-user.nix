@@ -25,6 +25,8 @@ in
       ${pkgs.gnupg}/bin/gpg-connect-agent updatestartuptty /bye >/dev/null
       GPG_TTY=$(tty)
       export GPG_TTY
+      LS_COLORS=$LS_COLORS:'di=1;31:' ; export LS_COLORS
+
       unset SSH_AGENT_PID
       export SSH_AUTH_SOCK="/run/user/$UID/gnupg/S.gpg-agent.ssh"
       '';
