@@ -32,8 +32,7 @@
       };
   };
 
-  krebs.Reaktor = {
-    enable = true;
+  krebs.Reaktor.debug = {
     debug = true;
     extraEnviron = {
       REAKTOR_HOST = "ni.r";
