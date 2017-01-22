@@ -53,17 +53,19 @@ in {
       #../2configs/share-user-sftp.nix
       ../2configs/omo-share.nix
       ../2configs/tinc/retiolum.nix
+      ../2configs/logging/central-stats-server.nix
+      ../2configs/logging/central-stats-client.nix
       # ../2configs/torrent.nix
 
       # ../2configs/elchos/search.nix
       # ../2configs/elchos/log.nix
       # ../2configs/elchos/irc-token.nix
-      ../2configs/printer-shared.nix
 
       ## as long as pyload is not in nixpkgs:
       # docker run -d -v /var/lib/pyload:/opt/pyload/pyload-config -v /media/crypt0/pyload:/opt/pyload/Downloads --name pyload --restart=always -p 8112:8000 -P writl/pyload
     ];
   makefu.full-populate = true;
+  makefu.server.primary-itf = primaryInterface;
   krebs.rtorrent = {
     downloadDir = lib.mkForce "/media/crypt0/torrent";
     extraConfig = ''
@@ -112,7 +114,7 @@ in {
       (d: "install -m 755 -d " + (toMapper d) )
       [ 0 1 2 "X" ]}
   '';
-  environment.systemPackages = with pkgs;[ 
+  environment.systemPackages = with pkgs;[
     mergerfs # hard requirement for mount
     wol # wake up filepimp
     f3
