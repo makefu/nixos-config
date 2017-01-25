@@ -32,10 +32,9 @@ in {
 
   krebs.build.host = config.krebs.hosts.wry;
 
-  krebs.Reaktor = {
+  krebs.Reaktor.reaktor = {
     nickname = "Reaktor|bot";
     channels = [ "#krebs" "#shackspace" "#binaergewitter" ];
-    enable = true;
     plugins = with pkgs.ReaktorPlugins;[
                                titlebot
                                # stockholm-issue
