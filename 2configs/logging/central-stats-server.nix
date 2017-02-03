@@ -6,6 +6,9 @@ let
   influx-port = 8086;
   grafana-port = 3000; # TODO nginx forward
 in {
+  imports = [
+    ../../lass/3modules/kapacitor.nix
+  ];
   services.grafana.enable = true;
   services.grafana.addr = "0.0.0.0";
 
@@ -27,6 +30,39 @@ in {
       database = "collectd_db";
       port = collectd-port;
     }];
+  };
+  lass.kapacitor =
+   let
+      echoToIrc = pkgs.writeDash "echo_irc" ''
+        set -euf
+        data="$(${pkgs.jq}/bin/jq -r .message)"
+        export LOGNAME=malarm
+        ${pkgs.irc-announce}/bin/irc-announce \
+          irc.freenode.org 6667 malarm \#krebs-bots "$data" >/dev/null
+      '';
+  in {
+    enable = true;
+    alarms = {
+      cpu_deadman = ''
+        var data = batch
+            |query('''
+                  SELECT mean("value") AS mean
+                  FROM "collectd_db"."default"."cpu_value"
+                  WHERE "type_instance" = 'idle' AND "type" = 'percent' fill(0)
+                ''')
+                .period(10m)
+                .every(1m)
+                .groupBy('host')
+        data |alert()
+                .crit(lambda: "mean" < 50)
+                .stateChangesOnly()
+                .exec('${echoToIrc}')
+        data |deadman(1.0,5m)
+                .stateChangesOnly()
+                .exec('${echoToIrc}')
+      '';
+    };
+
   };
   networking.firewall.extraCommands = ''
     iptables -A INPUT -i retiolum -p udp --dport ${toString collectd-port} -j ACCEPT
