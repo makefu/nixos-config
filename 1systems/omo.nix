@@ -55,6 +55,8 @@ in {
       ../2configs/tinc/retiolum.nix
       ../2configs/logging/central-stats-server.nix
       ../2configs/logging/central-stats-client.nix
+
+      ../2configs/kapacitor.nix
       # ../2configs/torrent.nix
 
       # ../2configs/elchos/search.nix

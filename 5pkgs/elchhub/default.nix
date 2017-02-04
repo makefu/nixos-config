@@ -24,8 +24,8 @@ in buildPythonPackage rec {
   src = fetchFromGitHub {
     owner = "krebscode";
     repo = "elchhub";
-    rev = "2f499c1";
-    sha256 = "1lbql3lx7i3ynsjanfy9vln6795rb56n9xq9vkb7xbml60gmn1wg";
+    rev = "58707c6";
+    sha256 = "04spbcr660dxyc4jvrai094na25zizd2cfi36jz19lahb0k66lqm";
   };
   meta = {
     homepage = https://github.com/krebscode/elchhub;

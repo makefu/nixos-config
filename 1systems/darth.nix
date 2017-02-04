@@ -7,7 +7,7 @@ let
   auxDisk = byid "ata-HGST_HTS721010A9E630_JR10006PH3A02F";
   dataPartition = auxDisk + "-part1";
 
-  allDisks = [ rootDisk auxDisk ];
+  allDisks = [ rootDisk ]; # auxDisk
 in {
   imports = [
       ../.
@@ -64,10 +64,10 @@ in {
   services.smartd.devices = builtins.map (x: { device = x; }) allDisks;
   zramSwap.enable = true;
 
-  fileSystems."/data" = {
-    device = dataPartition;
-    fsType = "ext4";
-  };
+  #fileSystems."/data" = {
+  #  device = dataPartition;
+  #  fsType = "ext4";
+  #};
 
   boot.loader.grub.device = rootDisk;
 

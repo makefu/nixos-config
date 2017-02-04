@@ -26,6 +26,7 @@ let
 
   priv-repos = mapAttrs make-priv-repo {
     autosync = { };
+    pass = { };
   };
 
   connector-repos = mapAttrs make-priv-repo {
@@ -61,7 +62,7 @@ let
 
   # TODO: get the list of all krebsministers
   krebsminister = with config.krebs.users; [ lass tv ];
-  all-makefu = with config.krebs.users; [ makefu makefu-omo makefu-tsp makefu-vbob ];
+  all-makefu = with config.krebs.users; [ makefu makefu-omo makefu-tsp makefu-vbob makefu-tempx ];
   all-exco = with config.krebs.users; [ exco ];
 
   priv-rules = repo: set-owners repo all-makefu;

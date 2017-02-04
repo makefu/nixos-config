@@ -11,31 +11,40 @@ in {
       ../2configs/fs/simple-swap.nix
       ../2configs/fs/single-partition-ext4.nix
       ../2configs/smart-monitor.nix
-      ../2configs/iodined.nix
       ../2configs/git/cgit-retiolum.nix
+      ../2configs/backup.nix
       # ../2configs/mattermost-docker.nix
+      ../2configs/disable_v6.nix
+      ../2configs/exim-retiolum.nix
+      ../2configs/tinc/retiolum.nix
+      ../2configs/urlwatch.nix
+
+      # services
+      ../2configs/gum-share.nix
+      ../2configs/sabnzbd.nix
+      ../2configs/torrent.nix
+      ../2configs/iodined.nix
+
+      ## Web
+      ../2configs/deployment/owncloud.nix
+      ../2configs/nginx/share-download.nix
       ../2configs/nginx/euer.test.nix
       ../2configs/nginx/public_html.nix
       ../2configs/nginx/update.connector.one.nix
       ../2configs/deployment/mycube.connector.one.nix
 
-      ../2configs/exim-retiolum.nix
-      ../2configs/tinc/retiolum.nix
-      ../2configs/urlwatch.nix
-      ../2configs/torrent.nix
-      ../2configs/graphite-standalone.nix
-      ../2configs/sabnzbd.nix
-      ../2configs/gum-share.nix
-
-      ../2configs/opentracker.nix
+      # ../2configs/opentracker.nix
+      ../2configs/logging/central-stats-client.nix
 
   ];
   services.smartd.devices = [ { device = "/dev/sda";} ];
+  makefu.dl-dir = "/var/download";
 
 
   ###### stable
   services.nginx.virtualHosts.cgit.serverAliases = [ "cgit.euer.krebsco.de" ];
   krebs.build.host = config.krebs.hosts.gum;
+
   krebs.tinc.retiolum = {
     extraConfig = ''
       ListenAddress = ${external-ip} 53
@@ -65,6 +74,8 @@ in {
     get
   ];
   services.bitlbee.enable = true;
+  systemd.services.bitlbee.environment.BITLBEE_DEBUG="1";
+  # systemd.services.bitlbee.serviceConfig.ExecStart = "${pkgs.bitlbee}/bin/bitlbee -Dnv -c 
 
   # Hardware
   boot.loader.grub.device = "/dev/sda";

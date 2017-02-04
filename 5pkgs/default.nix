@@ -33,5 +33,6 @@ in
     taskserver = callPackage ./taskserver {};
     udpt = callPackage ./udpt {};
     wol = callPackage ./wol {};
+    snapraid = callPackage ./snapraid {};
   };
 }

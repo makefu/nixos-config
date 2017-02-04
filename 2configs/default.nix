@@ -22,11 +22,11 @@ with import <stockholm/lib>;
       user = config.krebs.users.makefu;
       source = let
           inherit (config.krebs.build) host user;
-          ref = "ee13b9af"; # stable @ 2016-12-12
+          ref = "5dad589"; # stable @ 2016-12-28 + cherry-pick graphite
       in {
         nixpkgs = if config.makefu.full-populate || (getEnv "dummy_secrets" == "true") then
           {
-            git = { url = https://github.com/nixos/nixpkgs; inherit ref; };
+            git = { url = https://github.com/makefu/nixpkgs; inherit ref; };
           }
             else
             # TODO use http, once it is implemented

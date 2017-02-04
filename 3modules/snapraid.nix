@@ -101,6 +101,7 @@ let
       # for scrubbing,fixing
       pkgs.snapraid
     ];
+    krebs.on-failure.plans.snapraid-sync.name = "snapraid-sync";
     environment.etc."snapraid.conf".text = snapraid-conf;
     systemd.timers.snapraid-sync = {
       description = "snapraid sync timer";
