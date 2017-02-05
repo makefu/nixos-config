@@ -7,7 +7,7 @@ let
   grafana-port = 3000; # TODO nginx forward
 in {
   imports = [
-    ../../lass/3modules/kapacitor.nix
+    ../../../lass/3modules/kapacitor.nix
   ];
   services.grafana.enable = true;
   services.grafana.addr = "0.0.0.0";
@@ -45,11 +45,11 @@ in {
     alarms = {
       cpu_deadman = ''
         var data = batch
-            |query('''
+            |query(${"'''"}
                   SELECT mean("value") AS mean
                   FROM "collectd_db"."default"."cpu_value"
                   WHERE "type_instance" = 'idle' AND "type" = 'percent' fill(0)
-                ''')
+                ${"'''"})
                 .period(10m)
                 .every(1m)
                 .groupBy('host')
