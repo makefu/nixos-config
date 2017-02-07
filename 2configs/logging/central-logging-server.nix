@@ -18,6 +18,6 @@ in {
 
   networking.firewall.extraCommands = ''
     iptables -A INPUT -i retiolum -p tcp --dport ${toString es-port} -j ACCEPT
-    iptables -A INPUT -i retiolum -p tcp --dport ${toString es-port} -j ACCEPT
+    iptables -A INPUT -i retiolum -p tcp --dport ${toString kibana-port} -j ACCEPT
   '';
 }
