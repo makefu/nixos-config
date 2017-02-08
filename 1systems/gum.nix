@@ -35,6 +35,7 @@ in {
 
       # ../2configs/opentracker.nix
       ../2configs/logging/central-stats-client.nix
+      ../2configs/logging/central-logging-client.nix
 
   ];
   services.smartd.devices = [ { device = "/dev/sda";} ];
@@ -64,7 +65,7 @@ in {
   # access
   users.users = {
     root.openssh.authorizedKeys.keys = [ config.krebs.users.makefu-omo.pubkey ];
-    makefu.openssh.authorizedKeys.keys = [ config.krebs.users.makefu-vbob.pubkey ];
+    makefu.openssh.authorizedKeys.keys = [ config.krebs.users.makefu-vbob.pubkey config.krebs.users.makefu-bob.pubkey ];
   };
 
   # Chat
