@@ -143,7 +143,6 @@ with import <stockholm/lib>;
   nixpkgs.config.packageOverrides = pkgs: {
     nano = pkgs.runCommand "empty" {} "mkdir -p $out";
     tinc = pkgs.tinc_pre;
-    gnupg1compat = super.gnupg1compat.override { gnupg = self.gnupg21; };
   };
 
   services.cron.enable = false;
