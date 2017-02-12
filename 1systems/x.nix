@@ -10,9 +10,10 @@
       ../2configs/main-laptop.nix
       ../2configs/laptop-utils.nix
       ../2configs/laptop-backup.nix
+      ../2configs/dnscrypt.nix
 
       # testing
-      ../2configs/openvpn/vpngate.nix
+      # ../2configs/openvpn/vpngate.nix
       #../2configs/temp/share-samba.nix
       # ../2configs/mediawiki.nix
       # ../2configs/wordpress.nix
@@ -26,7 +27,6 @@
       #../2configs/elchos/stats.nix
       #../2configs/elchos/test/ftpservers.nix
 
-      ../2configs/laptop-backup.nix
       # ../2configs/tinc/siem.nix
       #../2configs/torrent.nix
       # temporary modules
@@ -59,7 +59,7 @@
       # hardware specifics are in here
       ../2configs/hw/tp-x230.nix
       ../2configs/hw/rtl8812au.nix
-      ../2configs/hw/bcm4352.nix
+
       # mount points
       ../2configs/fs/sda-crypto-root-home.nix
 
