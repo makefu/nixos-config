@@ -66,6 +66,7 @@
     ];
   makefu.server.primary-itf = "wlp2s0";
   makefu.full-populate = true;
+  makefu.umts.apn = "web.vodafone.de";
 
   nixpkgs.config.allowUnfree = true;
   krebs.nginx = {

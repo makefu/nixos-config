@@ -26,7 +26,7 @@ let
     Dial Command = ATDT
     Modem = ${cfg.modem-device}
     Baud = 460800
-    Init1 = AT+CGDCONT=1,"IP","pinternet.interkom.de","",0,0
+    Init1 = AT+CGDCONT=1,"IP","${config.makefu.umts.apn}","",0,0
     Init2 = ATZ
     Init3 = ATQ0 V1 E1 S0=0 &C1 &D2 +FCLASS=0
     ISDN = 0
@@ -52,6 +52,13 @@ let
       description = ''
         path to modem device, use <filename>/dev/serial/by-id/...</filename>
         to avoid race conditions.
+      '';
+    };
+    apn = mkOption {
+      default = "pinternet.interkom.de";
+      type = types.str;
+      description = ''
+        apn to use for dailing
       '';
     };
   };
