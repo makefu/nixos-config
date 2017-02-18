@@ -9,20 +9,26 @@ with import <stockholm/lib>;
     kernelModules = [
       "kvm-intel"
       "thinkpad_ec"
-   #   "acpi_call"
+      "acpi_call"
    #   "thinkpad_acpi"
    #   "tpm-rng"
     ];
     extraModulePackages = [
-    #  config.boot.kernelPackages.acpi_call
+      config.boot.kernelPackages.acpi_call
     ];
   };
+
+  # configured media keys inside awesomerc
+  # sound.mediaKeys.enable = true;
+  hardware.bluetooth.enable = true;
+
   services.acpid.enable = true;
   hardware.opengl.extraPackages =  [ pkgs.vaapiIntel pkgs.vaapiVdpau ];
   services.xserver = {
     videoDriver = "intel";
     deviceSection = ''
       Option "AccelMethod" "sna"
+      Option "Backlight"     "intel_backlight"
     '';
   };
   # no entropy source working
