@@ -22,7 +22,7 @@ with import <stockholm/lib>;
       user = config.krebs.users.makefu;
       source = let
           inherit (config.krebs.build) host user;
-          ref = "f66d782"; # unstable @ 2017-02-04
+          ref = "53a2baa"; # unstable @ 2017-02-28
       in {
         nixpkgs = if config.makefu.full-populate || (getEnv "dummy_secrets" == "true") then
           {
@@ -159,7 +159,7 @@ with import <stockholm/lib>;
     auto-optimise-store = true
   '';
 
-  security.setuidPrograms = [ "sendmail" ];
+  security.wrappers.sendmail.source = "${pkgs.exim}/bin/sendmail";
   services.journald.extraConfig = ''
     SystemMaxUse=1G
     RuntimeMaxUse=128M
