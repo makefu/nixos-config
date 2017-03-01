@@ -5,10 +5,9 @@ let
   collectd-port = 25826;
   influx-port = 8086;
   grafana-port = 3000; # TODO nginx forward
+  db = "collectd_db";
+  logging-interface = config.makefu.server.primary-itf;
 in {
-  imports = [
-    ../../../lass/3modules/kapacitor.nix
-  ];
   services.grafana.enable = true;
   services.grafana.addr = "0.0.0.0";
 
@@ -27,11 +26,11 @@ in {
     collectd = [{
       enabled = true;
       typesdb = "${pkgs.collectd}/share/collectd/types.db";
-      database = "collectd_db";
+      database = db;
       port = collectd-port;
     }];
   };
-  lass.kapacitor =
+  krebs.kapacitor =
    let
       echoToIrc = pkgs.writeDash "echo_irc" ''
         set -euf
@@ -43,7 +42,8 @@ in {
   in {
     enable = true;
     alarms = {
-      cpu_deadman = ''
+      cpu_deadman.database = db;
+      cpu_deadman.text = ''
         var data = batch
             |query(${"'''"}
                   SELECT mean("value") AS mean
@@ -68,5 +68,8 @@ in {
     iptables -A INPUT -i retiolum -p udp --dport ${toString collectd-port} -j ACCEPT
     iptables -A INPUT -i retiolum -p tcp --dport ${toString influx-port} -j ACCEPT
     iptables -A INPUT -i retiolum -p tcp --dport ${toString grafana-port} -j ACCEPT
+    iptables -A INPUT -i ${logging-interface} -p udp --dport ${toString collectd-port} -j ACCEPT
+    iptables -A INPUT -i ${logging-interface} -p tcp --dport ${toString influx-port} -j ACCEPT
+    iptables -A INPUT -i ${logging-interface} -p tcp --dport ${toString grafana-port} -j ACCEPT
   '';
 }
