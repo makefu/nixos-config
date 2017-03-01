@@ -16,6 +16,8 @@ with import <stockholm/lib>;
     extraModulePackages = [
       config.boot.kernelPackages.acpi_call
     ];
+    # support backlight adjustment
+    kernelParams = [ "acpi_osi=Linux" "acpi_backlight=vendor" ];
   };
 
   # configured media keys inside awesomerc

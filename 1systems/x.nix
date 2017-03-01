@@ -64,7 +64,6 @@
       ../2configs/fs/sda-crypto-root-home.nix
 
     ];
-  boot.kernelParams = [ "acpi_osi=Linux" "acpi_backlight=vendor" ];
 
   makefu.server.primary-itf = "wlp3s0";
   makefu.full-populate = true;
