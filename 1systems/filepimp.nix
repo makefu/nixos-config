@@ -3,7 +3,7 @@ let
   byid = dev: "/dev/disk/by-id/" + dev;
   part1 = disk: disk + "-part1";
   rootDisk = byid "ata-SanDisk_SDSSDP064G_140237402890";
-  primary-interface = "enp2s0"; # c8:cb:b8:cf:e4:dc
+  primary-interface = "enp3s0"; # c8:cb:b8:cf:e4:dc
   # N54L Chassis:
   # ____________________
   # |______FRONT_______|
