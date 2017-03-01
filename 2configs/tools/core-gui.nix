@@ -18,7 +18,7 @@
     gnome3.dconf
     wireshark
     xdotool
+    xorg.xbacklight
     scrot
-    
   ];
 }
