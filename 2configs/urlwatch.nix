@@ -16,6 +16,9 @@
       http://ftp.debian.org/debian/pool/main/a/apt-cacher-ng/
       https://github.com/amadvance/snapraid/releases.atom
       https://erdgeist.org/gitweb/opentracker/info/refs?service=git-upload-pack
+      https://api.github.com/repos/embray/d2to1/tags
+      https://api.github.com/repos/dorimanx/exfat-nofuse/commits
+      https://api.github.com/repos/dorimanx/exfat-nofuse/tags
     ];
   };
 }
