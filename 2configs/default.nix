@@ -145,16 +145,13 @@ with import <stockholm/lib>;
     tinc = pkgs.tinc_pre;
   };
 
-  services.cron.enable = false;
-  services.nscd.enable = false;
-  services.ntp.enable = false;
-  services.timesyncd.enable = true;
-  services.ntp.servers = [
+   networking.timeServers = [
     "pool.ntp.org"
     "time.windows.com"
     "time.apple.com"
     "time.nist.gov"
   ];
+
   nix.extraOptions = ''
     auto-optimise-store = true
   '';
