@@ -48,15 +48,8 @@ in {
         browseable = "yes";
         "guest ok" = "yes";
       };
-      crypt0-rw = {
-        path = "/media/crypt0/";
-        "read only" = "no";
-        browseable = "yes";
-        "guest ok" = "no";
-        "valid users" = "makefu";
-      };
-      crypt1-rw = {
-        path = "/media/crypt1/";
+      media-rw = {
+        path = "/media/";
         "read only" = "no";
         browseable = "yes";
         "guest ok" = "no";
