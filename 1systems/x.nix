@@ -8,7 +8,7 @@
     [ # base
       ../.
       ../2configs/main-laptop.nix
-      ../2configs/laptop-utils.nix
+      ../2configs/tools/all.nix
       ../2configs/laptop-backup.nix
       ../2configs/dnscrypt.nix
 
@@ -46,7 +46,7 @@
       ../2configs/mail-client.nix
       ../2configs/printer.nix
       ../2configs/virtualization.nix
-      ../2configs/virtualization-virtualbox.nix
+      # ../2configs/virtualization-virtualbox.nix
       ../2configs/wwan.nix
       ../2configs/rad1o.nix
 
@@ -64,7 +64,9 @@
       ../2configs/fs/sda-crypto-root-home.nix
 
     ];
-  makefu.server.primary-itf = "wlp2s0";
+  boot.kernelParams = [ "acpi_osi=Linux" "acpi_backlight=vendor" ];
+
+  makefu.server.primary-itf = "wlp3s0";
   makefu.full-populate = true;
   makefu.umts.apn = "web.vodafone.de";
 
@@ -75,6 +77,7 @@
     servers.default.server-names = [ "_" ];
   };
 
+  boot.extraModulePackages = [ config.boot.kernelPackages.exfat-nofuse ];
   environment.systemPackages = [ pkgs.passwdqc-utils pkgs.bintray-upload ];
 
   virtualisation.docker.enable = true;
