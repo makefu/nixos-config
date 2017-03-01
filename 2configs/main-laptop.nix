@@ -14,7 +14,8 @@ in {
     ./base-gui.nix
     ./fetchWallpaper.nix
     ./zsh-user.nix
-    ./laptop-utils.nix
+    ./tools/core.nix
+    ./tools/core-gui.nix
   ];
 
   users.users.${config.krebs.build.user.name}.extraGroups = [ "dialout" ];
@@ -60,7 +61,7 @@ in {
             sleep 1
           '')
           [ 5 4 3 2 1 ]}
-        /var/setuid-wrappers/sudo ${pkgs.systemd}/bin/systemctl suspend
+        /var/run/wrappers/bin/sudo ${pkgs.systemd}/bin/systemctl suspend
       '';
     };
   };
