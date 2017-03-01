@@ -3,7 +3,7 @@
 {
   krebs.per-user.makefu.packages = with pkgs; [
     aria2
-    mitmproxy
+    # mitmproxy
     pythonPackages.binwalk-full
     dnsmasq
     iodine
