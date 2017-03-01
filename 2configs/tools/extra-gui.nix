@@ -7,6 +7,6 @@
     skype
     virtmanager
     synergy
-    
+    saleae-logic
   ];
 }

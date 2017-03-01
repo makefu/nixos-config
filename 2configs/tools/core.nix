@@ -9,12 +9,14 @@
     at_spi2_core
     acpi
     bc
+    rsync
     exif
     file
     ntfs3g
     pv
     proot
     sshpass
+    populate
     usbutils
     p7zip
     hdparm
@@ -30,7 +32,10 @@
     wol
     tmux
     smartmontools
+    cifs-utils
     iftop
+    taskwarrior
+    mplayer
 
     cac-api
     cac-panel

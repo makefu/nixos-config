@@ -16,7 +16,6 @@
     mirage
     tightvnc
     gnome3.dconf
-    vlc
     wireshark
     xdotool
     scrot
