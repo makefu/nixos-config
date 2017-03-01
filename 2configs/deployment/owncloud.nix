@@ -131,10 +131,14 @@ in  {
     ( serveCloud [ "o.euer.krebsco.de" ] )
   ];
 
-  services.mysql = {
-    enable = true;
+  services.mysql = { # TODO: currently nextcloud uses sqlite
+    enable = false;
     package = pkgs.mariadb;
     rootPassword = config.krebs.secret.files.mysql_rootPassword.path;
+  };
+  services.mysqlBackup = {
+    enable = false;
+    databases = [ "nextcloud" ];
   };
 
   krebs.secret.files.mysql_rootPassword = {
