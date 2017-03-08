@@ -9,7 +9,10 @@ in {
       ../.
       ../2configs/zsh-user.nix
       ../2configs/base-gui.nix
-      ../2configs/laptop-utils.nix
+      ../2configs/tools/core.nix
+      ../2configs/tools/core-gui.nix
+      ../2configs/tools/extra-gui.nix
+      ../2configs/tools/media.nix
       ../2configs/virtualization.nix
       ../2configs/tinc/retiolum.nix
     ];
