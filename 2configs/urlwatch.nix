@@ -19,6 +19,7 @@
       https://api.github.com/repos/embray/d2to1/tags
       https://api.github.com/repos/dorimanx/exfat-nofuse/commits
       https://api.github.com/repos/dorimanx/exfat-nofuse/tags
+      https://api.github.com/repos/radare/radare2/tags
     ];
   };
 }
