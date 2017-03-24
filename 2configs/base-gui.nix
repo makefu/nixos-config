@@ -41,7 +41,7 @@ in
   fonts = {
     enableCoreFonts = true;
     enableFontDir = true;
-    enableGhostscriptFonts = false;
+    enableGhostscriptFonts = true;
     fonts = [ pkgs.terminus_font ];
   };
 
