@@ -182,5 +182,17 @@ in {
 
   zramSwap.enable = true;
 
+  krebs.Reaktor.reaktor = {
+    nickname = "Reaktor|bot";
+    channels = [ "#krebs" "#shackspace" "#binaergewitter" ];
+    plugins = with pkgs.ReaktorPlugins;[
+                               titlebot
+                               # stockholm-issue
+                               nixos-version
+                               shack-correct
+                               sed-plugin
+                               random-emoji ];
+  };
+
   krebs.build.host = config.krebs.hosts.omo;
 }
