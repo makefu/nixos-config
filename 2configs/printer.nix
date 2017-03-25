@@ -5,7 +5,7 @@
     enable = true;
     drivers = [
       pkgs.samsungUnifiedLinuxDriver
-      pkgs.dymo-cups-drivers
+      pkgs.cups-dymo
     ];
   };
 
