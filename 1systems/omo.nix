@@ -43,7 +43,6 @@ in {
       # TODO: unlock home partition via ssh
       ../2configs/fs/sda-crypto-root.nix
       ../2configs/zsh-user.nix
-      ../2configs/urlwatch.nix
       ../2configs/backup.nix
       ../2configs/exim-retiolum.nix
       ../2configs/smart-monitor.nix
