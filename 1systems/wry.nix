@@ -19,8 +19,6 @@ in {
       ../2configs/backup.nix
 
       # other nginx
-      ../2configs/nginx/euer.wiki.nix
-      ../2configs/nginx/euer.blog.nix
       # ../2configs/nginx/euer.test.nix
 
       # collectd
@@ -36,31 +34,6 @@ in {
   # prepare graphs
   services.nginx.enable = true;
   krebs.retiolum-bootstrap.enable = true;
-  krebs.bepasty.servers."paste.r".nginx.extraConfig = ''
-    if ( $server_addr = "${external-ip}" ) {
-      return 403;
-    }
-  '';
-  krebs.tinc_graphs = {
-    enable = true;
-    nginx = {
-      enable = true;
-      # TODO: remove hard-coded hostname
-      complete = {
-        extraConfig = ''
-          if ( $server_addr = "${external-ip}" ) {
-            return 403;
-          }
-        '';
-        serverAliases = [  "graphs.r" "graphs.retiolum" "graphs.wry" "graphs.retiolum" "graphs.wry.retiolum" ];
-      };
-      anonymous = {
-        enableSSL = true;
-        forceSSL = true;
-        enableACME = true;
-      };
-    };
-  };
 
   networking = {
     firewall = {

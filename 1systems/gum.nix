@@ -29,9 +29,12 @@ in {
       ../2configs/deployment/owncloud.nix
       ../2configs/nginx/share-download.nix
       ../2configs/nginx/euer.test.nix
+      ../2configs/nginx/euer.wiki.nix
+      ../2configs/nginx/euer.blog.nix
       ../2configs/nginx/public_html.nix
       ../2configs/nginx/update.connector.one.nix
       ../2configs/deployment/mycube.connector.one.nix
+      ../2configs/deployment/graphs.nix
 
       # ../2configs/opentracker.nix
       ../2configs/logging/central-stats-client.nix
