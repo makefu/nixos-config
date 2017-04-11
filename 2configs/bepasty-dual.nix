@@ -14,7 +14,7 @@ with import <stockholm/lib>;
 let
   sec = toString <secrets>;
   # secKey is nothing worth protecting on a local machine
-  secKey = import <secrets/bepasty-secret.nix>;
+  secKey = "${secrets}/bepasty-secret";
   acmepath = "/var/lib/acme/";
   acmechall = acmepath + "/challenges/";
   ext-dom = "paste.krebsco.de" ;
@@ -31,7 +31,7 @@ in {
           serverAliases = [ "paste.retiolum" "paste.${config.krebs.build.host.name}" ];
         };
         defaultPermissions = "admin,list,create,read,delete";
-        secretKey = secKey;
+        secretKeyFile = secKey;
       };
 
       "${ext-dom}" = {
@@ -41,7 +41,7 @@ in {
           enableACME = true;
         };
         defaultPermissions = "read";
-        secretKey = secKey;
+        secretKeyFile = secKey;
       };
     };
   };
