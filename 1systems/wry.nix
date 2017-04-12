@@ -13,7 +13,7 @@ in {
       ../2configs/fs/CAC-CentOS-7-64bit.nix
       ../2configs/save-diskspace.nix
 
-      ../2configs/bepasty-dual.nix
+      # ../2configs/bepasty-dual.nix
 
       ../2configs/iodined.nix
       ../2configs/backup.nix
