@@ -17,7 +17,7 @@ with import <stockholm/lib>;
     enable = true;
 
     dns.providers.lan  = "hosts";
-    search-domain = "retiolum";
+    search-domain = "r";
     build = {
       user = config.krebs.users.makefu;
       source = let
