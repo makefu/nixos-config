@@ -23,8 +23,8 @@ in {
           }
         '';
         serverAliases = [
-          "graphs.r" "graphs.retiolum"
-          "graphs.${hn}" "graphs.${hn}.retiolum"
+          "graph.r"
+          "graph.${hn}" "graph.${hn}.r"
         ];
       };
       anonymous = {
