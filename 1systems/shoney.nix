@@ -31,7 +31,7 @@ in {
         anonymous-domain = "localhost.localdomain";
         anonymous.extraConfig = "return 403;";
         complete = {
-          serverAliases = [ "graphs.siem" ];
+          serverAliases = [ "graph.siem" ];
           extraConfig = ''
             if ( $server_addr = "${ip}" ) {
               return 403;
