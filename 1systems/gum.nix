@@ -35,10 +35,12 @@ in {
       ../2configs/nginx/update.connector.one.nix
       ../2configs/deployment/mycube.connector.one.nix
       ../2configs/deployment/graphs.nix
+      # ../2configs/ipfs.nix
+      ../2configs/syncthing.nix
 
       # ../2configs/opentracker.nix
       ../2configs/logging/central-stats-client.nix
-      ../2configs/logging/central-logging-client.nix
+      # ../2configs/logging/central-logging-client.nix
 
   ];
   services.smartd.devices = [ { device = "/dev/sda";} ];
@@ -79,7 +81,6 @@ in {
   ];
   services.bitlbee.enable = true;
   systemd.services.bitlbee.environment.BITLBEE_DEBUG="1";
-  # systemd.services.bitlbee.serviceConfig.ExecStart = "${pkgs.bitlbee}/bin/bitlbee -Dnv -c 
 
   # Hardware
   boot.loader.grub.device = "/dev/sda";
