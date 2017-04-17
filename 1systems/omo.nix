@@ -53,9 +53,10 @@ in {
       ../2configs/omo-share.nix
       ../2configs/tinc/retiolum.nix
       ../2configs/logging/central-stats-server.nix
-      ../2configs/logging/central-logging-server.nix
+      # ../2configs/logging/central-logging-server.nix
       ../2configs/logging/central-stats-client.nix
-      ../2configs/logging/central-logging-client.nix
+      ../2configs/syncthing.nix
+      # ../2configs/logging/central-logging-client.nix
 
       # ../2configs/torrent.nix
 
