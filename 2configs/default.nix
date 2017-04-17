@@ -11,7 +11,7 @@ with import <stockholm/lib>;
     ./vim.nix
     ./binary-cache/nixos.nix
   ];
-
+  programs.command-not-found.enable = false;
   nixpkgs.config.allowUnfreePredicate =  (pkg: pkgs.lib.hasPrefix "unrar-" pkg.name);
   krebs = {
     enable = true;
@@ -22,7 +22,7 @@ with import <stockholm/lib>;
       user = config.krebs.users.makefu;
       source = let
           inherit (config.krebs.build) host user;
-          ref = "2982661"; # unstable @ 2017-03-31 + cups-dymo + snapraid-11.1
+          ref = "4fac473"; # unstable @ 2017-03-31 + command-not-found
       in {
         nixpkgs = if config.makefu.full-populate || (getEnv "dummy_secrets" == "true") then
           {
