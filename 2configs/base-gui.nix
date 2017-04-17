@@ -16,7 +16,10 @@ let
   mainUser = config.krebs.build.user.name;
 in
 {
-  imports = [ ];
+  imports = [
+    ./urxvtd.nix
+  ];
+
   services.xserver = {
     enable = true;
     layout = "us";
