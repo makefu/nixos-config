@@ -12,11 +12,11 @@
     firefox
     keepassx
     pcmanfm
+    evince
     skype
     mirage
     tightvnc
     gnome3.dconf
-    wireshark
     xdotool
     xorg.xbacklight
     scrot

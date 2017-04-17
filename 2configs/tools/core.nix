@@ -40,6 +40,7 @@
     cac-api
     cac-panel
     krebspaste
+    krebszones
     ledger
     pass
   ];

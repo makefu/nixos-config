@@ -11,5 +11,6 @@
     nmap
     msf
     thc-hydra
+    wireshark
   ];
 }
