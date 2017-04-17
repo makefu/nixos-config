@@ -2,6 +2,7 @@
 #
 #
 { config, pkgs, ... }:
+with import <stockholm/lib>;
 
 {
   imports =
@@ -78,7 +79,7 @@
   };
 
   boot.extraModulePackages = [ config.boot.kernelPackages.exfat-nofuse ];
-  environment.systemPackages = [ pkgs.passwdqc-utils pkgs.bintray-upload ];
+  environment.systemPackages = [ pkgs.passwdqc-utils ];
 
   virtualisation.docker.enable = true;
 
