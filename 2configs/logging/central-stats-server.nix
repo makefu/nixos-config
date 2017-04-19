@@ -71,5 +71,12 @@ in {
     iptables -A INPUT -i ${logging-interface} -p udp --dport ${toString collectd-port} -j ACCEPT
     iptables -A INPUT -i ${logging-interface} -p tcp --dport ${toString influx-port} -j ACCEPT
     iptables -A INPUT -i ${logging-interface} -p tcp --dport ${toString grafana-port} -j ACCEPT
+
+    ip6tables -A INPUT -i retiolum -p udp --dport ${toString collectd-port} -j ACCEPT
+    ip6tables -A INPUT -i retiolum -p tcp --dport ${toString influx-port} -j ACCEPT
+    ip6tables -A INPUT -i retiolum -p tcp --dport ${toString grafana-port} -j ACCEPT
+    ip6tables -A INPUT -i ${logging-interface} -p udp --dport ${toString collectd-port} -j ACCEPT
+    ip6tables -A INPUT -i ${logging-interface} -p tcp --dport ${toString influx-port} -j ACCEPT
+    ip6tables -A INPUT -i ${logging-interface} -p tcp --dport ${toString grafana-port} -j ACCEPT
   '';
 }
