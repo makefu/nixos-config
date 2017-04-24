@@ -61,6 +61,7 @@ with import <stockholm/lib>;
       # hardware specifics are in here
       ../2configs/hw/tp-x230.nix
       ../2configs/hw/rtl8812au.nix
+      ../2configs/hw/stk1160.nix
 
       # mount points
       ../2configs/fs/sda-crypto-root-home.nix
