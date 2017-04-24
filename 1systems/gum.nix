@@ -27,6 +27,7 @@ in {
 
       ## Web
       ../2configs/deployment/owncloud.nix
+      ../2configs/deployment/newsbot.nix
       ../2configs/nginx/share-download.nix
       ../2configs/nginx/euer.test.nix
       ../2configs/nginx/euer.wiki.nix
