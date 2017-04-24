@@ -20,7 +20,7 @@ in {
     download = {
       name = "download";
       home = dl-dir;
-      uid = genid "download";
+      uid = mkDefault (genid "download");
       createHome = true;
       useDefaultShell = true;
       group = "download";
@@ -39,7 +39,7 @@ in {
 
   users.extraGroups = {
     download = {
-      gid = genid "download";
+      gid = lib.mkDefault (genid "download");
       members = [
         config.krebs.build.user.name
         "download"
