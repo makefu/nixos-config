@@ -26,16 +26,18 @@ in {
       ../2configs/iodined.nix
 
       ## Web
-      ../2configs/deployment/owncloud.nix
-      ../2configs/deployment/newsbot.nix
       ../2configs/nginx/share-download.nix
       ../2configs/nginx/euer.test.nix
       ../2configs/nginx/euer.wiki.nix
       ../2configs/nginx/euer.blog.nix
       ../2configs/nginx/public_html.nix
       ../2configs/nginx/update.connector.one.nix
+
       ../2configs/deployment/mycube.connector.one.nix
       ../2configs/deployment/graphs.nix
+      ../2configs/deployment/owncloud.nix
+      ../2configs/deployment/wiki-irc.nix
+      ../2configs/deployment/boot-euer.nix
       # ../2configs/ipfs.nix
       ../2configs/syncthing.nix
 
