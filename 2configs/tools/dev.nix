@@ -2,9 +2,15 @@
 
 {
   krebs.per-user.makefu.packages = with pkgs;[
+    python35Packages.virtualenv
+    # embedded
+    flashrom
+    mosquitto
+    libcoap
     nodemcu-uploader
     esptool
-    python35Packages.virtualenv
-    flashrom
+    cac-api
+    cac-panel
+    krebszones
   ];
 }

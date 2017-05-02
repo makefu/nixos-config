@@ -20,5 +20,6 @@
     xdotool
     xorg.xbacklight
     scrot
+    wireshark
   ];
 }

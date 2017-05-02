@@ -11,6 +11,7 @@
     nmap
     msf
     thc-hydra
-    wireshark
+    borgbackup
+    ledger
   ];
 }

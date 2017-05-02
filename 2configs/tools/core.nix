@@ -12,11 +12,11 @@
     rsync
     exif
     file
+    # fs
     ntfs3g
+    dosfstools
     pv
-    proot
     sshpass
-    populate
     usbutils
     p7zip
     hdparm
@@ -27,21 +27,30 @@
     sysstat
     which
     weechat
-    curl
-    wget
     wol
     tmux
+    iftop
+    mkpasswd
+    # storage
     smartmontools
     cifs-utils
-    iftop
-    taskwarrior
-    mplayer
+    # net
+    wget
+    curl
 
-    cac-api
-    cac-panel
+    # stockholm
+    git
+    gnumake
+    jq
+    parallel
+    proot
+    populate
+
+    rxvt_unicode.terminfo
     krebspaste
-    krebszones
-    ledger
+
+    # TODO:
+    taskwarrior
     pass
   ];
 }

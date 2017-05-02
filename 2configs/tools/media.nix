@@ -8,5 +8,6 @@
     calibre
     vlc
     mumble
+    mplayer
   ];
 }

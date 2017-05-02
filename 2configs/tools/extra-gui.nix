@@ -2,12 +2,13 @@
 
 {
   krebs.per-user.makefu.packages = with pkgs;[
-    inkscape
     gimp
+    inkscape
     libreoffice
-    skype
-    virtmanager
-    synergy
     saleae-logic
+    skype
+    synergy
+    tdesktop
+    virtmanager
   ];
 }
