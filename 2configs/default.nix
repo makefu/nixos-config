@@ -4,7 +4,7 @@ with import <stockholm/lib>;
 {
   imports = [
     {
-      users.extraUsers =
+      users.users =
         mapAttrs (_: h: { hashedPassword = h; })
                  (import <secrets/hashedPasswords.nix>);
     }
@@ -134,6 +134,7 @@ with import <stockholm/lib>;
   };
 
   environment.shellAliases = {
+    # TODO: see .aliases
     lsl = "ls -lAtr";
     psg = "ps -ef | grep";
     nmap = "nmap -oN $HOME/loot/scan-`date +\%s`.nmap -oX $HOME/loot/scan-`date +%s`.xml";
