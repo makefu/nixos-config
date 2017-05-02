@@ -2,22 +2,31 @@
 
 with import <stockholm/lib>;
 let
+  external-mac = "3a:66:48:8e:82:b2";
   external-ip = config.krebs.build.host.nets.internet.ip4.addr;
+  external-gw = "188.68.40.1";
+  external-netmask = 22;
   internal-ip = config.krebs.build.host.nets.retiolum.ip4.addr;
+  main-disk = "/dev/disk/by-id/scsi-0QEMU_QEMU_HARDDISK_drive-scsi0-0-0-0";
 in {
   imports = [
       ../.
+       <nixpkgs/nixos/modules/profiles/qemu-guest.nix>
       ../2configs/headless.nix
-      ../2configs/fs/simple-swap.nix
       ../2configs/fs/single-partition-ext4.nix
       ../2configs/smart-monitor.nix
       ../2configs/git/cgit-retiolum.nix
       ../2configs/backup.nix
       # ../2configs/mattermost-docker.nix
-      ../2configs/disable_v6.nix
+      # ../2configs/disable_v6.nix
       ../2configs/exim-retiolum.nix
       ../2configs/tinc/retiolum.nix
       ../2configs/urlwatch.nix
+
+      # Tools
+      ../2configs/tools/core.nix
+      ../2configs/tools/dev.nix
+      ../2configs/tools/sec.nix
 
       # services
       ../2configs/gum-share.nix
@@ -46,7 +55,7 @@ in {
       # ../2configs/logging/central-logging-client.nix
 
   ];
-  services.smartd.devices = [ { device = "/dev/sda";} ];
+  services.smartd.devices = [ { device = main-disk;} ];
   makefu.dl-dir = "/var/download";
 
 
@@ -83,16 +92,15 @@ in {
     get
   ];
   services.bitlbee.enable = true;
-  systemd.services.bitlbee.environment.BITLBEE_DEBUG="1";
 
   # Hardware
-  boot.loader.grub.device = "/dev/sda";
-  boot.initrd.availableKernelModules = [ "pata_via" "uhci_hcd" ];
+  boot.loader.grub.device = main-disk;
+  boot.initrd.availableKernelModules = [ "ata_piix" "uhci_hcd" "virtio_pci" "sd_mod" "sr_mod" ];
   boot.kernelModules = [ "kvm-intel" ];
 
   # Network
   services.udev.extraRules = ''
-    SUBSYSTEM=="net", ATTR{address}=="c8:0a:a9:c8:ee:dd", NAME="et0"
+    SUBSYSTEM=="net", ATTR{address}=="${external-mac}", NAME="et0"
   '';
   boot.kernelParams = [ ];
   networking = {
@@ -124,9 +132,9 @@ in {
     };
     interfaces.et0.ip4 = [{
       address = external-ip;
-      prefixLength = 24;
+      prefixLength = external-netmask;
     }];
-    defaultGateway = "195.154.108.1";
+    defaultGateway = external-gw;
     nameservers = [ "8.8.8.8" ];
   };
 
