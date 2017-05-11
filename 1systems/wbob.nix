@@ -15,6 +15,8 @@ in {
       ../2configs/tools/media.nix
       ../2configs/virtualization.nix
       ../2configs/tinc/retiolum.nix
+      ../2configs/mqtt.nix
+      ../2configs/deployment/led-fader.nix
     ];
 
   krebs = {
@@ -43,6 +45,7 @@ in {
 
   networking.firewall.allowedUDPPorts = [ 655 ];
   networking.firewall.allowedTCPPorts = [ 655 49152 ];
+  networking.firewall.trustedInterfaces = [ "enp0s25" ];
   #services.tinc.networks.siem = {
   #  name = "display";
   #  extraConfig = ''
