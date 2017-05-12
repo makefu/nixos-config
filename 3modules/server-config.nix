@@ -6,5 +6,10 @@ with import <stockholm/lib>;
 		type = types.str;
 		description = "Primary interface of the server";
 	};
+  options.makefu.gui.user = lib.mkOption {
+		type = types.str;
+		description = "GUI user";
+    default = config.krebs.build.user.name;
+	};
 }
 
