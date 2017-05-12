@@ -4,8 +4,11 @@ with import <stockholm/lib>;
 let
   external-mac = "3a:66:48:8e:82:b2";
   external-ip = config.krebs.build.host.nets.internet.ip4.addr;
+  external-ip6 = config.krebs.build.host.nets.internet.ip6.addr;
   external-gw = "188.68.40.1";
+  external-gw6 = "fe80::1";
   external-netmask = 22;
+  external-netmask6 = 64;
   internal-ip = config.krebs.build.host.nets.retiolum.ip4.addr;
   main-disk = "/dev/disk/by-id/scsi-0QEMU_QEMU_HARDDISK_drive-scsi0-0-0-0";
 in {
@@ -14,7 +17,7 @@ in {
        <nixpkgs/nixos/modules/profiles/qemu-guest.nix>
       ../2configs/headless.nix
       ../2configs/fs/single-partition-ext4.nix
-      ../2configs/smart-monitor.nix
+      # ../2configs/smart-monitor.nix
       ../2configs/git/cgit-retiolum.nix
       ../2configs/backup.nix
       # ../2configs/mattermost-docker.nix
@@ -55,7 +58,6 @@ in {
       # ../2configs/logging/central-logging-client.nix
 
   ];
-  services.smartd.devices = [ { device = main-disk;} ];
   makefu.dl-dir = "/var/download";
 
 
@@ -134,6 +136,11 @@ in {
       address = external-ip;
       prefixLength = external-netmask;
     }];
+    interfaces.et0.ip6 = [{
+      address = external-ip6;
+      prefixLength = external-netmask6;
+    }];
+    defaultGateway6 = external-gw6;
     defaultGateway = external-gw;
     nameservers = [ "8.8.8.8" ];
   };
