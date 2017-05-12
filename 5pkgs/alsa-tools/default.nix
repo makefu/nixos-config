@@ -1,4 +1,4 @@
-{stdenv,alsaToolTarget,fetchurl, alsaLib, ncurses, fltk13, gtk}:
+{stdenv,alsaToolTarget,fetchurl, alsaLib, ncurses, fltk13, gtk3}:
 
 stdenv.mkDerivation rec {
   name = "alsa-${alsaToolTarget}-${version}";
@@ -14,7 +14,7 @@ stdenv.mkDerivation rec {
     sha256 = "1lgvyb81md25s9ciswpdsbibmx9s030kvyylf0673w3kbamz1awl";
   };
   sourceRoot = "${alsaToolsName}/${alsaToolTarget}/";
-  buildInputs = [ alsaLib fltk13 gtk ncurses ];
+  buildInputs = [ alsaLib fltk13 gtk3 ncurses ];
 
   meta = {
     homepage = http://www.alsa-project.org/;
