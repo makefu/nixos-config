@@ -10,7 +10,7 @@ pkgs.python3Packages.buildPythonPackage rec {
     sha256 = "1401saisk98n5wgw73nwh8hb484vayw5c6dlypxc1fp4ybym4zi9";
   };
 
-  propagatedBuildInputs = with pkgs.python3Packages; [ requests2 ];
+  propagatedBuildInputs = with pkgs.python3Packages; [ requests ];
 
   meta = {
     description = "Simple BinTray utility for uploading packages";

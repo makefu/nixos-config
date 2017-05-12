@@ -16,7 +16,7 @@ in buildPythonPackage rec {
   version = "1.0.5";
   propagatedBuildInputs = [
     flask
-    requests2
+    requests
     ftputil
     redis
   ];

@@ -22,7 +22,7 @@ buildPythonPackage rec {
       lxml
       pytz
       redis
-      requests2
+      requests
     ];
     src = fetchFromGitHub {
       owner = "shackspace";

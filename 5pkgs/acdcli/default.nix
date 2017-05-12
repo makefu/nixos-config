@@ -4,7 +4,7 @@ with python3Packages; buildPythonPackage rec {
   name = "acdcli-${version}";
   version = "0.3.2";
   propagatedBuildInputs = [
-    dateutil colorama fusepy appdirs requests2 requests_toolbelt six
+    dateutil colorama fusepy appdirs requests requests_toolbelt six
   ];
   src = fetchurl {
     url = "mirror://pypi/a/acdcli/${name}.tar.gz";

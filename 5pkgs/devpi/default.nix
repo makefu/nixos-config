@@ -56,7 +56,7 @@ let
       sha256 = "0l3a7iyk596x6pvzg7604lzzi012qszr804fqn6f517zcy1xz23j";
     };
 
-    propagatedBuildInputs = with pkgs.python3Packages; [ requests2 py ];
+    propagatedBuildInputs = with pkgs.python3Packages; [ requests py ];
 
     meta = {
       homepage = https://bitbucket.org/hpk42/devpi;
