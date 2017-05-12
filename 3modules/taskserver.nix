@@ -41,8 +41,8 @@ let
         Type = "simple";
         ExecStart = "${cfg.package}/bin/taskd server --data ${cfg.workingDir}";
         WorkingDirectory = cfg.workingDir;
-        PrivateTmp = true;
-        InaccessibleDirectories = "/home /boot /opt /mnt /media";
+        # PrivateTmp = true;
+        # InaccessibleDirectories = "/home /boot /opt /mnt /media";
         User = "taskd";
       };
     };
