@@ -1,4 +1,4 @@
-{ config, lib, ... }:
+{ config, lib, pkgs, ... }:
 with import <stockholm/lib>;
 let
   # preparation:
@@ -32,4 +32,7 @@ in {
     # wry-to-omo_root = defaultPull config.krebs.hosts.wry "/";
     gum-to-omo_root = defaultPull config.krebs.hosts.gum "/";
   };
+  environment.systemPackages = [
+    pkgs.borgbackup
+  ];
 }
