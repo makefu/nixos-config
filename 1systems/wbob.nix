@@ -20,6 +20,8 @@ in {
       # ../2configs/gui/wbob-kiosk.nix
 
       ../2configs/gui/studio.nix
+      ../2configs/audio/jack-on-pulse.nix
+      ../2configs/audio/realtime-audio.nix
       ../2configs/vncserver.nix
     ];
 
