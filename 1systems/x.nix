@@ -38,6 +38,8 @@ with import <stockholm/lib>;
       # ../2configs/temp/sabnzbd.nix
 
 
+      # development
+      ../2configs/sources
 
       # Krebs
       # ../2configs/disable_v6.nix
