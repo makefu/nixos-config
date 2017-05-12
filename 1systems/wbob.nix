@@ -1,14 +1,14 @@
 { config, pkgs, lib, ... }:
-let 
+let
   rootdisk = "/dev/disk/by-id/ata-TS256GMTS800_C613840115";
   datadisk = "/dev/disk/by-id/ata-HGST_HTS721010A9E630_JR10006PH3A02F";
+  user = config.makefu.gui.user;
 in {
 
   imports =
     [ # Include the results of the hardware scan.
       ../.
       ../2configs/zsh-user.nix
-      ../2configs/base-gui.nix
       ../2configs/tools/core.nix
       ../2configs/tools/core-gui.nix
       ../2configs/tools/extra-gui.nix
@@ -17,6 +17,10 @@ in {
       ../2configs/tinc/retiolum.nix
       ../2configs/mqtt.nix
       ../2configs/deployment/led-fader.nix
+      # ../2configs/gui/wbob-kiosk.nix
+
+      ../2configs/gui/studio.nix
+      ../2configs/vncserver.nix
     ];
 
   krebs = {
@@ -26,22 +30,6 @@ in {
 
   swapDevices = [ { device = "/var/swap"; } ];
 
-  services.xserver = {
-    layout = lib.mkForce "de";
-
-    windowManager = lib.mkForce {
-      awesome.enable = false;
-      default = "none";
-    };
-    desktopManager.xfce.enable = true;
-
-    # xrandrHeads = [ "HDMI1" "HDMI2" ];
-    # prevent screen from turning off, disable dpms
-    displayManager.sessionCommands = ''
-      xset s off -dpms
-      xrandr --output HDMI2 --right-of HDMI1
-    '';
-  };
 
   networking.firewall.allowedUDPPorts = [ 655 ];
   networking.firewall.allowedTCPPorts = [ 655 49152 ];
@@ -88,7 +76,7 @@ in {
   # TODO: add crypto layer
   systemd.services."synergy-client" = {
     environment.DISPLAY = ":0";
-    serviceConfig.User = "makefu";
+    serviceConfig.User = user;
   };
 
   services.synergy = {

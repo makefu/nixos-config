@@ -11,7 +11,7 @@ let
   user = config.krebs.build.user.name;
 in {
   imports = [
-    ./base-gui.nix
+    ./gui/base.nix
     ./fetchWallpaper.nix
     ./zsh-user.nix
     ./tools/core.nix
