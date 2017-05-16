@@ -40,9 +40,9 @@ in {
       file { path => "/tmp/logs.json" codec => "json_lines" }
       if [output] {
         irc {
-          channels => [ "#krebs" ]
+          channels => [ "#nixos" , "#krebs" ]
           host => "irc.freenode.net"
-          nick => "nixos-wiki"
+          nick => "nixos-users-wiki"
           format => "%{output}"
         }
       }
