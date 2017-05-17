@@ -11,7 +11,6 @@ _:
     ./logging-config.nix
     ./server-config.nix
     ./snapraid.nix
-    ./taskserver.nix
     ./torrent.nix
     ./udpt.nix
     ./umts.nix
