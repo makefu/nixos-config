@@ -44,4 +44,8 @@ in
       fi
       '';
   };
+
+  krebs.per-user.${mainUser}.packages = [
+    pkgs.nix-zsh-completions
+  ];
 }
