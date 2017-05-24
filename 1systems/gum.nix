@@ -48,8 +48,18 @@ in {
       ../2configs/deployment/mycube.connector.one.nix
       ../2configs/deployment/graphs.nix
       ../2configs/deployment/owncloud.nix
-      ../2configs/deployment/wiki-irc.nix
+      ../2configs/deployment/wiki-irc-bot
       ../2configs/deployment/boot-euer.nix
+      {
+        services.taskserver.enable = true;
+        services.taskserver.fqdn = config.krebs.build.host.name;
+        services.taskserver.listenHost = "::";
+        services.taskserver.organisations.home.users = [ "makefu" ];
+        networking.firewall.extraCommands = ''
+          iptables -A INPUT -i retiolum -p tcp --dport 53589 -j ACCEPT
+          ip6tables -A INPUT -i retiolum -p tcp --dport 53589 -j ACCEPT
+        '';
+      }
       # ../2configs/ipfs.nix
       ../2configs/syncthing.nix
 
@@ -78,7 +88,6 @@ in {
     ];
   };
 
-  makefu.taskserver.enable = true;
 
 
   # access
@@ -122,6 +131,8 @@ in {
           21031
           # taskserver
           53589
+          # temp vnc
+          18001
         ];
         allowedUDPPorts = [
           # tinc
