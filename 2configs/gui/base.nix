@@ -24,7 +24,7 @@ in
     enable = true;
     layout = "us";
     xkbVariant = "altgr-intl";
-    xkbOptions = "ctrl:nocaps";
+    xkbOptions = "ctrl:nocaps, eurosign:e";
 
     windowManager = {
       awesome.enable = true;
