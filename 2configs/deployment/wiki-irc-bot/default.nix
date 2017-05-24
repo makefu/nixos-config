@@ -4,6 +4,10 @@ with lib;
 let
   port = 18872;
 in {
+  nixpkgs.config.packageOverrides = pkgs: with pkgs; {
+    logstash = pkgs.stdenv.lib.overrideDerivation  pkgs.logstash (old: {
+      patches = [ ./irc-out-notice.patch ]; });
+  };
   services.logstash = {
     enable = true;
     inputConfig = ''
@@ -40,10 +44,11 @@ in {
       file { path => "/tmp/logs.json" codec => "json_lines" }
       if [output] {
         irc {
-          channels => [ "#nixos" , "#krebs" ]
+          channels => [ "#krebs", "#nixos" ]
           host => "irc.freenode.net"
           nick => "nixos-users-wiki"
           format => "%{output}"
+          notice => true
         }
       }
     '';

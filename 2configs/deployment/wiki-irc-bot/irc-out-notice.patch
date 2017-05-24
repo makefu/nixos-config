@@ -1,0 +1,26 @@
+index b63339d..8c8c747 100644
+--- a/vendor/bundle/jruby/1.9/gems/logstash-output-irc-2.0.4/lib/logstash/outputs/irc.rb
++++ b/vendor/bundle/jruby/1.9/gems/logstash-output-irc-2.0.4/lib/logstash/outputs/irc.rb
+@@ -48,6 +48,9 @@ class LogStash::Outputs::Irc < LogStash::Outputs::Base
+   # Static string after event
+   config :post_string, :validate => :string, :required => false
+ 
++  # Set this to true to send messages as notice
++  config :notice, :validate => :boolean, :default => false
++
+   public
+ 
+   def inject_bot(bot)
+@@ -90,9 +93,9 @@ class LogStash::Outputs::Irc < LogStash::Outputs::Base
+ 
+     @bot.channels.each do |channel|
+       @logger.debug("Sending to...", :channel => channel, :text => text)
+-      channel.msg(pre_string) if !@pre_string.nil?
+-      channel.msg(text)
+-      channel.msg(post_string) if !@post_string.nil?
++      channel.send(pre_string, :notice => @notice) if !@pre_string.nil?
++      channel.send(text, :notice => @notice)
++      channel.send(post_string, :notice => @notice) if !@post_string.nil?
+     end # channels.each
+   end # def receive
+ end # class LogStash::Outputs::Irc
