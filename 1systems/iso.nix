@@ -31,7 +31,7 @@ with import <stockholm/lib>;
   systemd.services.sshd.wantedBy = lib.mkForce [ "multi-user.target" ];
   # hack `tee` behavior
   nixpkgs.config.packageOverrides = super: {
-    irc-announce = super.callPackage <stockholm/krebs/5pkgs/irc-announce> {
+    irc-announce = super.callPackage <stockholm/krebs/5pkgs/simple/irc-announce> {
       pkgs = pkgs // { coreutils = pkgs.concat "coreutils-hack" [
         pkgs.coreutils
         (pkgs.writeDashBin "tee" ''
