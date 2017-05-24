@@ -12,7 +12,9 @@ in {
   services.grafana.addr = "0.0.0.0";
 
   services.influxdb.enable = true;
-
+  # redirect grafana to stats.makefu.r
+  services.nginx.enable = true;
+  services.nginx.virtualHosts."stats.makefu.r".locations."/".proxyPass = "http://localhost:3000";
   # forward these via nginx
   services.influxdb.extraConfig = {
     meta.hostname = config.krebs.build.host.name;
