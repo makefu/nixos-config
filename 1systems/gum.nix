@@ -32,7 +32,7 @@ in {
       ../2configs/tools/sec.nix
 
       # services
-      ../2configs/gum-share.nix
+      ../2configs/share/gum.nix
       ../2configs/sabnzbd.nix
       ../2configs/torrent.nix
       ../2configs/iodined.nix
@@ -64,8 +64,8 @@ in {
       ../2configs/syncthing.nix
 
       # ../2configs/opentracker.nix
-      ../2configs/logging/central-stats-client.nix
-      # ../2configs/logging/central-logging-client.nix
+      ../2configs/stats/client.nix
+      # ../2configs/logging/client.nix
 
   ];
   makefu.dl-dir = "/var/download";

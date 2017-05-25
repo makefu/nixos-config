@@ -50,11 +50,13 @@ in {
       # ../2configs/disable_v6.nix
       #../2configs/graphite-standalone.nix
       #../2configs/share-user-sftp.nix
-      ../2configs/omo-share.nix
+      ../2configs/share/omo.nix
       ../2configs/tinc/retiolum.nix
-      ../2configs/logging/central-stats-server.nix
-      # ../2configs/logging/central-logging-server.nix
-      ../2configs/logging/central-stats-client.nix
+
+      # Logging
+      ../2configs/stats/server.nix #influx + grafana
+      ../2configs/stats/client.nix
+      ../2configs/stats/external/aralast.nix # logs to influx
 
       # services
       ../2configs/syncthing.nix
@@ -180,7 +182,8 @@ in {
     uid = 9002;
     name = "misa";
   };
-  hardware.enableAllFirmware = true;
+  # hardware.enableAllFirmware = true;
+  hardware.enableRedistributableFirmware = true;
   hardware.cpu.intel.updateMicrocode = true;
 
   zramSwap.enable = true;
