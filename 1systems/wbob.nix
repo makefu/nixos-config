@@ -18,6 +18,7 @@ in {
       ../2configs/mqtt.nix
       ../2configs/deployment/led-fader.nix
       # ../2configs/gui/wbob-kiosk.nix
+      ../2configs/stats/client.nix
 
       ../2configs/gui/studio.nix
       ../2configs/audio/jack-on-pulse.nix
