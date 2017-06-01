@@ -28,7 +28,7 @@ in {
       INFLUX_PORT = "8086";
     };
     # every 10 seconds when the cantina is open
-    startAt = "Mon,Tue,Wed,Thu,Fri *-*-* 6,7,8,9,10,11,12,13,14,15:*:0/10";
+    startAt = "Mon,Tue,Wed,Thu,Fri *-*-* 6,7,8,9,10,11,12,13,14,15:*:0,15,30,45";
     serviceConfig = {
       User = "nobody";
       ExecStart = "${pkg}/bin/aralast";
