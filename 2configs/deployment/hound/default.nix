@@ -1,6 +1,10 @@
 { config, pkgs, ... }:
 {
-  services.nginx.virtualHosts."wikisearch.krebsco.de".locations."/".proxyPass = "http://localhost:6080";
+  services.nginx.virtualHosts."wikisearch.krebsco.de" = {
+    forceSSL = true;
+    enableACME = true;
+    locations."/".proxyPass = "http://localhost:6080";
+  };
   services.hound = {
     enable = true;
     listen = "127.0.0.1:6080";

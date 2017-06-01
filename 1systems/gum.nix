@@ -50,6 +50,7 @@ in {
       ../2configs/deployment/owncloud.nix
       ../2configs/deployment/wiki-irc-bot
       ../2configs/deployment/boot-euer.nix
+      ../2configs/deployment/hound
       {
         services.taskserver.enable = true;
         services.taskserver.fqdn = config.krebs.build.host.name;
