@@ -5,8 +5,10 @@
     ../2configs/vncserver.nix
     ../2configs/vim.nix
     ../2configs/disable_v6.nix
-    ../2configs/jack-on-pulse.nix
+    ../2configs/audio/jack-on-pulse.nix
+    ../2configs/audio/realtime-audio.nix
     ../2configs/gui/studio.nix
+    ../2configs/binary-cache/lass.nix
 
   ];
   makefu.gui.user = "user"; # we use an extra user
