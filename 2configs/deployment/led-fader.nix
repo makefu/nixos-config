@@ -29,7 +29,7 @@ in {
     environment = {
       NIX_PATH = "/var/src";
     };
-    after = [ (lib.optional config.services.mosqitto.enable "mosquitto.service") ];
+    # after = [ (lib.optional config.services.mosqitto.enable "mosquitto.service") ];
     wantedBy = [ "multi-user.target"  ];
     serviceConfig = {
       # User = "nobody"; # need a user with permissions to run nix-shell
