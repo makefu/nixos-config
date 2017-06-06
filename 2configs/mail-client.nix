@@ -7,10 +7,11 @@ with import <stockholm/lib>;
     gnupg
     imapfilter
     msmtp
-    mutt
     notmuch
+    neomutt
     offlineimap
     openssl
     w3m
   ];
+
 }
