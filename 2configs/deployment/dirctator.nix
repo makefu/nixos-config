@@ -25,6 +25,10 @@ in {
       stdout { codec => rubydebug }
       exec { command => "${runit} '%{message}" }
     '';
-    plugins = [ ];
+    extraSettings = ''
+      path.plugins: [ "${pkgs.logstash-output-exec}" ]
+    '';
+    ## NameError: `@path.plugins' is not allowable as an instance variable name
+    # plugins = [ pkgs.logstash-output-exec ];
   };
 }
