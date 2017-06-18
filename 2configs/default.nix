@@ -22,7 +22,7 @@ with import <stockholm/lib>;
       user = config.krebs.users.makefu;
       source = let
           inherit (config.krebs.build) host user;
-          ref = "a772c3a"; # unstable @ 2017-05-09 + graceful requests2
+          ref = "f6a2c46"; # unstable @ 2017-06-18 + graceful requests2
       in {
         nixpkgs = if config.makefu.full-populate || (getEnv "dummy_secrets" == "true") then
           {
