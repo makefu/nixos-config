@@ -11,6 +11,6 @@
     esptool
     cac-api
     cac-panel
-    krebszones
+    ovh-zone
   ];
 }
