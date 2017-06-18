@@ -55,7 +55,7 @@ with import <stockholm/lib>;
       ../2configs/rad1o.nix
 
       # services
-      #../2configs/git/brain-retiolum.nix
+      ../2configs/git/brain-retiolum.nix
       ../2configs/tor.nix
       ../2configs/steam.nix
       # ../2configs/buildbot-standalone.nix
