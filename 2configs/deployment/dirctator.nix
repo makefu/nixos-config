@@ -10,6 +10,7 @@ let
   '';
 in {
   services.logstash = {
+    package = pkgs.logstash5;
     enable = true;
     inputConfig = ''
       irc {
