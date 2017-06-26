@@ -2,13 +2,16 @@
 
 {
   krebs.per-user.makefu.packages = with pkgs;[
+    # media
     gimp
     inkscape
     libreoffice
-    saleae-logic
     skype
     synergy
     tdesktop
     virtmanager
+    # Dev
+    saleae-logic
+    arduino-user-env
   ];
 }
