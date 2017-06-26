@@ -13,59 +13,48 @@ with import <stockholm/lib>;
       ../2configs/tools/all.nix
       ../2configs/laptop-backup.nix
       ../2configs/dnscrypt.nix
+      ../2configs/avahi.nix
 
-      # testing
-      # ../2configs/openvpn/vpngate.nix
-      #../2configs/temp/share-samba.nix
-      # ../2configs/mediawiki.nix
-      # ../2configs/wordpress.nix
-      # ../2configs/nginx/public_html.nix
-      # ../2configs/nginx/icecult.nix
+      # Debugging
+      # ../2configs/disable_v6.nix
 
-      # ../2configs/elchos/irc-token.nix
-      # ../2configs/elchos/log.nix
-
-      #../2configs/elchos/search.nix
-      #../2configs/elchos/stats.nix
-      #../2configs/elchos/test/ftpservers.nix
-
-      # ../2configs/tinc/siem.nix
-      #../2configs/torrent.nix
-      # temporary modules
-
-      # ../2configs/torrent.nix
-      #../2configs/temp/elkstack.nix
-      # ../2configs/temp/sabnzbd.nix
-
+      # Testing
+      # ../2configs/deployment/dirctator.nix
+      # ../2configs/vncserver.nix
+      # ../2configs/deployment/led-fader
+      # ../2configs/deployment/hound
 
       # development
       ../2configs/sources
 
       # Krebs
-      # ../2configs/disable_v6.nix
       ../2configs/tinc/retiolum.nix
 
       # applications
       ../2configs/exim-retiolum.nix
       ../2configs/mail-client.nix
       ../2configs/printer.nix
-      ../2configs/virtualization.nix
-      ../2configs/virtualization-virtualbox.nix
-      ../2configs/wwan.nix
-      ../2configs/rad1o.nix
 
-      # services
+      # Virtualization
+      ../2configs/virtualization.nix
+      ../2configs/docker.nix
+      ../2configs/virtualization-virtualbox.nix
+
+      # Services
       ../2configs/git/brain-retiolum.nix
       ../2configs/tor.nix
       ../2configs/steam.nix
       # ../2configs/buildbot-standalone.nix
 
-      # hardware specifics are in here
+      # Hardware
       ../2configs/hw/tp-x230.nix
       ../2configs/hw/rtl8812au.nix
-      ../2configs/hw/stk1160.nix
+      ../2configs/hw/exfat-nofuse.nix
+      ../2configs/hw/wwan.nix
+      # ../2configs/hw/stk1160.nix
+      # ../2configs/rad1o.nix
 
-      # mount points
+      # Filesystem
       ../2configs/fs/sda-crypto-root-home.nix
 
     ];
@@ -76,10 +65,8 @@ with import <stockholm/lib>;
 
   nixpkgs.config.allowUnfree = true;
 
-  boot.extraModulePackages = [ config.boot.kernelPackages.exfat-nofuse ];
   environment.systemPackages = [ pkgs.passwdqc-utils ];
 
-  virtualisation.docker.enable = true;
 
   # configure pulseAudio to provide a HDMI sink as well
   networking.firewall.enable = true;
