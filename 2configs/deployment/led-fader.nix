@@ -31,6 +31,7 @@ in {
     };
     # after = [ (lib.optional config.services.mosqitto.enable "mosquitto.service") ];
     wantedBy = [ "multi-user.target"  ];
+    after = [ "network-online.target"  ];
     serviceConfig = {
       # User = "nobody"; # need a user with permissions to run nix-shell
       ExecStart = "${pkg}/bin/ampel 4 ${pkg}/share/times.json";
