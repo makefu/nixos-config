@@ -34,6 +34,7 @@ with import <stockholm/lib>;
       ../2configs/exim-retiolum.nix
       ../2configs/mail-client.nix
       ../2configs/printer.nix
+      ../2configs/task-client.nix
 
       # Virtualization
       ../2configs/virtualization.nix
