@@ -14,8 +14,6 @@
 
     ];
   networking.extraHosts = import (toString <secrets/extra-hosts.nix>);
-  # workaround for https://github.com/NixOS/nixpkgs/issues/16641
-  services.xserver.videoDrivers = lib.mkOverride 45 [ "virtualbox" "modesetting" ];
 
   nixpkgs.config.allowUnfree = true;
   fileSystems."/nix" = {
