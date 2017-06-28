@@ -2,9 +2,6 @@
 with import <stockholm/lib>;
 let
   # see https://github.com/zeropingheroes/lancache for full docs
-  cachedir = "/var/lancache/cache";
-  logdir = "/var/lancache/log";
-
   lancache= pkgs.stdenv.mkDerivation rec {
     name = "lancache-2017-06-26";
     src = pkgs.fetchFromGitHub {
@@ -21,13 +18,14 @@ let
       mkdir -p $out
       cp -r * $out/
       sed -i -e 's/^\(user\).*/\1 ${cfg.user} ${cfg.group};/' \
-             -e 's/^\(error_log\).*/\1 stderr;\ndaemon off;/' $out/nginx.conf
+             -e '1 idaemon off;' \
+              $out/nginx.conf
     '';
   };
   cfg = {
     group = "nginx-lancache";
     user = "nginx-lancache";
-    stateDir = "/var/lancache";
+    statedir = "/var/lancache";
     package = pkgs.stdenv.lib.overrideDerivation pkgs.nginx (old:{
       configureFlags = old.configureFlags ++ [
         "--with-http_slice_module"
@@ -44,27 +42,23 @@ in {
       restartIfChanged = true;
 
       preStart = ''
-				PATH_CACHE="/var/lancache/cache"
-				PATH_LOGS="/var/lancache/logs"
-				WWW_USER="${cfg.user}"
-				WWW_GROUP="${cfg.group}"
+        mkdir -p ${cfg.statedir} && cd ${cfg.statedir}
+        PATH_CACHE=$PATH_BASE/cache
+        PATH_LOGS=$PATH_BASE/logs
 
-				mkdir -p $PATH_CACHE
-				cd $PATH_CACHE
-				mkdir -p installers tmp
-				mkdir -p $PATH_LOGS
-
-				chown -R $WWW_USER:$WWW_USER $PATH_CACHE
-				chown -R $WWW_USER:$WWW_USER $PATH_LOGS
+        mkdir -p cache/{installers,tmp} logs
+        rm -f conf; ln -s ${lancache} conf
+        chown -R ${cfg.user}:${cfg.group} .
         '';
       serviceConfig = {
-        ExecStart = "${cfg.package}/bin/nginx -c ${lancache}/nginx.conf -p ${lancache}";
+        ExecStart = "${cfg.package}/bin/nginx  -p ${cfg.statedir}";
         ExecReload = "${pkgs.coreutils}/bin/kill -HUP $MAINPID";
         Restart = "always";
         RestartSec = "10s";
         StartLimitInterval = "1min";
       };
     };
+    environment.etc.nginx.source = lancache;
       users.extraUsers = (singleton
     { name = cfg.user;
       group = cfg.group;
