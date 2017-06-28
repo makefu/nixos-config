@@ -11,7 +11,10 @@ in
     package = pulse;
   };
 
-  environment.systemPackages = with pkgs; [ jack2Full ];
+  environment.systemPackages = with pkgs; [
+    jack2Full
+    jack_capture
+  ];
   # from http://anderspapitto.com/posts/2015-11-26-overtone-on-nixos-with-jack-and-pulseaudio.html
 
   systemd.user.services = {
