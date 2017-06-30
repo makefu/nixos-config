@@ -8,6 +8,7 @@
       (toString <nixpkgs/nixos/modules/virtualisation/virtualbox-image.nix>)
       (toString <nixpkgs/nixos/modules/virtualisation/virtualbox-guest.nix>)
       ../2configs/main-laptop.nix #< base-gui
+      ../2configs/sshd-totp.nix
 
       # Tools
       ../2configs/tools/core.nix
