@@ -14,5 +14,6 @@
     ovh-zone
     whatsupnix
     brain
+    gen-oath-safe
   ];
 }
