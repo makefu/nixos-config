@@ -19,6 +19,8 @@ with import <stockholm/lib>;
       # ../2configs/disable_v6.nix
 
       # Testing
+      # ../2configs/lanparty/lancache.nix
+      # ../2configs/lanparty/lancache-dns.nix
       # ../2configs/deployment/dirctator.nix
       # ../2configs/vncserver.nix
       # ../2configs/deployment/led-fader
@@ -57,6 +59,9 @@ with import <stockholm/lib>;
 
       # Filesystem
       ../2configs/fs/sda-crypto-root-home.nix
+
+      # Security
+      ../2configs/sshd-totp.nix
 
     ];
 
