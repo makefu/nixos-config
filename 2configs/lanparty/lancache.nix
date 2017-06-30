@@ -36,38 +36,39 @@ let
   };
 in {
   systemd.services.nginx-lancache = {
-      description = "Nginx lancache Server";
-      after = [ "network.target" ];
-      wantedBy = [ "multi-user.target" ];
-      restartIfChanged = true;
+    description = "Nginx lancache Server";
+    after = [ "network.target" ];
+    wantedBy = [ "multi-user.target" ];
+    restartIfChanged = true;
 
-      preStart = ''
-        mkdir -p ${cfg.statedir} && cd ${cfg.statedir}
-        PATH_CACHE=$PATH_BASE/cache
-        PATH_LOGS=$PATH_BASE/logs
+    preStart = ''
+      mkdir -p ${cfg.statedir} && cd ${cfg.statedir}
+      PATH_CACHE=$PATH_BASE/cache
+      PATH_LOGS=$PATH_BASE/logs
 
-        mkdir -p cache/{installers,tmp} logs
-        rm -f conf; ln -s ${lancache} conf
-        chown -R ${cfg.user}:${cfg.group} .
-        '';
-      serviceConfig = {
-        ExecStart = "${cfg.package}/bin/nginx  -p ${cfg.statedir}";
-        ExecReload = "${pkgs.coreutils}/bin/kill -HUP $MAINPID";
-        Restart = "always";
-        RestartSec = "10s";
-        StartLimitInterval = "1min";
-      };
+      mkdir -p cache/{installers,tmp} logs
+      rm -f conf; ln -s ${lancache} conf
+      chown -R ${cfg.user}:${cfg.group} .
+      '';
+    serviceConfig = {
+      ExecStart = "${cfg.package}/bin/nginx  -p ${cfg.statedir}";
+      ExecReload = "${pkgs.coreutils}/bin/kill -HUP $MAINPID";
+      Restart = "always";
+      RestartSec = "10s";
+      StartLimitInterval = "1min";
     };
-    environment.etc.nginx.source = lancache;
-      users.extraUsers = (singleton
-    { name = cfg.user;
-      group = cfg.group;
-      uid = genid cfg.group;
-    });
+  };
 
-    users.extraGroups = (singleton
-      { name = "${cfg.group}";
-        gid = genid cfg.group;
-    });
+  environment.etc.nginx.source = lancache;
+    users.extraUsers = (singleton
+  { name = cfg.user;
+    group = cfg.group;
+    uid = genid cfg.group;
+  });
 
+  users.extraGroups = (singleton
+    { name = "${cfg.group}";
+      gid = genid cfg.group;
+  });
+  networking.firewall.allowedTCPPorts = [ 80 443 ];
 }
