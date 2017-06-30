@@ -26,6 +26,9 @@ in {
       ../2configs/tinc/retiolum.nix
       ../2configs/urlwatch.nix
 
+      # Security
+      ../2configs/sshd-totp.nix
+
       # Tools
       ../2configs/tools/core.nix
       ../2configs/tools/dev.nix
