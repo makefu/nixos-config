@@ -1,12 +1,16 @@
 import logging
 logging.basicConfig(level=logging.INFO)
 log = logging.getLogger()
-# log.setLevel(level=logging.INFO)
-def filter(url, data):
-    log.info("handling url '{}'".format(url))
-    if "api.github.com" in url:
-        import json
-        log.info("url is a github api link, assuming json")
-        return json.dumps(json.loads(data),indent=2)
+log.setLevel(level=logging.INFO)
 
-    return data
+import re
+import json
+
+from urlwatch import filters
+
+
+class JsonFilter(filters.RegexMatchFilter):
+    MATCH = {'url': re.compile('https?://api.github.com/.*')}
+
+    def filter(self, data):
+        return json.dumps(json.loads(data),indent=2,sort_keys=True)
