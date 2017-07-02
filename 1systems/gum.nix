@@ -24,7 +24,7 @@ in {
       # ../2configs/disable_v6.nix
       ../2configs/exim-retiolum.nix
       ../2configs/tinc/retiolum.nix
-      ../2configs/urlwatch.nix
+      ../2configs/urlwatch
 
       # Security
       ../2configs/sshd-totp.nix
