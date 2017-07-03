@@ -44,8 +44,7 @@ with import <stockholm/lib>;
   '';
 
   # enable HDMI output switching with pulseaudio
-  hardware.pulseaudio.configFile = pkgs.writeText "pulse-default-pa" ''
-    ${builtins.readFile "${config.hardware.pulseaudio.package.out}/etc/pulse/default.pa"}
+  hardware.pulseaudio.extraConfig = ''
     load-module module-alsa-sink device=hw:0,3 sink_properties=device.description="HDMIOutput" sink_name="HDMI"
   '';
 
