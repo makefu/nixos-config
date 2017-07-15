@@ -7,7 +7,10 @@
       <stockholm/makefu>
       (toString <nixpkgs/nixos/modules/virtualisation/virtualbox-image.nix>)
       (toString <nixpkgs/nixos/modules/virtualisation/virtualbox-guest.nix>)
-      <stockholm/makefu/2configs/main-laptop.nix #< base-gui>
+      # base gui
+      <stockholm/makefu/2configs/main-laptop.nix>
+
+      # security
       <stockholm/makefu/2configs/sshd-totp.nix>
 
       # Tools
