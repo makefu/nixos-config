@@ -4,7 +4,6 @@ let
 in
 {
   imports = [
-    ../sources/musnix.nix # populate musnix
     <musnix>
   ];
   musnix.enable = true;

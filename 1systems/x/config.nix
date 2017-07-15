@@ -26,9 +26,6 @@ with import <stockholm/lib>;
       # <stockholm/makefu/2configs/deployment/led-fader>
       # <stockholm/makefu/2configs/deployment/hound>
 
-      # development
-      <stockholm/makefu/2configs/sources>
-
       # Krebs
       <stockholm/makefu/2configs/tinc/retiolum.nix>
 
