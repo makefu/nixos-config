@@ -6,16 +6,16 @@
 {
   imports =
     [
-      ../.
-      ../2configs/headless.nix
+      <stockholm/makefu>
+      <stockholm/makefu/2configs/headless.nix>
       ../../krebs/3modules/Reaktor.nix
 
       # these will be overwritten by qemu-vm.nix but will be used if the system
       # is directly deployed
       <nixpkgs/nixos/modules/profiles/qemu-guest.nix>
-      ../2configs/fs/vm-single-partition.nix
+      <stockholm/makefu/2configs/fs/vm-single-partition.nix>
 
-      ../2configs/tinc/retiolum.nix
+      <stockholm/makefu/2configs/tinc/retiolum.nix>
 
       # config.system.build.vm
       (toString <nixpkgs/nixos/modules/virtualisation/qemu-vm.nix>)

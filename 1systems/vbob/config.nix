@@ -4,24 +4,24 @@
   makefu.awesome.modkey = "Mod1";
   imports =
     [ # Include the results of the hardware scan.
-      ../.
+      <stockholm/makefu>
       (toString <nixpkgs/nixos/modules/virtualisation/virtualbox-image.nix>)
       (toString <nixpkgs/nixos/modules/virtualisation/virtualbox-guest.nix>)
-      ../2configs/main-laptop.nix #< base-gui
-      ../2configs/sshd-totp.nix
+      <stockholm/makefu/2configs/main-laptop.nix #< base-gui>
+      <stockholm/makefu/2configs/sshd-totp.nix>
 
       # Tools
-      ../2configs/tools/core.nix
-      ../2configs/tools/core-gui.nix
-      ../2configs/tools/dev.nix
-      ../2configs/tools/extra-gui.nix
-      ../2configs/tools/sec.nix
+      <stockholm/makefu/2configs/tools/core.nix>
+      <stockholm/makefu/2configs/tools/core-gui.nix>
+      <stockholm/makefu/2configs/tools/dev.nix>
+      <stockholm/makefu/2configs/tools/extra-gui.nix>
+      <stockholm/makefu/2configs/tools/sec.nix>
 
       # environment
-      ../2configs/tinc/retiolum.nix
+      <stockholm/makefu/2configs/tinc/retiolum.nix>
 
-      ../2configs/audio/jack-on-pulse.nix
-      ../2configs/audio/realtime-audio.nix
+      <stockholm/makefu/2configs/audio/jack-on-pulse.nix>
+      <stockholm/makefu/2configs/audio/realtime-audio.nix>
 
     ];
   networking.extraHosts = import (toString <secrets/extra-hosts.nix>);

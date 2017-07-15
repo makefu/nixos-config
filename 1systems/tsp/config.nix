@@ -6,18 +6,18 @@
 {
   imports =
     [ # Include the results of the hardware scan.
-      ../.
-      ../2configs/gui/base.nix
-      ../2configs/fs/sda-crypto-root.nix
+      <stockholm/makefu>
+      <stockholm/makefu/2configs/gui/base.nix>
+      <stockholm/makefu/2configs/fs/sda-crypto-root.nix>
       # hardware specifics are in here
-      ../2configs/hw/tp-x200.nix #< imports tp-x2x0.nix
+      <stockholm/makefu/2configs/hw/tp-x200.nix #< imports tp-x2x0.nix>
 
-      ../2configs/disable_v6.nix
-      ../2configs/rad1o.nix
+      <stockholm/makefu/2configs/disable_v6.nix>
+      <stockholm/makefu/2configs/rad1o.nix>
 
-      ../2configs/zsh-user.nix
-      ../2configs/exim-retiolum.nix
-      ../2configs/tinc/retiolum.nix
+      <stockholm/makefu/2configs/zsh-user.nix>
+      <stockholm/makefu/2configs/exim-retiolum.nix>
+      <stockholm/makefu/2configs/tinc/retiolum.nix>
     ];
   # not working in vm
   krebs.build.host = config.krebs.hosts.tsp;

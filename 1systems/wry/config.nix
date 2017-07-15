@@ -7,26 +7,26 @@ let
   internal-ip = config.krebs.build.host.nets.retiolum.ip4.addr;
 in {
   imports = [
-      ../.
+      <stockholm/makefu>
       # TODO: copy this config or move to krebs
-      ../2configs/hw/CAC.nix
-      ../2configs/fs/CAC-CentOS-7-64bit.nix
-      ../2configs/save-diskspace.nix
+      <stockholm/makefu/2configs/hw/CAC.nix>
+      <stockholm/makefu/2configs/fs/CAC-CentOS-7-64bit.nix>
+      <stockholm/makefu/2configs/save-diskspace.nix>
 
-      # ../2configs/bepasty-dual.nix
+      # <stockholm/makefu/2configs/bepasty-dual.nix>
 
-      ../2configs/iodined.nix
-      ../2configs/backup.nix
+      <stockholm/makefu/2configs/iodined.nix>
+      <stockholm/makefu/2configs/backup.nix>
 
       # other nginx
-      # ../2configs/nginx/euer.test.nix
+      # <stockholm/makefu/2configs/nginx/euer.test.nix>
 
       # collectd
-      ../2configs/stats/client.nix
-      ../2configs/logging/client.nix
+      <stockholm/makefu/2configs/stats/client.nix>
+      <stockholm/makefu/2configs/logging/client.nix>
 
-      ../2configs/tinc/retiolum.nix
-      # ../2configs/torrent.nix
+      <stockholm/makefu/2configs/tinc/retiolum.nix>
+      # <stockholm/makefu/2configs/torrent.nix>
   ];
 
   krebs.build.host = config.krebs.hosts.wry;

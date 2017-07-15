@@ -7,10 +7,10 @@
 {
   imports =
     [ # Include the results of the hardware scan.
-      ../.
+      <stockholm/makefu>
       <nixpkgs/nixos/modules/profiles/qemu-guest.nix>
-      ../2configs/git/cgit-retiolum.nix
-      ../2configs/tinc/retiolum.nix
+      <stockholm/makefu/2configs/git/cgit-retiolum.nix>
+      <stockholm/makefu/2configs/tinc/retiolum.nix>
     ];
   krebs.build.host = config.krebs.hosts.repunit;
 

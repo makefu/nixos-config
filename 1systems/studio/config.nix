@@ -1,14 +1,14 @@
 { config, pkgs, ... }:
 {
   imports = [
-    ../.
-    ../2configs/vncserver.nix
-    ../2configs/vim.nix
-    ../2configs/disable_v6.nix
-    ../2configs/audio/jack-on-pulse.nix
-    ../2configs/audio/realtime-audio.nix
-    ../2configs/gui/studio.nix
-    ../2configs/binary-cache/lass.nix
+    <stockholm/makefu>
+    <stockholm/makefu/2configs/vncserver.nix>
+    <stockholm/makefu/2configs/vim.nix>
+    <stockholm/makefu/2configs/disable_v6.nix>
+    <stockholm/makefu/2configs/audio/jack-on-pulse.nix>
+    <stockholm/makefu/2configs/audio/realtime-audio.nix>
+    <stockholm/makefu/2configs/gui/studio.nix>
+    <stockholm/makefu/2configs/binary-cache/lass.nix>
 
   ];
   makefu.gui.user = "user"; # we use an extra user

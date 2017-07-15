@@ -5,10 +5,10 @@ let
   prefixLength = 18;
 in {
   imports = [
-      ../.
-      ../2configs/hw/CAC.nix
-      ../2configs/save-diskspace.nix
-      ../2configs/torrent.nix
+      <stockholm/makefu>
+      <stockholm/makefu/2configs/hw/CAC.nix>
+      <stockholm/makefu/2configs/save-diskspace.nix>
+      <stockholm/makefu/2configs/torrent.nix>
   ];
   krebs = {
     enable = true;

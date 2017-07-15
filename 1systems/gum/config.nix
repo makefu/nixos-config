@@ -13,47 +13,47 @@ let
   main-disk = "/dev/disk/by-id/scsi-0QEMU_QEMU_HARDDISK_drive-scsi0-0-0-0";
 in {
   imports = [
-      ../.
+      <stockholm/makefu>
        <nixpkgs/nixos/modules/profiles/qemu-guest.nix>
-      ../2configs/headless.nix
-      ../2configs/fs/single-partition-ext4.nix
-      # ../2configs/smart-monitor.nix
-      ../2configs/git/cgit-retiolum.nix
-      ../2configs/backup.nix
-      # ../2configs/mattermost-docker.nix
-      # ../2configs/disable_v6.nix
-      ../2configs/exim-retiolum.nix
-      ../2configs/tinc/retiolum.nix
-      ../2configs/urlwatch
+      <stockholm/makefu/2configs/headless.nix>
+      <stockholm/makefu/2configs/fs/single-partition-ext4.nix>
+      # <stockholm/makefu/2configs/smart-monitor.nix>
+      <stockholm/makefu/2configs/git/cgit-retiolum.nix>
+      <stockholm/makefu/2configs/backup.nix>
+      # <stockholm/makefu/2configs/mattermost-docker.nix>
+      # <stockholm/makefu/2configs/disable_v6.nix>
+      <stockholm/makefu/2configs/exim-retiolum.nix>
+      <stockholm/makefu/2configs/tinc/retiolum.nix>
+      <stockholm/makefu/2configs/urlwatch>
 
       # Security
-      ../2configs/sshd-totp.nix
+      <stockholm/makefu/2configs/sshd-totp.nix>
 
       # Tools
-      ../2configs/tools/core.nix
-      ../2configs/tools/dev.nix
-      ../2configs/tools/sec.nix
+      <stockholm/makefu/2configs/tools/core.nix>
+      <stockholm/makefu/2configs/tools/dev.nix>
+      <stockholm/makefu/2configs/tools/sec.nix>
 
       # services
-      ../2configs/share/gum.nix
-      ../2configs/sabnzbd.nix
-      ../2configs/torrent.nix
-      ../2configs/iodined.nix
+      <stockholm/makefu/2configs/share/gum.nix>
+      <stockholm/makefu/2configs/sabnzbd.nix>
+      <stockholm/makefu/2configs/torrent.nix>
+      <stockholm/makefu/2configs/iodined.nix>
 
       ## Web
-      ../2configs/nginx/share-download.nix
-      ../2configs/nginx/euer.test.nix
-      ../2configs/nginx/euer.wiki.nix
-      ../2configs/nginx/euer.blog.nix
-      ../2configs/nginx/public_html.nix
-      ../2configs/nginx/update.connector.one.nix
+      <stockholm/makefu/2configs/nginx/share-download.nix>
+      <stockholm/makefu/2configs/nginx/euer.test.nix>
+      <stockholm/makefu/2configs/nginx/euer.wiki.nix>
+      <stockholm/makefu/2configs/nginx/euer.blog.nix>
+      <stockholm/makefu/2configs/nginx/public_html.nix>
+      <stockholm/makefu/2configs/nginx/update.connector.one.nix>
 
-      ../2configs/deployment/mycube.connector.one.nix
-      ../2configs/deployment/graphs.nix
-      ../2configs/deployment/owncloud.nix
-      ../2configs/deployment/wiki-irc-bot
-      ../2configs/deployment/boot-euer.nix
-      ../2configs/deployment/hound
+      <stockholm/makefu/2configs/deployment/mycube.connector.one.nix>
+      <stockholm/makefu/2configs/deployment/graphs.nix>
+      <stockholm/makefu/2configs/deployment/owncloud.nix>
+      <stockholm/makefu/2configs/deployment/wiki-irc-bot>
+      <stockholm/makefu/2configs/deployment/boot-euer.nix>
+      <stockholm/makefu/2configs/deployment/hound>
       {
         services.taskserver.enable = true;
         services.taskserver.fqdn = config.krebs.build.host.name;
@@ -64,12 +64,12 @@ in {
           ip6tables -A INPUT -i retiolum -p tcp --dport 53589 -j ACCEPT
         '';
       }
-      # ../2configs/ipfs.nix
-      ../2configs/syncthing.nix
+      # <stockholm/makefu/2configs/ipfs.nix>
+      <stockholm/makefu/2configs/syncthing.nix>
 
-      # ../2configs/opentracker.nix
-      ../2configs/stats/client.nix
-      # ../2configs/logging/client.nix
+      # <stockholm/makefu/2configs/opentracker.nix>
+      <stockholm/makefu/2configs/stats/client.nix>
+      # <stockholm/makefu/2configs/logging/client.nix>
 
   ];
   makefu.dl-dir = "/var/download";

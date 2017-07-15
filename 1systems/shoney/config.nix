@@ -9,12 +9,12 @@ let
   gw = "64.137.234.1";
 in {
   imports = [
-    ../.
-    ../2configs/save-diskspace.nix
-    ../2configs/hw/CAC.nix
-    ../2configs/fs/CAC-CentOS-7-64bit.nix
-    ../2configs/tinc/retiolum.nix
-    ../2configs/torrent.nix
+    <stockholm/makefu>
+    <stockholm/makefu/2configs/save-diskspace.nix>
+    <stockholm/makefu/2configs/hw/CAC.nix>
+    <stockholm/makefu/2configs/fs/CAC-CentOS-7-64bit.nix>
+    <stockholm/makefu/2configs/tinc/retiolum.nix>
+    <stockholm/makefu/2configs/torrent.nix>
   ];
 
 

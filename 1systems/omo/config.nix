@@ -39,35 +39,35 @@ let
 in {
   imports =
     [
-      ../.
+      <stockholm/makefu>
       # TODO: unlock home partition via ssh
-      ../2configs/fs/sda-crypto-root.nix
-      ../2configs/zsh-user.nix
-      ../2configs/backup.nix
-      ../2configs/exim-retiolum.nix
-      ../2configs/smart-monitor.nix
-      ../2configs/mail-client.nix
-      # ../2configs/disable_v6.nix
-      #../2configs/graphite-standalone.nix
-      #../2configs/share-user-sftp.nix
-      ../2configs/share/omo.nix
-      ../2configs/tinc/retiolum.nix
+      <stockholm/makefu/2configs/fs/sda-crypto-root.nix>
+      <stockholm/makefu/2configs/zsh-user.nix>
+      <stockholm/makefu/2configs/backup.nix>
+      <stockholm/makefu/2configs/exim-retiolum.nix>
+      <stockholm/makefu/2configs/smart-monitor.nix>
+      <stockholm/makefu/2configs/mail-client.nix>
+      # <stockholm/makefu/2configs/disable_v6.nix>
+      #<stockholm/makefu/2configs/graphite-standalone.nix>
+      #<stockholm/makefu/2configs/share-user-sftp.nix>
+      <stockholm/makefu/2configs/share/omo.nix>
+      <stockholm/makefu/2configs/tinc/retiolum.nix>
 
       # Logging
-      ../2configs/stats/server.nix #influx + grafana
-      ../2configs/stats/client.nix
-      ../2configs/stats/external/aralast.nix # logs to influx
+      <stockholm/makefu/2configs/stats/server.nix #influx + grafana>
+      <stockholm/makefu/2configs/stats/client.nix>
+      <stockholm/makefu/2configs/stats/external/aralast.nix # logs to influx>
 
       # services
-      ../2configs/syncthing.nix
-      ../2configs/mqtt.nix
-      # ../2configs/logging/central-logging-client.nix
+      <stockholm/makefu/2configs/syncthing.nix>
+      <stockholm/makefu/2configs/mqtt.nix>
+      # <stockholm/makefu/2configs/logging/central-logging-client.nix>
 
-      # ../2configs/torrent.nix
+      # <stockholm/makefu/2configs/torrent.nix>
 
-      # ../2configs/elchos/search.nix
-      # ../2configs/elchos/log.nix
-      # ../2configs/elchos/irc-token.nix
+      # <stockholm/makefu/2configs/elchos/search.nix>
+      # <stockholm/makefu/2configs/elchos/log.nix>
+      # <stockholm/makefu/2configs/elchos/irc-token.nix>
 
       ## as long as pyload is not in nixpkgs:
       # docker run -d -v /var/lib/pyload:/opt/pyload/pyload-config -v /media/crypt0/pyload:/opt/pyload/Downloads --name pyload --restart=always -p 8112:8000 -P writl/pyload

@@ -20,11 +20,11 @@ let
 in {
   imports =
     [ # Include the results of the hardware scan.
-      ../.
-      ../2configs/fs/single-partition-ext4.nix
-      ../2configs/smart-monitor.nix
-      ../2configs/tinc/retiolum.nix
-      ../2configs/filepimp-share.nix
+      <stockholm/makefu>
+      <stockholm/makefu/2configs/fs/single-partition-ext4.nix>
+      <stockholm/makefu/2configs/smart-monitor.nix>
+      <stockholm/makefu/2configs/tinc/retiolum.nix>
+      <stockholm/makefu/2configs/filepimp-share.nix>
     ];
 
   krebs.build.host = config.krebs.hosts.filepimp;
@@ -73,9 +73,9 @@ in {
     xfsmount = name: dev:
       { "/media/${name}" = { device = dev; fsType = "xfs"; }; };
   in
-  # (xfsmount "j0" (part1 jDisk0))   //
-    (xfsmount "j1" (part1 jDisk1))   //
-    (xfsmount "j2" (part1 jDisk2))   //
+  # (xfsmount "j0" (part1 jDisk0)) <stockholm/makefu>
+    (xfsmount "j1" (part1 jDisk1)) <stockholm/makefu>
+    (xfsmount "j2" (part1 jDisk2)) <stockholm/makefu>
     (xfsmount "par0" (part1 jDisk3))
     ;
 

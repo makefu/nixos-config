@@ -3,10 +3,10 @@
 with import <stockholm/lib>;
 {
   imports = [
-    ../.
+    <stockholm/makefu>
     <nixpkgs/nixos/modules/installer/cd-dvd/installation-cd-minimal.nix>
     <nixpkgs/nixos/modules/installer/cd-dvd/channel.nix>
-    ../2configs/tools/core.nix
+    <stockholm/makefu/2configs/tools/core.nix>
   ];
   # TODO: NIX_PATH and nix.nixPath are being set by default.nix right now
   # cd ~/stockholm ; nix-build -A config.system.build.isoImage -I nixos-config=makefu/1systems/iso.nix -I secrets=/home/makefu/secrets/iso /var/src/nixpkgs/nixos

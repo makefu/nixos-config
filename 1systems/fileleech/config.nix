@@ -22,16 +22,16 @@ let
   disks = [ { name = "luksroot"; device = rootPartition; } ] ++ dataDisks;
 in {
     imports = [
-      ../.
-      ../2configs/tinc/retiolum.nix
-      ../2configs/disable_v6.nix
-      # ../2configs/torrent.nix
-      ../2configs/fs/sda-crypto-root.nix
+      <stockholm/makefu>
+      <stockholm/makefu/2configs/tinc/retiolum.nix>
+      <stockholm/makefu/2configs/disable_v6.nix>
+      # <stockholm/makefu/2configs/torrent.nix>
+      <stockholm/makefu/2configs/fs/sda-crypto-root.nix>
 
-      #../2configs/elchos/irc-token.nix
-      ../2configs/elchos/log.nix
-      ../2configs/elchos/search.nix
-      ../2configs/elchos/stats.nix
+      #<stockholm/makefu/2configs/elchos/irc-token.nix>
+      <stockholm/makefu/2configs/elchos/log.nix>
+      <stockholm/makefu/2configs/elchos/search.nix>
+      <stockholm/makefu/2configs/elchos/stats.nix>
 
     ];
   systemd.services.grafana.serviceConfig.LimitNOFILE=10032;

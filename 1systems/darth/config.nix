@@ -10,15 +10,15 @@ let
   allDisks = [ rootDisk ]; # auxDisk
 in {
   imports = [
-      ../.
-      ../2configs/fs/single-partition-ext4.nix
-      ../2configs/zsh-user.nix
-      ../2configs/smart-monitor.nix
-      ../2configs/exim-retiolum.nix
-      ../2configs/virtualization.nix
+      <stockholm/makefu>
+      <stockholm/makefu/2configs/fs/single-partition-ext4.nix>
+      <stockholm/makefu/2configs/zsh-user.nix>
+      <stockholm/makefu/2configs/smart-monitor.nix>
+      <stockholm/makefu/2configs/exim-retiolum.nix>
+      <stockholm/makefu/2configs/virtualization.nix>
 
-      ../2configs/tinc/retiolum.nix
-      ../2configs/temp-share-samba.nix
+      <stockholm/makefu/2configs/tinc/retiolum.nix>
+      <stockholm/makefu/2configs/temp-share-samba.nix>
   ];
   services.samba.shares = {
       isos = {

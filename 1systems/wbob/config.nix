@@ -7,23 +7,23 @@ in {
 
   imports =
     [ # Include the results of the hardware scan.
-      ../.
-      ../2configs/zsh-user.nix
-      ../2configs/tools/core.nix
-      ../2configs/tools/core-gui.nix
-      ../2configs/tools/extra-gui.nix
-      ../2configs/tools/media.nix
-      ../2configs/virtualization.nix
-      ../2configs/tinc/retiolum.nix
-      ../2configs/mqtt.nix
-      ../2configs/deployment/led-fader.nix
-      # ../2configs/gui/wbob-kiosk.nix
-      ../2configs/stats/client.nix
+      <stockholm/makefu>
+      <stockholm/makefu/2configs/zsh-user.nix>
+      <stockholm/makefu/2configs/tools/core.nix>
+      <stockholm/makefu/2configs/tools/core-gui.nix>
+      <stockholm/makefu/2configs/tools/extra-gui.nix>
+      <stockholm/makefu/2configs/tools/media.nix>
+      <stockholm/makefu/2configs/virtualization.nix>
+      <stockholm/makefu/2configs/tinc/retiolum.nix>
+      <stockholm/makefu/2configs/mqtt.nix>
+      <stockholm/makefu/2configs/deployment/led-fader.nix>
+      # <stockholm/makefu/2configs/gui/wbob-kiosk.nix>
+      <stockholm/makefu/2configs/stats/client.nix>
 
-      ../2configs/gui/studio.nix
-      ../2configs/audio/jack-on-pulse.nix
-      ../2configs/audio/realtime-audio.nix
-      ../2configs/vncserver.nix
+      <stockholm/makefu/2configs/gui/studio.nix>
+      <stockholm/makefu/2configs/audio/jack-on-pulse.nix>
+      <stockholm/makefu/2configs/audio/realtime-audio.nix>
+      <stockholm/makefu/2configs/vncserver.nix>
     ];
 
   krebs = {

@@ -7,61 +7,61 @@ with import <stockholm/lib>;
 {
   imports =
     [ # base
-      ../.
-      ../2configs/main-laptop.nix
-      ../2configs/extra-fonts.nix
-      ../2configs/tools/all.nix
-      ../2configs/laptop-backup.nix
-      ../2configs/dnscrypt.nix
-      ../2configs/avahi.nix
+      <stockholm/makefu>
+      <stockholm/makefu/2configs/main-laptop.nix>
+      <stockholm/makefu/2configs/extra-fonts.nix>
+      <stockholm/makefu/2configs/tools/all.nix>
+      <stockholm/makefu/2configs/laptop-backup.nix>
+      <stockholm/makefu/2configs/dnscrypt.nix>
+      <stockholm/makefu/2configs/avahi.nix>
 
       # Debugging
-      # ../2configs/disable_v6.nix
+      # <stockholm/makefu/2configs/disable_v6.nix>
 
       # Testing
-      # ../2configs/lanparty/lancache.nix
-      # ../2configs/lanparty/lancache-dns.nix
-      # ../2configs/deployment/dirctator.nix
-      # ../2configs/vncserver.nix
-      # ../2configs/deployment/led-fader
-      # ../2configs/deployment/hound
+      # <stockholm/makefu/2configs/lanparty/lancache.nix>
+      # <stockholm/makefu/2configs/lanparty/lancache-dns.nix>
+      # <stockholm/makefu/2configs/deployment/dirctator.nix>
+      # <stockholm/makefu/2configs/vncserver.nix>
+      # <stockholm/makefu/2configs/deployment/led-fader>
+      # <stockholm/makefu/2configs/deployment/hound>
 
       # development
-      ../2configs/sources
+      <stockholm/makefu/2configs/sources>
 
       # Krebs
-      ../2configs/tinc/retiolum.nix
+      <stockholm/makefu/2configs/tinc/retiolum.nix>
 
       # applications
-      ../2configs/exim-retiolum.nix
-      ../2configs/mail-client.nix
-      ../2configs/printer.nix
-      ../2configs/task-client.nix
+      <stockholm/makefu/2configs/exim-retiolum.nix>
+      <stockholm/makefu/2configs/mail-client.nix>
+      <stockholm/makefu/2configs/printer.nix>
+      <stockholm/makefu/2configs/task-client.nix>
 
       # Virtualization
-      ../2configs/virtualization.nix
-      ../2configs/docker.nix
-      ../2configs/virtualization-virtualbox.nix
+      <stockholm/makefu/2configs/virtualization.nix>
+      <stockholm/makefu/2configs/docker.nix>
+      <stockholm/makefu/2configs/virtualization-virtualbox.nix>
 
       # Services
-      ../2configs/git/brain-retiolum.nix
-      ../2configs/tor.nix
-      ../2configs/steam.nix
-      # ../2configs/buildbot-standalone.nix
+      <stockholm/makefu/2configs/git/brain-retiolum.nix>
+      <stockholm/makefu/2configs/tor.nix>
+      <stockholm/makefu/2configs/steam.nix>
+      # <stockholm/makefu/2configs/buildbot-standalone.nix>
 
       # Hardware
-      ../2configs/hw/tp-x230.nix
-      ../2configs/hw/rtl8812au.nix
-      ../2configs/hw/exfat-nofuse.nix
-      ../2configs/hw/wwan.nix
-      # ../2configs/hw/stk1160.nix
-      # ../2configs/rad1o.nix
+      <stockholm/makefu/2configs/hw/tp-x230.nix>
+      <stockholm/makefu/2configs/hw/rtl8812au.nix>
+      <stockholm/makefu/2configs/hw/exfat-nofuse.nix>
+      <stockholm/makefu/2configs/hw/wwan.nix>
+      # <stockholm/makefu/2configs/hw/stk1160.nix>
+      # <stockholm/makefu/2configs/rad1o.nix>
 
       # Filesystem
-      ../2configs/fs/sda-crypto-root-home.nix
+      <stockholm/makefu/2configs/fs/sda-crypto-root-home.nix>
 
       # Security
-      ../2configs/sshd-totp.nix
+      <stockholm/makefu/2configs/sshd-totp.nix>
 
     ];
 

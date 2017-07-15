@@ -4,14 +4,14 @@
   makefu.awesome.modkey = "Mod1";
   imports =
     [ # Include the results of the hardware scan.
-      ../.
+      <stockholm/makefu>
       (toString <nixpkgs/nixos/modules/virtualisation/virtualbox-image.nix>)
       (toString <nixpkgs/nixos/modules/virtualisation/virtualbox-guest.nix>)
-      ../2configs/main-laptop.nix #< base-gui
+      <stockholm/makefu/2configs/main-laptop.nix #< base-gui>
       # <secrets/extra-hosts.nix>
 
       # environment
-      ../2configs/tinc/retiolum.nix
+      <stockholm/makefu/2configs/tinc/retiolum.nix>
 
     ];
   # workaround for https://github.com/NixOS/nixpkgs/issues/16641
