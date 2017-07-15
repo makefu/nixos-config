@@ -18,34 +18,7 @@ with import <stockholm/lib>;
 
     dns.providers.lan  = "hosts";
     search-domain = "r";
-    build = {
-      user = config.krebs.users.makefu;
-      source = let
-          inherit (config.krebs.build) host user;
-          ref = "06734d1"; # unstable @ 2017-07-03 + graceful requests2 (a772c3aa)
-      in {
-        nixpkgs = if config.makefu.full-populate || (getEnv "dummy_secrets" == "true") then
-          {
-            git = { url = https://github.com/makefu/nixpkgs; inherit ref; };
-          }
-            else
-            # TODO use http, once it is implemented
-            # right now it is simply extracted revision folder
-
-            ## prepare so we do not have to wait for rsync:
-            ## cd /var/src; curl https://github.com/nixos/nixpkgs/tarball/125ffff  -L | tar zx  && mv NixOS-nixpkgs-125ffff nixpkgs
-            { file = "/home/makefu/store/${ref}";};
-        secrets.file =
-          if getEnv "dummy_secrets" == "true"
-            then toString <stockholm/makefu/6tests/data/secrets>
-            else "/home/makefu/secrets/${host.name}";
-        stockholm.file = getEnv "PWD";
-
-        # Defaults for all stockholm users?
-        nixos-config.symlink =
-          "stockholm/${user.name}/1systems/${host.name}.nix";
-      };
-    };
+    build.user = config.krebs.users.makefu;
   };
 
   users.extraUsers = {
