@@ -12,7 +12,7 @@ in {
       enable = true;
       domain = domain;
       ip = "172.16.10.1/24";
-      extraConfig = "-P ${pw} -l ${config.krebs.build.host.nets.internet.ip4.addr}";
+      extraConfig = "-c -P ${pw} -l ${config.krebs.build.host.nets.internet.ip4.addr}";
     };
   };
 
