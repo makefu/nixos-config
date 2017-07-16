@@ -19,6 +19,7 @@ with import <stockholm/lib>;
       # <stockholm/makefu/2configs/disable_v6.nix>
 
       # Testing
+      # <stockholm/makefu/2configs/torrent.nix>
       # <stockholm/makefu/2configs/lanparty/lancache.nix>
       # <stockholm/makefu/2configs/lanparty/lancache-dns.nix>
       # <stockholm/makefu/2configs/deployment/dirctator.nix>

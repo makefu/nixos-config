@@ -10,11 +10,6 @@ let
   daemon-port = 58846;
   dl-dir = config.makefu.dl-dir;
 in {
-  # prepare secrets
-  krebs.build.source.torrent-secrets.file =
-    if getEnv "dummy_secrets" == "true"
-    then toString <stockholm/makefu/6tests/data/secrets>
-    else config.makefu.torrent-secrets ;
 
   users.users = {
     download = {
