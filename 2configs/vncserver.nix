@@ -3,14 +3,13 @@ with lib;
 let
   pwfile = (toString <secrets>)+ "/vnc-password"; # create with `vncpasswd`
   pwtmp = "/tmp/vnc-password";
-  # nixos-unstable tigervnc is currently broken :\
-  package = (import (fetchTarball https://github.com/NixOS/nixpkgs-channels/archive/nixos-17.03.tar.gz) {}).pkgs.tigervnc;
   user = config.makefu.gui.user;
   vnc_port = 5900;
   web_port = 6080;
 in {
   networking.firewall.allowedTCPPorts = [ 80 vnc_port web_port ];
   systemd.services = {
+    # TODO: terminal-server without a real gui and virtual display manager
     terminal-server = {
       description = "VNC Terminal Server";
       after = [ "display-manager.service"  "graphical.target" ];
@@ -22,7 +21,7 @@ in {
           sleep 5
           install -m0700 -o ${user} ${pwfile} ${pwtmp}
         '';
-        ExecStart = "${package}/bin/x0vncserver -display :0 -rfbport ${toString vnc_port} -passwordfile ${pwtmp}";
+        ExecStart = "${pkgs.tigervnc}/bin/x0vncserver -display :0 -rfbport ${toString vnc_port} -passwordfile ${pwtmp}";
         PermissionsStartOnly = true;
         PrivateTmp = true;
       };
