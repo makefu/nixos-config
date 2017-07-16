@@ -20,7 +20,7 @@ in {
       # <stockholm/makefu/2configs/gui/wbob-kiosk.nix>
       <stockholm/makefu/2configs/stats/client.nix>
 
-      <stockholm/makefu/2configs/gui/studio.nix>
+      <stockholm/makefu/2configs/gui/studio-virtual.nix>
       <stockholm/makefu/2configs/audio/jack-on-pulse.nix>
       <stockholm/makefu/2configs/audio/realtime-audio.nix>
       <stockholm/makefu/2configs/vncserver.nix>
