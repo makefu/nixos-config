@@ -4,7 +4,7 @@ host@{ name, secure ? false, override ? {}, full ? false, torrent ? false }: let
               then "buildbot"
               else "makefu";
   _file = <stockholm> + "/makefu/1systems/${name}/source.nix";
-  ref = "06734d1"; # unstable @ 2017-07-03 + graceful requests2 (a772c3aa)
+  ref = "0751450"; # unstable @ 2017-07-16 + graceful requests2 (a772c3aa)
 
 in
   evalSource (toString _file) [
