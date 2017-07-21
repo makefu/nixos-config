@@ -195,8 +195,29 @@ in {
   zramSwap.enable = true;
 
   krebs.Reaktor.reaktor = {
-    nickname = "Reaktor|bot";
-    channels = [ "#krebs" "#shackspace" "#binaergewitter" ];
+    nickname = "Reaktor|krebs";
+    workdir = "/var/lib/Reaktor/krebs";
+    channels = [ "#krebs" ];
+    plugins = with pkgs.ReaktorPlugins;[
+                               stockholm-issue
+                               nixos-version
+                               sed-plugin
+                               random-emoji ];
+  };
+  krebs.Reaktor.reaktor-shack = {
+    nickname = "Reaktor|shack";
+    workdir = "/var/lib/Reaktor/shack";
+    channels = [ "#shackspace" ];
+    plugins = with pkgs.ReaktorPlugins;[
+                               shack-correct
+                               # stockholm-issue
+                               sed-plugin
+                               random-emoji ];
+  };
+  krebs.Reaktor.reaktor-bgt = {
+    nickname = "Reaktor|bgt";
+    workdir = "/var/lib/Reaktor/bgt";
+    channels = [ "#binaergewitter" ];
     plugins = with pkgs.ReaktorPlugins;[
                                titlebot
                                # stockholm-issue
