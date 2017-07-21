@@ -53,14 +53,20 @@ in {
       <stockholm/makefu/2configs/share/omo.nix>
       <stockholm/makefu/2configs/tinc/retiolum.nix>
 
+
       # Logging
-      <stockholm/makefu/2configs/stats/server.nix #influx + grafana>
+      #influx + grafana
+      <stockholm/makefu/2configs/stats/server.nix>
       <stockholm/makefu/2configs/stats/client.nix>
-      <stockholm/makefu/2configs/stats/external/aralast.nix # logs to influx>
+      # logs to influx
+      <stockholm/makefu/2configs/stats/external/aralast.nix>
 
       # services
       <stockholm/makefu/2configs/syncthing.nix>
       <stockholm/makefu/2configs/mqtt.nix>
+
+      # security
+      <stockholm/makefu/2configs/sshd-totp.nix>
       # <stockholm/makefu/2configs/logging/central-logging-client.nix>
 
       # <stockholm/makefu/2configs/torrent.nix>
