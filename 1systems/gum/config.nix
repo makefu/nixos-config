@@ -14,7 +14,7 @@ let
 in {
   imports = [
       <stockholm/makefu>
-       <nixpkgs/nixos/modules/profiles/qemu-guest.nix>
+      <nixpkgs/nixos/modules/profiles/qemu-guest.nix>
       <stockholm/makefu/2configs/headless.nix>
       <stockholm/makefu/2configs/fs/single-partition-ext4.nix>
       # <stockholm/makefu/2configs/smart-monitor.nix>
@@ -33,6 +33,8 @@ in {
       <stockholm/makefu/2configs/tools/core.nix>
       <stockholm/makefu/2configs/tools/dev.nix>
       <stockholm/makefu/2configs/tools/sec.nix>
+      <stockholm/makefu/2configs/vim.nix>
+      <stockholm/makefu/2configs/zsh-user.nix>
 
       # services
       <stockholm/makefu/2configs/share/gum.nix>
@@ -106,7 +108,10 @@ in {
     bepasty-client-cli
     get
   ];
-  services.bitlbee.enable = true;
+  services.bitlbee = {
+    enable = true;
+    libpurple_plugins = [ pkgs.telegram-purple ];
+  };
 
   # Hardware
   boot.loader.grub.device = main-disk;
