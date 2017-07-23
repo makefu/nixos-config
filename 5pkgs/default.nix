@@ -1,25 +1,21 @@
-{ pkgs, ... }:
-
 with import <stockholm/lib>;
-{
-  nixpkgs.config.packageOverrides = oldpkgs: let
+self: super: let
 
-    # This callPackage will try to detect obsolete overrides.
-    callPackage = path: args: let
-      override = pkgs.callPackage path args;
-      upstream = optionalAttrs (override ? "name")
-        (oldpkgs.${(parseDrvName override.name).name} or {});
-    in if upstream ? "name" &&
-          override ? "name" &&
-          compareVersions upstream.name override.name != -1
-      then trace "Upstream `${upstream.name}' gets overridden by `${override.name}'." override
-      else override;
+  # This callPackage will try to detect obsolete overrides.
+  callPackage = path: args: let
+    override = super.callPackage path args;
+    upstream = optionalAttrs (override ? "name")
+      (super.${(parseDrvName override.name).name} or {});
+  in if upstream ? "name" &&
+        override ? "name" &&
+        compareVersions upstream.name override.name != -1
+    then
+      trace
+        "Upstream `${upstream.name}' gets overridden by `${override.name}'."
+        override
+    else override;
 
-  in {}
-  // mapAttrs (_: flip callPackage {})
-              (filterAttrs (_: dir: pathExists (dir + "/default.nix"))
-                           (subdirsOf ./.))
-  // {
+in {
     alsa-hdspconf = callPackage ./alsa-tools { alsaToolTarget="hdspconf";};
     alsa-hdspmixer = callPackage ./alsa-tools { alsaToolTarget="hdspmixer";};
     alsa-hdsploader = callPackage ./alsa-tools { alsaToolTarget="hdsploader";};
@@ -31,5 +27,9 @@ with import <stockholm/lib>;
         sha256 = "18ddzyh11bywrhzdkzvrl7nvgp5gdb4k1s0zxbz2bkhd14vi72bb";
       };
     };
-  };
+
 }
+
+// mapAttrs (_: flip callPackage {})
+            (filterAttrs (_: dir: pathExists (dir + "/default.nix"))
+                         (subdirsOf ./.))
