@@ -14,7 +14,6 @@ in {
     <stockholm/makefu/2configs/hw/CAC.nix>
     <stockholm/makefu/2configs/fs/CAC-CentOS-7-64bit.nix>
     <stockholm/makefu/2configs/tinc/retiolum.nix>
-    <stockholm/makefu/2configs/torrent.nix>
   ];
 
 
