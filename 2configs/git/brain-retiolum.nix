@@ -8,6 +8,7 @@ let
 
   krebs-repos = mapAttrs make-krebs-repo {
     brain = { };
+    krebs-secrets = { };
   };
 
 
@@ -33,7 +34,7 @@ let
     set-owners repo [ config.krebs.users.makefu ] ++ set-ro-access repo krebsminister;
 
   set-ro-access = with git; repo: user:
-      optional repo.public {
+      singleton {
         inherit user;
         repo = [ repo ];
         perm = fetch;
