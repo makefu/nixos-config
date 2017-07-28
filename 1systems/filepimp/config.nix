@@ -73,9 +73,9 @@ in {
     xfsmount = name: dev:
       { "/media/${name}" = { device = dev; fsType = "xfs"; }; };
   in
-  # (xfsmount "j0" (part1 jDisk0)) <stockholm/makefu>
-    (xfsmount "j1" (part1 jDisk1)) <stockholm/makefu>
-    (xfsmount "j2" (part1 jDisk2)) <stockholm/makefu>
+  # (xfsmount "j0" (part1 jDisk0)) //
+    (xfsmount "j1" (part1 jDisk1)) //
+    (xfsmount "j2" (part1 jDisk2)) //
     (xfsmount "par0" (part1 jDisk3))
     ;
 
