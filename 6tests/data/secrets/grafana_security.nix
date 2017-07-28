@@ -1,0 +1,5 @@
+{
+  adminUser = "dick";
+  adminPassword = "butt";
+}
+
