@@ -8,7 +8,6 @@
     [
       <stockholm/makefu>
       <stockholm/makefu/2configs/headless.nix>
-      ../../krebs/3modules/Reaktor.nix
 
       # these will be overwritten by qemu-vm.nix but will be used if the system
       # is directly deployed
