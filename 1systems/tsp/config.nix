@@ -10,7 +10,8 @@
       <stockholm/makefu/2configs/gui/base.nix>
       <stockholm/makefu/2configs/fs/sda-crypto-root.nix>
       # hardware specifics are in here
-      <stockholm/makefu/2configs/hw/tp-x200.nix #< imports tp-x2x0.nix>
+      # imports tp-x2x0.nix
+      <stockholm/makefu/2configs/hw/tp-x200.nix>
 
       <stockholm/makefu/2configs/disable_v6.nix>
       <stockholm/makefu/2configs/rad1o.nix>
