@@ -18,7 +18,7 @@ in {
       <stockholm/makefu/2configs/virtualization.nix>
 
       <stockholm/makefu/2configs/tinc/retiolum.nix>
-      <stockholm/makefu/2configs/temp-share-samba.nix>
+      <stockholm/makefu/2configs/share/temp-share-samba.nix>
   ];
   services.samba.shares = {
       isos = {
