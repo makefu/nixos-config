@@ -44,7 +44,7 @@ in {
     kernelModules = [ "kvm-amd" ];
     extraModulePackages = [ ];
   };
-  hardware.enableAllFirmware = true;
+  hardware.enableRedistributableFirmware = true;
   hardware.cpu.amd.updateMicrocode = true;
 
   zramSwap.enable = true;
