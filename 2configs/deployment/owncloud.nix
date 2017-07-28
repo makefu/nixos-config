@@ -140,10 +140,10 @@ in  {
     enable = false;
     databases = [ "nextcloud" ];
   };
-
-  krebs.secret.files.mysql_rootPassword = {
-    path = "${config.services.mysql.dataDir}/mysql_rootPassword";
-    owner.name = "root";
-    source-path = toString <secrets> + "/mysql_rootPassword";
-  };
+  # dataDir is only defined after mysql is enabled
+  # krebs.secret.files.mysql_rootPassword = {
+  #   path = "${config.services.mysql.dataDir}/mysql_rootPassword";
+  #   owner.name = "root";
+  #   source-path = toString <secrets> + "/mysql_rootPassword";
+  # };
 }
