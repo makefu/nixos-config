@@ -14,6 +14,7 @@ let
 in {
   virtualisation.virtualbox.host.enable = true;
   nixpkgs.config.virtualbox.enableExtensionPack = true;
+  virtualization.virtualbox.host.enableHardening = false;
 
   users.extraGroups.vboxusers.members = [ "${mainUser.name}" ];
   nixpkgs.config.packageOverrides = super: {
