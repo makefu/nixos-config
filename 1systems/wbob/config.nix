@@ -13,17 +13,18 @@ in {
       <stockholm/makefu/2configs/tools/core-gui.nix>
       <stockholm/makefu/2configs/tools/extra-gui.nix>
       <stockholm/makefu/2configs/tools/media.nix>
-      <stockholm/makefu/2configs/virtualization.nix>
+      <stockholm/makefu/2configs/virtualisation/libvirt.nix>
       <stockholm/makefu/2configs/tinc/retiolum.nix>
       <stockholm/makefu/2configs/mqtt.nix>
       <stockholm/makefu/2configs/deployment/led-fader.nix>
       # <stockholm/makefu/2configs/gui/wbob-kiosk.nix>
       <stockholm/makefu/2configs/stats/client.nix>
 
-      <stockholm/makefu/2configs/gui/studio-virtual.nix>
-      <stockholm/makefu/2configs/audio/jack-on-pulse.nix>
-      <stockholm/makefu/2configs/audio/realtime-audio.nix>
-      <stockholm/makefu/2configs/vncserver.nix>
+      # <stockholm/makefu/2configs/gui/studio-virtual.nix>
+      # <stockholm/makefu/2configs/audio/jack-on-pulse.nix>
+      # <stockholm/makefu/2configs/audio/realtime-audio.nix>
+      # <stockholm/makefu/2configs/vncserver.nix>
+      <stockholm/makefu/2configs/temp/rst-issue.nix>
     ];
 
   krebs = {

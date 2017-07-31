@@ -19,6 +19,8 @@ with import <stockholm/lib>;
       # <stockholm/makefu/2configs/disable_v6.nix>
 
       # Testing
+      # <stockholm/makefu/2configs/deployment/gitlab.nix>
+
       # <stockholm/makefu/2configs/torrent.nix>
       # <stockholm/makefu/2configs/lanparty/lancache.nix>
       # <stockholm/makefu/2configs/lanparty/lancache-dns.nix>
@@ -37,9 +39,9 @@ with import <stockholm/lib>;
       <stockholm/makefu/2configs/task-client.nix>
 
       # Virtualization
-      <stockholm/makefu/2configs/virtualization.nix>
-      <stockholm/makefu/2configs/docker.nix>
-      <stockholm/makefu/2configs/virtualization-virtualbox.nix>
+      <stockholm/makefu/2configs/virtualisation/libvirt.nix>
+      <stockholm/makefu/2configs/virtualisation/docker.nix>
+      <stockholm/makefu/2configs/virtualisation/virtualbox.nix>
 
       # Services
       <stockholm/makefu/2configs/git/brain-retiolum.nix>

@@ -15,7 +15,7 @@ in {
       <stockholm/makefu/2configs/zsh-user.nix>
       <stockholm/makefu/2configs/smart-monitor.nix>
       <stockholm/makefu/2configs/exim-retiolum.nix>
-      <stockholm/makefu/2configs/virtualization.nix>
+      <stockholm/makefu/2configs/virtualisation/libvirt.nix>
 
       <stockholm/makefu/2configs/tinc/retiolum.nix>
       <stockholm/makefu/2configs/share/temp-share-samba.nix>
