@@ -9,6 +9,7 @@ _:
     ./opentracker.nix
     ./ps3netsrv.nix
     ./logging-config.nix
+    ./sane-extra.nix
     ./server-config.nix
     ./snapraid.nix
     ./torrent.nix
