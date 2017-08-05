@@ -15,6 +15,10 @@ self: super: let
         override
     else override;
 
+   subdirsOf = path:
+     mapAttrs (name: _: path + "/${name}")
+              (filterAttrs (_: eq "directory") (readDir path));
+
 in {
     alsa-hdspconf = callPackage ./alsa-tools { alsaToolTarget="hdspconf";};
     alsa-hdspmixer = callPackage ./alsa-tools { alsaToolTarget="hdspmixer";};
@@ -27,7 +31,6 @@ in {
         sha256 = "18ddzyh11bywrhzdkzvrl7nvgp5gdb4k1s0zxbz2bkhd14vi72bb";
       };
     };
-
 }
 
 // mapAttrs (_: flip callPackage {})
