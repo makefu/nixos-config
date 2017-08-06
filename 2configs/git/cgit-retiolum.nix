@@ -12,6 +12,9 @@ let
     stockholm = {
       cgit.desc = "Make all the systems into 1systems!";
     };
+    stockholm-issues = {
+      cgit.desc = "Issue tracker";
+    };
     tinc_graphs = {
       cgit.desc = "Tinc Advanced Graph Generation";
     };
