@@ -1,5 +1,6 @@
 {
   imports = [
+    ./android-pentest.nix
     ./core.nix
     ./core-gui.nix
     ./dev.nix
