@@ -1,7 +1,7 @@
 _:
 
 {
-  # TODO:  requires in path: amixer, xlock, xbacklight
+  # replace: @amixer@ @xlock@ @xbacklight@
   full = ./full.cfg;
   kiosk = ./kiosk.lua;
 }

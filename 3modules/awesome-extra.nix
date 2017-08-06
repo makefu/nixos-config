@@ -28,10 +28,15 @@ let
     # TODO: configure display manager as well
     nixpkgs.config.packageOverrides = pkgs: rec {
       awesome = pkgs.stdenv.lib.overrideDerivation pkgs.awesome (oldAttrs : {
-          postFixup = let 
+          postFixup = let
             rclua = pkgs.substituteAll {
               src = cfg.baseConfig;
-              inherit (cfg) modkey;
+              modkey = cfg.modkey;
+              # inherit (cfg) modkey;
+              amixer = "${pkgs.alsaUtils}/bin/amixer";
+              xlock = "${pkgs.xlockmore}/bin/xlock";
+              xbacklight = "${pkgs.xorg.xbacklight}/bin/xbacklight";
+
             };
           in "cp ${rclua}  $out/etc/xdg/awesome/rc.lua";
       });
