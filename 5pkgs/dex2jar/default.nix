@@ -42,7 +42,7 @@ stdenv.mkDerivation rec {
 
   meta = {
     homepage = https://sourceforge.net/projects/dex2jar/;
-    description = "convert dex to jar";
+    description = "Tools to work with android .dex and java .class files";
     license = lib.licenses.asl20;
   };
 }

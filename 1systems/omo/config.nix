@@ -57,7 +57,7 @@ in {
       # Logging
       #influx + grafana
       <stockholm/makefu/2configs/stats/server.nix>
-      <stockholm/makefu/2configs/stats/client.nix>
+      <stockholm/makefu/2configs/stats/nodisk-client.nix>
       # logs to influx
       <stockholm/makefu/2configs/stats/external/aralast.nix>
 
