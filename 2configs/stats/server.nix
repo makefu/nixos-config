@@ -29,7 +29,7 @@ in {
       enabled = true;
       typesdb = "${pkgs.collectd}/share/collectd/types.db";
       database = db;
-      port = collectd-port;
+      bind-address = ":${collectd-port}";
     }];
   };
   krebs.kapacitor =
