@@ -11,7 +11,10 @@ let
               then "buildbot"
               else "makefu";
   _file = <stockholm> + "/makefu/1systems/${name}/source.nix";
-  ref = "1e47827"; # unstable @ 2017-07-31 + graceful requests2 (a772c3aa) + libpurple bitlbee ( ce6fe1a, 65e38b7 )
+  ref = "9d4bd6b"; # unstable @ 2017-07-31
+                   # + graceful requests2 (a772c3aa)
+                   # + libpurple bitlbee ( ce6fe1a, 65e38b7 )
+                   # + buildbot-runner ( f3cecc5 )
 
 in
   evalSource (toString _file) [
