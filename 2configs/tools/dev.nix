@@ -1,9 +1,10 @@
 { pkgs, ... }:
 
 {
-  krebs.per-user.makefu.packages = with pkgs;[
+  users.users.makefu.packages = with pkgs;[
     python35Packages.virtualenv
     # embedded
+    gi
     flashrom
     mosquitto
     libcoap
