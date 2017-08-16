@@ -26,6 +26,9 @@ in {
     qcma = super.pkgs.libsForQt5.callPackage ./custom/qcma { };
     inherit (callPackage ./devpi {}) devpi-web devpi-server devpi-client;
     nodemcu-uploader = super.pkgs.callPackage ./nodemcu-uploader {};
+    inkscape = super.pkgs.stdenv.lib.overrideDerivation super.inkscape (old: {
+      patches = [ ./custom/inkscape/dxf_fix.patch ];
+    });
     pwqgen-ger = callPackage <stockholm/krebs/5pkgs/simple/passwdqc-utils> {
       wordset-file = super.pkgs.fetchurl {
         url = https://gist.githubusercontent.com/makefu/b56f5554c9ef03fe6e09878962e6fd8d/raw/1f147efec51325bc9f80c823bad8381d5b7252f6/wordset_4k.c ;

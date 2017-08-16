@@ -1,0 +1,13 @@
+--- ./share/extensions/dxf_outlines.py	2017-02-14 00:46:57.000000000 +0100
++++ ./share/extensions/dxf_outlines.py.new	2017-05-10 04:15:03.000000000 +0200
+@@ -340,7 +340,7 @@
+         scale = eval(self.options.units)
+         if not scale:
+             scale = 25.4/96     # if no scale is specified, assume inch as baseunit
+-        h = self.unittouu(self.document.getroot().xpath('@height', namespaces=inkex.NSS)[0])
++        h = self.unittouu(self.getDocumentHeight())
+         self.groupmat = [[[scale, 0.0, 0.0], [0.0, -scale, h*scale]]]
+         doc = self.document.getroot()
+         self.process_group(doc)
+
+
