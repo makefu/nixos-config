@@ -4,6 +4,12 @@
 # sda1: boot ext4 (label nixboot) - must be unlocked on boot if required:
   # boot.initrd.luks.devices = [ { name = "luksroot"; device = "/dev/sda2"; allowDiscards=true; }];
 # sda2: cryptoluks -> ext4
+
+# fdisk /dev/sda
+  # boot 500M
+  # rest rest
+# cryptsetup luksFormat /dev/sda2
+#
 with import <stockholm/lib>;
 {
   boot = {
