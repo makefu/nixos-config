@@ -24,7 +24,7 @@ stdenv.mkDerivation rec {
     zlib
     coreutils
     python
-    pythonPackages.sqlite3
+    pythonPackages.pysqlite
   ];
   patches = [
     ( fetchurl {

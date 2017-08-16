@@ -13,7 +13,6 @@ stdenv.mkDerivation rec {
   };
   p = stdenv.lib.makeBinPath [ pkgs.nettools pkgs.python27Packages.websockify
                                pkgs.coreutils pkgs.which pkgs.procps ];
-  # TODO: propagatedBuildInputs does not seem to work with shell scripts
   patchPhase = ''
     sed -i '1aset -efu\nexport PATH=${p}\n' utils/launch.sh
   '';

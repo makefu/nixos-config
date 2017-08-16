@@ -1,5 +1,5 @@
 { lib, stdenv, fetchFromGitHub, fetchgit, libusb, libtool, autoconf, pkgconfig, git,
-gettext, automake, libxml2 , qmakeHook, makeQtWrapper,
+gettext, automake, libxml2 , qmake,
 qtbase, qttools, qtmultimedia, libnotify, ffmpeg, gdk_pixbuf }:
 let
   libvitamtp = stdenv.mkDerivation rec {
@@ -52,13 +52,14 @@ in stdenv.mkDerivation rec {
   enableParallelBuilding = true;
 
   buildInputs = [ gdk_pixbuf ffmpeg libnotify libvitamtp git qtmultimedia qtbase ];
-  nativeBuildInputs = [ qmakeHook qttools pkgconfig makeQtWrapper ];
+  nativeBuildInputs = [ qmake qttools pkgconfig ];
 
   meta = {
     description = "Content Manager Assistant for the PS Vita";
     homepage = https://github.com/codestation/qcma;
     license = stdenv.lib.licenses.gpl2;
     platforms = stdenv.lib.platforms.linux;
+    broken = true;
     maintainers = with stdenv.lib.maintainers; [ makefu ];
   };
 }
