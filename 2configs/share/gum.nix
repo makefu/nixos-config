@@ -1,6 +1,6 @@
 { config, lib, pkgs, ... }:
 
-with config.krebs.lib;
+with import <stockholm/lib>;
 let
   hostname = config.krebs.build.host.name;
 in {
@@ -11,7 +11,7 @@ in {
   #   home = "/var/empty";
   # };
 
-  users.users.download = { };
+  users.users.download.uid = genid "download";
   services.samba = {
     enable = true;
     shares = {
