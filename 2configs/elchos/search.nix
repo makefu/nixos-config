@@ -23,10 +23,21 @@ let
     pid=${ddclientPIDFile}
     ${concatStringsSep "\n" (mapAttrsToList (user: pass: ''
 
+      protocol=dyndns2
       use=if, if=${primary-itf}
-      protocol=dyndns2, server=ipv4.nsupdate.info, login=${user}, password='${pass}' ${user}
-      #usev6=if, if=${primary-itf}
-      #protocol=dyndns2, server=ipv6.nsupdate.info, login=${user}, password='${pass}' ${user}
+      ssl=yes
+      server=ipv4.nsupdate.info
+      login=${user}
+      password='${pass}'
+      ${user}
+
+      protocol=dyndns2
+      usev5=if, if=${primary-itf}
+      ssl=yes
+      server=ipv6.nsupdate.info
+      login=${user}
+      password='${pass}'
+      ${user}
     '') dict)}
   '';
 
