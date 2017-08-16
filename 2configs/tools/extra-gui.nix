@@ -13,5 +13,6 @@
     # Dev
     saleae-logic
     arduino-user-env
+    gitAndTools.gitFull
   ];
 }
