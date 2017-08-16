@@ -21,6 +21,9 @@ in {
     vimrcConfig.customRC = ''
       set nocompatible
       syntax on
+      set list
+      set listchars=tab:▸
+      "set list listchars=tab:>-,trail:.,extends:>
 
       filetype off
       filetype plugin indent on
