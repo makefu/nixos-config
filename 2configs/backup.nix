@@ -31,6 +31,7 @@ in {
   krebs.backup.plans = {
     # wry-to-omo_root = defaultPull config.krebs.hosts.wry "/";
     gum-to-omo_root = defaultPull config.krebs.hosts.gum "/";
+    # wolf-to-omo_root = defaultPull config.krebs.hosts.wolf "/";
   };
   environment.systemPackages = [
     pkgs.borgbackup
