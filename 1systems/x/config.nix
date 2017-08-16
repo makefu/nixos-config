@@ -42,6 +42,14 @@ with import <stockholm/lib>;
       <stockholm/makefu/2configs/virtualisation/libvirt.nix>
       <stockholm/makefu/2configs/virtualisation/docker.nix>
       <stockholm/makefu/2configs/virtualisation/virtualbox.nix>
+      {
+        networking.firewall.allowedTCPPorts = [ 8080 ];
+        networking.nat = {
+          enable = true;
+          externalInterface = "wlp3s0";
+          internalInterfaces = [ "vboxnet0" ];
+        };
+      }
 
       # Services
       <stockholm/makefu/2configs/git/brain-retiolum.nix>
@@ -81,6 +89,7 @@ with import <stockholm/lib>;
   networking.firewall.enable = true;
   networking.firewall.allowedTCPPorts = [ 80 24800 26061 8000 3000 ];
   networking.firewall.allowedUDPPorts = [ 665 26061 ];
+  networking.firewall.trustedInterfaces = [ "vboxnet0" ];
 
   krebs.build.host = config.krebs.hosts.x;
 
