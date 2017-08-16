@@ -9,6 +9,7 @@ let
   external-gw6 = "fe80::1";
   external-netmask = 22;
   external-netmask6 = 64;
+  ext-if = "et0"; # gets renamed on the fly
   internal-ip = config.krebs.build.host.nets.retiolum.ip4.addr;
   main-disk = "/dev/disk/by-id/scsi-0QEMU_QEMU_HARDDISK_drive-scsi0-0-0-0";
 in {
@@ -41,6 +42,7 @@ in {
       <stockholm/makefu/2configs/sabnzbd.nix>
       <stockholm/makefu/2configs/torrent.nix>
       <stockholm/makefu/2configs/iodined.nix>
+      <stockholm/makefu/2configs/vpn/openvpn-server.nix>
 
       ## Web
       <stockholm/makefu/2configs/nginx/share-download.nix>
@@ -94,7 +96,7 @@ in {
     ];
   };
 
-
+  makefu.server.primary-itf = ext-if;
 
   # access
   users.users = {
@@ -120,7 +122,7 @@ in {
 
   # Network
   services.udev.extraRules = ''
-    SUBSYSTEM=="net", ATTR{address}=="${external-mac}", NAME="et0"
+    SUBSYSTEM=="net", ATTR{address}=="${external-mac}", NAME="${ext-if}"
   '';
   boot.kernelParams = [ ];
   networking = {
@@ -152,14 +154,16 @@ in {
           21032
         ];
     };
-    interfaces.et0.ip4 = [{
-      address = external-ip;
-      prefixLength = external-netmask;
-    }];
-    interfaces.et0.ip6 = [{
-      address = external-ip6;
-      prefixLength = external-netmask6;
-    }];
+    interfaces."${ext-if}" = {
+      ip4 = [{
+        address = external-ip;
+        prefixLength = external-netmask;
+      }];
+      ip6 = [{
+        address = external-ip6;
+        prefixLength = external-netmask6;
+      }];
+    };
     defaultGateway6 = external-gw6;
     defaultGateway = external-gw;
     nameservers = [ "8.8.8.8" ];
