@@ -45,7 +45,7 @@ in
         Restart = "always";
         RestartSec = "5";
       };
-      # after = [ "display-manager.service" "sound.target" ];
+      after = [ "display-manager.service" "sound.target" ];
       wantedBy = [ "default.target" ];
     };
   };
