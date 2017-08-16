@@ -1,6 +1,6 @@
 { config, lib, ... }:
 let
-  ftpdir = "/home/ftp";
+  ftpdir = "/data";
 in {
   networking.firewall = {
     allowedTCPPorts = [ 20 21 ];
