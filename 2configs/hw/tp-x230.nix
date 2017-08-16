@@ -33,8 +33,8 @@ with import <stockholm/lib>;
       Option "Backlight"     "intel_backlight"
     '';
   };
-  # no entropy source working
-  # security.rngd.enable = true;
+
+  security.rngd.enable = true;
 
   services.xserver.displayManager.sessionCommands =''
     xinput set-int-prop "TPPS/2 IBM TrackPoint" "Evdev Wheel Emulation" 8 1
