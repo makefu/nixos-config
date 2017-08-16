@@ -1,6 +1,11 @@
 { config, lib, ... }:
 
-{
+let
+  grss = name: { #github rss feed
+    url = "https://github.com/${name}/releases.atom";
+    filter = "grepi:(<updated|<media.thumbnail)";
+  };
+in {
   krebs.urlwatch = {
     enable = true;
     mailto = config.krebs.users.makefu.mail;
@@ -10,14 +15,7 @@
       ## nixpkgs maintenance
       # github 
       ## No rate limit
-      https://github.com/amadvance/snapraid/releases.atom
-      https://github.com/radare/radare2/releases.atom
-      https://github.com/ovh/python-ovh/releases.atom
-      https://github.com/embray/d2to1/releases.atom
-      https://github.com/Mic92/vicious/releases.atom
-      https://github.com/embray/d2to1/releases.atom
-      https://github.com/dorimanx/exfat-nofuse/releases.atom
-      https://github.com/rapid7/metasploit-framework/releases.atom
+
       ## rate limited
       # https://api.github.com/repos/dorimanx/exfat-nofuse/commits
       # https://api.github.com/repos/mcepl/gen-oath-safe/commits
@@ -39,6 +37,15 @@
         filter = "grep:Software/Linux/dymo-cups-drivers";
       }
       # TODO: dymo cups
+    ] ++ map grss [
+      "amadvance/snapraid"
+      "radare/radare2"
+      "ovh/python-ovh"
+      "embray/d2to1"
+      "Mic92/vicious"
+      "embray/d2to1"
+      "dorimanx/exfat-nofuse"
+      "rapid7/metasploit-framework"
     ];
   };
 }
