@@ -22,6 +22,7 @@ let
       cgit.desc = "Build new Stockholm hosts";
     };
     cac-api = { };
+    euer_blog = { };
     ampel = { };
     init-stockholm = {
       cgit.desc = "Init stuff for stockholm";
