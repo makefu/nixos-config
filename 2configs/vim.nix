@@ -22,7 +22,7 @@ in {
       set nocompatible
       syntax on
       set list
-      set listchars=tab:▸
+      set listchars=tab:▸\ 
       "set list listchars=tab:>-,trail:.,extends:>
 
       filetype off
