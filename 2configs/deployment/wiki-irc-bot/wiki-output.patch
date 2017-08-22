@@ -1,0 +1,45 @@
+diff --git a/newsbot.js b/newsbot.js
+index 42d0666..a284011 100644
+--- a/newsbot.js
++++ b/newsbot.js
+@@ -92,8 +92,9 @@ function create_feedbot (nick, uri, channels) {
+   }
+ 
+   function broadcast_new_item (item) {
++    console.log('Broadcasting item ',item.link)
+     return getShortLink(item.link, function (error, shortlink) {
+-      return broadcast(item.title + ' ' + shortlink)
++      return broadcast('"'+ item.title + '" edited by ' + item.author +  ' ' + shortlink)
+     })
+   }
+   
+@@ -152,15 +153,18 @@ function create_feedbot (nick, uri, channels) {
+ 
+       if (client.lastItems) {
+         items.forEach(function (item) {
+-          if (!client.lastItems.hasOwnProperty(item.title)) {
++
++          if (!client.lastItems.hasOwnProperty(item.guid)) {
+             broadcast_new_item(item)
++          }else {
++            console.log("Item already seen:",item.guid)
+           }
+         })
+       }
+ 
+       client.lastItems = {}
+       items.forEach(function (item) {
+-        client.lastItems[item.title] = true
++        client.lastItems[item.guid] = true
+       })
+ 
+       return continue_loop()
+@@ -199,6 +203,8 @@ function run_command (methodname, params, callback) {
+ }
+ 
+ function getShortLink (link, callback) {
++  callback(null,link)
++  return
+   var form = new FormData()
+   try {
+     form.append('uri', link)
