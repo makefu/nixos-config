@@ -194,16 +194,6 @@ in {
 
   zramSwap.enable = true;
 
-  krebs.Reaktor.reaktor = {
-    nickname = "Reaktor|krebs";
-    workdir = "/var/lib/Reaktor/krebs";
-    channels = [ "#krebs" ];
-    plugins = with pkgs.ReaktorPlugins;[
-                               stockholm-issue
-                               nixos-version
-                               sed-plugin
-                               random-emoji ];
-  };
   krebs.Reaktor.reaktor-shack = {
     nickname = "Reaktor|shack";
     workdir = "/var/lib/Reaktor/shack";
