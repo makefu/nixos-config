@@ -20,6 +20,7 @@ with import <stockholm/lib>;
 
       # Testing
       # <stockholm/makefu/2configs/deployment/gitlab.nix>
+      # <stockholm/makefu/2configs/deployment/wiki-irc-bot>
 
       # <stockholm/makefu/2configs/torrent.nix>
       # <stockholm/makefu/2configs/lanparty/lancache.nix>
@@ -33,7 +34,6 @@ with import <stockholm/lib>;
       <stockholm/makefu/2configs/tinc/retiolum.nix>
 
       # applications
-      <stockholm/makefu/2configs/tpm.nix>
       <stockholm/makefu/2configs/exim-retiolum.nix>
       <stockholm/makefu/2configs/mail-client.nix>
       <stockholm/makefu/2configs/printer.nix>
