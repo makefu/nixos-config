@@ -11,8 +11,9 @@ let
               then "buildbot"
               else "makefu";
   _file = <stockholm> + "/makefu/1systems/${name}/source.nix";
-  ref = "a035602"; # unstable @ 2017-09-04
+  ref = "2c566ee"; # unstable @ 2017-09-04
                    # + graceful requests2 (a772c3aa)
+                   # + mitmproxy fix      (eee2d174)
 
 in
   evalSource (toString _file) [
