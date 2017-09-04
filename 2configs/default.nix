@@ -39,10 +39,10 @@ with import <stockholm/lib>;
   };
 
   networking.hostName = config.krebs.build.host.name;
-  nix.maxJobs = config.krebs.build.host.cores;
+  nix.maxJobs = 2;
+  nix.buildCores = config.krebs.build.host.cores;
 
   time.timeZone = "Europe/Berlin";
-  #nix.maxJobs = 1;
 
   programs.ssh = {
     startAgent = false;
