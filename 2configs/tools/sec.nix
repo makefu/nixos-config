@@ -13,5 +13,6 @@
     thc-hydra
     borgbackup
     ledger
+    u3_tool
   ];
 }
