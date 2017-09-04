@@ -2,6 +2,9 @@
 
 with import <stockholm/lib>;
 {
+  imports = [
+    ./tpm.nix
+  ];
   networking.wireless.enable = lib.mkDefault true;
 
   hardware.enableAllFirmware = true;
