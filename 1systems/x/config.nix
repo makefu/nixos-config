@@ -33,6 +33,7 @@ with import <stockholm/lib>;
       <stockholm/makefu/2configs/tinc/retiolum.nix>
 
       # applications
+      <stockholm/makefu/2configs/tpm.nix>
       <stockholm/makefu/2configs/exim-retiolum.nix>
       <stockholm/makefu/2configs/mail-client.nix>
       <stockholm/makefu/2configs/printer.nix>
@@ -54,6 +55,7 @@ with import <stockholm/lib>;
       # Services
       <stockholm/makefu/2configs/git/brain-retiolum.nix>
       <stockholm/makefu/2configs/tor.nix>
+      <stockholm/makefu/2configs/vpn/vpngate.nix>
       <stockholm/makefu/2configs/steam.nix>
       # <stockholm/makefu/2configs/buildbot-standalone.nix>
 
