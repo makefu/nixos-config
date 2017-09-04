@@ -1,6 +1,7 @@
 { coreutils, makeWrapper, openssl, libcaca, qrencode, fetchFromGitHub, yubikey-manager, python, stdenv, ... }:
 
-stdenv.mkDerivation {
+builtins.trace "Warning: HTOP mode of gen-oath-safe is currently broken"
+  stdenv.mkDerivation {
   name = "gen-oath-safe-2017-06-30";
   src = fetchFromGitHub {
     owner = "mcepl";
@@ -23,7 +24,7 @@ stdenv.mkDerivation {
         coreutils
         openssl
         qrencode
-        yubikey-manager
+        #yubikey-manager
         libcaca
         python
       ];
