@@ -15,6 +15,7 @@ _:
     ./torrent.nix
     ./udpt.nix
     ./umts.nix
+    ./wvdial.nix
   ];
 }
 
