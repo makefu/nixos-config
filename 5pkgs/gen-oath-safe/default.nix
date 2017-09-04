@@ -1,7 +1,7 @@
 { coreutils, makeWrapper, openssl, libcaca, qrencode, fetchFromGitHub, yubikey-manager, python, stdenv, ... }:
 
 stdenv.mkDerivation {
-  name = "geno-oath-safe-2017-06-30";
+  name = "gen-oath-safe-2017-06-30";
   src = fetchFromGitHub {
     owner = "mcepl";
     repo = "gen-oath-safe";
