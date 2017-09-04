@@ -8,5 +8,7 @@
     ./games.nix
     ./media.nix
     ./sec.nix
+    ./sec-gui.nix
+    ./studio.nix
   ];
 }
