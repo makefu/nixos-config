@@ -88,7 +88,7 @@ in
       '';
   };
 
-  krebs.per-user.${mainUser}.packages = [
+  users.users.${mainUser}.packages = [
     pkgs.nix-zsh-completions
     pkgs.fzf
   ];
