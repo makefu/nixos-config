@@ -43,6 +43,7 @@ in {
       <stockholm/makefu/2configs/torrent.nix>
       <stockholm/makefu/2configs/iodined.nix>
       <stockholm/makefu/2configs/vpn/openvpn-server.nix>
+      <stockholm/makefu/2configs/dnscrypt/server.nix>
 
       ## Web
       <stockholm/makefu/2configs/nginx/share-download.nix>
@@ -55,9 +56,7 @@ in {
       <stockholm/makefu/2configs/deployment/mycube.connector.one.nix>
       <stockholm/makefu/2configs/deployment/graphs.nix>
       <stockholm/makefu/2configs/deployment/owncloud.nix>
-      <stockholm/makefu/2configs/deployment/wiki-irc-bot>
       <stockholm/makefu/2configs/deployment/boot-euer.nix>
-      <stockholm/makefu/2configs/deployment/hound>
       {
         services.taskserver.enable = true;
         services.taskserver.fqdn = config.krebs.build.host.name;
