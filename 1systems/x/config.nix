@@ -12,7 +12,7 @@ with import <stockholm/lib>;
       <stockholm/makefu/2configs/extra-fonts.nix>
       <stockholm/makefu/2configs/tools/all.nix>
       <stockholm/makefu/2configs/laptop-backup.nix>
-      <stockholm/makefu/2configs/dnscrypt.nix>
+      <stockholm/makefu/2configs/dnscrypt/client.nix>
       <stockholm/makefu/2configs/avahi.nix>
 
       # Debugging
