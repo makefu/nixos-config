@@ -36,7 +36,6 @@ in {
 
       "${ext-dom}" = {
         nginx = {
-          enableSSL = true;
           forceSSL = true;
           enableACME = true;
         };

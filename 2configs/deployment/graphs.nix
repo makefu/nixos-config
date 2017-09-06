@@ -28,7 +28,6 @@ in {
         ];
       };
       anonymous = {
-        enableSSL = true;
         forceSSL = true;
         enableACME = true;
       };

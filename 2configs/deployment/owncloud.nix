@@ -21,7 +21,6 @@ let
       services.nginx.virtualHosts."${domain}" = {
         forceSSL = true;
         enableACME = true;
-        enableSSL = true;
         serverAliases = domains;
         extraConfig = ''
 

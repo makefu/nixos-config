@@ -10,7 +10,6 @@ with import <stockholm/lib>;
         root = config.makefu.dl-dir;
         extraConfig = "autoindex on;";
         forceSSL = true;
-        enableSSL = true;
         enableACME = true;
         basicAuth = import <secrets/dl.euer.krebsco.de-auth.nix>;
     };

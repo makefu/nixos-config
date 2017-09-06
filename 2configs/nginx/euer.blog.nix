@@ -33,7 +33,6 @@ in {
     virtualHosts = {
       "euer.krebsco.de" = {
         #serverAliases = [ "blog.euer.krebsco.de" "blog.${hostname}" ];
-        enableSSL = true;
         enableACME = true;
         forceSSL = true;
         root = base-dir;

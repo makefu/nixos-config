@@ -79,7 +79,6 @@ in {
         #  "wiki.makefu.retiolum"
         #  "wiki.makefu"
         #];
-        enableSSL = true;
         forceSSL = true;
         enableACME = true;
         # recommendedGzipSettings = true;

@@ -16,7 +16,6 @@ in {
   services.nginx = {
     enable = mkDefault true;
     virtualHosts."boot.euer.krebsco.de" = {
-      enableSSL = true;
       forceSSL = true;
       enableACME = true;
       locations."/" = {
