@@ -33,7 +33,7 @@ in {
       serviceConfig = {
         User = "nobody";
         ExecStart = "${pkgs.novnc}/bin/launch-novnc.sh --listen ${toString web_port} --vnc localhost:${toString vnc_port}";
-				PrivateTmp = true;
+        PrivateTmp = true;
       };
     };
   };
