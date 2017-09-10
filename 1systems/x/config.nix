@@ -56,7 +56,6 @@ with import <stockholm/lib>;
       <stockholm/makefu/2configs/git/brain-retiolum.nix>
       <stockholm/makefu/2configs/tor.nix>
       <stockholm/makefu/2configs/vpn/vpngate.nix>
-      <stockholm/makefu/2configs/steam.nix>
       # <stockholm/makefu/2configs/buildbot-standalone.nix>
 
       # Hardware
