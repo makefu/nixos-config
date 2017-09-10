@@ -2,7 +2,7 @@
 
 {
   imports = [
-    ../steam.nix
+    ./steam.nix
   ];
   users.users.makefu.packages = with pkgs; [
     games-user-env
