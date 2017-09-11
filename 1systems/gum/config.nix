@@ -40,7 +40,7 @@ in {
       # services
       <stockholm/makefu/2configs/share/gum.nix>
       <stockholm/makefu/2configs/sabnzbd.nix>
-      <stockholm/makefu/2configs/torrent.nix>
+      # <stockholm/makefu/2configs/torrent.nix>
       <stockholm/makefu/2configs/iodined.nix>
       <stockholm/makefu/2configs/vpn/openvpn-server.nix>
       <stockholm/makefu/2configs/dnscrypt/server.nix>
