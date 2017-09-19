@@ -60,6 +60,7 @@ in {
       <stockholm/makefu/2configs/stats/nodisk-client.nix>
       # logs to influx
       <stockholm/makefu/2configs/stats/external/aralast.nix>
+      <stockholm/makefu/2configs/stats/telegraf>
 
       # services
       <stockholm/makefu/2configs/syncthing.nix>
@@ -77,6 +78,9 @@ in {
 
       ## as long as pyload is not in nixpkgs:
       # docker run -d -v /var/lib/pyload:/opt/pyload/pyload-config -v /media/crypt0/pyload:/opt/pyload/Downloads --name pyload --restart=always -p 8112:8000 -P writl/pyload
+
+      # Temporary:
+      <stockholm/makefu/2configs/temp/rst-issue.nix>
     ];
   makefu.full-populate = true;
   makefu.server.primary-itf = primaryInterface;
