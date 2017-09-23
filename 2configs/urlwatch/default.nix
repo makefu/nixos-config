@@ -24,8 +24,10 @@ in {
 
       # pypi
       https://pypi.python.org/simple/bepasty/
-      https://pypi.python.org/simple/xstatic/
       https://pypi.python.org/simple/devpi-client/
+      https://pypi.python.org/simple/oslo.config/
+      https://pypi.python.org/simple/sqlalchemy_migrate/
+      https://pypi.python.org/simple/xstatic/
       # weird shit
       http://guest:derpi@cvs2svn.tigris.org/svn/cvs2svn/tags/
       http://ftp.debian.org/debian/pool/main/a/apt-cacher-ng/
