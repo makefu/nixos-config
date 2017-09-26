@@ -1,4 +1,4 @@
-{ pkgs, lib, fetchFromGitHub, pythonPackages, jre7, jdk7, ... }:
+{ pkgs, lib, fetchFromGitHub, pythonPackages, jre7, jdk7 }:
 
 pythonPackages.buildPythonApplication rec {
   name = "drozer-${version}";
