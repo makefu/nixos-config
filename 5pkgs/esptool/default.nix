@@ -13,20 +13,19 @@ let
       doCheck = false;
   };
 in
-buildPythonPackage rec {
-    name = "esptool-${version}";
-    version = "2.0beta2";
+  buildPythonPackage rec {
+    name = "${pname}-${version}";
+    pname = "esptool";
+    version = "2.1";
     propagatedBuildInputs = [
       pyserial
       flake8
       ecdsa
       pyaes
     ];
-    src = fetchFromGitHub {
-      owner = "themadinventor";
-      repo = "esptool";
-      rev = "v${version}";
-      sha256 = "0n96pyi1k4qlyfqk5k7xpgq8726wz74qvd3gqjg0bpsl3wr7l94i";
+    src = fetchPypi {
+      inherit pname version;
+      sha256 = "08g393fiqhanixzjbs54pqr6xk1a4dsfaddw7gdwfvp3kvwdn2fp";
     };
     doCheck = false;
-}
+  }
