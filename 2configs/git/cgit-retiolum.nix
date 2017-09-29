@@ -24,6 +24,7 @@ let
     cac-api = { };
     euer_blog = { };
     ampel = { };
+    europastats = { };
     init-stockholm = {
       cgit.desc = "Init stuff for stockholm";
     };
