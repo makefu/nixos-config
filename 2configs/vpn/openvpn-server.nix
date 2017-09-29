@@ -1,13 +1,13 @@
 { config, pkgs, ... }:
 let
-	out-itf = config.makefu.server.primary-itf;
-	# generate via openvpn --genkey --secret static.key
-	client-key = (toString <secrets>) + "/openvpn-laptop.key";
+  out-itf = config.makefu.server.primary-itf;
+  # generate via openvpn --genkey --secret static.key
+  client-key = (toString <secrets>) + "/openvpn-laptop.key";
   # domain = "vpn.euer.krebsco.de";
   domain = "gum.krebsco.de";
   dev = "tun0";
   port = 1194;
-	tcp-port = 3306;
+  tcp-port = 3306;
 in {
   boot.kernel.sysctl."net.ipv4.ip_forward" = 1;
   networking.nat = {
