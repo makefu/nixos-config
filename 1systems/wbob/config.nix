@@ -25,7 +25,9 @@ in {
       # <stockholm/makefu/2configs/audio/realtime-audio.nix>
       # <stockholm/makefu/2configs/vncserver.nix>
       <stockholm/makefu/2configs/temp/rst-issue.nix>
-    ];
+      # Services
+      <stockholm/makefu/2configs/remote-build/slave.nix>
+  ];
 
   krebs = {
       enable = true;
@@ -33,10 +35,48 @@ in {
   };
 
   swapDevices = [ { device = "/var/swap"; } ];
+  services.collectd.extraConfig = lib.mkAfter ''
 
+    #LoadPlugin ping
+    # does not work because it requires privileges
+    #<Plugin "ping">
+    #  Host "google.de"
+    #  Host "heise.de"
+    #</Plugin>
+
+    LoadPlugin curl
+    <Plugin curl>
+      TotalTime true
+      NamelookupTime true
+      ConnectTime true
+
+      <Page "google">
+        MeasureResponseTime true
+        MeasureResponseCode true
+        URL "https://google.de"
+      </Page>
+
+      <Page "webde">
+        MeasureResponseTime true
+        MeasureResponseCode true
+        URL "http://web.de"
+      </Page>
+
+    </Plugin>
+    #LoadPlugin netlink
+    #<Plugin "netlink">
+    #  Interface "enp0s25"
+    #  Interface "wlp2s0"
+    #  IgnoreSelected false
+    #</Plugin>
+  '';
 
   networking.firewall.allowedUDPPorts = [ 655 ];
-  networking.firewall.allowedTCPPorts = [ 655 49152 ];
+  networking.firewall.allowedTCPPorts = [
+    655
+    8081 #smokeping
+    49152
+  ];
   networking.firewall.trustedInterfaces = [ "enp0s25" ];
   #services.tinc.networks.siem = {
   #  name = "display";
@@ -89,5 +129,67 @@ in {
       screenName = "wbob";
       serverAddress = "x.r";
     };
+  };
+  security.wrappers.fping = {
+    source = "${pkgs.fping}/bin/fping";
+    setuid = true;
+  };
+  services.smokeping = {
+    enable = true;
+    targetConfig = ''
+      probe = FPing
+      menu = Top
+      title = Network Latency Grapher
+      remark = Welcome to this SmokePing website.
+
+      + network
+      menu = Net latency
+      title = Network latency (ICMP pings)
+
+      ++ google
+      probe = FPing
+      host = google.de
+      ++ webde
+      probe = FPing
+      host = web.de
+
+      + services
+      menu = Service latency
+      title = Service latency (DNS, HTTP)
+
+      ++ HTTP
+      menu = HTTP latency
+      title = Service latency (HTTP)
+
+      +++ webdeping
+      probe = EchoPingHttp
+      host = web.de
+
+      +++ googwebping
+      probe = EchoPingHttp
+      host = google.de
+
+      #+++ webwww
+      #probe = Curl
+      #host = web.de
+
+      #+++ googwebwww
+      #probe = Curl
+      #host = google.de
+    '';
+    probeConfig = ''
+       + FPing
+       binary = /run/wrappers/bin/fping
+       + EchoPingHttp
+       pings = 5
+       url = /
+
+       #+ Curl
+       ## probe-specific variables
+       #binary = ${pkgs.curl}/bin/curl
+       #step = 60
+       ## a default for this target-specific variable
+       #urlformat = http://%host%/
+    '';
   };
 }
