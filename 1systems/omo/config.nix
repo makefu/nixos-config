@@ -65,6 +65,8 @@ in {
       # services
       <stockholm/makefu/2configs/syncthing.nix>
       <stockholm/makefu/2configs/mqtt.nix>
+      <stockholm/makefu/2configs/remote-build/slave.nix>
+
 
       # security
       <stockholm/makefu/2configs/sshd-totp.nix>

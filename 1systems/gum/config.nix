@@ -40,10 +40,11 @@ in {
       # services
       <stockholm/makefu/2configs/share/gum.nix>
       <stockholm/makefu/2configs/sabnzbd.nix>
-      # <stockholm/makefu/2configs/torrent.nix>
+      <stockholm/makefu/2configs/torrent.nix>
       <stockholm/makefu/2configs/iodined.nix>
       <stockholm/makefu/2configs/vpn/openvpn-server.nix>
       <stockholm/makefu/2configs/dnscrypt/server.nix>
+      <stockholm/makefu/2configs/remote-build/slave.nix>
 
       ## Web
       <stockholm/makefu/2configs/nginx/share-download.nix>
@@ -73,6 +74,9 @@ in {
       # <stockholm/makefu/2configs/opentracker.nix>
       <stockholm/makefu/2configs/stats/client.nix>
       # <stockholm/makefu/2configs/logging/client.nix>
+
+      # Temporary:
+      <stockholm/makefu/2configs/temp/rst-issue.nix>
 
   ];
   makefu.dl-dir = "/var/download";
@@ -143,6 +147,8 @@ in {
           53589
           # temp vnc
           18001
+          # temp reverseshell
+          31337
         ];
         allowedUDPPorts = [
           # tinc

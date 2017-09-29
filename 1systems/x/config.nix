@@ -57,6 +57,7 @@ with import <stockholm/lib>;
       <stockholm/makefu/2configs/tor.nix>
       <stockholm/makefu/2configs/vpn/vpngate.nix>
       # <stockholm/makefu/2configs/buildbot-standalone.nix>
+      <stockholm/makefu/2configs/remote-build/master.nix>
 
       # Hardware
       <stockholm/makefu/2configs/hw/tp-x230.nix>
