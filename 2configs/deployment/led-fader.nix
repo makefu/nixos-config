@@ -29,11 +29,11 @@ in {
     environment = {
       NIX_PATH = "/var/src";
     };
-    # after = [ (lib.optional config.services.mosqitto.enable "mosquitto.service") ];
+    after = [ "network-online.target"  ] ++ (lib.optional config.services.mosquitto.enable "mosquitto.service");
     wantedBy = [ "multi-user.target"  ];
-    after = [ "network-online.target"  ];
     serviceConfig = {
       # User = "nobody"; # need a user with permissions to run nix-shell
+      ExecStartPre = pkgs.writeDash "sleep.sh" "sleep 2";
       ExecStart = "${pkg}/bin/ampel 4 ${pkg}/share/times.json";
       PrivateTmp = true;
     };
