@@ -2,6 +2,8 @@
 
 with import <stockholm/lib>;
 let
+  irc-server = "ni.r";
+  irc-nick = "m-alarm";
   collectd-port = 25826;
   influx-port = 8086;
   grafana-port = 3000; # TODO nginx forward
@@ -37,9 +39,9 @@ in {
       echoToIrc = pkgs.writeDash "echo_irc" ''
         set -euf
         data="$(${pkgs.jq}/bin/jq -r .message)"
-        export LOGNAME=malarm
+        export LOGNAME=${irc-nick}
         ${pkgs.irc-announce}/bin/irc-announce \
-          irc.freenode.org 6667 malarm \#krebs-bots "$data" >/dev/null
+          ${irc-server} 6667 ${irc-nick} \#noise "$data" >/dev/null
       '';
   in {
     enable = true;
