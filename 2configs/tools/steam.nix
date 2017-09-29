@@ -1,6 +1,6 @@
 {pkgs, ...}:
 {
-  environment.systemPackages = [ 
+  users.users.makefu.packages = [
     (pkgs.steam.override {
       newStdcpp = true;
     })
