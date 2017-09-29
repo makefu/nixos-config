@@ -28,6 +28,8 @@ in {
       https://pypi.python.org/simple/oslo.config/
       https://pypi.python.org/simple/sqlalchemy_migrate/
       https://pypi.python.org/simple/xstatic/
+      https://pypi.python.org/simple/pyserial/
+      https://pypi.python.org/simple/semantic_version/
       # weird shit
       http://guest:derpi@cvs2svn.tigris.org/svn/cvs2svn/tags/
       http://ftp.debian.org/debian/pool/main/a/apt-cacher-ng/
