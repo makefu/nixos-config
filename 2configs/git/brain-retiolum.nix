@@ -21,7 +21,7 @@ let
         verbose = true;
         channel = "#retiolum";
         # TODO remove the hardcoded hostname
-        server = "ni.r";
+        server = "irc.r";
       };
     };
   };

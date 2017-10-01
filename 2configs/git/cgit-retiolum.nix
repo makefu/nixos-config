@@ -59,7 +59,7 @@ let
         verbose = config.krebs.build.host.name == "gum";
         channel = "#retiolum";
         # TODO remove the hardcoded hostname
-        server = "ni.r";
+        server = "irc.r";
       };
     };
   };

@@ -34,7 +34,8 @@
   krebs.Reaktor.debug = {
     debug = true;
     extraEnviron = {
-      REAKTOR_HOST = "ni.r";
+      # TODO: remove hard-coded server
+      REAKTOR_HOST = "irc.r";
     };
     plugins = with pkgs.ReaktorPlugins; [ stockholm-issue nixos-version sed-plugin ];
     channels = [ "#retiolum" ];

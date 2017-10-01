@@ -2,7 +2,7 @@
 
 with import <stockholm/lib>;
 let
-  irc-server = "ni.r";
+  irc-server = "rc.r";
   irc-nick = "m-alarm";
   collectd-port = 25826;
   influx-port = 8086;
