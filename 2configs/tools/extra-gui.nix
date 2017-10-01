@@ -6,7 +6,7 @@
     gimp
     inkscape
     libreoffice
-    skype
+    # skype
     synergy
     tdesktop
     virtmanager

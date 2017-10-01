@@ -13,7 +13,6 @@
     keepassx
     pcmanfm
     evince
-    skype
     mirage
     tightvnc
     gnome3.dconf
