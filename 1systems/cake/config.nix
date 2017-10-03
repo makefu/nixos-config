@@ -1,7 +1,8 @@
-{ config, pkgs, ... }:
+{ config, lib, pkgs, ... }:
 {
   imports = [
     <stockholm/makefu>
+    <stockholm/makefu/2configs/tools/core.nix>
 # configure your hw:
 # <stockholm/makefu/2configs/save-diskspace.nix>
   ];
@@ -18,6 +19,7 @@
   programs.info.enable = false;
   programs.man.enable = false;
   services.nixosManual.enable = false;
+  boot.tmpOnTmpfs = lib.mkForce false;
 
 # File systems configuration for using the installer's partition layout
   fileSystems = {
