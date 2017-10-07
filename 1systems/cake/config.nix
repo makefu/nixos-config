@@ -21,6 +21,9 @@
   services.nixosManual.enable = false;
   boot.tmpOnTmpfs = lib.mkForce false;
 
+  hardware.enableRedistributableFirmware = true;
+  networking.wireless.enable = true;
+
 # File systems configuration for using the installer's partition layout
   fileSystems = {
     "/boot" = {
