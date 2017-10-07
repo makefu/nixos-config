@@ -5,7 +5,7 @@ pythonPackages.buildPythonApplication rec {
   version = "2.4.3";
   buildInputs = [ jdk7 ];
   propagatedBuildInputs = with pythonPackages; [
-    protobuf3_2
+    protobuf
     pyopenssl
     pyyaml
   ] ++ [
