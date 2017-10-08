@@ -81,7 +81,9 @@ in {
   ];
   makefu.dl-dir = "/var/download";
 
-
+  services.openssh.hostKeys = [
+    { bits = 4096; path = <secrets/ssh_host_rsa_key>; type = "rsa"; }
+    { path = <secrets/ssh_host_ed25519_key>; type = "ed25519"; } ];
   ###### stable
   services.nginx.virtualHosts.cgit.serverAliases = [ "cgit.euer.krebsco.de" ];
   krebs.build.host = config.krebs.hosts.gum;
