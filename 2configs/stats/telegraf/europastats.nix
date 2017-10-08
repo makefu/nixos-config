@@ -4,7 +4,7 @@ let
     rev = "be31da7";
     name = "europastats-${rev}";
     propagatedBuildInputs = [
-      requests2
+      requests
       docopt
     ];
     src = pkgs.fetchgit {
