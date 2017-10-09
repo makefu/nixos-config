@@ -26,6 +26,7 @@ in {
     <stockholm/makefu/2configs/zsh-user.nix>
     # Services
     <stockholm/makefu/2configs/remote-build/slave.nix>
+    <stockholm/makefu/2configs/torrent.nix>
 
   ];
   krebs = {

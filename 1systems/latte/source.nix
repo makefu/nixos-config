@@ -1,3 +1,4 @@
 import <stockholm/makefu/source.nix> {
-  name="latte";
+  name = "latte";
+  torrent = true;
 }
