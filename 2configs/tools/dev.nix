@@ -16,5 +16,6 @@
     whatsupnix
     brain
     gen-oath-safe
+    cdrtools
   ];
 }
