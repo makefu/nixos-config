@@ -6,6 +6,9 @@
 # configure your hw:
 # <stockholm/makefu/2configs/save-diskspace.nix>
   ];
+  users.extraUsers.root.openssh.authorizedKeys.keys = [
+    config.krebs.users.tv.pubkey
+  ];
   krebs = {
     enable = true;
     tinc.retiolum.enable = true;
