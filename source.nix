@@ -11,8 +11,11 @@ let
               then "buildbot"
               else "makefu";
   _file = <stockholm> + "/makefu/1systems/${name}/source.nix";
-  ref = "e4d07bd"; # unstable @ 2017-11-02
-                   # + ruby stuff (2f0b17e4be9,55a952be5b5)
+  ref = "a0f7ced"; # unstable @ 2017-11-02
+                   # + ruby stuff: 2f0b17e4be9 55a952be5b5
+                   # + jsbeautifier: c60bee3
+                   # + mitmproxy fix: a0f7cedfae31
+                   # + synergy fix: 5e6c76bc1
 
 in
   evalSource (toString _file) [
