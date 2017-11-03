@@ -24,9 +24,9 @@ let
   local_ip = "192.168.1.10";
   extra-config = pkgs.writeText "local.conf" ''
     server:
-    local-data: "piratebox. A ${local-ip}"
-    local-data: "store. A ${local-ip}"
-    local-data: "share. A ${local-ip}"
+    local-data: "piratebox. A ${local_ip}"
+    local-data: "store. A ${local_ip}"
+    local-data: "share. A ${local_ip}"
   '';
 in {
   services.unbound = {
