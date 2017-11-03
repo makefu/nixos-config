@@ -10,9 +10,16 @@
   };
   services.samba = {
     enable = true;
+    enableNmbd = true;
     shares = {
-      share-home = {
+      lanparty = {
         path = "/data/lanparty/";
+        "read only" = "yes";
+        browseable = "yes";
+        "guest ok" = "yes";
+      };
+      share = {
+        path = "/data/lanparty/share";
         "read only" = "no";
         browseable = "yes";
         "guest ok" = "yes";
