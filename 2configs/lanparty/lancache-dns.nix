@@ -21,6 +21,13 @@ let
   stateDir = "/var/lib/unbound";
   user = "unbound";
   upstream-server = "8.8.8.8";
+  local_ip = "192.168.1.10";
+  extra-config = pkgs.writeText "local.conf" ''
+    server:
+    local-data: "piratebox. A ${local-ip}"
+    local-data: "store. A ${local-ip}"
+    local-data: "share. A ${local-ip}"
+  '';
 in {
   services.unbound = {
     enable = true;
@@ -29,6 +36,7 @@ in {
     forwardAddresses = [ upstream-server ];
     extraConfig = ''
       include: "${stateDir}/lancache/*.conf"
+      include: "${extra-config}"
     '';
   };
   services.dnscrypt-proxy.enable = lib.mkForce false;
@@ -42,7 +50,8 @@ in {
       path = [ pkgs.gawk pkgs.iproute pkgs.gnused ];
       script = ''
         set -xeu
-        current_ip=$(ip route get 8.8.8.8 | awk '/8.8.8.8/ {print $NF}')
+        # current_ip=$(ip route get 8.8.8.8 | awk '/8.8.8.8/ {print $NF}')
+        current_ip=${local_ip}
         old_ip=10.1.1.250
         mkdir -p ${stateDir}
         rm -rvf ${stateDir}/lancache
