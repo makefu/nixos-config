@@ -17,15 +17,21 @@ let
     installPhase = ''
       mkdir -p $out
       cp -r * $out/
+      rm $out/caches-enabled/*
       sed -i -e 's/^\(user\).*/\1 ${cfg.user} ${cfg.group};/' \
              -e '1 idaemon off;' \
+             -e 's#/var/lancache#${cfg.statedir}#g' \
               $out/nginx.conf
+      sed -i -e 's#/var/lancache#${cfg.statedir}#g' \
+              $out/*/*.conf
+      ln -s $out/caches-available/* $out/caches-enabled/
     '';
   };
   cfg = {
+    statedir = "/data/cache";
+
     group = "nginx-lancache";
     user = "nginx-lancache";
-    statedir = "/var/lancache";
     package = pkgs.stdenv.lib.overrideDerivation pkgs.nginx (old:{
       configureFlags = old.configureFlags ++ [
         "--with-http_slice_module"
@@ -43,6 +49,7 @@ in {
 
     preStart = ''
       mkdir -p ${cfg.statedir} && cd ${cfg.statedir}
+      chmod 700 ${cfg.statedir}
       PATH_CACHE=$PATH_BASE/cache
       PATH_LOGS=$PATH_BASE/logs
 
