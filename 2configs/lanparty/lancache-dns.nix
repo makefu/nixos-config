@@ -2,6 +2,8 @@
 with import <stockholm/lib>;
 let
   upstream-server = "8.8.8.8";
+  # make sure the router pins the ip address to the deployed host
+  # and set it as dns server ( dhcp option 6,192.168.10.10 )
   local_ip = "192.168.10.10";
 
   extra-config = pkgs.writeText "local.conf" ''
