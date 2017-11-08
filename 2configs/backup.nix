@@ -31,6 +31,19 @@ in {
   krebs.backup.plans = {
     # wry-to-omo_root = defaultPull config.krebs.hosts.wry "/";
     gum-to-omo_root = defaultPull config.krebs.hosts.gum "/";
+    gum-dl-to-omo_external = (defaultPull config.krebs.hosts.gum "/var/download" )//
+      {
+        dst.path = "/media/cryptX/backup/gum/var-download";
+        dst.host = defaultBackupServer;
+        startAt = "19:00";
+      };
+    gum-owncloud-to-omo_external = (defaultPull config.krebs.hosts.gum "/var/www/o.euer.krebsco.de" )//
+      {
+        dst.path = "/media/cryptX/backup/gum/var-www-o.euer.krebsco.de";
+        dst.host = defaultBackupServer;
+
+        startAt = "05:00";
+      };
     # wolf-to-omo_root = defaultPull config.krebs.hosts.wolf "/";
   };
   environment.systemPackages = [
