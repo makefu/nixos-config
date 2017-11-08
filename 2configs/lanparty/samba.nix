@@ -19,7 +19,7 @@
         "guest ok" = "yes";
       };
       share = {
-        path = "/data/lanparty/share";
+        path = "/data/incoming";
         "read only" = "no";
         browseable = "yes";
         "guest ok" = "yes";
