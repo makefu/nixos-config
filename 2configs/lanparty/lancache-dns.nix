@@ -1,6 +1,17 @@
 { pkgs, lib, config, ... }:
 with import <stockholm/lib>;
 let
+  upstream-server = "8.8.8.8";
+  local_ip = "192.168.10.10";
+
+  extra-config = pkgs.writeText "local.conf" ''
+    server:
+    local-data: "piratebox. A ${local_ip}"
+    local-data: "store. A ${local_ip}"
+    local-data: "share. A ${local_ip}"
+  '';
+
+
   # see https://github.com/zeropingheroes/lancache for full docs
   lancache-dns = pkgs.stdenv.mkDerivation rec {
     name = "lancache-dns-2017-06-28";
@@ -11,8 +22,9 @@ let
       rev = "420aa62";
       sha256 = "0ik7by7ripdv2avyy5kk9jp1i7rz9ksc8xmg7n9iik365q9pv94m";
     };
+
     phases = [ "unpackPhase" "installPhase" ];
-    # here we can chance to edit `includes/proxy-cache-paths.conf`
+    # here we have the chance to edit `includes/proxy-cache-paths.conf`
     installPhase = ''
       mkdir -p $out
       cp -r * $out/
@@ -20,14 +32,6 @@ let
   };
   stateDir = "/var/lib/unbound";
   user = "unbound";
-  upstream-server = "8.8.8.8";
-  local_ip = "192.168.1.10";
-  extra-config = pkgs.writeText "local.conf" ''
-    server:
-    local-data: "piratebox. A ${local_ip}"
-    local-data: "store. A ${local_ip}"
-    local-data: "share. A ${local_ip}"
-  '';
 in {
   services.unbound = {
     enable = true;
