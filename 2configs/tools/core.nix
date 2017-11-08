@@ -5,38 +5,43 @@
 #
 # essentially `nix-env -q` of the main user
 {
-  krebs.per-user.makefu.packages = with pkgs; [
+  environment.systemPackages = with pkgs; [
     at_spi2_core
     acpi
     bc
     rsync
     exif
     file
+    lsof
+    which
+
     # fs
-    ntfs3g
+    cifs-utils
     dosfstools
+    ntfs3g
+    smartmontools
+
+    # io
     pv
     sshpass
     usbutils
     p7zip
     hdparm
-    inetutils
-    ncftp
-    mutt
-    tcpdump
-    sysstat
-    which
-    weechat
-    wol
-    tmux
-    iftop
-    mkpasswd
-    # storage
-    smartmontools
-    cifs-utils
+
     # net
     wget
     curl
+    inetutils
+    ncftp
+    tcpdump
+    sysstat
+    wol
+    iftop
+
+    mkpasswd
+    mutt
+    weechat
+    tmux
 
     # stockholm
     git
