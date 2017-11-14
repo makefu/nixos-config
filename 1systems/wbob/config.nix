@@ -24,9 +24,12 @@ in {
       # <stockholm/makefu/2configs/audio/jack-on-pulse.nix>
       # <stockholm/makefu/2configs/audio/realtime-audio.nix>
       # <stockholm/makefu/2configs/vncserver.nix>
-      <stockholm/makefu/2configs/temp/rst-issue.nix>
+
       # Services
       <stockholm/makefu/2configs/remote-build/slave.nix>
+
+      # temporary
+      # <stockholm/makefu/2configs/temp/rst-issue.nix>
   ];
 
   krebs = {

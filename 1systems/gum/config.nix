@@ -83,7 +83,7 @@ in {
       # <stockholm/makefu/2configs/logging/client.nix>
 
       # Temporary:
-      <stockholm/makefu/2configs/temp/rst-issue.nix>
+      # <stockholm/makefu/2configs/temp/rst-issue.nix>
 
   ];
   makefu.dl-dir = "/var/download";

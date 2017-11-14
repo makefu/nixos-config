@@ -82,7 +82,7 @@ in {
       # docker run -d -v /var/lib/pyload:/opt/pyload/pyload-config -v /media/crypt0/pyload:/opt/pyload/Downloads --name pyload --restart=always -p 8112:8000 -P writl/pyload
 
       # Temporary:
-      <stockholm/makefu/2configs/temp/rst-issue.nix>
+      # <stockholm/makefu/2configs/temp/rst-issue.nix>
     ];
   makefu.full-populate = true;
   makefu.server.primary-itf = primaryInterface;

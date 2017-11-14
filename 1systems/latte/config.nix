@@ -18,7 +18,7 @@ in {
 
     # Security
     <stockholm/makefu/2configs/sshd-totp.nix>
-    <stockholm/makefu/2configs/stats/client.nix>
+    # <stockholm/makefu/2configs/stats/client.nix>
 
     # Tools
     <stockholm/makefu/2configs/tools/core.nix>

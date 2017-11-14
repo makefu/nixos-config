@@ -23,8 +23,6 @@ with import <stockholm/lib>;
       # <stockholm/makefu/2configs/deployment/wiki-irc-bot>
 
       # <stockholm/makefu/2configs/torrent.nix>
-      # <stockholm/makefu/2configs/lanparty/lancache.nix>
-      # <stockholm/makefu/2configs/lanparty/lancache-dns.nix>
       # <stockholm/makefu/2configs/deployment/dirctator.nix>
       # <stockholm/makefu/2configs/vncserver.nix>
       # <stockholm/makefu/2configs/deployment/led-fader>
@@ -75,6 +73,11 @@ with import <stockholm/lib>;
       {
         programs.adb.enable = true;
       }
+      # temporary
+      # <stockholm/makefu/2configs/lanparty/lancache.nix>
+      # <stockholm/makefu/2configs/lanparty/lancache-dns.nix>
+      # <stockholm/makefu/2configs/lanparty/samba.nix>
+      # <stockholm/makefu/2configs/lanparty/mumble-server.nix>
 
     ];
 
