@@ -2,7 +2,8 @@
 
 {
   users.users.makefu.packages = with pkgs;[
-    python35Packages.virtualenv
+    python3Packages.virtualenv
+    python3Packages.pyserial
     # embedded
     gi
     flashrom
