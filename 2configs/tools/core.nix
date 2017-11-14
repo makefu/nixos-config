@@ -14,6 +14,7 @@
     file
     lsof
     which
+    binutils
 
     # fs
     cifs-utils
