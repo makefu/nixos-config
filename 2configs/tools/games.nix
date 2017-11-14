@@ -6,5 +6,6 @@
   ];
   users.users.makefu.packages = with pkgs; [
     games-user-env
+    wine
   ];
 }
