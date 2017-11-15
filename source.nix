@@ -11,7 +11,7 @@ let
               then "buildbot"
               else "makefu";
   _file = <stockholm> + "/makefu/1systems/${name}/source.nix";
-  ref = "0c0d314"; # unstable @ 2017-11-14
+  ref = "6778819"; # unstable @ 2017-11-14
                    # + do_sqlite3 ruby: 55a952be5b5
 
 in
