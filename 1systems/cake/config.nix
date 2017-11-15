@@ -6,9 +6,6 @@
 # configure your hw:
 # <stockholm/makefu/2configs/save-diskspace.nix>
   ];
-  users.extraUsers.root.openssh.authorizedKeys.keys = [
-    config.krebs.users.tv.pubkey
-  ];
   krebs = {
     enable = true;
     tinc.retiolum.enable = true;
@@ -23,6 +20,7 @@
   programs.man.enable = false;
   services.nixosManual.enable = false;
   boot.tmpOnTmpfs = lib.mkForce false;
+  sound.enable = false;
 
   hardware.enableRedistributableFirmware = true;
   hardware.firmware = [
