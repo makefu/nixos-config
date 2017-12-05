@@ -3,6 +3,7 @@ let
   rootdisk = "/dev/disk/by-id/ata-TS256GMTS800_C613840115";
   datadisk = "/dev/disk/by-id/ata-HGST_HTS721010A9E630_JR10006PH3A02F";
   user = config.makefu.gui.user;
+  primaryIP = "192.168.8.11";
 in {
 
   imports =
@@ -10,15 +11,18 @@ in {
       <stockholm/makefu>
       <stockholm/makefu/2configs/zsh-user.nix>
       <stockholm/makefu/2configs/tools/core.nix>
-      <stockholm/makefu/2configs/tools/core-gui.nix>
-      <stockholm/makefu/2configs/tools/extra-gui.nix>
-      <stockholm/makefu/2configs/tools/media.nix>
+      <stockholm/makefu/2configs/disable_v6.nix>
+      # <stockholm/makefu/2configs/tools/core-gui.nix>
+      # <stockholm/makefu/2configs/tools/extra-gui.nix>
+      # <stockholm/makefu/2configs/tools/media.nix>
       <stockholm/makefu/2configs/virtualisation/libvirt.nix>
       <stockholm/makefu/2configs/tinc/retiolum.nix>
       <stockholm/makefu/2configs/mqtt.nix>
       <stockholm/makefu/2configs/deployment/led-fader.nix>
       # <stockholm/makefu/2configs/gui/wbob-kiosk.nix>
+
       <stockholm/makefu/2configs/stats/client.nix>
+
 
       # <stockholm/makefu/2configs/gui/studio-virtual.nix>
       # <stockholm/makefu/2configs/audio/jack-on-pulse.nix>
@@ -27,6 +31,44 @@ in {
 
       # Services
       <stockholm/makefu/2configs/remote-build/slave.nix>
+      <stockholm/makefu/2configs/share/wbob.nix>
+
+      <stockholm/makefu/2configs/stats/telegraf>
+      <stockholm/makefu/2configs/stats/telegraf/airsensor.nix>
+      (let
+          collectd-port = 25826;
+          influx-port = 8086;
+          grafana-port = 3000; # TODO nginx forward
+          db = "collectd_db";
+          logging-interface = "enp0s25";
+        in {
+          services.grafana.enable = true;
+          services.grafana.addr = "0.0.0.0";
+
+          services.influxdb.enable = true;
+          services.influxdb.extraConfig = {
+            meta.hostname = config.krebs.build.host.name;
+            # meta.logging-enabled = true;
+            http.bind-address = ":${toString influx-port}";
+            admin.bind-address = ":8083";
+            collectd = [{
+              enabled = true;
+              typesdb = "${pkgs.collectd}/share/collectd/types.db";
+              database = db;
+              bind-address = ":${toString collectd-port}";
+            }];
+          };
+
+          networking.firewall.extraCommands = ''
+            iptables -A INPUT -i ${logging-interface} -p udp --dport ${toString collectd-port} -j ACCEPT
+            iptables -A INPUT -i ${logging-interface} -p tcp --dport ${toString influx-port} -j ACCEPT
+            iptables -A INPUT -i ${logging-interface} -p tcp --dport ${toString grafana-port} -j ACCEPT
+
+            ip6tables -A INPUT -i ${logging-interface} -p udp --dport ${toString collectd-port} -j ACCEPT
+            ip6tables -A INPUT -i ${logging-interface} -p tcp --dport ${toString influx-port} -j ACCEPT
+            ip6tables -A INPUT -i ${logging-interface} -p tcp --dport ${toString grafana-port} -j ACCEPT
+          '';
+      })
 
       # temporary
       # <stockholm/makefu/2configs/temp/rst-issue.nix>
@@ -96,6 +138,9 @@ in {
   # rt2870 with nonfree creates wlp2s0 from wlp0s20u2
   # not explicitly setting the interface results in wpa_supplicant to crash
   networking.wireless.interfaces = [ "wlp2s0" ];
+  networking.interfaces.enp0s25.ip4 = [
+    { address = primaryIP; prefixLength = 24;}
+  ];
   networking.interfaces.virbr1.ip4 = [{
     address = "10.8.8.11";
     prefixLength = 24;
