@@ -2,9 +2,6 @@
 let
   url = "http://localhost:8086";
 in {
-  imports = [
-    ./europastats.nix
-  ];
   services.telegraf = {
     enable = true;
     extraConfig = {
