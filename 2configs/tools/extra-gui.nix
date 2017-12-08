@@ -14,5 +14,6 @@
     saleae-logic
     arduino-user-env
     gitAndTools.gitFull
+    signal-desktop
   ];
 }
