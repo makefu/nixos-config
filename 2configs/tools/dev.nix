@@ -13,10 +13,12 @@
     esptool
     cac-api
     cac-panel
+    krebszones
     ovh-zone
     whatsupnix
     brain
     gen-oath-safe
     cdrtools
+    stockholm
   ];
 }
