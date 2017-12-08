@@ -32,6 +32,8 @@
   # acer aspire
   networking.wireless.enable = lib.mkDefault true;
 
+  services.xserver.synaptics.enable = true;
+
   hardware.enableAllFirmware = true;
   nixpkgs.config.allowUnfree = true;
 
