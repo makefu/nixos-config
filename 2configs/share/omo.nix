@@ -30,20 +30,14 @@ in {
         browseable = "yes";
         "guest ok" = "yes";
       };
-      usenet = {
-        path = "/media/crypt0/usenet/dst";
-        "read only" = "yes";
-        browseable = "yes";
-        "guest ok" = "yes";
-      };
-      pyload = {
-        path = "/media/crypt0/pyload";
-        "read only" = "yes";
-        browseable = "yes";
-        "guest ok" = "yes";
-      };
       crypt0 = {
         path = "/media/crypt0";
+        "read only" = "yes";
+        browseable = "yes";
+        "guest ok" = "yes";
+      };
+      crypX-games = {
+        path = "/media/cryptX/games";
         "read only" = "yes";
         browseable = "yes";
         "guest ok" = "yes";
