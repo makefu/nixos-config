@@ -46,7 +46,7 @@ in {
 
       # services
       <stockholm/makefu/2configs/share/gum.nix>
-      <stockholm/makefu/2configs/sabnzbd.nix>
+      # <stockholm/makefu/2configs/sabnzbd.nix>
       <stockholm/makefu/2configs/torrent.nix>
       <stockholm/makefu/2configs/iodined.nix>
       <stockholm/makefu/2configs/vpn/openvpn-server.nix>
@@ -65,6 +65,8 @@ in {
       <stockholm/makefu/2configs/deployment/graphs.nix>
       <stockholm/makefu/2configs/deployment/owncloud.nix>
       <stockholm/makefu/2configs/deployment/boot-euer.nix>
+      <stockholm/makefu/2configs/deployment/bgt/hidden_service.nix>
+
       {
         services.taskserver.enable = true;
         services.taskserver.fqdn = config.krebs.build.host.name;
@@ -84,13 +86,40 @@ in {
 
       # Temporary:
       # <stockholm/makefu/2configs/temp/rst-issue.nix>
+      <stockholm/makefu/2configs/virtualisation/docker.nix>
+
+      #{
+      #  services.dockerRegistry.enable = true;
+      #  networking.firewall.allowedTCPPorts = [ 8443 ];
+
+      #  services.nginx.virtualHosts."euer.krebsco.de" = {
+      #    forceSSL = true;
+      #    enableACME = true;
+      #    extraConfig = ''
+      #      client_max_body_size 1000M;
+      #    '';
+      #    locations."/".proxyPass = "http://localhost:5000";
+      #  };
+      #}
+      { # wireguard server
+        networking.firewall.allowedUDPPorts = [ 51820 ];
+        #networking.wireguard.interfaces.wg0 = {
+        #  ips = [ "10.244.0.1/24" ];
+        #  privateKeyFile = (toString <secrets>) + "/wireguard.key";
+        #  allowedIPsAsRoutes = true;
+        #  peers = [{
+        #    allowedIPs = [ "0.0.0.0/0" "::/0" ];
+        #    publicKey = "fe5smvKVy5GAn7EV4w4tav6mqIAKhGWQotm7dRuRt1g=";
+        #  }];
+        #};
+      }
 
   ];
   makefu.dl-dir = "/var/download";
 
   services.openssh.hostKeys = [
-    { bits = 4096; path = <secrets/ssh_host_rsa_key>; type = "rsa"; }
-    { path = <secrets/ssh_host_ed25519_key>; type = "ed25519"; } ];
+    { bits = 4096; path = (toString <secrets/ssh_host_rsa_key>); type = "rsa"; }
+    { path = (toString <secrets/ssh_host_ed25519_key>); type = "ed25519"; } ];
   ###### stable
   services.nginx.virtualHosts.cgit.serverAliases = [ "cgit.euer.krebsco.de" ];
   krebs.build.host = config.krebs.hosts.gum;
