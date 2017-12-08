@@ -61,6 +61,7 @@ in {
       # logs to influx
       <stockholm/makefu/2configs/stats/external/aralast.nix>
       <stockholm/makefu/2configs/stats/telegraf>
+      <stockholm/makefu/2configs/stats/telegraf/europastats.nix>
 
       # services
       <stockholm/makefu/2configs/syncthing.nix>
