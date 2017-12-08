@@ -2,16 +2,16 @@
 with pkgs.python3Packages;
 buildPythonApplication rec {
     name = "airsensor-py-${version}";
-    version = "2017-04-24";
+    version = "2017-12-05";
     propagatedBuildInputs = [
       pyusb
       click
     ];
 
     src = fetchFromGitHub {
-      owner = "dfederschmidt";
+      owner = "makefu";
       repo = "airsensor-py";
-      rev = "c476918";
-      sha256 = "0dc88vqxsgx20asbwfdjmz6yl6bvv65k0krvmmss3gcwxdgh9p2q";
+      rev = "7ac5f185dc848fca1b556e4c0396dd73f6a93995";
+      sha256 = "0387b025y8kb0zml7916p70hmzc3y18kqh46b9xv5qayljxymq2w";
     };
 }

@@ -18,7 +18,6 @@ in {
       <stockholm/makefu/2configs/virtualisation/libvirt.nix>
       <stockholm/makefu/2configs/tinc/retiolum.nix>
       <stockholm/makefu/2configs/mqtt.nix>
-      <stockholm/makefu/2configs/deployment/led-fader.nix>
       # <stockholm/makefu/2configs/gui/wbob-kiosk.nix>
 
       <stockholm/makefu/2configs/stats/client.nix>
@@ -34,7 +33,10 @@ in {
       <stockholm/makefu/2configs/share/wbob.nix>
 
       <stockholm/makefu/2configs/stats/telegraf>
+      <stockholm/makefu/2configs/deployment/led-fader.nix>
+      <stockholm/makefu/2configs/stats/external/aralast.nix>
       <stockholm/makefu/2configs/stats/telegraf/airsensor.nix>
+      <stockholm/makefu/2configs/deployment/bureautomation>
       (let
           collectd-port = 25826;
           influx-port = 8086;
@@ -60,13 +62,7 @@ in {
           };
 
           networking.firewall.extraCommands = ''
-            iptables -A INPUT -i ${logging-interface} -p udp --dport ${toString collectd-port} -j ACCEPT
-            iptables -A INPUT -i ${logging-interface} -p tcp --dport ${toString influx-port} -j ACCEPT
             iptables -A INPUT -i ${logging-interface} -p tcp --dport ${toString grafana-port} -j ACCEPT
-
-            ip6tables -A INPUT -i ${logging-interface} -p udp --dport ${toString collectd-port} -j ACCEPT
-            ip6tables -A INPUT -i ${logging-interface} -p tcp --dport ${toString influx-port} -j ACCEPT
-            ip6tables -A INPUT -i ${logging-interface} -p tcp --dport ${toString grafana-port} -j ACCEPT
           '';
       })
 
@@ -138,9 +134,6 @@ in {
   # rt2870 with nonfree creates wlp2s0 from wlp0s20u2
   # not explicitly setting the interface results in wpa_supplicant to crash
   networking.wireless.interfaces = [ "wlp2s0" ];
-  networking.interfaces.enp0s25.ip4 = [
-    { address = primaryIP; prefixLength = 24;}
-  ];
   networking.interfaces.virbr1.ip4 = [{
     address = "10.8.8.11";
     prefixLength = 24;
