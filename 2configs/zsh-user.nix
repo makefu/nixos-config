@@ -8,11 +8,12 @@ in
   users.extraUsers.${mainUser}.shell = "/run/current-system/sw/bin/zsh";
   programs.zsh= {
     enable = true;
-    enableCompletion = false ; #manually at the end
+    enableCompletion = true ; #manually at the end
     interactiveShellInit = ''
       HISTSIZE=900001
       HISTFILESIZE=$HISTSIZE
       SAVEHIST=$HISTSIZE
+      HISTFILE=$HOME/.zsh_history
 
       setopt HIST_IGNORE_ALL_DUPS
       setopt HIST_IGNORE_SPACE
@@ -65,13 +66,15 @@ in
       zle     -N   fzf-file-widget
       bindkey '^T' fzf-file-widget
 
-      # Auto-Completion
-      for p in ''${(z)NIX_PROFILES}; do
-        fpath+=($p/share/zsh/site-functions $p/share/zsh/$ZSH_VERSION/functions $p/share/zsh/vendor-completions)
-      done
-      autoload -U compinit && compinit
       compdef _pass brain
       zstyle ':completion::complete:brain::' prefix "$HOME/brain"
+
+      # ctrl-x ctrl-e
+      autoload -U edit-command-line
+      zle -N edit-command-line
+      bindkey '^xe' edit-command-line
+      bindkey '^x^e' edit-command-line
+
     '';
 
     promptInit = ''
