@@ -8,7 +8,7 @@ in {
   {   inherit hostName sshKey;
       sshUser = "nixBuild";
       system = "x86_64-linux";
-      maxJobs = 1;
-  }) [ "omo.r"  "gum.r" "latte.r" ];
-  # puyak.r "wbob.r"
+      maxJobs = 8;
+  }) [ "hotdog.r" ];
+  # puyak.r "wbob.r" "omo.r"  "gum.r" "latte.r"
 }
