@@ -3,38 +3,14 @@
 with import <stockholm/lib>;
 {
 
-  imports = [ ./tp-x2x0.nix ];
-  boot = {
-    # tp-smapi is not supported bt x230 anymore
-    kernelModules = [
-      "kvm-intel"
-      "thinkpad_ec"
-      "acpi_call"
-   #   "thinkpad_acpi"
-   #   "tpm-rng"
-    ];
-    extraModulePackages = [
-      config.boot.kernelPackages.acpi_call
-    ];
-    # support backlight adjustment
-    kernelParams = [ "acpi_osi=Linux" "acpi_backlight=vendor" ];
-  };
+  imports = [ ./tp-x2x0.nix  <nixos-hardware/lenovo/thinkpad/x230> ];
 
   # configured media keys inside awesomerc
   # sound.mediaKeys.enable = true;
   hardware.bluetooth.enable = true;
 
-  services.acpid.enable = true;
-  hardware.opengl.extraPackages =  [ pkgs.vaapiIntel pkgs.vaapiVdpau ];
-  services.xserver = {
-    videoDriver = "intel";
-    deviceSection = ''
-      Option "AccelMethod" "sna"
-      Option "Backlight"     "intel_backlight"
-    '';
-  };
-
-  security.rngd.enable = true;
+  # possible i915 powersave options:
+  #  options i915 enable_rc6=1 enable_fbc=1 semaphores=1
 
   services.xserver.displayManager.sessionCommands =''
     xinput set-int-prop "TPPS/2 IBM TrackPoint" "Evdev Wheel Emulation" 8 1
