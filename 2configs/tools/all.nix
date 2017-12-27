@@ -7,6 +7,7 @@
     ./extra-gui.nix
     ./games.nix
     ./media.nix
+    ./mobility.nix
     ./scanner-tools.nix
     ./sec.nix
     ./sec-gui.nix
