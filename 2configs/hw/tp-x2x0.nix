@@ -5,6 +5,11 @@ with import <stockholm/lib>;
   imports = [
     ./tpm.nix
   ];
+
+  boot.kernelModules = [
+    "kvm-intel"
+  ];
+
   networking.wireless.enable = lib.mkDefault true;
 
   hardware.enableAllFirmware = true;
