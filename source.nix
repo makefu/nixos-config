@@ -50,8 +50,8 @@ in
 
     (mkIf ( hw ) {
       nixos-hardware.git = {
-        url = https://github.com/makefu/nixos-hardware.git;
-        ref = "1fef1c1";
+        url = https://github.com/nixos/nixos-hardware.git;
+        ref = "8a05dc9";
       };
     })
 
