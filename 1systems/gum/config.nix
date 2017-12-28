@@ -48,9 +48,14 @@ in {
       <stockholm/makefu/2configs/share/gum.nix>
       # <stockholm/makefu/2configs/sabnzbd.nix>
       <stockholm/makefu/2configs/torrent.nix>
-      <stockholm/makefu/2configs/iodined.nix>
+
+      # network
       <stockholm/makefu/2configs/vpn/openvpn-server.nix>
+      <stockholm/makefu/2configs/vpn/vpnws/server.nix>
       <stockholm/makefu/2configs/dnscrypt/server.nix>
+      <stockholm/makefu/2configs/iodined.nix>
+
+      # buildbot
       <stockholm/makefu/2configs/remote-build/slave.nix>
 
       ## Web
@@ -103,15 +108,16 @@ in {
       #}
       { # wireguard server
         networking.firewall.allowedUDPPorts = [ 51820 ];
-        #networking.wireguard.interfaces.wg0 = {
-        #  ips = [ "10.244.0.1/24" ];
-        #  privateKeyFile = (toString <secrets>) + "/wireguard.key";
-        #  allowedIPsAsRoutes = true;
-        #  peers = [{
-        #    allowedIPs = [ "0.0.0.0/0" "::/0" ];
-        #    publicKey = "fe5smvKVy5GAn7EV4w4tav6mqIAKhGWQotm7dRuRt1g=";
-        #  }];
-        #};
+        networking.wireguard.interfaces.wg0 = {
+          ips = [ "10.244.0.1/24" ];
+          privateKeyFile = (toString <secrets>) + "/wireguard.key";
+          allowedIPsAsRoutes = true;
+          peers = [{
+            # allowedIPs = [ "0.0.0.0/0" "::/0" ];
+            allowedIPs = [ "10.244.0.2/32" ];
+            publicKey = "fe5smvKVy5GAn7EV4w4tav6mqIAKhGWQotm7dRuRt1g=";
+          }];
+        };
       }
 
   ];
