@@ -8,13 +8,13 @@ let
   peer-port = 51412;
   web-port = 8112;
   daemon-port = 58846;
-  dl-dir = config.makefu.dl-dir;
+  torrent-dir = config.makefu.dl-dir;
 in {
 
   users.users = {
     download = {
       name = "download";
-      home = dl-dir;
+      home = torrent-dir;
       uid = mkDefault (genid "download");
       createHome = true;
       useDefaultShell = true;
@@ -26,9 +26,9 @@ in {
   # todo: race condition, do this after download user has been created
   system.activationScripts."download-dir-chmod" = ''
     for i in finished watch torrents; do
-      mkdir -p "${dl-dir}/$i"
-      chown download:download "${dl-dir}/$i"
-      chmod 770 "${dl-dir}/$i"
+      mkdir -p "${torrent-dir}/$i"
+      chown download:download "${torrent-dir}/$i"
+      chmod 770 "${torrent-dir}/$i"
     done
   '';
 
@@ -54,9 +54,8 @@ in {
     rutorrent.enable = true;
     enableXMLRPC = true;
     listenPort = peer-port;
-    downloadDir = dl-dir + "/finished";
+    workDir = torrent-dir;
     # dump old torrents into watch folder to have them re-added
-    watchDir = dl-dir +"/watch";
   };
 
   networking.firewall.extraCommands = ''
