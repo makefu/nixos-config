@@ -48,6 +48,7 @@ in {
       <stockholm/makefu/2configs/share/gum.nix>
       # <stockholm/makefu/2configs/sabnzbd.nix>
       <stockholm/makefu/2configs/torrent.nix>
+      <stockholm/makefu/2configs/mosh.nix>
 
       # network
       <stockholm/makefu/2configs/vpn/openvpn-server.nix>
