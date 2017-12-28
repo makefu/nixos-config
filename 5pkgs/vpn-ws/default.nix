@@ -8,7 +8,7 @@ stdenv.mkDerivation rec {
     owner = "unbit";
     repo = "vpn-ws";
     rev = version;
-    sha256 = "068vzrpzgksadb31khancnpkgzhdcr6kh6k9wgm77q68skwl3w0k";
+    sha256 = "0k7338xxvg1k988zz3nb681nsqmfiik9bnkk7jmxjz7j0wfwq8nj";
   };
 
   patchPhase = ''
