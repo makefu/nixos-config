@@ -21,5 +21,7 @@
     gen-oath-safe
     cdrtools
     stockholm
+    # git-related
+    tig
   ];
 }
