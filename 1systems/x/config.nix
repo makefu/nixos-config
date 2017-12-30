@@ -60,7 +60,6 @@ with import <stockholm/lib>;
       # Hardware
       <stockholm/makefu/2configs/hw/tp-x230.nix>
       <stockholm/makefu/2configs/hw/rtl8812au.nix>
-      <stockholm/makefu/2configs/hw/exfat-nofuse.nix>
       <stockholm/makefu/2configs/hw/wwan.nix>
       # <stockholm/makefu/2configs/hw/stk1160.nix>
       # <stockholm/makefu/2configs/rad1o.nix>
