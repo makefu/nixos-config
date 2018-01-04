@@ -13,8 +13,9 @@ let
               then "buildbot"
               else "makefu";
   _file = <stockholm> + "/makefu/1systems/${name}/source.nix";
-  ref = "475bec2"; # unstable @ 2017-08-04
+  ref = "d37e53e"; # unstable @ 2017-12-08
                    # + do_sqlite3 ruby: 55a952be5b5
+                   # + kernel bump: 1e129a3f993
 
 in
   evalSource (toString _file) [
