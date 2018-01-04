@@ -11,6 +11,9 @@ with import <stockholm/lib>;
     ./vim.nix
     ./binary-cache/nixos.nix
   ];
+
+  boot.kernelPackages = lib.mkDefault pkgs.linuxPackages_latest;
+
   programs.command-not-found.enable = false;
   nixpkgs.config.allowUnfreePredicate =  (pkg: pkgs.lib.hasPrefix "unrar-" pkg.name);
   krebs = {
