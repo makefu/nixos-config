@@ -4,5 +4,6 @@
     opl-utils
     hdl-dump
     bin2iso
+    cue2pops
   ];
 }
