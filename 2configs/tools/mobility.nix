@@ -5,5 +5,5 @@
     mosh
   ];
 
-  boot.extraModulePackages = [ config.boot.kernelPackages.exfat-nofuse ];
+  # boot.extraModulePackages = [ config.boot.kernelPackages.exfat-nofuse ];
 }
