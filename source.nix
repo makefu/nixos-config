@@ -13,7 +13,7 @@ let
               then "buildbot"
               else "makefu";
   _file = <stockholm> + "/makefu/1systems/${name}/source.nix";
-  ref = "26ed774"; # nixpkgs-unstable @ 2018-01-04
+  ref = "3e8d708"; # nixos-17.09 @ 2018-01-05
                    # + do_sqlite3 ruby: 55a952be5b5
 
 in
