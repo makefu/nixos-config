@@ -57,10 +57,7 @@
         networking.localCommands = ''
           ip route add ${gum-ip} via ${Gateway}
         '';
-        systemd.network.networks.enp0s3.routes = [{
-          inherit Gateway; # TODO
-          Destination = gum-ip;
-        }];
+
         networking.wireguard.interfaces.wg0 = {
           ips = [ "10.244.0.3/24" ];
           privateKeyFile = (toString <secrets>) + "/wireguard.key";
