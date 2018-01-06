@@ -71,7 +71,10 @@ in {
     '') allDisks);
   fileSystems = let
     xfsmount = name: dev:
-      { "/media/${name}" = { device = dev; fsType = "xfs"; }; };
+      { "/media/${name}" = {
+        device = dev; fsType = "xfs";
+        options = [ "nofail" ];
+      }; };
   in
   # (xfsmount "j0" (part1 jDisk0)) //
     (xfsmount "j1" (part1 jDisk1)) //
