@@ -143,7 +143,10 @@ in {
   ];
   fileSystems = let
     cryptMount = name:
-      { "/media/${name}" = { device = "/dev/mapper/${name}"; fsType = "xfs"; };};
+      { "/media/${name}" = {
+        device = "/dev/mapper/${name}"; fsType = "xfs";
+        options = [ "nofail" ];
+      };};
   in   cryptMount "crypt0"
     // cryptMount "crypt1"
     // cryptMount "crypt2"
