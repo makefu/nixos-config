@@ -7,7 +7,8 @@
       <stockholm/makefu>
       {
         imports = [<stockholm/makefu/2configs/fs/single-partition-ext4.nix> ];
-        boot.loader.grub.device = "/dev/vda";
+        boot.loader.grub.device = "/dev/sda";
+        virtualisation.virtualbox.guest.enable = true;
       }
       # {
       #   imports = [
@@ -49,6 +50,33 @@
 
       # environment
       <stockholm/makefu/2configs/tinc/retiolum.nix>
+      (let
+        gum-ip = config.krebs.hosts.gum.nets.internet.ip4.addr;
+        Gateway = "10.0.2.2";
+      in {
+        networking.localCommands = ''
+          ip route add ${gum-ip} via ${Gateway}
+        '';
+        systemd.network.networks.enp0s3.routes = [{
+          inherit Gateway; # TODO
+          Destination = gum-ip;
+        }];
+        networking.wireguard.interfaces.wg0 = {
+          ips = [ "10.244.0.3/24" ];
+          privateKeyFile = (toString <secrets>) + "/wireguard.key";
+          allowedIPsAsRoutes = true;
+          # explicit route via eth0 to gum
+          peers = [
+          {
+            # gum
+            endpoint = "${gum-ip}:51820";
+            # allowedIPs = [ "10.244.0.0/24" ];
+            allowedIPs = [ "0.0.0.0/0" ];
+            publicKey = "yAKvxTvcEVdn+MeKsmptZkR3XSEue+wSyLxwcjBYxxo=";
+          }
+          ];
+        };
+      })
 
     ];
   networking.extraHosts = import (toString <secrets/extra-hosts.nix>);
@@ -90,5 +118,5 @@
     8010
   ];
 
-
+  systemd.services."serial-getty@ttyS0".enable = true;
 }
