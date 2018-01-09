@@ -67,7 +67,7 @@ in {
       <stockholm/makefu/2configs/nginx/public_html.nix>
       <stockholm/makefu/2configs/nginx/update.connector.one.nix>
 
-      <stockholm/makefu/2configs/deployment/mycube.connector.one.nix>
+      <stockholm/makefu/2configs/deployment/photostore.krebsco.de.nix>
       <stockholm/makefu/2configs/deployment/graphs.nix>
       <stockholm/makefu/2configs/deployment/owncloud.nix>
       <stockholm/makefu/2configs/deployment/boot-euer.nix>
