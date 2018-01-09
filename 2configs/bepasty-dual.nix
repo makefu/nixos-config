@@ -28,7 +28,10 @@ in {
     servers = {
       "paste.r" = {
         nginx = {
-          serverAliases = [ "paste.retiolum" "paste.${config.krebs.build.host.name}" ];
+          serverAliases = [
+            "paste.${config.krebs.build.host.name}"
+            "paste.r"
+          ];
         };
         defaultPermissions = "admin,list,create,read,delete";
         secretKeyFile = secKey;
