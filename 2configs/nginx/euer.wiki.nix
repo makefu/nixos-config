@@ -76,7 +76,7 @@ in {
     virtualHosts = {
       "${ext-dom}" = {
         #serverAliases = [
-        #  "wiki.makefu.retiolum"
+        #  "wiki.makefu.r"
         #  "wiki.makefu"
         #];
         forceSSL = true;
