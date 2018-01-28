@@ -61,7 +61,7 @@ with import <stockholm/lib>;
       <stockholm/makefu/2configs/hw/tp-x230.nix>
       <stockholm/makefu/2configs/hw/rtl8812au.nix>
       <stockholm/makefu/2configs/hw/wwan.nix>
-      # <stockholm/makefu/2configs/hw/stk1160.nix>
+      <stockholm/makefu/2configs/hw/stk1160.nix>
       # <stockholm/makefu/2configs/rad1o.nix>
 
       # Filesystem
@@ -86,6 +86,7 @@ with import <stockholm/lib>;
 
   nixpkgs.config.allowUnfree = true;
 
+  environment.systemPackages = [ pkgs.passwdqc-utils ];
 
 
   # configure pulseAudio to provide a HDMI sink as well
@@ -103,7 +104,4 @@ with import <stockholm/lib>;
   '';
   # hard dependency because otherwise the device will not be unlocked
   boot.initrd.luks.devices = [ { name = "luksroot"; device = "/dev/sda2"; allowDiscards=true; }];
-
-  nix.package = pkgs.nixUnstable;
-  environment.systemPackages = [ pkgs.passwdqc-utils pkgs.nixUnstable ];
 }
