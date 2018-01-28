@@ -26,14 +26,16 @@ in {
   services.nginx = {
     enable = mkDefault true;
     virtualHosts."photostore.krebsco.de" = {
-        locations = {
-          "/".extraConfig = ''
-          uwsgi_pass                  unix://${wsgi-sock};
-          uwsgi_param UWSGI_CHDIR     ${workdir};
-          uwsgi_param UWSGI_MODULE    cuserver.main;
-          uwsgi_param UWSGI_CALLABLE  app;
-          include                     ${pkgs.nginx}/conf/uwsgi_params;
-        '';
+      enableACME = true;
+      forceSSL = true;
+      locations = {
+        "/".extraConfig = ''
+        uwsgi_pass                  unix://${wsgi-sock};
+        uwsgi_param UWSGI_CHDIR     ${workdir};
+        uwsgi_param UWSGI_MODULE    cuserver.main;
+        uwsgi_param UWSGI_CALLABLE  app;
+        include                     ${pkgs.nginx}/conf/uwsgi_params;
+      '';
       };
     };
   };
