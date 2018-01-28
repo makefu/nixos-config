@@ -109,6 +109,8 @@ in {
       #}
       { # wireguard server
 
+        # opkg install wireguard luci-proto-wireguard
+
         # TODO: networking.nat
 
         # boot.kernel.sysctl."net.ipv4.ip_forward" = 1;
@@ -136,8 +138,22 @@ in {
             allowedIPs = [ "10.244.0.3/32" ];
             publicKey = "Lju7EsCu1OWXhkhdNR7c/uiN60nr0TUPHQ+s8ULPQTw=";
           }
+          {
+            # x-test
+            allowedIPs = [ "10.244.0.4/32" ];
+            publicKey = "vZ/AJpfDLJyU3DzvYeW70l4FNziVgSTumA89wGHG7XY=";
+          }
+          {
+            # work-router
+            allowedIPs = [ "10.244.0.5/32" ];
+            publicKey = "QJMwwYu/92koCASbHnR/vqe/rN00EV6/o7BGwLockDw=";
+          }
           ];
         };
+      }
+      { # iperf3
+        networking.firewall.allowedUDPPorts = [ 5201 ];
+        networking.firewall.allowedTCPPorts = [ 5201 ];
       }
 
   ];
