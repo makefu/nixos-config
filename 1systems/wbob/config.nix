@@ -18,7 +18,7 @@ in {
       <stockholm/makefu/2configs/virtualisation/libvirt.nix>
       <stockholm/makefu/2configs/tinc/retiolum.nix>
       <stockholm/makefu/2configs/mqtt.nix>
-      # <stockholm/makefu/2configs/gui/wbob-kiosk.nix>
+      <stockholm/makefu/2configs/gui/wbob-kiosk.nix>
 
       <stockholm/makefu/2configs/stats/client.nix>
 
@@ -31,6 +31,63 @@ in {
       # Services
       <stockholm/makefu/2configs/remote-build/slave.nix>
       <stockholm/makefu/2configs/share/wbob.nix>
+      (let
+        musicDirectory = "/data/music";
+      in {
+        services.mpd = {
+          enable = true;
+          inherit musicDirectory;
+          # dataDir = "/home/anders/.mpd";
+          network.listenAddress = "any";
+          extraConfig = ''
+            audio_output {
+              type    "pulse"
+              name    "Local MPD"
+              server  "127.0.0.1"
+            }
+          '';
+        };
+        # open because of truestedInterfaces
+        # networking.firewall.allowedTCPPorts = [ 6600 4713 ];
+        services.samba.shares.music = {
+          path = musicDirectory;
+          "read only" = "no";
+          browseable = "yes";
+          "guest ok" = "yes";
+        };
+
+        sound.enable = true;
+        hardware.pulseaudio = {
+          enable = true;
+          package = pkgs.pulseaudioFull;
+          # systemWide = true;
+          support32Bit = true;
+          zeroconf.discovery.enable = true;
+          zeroconf.publish.enable = true;
+          tcp = {
+            enable = true;
+            anonymousClients.allowAll = true;
+            anonymousClients.allowedIpRanges =  [ "127.0.0.1" "192.168.8.0/24" ];
+          };
+          configFile = pkgs.writeText "default.pa" ''
+            load-module module-udev-detect
+            load-module module-bluetooth-policy
+            load-module module-bluetooth-discover
+            load-module module-native-protocol-unix
+            load-module module-always-sink
+            load-module module-console-kit
+            load-module module-systemd-login
+            load-module module-intended-roles
+            load-module module-position-event-sounds
+            load-module module-filter-heuristics
+            load-module module-filter-apply
+            load-module module-native-protocol-tcp auth-ip-acl=127.0.0.1
+            load-module module-switch-on-connect
+            '';
+        };
+        # connect via https://nixos.wiki/wiki/Bluetooth#Using_Bluetooth_headsets_with_PulseAudio
+        hardware.bluetooth.enable = true;
+      })
 
       # Sensors
       <stockholm/makefu/2configs/stats/telegraf>
@@ -147,7 +204,10 @@ in {
   boot.loader.grub.device = rootdisk;
   hardware.cpu.intel.updateMicrocode = true;
   boot.initrd.availableKernelModules = [ "xhci_pci" "ehci_pci" "ahci" "usbhid" "usb_storage" "sd_mod" ];
-  boot.kernelModules = [ "kvm-intel" ];
+
+  boot.kernelModules = [ "kvm-intel"
+    "snd-seq" "snd-rawmidi"
+  ];
   fileSystems = {
     "/" = {
       device = rootdisk + "-part1";
@@ -173,67 +233,5 @@ in {
       screenName = "wbob";
       serverAddress = "x.r";
     };
-  };
-  security.wrappers.fping = {
-    source = "${pkgs.fping}/bin/fping";
-    setuid = true;
-  };
-  services.smokeping = {
-    enable = true;
-    targetConfig = ''
-      probe = FPing
-      menu = Top
-      title = Network Latency Grapher
-      remark = Welcome to this SmokePing website.
-
-      + network
-      menu = Net latency
-      title = Network latency (ICMP pings)
-
-      ++ google
-      probe = FPing
-      host = google.de
-      ++ webde
-      probe = FPing
-      host = web.de
-
-      + services
-      menu = Service latency
-      title = Service latency (DNS, HTTP)
-
-      ++ HTTP
-      menu = HTTP latency
-      title = Service latency (HTTP)
-
-      +++ webdeping
-      probe = EchoPingHttp
-      host = web.de
-
-      +++ googwebping
-      probe = EchoPingHttp
-      host = google.de
-
-      #+++ webwww
-      #probe = Curl
-      #host = web.de
-
-      #+++ googwebwww
-      #probe = Curl
-      #host = google.de
-    '';
-    probeConfig = ''
-       + FPing
-       binary = /run/wrappers/bin/fping
-       + EchoPingHttp
-       pings = 5
-       url = /
-
-       #+ Curl
-       ## probe-specific variables
-       #binary = ${pkgs.curl}/bin/curl
-       #step = 60
-       ## a default for this target-specific variable
-       #urlformat = http://%host%/
-    '';
   };
 }
