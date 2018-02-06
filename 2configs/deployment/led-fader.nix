@@ -2,25 +2,7 @@
 
 let
   mq = "192.168.8.11";
-
-  pkg = pkgs.python3Packages.buildPythonPackage {
-    name = "ampel-master";
-
-    src = pkgs.fetchgit {
-      url = "http://cgit.euer.krebsco.de/ampel";
-      rev = "531741b";
-      sha256 = "110yij53jz074zbswylbzcd8jy7z49r9fg6i3j1gk2y3vl91g81c";
-    };
-    propagatedBuildInputs = with pkgs.python3Packages; [
-        docopt
-        paho-mqtt
-        requests
-        pytz
-        influxdb
-        httplib2
-        google_api_python_client
-    ];
-  };
+  pkg = pkgs.ampel;
 in {
   systemd.services.led-fader  = {
     description = "Send led change to message queue";

@@ -19,7 +19,7 @@ let
   # __FRONT_
   # |* d0   |
   # |       |
-  # |* d3   |
+  # |* d1   |
   # |       |
   # |* d3   |
   # |       |
@@ -68,6 +68,7 @@ in {
       <stockholm/makefu/2configs/syncthing.nix>
       <stockholm/makefu/2configs/mqtt.nix>
       <stockholm/makefu/2configs/remote-build/slave.nix>
+      <stockholm/makefu/2configs/deployment/google-muell.nix>
 
 
       # security
