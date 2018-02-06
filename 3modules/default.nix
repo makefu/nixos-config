@@ -14,8 +14,6 @@ _:
     ./snapraid.nix
     ./torrent.nix
     ./udpt.nix
-    ./umts.nix
-    ./wvdial.nix
   ];
 }
 
