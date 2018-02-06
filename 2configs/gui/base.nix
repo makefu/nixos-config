@@ -48,13 +48,14 @@ in
     fonts = [ pkgs.terminus_font ];
   };
 
-  environment.systemPackages = with pkgs;[
-    pavucontrol
-    xlockmore
-    rxvt_unicode-with-plugins
-    firefox
-  ];
-  users.extraUsers.${mainUser}.extraGroups = [ "audio" ];
+  users.users.${mainUser} = {
+    extraGroups = [ "audio" ];
+    packages = with pkgs;[
+      pavucontrol
+      xlockmore
+      rxvt_unicode-with-plugins
+    ];
+  };
 
   hardware.pulseaudio = {
      enable = true;
