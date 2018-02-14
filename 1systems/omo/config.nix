@@ -25,16 +25,18 @@ let
   # |       |
   # |*      |
   # |* d2   |
-  # |  * r0 |
+  # |  *    |
+  # |  *    |
   # |_______|
   cryptDisk0 = byid "ata-ST2000DM001-1CH164_Z240XTT6";
   cryptDisk1 = byid "ata-TP02000GB_TPW151006050068";
   cryptDisk2 = byid "ata-ST4000DM000-1F2168_Z303HVSG";
+  cryptDisk3 = byid "ata-ST8000DM004-2CX188_ZCT01SG4";
   # cryptDisk3 = byid "ata-WDC_WD20EARS-00MVWB0_WD-WMAZA1786907";
   # all physical disks
 
   # TODO callPackage ../3modules/MonitorDisks { disks = allDisks }
-  dataDisks = [ cryptDisk0 cryptDisk1 cryptDisk2 ];
+  dataDisks = [ cryptDisk0 cryptDisk1 cryptDisk2 cryptDisk3 ];
   allDisks = [ rootDisk ] ++ dataDisks;
 in {
   imports =
@@ -127,6 +129,7 @@ in {
 
   makefu.snapraid = {
     enable = true;
+    # TODO: 3 is not protected
     disks = map toMapper [ 0 1 ];
     parity = toMapper 2;
   };
@@ -139,7 +142,7 @@ in {
   '';
   environment.systemPackages = with pkgs;[
     mergerfs # hard requirement for mount
-    wol # wake up filepimp
+    wol      # wake up filepimp
     f3
   ];
   fileSystems = let
@@ -151,6 +154,7 @@ in {
   in   cryptMount "crypt0"
     // cryptMount "crypt1"
     // cryptMount "crypt2"
+    // cryptMount "crypt3"
     // { "/media/cryptX" = {
             device = (lib.concatMapStringsSep ":" (d: (toMapper d)) [ 0 1 2 ]);
             fsType = "mergerfs";
@@ -179,6 +183,7 @@ in {
         (usbkey "crypt0" cryptDisk0)
         (usbkey "crypt1" cryptDisk1)
         (usbkey "crypt2" cryptDisk2)
+        (usbkey "crypt3" cryptDisk3)
       ];
     };
     loader.grub.device = lib.mkForce rootDisk;
