@@ -6,9 +6,12 @@
     [ # Include the results of the hardware scan.
       <stockholm/makefu>
 
-      (toString <nixpkgs/nixos/modules/virtualisation/virtualbox-image.nix>)
-      { ## Guest Extensions are currently broken
-        virtualisation.virtualbox.guest.enable = lib.mkForce true;
+      <stockholm/makefu/2configs/hw/vbox-guest.nix>
+      { # until virtualbox-image is fixed
+        imports = [
+            <stockholm/makefu/2configs/fs/single-partition-ext4.nix>
+          ];
+        boot.loader.grub.device = "/dev/sda";
       }
       <stockholm/makefu/2configs/main-laptop.nix>
       # <secrets/extra-hosts.nix>
@@ -17,11 +20,6 @@
       <stockholm/makefu/2configs/tinc/retiolum.nix>
 
     ];
-  # workaround for https://github.com/NixOS/nixpkgs/issues/16641
-  services.xserver.videoDrivers = lib.mkOverride 45 [ "virtualbox" "modesetting" ];
-
-  nixpkgs.config.allowUnfree = true;
-
   # allow sdev to deploy self
   users.extraUsers = {
     root = {
@@ -50,10 +48,5 @@
     8010
   ];
 
-  fileSystems."/media/share" = {
-    fsType = "vboxsf";
-    device = "share";
-    options = [ "rw" "uid=9001" "gid=9001" "nofail" ];
-  };
 
 }

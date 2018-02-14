@@ -9,33 +9,8 @@
         imports = [<stockholm/makefu/2configs/fs/single-partition-ext4.nix> ];
         boot.loader.grub.device = "/dev/sda";
       }
-
-      { ## Virtualbox guest is broken on newer kernel
-        # virtualisation.virtualbox.guest.enable = true;
-      }
-
-      # {
-      #   imports = [
-      #     <nixpkgs/nixos/modules/virtualisation/virtualbox-image.nix>
-      #   ];
-      #   virtualbox.baseImageSize = 35 * 1024;
-      #   fileSystems."/media/share" = {
-      #     fsType = "vboxsf";
-      #     device = "share";
-      #     options = [ "rw" "uid=9001" "gid=9001" ];
-      #   };
-      # }
-
-      # {
-      #   imports = [
-      #     <nixpkgs/nixos/modules/virtualisation/qemu-vm.nix>
-      #   ];
-      #   fileSystems."/nix" = {
-      #     device ="/dev/disk/by-label/nixstore";
-      #     fsType = "ext4";
-      #   };
-      # }
-
+      <stockholm/makefu/2configs/hw/vbox-guest.nix>
+      # <nixpkgs/nixos/modules/virtualisation/qemu-vm.nix>
 
       # base gui
       # <stockholm/makefu/2configs/main-laptop.nix>
@@ -79,14 +54,8 @@
     ];
   networking.extraHosts = import (toString <secrets/extra-hosts.nix>);
 
-  nixpkgs.config.allowUnfree = true;
-
   # allow vbob to deploy self
-  users.extraUsers = {
-    root = {
-        openssh.authorizedKeys.keys = [ config.krebs.users.makefu-vbob.pubkey  ];
-    };
-  };
+  users.extraUsers.root.openssh.authorizedKeys.keys = [ config.krebs.users.makefu-vbob.pubkey  ];
 
   environment.shellAliases = {
     forti  = "cat ~/vpn/pw.txt | xclip; sudo forticlientsslvpn";
@@ -107,7 +76,6 @@
     #devpi-client
     ansible
   ];
-  # virtualisation.docker.enable = true;
 
 
   networking.firewall.allowedTCPPorts = [
@@ -115,6 +83,6 @@
     80
     8010
   ];
-
+  # required for qemu
   systemd.services."serial-getty@ttyS0".enable = true;
 }
