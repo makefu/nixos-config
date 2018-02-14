@@ -6,7 +6,9 @@
     [ # Include the results of the hardware scan.
       <stockholm/makefu>
       (toString <nixpkgs/nixos/modules/virtualisation/virtualbox-image.nix>)
-      (toString <nixpkgs/nixos/modules/virtualisation/virtualbox-guest.nix>)
+      { ## Guest Extensions are currently broken
+        # virtualisation.virtualbox.guest.enable = true;
+      }
       <stockholm/makefu/2configs/main-laptop.nix>
       # <secrets/extra-hosts.nix>
 
@@ -50,7 +52,7 @@
   fileSystems."/media/share" = {
     fsType = "vboxsf";
     device = "share";
-    options = [ "rw" "uid=9001" "gid=9001" ];
+    options = [ "rw" "uid=9001" "gid=9001" "nofail" ];
   };
 
 }

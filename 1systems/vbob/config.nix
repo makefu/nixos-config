@@ -8,8 +8,12 @@
       {
         imports = [<stockholm/makefu/2configs/fs/single-partition-ext4.nix> ];
         boot.loader.grub.device = "/dev/sda";
-        virtualisation.virtualbox.guest.enable = true;
       }
+
+      { ## Virtualbox guest is broken on newer kernel
+        # virtualisation.virtualbox.guest.enable = true;
+      }
+
       # {
       #   imports = [
       #     <nixpkgs/nixos/modules/virtualisation/virtualbox-image.nix>
