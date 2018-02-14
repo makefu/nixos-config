@@ -5,9 +5,10 @@
   imports =
     [ # Include the results of the hardware scan.
       <stockholm/makefu>
+
       (toString <nixpkgs/nixos/modules/virtualisation/virtualbox-image.nix>)
       { ## Guest Extensions are currently broken
-        # virtualisation.virtualbox.guest.enable = true;
+        virtualisation.virtualbox.guest.enable = lib.mkForce true;
       }
       <stockholm/makefu/2configs/main-laptop.nix>
       # <secrets/extra-hosts.nix>
