@@ -148,6 +148,11 @@ in {
             allowedIPs = [ "10.244.0.5/32" ];
             publicKey = "QJMwwYu/92koCASbHnR/vqe/rN00EV6/o7BGwLockDw=";
           }
+          {
+            # workr
+            allowedIPs = [ "10.244.0.6/32" ];
+            publicKey = "OFhCF56BrV9tjqW1sxqXEKH/GdqamUT1SqZYSADl5GA=";
+          }
           ];
         };
       }
