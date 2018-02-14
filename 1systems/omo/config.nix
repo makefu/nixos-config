@@ -71,6 +71,7 @@ in {
       <stockholm/makefu/2configs/mqtt.nix>
       <stockholm/makefu/2configs/remote-build/slave.nix>
       <stockholm/makefu/2configs/deployment/google-muell.nix>
+      <stockholm/makefu/2configs/virtualisation/docker.nix>
 
 
       # security
@@ -119,7 +120,6 @@ in {
   services.sabnzbd.enable = true;
   systemd.services.sabnzbd.environment.SSL_CERT_FILE = "${pkgs.cacert}/etc/ssl/certs/ca-bundle.crt";
 
-  virtualisation.docker.enable = true;
   makefu.ps3netsrv = {
     enable = true;
     servedir = "/media/cryptX/emu/ps3";

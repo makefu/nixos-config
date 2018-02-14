@@ -18,6 +18,7 @@
 
       # environment
       <stockholm/makefu/2configs/tinc/retiolum.nix>
+      <stockholm/makefu/2configs/virtualisation/docker.nix>
 
     ];
   # allow sdev to deploy self
@@ -31,7 +32,6 @@
     ppp xclip
     get
     passwdqc-utils
-    docker
     gnupg
     populate
     (pkgs.writeScriptBin "tor-browser" ''
@@ -39,8 +39,6 @@
       TOR_SKIP_LAUNCH=1 ${torbrowser}/bin/tor-browser
     '')
   ];
-
-  virtualisation.docker.enable = true;
 
   networking.firewall.allowedTCPPorts = [
     25

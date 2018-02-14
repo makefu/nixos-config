@@ -71,7 +71,6 @@
     fortclientsslvpn ppp xclip
     get
     logstash
-  #  docker
     #devpi-web
     #devpi-client
     ansible
