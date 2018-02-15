@@ -60,7 +60,7 @@ with import <stockholm/lib>;
       # Hardware
       <stockholm/makefu/2configs/hw/tp-x230.nix>
       # <stockholm/makefu/2configs/hw/tpm.nix>
-      <stockholm/makefu/2configs/hw/rtl8812au.nix>
+      # <stockholm/makefu/2configs/hw/rtl8812au.nix>
       <stockholm/makefu/2configs/hw/network-manager.nix>
       <stockholm/makefu/2configs/hw/stk1160.nix>
       # <stockholm/makefu/2configs/rad1o.nix>
@@ -78,6 +78,38 @@ with import <stockholm/lib>;
       # <stockholm/makefu/2configs/lanparty/lancache-dns.nix>
       # <stockholm/makefu/2configs/lanparty/samba.nix>
       # <stockholm/makefu/2configs/lanparty/mumble-server.nix>
+      # <stockholm/makefu/2configs/deployment/photostore.krebsco.de.nix>
+
+      {
+        networking.wireguard.interfaces.wg0 = {
+          ips = [ "10.244.0.2/24" ];
+          privateKeyFile = (toString <secrets>) + "/wireguard.key";
+          allowedIPsAsRoutes = true;
+          peers = [
+          {
+            # gum
+            endpoint = "${config.krebs.hosts.gum.nets.internet.ip4.addr}:51820";
+            allowedIPs = [ "10.244.0.0/24" ];
+            publicKey = "yAKvxTvcEVdn+MeKsmptZkR3XSEue+wSyLxwcjBYxxo=";
+          }
+          #{
+          #  # vbob
+          #  allowedIPs = [ "10.244.0.3/32" ];
+          #  publicKey = "Lju7EsCu1OWXhkhdNR7c/uiN60nr0TUPHQ+s8ULPQTw=";
+          #}
+          ];
+        };
+      }
+
+      { # auto-mounting
+        services.udisks2.enable = true;
+        services.devmon.enable = true;
+        # services.gnome3.gvfs.enable = true;
+        users.users.makefu.packages = with pkgs;[
+          gvfs pcmanfm lxmenu-data
+        ];
+        environment.variables.GIO_EXTRA_MODULES = [ "${pkgs.gvfs}/lib/gio/modules" ];
+      }
 
     ];
 
