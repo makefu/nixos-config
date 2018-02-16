@@ -9,7 +9,7 @@
         imports = [<stockholm/makefu/2configs/fs/single-partition-ext4.nix> ];
         boot.loader.grub.device = "/dev/sda";
       }
-      <stockholm/makefu/2configs/hw/vbox-guest.nix>
+      # <stockholm/makefu/2configs/hw/vbox-guest.nix>
       # <nixpkgs/nixos/modules/virtualisation/qemu-vm.nix>
 
       # base gui

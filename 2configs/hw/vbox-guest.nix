@@ -2,9 +2,9 @@
 {
   ## Guest Extensions are currently broken
   imports = [
-    # (toString <nixpkgs/nixos/modules/virtualisation/virtualbox-image.nix>)
+    (toString <nixpkgs/nixos/modules/virtualisation/virtualbox-image.nix>)
   ];
-  # virtualisation.virtualbox.guest.enable = true;
+  virtualisation.virtualbox.guest.enable = true;
   services.xserver.videoDrivers = lib.mkOverride 45 [ "virtualbox" "modesetting" ];
 
   fileSystems."/media/share" = {

@@ -6,7 +6,7 @@
     [ # Include the results of the hardware scan.
       <stockholm/makefu>
 
-      <stockholm/makefu/2configs/hw/vbox-guest.nix>
+     #  <stockholm/makefu/2configs/hw/vbox-guest.nix>
       { # until virtualbox-image is fixed
         imports = [
             <stockholm/makefu/2configs/fs/single-partition-ext4.nix>
