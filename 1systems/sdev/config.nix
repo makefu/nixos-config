@@ -27,6 +27,8 @@
         openssh.authorizedKeys.keys = [ config.krebs.users.makefu-vbob.pubkey  ];
     };
   };
+  # corefonts
+  nixpkgs.config.allowUnfree = true;
 
   environment.systemPackages = with pkgs;[
     ppp xclip

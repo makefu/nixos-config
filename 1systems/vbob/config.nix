@@ -67,6 +67,10 @@
     ln -fs ${pkgs.ppp}/bin/pppd /usr/sbin/pppd
     ln -fs ${pkgs.coreutils}/bin/tail /usr/bin/tail
   '';
+
+  # for forticlient
+  nixpkgs.config.allowUnfree = true;
+
   environment.systemPackages = with pkgs;[
     fortclientsslvpn ppp xclip
     get
