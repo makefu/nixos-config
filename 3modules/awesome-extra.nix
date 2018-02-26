@@ -29,15 +29,7 @@ let
     nixpkgs.config.packageOverrides = pkgs: rec {
       awesome = pkgs.stdenv.lib.overrideDerivation pkgs.awesome (oldAttrs : {
           postFixup = let
-            rclua = pkgs.substituteAll {
-              src = cfg.baseConfig;
-              modkey = cfg.modkey;
-              # inherit (cfg) modkey;
-              amixer = "${pkgs.alsaUtils}/bin/amixer";
-              xlock = "${pkgs.xlockmore}/bin/xlock";
-              xbacklight = "${pkgs.xorg.xbacklight}/bin/xbacklight";
-
-            };
+            rclua = cfg.baseConfig.override { inherit (cfg) modkey; };
           in "cp ${rclua}  $out/etc/xdg/awesome/rc.lua";
       });
     };
