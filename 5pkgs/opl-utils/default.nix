@@ -22,6 +22,7 @@ stdenv.mkDerivation rec {
   meta = {
     homepage = https://github.com/ifcaro/Open-PS2-Loader;
     description = "open-ps2-loader utils (opl2iso,iso2opl,genvmc)";
-    license = lib.licenses.afl3;
+    ## not yet in stable
+    # license = lib.licenses.afl3;
   };
 }
