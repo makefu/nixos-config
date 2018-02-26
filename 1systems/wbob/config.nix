@@ -29,7 +29,8 @@ in {
       # <stockholm/makefu/2configs/vncserver.nix>
 
       # Services
-      <stockholm/makefu/2configs/remote-build/slave.nix>
+      <stockholm/makefu/2configs/hydra/stockholm.nix>
+
       <stockholm/makefu/2configs/share/wbob.nix>
       (let
         musicDirectory = "/data/music";
@@ -83,6 +84,9 @@ in {
             load-module module-filter-apply
             load-module module-native-protocol-tcp auth-ip-acl=127.0.0.1
             load-module module-switch-on-connect
+            # may be required for "system-wide" pulse to connect to bluetooth
+            #module-bluez5-device
+            #module-bluez5-discover
             '';
         };
         # connect via https://nixos.wiki/wiki/Bluetooth#Using_Bluetooth_headsets_with_PulseAudio
