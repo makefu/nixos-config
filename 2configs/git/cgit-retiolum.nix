@@ -28,6 +28,7 @@ let
     init-stockholm = {
       cgit.desc = "Init stuff for stockholm";
     };
+    hydra-stockholm = { };
   };
 
   priv-repos = mapAttrs make-priv-repo {
