@@ -34,7 +34,7 @@ in {
       http://guest:derpi@cvs2svn.tigris.org/svn/cvs2svn/tags/
       http://ftp.debian.org/debian/pool/main/a/apt-cacher-ng/
       https://erdgeist.org/gitweb/opentracker/info/refs?service=git-upload-pack
-      https://git.tasktools.org/TM/taskd/info/refs?service=git-upload-pack
+
       http://www.iozone.org/src/current/
 
       {
@@ -51,6 +51,8 @@ in {
       "embray/d2to1"
       "dorimanx/exfat-nofuse"
       "rapid7/metasploit-framework"
+      "GothenburgBitFactory/taskserver"
+      "GothenburgBitFactory/taskwarrior"
     ];
   };
 }

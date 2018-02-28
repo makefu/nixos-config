@@ -3,7 +3,7 @@ self: super: let
 
   # This callPackage will try to detect obsolete overrides.
   callPackage = path: args: let
-    override = super.callPackage path args;
+    override =  super.callPackage path args;
     upstream = optionalAttrs (override ? "name")
       (super.${(parseDrvName override.name).name} or {});
   in if upstream ? "name" &&
