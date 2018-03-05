@@ -3,21 +3,19 @@
 with (import <nixpkgs-unstable> {}).python2Packages; let
 
  python-adb = buildPythonPackage rec {
-    name = "python-adb-${version}";
+    pname = "adb";
     version = "1.2.0";
 
-    src = pkgs.fetchFromGitHub {
-      owner = "google";
-      repo = "python-adb";
-      rev = "28d912a";
-      sha256 = "1cy18l96v72hrhf21im5i8hlzd8ilv0vcck026npnxiw095a5hm2";
+    src = fetchPypi {
+      inherit pname version;
+      sha256 = "0v4my47ikgkbq04gdllpx6kql5cfh7dnpq2fk72x03z74mqri7v8";
     };
 
     propagatedBuildInputs = [ libusb1 m2crypto ];
     meta = {
       homepage = https://github.com/google/python-adb;
       description = "Python ADB + Fastboot implementation";
-      license = lib.licenses.apache2;
+      license = lib.licenses.asl20;
     };
   };
 in
@@ -28,8 +26,9 @@ in
   src = pkgs.fetchFromGitHub {
     owner = "happyleavesaoc";
     repo = "python-firetv";
-    rev = version;
-    sha256 = "0j5p8jg13hc9gcbv0ipxgljrpcxk8b7k4p4kyfhmblpjm51mycs3";
+    # rev = version;
+    rev = "55406c6";
+    sha256 = "1r2yighilchs0jvcvbngkjxkk7gp588ikcl64x7afqzxc6zxv7wp";
   };
 
   propagatedBuildInputs = [ python-adb flask pyyaml ];
