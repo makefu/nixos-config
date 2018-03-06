@@ -1,6 +1,18 @@
 { lib, pkgs, config, ... }:
 with lib;
 
+# imperative in config.php:
+# #local memcache:
+#     'memcache.local' => '\\OC\\Memcache\\APCu',
+# #local locking:
+#     'memcache.locking' => '\\OC\\Memcache\\Redis',
+#     'redis' =>
+#      array (
+#       'host' => 'localhost',
+#       'port' => 6379,
+#      ),
+
+
 let
   # TODO: copy-paste from lass/2/websites/util.nix
   serveCloud = domains:
@@ -124,20 +136,48 @@ let
         env[PATH] = ${lib.makeBinPath [ pkgs.php ]}
         catch_workers_output = yes
       '';
+      services.phpfpm.phpOptions = ''
+        opcache.enable=1
+        opcache.enable_cli=1
+        opcache.interned_strings_buffer=8
+        opcache.max_accelerated_files=10000
+        opcache.memory_consumption=128
+        opcache.save_comments=1
+        opcache.revalidate_freq=1
+
+        display_errors = on
+        display_startup_errors = on
+        always_populate_raw_post_data = -1
+        error_reporting = E_ALL | E_STRICT
+        html_errors = On
+        date.timezone = "Europe/Berlin"
+        # extension=${pkgs.phpPackages.memcached}/lib/php/extensions/memcached.so
+        extension=${pkgs.phpPackages.redis}/lib/php/extensions/redis.so
+        extension=${pkgs.phpPackages.apcu}/lib/php/extensions/apcu.so
+      '';
     };
 in  {
   imports = [
     ( serveCloud [ "o.euer.krebsco.de" ] )
   ];
 
-  services.mysql = { # TODO: currently nextcloud uses sqlite
+  services.redis.enable = true;
+  services.mysql = {
     enable = false;
     package = pkgs.mariadb;
     rootPassword = config.krebs.secret.files.mysql_rootPassword.path;
-  };
-  services.mysqlBackup = {
-    enable = false;
-    databases = [ "nextcloud" ];
+    initialDatabases = [
+      # Or use writeText instead of literalExample?
+      #{ name = "nextcloud"; schema = literalExample "./nextcloud.sql"; }
+      {
+        name = "nextcloud";
+        schema = pkgs.writeText "nextcloud.sql"
+        ''
+        create user if not exists 'nextcloud'@'localhost' identified by 'password';
+        grant all privileges on nextcloud.* to 'nextcloud'@'localhost' identified by 'password';
+        '';
+      }
+    ];
   };
   # dataDir is only defined after mysql is enabled
   # krebs.secret.files.mysql_rootPassword = {
