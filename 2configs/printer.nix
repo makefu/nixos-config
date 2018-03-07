@@ -9,6 +9,7 @@ in {
       pkgs.samsungUnifiedLinuxDriver
       pkgs.cups-dymo # dymo labelwriter
       pkgs.foo2zjs # magicolor 1690mf
+      pkgs.zj-58
     ];
   };
 
