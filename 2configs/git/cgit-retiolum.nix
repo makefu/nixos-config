@@ -3,10 +3,15 @@
 with import <stockholm/lib>;
 let
 
-  repos = priv-repos // krebs-repos // connector-repos ;
+  repos = priv-repos // krebs-repos // connector-repos // krebsroot-repos;
   rules = concatMap krebs-rules (attrValues krebs-repos)
     ++ concatMap priv-rules (attrValues priv-repos)
-    ++ concatMap connector-rules (attrValues connector-repos);
+    ++ concatMap connector-rules (attrValues connector-repos)
+    ++ concatMap krebsroot-rules (attrValues krebsroot-repos);
+
+  krebsroot-repos = mapAttrs make-krebs-repo {
+    hydra-stockholm = { };
+  };
 
   krebs-repos = mapAttrs make-krebs-repo {
     stockholm = {
@@ -28,7 +33,6 @@ let
     init-stockholm = {
       cgit.desc = "Init stuff for stockholm";
     };
-    hydra-stockholm = { };
   };
 
   priv-repos = mapAttrs make-priv-repo {
@@ -69,6 +73,9 @@ let
 
   krebs-rules = repo:
     set-owners repo all-makefu ++ set-ro-access repo krebsminister;
+
+  krebsroot-rules = repo:
+    set-owners repo (all-makefu ++ krebsminister);
 
   set-ro-access = with git; repo: user:
       optional repo.public {
