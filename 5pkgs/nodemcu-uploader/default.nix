@@ -1,19 +1,22 @@
-{ lib, pkgs, pythonPackages, fetchurl, ... }:
+{ lib, pkgs, pythonPackages, ... }:
 
 with pythonPackages; buildPythonPackage rec {
   name = "nodemcu-uploader-${version}";
-  version = "0.2.2";
-  disabled = isPy3k || isPyPy;
+  version = "0.4.1";
   propagatedBuildInputs = [
     pyserial
+    wrapt
   ];
-  src = fetchurl {
-    url = "https://pypi.python.org/packages/source/n/nodemcu-uploader/nodemcu-uploader-${version}.tar.gz";
-    sha256 = "090giz84y9y3idgifp0yh80qqyv2czv6h3y55wyrlgf7qfbwbrvn";
+
+  src = pkgs.fetchFromGitHub {
+    owner = "kmpm";
+    repo = "nodemcu-uploader";
+    rev = "v${version}";
+    sha256 = "055pvlg544vb97kaqnnq51fs9f9g75vwgbazc293f3g1sk263gmn";
   };
-  # ImportError: No module named tests
-  # not sure what to do here
+
   doCheck = false;
+
   meta = {
     homepage = https://github.com/kmpm/nodemcu-uploader;
     description = "tool for uploading files to NodeMCU filesystem";
