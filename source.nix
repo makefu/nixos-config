@@ -8,6 +8,7 @@ host@{ name,
 ,  musnix ? false
 ,  python ? false
 ,  unstable ? false #unstable channel checked out
+,  mic92 ? false
 }:
 let
   builder = if getEnv "dummy_secrets" == "true"
@@ -82,6 +83,13 @@ in
       nixpkgs-unstable.git = {
         url = https://github.com/nixos/nixpkgs-channels;
         ref = "nixos-unstable";
+      };
+    })
+
+    (mkIf ( mic92 ) {
+      mic92.git = {
+        url = https://github.com/Mic92/dotfiles/;
+        ref = "48a1f49";
       };
     })
 

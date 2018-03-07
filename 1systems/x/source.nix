@@ -3,5 +3,7 @@ import <stockholm/makefu/source.nix> {
   full = true;
   python = true;
   hw = true;
+  unstable = true;
+  mic92 = true;
   # torrent = true;
 }
