@@ -38,7 +38,7 @@ with import <stockholm/lib>;
   services.tlp.enable = true;
   services.tlp.extraConfig = ''
     # BUG: http://linrunner.de/en/tlp/docs/tlp-faq.html#erratic-battery
-    START_CHARGE_THRESH_BAT0=67
+    START_CHARGE_THRESH_BAT0=95
     STOP_CHARGE_THRESH_BAT0=100
 
 
