@@ -123,6 +123,7 @@ with import <stockholm/lib>;
             load-module module-filter-heuristics
             load-module module-filter-apply
             load-module module-switch-on-connect
+            load-module module-switch-on-port-available
             '';
         };
 
