@@ -21,7 +21,9 @@ let
         This module will use substituteAll to replace strings before writing to
         /etc/xdg/awesome/rc.lua
       '';
-      default = pkgs.awesomecfg.full;
+      default = pkgs.awesomecfg.full.override {
+        locker = "${pkgs.i3lock}/bin/i3lock -i /var/lib/wallpaper/wallpaper";
+      };
     };
   };
   imp = {

@@ -331,8 +331,8 @@ globalkeys = awful.util.table.join(
     -- Prompt
     awful.key({ modkey },                 "r",     function () mypromptbox[mouse.screen]:run() end),
     -- awful.key({ modkey },            "r",    function () awful.util.spawn( "dmenu_run" ) end ),
-    awful.key({ modkey,"Control"  }, "BackSpace",  function ()  awful.util.spawn("xlock -mode blank")   end),
-    awful.key({ }, "XF86ScreenSaver",  function ()  awful.util.spawn("xlock -mode blank")   end),
+    awful.key({ modkey,"Control"  }, "BackSpace",  function ()  awful.util.spawn("@locker@")   end),
+    awful.key({ }, "XF86ScreenSaver",  function ()  awful.util.spawn("@locker@")   end),
 
     awful.key({ modkey }, "x",
               function ()
