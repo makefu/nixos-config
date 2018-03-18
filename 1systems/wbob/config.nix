@@ -32,66 +32,7 @@ in {
       <stockholm/makefu/2configs/hydra/stockholm.nix>
 
       <stockholm/makefu/2configs/share/wbob.nix>
-      (let
-        musicDirectory = "/data/music";
-      in {
-        services.mpd = {
-          enable = true;
-          inherit musicDirectory;
-          # dataDir = "/home/anders/.mpd";
-          network.listenAddress = "any";
-          extraConfig = ''
-            audio_output {
-              type    "pulse"
-              name    "Local MPD"
-              server  "127.0.0.1"
-            }
-          '';
-        };
-        # open because of truestedInterfaces
-        # networking.firewall.allowedTCPPorts = [ 6600 4713 ];
-        services.samba.shares.music = {
-          path = musicDirectory;
-          "read only" = "no";
-          browseable = "yes";
-          "guest ok" = "yes";
-        };
-
-        sound.enable = true;
-        hardware.pulseaudio = {
-          enable = true;
-          package = pkgs.pulseaudioFull;
-          # systemWide = true;
-          support32Bit = true;
-          zeroconf.discovery.enable = true;
-          zeroconf.publish.enable = true;
-          tcp = {
-            enable = true;
-            anonymousClients.allowAll = true;
-            anonymousClients.allowedIpRanges =  [ "127.0.0.1" "192.168.8.0/24" ];
-          };
-          configFile = pkgs.writeText "default.pa" ''
-            load-module module-udev-detect
-            load-module module-bluetooth-policy
-            load-module module-bluetooth-discover
-            load-module module-native-protocol-unix
-            load-module module-always-sink
-            load-module module-console-kit
-            load-module module-systemd-login
-            load-module module-intended-roles
-            load-module module-position-event-sounds
-            load-module module-filter-heuristics
-            load-module module-filter-apply
-            load-module module-native-protocol-tcp auth-ip-acl=127.0.0.1
-            load-module module-switch-on-connect
-            # may be required for "system-wide" pulse to connect to bluetooth
-            #module-bluez5-device
-            #module-bluez5-discover
-            '';
-        };
-        # connect via https://nixos.wiki/wiki/Bluetooth#Using_Bluetooth_headsets_with_PulseAudio
-        hardware.bluetooth.enable = true;
-      })
+      <stockholm/makefu/2configs/bluetooth-mpd.nix>
 
       # Sensors
       <stockholm/makefu/2configs/stats/telegraf>

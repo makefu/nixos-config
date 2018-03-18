@@ -9,7 +9,7 @@ let
   keyFile = byid "usb-Verbatim_STORE_N_GO_070B3CEE0B223954-0:0";
   rootDisk = byid "ata-SanDisk_SD8SNAT128G1122_162099420904";
   rootPartition = byid "ata-SanDisk_SD8SNAT128G1122_162099420904-part2";
-  primaryInterface = "enp1s0";
+  primaryInterface = "enp2s0";
   # cryptsetup luksFormat $dev --cipher aes-xts-plain64 -s 512 -h sha512
   # cryptsetup luksAddKey $dev tmpkey
   # cryptsetup luksOpen $dev crypt0 --key-file tmpkey --keyfile-size=4096
@@ -54,6 +54,7 @@ in {
       #<stockholm/makefu/2configs/graphite-standalone.nix>
       #<stockholm/makefu/2configs/share-user-sftp.nix>
       <stockholm/makefu/2configs/share/omo.nix>
+      # <stockholm/makefu/2configs/share/omo-timemachine.nix>
       <stockholm/makefu/2configs/tinc/retiolum.nix>
 
 
@@ -72,6 +73,11 @@ in {
       <stockholm/makefu/2configs/remote-build/slave.nix>
       <stockholm/makefu/2configs/deployment/google-muell.nix>
       <stockholm/makefu/2configs/virtualisation/docker.nix>
+      <stockholm/makefu/2configs/bluetooth-mpd.nix>
+      {
+        hardware.pulseaudio.systemWide = true;
+        makefu.mpd.musicDirectory = "/media/cryptX/music";
+      }
 
 
       # security
