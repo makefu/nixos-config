@@ -17,6 +17,7 @@ let
   # contains:
   #  user1 = pass1
   #  userN = passN
+  # afterwards put /var/www/<ext-dom>/user1.html as tiddlywiki
   tw-pass-file = "${sec}/tw-pass.ini";
 
 in {
@@ -45,7 +46,7 @@ in {
 
   systemd.services.prepare-tw = {
     wantedBy = [ "local-fs.target" ];
-    before = [ "phpfpm.service" ];
+    before = [ "phpfpm.service" "nginx.service" ];
     serviceConfig = {
       ExecStart = pkgs.writeScript "prepare-tw-service" ''
         #!/bin/sh
@@ -92,6 +93,7 @@ in {
         locations = {
           "/" = {
             root = wiki-dir;
+            index = "makefu.html";
             extraConfig = ''
               expires -1;
               autoindex on;
