@@ -21,9 +21,9 @@ let
     ];
   };
   # TODO: automate updating of this ref + cherry-picks
-  ref = "6b6e72b"; # nixos-17.09 @ 2018-03-07
+  ref = "6583793"; # nixos-17.09 @ 2018-03-07
                    # + do_sqlite3 ruby: 55a952be5b5
-                   # + signal: 0f19beef3
+                   # + signal: 0f19beef3, 50ad913, 9449782, b7046ab2
 
 in
   evalSource (toString _file) [
