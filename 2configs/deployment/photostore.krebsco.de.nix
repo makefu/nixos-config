@@ -30,6 +30,7 @@ in {
       forceSSL = true;
       locations = {
         "/".extraConfig = ''
+        expires -1;
         uwsgi_pass                  unix://${wsgi-sock};
         uwsgi_param UWSGI_CHDIR     ${workdir};
         uwsgi_param UWSGI_MODULE    cuserver.main;
