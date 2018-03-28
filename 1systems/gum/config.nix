@@ -52,7 +52,7 @@ in {
 
       # network
       <stockholm/makefu/2configs/vpn/openvpn-server.nix>
-      <stockholm/makefu/2configs/vpn/vpnws/server.nix>
+      # <stockholm/makefu/2configs/vpn/vpnws/server.nix>
       <stockholm/makefu/2configs/dnscrypt/server.nix>
       <stockholm/makefu/2configs/iodined.nix>
 
