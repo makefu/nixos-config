@@ -66,6 +66,7 @@ in {
       <stockholm/makefu/2configs/stats/external/aralast.nix>
       <stockholm/makefu/2configs/stats/telegraf>
       <stockholm/makefu/2configs/stats/telegraf/europastats.nix>
+      <stockholm/makefu/2configs/stats/arafetch.nix>
 
       # services
       <stockholm/makefu/2configs/syncthing.nix>
