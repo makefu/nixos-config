@@ -1,3 +1,4 @@
 import <stockholm/makefu/source.nix> {
-  name="fileleech";
+  name = "fileleech";
+  torrent = true;
 }
