@@ -34,7 +34,7 @@ in {
     hardware.pulseaudio = {
       enable = true;
       package = pkgs.pulseaudioFull;
-  # systemWide = true;
+      # systemWide = true;
       support32Bit = true;
       zeroconf.discovery.enable = true;
       zeroconf.publish.enable = true;
@@ -42,12 +42,13 @@ in {
         enable = true;
         # PULSE_SERVER=192.168.1.11 pavucontrol
         anonymousClients.allowAll = true;
+        anonymousClients.allowedIpRanges =  [ "127.0.0.1" "192.168.0.0/16" ];
       };
       configFile = pkgs.writeText "default.pa" ''
         load-module module-udev-detect
         load-module module-bluetooth-policy
         load-module module-bluetooth-discover
-        load-module module-native-protocol-unix
+        load-module module-native-protocol-unix auth-anonymous=1
         load-module module-always-sink
         load-module module-console-kit
         load-module module-systemd-login
@@ -56,13 +57,15 @@ in {
         load-module module-filter-heuristics
         load-module module-filter-apply
         load-module module-switch-on-connect
+        #load-module module-bluez5-device
+        #load-module module-bluez5-discover
       '';
     };
-  # connect via https://nixos.wiki/wiki/Bluetooth#Using_Bluetooth_headsets_with_PulseAudio
+    # connect via https://nixos.wiki/wiki/Bluetooth#Using_Bluetooth_headsets_with_PulseAudio
     hardware.bluetooth.enable = true;
-  #hardware.bluetooth.extraConfig = ''
-  #  [general]
-  #  Enable=Source,Sink,Media,Socket
-  #'';
+    # environment.etc."bluetooth/audio.conf".text = ''
+    #   [General]
+    #   Enable = Source,Sink,Media,Socket
+    # '';
   };
 }
