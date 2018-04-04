@@ -3,7 +3,7 @@ with import <stockholm/lib>;
 let
   pkg = with pkgs.python3Packages;buildPythonPackage rec {
     rev = "762d747";
-    name = "europastats-${rev}";
+    name = "arafetch-${rev}";
     propagatedBuildInputs = [
       requests
       docopt
@@ -25,12 +25,25 @@ in {
   };
 
   systemd.services.arafetch = {
-    startAt = "Mon 09:15:00";
+    startAt = "Mon,Wed,Fri 09:15:00";
     wantedBy = [ "multi-user.target" ];
     environment = {
       OUTDIR = home;
     };
     path = [ pkg  pkgs.git pkgs.wget ];
-    script = "${pkg}/bin/weekrun";
+    serviceConfig = {
+      User = "arafetch";
+      WorkingDirectory = home;
+      PrivateTmp = true;
+      ExecStart = pkgs.writeDash "start-weekrun" ''
+        set -x
+        weekrun || echo "weekrun failed!"
+        find $OUTDIR/db -name \*.json | while read path;do
+          file=''${path##*/}
+          cantine=''${file%%.json}
+          ara2influx $path --cantine $cantine --host wbob.r
+        done
+      '';
+    };
   };
 }
