@@ -33,6 +33,9 @@ in {
 
       <stockholm/makefu/2configs/share/wbob.nix>
       <stockholm/makefu/2configs/bluetooth-mpd.nix>
+      {
+        users.users.makefu.extraGroups = [ "pulse" ];
+      }
 
       # Sensors
       <stockholm/makefu/2configs/stats/telegraf>
@@ -121,6 +124,7 @@ in {
   networking.firewall.allowedTCPPorts = [
     655
     8081 #smokeping
+    8086 #influx
     49152
   ];
   networking.firewall.trustedInterfaces = [ "enp0s25" ];
