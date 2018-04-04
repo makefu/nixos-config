@@ -16,6 +16,7 @@ in {
     ./zsh-user.nix
     ./tools/core.nix
     ./tools/core-gui.nix
+    ./gui/automatic-diskmount.nix
   ];
 
   users.users.${config.krebs.build.user.name}.extraGroups = [ "dialout" ];
