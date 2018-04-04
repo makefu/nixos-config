@@ -16,16 +16,17 @@ let
   };
   devpi-web = pkgs.python3Packages.buildPythonPackage rec {
     name = "devpi-web";
-    version = "3.1.1";
+    version = "3.2.2";
 
 
     src = pkgs.fetchurl {
       url = "mirror://pypi/d/devpi-web/devpi-web-${version}.tar.gz";
-      sha256 = "0bvqv52jmasfm4sdyccwsgvk9a663d3grj7zjw8r9x7xm7l3svqv";
+      sha256 = "1mwg2fcw88rn47ypnhg5f4s1r066129z922113shyinwrwfddhay";
     };
 
-    propagatedBuildInputs = with pkgs.python3Packages;
-      [ pkgs.devpi-server pyramid_chameleon beautifulsoup4 defusedxml readme-renderer ];
+    propagatedBuildInputs = with pkgs.python3Packages; builtins.trace pkgs.devpi-server.version
+      [ pkgs.devpi-server pyramid_chameleon pygments docutils devpi-common
+      whoosh beautifulsoup4 defusedxml readme-renderer ];
 
     meta = {
       homepage = https://bitbucket.org/hpk42/devpi;
@@ -37,6 +38,6 @@ let
 
 in {
   devpi-web =  pkgs.python3.buildEnv.override {
-      extraLibs = [ devpi-web devpi-server ];
-    };
+      extraLibs = [ devpi-web pkgs.devpi-server ];
+  };
 }
