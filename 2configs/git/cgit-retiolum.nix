@@ -30,6 +30,7 @@ let
     euer_blog = { };
     ampel = { };
     europastats = { };
+    arafetch = { };
     init-stockholm = {
       cgit.desc = "Init stuff for stockholm";
     };
