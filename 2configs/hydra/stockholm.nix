@@ -5,7 +5,6 @@
 {
 
   # TODO postgres backup
-  services.postgresql.enable = true;
 
   services.hydra = {
     enable = true;
