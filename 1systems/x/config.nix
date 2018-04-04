@@ -141,14 +141,47 @@ with import <stockholm/lib>;
         # connect via https://nixos.wiki/wiki/Bluetooth#Using_Bluetooth_headsets_with_PulseAudio
         hardware.bluetooth.enable = true;
       }
-      { # auto-mounting
+      { # auto-mounting via polkit
         services.udisks2.enable = true;
-        services.devmon.enable = true;
+        ## automount all disks:
+        # services.devmon.enable = true;
         # services.gnome3.gvfs.enable = true;
+        users.groups.storage = {
+          gid = genid "storage";
+          members = [ "makefu" ];
+        };
         users.users.makefu.packages = with pkgs;[
           gvfs pcmanfm lxmenu-data
         ];
         environment.variables.GIO_EXTRA_MODULES = [ "${pkgs.gvfs}/lib/gio/modules" ];
+
+        ## allow users in group "storage" to mount disk
+        # https://github.com/coldfix/udiskie/wiki/Permissions
+        security.polkit.extraConfig =
+        ''
+        polkit.addRule(function(action, subject) {
+            var YES = polkit.Result.YES;
+            var permission = {
+            "org.freedesktop.udisks.filesystem-mount": YES,
+            "org.freedesktop.udisks.luks-unlock": YES,
+            "org.freedesktop.udisks.drive-eject": YES,
+            "org.freedesktop.udisks.drive-detach": YES,
+            "org.freedesktop.udisks2.filesystem-mount": YES,
+            "org.freedesktop.udisks2.encrypted-unlock": YES,
+            "org.freedesktop.udisks2.eject-media": YES,
+            "org.freedesktop.udisks2.power-off-drive": YES,
+            "org.freedesktop.udisks2.filesystem-mount-other-seat": YES,
+            "org.freedesktop.udisks2.filesystem-unmount-others": YES,
+            "org.freedesktop.udisks2.encrypted-unlock-other-seat": YES,
+            "org.freedesktop.udisks2.eject-media-other-seat": YES,
+            "org.freedesktop.udisks2.power-off-drive-other-seat": YES
+            };
+            if (subject.isInGroup("storage")) {
+              return permission[action.id];
+            }
+        });
+        '';
+
       }
 
     ];
@@ -170,6 +203,7 @@ with import <stockholm/lib>;
 
   networking.extraHosts = ''
     192.168.1.11  omo.local
+    80.92.65.53 www.wifionice.de wifionice.de
   '';
   # hard dependency because otherwise the device will not be unlocked
   boot.initrd.luks.devices = [ { name = "luksroot"; device = "/dev/sda2"; allowDiscards=true; }];
