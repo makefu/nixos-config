@@ -53,7 +53,7 @@ in
     (mkIf ( musnix ) {
       musnix.git = {
         url = https://github.com/musnix/musnix.git;
-        ref = "d8b989f";
+        ref = "master"; # follow the musnix channel, lets see how this works out
       };
     })
 
