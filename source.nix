@@ -1,14 +1,16 @@
 with import <stockholm/lib>;
 host@{ name,
   override ? {}
-,  secure ? false
-,  full ? false
-,  torrent ? false
-,  hw ? false
-,  musnix ? false
-,  python ? false
-,  unstable ? false #unstable channel checked out
-,  mic92 ? false
+, secure ? false
+, full ? false
+, torrent ? false
+, hw ? false
+, musnix ? false
+, python ? false
+, unstable ? false #unstable channel checked out
+, mic92 ? false
+, nms ? false
+, clever_kexec ?false
 }:
 let
   builder = if getEnv "dummy_secrets" == "true"
@@ -42,10 +44,14 @@ in
           file = "/home/makefu/store/${ref}";
         };
 
-      secrets.file = getAttr builder {
-        buildbot = toString <stockholm/makefu/6tests/data/secrets>;
-        makefu = "/home/makefu/secrets/${name}";
+      secrets = getAttr builder {
+        buildbot.file = toString <stockholm/makefu/6tests/data/secrets>;
+        makefu.pass = {
+          inherit name;
+          dir = "${getEnv "HOME"}/.secrets-pass";
+        };
       };
+
 
       stockholm.file = toString <stockholm>;
       stockholm-version.pipe = "${pkgs.stockholm}/bin/get-version";
@@ -72,9 +78,12 @@ in
     })
 
     (mkIf ( torrent ) {
-      torrent-secrets.file = getAttr builder {
-        buildbot = toString <stockholm/makefu/6tests/data/secrets>;
-        makefu = "/home/makefu/secrets/torrent" ;
+      torrent-secrets = getAttr builder {
+        buildbot.file = toString <stockholm/makefu/6tests/data/secrets>;
+        makefu.pass = {
+          name = "torrent";
+          dir = "${getEnv "HOME"}/.secrets-pass";
+        };
       };
     })
 
@@ -89,6 +98,20 @@ in
       mic92.git = {
         url = https://github.com/Mic92/dotfiles/;
         ref = "48a1f49";
+      };
+    })
+
+    (mkIf ( nms ) {
+      nms.git = {
+        url = https://github.com/r-raymond/nixos-mailserver;
+        ref = "v2.1.2";
+      };
+    })
+
+    (mkIf ( clever_kexec ) {
+      clever_kexec.git = {
+        url = https://github.com/cleverca22/nix-tests;
+        ref = "5a670de7f2decfaafc95c34ffeb0f1896662f3d7";
       };
     })
 
