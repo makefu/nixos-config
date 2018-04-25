@@ -62,6 +62,7 @@ in {
       ## Web
       <stockholm/makefu/2configs/nginx/share-download.nix>
       <stockholm/makefu/2configs/nginx/euer.test.nix>
+      <stockholm/makefu/2configs/nginx/euer.mon.nix>
       <stockholm/makefu/2configs/nginx/euer.wiki.nix>
       <stockholm/makefu/2configs/nginx/euer.blog.nix>
       # <stockholm/makefu/2configs/nginx/gum.krebsco.de.nix>
