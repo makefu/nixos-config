@@ -50,6 +50,7 @@ in {
       <stockholm/makefu/2configs/smart-monitor.nix>
       <stockholm/makefu/2configs/mail-client.nix>
       <stockholm/makefu/2configs/mosh.nix>
+      <stockholm/makefu/2configs/tools/mobility.nix>
       # <stockholm/makefu/2configs/disable_v6.nix>
       #<stockholm/makefu/2configs/graphite-standalone.nix>
       #<stockholm/makefu/2configs/share-user-sftp.nix>
@@ -85,7 +86,7 @@ in {
       <stockholm/makefu/2configs/sshd-totp.nix>
       # <stockholm/makefu/2configs/logging/central-logging-client.nix>
 
-      # <stockholm/makefu/2configs/torrent.nix>
+      <stockholm/makefu/2configs/torrent.nix>
 
       # <stockholm/makefu/2configs/elchos/search.nix>
       # <stockholm/makefu/2configs/elchos/log.nix>
@@ -100,7 +101,7 @@ in {
   makefu.full-populate = true;
   makefu.server.primary-itf = primaryInterface;
   krebs.rtorrent = {
-    downloadDir = lib.mkForce "/media/crypt0/torrent";
+    downloadDir = lib.mkForce "/media/cryptX/torrent";
     extraConfig = ''
       upload_rate = 200
     '';
