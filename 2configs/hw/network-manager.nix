@@ -11,9 +11,8 @@
 
   systemd.services.modemmanager = {
     description = "ModemManager";
-    after = [ "network-manager.service" ];
     bindsTo = [ "network-manager.service" ];
-    wantedBy = [ "network-manager.service" ];
+    wantedBy = [ "network-manager.service" "multi-user.target" ];
     serviceConfig = {
       ExecStart = "${pkgs.modemmanager}/bin/ModemManager";
       PrivateTmp = true;
