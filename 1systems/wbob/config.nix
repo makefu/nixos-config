@@ -52,9 +52,10 @@ in {
           db = "collectd_db";
           logging-interface = "enp0s25";
         in {
+          networking.firewall.allowedTCPPorts = [ 3000 ];
+
           services.grafana.enable = true;
           services.grafana.addr = "0.0.0.0";
-
           services.influxdb.enable = true;
           services.influxdb.extraConfig = {
             meta.hostname = config.krebs.build.host.name;
