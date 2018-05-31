@@ -19,6 +19,7 @@ with import <stockholm/lib>;
 
       # Debugging
       # <stockholm/makefu/2configs/disable_v6.nix>
+      # <stockholm/makefu/2configs/pyload.nix>
 
       # Testing
       # <stockholm/makefu/2configs/deployment/gitlab.nix>
@@ -67,7 +68,9 @@ with import <stockholm/lib>;
       # <stockholm/makefu/2configs/hw/rtl8812au.nix>
       <stockholm/makefu/2configs/hw/network-manager.nix>
       <stockholm/makefu/2configs/hw/stk1160.nix>
-      # <stockholm/makefu/2configs/rad1o.nix>
+      <stockholm/makefu/2configs/hw/irtoy.nix>
+      <stockholm/makefu/2configs/hw/bluetooth.nix>
+      # <stockholm/makefu/2configs/hw/rad1o.nix>
 
       # Filesystem
       <stockholm/makefu/2configs/fs/sda-crypto-root-home.nix>
@@ -103,44 +106,9 @@ with import <stockholm/lib>;
           ];
         };
       }
-      { # bluetooth+pulse config
-        # for blueman-applet
-        users.users.makefu.packages = [
-          pkgs.blueman
-        ];
-        hardware.pulseaudio = {
-          enable = true;
-          package = pkgs.pulseaudioFull;
-          # systemWide = true;
-          support32Bit = true;
-          configFile = pkgs.writeText "default.pa" ''
-            load-module module-udev-detect
-            load-module module-bluetooth-policy
-            load-module module-bluetooth-discover
-            load-module module-native-protocol-unix
-            load-module module-always-sink
-            load-module module-console-kit
-            load-module module-systemd-login
-            load-module module-intended-roles
-            load-module module-position-event-sounds
-            load-module module-filter-heuristics
-            load-module module-filter-apply
-            load-module module-switch-on-connect
-            load-module module-switch-on-port-available
-            '';
-        };
-
-        # presumably a2dp Sink
-        # Enable profile:
-        ## pacmd set-card-profile "$(pactl list cards short | egrep -o bluez_card[[:alnum:]._]+)" a2dp_sink
-        hardware.bluetooth.extraConfig = '';
-          [general]
-          Enable=Source,Sink,Media,Socket
-        '';
-
-        # connect via https://nixos.wiki/wiki/Bluetooth#Using_Bluetooth_headsets_with_PulseAudio
-        hardware.bluetooth.enable = true;
-      }
+      # {
+      #   services.zerotierone.enable = true;
+      # }
 
     ];
 
@@ -166,7 +134,6 @@ with import <stockholm/lib>;
   # hard dependency because otherwise the device will not be unlocked
   boot.initrd.luks.devices = [ { name = "luksroot"; device = "/dev/sda2"; allowDiscards=true; }];
 
-  nix.package = pkgs.nixUnstable;
   environment.systemPackages = [ pkgs.passwdqc-utils pkgs.nixUnstable ];
   nixpkgs.overlays = [ (import <python/overlay.nix>) ];
 
