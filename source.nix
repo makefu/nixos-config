@@ -45,7 +45,7 @@ in
         };
 
       secrets = getAttr builder {
-        buildbot.file = toString <stockholm/makefu/6tests/data/secrets>;
+        buildbot.file = toString <stockholm/makefu/0tests/data/secrets>;
         makefu.pass = {
           inherit name;
           dir = "${getEnv "HOME"}/.secrets-pass";
@@ -79,7 +79,7 @@ in
 
     (mkIf ( torrent ) {
       torrent-secrets = getAttr builder {
-        buildbot.file = toString <stockholm/makefu/6tests/data/secrets>;
+        buildbot.file = toString <stockholm/makefu/0tests/data/secrets>;
         makefu.pass = {
           name = "torrent";
           dir = "${getEnv "HOME"}/.secrets-pass";
