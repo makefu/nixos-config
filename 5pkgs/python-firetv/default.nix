@@ -1,6 +1,6 @@
 { lib, pkgs, python2Packages, ... }:
 # requires libusb1 from unstable
-with (import <nixpkgs-unstable> {}).python2Packages; let
+with python2Packages; let
 
  python-adb = buildPythonPackage rec {
     pname = "adb";
