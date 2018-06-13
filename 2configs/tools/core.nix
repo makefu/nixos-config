@@ -24,7 +24,6 @@
 
     # io
     pv
-    sshpass
     usbutils
     p7zip
     hdparm
@@ -39,11 +38,6 @@
     wol
     iftop
 
-    mkpasswd
-    mutt
-    weechat
-    tmux
-
     # stockholm
     git
     gnumake
@@ -55,8 +49,5 @@
     rxvt_unicode.terminfo
     krebspaste
 
-    # TODO:
-    taskwarrior
-    pass
   ];
 }

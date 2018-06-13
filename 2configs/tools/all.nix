@@ -5,6 +5,7 @@
     ./core.nix
     ./core-gui.nix
     ./dev.nix
+    ./desktop.nix
     ./extra-gui.nix
     ./games.nix
     ./media.nix
