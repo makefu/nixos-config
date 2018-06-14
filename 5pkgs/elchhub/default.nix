@@ -22,13 +22,13 @@ in buildPythonPackage rec {
   ];
   doCheck = false;
   src = fetchFromGitHub {
-    owner = "krebscode";
+    owner = "krebs";
     repo = "elchhub";
     rev = "58707c6";
     sha256 = "04spbcr660dxyc4jvrai094na25zizd2cfi36jz19lahb0k66lqm";
   };
   meta = {
-    homepage = https://github.com/krebscode/elchhub;
+    homepage = https://github.com/krebs/elchhub;
     description = "elchhub";
     license = lib.licenses.wtfpl;
   };
