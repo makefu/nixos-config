@@ -29,7 +29,7 @@ in {
       # <stockholm/makefu/2configs/vncserver.nix>
 
       # Services
-      <stockholm/makefu/2configs/hydra/stockholm.nix>
+      # <stockholm/makefu/2configs/hydra/stockholm.nix>
 
       <stockholm/makefu/2configs/share/wbob.nix>
       <stockholm/makefu/2configs/bluetooth-mpd.nix>
