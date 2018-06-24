@@ -17,8 +17,10 @@ let
   ext-if = "et0"; # gets renamed on the fly
 in {
   imports = [
+      <nixpkgs/nixos/modules/profiles/qemu-guest.nix>
       <stockholm/makefu/2configs/fs/single-partition-ext4.nix>
   ];
+
   makefu.server.primary-itf = ext-if;
   services.udev.extraRules = ''
     SUBSYSTEM=="net", ATTR{address}=="${external-mac}", NAME="${ext-if}"

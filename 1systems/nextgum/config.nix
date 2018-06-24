@@ -8,16 +8,9 @@ in {
   imports = [
       <stockholm/makefu>
       ./hardware-config.nix
+      ./transfer-config.nix
       <stockholm/makefu/2configs/headless.nix>
       # <stockholm/makefu/2configs/smart-monitor.nix>
-
-      <stockholm/makefu/2configs/git/cgit-retiolum.nix>
-      <stockholm/makefu/2configs/backup.nix>
-      # <stockholm/makefu/2configs/mattermost-docker.nix>
-      # <stockholm/makefu/2configs/disable_v6.nix>
-      <stockholm/makefu/2configs/exim-retiolum.nix>
-      <stockholm/makefu/2configs/tinc/retiolum.nix>
-      <stockholm/makefu/2configs/urlwatch>
 
       # Security
       <stockholm/makefu/2configs/sshd-totp.nix>
@@ -28,39 +21,60 @@ in {
       <stockholm/makefu/2configs/tools/sec.nix>
       <stockholm/makefu/2configs/vim.nix>
       <stockholm/makefu/2configs/zsh-user.nix>
-
-      # services
-      <stockholm/makefu/2configs/share/gum.nix>
-      # <stockholm/makefu/2configs/sabnzbd.nix>
-      <stockholm/makefu/2configs/torrent.nix>
       <stockholm/makefu/2configs/mosh.nix>
-      <stockholm/makefu/2configs/retroshare.nix>
 
-      # network
+      <stockholm/makefu/2configs/git/cgit-retiolum.nix>
+      <stockholm/makefu/2configs/backup.nix>
+      <stockholm/makefu/2configs/exim-retiolum.nix>
+      <stockholm/makefu/2configs/tinc/retiolum.nix>
+      # services
+      <stockholm/makefu/2configs/sabnzbd.nix>
+
+      # sharing
+      <stockholm/makefu/2configs/share/gum.nix>
+      <stockholm/makefu/2configs/torrent.nix>
+      #<stockholm/makefu/2configs/retroshare.nix>
+      ## <stockholm/makefu/2configs/ipfs.nix>
+      #<stockholm/makefu/2configs/syncthing.nix>
+      { # ncdc
+        environment.systemPackages = [ pkgs.ncdc ];
+        networking.firewall = {
+          allowedUDPPorts = [ 51411 ];
+          allowedTCPPorts = [ 51411 ];
+        };
+      }
+      # <stockholm/makefu/2configs/opentracker.nix>
+
+      ## network
       <stockholm/makefu/2configs/vpn/openvpn-server.nix>
       # <stockholm/makefu/2configs/vpn/vpnws/server.nix>
       <stockholm/makefu/2configs/dnscrypt/server.nix>
       <stockholm/makefu/2configs/iodined.nix>
 
-      # buildbot
-      <stockholm/makefu/2configs/remote-build/slave.nix>
+      ## buildbot
+      #<stockholm/makefu/2configs/remote-build/slave.nix>
 
-      ## Web
-      <stockholm/makefu/2configs/nginx/share-download.nix>
-      <stockholm/makefu/2configs/nginx/euer.test.nix>
-      <stockholm/makefu/2configs/nginx/euer.mon.nix>
-      <stockholm/makefu/2configs/nginx/euer.wiki.nix>
-      <stockholm/makefu/2configs/nginx/euer.blog.nix>
-      # <stockholm/makefu/2configs/nginx/gum.krebsco.de.nix>
-      <stockholm/makefu/2configs/nginx/public_html.nix>
-      <stockholm/makefu/2configs/nginx/update.connector.one.nix>
-      <stockholm/makefu/2configs/nginx/misa-felix-hochzeit.ml.nix>
+      # Removed until move: no extra mails
+      # <stockholm/makefu/2configs/urlwatch>
+      # Removed until move: avoid double-update of domain
+      # <stockholm/makefu/2configs/hub.nix>
+      # Removed until move: avoid letsencrypt ban
+      ### Web
+      #<stockholm/makefu/2configs/nginx/share-download.nix>
+      #<stockholm/makefu/2configs/nginx/euer.test.nix>
+      #<stockholm/makefu/2configs/nginx/euer.mon.nix>
+      #<stockholm/makefu/2configs/nginx/euer.wiki.nix>
+      #<stockholm/makefu/2configs/nginx/euer.blog.nix>
+      ## <stockholm/makefu/2configs/nginx/gum.krebsco.de.nix>
+      #<stockholm/makefu/2configs/nginx/public_html.nix>
+      #<stockholm/makefu/2configs/nginx/update.connector.one.nix>
+      #<stockholm/makefu/2configs/nginx/misa-felix-hochzeit.ml.nix>
 
-      <stockholm/makefu/2configs/deployment/photostore.krebsco.de.nix>
-      <stockholm/makefu/2configs/deployment/graphs.nix>
-      <stockholm/makefu/2configs/deployment/owncloud.nix>
-      <stockholm/makefu/2configs/deployment/boot-euer.nix>
-      <stockholm/makefu/2configs/deployment/bgt/hidden_service.nix>
+      #<stockholm/makefu/2configs/deployment/photostore.krebsco.de.nix>
+      #<stockholm/makefu/2configs/deployment/graphs.nix>
+      #<stockholm/makefu/2configs/deployment/owncloud.nix>
+      #<stockholm/makefu/2configs/deployment/boot-euer.nix>
+      #<stockholm/makefu/2configs/deployment/bgt/hidden_service.nix>
 
       {
         services.taskserver.enable = true;
@@ -72,23 +86,12 @@ in {
           ip6tables -A INPUT -i retiolum -p tcp --dport 53589 -j ACCEPT
         '';
       }
-      # <stockholm/makefu/2configs/ipfs.nix>
-      <stockholm/makefu/2configs/syncthing.nix>
 
-      # <stockholm/makefu/2configs/opentracker.nix>
-      <stockholm/makefu/2configs/hub.nix>
-      { # ncdc
-        environment.systemPackages = [ pkgs.ncdc ];
-        networking.firewall = {
-          allowedUDPPorts = [ 51411 ];
-          allowedTCPPorts = [ 51411 ];
-        };
-      }
 
       <stockholm/makefu/2configs/stats/client.nix>
       # <stockholm/makefu/2configs/logging/client.nix>
 
-      # Temporary:
+      ## Temporary:
       # <stockholm/makefu/2configs/temp/rst-issue.nix>
       <stockholm/makefu/2configs/virtualisation/docker.nix>
 
