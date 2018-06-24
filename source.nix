@@ -20,6 +20,7 @@ let
   pkgs = import <nixpkgs> {
     overlays = map import [
       <stockholm/krebs/5pkgs>
+      <stockholm/submodules/nix-writers/pkgs>
     ];
   };
   # TODO: automate updating of this ref + cherry-picks
