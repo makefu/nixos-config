@@ -34,7 +34,7 @@ in {
       # <stockholm/makefu/2configs/sabnzbd.nix>
       <stockholm/makefu/2configs/torrent.nix>
       <stockholm/makefu/2configs/mosh.nix>
-      <stockholm/makefu/2configs/retroshare.nix>
+      # <stockholm/makefu/2configs/retroshare.nix>
 
       # network
       <stockholm/makefu/2configs/vpn/openvpn-server.nix>
