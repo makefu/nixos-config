@@ -38,6 +38,7 @@ let
 
   priv-repos = mapAttrs make-priv-repo {
     autosync = { };
+    fenkins = { };
     pass = { };
   };
 
