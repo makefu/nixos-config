@@ -52,7 +52,7 @@ in {
       <stockholm/makefu/2configs/iodined.nix>
 
       ## buildbot
-      #<stockholm/makefu/2configs/remote-build/slave.nix>
+      <stockholm/makefu/2configs/remote-build/slave.nix>
 
       # Removed until move: no extra mails
       # <stockholm/makefu/2configs/urlwatch>
@@ -94,6 +94,7 @@ in {
       ## Temporary:
       # <stockholm/makefu/2configs/temp/rst-issue.nix>
       <stockholm/makefu/2configs/virtualisation/docker.nix>
+      <stockholm/makefu/2configs/virtualisation/libvirt.nix>
 
       #{
       #  services.dockerRegistry.enable = true;
