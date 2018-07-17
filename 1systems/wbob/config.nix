@@ -43,16 +43,18 @@ in {
       <stockholm/makefu/2configs/stats/external/aralast.nix>
       <stockholm/makefu/2configs/stats/telegraf/airsensor.nix>
       # <stockholm/makefu/2configs/stats/telegraf/bamstats.nix>
+      <stockholm/makefu/2configs/hw/mceusb.nix>
 
       <stockholm/makefu/2configs/deployment/bureautomation>
       (let
           collectd-port = 25826;
           influx-port = 8086;
+          admin-port = 8083;
           grafana-port = 3000; # TODO nginx forward
           db = "collectd_db";
           logging-interface = "enp0s25";
         in {
-          networking.firewall.allowedTCPPorts = [ 3000 ];
+          networking.firewall.allowedTCPPorts = [ 3000 influx-port admin-port ];
 
           services.grafana.enable = true;
           services.grafana.addr = "0.0.0.0";
@@ -61,7 +63,7 @@ in {
             meta.hostname = config.krebs.build.host.name;
             # meta.logging-enabled = true;
             http.bind-address = ":${toString influx-port}";
-            admin.bind-address = ":8083";
+            admin.bind-address = ":${toString admin-port}";
             collectd = [{
               enabled = true;
               typesdb = "${pkgs.collectd}/share/collectd/types.db";
@@ -125,7 +127,6 @@ in {
   networking.firewall.allowedTCPPorts = [
     655
     8081 #smokeping
-    8086 #influx
     49152
   ];
   networking.firewall.trustedInterfaces = [ "enp0s25" ];
