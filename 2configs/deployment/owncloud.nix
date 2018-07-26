@@ -108,7 +108,6 @@ let
           # Add headers to serve security related headers
           add_header Strict-Transport-Security "max-age=15768000; includeSubDomains; preload;";
           add_header X-Content-Type-Options nosniff;
-          add_header X-Frame-Options "SAMEORIGIN";
           add_header X-XSS-Protection "1; mode=block";
           add_header X-Robots-Tag none;
           # Optional: Don't log access to assets
@@ -144,6 +143,7 @@ let
         opcache.memory_consumption=128
         opcache.save_comments=1
         opcache.revalidate_freq=1
+        zend_extension=${pkgs.php}/lib/php/extensions/opcache.so
 
         display_errors = on
         display_startup_errors = on
