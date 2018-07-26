@@ -31,6 +31,7 @@
         FSType "tmpfs"
         FSType "binfmt_misc"
         FSType "debugfs"
+        FSType "tracefs"
         FSType "mqueue"
         FSType "hugetlbfs"
         FSType "systemd-1"
