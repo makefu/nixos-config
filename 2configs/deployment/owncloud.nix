@@ -143,6 +143,7 @@ let
         opcache.memory_consumption=128
         opcache.save_comments=1
         opcache.revalidate_freq=1
+        opcache.file_cache = .opcache
         zend_extension=${pkgs.php}/lib/php/extensions/opcache.so
 
         display_errors = on
@@ -155,6 +156,13 @@ let
         extension=${pkgs.phpPackages.redis}/lib/php/extensions/redis.so
         extension=${pkgs.phpPackages.apcu}/lib/php/extensions/apcu.so
       '';
+      systemd.services."nextcloud-cron-${domain}" = {
+        serviceConfig = {
+          User = "nginx";
+          ExecStart = "${pkgs.php}/bin/php -f ${root}/cron.php";
+        };
+        startAt = "*:0/15";
+      };
     };
 in  {
   imports = [
