@@ -1,6 +1,6 @@
 { pkgs, ... }:
 {
-  krebs.per-user.makefu.packages = [
+  users.users.makefu.packages = [
     pkgs.taskwarrior
   ];
 

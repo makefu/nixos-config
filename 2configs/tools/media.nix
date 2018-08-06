@@ -1,7 +1,7 @@
 { pkgs, ... }:
 
 {
-  krebs.per-user.makefu.packages = with pkgs; [
+  users.users.makefu.packages = with pkgs; [
     kodi
     streamripper
     youtube-dl
