@@ -49,6 +49,7 @@ in {
       <stockholm/makefu/2configs/vpn/openvpn-server.nix>
       # <stockholm/makefu/2configs/vpn/vpnws/server.nix>
       <stockholm/makefu/2configs/dnscrypt/server.nix>
+      <stockholm/makefu/2configs/binary-cache/server.nix>
       <stockholm/makefu/2configs/iodined.nix>
 
       ## buildbot
@@ -69,6 +70,7 @@ in {
       #<stockholm/makefu/2configs/nginx/public_html.nix>
       #<stockholm/makefu/2configs/nginx/update.connector.one.nix>
       #<stockholm/makefu/2configs/nginx/misa-felix-hochzeit.ml.nix>
+      <stockholm/makefu/2configs/nginx/gold.krebsco.de.nix>
 
       #<stockholm/makefu/2configs/deployment/photostore.krebsco.de.nix>
       #<stockholm/makefu/2configs/deployment/graphs.nix>

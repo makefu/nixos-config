@@ -45,10 +45,18 @@ in {
     "ata_piix" "vmw_pvscsi" "virtio_pci" "sd_mod" "ahci"
     "xhci_pci" "ehci_pci" "ahci" "sd_mod"
   ];
-  boot.kernelModules = [ "kvm-intel" ];
+  boot.kernelModules = [ "kvm-intel" "dm-raid" "dm_thin_pool" ];
   hardware.enableRedistributableFirmware = true;
   fileSystems."/" = {
     device = "/dev/mapper/nixos-root";
+    fsType = "ext4";
+  };
+  fileSystems."/var/lib" = {
+    device = "/dev/mapper/nixos-lib";
+    fsType = "ext4";
+  };
+  fileSystems."/var/download" = {
+    device = "/dev/mapper/nixos-download";
     fsType = "ext4";
   };
   fileSystems."/boot" = {
@@ -69,7 +77,9 @@ in {
   #pvcreate /dev/sda3
   #pvcreate /dev/sdb1
   #vgcreate nixos /dev/sda3 /dev/sdb1
-  #lvcreate -L 120G -n root nixos
+  #lvcreate -L 120G -m 1 -n root nixos
+  #lvcreate -L 50G -m 1 -n lib nixos
+  #lvcreate -L 50G -n download nixos
   #mkfs.ext4 /dev/mapper/nixos-root
   #mount /dev/mapper/nixos-root /mnt
   #mkdir /mnt/boot
