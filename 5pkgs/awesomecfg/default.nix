@@ -2,7 +2,10 @@
 , lib
 , alsaUtils
 , xbacklight
-, modkey?"Mod4"
+, networkmanagerapplet
+, blueman
+, clipit
+, modkey ? "Mod4"
 , locker? "${pkgs.xlock}/bin/xlock -mode blank"
 , ... }:
 
@@ -10,7 +13,7 @@
   # replace: @alsaUtils@ @xlockmore@ @xbacklight@ @modkey@
   full = lib.makeOverridable pkgs.substituteAll {
     name = "awesome_full_config";
-    inherit alsaUtils locker xbacklight modkey;
+    inherit alsaUtils locker xbacklight modkey networkmanagerapplet blueman clipit;
     isExecutable = false;
     src = ./full.cfg;
   };
