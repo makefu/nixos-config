@@ -8,6 +8,7 @@ with import <stockholm/lib>;
   imports =
     [ # base
       <stockholm/makefu>
+      <stockholm/makefu/2configs/nur.nix>
       <stockholm/makefu/2configs/main-laptop.nix>
       <stockholm/makefu/2configs/extra-fonts.nix>
       <stockholm/makefu/2configs/tools/all.nix>
@@ -54,7 +55,6 @@ with import <stockholm/lib>;
           internalInterfaces = [ "vboxnet0" ];
         };
       }
-
       # Services
       <stockholm/makefu/2configs/git/brain-retiolum.nix>
       <stockholm/makefu/2configs/tor.nix>
@@ -64,6 +64,7 @@ with import <stockholm/lib>;
 
       # Hardware
       <stockholm/makefu/2configs/hw/tp-x230.nix>
+      <stockholm/makefu/2configs/hw/mceusb.nix>
       # <stockholm/makefu/2configs/hw/tpm.nix>
       # <stockholm/makefu/2configs/hw/rtl8812au.nix>
       <stockholm/makefu/2configs/hw/network-manager.nix>
@@ -125,7 +126,7 @@ with import <stockholm/lib>;
 
   krebs.build.host = config.krebs.hosts.x;
 
-  krebs.tinc.retiolum.connectTo = [ "omo" "gum" "prism" ];
+  krebs.tinc.retiolum.connectTo = [ "omo" "gum" "prism" "nextgum" ];
 
   networking.extraHosts = ''
     192.168.1.11  omo.local
@@ -133,6 +134,8 @@ with import <stockholm/lib>;
   '';
   # hard dependency because otherwise the device will not be unlocked
   boot.initrd.luks.devices = [ { name = "luksroot"; device = "/dev/sda2"; allowDiscards=true; }];
+  # avoid full boot dir
+  boot.loader.grub.configurationLimit = 3;
 
   environment.systemPackages = [ pkgs.passwdqc-utils pkgs.nixUnstable ];
   nixpkgs.overlays = [ (import <python/overlay.nix>) ];
