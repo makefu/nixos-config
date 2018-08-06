@@ -39,11 +39,15 @@ in {
 
       # Sensors
       <stockholm/makefu/2configs/stats/telegraf>
-      <stockholm/makefu/2configs/deployment/led-fader.nix>
-      <stockholm/makefu/2configs/stats/external/aralast.nix>
       <stockholm/makefu/2configs/stats/telegraf/airsensor.nix>
-      # <stockholm/makefu/2configs/stats/telegraf/bamstats.nix>
+      <stockholm/makefu/2configs/stats/telegraf/europastats.nix>
+      <stockholm/makefu/2configs/stats/external/aralast.nix>
+      <stockholm/makefu/2configs/stats/arafetch.nix>
+      <stockholm/makefu/2configs/deployment/led-fader.nix>
       <stockholm/makefu/2configs/hw/mceusb.nix>
+      # <stockholm/makefu/2configs/stats/telegraf/bamstats.nix>
+
+
 
       <stockholm/makefu/2configs/deployment/bureautomation>
       (let
