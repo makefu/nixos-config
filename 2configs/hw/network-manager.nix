@@ -22,15 +22,9 @@
   };
   networking.networkmanager.enable = true;
 
-  # TODO: put somewhere else
-  services.xserver.displayManager.sessionCommands = ''
-    ${pkgs.clipit}/bin/clipit &
-    ${pkgs.networkmanagerapplet}/bin/nm-applet &
-    '';
-
 # nixOSUnstable
-# networking.networkmanager.wifi = {
-#   powersave = true;
-#   scanRandMacAddress = true;
-# };
+  networking.networkmanager.wifi = {
+    powersave = true;
+    scanRandMacAddress = true;
+  };
 }
