@@ -71,6 +71,7 @@ in {
       #<stockholm/makefu/2configs/nginx/update.connector.one.nix>
       #<stockholm/makefu/2configs/nginx/misa-felix-hochzeit.ml.nix>
       <stockholm/makefu/2configs/nginx/gold.krebsco.de.nix>
+      <stockholm/makefu/2configs/deployment/events-publisher>
 
       #<stockholm/makefu/2configs/deployment/photostore.krebsco.de.nix>
       #<stockholm/makefu/2configs/deployment/graphs.nix>
