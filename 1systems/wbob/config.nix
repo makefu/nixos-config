@@ -50,6 +50,7 @@ in {
 
 
       <stockholm/makefu/2configs/deployment/bureautomation>
+      <stockholm/makefu/2configs/deployment/bureautomation/hass.nix>
       (let
           collectd-port = 25826;
           influx-port = 8086;
