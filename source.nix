@@ -24,11 +24,10 @@ let
     ];
   };
   # TODO: automate updating of this ref + cherry-picks
-  ref = "14946ec63a1"; # nixos-18.03 @ 2018-05-31
+  ref = "8f991294288"; # nixos-18.03 @ 2018-08-06
                        # + do_sqlite3 ruby:   55a952be5b5
                        # + exfat-nofuse bump: ee6a5296a35
                        # + uhub/sqlite: 5dd7610401747
-                       # + forecastio:  f27584df02337
 
 in
   evalSource (toString _file) [
