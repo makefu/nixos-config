@@ -1,6 +1,5 @@
-with import <stockholm/lib>;
-self: super: let
-
+self: super: 
+with super.lib; with builtins; let
   # This callPackage will try to detect obsolete overrides.
   callPackage = path: args: let
     override =  super.callPackage path args;
@@ -15,6 +14,7 @@ self: super: let
         override
     else override;
 
+   eq = x: y: x == y;
    subdirsOf = path:
      mapAttrs (name: _: path + "/${name}")
               (filterAttrs (_: eq "directory") (readDir path));
@@ -40,6 +40,6 @@ in {
     };
 }
 
-// mapAttrs (_: flip callPackage {})
+// (mapAttrs (_: flip callPackage {})
             (filterAttrs (_: dir: pathExists (dir + "/default.nix"))
-                         (subdirsOf ./.))
+                         (subdirsOf ./.)))
