@@ -1,3 +1,5 @@
-import <stockholm/makefu/source.nix> {
+{
   name="tsp";
+  full = true;
+  hw = true;
 }
