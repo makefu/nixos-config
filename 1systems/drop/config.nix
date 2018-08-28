@@ -30,7 +30,7 @@ in {
       allowedTCPPorts = [ ];
       allowedUDPPorts = [ 655 ];
     };
-    interfaces.enp0s3.ip4 = [{
+    interfaces.enp0s3.ipv4.addresses = [{
       address = external-ip;
       inherit prefixLength;
     }];

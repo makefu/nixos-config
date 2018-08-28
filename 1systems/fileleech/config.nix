@@ -145,13 +145,13 @@ in {
   networking.nameservers = [ "8.8.8.8" ];
   # SPF
   networking.defaultGateway = "151.217.176.1";
-  networking.interfaces.enp6s0f0.ip4 = [{
+  networking.interfaces.enp6s0f0.ipv4.addresses = [{
       address = "151.217.178.63";
       prefixLength = 22;
   }];
 
   # Gigabit
-  networking.interfaces.enp8s0f1.ip4 = [{
+  networking.interfaces.enp8s0f1.ipv4.addresses = [{
       address = "192.168.126.1";
       prefixLength = 24;
   }];

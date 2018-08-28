@@ -42,7 +42,7 @@ in {
       allowedTCPPorts = [ 53 80 443 ];
       allowedUDPPorts = [ 655 53 ];
     };
-    interfaces.enp2s1.ip4 = [{
+    interfaces.enp2s1.ipv4.addresses = [{
       address = external-ip;
       prefixLength = 24;
     }];

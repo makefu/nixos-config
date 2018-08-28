@@ -46,7 +46,7 @@ in {
     dst = "10.8.10.6";
   };
   networking =  {
-    interfaces.enp2s1.ip4 = [
+    interfaces.enp2s1.ipv4.addresses = [
       { address = ip; prefixLength = 24; }
       # { address = alt-ip; prefixLength = 24; }
     ];
