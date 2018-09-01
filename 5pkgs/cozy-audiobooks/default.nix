@@ -1,4 +1,4 @@
-{ stdenv, fetchFromGitHub, fetchPypi
+{ stdenv, fetchFromGitHub
 , ninja
 , boost
 , meson
@@ -8,7 +8,6 @@
 , desktop-file-utils
 , gtk3
 , glib
-, isPy3k
 , gst_all_1
 , gobjectIntrospection
 , python3Packages
@@ -74,7 +73,7 @@ stdenv.mkDerivation rec {
 
   ];
   buildInputs = with gst_all_1; [ gtk3 glib
-  gstreamer gst-plugins-good cairo gettext file.out
+  gstreamer gst-plugins-good  gst-plugins-ugly gst-plugins-base cairo gettext
   gnome3.defaultIconTheme gnome3.gsettings-desktop-schemas
   ]
    ++ (with python3Packages; [
