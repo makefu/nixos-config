@@ -10,7 +10,7 @@ in {
   #   description = "smb guest user";
   #   home = "/var/empty";
   # };
-
+  environment.systemPackages = [ pkgs.samba ];
   users.users.download.uid = genid "download";
   services.samba = {
     enable = true;
