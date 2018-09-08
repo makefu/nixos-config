@@ -2,12 +2,13 @@
 with import <stockholm/lib>;
 let
   shack-announce = pkgs.callPackage (builtins.fetchTarball {
-    url = "https://github.com/makefu/events-publisher/archive/4cef900ba10348050208367af6b2035f5a0ef8b6.tar.gz";
-    sha256 = "137vsibr289p3xxlw37xhizi309sygki95919hmj02dxgwmy1k74";
+    url = "https://github.com/makefu/events-publisher/archive/c5218195e6afdc646cb7682d8f355a7ec2b90716.tar.gz";
+    sha256 = "0xk74q7gah3l5zy3bkvih3k9fr1hclvf71rm3ixcmslhicl7khav";
   }) {} ;
   home = "/var/lib/shackannounce";
   user = "shackannounce";
   creds = (toString <secrets>) + "/shack-announce.json";
+  LOL = "DEBUG";
 in
 {
   users.users.${user}= {
@@ -32,14 +33,14 @@ in
         if test ! -e announce.state; then
           echo "initializing state"
           announce-daemon \
-            --lol INFO \
+            --lol ${LOL} \
             --creds creds.json \
             --state announce.state \
             --clean --init
         fi
         echo "Running announce"
         announce-daemon \
-           --lol INFO \
+           --lol ${LOL} \
            --creds creds.json \
            --state announce.state
       '';
