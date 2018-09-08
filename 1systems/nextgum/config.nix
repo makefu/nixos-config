@@ -19,14 +19,15 @@ in {
       <stockholm/makefu/2configs/tools/core.nix>
       <stockholm/makefu/2configs/tools/dev.nix>
       <stockholm/makefu/2configs/tools/sec.nix>
-      <stockholm/makefu/2configs/vim.nix>
       <stockholm/makefu/2configs/zsh-user.nix>
       <stockholm/makefu/2configs/mosh.nix>
+      <stockholm/makefu/2configs/gui/xpra.nix>
 
       <stockholm/makefu/2configs/git/cgit-retiolum.nix>
       <stockholm/makefu/2configs/backup.nix>
       <stockholm/makefu/2configs/exim-retiolum.nix>
       <stockholm/makefu/2configs/tinc/retiolum.nix>
+
       # services
       <stockholm/makefu/2configs/sabnzbd.nix>
 
@@ -51,12 +52,13 @@ in {
       <stockholm/makefu/2configs/dnscrypt/server.nix>
       <stockholm/makefu/2configs/binary-cache/server.nix>
       <stockholm/makefu/2configs/iodined.nix>
+      <stockholm/makefu/2configs/bitlbee.nix>
 
       ## buildbot
       <stockholm/makefu/2configs/remote-build/slave.nix>
 
       # Removed until move: no extra mails
-      # <stockholm/makefu/2configs/urlwatch>
+      <stockholm/makefu/2configs/urlwatch>
       # Removed until move: avoid double-update of domain
       # <stockholm/makefu/2configs/hub.nix>
       # Removed until move: avoid letsencrypt ban
@@ -166,6 +168,8 @@ in {
         networking.firewall.allowedTCPPorts = [ 5201 ];
       }
 
+      # krebs infrastructure services
+      <stockholm/makefu/2configs/stats/server.nix>
   ];
   makefu.dl-dir = "/var/download";
 
@@ -200,13 +204,8 @@ in {
   environment.systemPackages = with pkgs;[
     weechat
     bepasty-client-cli
-    get
     tmux
   ];
-  services.bitlbee = {
-    enable = true;
-    libpurple_plugins = [ pkgs.telegram-purple ];
-  };
 
   # Hardware
 
