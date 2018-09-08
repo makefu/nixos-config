@@ -22,7 +22,6 @@ in {
 
     # Tools
     <stockholm/makefu/2configs/tools/core.nix>
-    <stockholm/makefu/2configs/vim.nix>
     <stockholm/makefu/2configs/zsh-user.nix>
     # Services
     <stockholm/makefu/2configs/remote-build/slave.nix>
