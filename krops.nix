@@ -81,10 +81,8 @@ in {
     target = "${lib.getEnv "HOME"}/tmp/${name}-krops-test-src";
   };
 
-  ci = map (host:
-    pkgs.krops.writeTest "${host.name}-test" {
-      source = source { test = true; };
-      target = "${lib.getEnv "TMPDIR"}/makefu/${host.name}";
-    }
-  ) (lib.filter (host: lib.getAttr "ci" host && host.owner == "makefu") (lib.attrValues config.krebs.hosts));
+  ci = pkgs.krops.writeTest "${name}-test" {
+    source = source { test = true; };
+    target = "${lib.getEnv "HOME"}/stockholm-build";
+  };
 }
