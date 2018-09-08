@@ -8,13 +8,16 @@ with import <stockholm/lib>;
         mapAttrs (_: h: { hashedPassword = h; })
                  (import <secrets/hashedPasswords.nix>);
     }
-    ./vim.nix
+    ./editor/vim.nix
     ./binary-cache/nixos.nix
   ];
 
   boot.kernelPackages = lib.mkDefault pkgs.linuxPackages_latest;
 
   programs.command-not-found.enable = false;
+
+  nix.package = pkgs.nixUnstable;
+
   nixpkgs.config.allowUnfreePredicate =  (pkg: pkgs.lib.hasPrefix "unrar-" pkg.name);
   krebs = {
     enable = true;
@@ -158,4 +161,10 @@ with import <stockholm/lib>;
         "-a task,never"
       ];
     };
+  system.activationScripts.state =  optionalString (config.state != []) ''
+    cat << EOF
+    This machine is burdened with state:
+    ${concatMapStringsSep "\n" (d: "* ${d}") config.state}
+    EOF
+  '';
 }
