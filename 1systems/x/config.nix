@@ -12,7 +12,6 @@ with import <stockholm/lib>;
       <stockholm/makefu/2configs/main-laptop.nix>
       <stockholm/makefu/2configs/extra-fonts.nix>
       <stockholm/makefu/2configs/tools/all.nix>
-      <stockholm/makefu/2configs/tools/mic92.nix>
 
       <stockholm/makefu/2configs/laptop-backup.nix>
       # <stockholm/makefu/2configs/dnscrypt/client.nix>
