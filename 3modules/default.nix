@@ -2,6 +2,7 @@ _:
 
 {
   imports = [
+    ./state.nix
     ./populate.nix
     ./awesome-extra.nix
     ./deluge.nix

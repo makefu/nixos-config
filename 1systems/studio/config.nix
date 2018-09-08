@@ -3,7 +3,6 @@
   imports = [
     <stockholm/makefu>
     <stockholm/makefu/2configs/vncserver.nix>
-    <stockholm/makefu/2configs/vim.nix>
     <stockholm/makefu/2configs/disable_v6.nix>
     <stockholm/makefu/2configs/audio/jack-on-pulse.nix>
     <stockholm/makefu/2configs/audio/realtime-audio.nix>

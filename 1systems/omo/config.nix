@@ -10,6 +10,7 @@ let
   rootDisk = byid "ata-SanDisk_SD8SNAT128G1122_162099420904";
   rootPartition = byid "ata-SanDisk_SD8SNAT128G1122_162099420904-part2";
   primaryInterface = "enp2s0";
+  firetv = "192.168.1.238";
   # cryptsetup luksFormat $dev --cipher aes-xts-plain64 -s 512 -h sha512
   # cryptsetup luksAddKey $dev tmpkey
   # cryptsetup luksOpen $dev crypt0 --key-file tmpkey --keyfile-size=4096
@@ -28,7 +29,8 @@ let
   # |  *    |
   # |  *    |
   # |_______|
-  cryptDisk0 = byid "ata-ST2000DM001-1CH164_Z240XTT6";
+  # cryptDisk0 = byid "ata-ST2000DM001-1CH164_Z240XTT6";
+  cryptDisk0 = byid "ata-ST8000DM004-2CX188_ZCT01PLV";
   cryptDisk1 = byid "ata-TP02000GB_TPW151006050068";
   cryptDisk2 = byid "ata-ST4000DM000-1F2168_Z303HVSG";
   cryptDisk3 = byid "ata-ST8000DM004-2CX188_ZCT01SG4";
@@ -97,6 +99,71 @@ in {
 
       # Temporary:
       # <stockholm/makefu/2configs/temp/rst-issue.nix>
+      { # ncdc
+        environment.systemPackages = [ pkgs.ncdc ];
+        networking.firewall = {
+          allowedUDPPorts = [ 51411 ];
+          allowedTCPPorts = [ 51411 ];
+        };
+      }
+      {
+        systemd.services.firetv = {
+          wantedBy = [ "multi-user.target" ];
+          serviceConfig = {
+            User = "nobody";
+            ExecStart = "${pkgs.python-firetv}/bin/firetv-server -d ${firetv}:5555";
+          };
+        };
+        nixpkgs.config.permittedInsecurePackages = [
+         "homeassistant-0.65.5"
+       ];
+        services.home-assistant = {
+          config = {
+            homeassistant = {
+              name = "Home"; time_zone = "Europe/Berlin";
+              latitude = "48.7687";
+              longitude = "9.2478";
+            };
+            media_player = [
+              { platform = "kodi";
+                host = firetv;
+              }
+              { platform = "firetv";
+                # assumes python-firetv running
+              }
+            ];
+            sensor = [
+              { platform = "luftdaten";
+                name = "Ditzingen";
+                sensorid = "663";
+                monitored_conditions = [ "P1" "P2" ];
+              }
+              # https://www.home-assistant.io/cookbook/automation_for_rainy_days/
+              { platform = "darksky";
+                api_key = "c73619e6ea79e553a585be06aacf3679";
+                language = "de";
+                monitored_conditions = [ "summary" "icon"
+                "nearest_storm_distance" "precip_probability"
+                "precip_intensity"
+                "temperature" # "temperature_high" "temperature_low"
+                "hourly_summary"
+                "uv_index" ];
+                units =  "si" ;
+                update_interval = {
+                      days = 0;
+                      hours = 0;
+                      minutes = 10;
+                      seconds = 0;
+                };
+              }
+            ];
+            frontend = { };
+            http = { };
+          };
+          enable = true;
+          #configDir = "/var/lib/hass";
+        };
+      }
     ];
   makefu.full-populate = true;
   makefu.server.primary-itf = primaryInterface;
@@ -164,7 +231,7 @@ in {
     // cryptMount "crypt2"
     // cryptMount "crypt3"
     // { "/media/cryptX" = {
-            device = (lib.concatMapStringsSep ":" (d: (toMapper d)) [ 0 1 2 ]);
+            device = (lib.concatMapStringsSep ":" (d: (toMapper d)) [ 0 1 2 3 ]);
             fsType = "mergerfs";
             noCheck = true;
             options = [ "defaults" "allow_other" "nofail" "nonempty" ];

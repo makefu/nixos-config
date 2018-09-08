@@ -17,7 +17,6 @@ in {
       # <stockholm/makefu/2configs/disable_v6.nix>
       <stockholm/makefu/2configs/exim-retiolum.nix>
       <stockholm/makefu/2configs/tinc/retiolum.nix>
-      <stockholm/makefu/2configs/urlwatch>
 
       # Security
       <stockholm/makefu/2configs/sshd-totp.nix>
@@ -26,7 +25,6 @@ in {
       <stockholm/makefu/2configs/tools/core.nix>
       <stockholm/makefu/2configs/tools/dev.nix>
       <stockholm/makefu/2configs/tools/sec.nix>
-      <stockholm/makefu/2configs/vim.nix>
       <stockholm/makefu/2configs/zsh-user.nix>
 
       # services
@@ -57,7 +55,7 @@ in {
       <stockholm/makefu/2configs/nginx/misa-felix-hochzeit.ml.nix>
 
       <stockholm/makefu/2configs/deployment/photostore.krebsco.de.nix>
-      <stockholm/makefu/2configs/deployment/graphs.nix>
+      # <stockholm/makefu/2configs/deployment/graphs.nix>
       <stockholm/makefu/2configs/deployment/owncloud.nix>
       <stockholm/makefu/2configs/deployment/boot-euer.nix>
       <stockholm/makefu/2configs/deployment/bgt/hidden_service.nix>
@@ -196,12 +194,6 @@ in {
     get
     tmux
   ];
-  services.bitlbee = {
-    enable = true;
-    libpurple_plugins = [ pkgs.telegram-purple ];
-  };
-
-  # Hardware
 
   # Network
   networking = {

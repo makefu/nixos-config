@@ -15,7 +15,7 @@ with import <stockholm/lib>;
       <stockholm/makefu/2configs/tools/mic92.nix>
 
       <stockholm/makefu/2configs/laptop-backup.nix>
-      <stockholm/makefu/2configs/dnscrypt/client.nix>
+      # <stockholm/makefu/2configs/dnscrypt/client.nix>
       <stockholm/makefu/2configs/avahi.nix>
 
       # Debugging
@@ -36,6 +36,8 @@ with import <stockholm/lib>;
 
       # Krebs
       <stockholm/makefu/2configs/tinc/retiolum.nix>
+      <stockholm/makefu/2configs/share/gum-client.nix>
+
 
       # applications
       <stockholm/makefu/2configs/exim-retiolum.nix>
@@ -72,6 +74,7 @@ with import <stockholm/lib>;
       <stockholm/makefu/2configs/hw/irtoy.nix>
       <stockholm/makefu/2configs/hw/bluetooth.nix>
       # <stockholm/makefu/2configs/hw/rad1o.nix>
+      <stockholm/makefu/2configs/hw/smartcard.nix>
 
       # Filesystem
       <stockholm/makefu/2configs/fs/sda-crypto-root-home.nix>
@@ -82,6 +85,8 @@ with import <stockholm/lib>;
         programs.adb.enable = true;
       }
       # temporary
+      <stockholm/makefu/2configs/pyload.nix>
+      # <stockholm/makefu/2configs/nginx/rompr.nix>
       # <stockholm/makefu/2configs/lanparty/lancache.nix>
       # <stockholm/makefu/2configs/lanparty/lancache-dns.nix>
       # <stockholm/makefu/2configs/lanparty/samba.nix>
@@ -138,8 +143,11 @@ with import <stockholm/lib>;
   boot.loader.grub.configurationLimit = 3;
 
   environment.systemPackages = [ pkgs.passwdqc-utils pkgs.nixUnstable ];
-  nixpkgs.overlays = [ (import <python/overlay.nix>) ];
 
   # environment.variables = { GOROOT = [ "${pkgs.go.out}/share/go" ]; };
-
+  state = [
+    "/home/makefu/stockholm"
+    "/home/makefu/backup/borgun"
+    "/home/makefu/.mail/"
+  ];
 }
