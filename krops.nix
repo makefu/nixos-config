@@ -76,7 +76,7 @@ in {
   };
 
   # usage: $(nix-build --no-out-link --argstr name HOSTNAME --argstr target PATH -A test)
-  test = pkgs.krops.writeTest "${name}-test" {
+  test = { target ? target }: pkgs.krops.writeTest "${name}-test" {
     inherit target;
     source = source { test = true; };
   };
