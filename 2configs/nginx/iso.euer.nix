@@ -11,6 +11,7 @@ let
 
   drivedroid-cfg = builtins.toJSON [{
     id = "stockholm";
+    imageUrl = http://krebsco.de/krebs-v2.png;
     name = "stockholm";
     tags = [ "hybrid" ];
     url = http://krebsco.de;
