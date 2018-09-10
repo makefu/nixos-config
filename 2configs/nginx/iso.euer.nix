@@ -1,4 +1,4 @@
-{config, pkgs, ... }:
+{ config, pkgs, ... }:
 let
   system = builtins.currentSystem; #we can also build for other platforms
   iso = (import <nixpkgs/nixos/lib/eval-config.nix>
@@ -8,6 +8,25 @@ let
     );
   image = iso.config.system.build.isoImage;
   name = iso.config.isoImage.isoName;
+
+  drivedroid-cfg = builtins.toJSON [{
+    id = "stockholm";
+    name = "stockholm";
+    tags = [ "hybrid" ];
+    url = http://krebsco.de;
+    releases = [
+      { version = iso.config.system.nixos.label;
+        url = "/stockholm.iso";
+        arch = system; }
+    ];
+    # size = TODO;
+  }];
+  web = pkgs.linkFarm "web" [{
+    name = "drivedroid.json";
+    path = pkgs.writeText "drivedroid.json" drivedroid-cfg; }
+  { name = "stockholm.iso";
+    path = "${image}/iso/${name}"; }
+  ];
 in
 {
   services.nginx = {
@@ -15,10 +34,8 @@ in
       "iso.euer.krebsco.de" = {
         enableACME = true;
         forceSSL = true;
-        locations."/" = {
-            root = "${image}/iso";
-            index = name;
-        };
+        root = web;
+        locations."/".index = "drivedroid.json";
       };
     };
   };
