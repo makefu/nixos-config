@@ -57,7 +57,7 @@ in
 
 
       stockholm.file = toString <stockholm>;
-      stockholm-version.pipe = "${pkgs.stockholm}/bin/get-version";
+      stockholm-version.pipe = "${pkgs.coreutils}/bin/echo derp";
     }
     (mkIf ( musnix ) {
       musnix.git = {
