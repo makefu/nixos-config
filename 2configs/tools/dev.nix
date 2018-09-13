@@ -20,7 +20,6 @@
     brain
     gen-oath-safe
     cdrtools
-    stockholm
     # nix related
     nix-repl
     nix-index
