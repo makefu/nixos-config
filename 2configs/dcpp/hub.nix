@@ -30,6 +30,7 @@ let
 
     '') dict)}
   '';
+  uhubDir = "/var/lib/uhub";
 
 in {
   users.extraUsers = singleton {
@@ -65,12 +66,21 @@ in {
     PrivateTmp = true;
     PermissionsStartOnly = true;
     ExecStartPre = pkgs.writeDash "uhub-pre" ''
-      cp ${toString <secrets/wildcard.krebsco.de.crt>} /tmp/uhub.crt
-      cp ${toString <secrets/wildcard.krebsco.de.key>} /tmp/uhub.key
-      cp ${toString <secrets/uhub.sql>} /tmp/uhub.sql
-      chown uhub /tmp/*
+      cp -f ${toString <secrets/wildcard.krebsco.de.crt>} ${uhubDir}/uhub.crt
+      cp -f ${toString <secrets/wildcard.krebsco.de.key>} ${uhubDir}/uhub.key
+      if test -d ${uhubDir};then
+        echo "Directory ${uhubDir} already exists, skipping db init"
+      else
+        echo "Copying sql user db"
+        cp ${toString <secrets/uhub.sql>} ${uhubDir}/uhub.sql
+      fi
+      chown -R uhub ${uhubDir}
     '';
 
+  };
+  users.users.uhub = {
+    home = uhubDir;
+    createHome = true;
   };
   services.uhub = {
     enable = true;
@@ -78,9 +88,9 @@ in {
     enableTLS = true;
     hubConfig = ''
       hub_name = "krebshub"
-      tls_certificate = /tmp/uhub.crt
-      tls_private_key = /tmp/uhub.key
-      registered_users_only  = true
+      tls_certificate = ${uhubDir}/uhub.crt
+      tls_private_key = ${uhubDir}/uhub.key
+      registered_users_only = true
     '';
     plugins = {
       welcome = {
@@ -93,7 +103,7 @@ in {
       };
       authSqlite = {
         enable = true;
-        file = "/tmp/uhub.sql";
+        file = "${uhubDir}/uhub.sql";
       };
 
     };
