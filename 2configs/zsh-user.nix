@@ -68,6 +68,8 @@ in
 
       compdef _pass brain
       zstyle ':completion::complete:brain::' prefix "$HOME/brain"
+      compdef _pass secrets
+      zstyle ':completion::complete:secrets::' prefix "$HOME/.secrets-pass/"
 
       # ctrl-x ctrl-e
       autoload -U edit-command-line
