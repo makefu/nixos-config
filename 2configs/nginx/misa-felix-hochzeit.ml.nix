@@ -3,7 +3,7 @@
   services.nginx = {
     enable = lib.mkDefault true;
     virtualHosts."misa-felix-hochzeit.ml" = {
-      serverAliases = [ "www.misa-felix-hochzeit.ml" "misa-felix.ml" "www.misa-felix.ml" ];
+      serverAliases = [ "misa-felix.ml" "www.misa-felix.ml" ];
       forceSSL = true;
       enableACME = true;
       locations = {
