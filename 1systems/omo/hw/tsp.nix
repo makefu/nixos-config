@@ -28,5 +28,13 @@ in {
 
     kernelModules = [ "kvm-intel" ];
   };
-
+  networking.wireless.enable = true;
+  hardware.enableRedistributableFirmware = true;
+  hardware.cpu.intel.updateMicrocode = true;
+  services.logind.lidSwitch = "ignore";
+  services.logind.lidSwitchDocked = "ignore";
+  services.logind.extraConfig = ''
+    HandleSuspendKey = ignore
+  '';
+  powerManagement.enable = false;
 }
