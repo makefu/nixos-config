@@ -29,11 +29,14 @@
 # presumably a2dp Sink
 # Enable profile:
 ## pacmd set-card-profile "$(pactl list cards short | egrep -o bluez_card[[:alnum:]._]+)" a2dp_sink
-  hardware.bluetooth.extraConfig = '';
-  [general]
-    Enable=Source,Sink,Media,Socket
-      '';
 
 # connect via https://nixos.wiki/wiki/Bluetooth#Using_Bluetooth_headsets_with_PulseAudio
-  hardware.bluetooth.enable = true;
+  hardware.bluetooth = {
+    enable = true;
+    powerOnBoot = false;
+    extraConfig = ''
+      [general]
+      Enable=Source,Sink,Media,Socket
+    '';
+  };
 }
