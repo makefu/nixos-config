@@ -5,7 +5,10 @@ let
   home = "/var/lib/ampel";
   sec = "${toString <secrets>}/google-muell.json";
   ampelsec = "${home}/google-muell.json";
-  esp = "192.168.1.23";
+  cred = "${toString <secrets>}/google-muell-creds.json";
+  # TODO: generate this credential file locally
+  ampelcred = "${home}/google-muell-creds.json";
+  esp = "192.168.8.204";
   sleepval = "1800";
 in {
   users.users.ampel = {
@@ -21,10 +24,10 @@ in {
     serviceConfig = {
       User = "ampel";
       ExecStartPre = pkgs.writeDash "copy-ampel-secrets" ''
-        cp ${sec} ${ampelsec}
-        chown ampel ${ampelsec}
+        install -m600 -o ampel ${sec} ${ampelsec}
+        install -m600 -o ampel ${cred} ${ampelcred}
       '';
-      ExecStart = "${pkg}/bin/google-muell --esp=${esp} --client-secrets=${ampelsec} --credential-path=${home}/google-muell-creds.json --sleepval=${sleepval}";
+      ExecStart = "${pkg}/bin/google-muell --esp=${esp} --client-secrets=${ampelsec} --credential-path=${ampelcred} --sleepval=${sleepval}";
       PermissionsStartOnly = true;
       Restart = "always";
       RestartSec = 10;
