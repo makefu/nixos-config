@@ -17,7 +17,10 @@ in {
       # <stockholm/makefu/2configs/smart-monitor.nix>
       <stockholm/makefu/2configs/mail-client.nix>
       <stockholm/makefu/2configs/mosh.nix>
+      <stockholm/makefu/2configs/tools/core.nix>
+      <stockholm/makefu/2configs/tools/desktop.nix>
       <stockholm/makefu/2configs/tools/mobility.nix>
+      { environment.systemPackages = [ pkgs.esniper ]; }
       # <stockholm/makefu/2configs/disable_v6.nix>
       #<stockholm/makefu/2configs/graphite-standalone.nix>
       #<stockholm/makefu/2configs/share-user-sftp.nix>
