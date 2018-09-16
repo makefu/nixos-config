@@ -1,48 +1,43 @@
 { pkgs, lib, ... }:
 let
-  tasmota_plug = name: topic: {
-          platform = "mqtt";
-          inherit name;
-          state_topic = "/bam/${topic}/stat/POWER";
-          command_topic = "/bam/${topic}/cmnd/POWER";
-          availability_topic = "/bam/${topic}/tele/LWT";
-          qos = 1;
-          payload_on= "ON";
-          payload_off= "OFF";
-          payload_available= "Online";
-          payload_not_available= "Offline";
-          retain= false;
-        };
+  tasmota_plug = name: topic:
+  { platform = "mqtt";
+    inherit name;
+    state_topic = "/bam/${topic}/stat/POWER1";
+    command_topic = "/bam/${topic}/cmnd/POWER1";
+    availability_topic = "/bam/${topic}/tele/LWT";
+    payload_on= "ON";
+    payload_off= "OFF";
+    payload_available= "Online";
+    payload_not_available= "Offline";
+  };
   espeasy_dht22 = name: [
-    {
-          platform = "mqtt";
-          device_class = "temperature";
-          state_topic = "/bam/${name}/dht22/Temperature";
-          availability_topic = "/bam/${name}/status/LWT";
-          payload_available = "Connected";
-          payload_not_available = "Connection Lost";
-    }
-    {
-          platform = "mqtt";
-          device_class = "humidity";
-          state_topic = "/bam/${name}/dht22/Temperature";
-          unit_of_measurement =  "C";
-          availability_topic = "/bam/${name}/status/LWT";
-          payload_available = "Connected";
-          payload_not_available = "Connection Lost";
-    }];
-  espeasy_ds18 = name: [
-    {
-          platform = "mqtt";
-          device_class = "temperature";
-          state_topic = "/bam/${name}/ds18/Temperature";
-          availability_topic = "/bam/${name}/status/LWT";
-          payload_available = "Connected";
-          payload_not_available = "Connection Lost";
-    }
-  ];
+  { platform = "mqtt";
+    name = "${name} DHT22 Temperature";
+    device_class = "temperature";
+    state_topic = "/bam/${name}/dht22/Temperature";
+    availability_topic = "/bam/${name}/tele/LWT";
+    payload_available = "Online";
+    payload_not_available = "Offline";
+  }
+  { platform = "mqtt";
+    device_class = "humidity";
+    name = "${name} DHT22 Humidity";
+    state_topic = "/bam/${name}/dht22/Humidity";
+    availability_topic = "/bam/${name}/tele/LWT";
+    payload_available = "Online";
+    payload_not_available = "Offline";
+  }];
+  espeasy_ds18 = name:
+  { platform = "mqtt";
+    name = "${name} DS18 Temperature";
+    state_topic = "/bam/${name}/ds18/Temperature";
+    availability_topic = "/bam/${name}/tele/LWT";
+    payload_available = "Online";
+    payload_not_available = "Offline";
+  };
 in {
-
+  networking.firewall.allowedTCPPorts = [ 8123 ];
   nixpkgs.config.permittedInsecurePackages = [
     "homeassistant-0.65.5"
   ];
@@ -81,18 +76,19 @@ in {
         (tasmota_plug "Pluggy" "plug4")
       ];
       binary_sensor = [
-        { # esp_easy 
-          platform = "mqtt";
+        { platform = "mqtt";
           device_class = "motion";
+          name = "Motion";
           state_topic = "/bam/easy2/movement/Switch";
           payload_on = "1";
           payload_off = "0";
-          availability_topic = "/bam/easy2/status/LWT";
-          payload_available = "Connected";
-          payload_not_available = "Connection Lost";
+          availability_topic = "/bam/easy2/tele/LWT";
+          payload_available = "Online";
+          payload_not_available = "Offline";
         }
       ];
       sensor =
+          (espeasy_dht22 "easy1") ++
           (espeasy_dht22 "easy2") ++
         [ (espeasy_ds18 "easy3" )
           { platform = "luftdaten";
