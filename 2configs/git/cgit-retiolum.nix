@@ -31,6 +31,7 @@ let
     ampel = { };
     europastats = { };
     arafetch = { };
+    disko = { };
     init-stockholm = {
       cgit.desc = "Init stuff for stockholm";
     };
