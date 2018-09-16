@@ -18,6 +18,7 @@
     unstable = false; #unstable channel checked out
     mic92 = false;
     nms = false;
+    arm6 = false;
     clever_kexec = false;
   } // import (./. + "/1systems/${name}/source.nix");
   source = { test }: lib.evalSource [
@@ -29,6 +30,9 @@
       nixpkgs = if test || host-src.full then {
         git.ref = nixpkgs-src.rev;
         git.url = nixpkgs-src.url;
+      } else if host-src.arm6 then {
+        # TODO: we want to track the unstable channel
+        symlink = "/nix/var/nix/profiles/per-user/root/channels/nixos/";
       } else {
         file = "/home/makefu/store/${nixpkgs-src.rev}";
       };
