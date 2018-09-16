@@ -20,6 +20,10 @@ with super.lib; with builtins; let
               (filterAttrs (_: eq "directory") (readDir path));
 
 in {
+    quodlibet = super.pkgs.stdenv.lib.overrideDerivation super.quodlibet (old: {
+      patches = [ ./custom/quodlibet/single-digit-discnumber.patch
+                  ./custom/quodlibet/remove-override-warning.patch ];
+    });
     alsa-hdspconf = callPackage ./custom/alsa-tools { alsaToolTarget="hdspconf";};
     alsa-hdspmixer = callPackage ./custom/alsa-tools { alsaToolTarget="hdspmixer";};
     alsa-hdsploader = callPackage ./custom/alsa-tools { alsaToolTarget="hdsploader";};
