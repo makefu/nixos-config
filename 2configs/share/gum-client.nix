@@ -17,6 +17,7 @@ in {
         "file_mode=0775"
         "dir_mode=0775"
         "uid=9001"
+        "vers=3"
       ];
   };
 

@@ -6,13 +6,13 @@
     [ # Include the results of the hardware scan.
       <stockholm/makefu>
 
-     #  <stockholm/makefu/2configs/hw/vbox-guest.nix>
-      { # until virtualbox-image is fixed
-        imports = [
-            <stockholm/makefu/2configs/fs/single-partition-ext4.nix>
-          ];
-        boot.loader.grub.device = "/dev/sda";
-      }
+       <stockholm/makefu/2configs/hw/vbox-guest.nix>
+      #{ # until virtualbox-image is fixed
+      #  imports = [
+      #      <stockholm/makefu/2configs/fs/single-partition-ext4.nix>
+      #    ];
+      #  boot.loader.grub.device = lib.mkForce "/dev/sda";
+      #}
       <stockholm/makefu/2configs/main-laptop.nix>
       # <secrets/extra-hosts.nix>
 

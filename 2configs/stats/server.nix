@@ -2,11 +2,11 @@
 
 with import <stockholm/lib>;
 let
-  irc-server = "rc.r";
+  irc-server = "irc.r";
   irc-nick = "m-alarm";
   collectd-port = 25826;
   influx-port = 8086;
-  grafana-port = 3000; # TODO nginx forward
+  grafana-port = 3000;
   db = "collectd_db";
   logging-interface = config.makefu.server.primary-itf;
 in {
@@ -72,15 +72,16 @@ in {
     iptables -A INPUT -i retiolum -p udp --dport ${toString collectd-port} -j ACCEPT
     iptables -A INPUT -i retiolum -p tcp --dport ${toString influx-port} -j ACCEPT
     iptables -A INPUT -i retiolum -p tcp --dport ${toString grafana-port} -j ACCEPT
-    iptables -A INPUT -i ${logging-interface} -p udp --dport ${toString collectd-port} -j ACCEPT
-    iptables -A INPUT -i ${logging-interface} -p tcp --dport ${toString influx-port} -j ACCEPT
-    iptables -A INPUT -i ${logging-interface} -p tcp --dport ${toString grafana-port} -j ACCEPT
+    #iptables -A INPUT -i ${logging-interface} -p udp --dport ${toString collectd-port} -j ACCEPT
+    #iptables -A INPUT -i ${logging-interface} -p tcp --dport ${toString influx-port} -j ACCEPT
+    #iptables -A INPUT -i ${logging-interface} -p tcp --dport ${toString grafana-port} -j ACCEPT
 
     ip6tables -A INPUT -i retiolum -p udp --dport ${toString collectd-port} -j ACCEPT
     ip6tables -A INPUT -i retiolum -p tcp --dport ${toString influx-port} -j ACCEPT
     ip6tables -A INPUT -i retiolum -p tcp --dport ${toString grafana-port} -j ACCEPT
-    ip6tables -A INPUT -i ${logging-interface} -p udp --dport ${toString collectd-port} -j ACCEPT
-    ip6tables -A INPUT -i ${logging-interface} -p tcp --dport ${toString influx-port} -j ACCEPT
-    ip6tables -A INPUT -i ${logging-interface} -p tcp --dport ${toString grafana-port} -j ACCEPT
+    #ip6tables -A INPUT -i ${logging-interface} -p udp --dport ${toString collectd-port} -j ACCEPT
+    #ip6tables -A INPUT -i ${logging-interface} -p tcp --dport ${toString influx-port} -j ACCEPT
+    #ip6tables -A INPUT -i ${logging-interface} -p tcp --dport ${toString grafana-port} -j ACCEPT
   '';
+  state = [ "/var/lib/grafana/data/grafana.db" ];
 }
