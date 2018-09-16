@@ -1,9 +1,7 @@
 #
 #
 #
-{ config, pkgs, ... }:
-with import <stockholm/lib>;
-
+{ config, pkgs, lib, ... }:
 {
   imports =
     [ # base
