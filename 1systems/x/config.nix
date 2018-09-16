@@ -43,6 +43,7 @@ with import <stockholm/lib>;
       <stockholm/makefu/2configs/mail-client.nix>
       <stockholm/makefu/2configs/printer.nix>
       <stockholm/makefu/2configs/task-client.nix>
+      # <stockholm/makefu/2configs/syncthing.nix>
 
       # Virtualization
       <stockholm/makefu/2configs/virtualisation/libvirt.nix>
@@ -149,4 +150,6 @@ with import <stockholm/lib>;
     "/home/makefu/backup/borgun"
     "/home/makefu/.mail/"
   ];
+  services.syncthing.user = lib.mkForce "makefu";
+  services.syncthing.dataDir = lib.mkForce "/home/makefu/.config/syncthing/";
 }
