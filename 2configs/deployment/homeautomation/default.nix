@@ -2,6 +2,9 @@
 let
   firetv = "192.168.1.238";
 in {
+  imports = [
+    ./mqtt.nix
+  ];
   systemd.services.firetv = {
     wantedBy = [ "multi-user.target" ];
     serviceConfig = {
