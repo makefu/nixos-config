@@ -36,12 +36,12 @@ in {
       # logs to influx
       <stockholm/makefu/2configs/stats/external/aralast.nix>
       <stockholm/makefu/2configs/stats/telegraf>
-      <stockholm/makefu/2configs/stats/telegraf/europastats.nix>
+      # <stockholm/makefu/2configs/stats/telegraf/europastats.nix>
+      <stockholm/makefu/2configs/stats/telegraf/hamstats.nix>
       <stockholm/makefu/2configs/stats/arafetch.nix>
 
       # services
       <stockholm/makefu/2configs/syncthing.nix>
-      <stockholm/makefu/2configs/mqtt.nix>
       <stockholm/makefu/2configs/remote-build/slave.nix>
       <stockholm/makefu/2configs/deployment/google-muell.nix>
       <stockholm/makefu/2configs/virtualisation/docker.nix>
@@ -70,8 +70,8 @@ in {
       # <stockholm/makefu/2configs/temp/rst-issue.nix>
 
     ];
-  makefu.full-populate = true;
-  krebs.rtorrent = {
+  makefu.full-populate =  true;
+  krebs.rtorrent = (builtins.trace (builtins.toJSON config.services.telegraf.extraConfig)) {
     downloadDir = lib.mkForce "/media/cryptX/torrent";
     extraConfig = ''
       upload_rate = 200

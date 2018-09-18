@@ -6,7 +6,8 @@ let
     rev = "9c9b62e15e4ac11d4379e66b974f1389daf939fe";
   });
   cfg = fromJSON (readFile ../../hardware/tsp-disk.json);
-  primaryInterface = "enp1s0";
+  # primaryInterface = "enp1s0";
+  primaryInterface = "wlp2s0";
   rootDisk = "/dev/sda"; # TODO same as disko uses
 in {
   imports = [
