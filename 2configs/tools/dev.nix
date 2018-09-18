@@ -21,7 +21,6 @@
     gen-oath-safe
     cdrtools
     # nix related
-    nix-repl
     nix-index
     # git-related
     tig
