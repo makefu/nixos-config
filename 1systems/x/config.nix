@@ -7,6 +7,10 @@
     [ # base
       <stockholm/makefu>
       <stockholm/makefu/2configs/nur.nix>
+      <stockholm/makefu/2configs/home-manager>
+      <stockholm/makefu/2configs/home-manager/desktop.nix>
+      <stockholm/makefu/2configs/home-manager/cli.nix>
+      <stockholm/makefu/2configs/home-manager/mail.nix>
       <stockholm/makefu/2configs/main-laptop.nix>
       <stockholm/makefu/2configs/extra-fonts.nix>
       <stockholm/makefu/2configs/tools/all.nix>

@@ -6,5 +6,6 @@
   unstable = true;
   mic92 = true;
   clever_kexec = true;
+  home-manager = true;
   # torrent = true;
 }
