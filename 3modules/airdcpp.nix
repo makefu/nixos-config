@@ -55,6 +55,7 @@ let
               '';
               type = str;
               default = "";
+              apply = lib.removeSuffix "\n";
             };
             Server = mkOption {
               description = ''
@@ -162,6 +163,7 @@ let
             password = mkOption {
               description = "password of user";
               type = str;
+              apply = lib.removeSuffix "\n";
             };
             permissions = mkOption {
               description = "user permissions";
