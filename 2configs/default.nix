@@ -10,13 +10,26 @@ with import <stockholm/lib>;
     }
     ./editor/vim.nix
     ./binary-cache/nixos.nix
+    ./minimal.nix
   ];
 
+  # users are super important
+  users.users = {
+    root = {
+        openssh.authorizedKeys.keys = [ config.krebs.users.makefu.pubkey ];
+    };
+    makefu = {
+      uid = 9001;
+      group = "users";
+      home = "/home/makefu";
+      createHome = true;
+      useDefaultShell = true;
+      extraGroups = [ "wheel" ];
+        openssh.authorizedKeys.keys = [ config.krebs.users.makefu.pubkey ];
+    };
+  };
+
   boot.kernelPackages = lib.mkDefault pkgs.linuxPackages_latest;
-
-  programs.command-not-found.enable = false;
-
-  nix.package = pkgs.nixUnstable;
 
   nixpkgs.config.allowUnfreePredicate =  (pkg: pkgs.lib.hasPrefix "unrar-" pkg.name);
   krebs = {
@@ -27,90 +40,23 @@ with import <stockholm/lib>;
     build.user = config.krebs.users.makefu;
   };
 
-  users.extraUsers = {
-    root = {
-        openssh.authorizedKeys.keys = [ config.krebs.users.makefu.pubkey ];
-    };
-    makefu = {
-      uid = 9001;
-      group = "users";
-      home = "/home/makefu";
-      createHome = true;
-      useDefaultShell = true;
-      extraGroups = [
-        "wheel"
-      ];
-        openssh.authorizedKeys.keys = [ config.krebs.users.makefu.pubkey ];
-    };
-  };
 
-  networking.hostName = config.krebs.build.host.name;
-  nix.maxJobs = 2;
-  nix.buildCores = config.krebs.build.host.cores;
 
-  time.timeZone = "Europe/Berlin";
-
-  programs.ssh = {
-    startAgent = false;
-  };
-  services.openssh.enable = true;
-  nix.useSandbox = true;
-
-  users.mutableUsers = false;
 
   boot.tmpOnTmpfs = true;
-
-  networking.firewall.rejectPackets = true;
-  networking.firewall.allowPing = true;
-
   systemd.tmpfiles.rules = [
     "d /tmp 1777 root root - -"
   ];
-  nix.nixPath = [ "/var/src" ];
-  environment.variables = let
-    ca-bundle = "${pkgs.cacert}/etc/ssl/certs/ca-bundle.crt";
-  in {
-    NIX_PATH = mkForce "/var/src";
-    EDITOR = mkForce "vim";
-    CURL_CA_BUNDLE = ca-bundle;
-    GIT_SSL_CAINFO = ca-bundle;
-    SSL_CERT_FILE  = ca-bundle;
-  };
 
   environment.systemPackages = with pkgs; [
       jq
       git
-      get
       gnumake
       rxvt_unicode.terminfo
       htop
   ];
 
-  programs.bash = {
-    enableCompletion = true;
-    interactiveShellInit = ''
-      HISTCONTROL='erasedups:ignorespace'
-      HISTSIZE=900001
-      HISTFILESIZE=$HISTSIZE
-
-      PYTHONSTARTUP="~/.pythonrc";
-
-      shopt -s checkhash
-      shopt -s histappend histreedit histverify
-      shopt -s no_empty_cmd_completion
-      '';
-
-    promptInit = ''
-      case $UID in
-         0) PS1='\[\e[1;31m\]\w\[\e[0m\] ' ;;
-      9001) PS1='\[\e[1;32m\]\w\[\e[0m\] ' ;;
-         *) PS1='\[\e[1;35m\]\u \[\e[1;32m\]\w\[\e[0m\] ' ;;
-      esac
-      if test -n "$SSH_CLIENT"; then
-        PS1='\[\033[35m\]\h'" $PS1"
-      fi
-      '';
-  };
+  programs.bash.enableCompletion = true;
 
   environment.shellAliases = {
     # TODO: see .aliases
@@ -126,12 +72,6 @@ with import <stockholm/lib>;
     tinc = pkgs.tinc_pre;
   };
 
-   networking.timeServers = [
-    "pool.ntp.org"
-    "time.windows.com"
-    "time.apple.com"
-    "time.nist.gov"
-  ];
 
   nix.extraOptions = ''
     auto-optimise-store = true
@@ -145,26 +85,5 @@ with import <stockholm/lib>;
     SystemMaxUse=1G
     RuntimeMaxUse=128M
     '';
-  # Enable IPv6 Privacy Extensions
-  boot.kernel.sysctl = {
-    "net.ipv6.conf.all.use_tempaddr" = 2;
-    "net.ipv6.conf.default.use_tempaddr" = 2;
-  };
 
-  i18n = {
-    consoleKeyMap = "us";
-    defaultLocale = "en_US.UTF-8";
-  };
-  # suppress chrome autit event messages
-  security.audit = {
-      rules = [
-        "-a task,never"
-      ];
-    };
-  system.activationScripts.state =  optionalString (config.state != []) ''
-    cat << EOF
-    This machine is burdened with state:
-    ${concatMapStringsSep "\n" (d: "* ${d}") config.state}
-    EOF
-  '';
 }
