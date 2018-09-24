@@ -25,11 +25,12 @@ in {
 
       <stockholm/makefu/2configs/git/cgit-retiolum.nix>
       <stockholm/makefu/2configs/backup.nix>
-      <stockholm/makefu/2configs/exim-retiolum.nix>
+      # <stockholm/makefu/2configs/exim-retiolum.nix>
       <stockholm/makefu/2configs/tinc/retiolum.nix>
 
       # services
       <stockholm/makefu/2configs/sabnzbd.nix>
+      <stockholm/makefu/2configs/mail/mail.euer.nix>
 
       # sharing
       <stockholm/makefu/2configs/share/gum.nix>
@@ -73,6 +74,7 @@ in {
       #<stockholm/makefu/2configs/nginx/update.connector.one.nix>
       #<stockholm/makefu/2configs/nginx/misa-felix-hochzeit.ml.nix>
       <stockholm/makefu/2configs/nginx/gold.krebsco.de.nix>
+      <stockholm/makefu/2configs/nginx/iso.euer.nix>
       <stockholm/makefu/2configs/deployment/events-publisher>
 
       #<stockholm/makefu/2configs/deployment/photostore.krebsco.de.nix>
@@ -94,6 +96,7 @@ in {
 
 
       <stockholm/makefu/2configs/stats/client.nix>
+      <stockholm/makefu/2configs/dcpp/airdcpp.nix>
       # <stockholm/makefu/2configs/logging/client.nix>
 
       ## Temporary:
