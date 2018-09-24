@@ -1,6 +1,6 @@
 { config, ... }:
 {
-  makefu.airdcpp = {
+  krebs.airdcpp = {
     enable = true;
     extraGroups = [ "download" ];
     web.port = 5600;
@@ -14,8 +14,8 @@
     dcpp = {
       shares = {
         # Incoming must be writeable!
-        incoming = { path = config.makefu.dl-dir + "/dcpp"; incoming = true; };
-        audiobooks.path = config.makefu.dl-dir + "/audiobooks";
+        incoming = { path = config.makefu.dl-dir + "/finished/dcpp"; incoming = true; };
+        audiobooks.path = config.makefu.dl-dir + "/finished/audiobooks";
       };
       Nick = "makefu";
       DownloadSpeed = "1000";
@@ -23,13 +23,13 @@
     };
   };
   networking.firewall.allowedTCPPorts =
-  [ config.makefu.airdcpp.dcpp.InPort
-    config.makefu.airdcpp.dcpp.TLSPort
+  [ config.krebs.airdcpp.dcpp.InPort
+    config.krebs.airdcpp.dcpp.TLSPort
   ];
-  networking.firewall.allowedUDPPorts = [ config.makefu.airdcpp.dcpp.UDPPort ];
+  networking.firewall.allowedUDPPorts = [ config.krebs.airdcpp.dcpp.UDPPort ];
 
   services.nginx.virtualHosts."dcpp.${config.krebs.build.host.name}.r".locations."/" =
-  { proxyPass = "http://localhost:${toString config.makefu.airdcpp.web.port}/";
+  { proxyPass = "http://localhost:${toString config.krebs.airdcpp.web.port}/";
 
     extraConfig = ''
       proxy_set_header   Host $host;

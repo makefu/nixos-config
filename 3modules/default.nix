@@ -2,7 +2,6 @@ _:
 
 {
   imports = [
-    ./airdcpp.nix
     ./awesome-extra.nix
     ./deluge.nix
     ./forward-journal.nix
