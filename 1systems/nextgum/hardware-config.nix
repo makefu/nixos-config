@@ -41,11 +41,12 @@ in {
   boot.loader.grub.enable = true;
   boot.loader.grub.version = 2;
   boot.loader.grub.devices = [ main-disk ];
+  boot.initrd.kernelModules = [  "dm-raid" ];
   boot.initrd.availableKernelModules = [
     "ata_piix" "vmw_pvscsi" "virtio_pci" "sd_mod" "ahci"
     "xhci_pci" "ehci_pci" "ahci" "sd_mod"
   ];
-  boot.kernelModules = [ "kvm-intel" "dm-raid" "dm_thin_pool" ];
+  boot.kernelModules = [ "kvm-intel"  ];
   hardware.enableRedistributableFirmware = true;
   fileSystems."/" = {
     device = "/dev/mapper/nixos-root";
@@ -57,6 +58,10 @@ in {
   };
   fileSystems."/var/download" = {
     device = "/dev/mapper/nixos-download";
+    fsType = "ext4";
+  };
+  fileSystems."/var/lib/borgbackup" = {
+    device = "/dev/mapper/nixos-backup";
     fsType = "ext4";
   };
   fileSystems."/boot" = {
@@ -79,8 +84,12 @@ in {
   #vgcreate nixos /dev/sda3 /dev/sdb1
   #lvcreate -L 120G -m 1 -n root nixos
   #lvcreate -L 50G -m 1 -n lib nixos
-  #lvcreate -L 50G -n download nixos
+  #lvcreate -L 100G -n download nixos
+  #lvcreate -L 100G -n backup nixos
   #mkfs.ext4 /dev/mapper/nixos-root
+  #mkfs.ext4 /dev/mapper/nixos-lib
+  #mkfs.ext4 /dev/mapper/nixos-download
+  #mkfs.ext4 /dev/mapper/nixos-borgbackup
   #mount /dev/mapper/nixos-root /mnt
   #mkdir /mnt/boot
   #mount /dev/sda2 /mnt/boot
