@@ -1,8 +1,5 @@
 { config ? config, name, target ? name }: let
-  krops = builtins.fetchGit {
-    url = https://cgit.krebsco.de/krops/;
-    rev = "4e466eaf05861b47365c5ef46a31a188b70f3615";
-  };
+  krops = ../submodules/krops;
   nixpkgs-src = lib.importJSON ./nixpkgs.json;
 
   lib = import "${krops}/lib";
