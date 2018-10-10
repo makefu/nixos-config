@@ -2,8 +2,8 @@
 with import <stockholm/lib>;
 let
   shack-announce = pkgs.callPackage (builtins.fetchTarball {
-    url = "https://github.com/makefu/events-publisher/archive/c5218195e6afdc646cb7682d8f355a7ec2b90716.tar.gz";
-    sha256 = "0xk74q7gah3l5zy3bkvih3k9fr1hclvf71rm3ixcmslhicl7khav";
+    url = "https://github.com/makefu/events-publisher/archive/1e98edfabfe5574586b4eb8d30d315ae2afb1f9f.tar.gz";
+    sha256 = "013ca4dkkzc7q49cwad6fxpxv01hd8va02025pazlz5q223nk70z";
   }) {} ;
   home = "/var/lib/shackannounce";
   user = "shackannounce";
