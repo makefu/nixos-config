@@ -8,11 +8,11 @@ let
 in {
   imports =
     [
-      #./hw/omo.nix
-      ./hw/tsp.nix
+      ./hw/omo.nix
+      #./hw/tsp.nix
       <stockholm/makefu>
       <stockholm/makefu/2configs/zsh-user.nix>
-      <stockholm/makefu/2configs/backup.nix>
+      <stockholm/makefu/2configs/backup/state.nix>
       <stockholm/makefu/2configs/exim-retiolum.nix>
       # <stockholm/makefu/2configs/smart-monitor.nix>
       <stockholm/makefu/2configs/mail-client.nix>
@@ -25,6 +25,22 @@ in {
       #<stockholm/makefu/2configs/graphite-standalone.nix>
       #<stockholm/makefu/2configs/share-user-sftp.nix>
       <stockholm/makefu/2configs/share/omo.nix>
+      <stockholm/makefu/2configs/dcpp/airdcpp.nix>
+      { krebs.airdcpp.dcpp.shares = let
+          d = path: "/media/cryptX/${path}";
+        in {
+          emu.path = d "emu";
+          audiobooks.path = lib.mkForce (d "audiobooks");
+          incoming.path = lib.mkForce (d "torrent");
+          anime.path = d "anime";
+        };
+        krebs.airdcpp.dcpp.DownloadDirectory = "/media/cryptX/torrent/dcpp";
+      }
+      {
+        # copy config from <secrets/sabnzbd.ini> to /var/lib/sabnzbd/
+        #services.sabnzbd.enable = true;
+        #systemd.services.sabnzbd.environment.SSL_CERT_FILE = "${pkgs.cacert}/etc/ssl/certs/ca-bundle.crt";
+      }
       # <stockholm/makefu/2configs/share/omo-timemachine.nix>
       <stockholm/makefu/2configs/tinc/retiolum.nix>
 
@@ -41,12 +57,22 @@ in {
       <stockholm/makefu/2configs/stats/arafetch.nix>
 
       # services
-      <stockholm/makefu/2configs/syncthing.nix>
+      {
+        services.nginx.enable = true;
+        networking.firewall.allowedTCPPorts = [ 80 ];
+      }
+      # <stockholm/makefu/2configs/syncthing.nix>
       <stockholm/makefu/2configs/remote-build/slave.nix>
       <stockholm/makefu/2configs/deployment/google-muell.nix>
       <stockholm/makefu/2configs/virtualisation/docker.nix>
       <stockholm/makefu/2configs/bluetooth-mpd.nix>
       <stockholm/makefu/2configs/deployment/homeautomation>
+      {
+        makefu.ps3netsrv = {
+          enable = true;
+          servedir = "/media/cryptX/emu/ps3";
+        };
+      }
       {
         hardware.pulseaudio.systemWide = true;
         makefu.mpd.musicDirectory = "/media/cryptX/music";
@@ -74,7 +100,7 @@ in {
   krebs.rtorrent = (builtins.trace (builtins.toJSON config.services.telegraf.extraConfig)) {
     downloadDir = lib.mkForce "/media/cryptX/torrent";
     extraConfig = ''
-      upload_rate = 200
+      upload_rate = 500
     '';
   };
   users.groups.share = {
@@ -83,14 +109,7 @@ in {
   };
   networking.firewall.trustedInterfaces = [ primaryInterface ];
 
-  # copy config from <secrets/sabnzbd.ini> to /var/lib/sabnzbd/
-  services.sabnzbd.enable = true;
-  systemd.services.sabnzbd.environment.SSL_CERT_FILE = "${pkgs.cacert}/etc/ssl/certs/ca-bundle.crt";
 
-  makefu.ps3netsrv = {
-    enable = true;
-    servedir = "/media/cryptX/emu/ps3";
-  };
 
   users.users.misa = {
     uid = 9002;
