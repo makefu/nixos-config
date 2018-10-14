@@ -44,5 +44,6 @@
 
     '';
   };
-
+  state = map (f: "${config.krebs.airdcpp.stateDir}/${f}")
+    [ "Favorites.xml" "DCPlusPlus.xml" "WebServer.xml" "Recents.xml" "IgnoredUsers.xml" ];
 }
