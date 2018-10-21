@@ -39,4 +39,5 @@ in {
       };
     };
   };
+  state = [ base-dir ];
 }

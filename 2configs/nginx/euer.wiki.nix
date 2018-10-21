@@ -21,6 +21,7 @@ let
   tw-pass-file = "${sec}/tw-pass.ini";
 
 in {
+  state = [ base-dir ];
   services.phpfpm = {
     # phpfpm does not have an enable option
     poolConfigs  = {
