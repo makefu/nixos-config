@@ -21,10 +21,10 @@ in {
       <stockholm/makefu/2configs/tools/sec.nix>
       <stockholm/makefu/2configs/zsh-user.nix>
       <stockholm/makefu/2configs/mosh.nix>
-      <stockholm/makefu/2configs/gui/xpra.nix>
+      # <stockholm/makefu/2configs/gui/xpra.nix>
 
       <stockholm/makefu/2configs/git/cgit-retiolum.nix>
-      <stockholm/makefu/2configs/backup.nix>
+      # <stockholm/makefu/2configs/backup.nix>
       # <stockholm/makefu/2configs/exim-retiolum.nix>
       <stockholm/makefu/2configs/tinc/retiolum.nix>
 
@@ -52,6 +52,7 @@ in {
       # <stockholm/makefu/2configs/vpn/vpnws/server.nix>
       <stockholm/makefu/2configs/dnscrypt/server.nix>
       <stockholm/makefu/2configs/binary-cache/server.nix>
+      <stockholm/makefu/2configs/backup/server.nix>
       <stockholm/makefu/2configs/iodined.nix>
       <stockholm/makefu/2configs/bitlbee.nix>
 
@@ -66,22 +67,22 @@ in {
       ### Web
       #<stockholm/makefu/2configs/nginx/share-download.nix>
       #<stockholm/makefu/2configs/nginx/euer.test.nix>
-      #<stockholm/makefu/2configs/nginx/euer.mon.nix>
-      #<stockholm/makefu/2configs/nginx/euer.wiki.nix>
-      #<stockholm/makefu/2configs/nginx/euer.blog.nix>
+      <stockholm/makefu/2configs/nginx/euer.mon.nix>
+      <stockholm/makefu/2configs/nginx/euer.wiki.nix>
+      <stockholm/makefu/2configs/nginx/euer.blog.nix>
       ## <stockholm/makefu/2configs/nginx/gum.krebsco.de.nix>
       #<stockholm/makefu/2configs/nginx/public_html.nix>
       #<stockholm/makefu/2configs/nginx/update.connector.one.nix>
-      #<stockholm/makefu/2configs/nginx/misa-felix-hochzeit.ml.nix>
+      <stockholm/makefu/2configs/nginx/misa-felix-hochzeit.ml.nix>
       <stockholm/makefu/2configs/nginx/gold.krebsco.de.nix>
       <stockholm/makefu/2configs/nginx/iso.euer.nix>
-      <stockholm/makefu/2configs/deployment/events-publisher>
+      <stockholm/makefu/2configs/shack/events-publisher>
 
-      #<stockholm/makefu/2configs/deployment/photostore.krebsco.de.nix>
-      #<stockholm/makefu/2configs/deployment/graphs.nix>
-      #<stockholm/makefu/2configs/deployment/owncloud.nix>
-      #<stockholm/makefu/2configs/deployment/boot-euer.nix>
-      #<stockholm/makefu/2configs/deployment/bgt/hidden_service.nix>
+      <stockholm/makefu/2configs/deployment/photostore.krebsco.de.nix>
+      <stockholm/makefu/2configs/deployment/graphs.nix>
+      <stockholm/makefu/2configs/deployment/owncloud.nix>
+      <stockholm/makefu/2configs/deployment/boot-euer.nix>
+      <stockholm/makefu/2configs/deployment/bgt/hidden_service.nix>
 
       {
         services.taskserver.enable = true;
@@ -250,4 +251,5 @@ in {
   };
   users.users.makefu.extraGroups = [ "download" "nginx" ];
   boot.tmpOnTmpfs = true;
+  state = [ "/home/makefu/.weechat" ];
 }
