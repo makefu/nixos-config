@@ -32,6 +32,11 @@ in {
             "paste.${config.krebs.build.host.name}"
             "paste.r"
           ];
+          extraConfig = ''
+            if ( $server_addr = "${external-ip}" ) {
+              return 403;
+            }
+          '';
         };
         defaultPermissions = "admin,list,create,read,delete";
         secretKeyFile = secKey;

@@ -6,11 +6,6 @@ let
   internal-ip = config.krebs.build.host.nets.retiolum.ip4.addr;
   hn = config.krebs.build.host.name;
 in {
-  krebs.bepasty.servers."paste.r".nginx.extraConfig = ''
-    if ( $server_addr = "${external-ip}" ) {
-      return 403;
-    }
-  '';
   krebs.tinc_graphs = {
     enable = true;
     nginx = {
