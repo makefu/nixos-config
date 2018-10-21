@@ -15,7 +15,7 @@
       <stockholm/makefu/2configs/extra-fonts.nix>
       <stockholm/makefu/2configs/tools/all.nix>
 
-      <stockholm/makefu/2configs/laptop-backup.nix>
+      <stockholm/makefu/2configs/backup/state.nix>
       # <stockholm/makefu/2configs/dnscrypt/client.nix>
       <stockholm/makefu/2configs/avahi.nix>
 
@@ -74,6 +74,7 @@
       <stockholm/makefu/2configs/hw/network-manager.nix>
       <stockholm/makefu/2configs/hw/stk1160.nix>
       <stockholm/makefu/2configs/hw/irtoy.nix>
+      <stockholm/makefu/2configs/hw/switch.nix>
       <stockholm/makefu/2configs/hw/bluetooth.nix>
       # <stockholm/makefu/2configs/hw/rad1o.nix>
       <stockholm/makefu/2configs/hw/smartcard.nix>
@@ -83,11 +84,11 @@
 
       # Security
       <stockholm/makefu/2configs/sshd-totp.nix>
-      {
-        programs.adb.enable = true;
-      }
+      { programs.adb.enable = true; }
       # temporary
+      { services.redis.enable = true; }
       <stockholm/makefu/2configs/pyload.nix>
+      # <stockholm/makefu/2configs/dcpp/airdcpp.nix>
       # <stockholm/makefu/2configs/nginx/rompr.nix>
       # <stockholm/makefu/2configs/lanparty/lancache.nix>
       # <stockholm/makefu/2configs/lanparty/lancache-dns.nix>
@@ -121,13 +122,11 @@
     ];
 
   makefu.server.primary-itf = "wlp3s0";
-  makefu.full-populate = true;
 
   nixpkgs.config.allowUnfree = true;
 
   # configure pulseAudio to provide a HDMI sink as well
   networking.firewall.enable = true;
-  networking.firewall.allowedTCPPorts = [ 80 24800 26061 8000 3000 ];
   networking.firewall.allowedUDPPorts = [ 665 26061 ];
   networking.firewall.trustedInterfaces = [ "vboxnet0" ];
 
@@ -144,14 +143,25 @@
   # avoid full boot dir
   boot.loader.grub.configurationLimit = 3;
 
-  environment.systemPackages = [ pkgs.passwdqc-utils pkgs.nixUnstable ];
+  environment.systemPackages = [ pkgs.passwdqc-utils ];
 
   # environment.variables = { GOROOT = [ "${pkgs.go.out}/share/go" ]; };
   state = [
     "/home/makefu/stockholm"
-    "/home/makefu/backup/borgun"
-    "/home/makefu/.mail/"
+    "/home/makefu/.ssh/"
+    "/home/makefu/.zsh_history"
+    "/home/makefu/.bash_history"
+    "/home/makefu/.zshrc"
+    "/home/makefu/bin"
+    "/home/makefu/.gnupg"
+    "/home/makefu/.imapfilter"
+    "/home/makefu/.mutt"
+    "/home/makefu/docs"
+    "/home/makefu/.password-store"
+    "/home/makefu/.secrets-pass"
+    "/home/makefu/autosync/Database.kdb"
   ];
+
   services.syncthing.user = lib.mkForce "makefu";
   services.syncthing.dataDir = lib.mkForce "/home/makefu/.config/syncthing/";
 }
