@@ -3,12 +3,11 @@
 with import <stockholm/lib>;
 
 let
-  daemon-user = "tor";
   basicAuth = import <torrent-secrets/auth.nix>;
   peer-port = 51412;
   web-port = 8112;
   daemon-port = 58846;
-  base-dir = config.makefu.dl-dir;
+  base-dir = config.krebs.rtorrent.workDir;
 in {
 
   users.users = {
@@ -22,17 +21,6 @@ in {
       openssh.authorizedKeys.keys = [ ];
     };
   };
-
-  # todo: race condition, do this after download user has been created
-  system.activationScripts."download-dir-chmod" = ''
-    for i in finished watch; do
-      if test ! -d $i;then
-        mkdir -p "${base-dir}/$i"
-        chown rtorrent:download "${base-dir}/$i"
-        chmod 775 "${base-dir}/$i"
-      fi
-    done
-  '';
 
   users.extraGroups = {
     download = {
@@ -57,10 +45,11 @@ in {
     rutorrent.enable = true;
     enableXMLRPC = true;
     listenPort = peer-port;
-    downloadDir = base-dir + "/finished";
-    watchDir = base-dir + "/watch";
+    downloadDir = config.makefu.dl-dir;
     # dump old torrents into watch folder to have them re-added
   };
+
+  services.nginx.virtualHosts."torrent.${config.krebs.build.host.name}.r".locations."/" = { proxyPass = "http://localhost:${toString web-port}/"; };
 
   networking.firewall.extraCommands = ''
     iptables -A INPUT -i retiolum -p tcp --dport ${toString web-port} -j ACCEPT
@@ -68,4 +57,5 @@ in {
 
   networking.firewall.allowedTCPPorts = [ peer-port ];
   networking.firewall.allowedUDPPorts = [ peer-port ];
+  state = [ config.krebs.rtorrent.sessionDir ]; # state which torrents were loaded
 }
