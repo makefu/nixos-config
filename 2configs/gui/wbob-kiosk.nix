@@ -22,4 +22,16 @@
       xrandr --output HDMI2 --right-of HDMI1
     '';
   };
+
+  systemd.services.xset-off = {
+    after = [ "display-manager.service" ];
+    wantedBy = [ "multi-user.target" ];
+    serviceConfig = {
+      ExecStart = "${pkgs.xlibs.xset}/bin/xset -display :0 s off -dpms";
+      RemainAfterExit = "yes";
+      TimeoutSec = "5";
+      Restart = "on-failure";
+    };
+  };
+
 }
