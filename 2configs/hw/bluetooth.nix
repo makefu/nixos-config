@@ -1,9 +1,7 @@
 { pkgs, ... }:
 { # bluetooth+pulse config
 # for blueman-applet
-  users.users.makefu.packages = [
-    pkgs.blueman
-  ];
+  users.users.makefu.packages = [ pkgs.blueman ];
   hardware.pulseaudio = {
     enable = true;
     package = pkgs.pulseaudioFull;
@@ -39,4 +37,5 @@
       Enable=Source,Sink,Media,Socket
     '';
   };
+  services.dbus.packages = [ pkgs.blueman ];
 }
