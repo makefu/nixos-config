@@ -1,5 +1,6 @@
 {
   home-manager.users.makefu = {
+    accounts.email.maildirBasePath =  "/home/makefu/Mail";
     accounts.email.accounts.syntaxfehler = {
       address = "felix.richter@syntax-fehler.de";
       userName = "Felix.Richter@syntax-fehler.de";
@@ -27,7 +28,7 @@
       };
       primary = true;
       realName = "Felix Richter";
-      passwordCommand = "gpg --use-agent --quiet --batch -d /home/makefu/.mail/syntax-fehler.gpg";
+      passwordCommand = "gpg --use-agent --quiet --batch -d /home/makefu/.gnupg/mail/syntax-fehler.gpg";
     };
     programs.offlineimap.enable = true;
     programs.offlineimap.extraConfig = {
