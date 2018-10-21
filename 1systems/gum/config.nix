@@ -8,11 +8,23 @@ in {
   imports = [
       <stockholm/makefu>
       ./hardware-config.nix
+      {
+        users.users.lass = {
+          uid = 9002;
+          isNormalUser = true;
+          createHome = true;
+          useDefaultShell = true;
+          openssh.authorizedKeys.keys = with config.krebs.users; [
+            lass.pubkey
+            makefu.pubkey
+          ];
+        };
+      }
       <stockholm/makefu/2configs/headless.nix>
       # <stockholm/makefu/2configs/smart-monitor.nix>
 
       <stockholm/makefu/2configs/git/cgit-retiolum.nix>
-      <stockholm/makefu/2configs/backup.nix>
+      <stockholm/makefu/2configs/backup/state.nix>
       # <stockholm/makefu/2configs/mattermost-docker.nix>
       # <stockholm/makefu/2configs/disable_v6.nix>
       <stockholm/makefu/2configs/exim-retiolum.nix>
@@ -42,23 +54,24 @@ in {
 
       # buildbot
       <stockholm/makefu/2configs/remote-build/slave.nix>
+      <stockholm/makefu/2configs/shack/gitlab-runner>
 
       ## Web
-      <stockholm/makefu/2configs/nginx/share-download.nix>
-      <stockholm/makefu/2configs/nginx/euer.test.nix>
-      <stockholm/makefu/2configs/nginx/euer.mon.nix>
-      <stockholm/makefu/2configs/nginx/euer.wiki.nix>
-      <stockholm/makefu/2configs/nginx/euer.blog.nix>
-      # <stockholm/makefu/2configs/nginx/gum.krebsco.de.nix>
-      <stockholm/makefu/2configs/nginx/public_html.nix>
-      <stockholm/makefu/2configs/nginx/update.connector.one.nix>
-      <stockholm/makefu/2configs/nginx/misa-felix-hochzeit.ml.nix>
+      #<stockholm/makefu/2configs/nginx/share-download.nix>
+      #<stockholm/makefu/2configs/nginx/euer.test.nix>
+      #<stockholm/makefu/2configs/nginx/euer.mon.nix>
+      #<stockholm/makefu/2configs/nginx/euer.wiki.nix>
+      #<stockholm/makefu/2configs/nginx/euer.blog.nix>
+      ## <stockholm/makefu/2configs/nginx/gum.krebsco.de.nix>
+      #<stockholm/makefu/2configs/nginx/public_html.nix>
+      #<stockholm/makefu/2configs/nginx/update.connector.one.nix>
+      #<stockholm/makefu/2configs/nginx/misa-felix-hochzeit.ml.nix>
 
-      <stockholm/makefu/2configs/deployment/photostore.krebsco.de.nix>
+      # <stockholm/makefu/2configs/deployment/photostore.krebsco.de.nix>
       # <stockholm/makefu/2configs/deployment/graphs.nix>
-      <stockholm/makefu/2configs/deployment/owncloud.nix>
-      <stockholm/makefu/2configs/deployment/boot-euer.nix>
-      <stockholm/makefu/2configs/deployment/bgt/hidden_service.nix>
+      # <stockholm/makefu/2configs/deployment/owncloud.nix>
+      # <stockholm/makefu/2configs/deployment/boot-euer.nix>
+      # <stockholm/makefu/2configs/deployment/bgt/hidden_service.nix>
 
       {
         services.taskserver.enable = true;
@@ -71,11 +84,11 @@ in {
         '';
       }
       # <stockholm/makefu/2configs/ipfs.nix>
-      <stockholm/makefu/2configs/syncthing.nix>
+      # <stockholm/makefu/2configs/syncthing.nix>
 
       # <stockholm/makefu/2configs/opentracker.nix>
       <stockholm/makefu/2configs/dcpp/hub.nix>
-      <stockholm/makefu/2configs/dcpp/client.nix>
+      <stockholm/makefu/2configs/dcpp/airdcpp.nix>
 
       <stockholm/makefu/2configs/stats/client.nix>
       # <stockholm/makefu/2configs/logging/client.nix>
@@ -98,10 +111,6 @@ in {
       #  };
       #}
       <stockholm/makefu/2configs/wireguard/server.nix>
-      { # iperf3
-        networking.firewall.allowedUDPPorts = [ 5201 ];
-        networking.firewall.allowedTCPPorts = [ 5201 ];
-      }
 
   ];
   makefu.dl-dir = "/var/download";
@@ -133,20 +142,12 @@ in {
     makefu.openssh.authorizedKeys.keys = [ config.krebs.users.makefu-vbob.pubkey config.krebs.users.makefu-bob.pubkey ];
   };
 
-  # Chat
-  environment.systemPackages = with pkgs;[
-    weechat
-    bepasty-client-cli
-    get
-    tmux
-  ];
-
   # Network
   networking = {
     firewall = {
-        allowPing = true;
-        logRefusedConnections = false;
-        allowedTCPPorts = [
+      allowPing = true;
+      logRefusedConnections = false;
+      allowedTCPPorts = [
           # smtp
           25
           # http
@@ -174,9 +175,9 @@ in {
           # tinc-shack
           21032
         ];
+      };
+      nameservers = [ "8.8.8.8" ];
     };
-    nameservers = [ "8.8.8.8" ];
-  };
   users.users.makefu.extraGroups = [ "download" "nginx" ];
   boot.tmpOnTmpfs = true;
 }
