@@ -174,20 +174,4 @@ in {
       fsType = "ext4";
     };
   };
-
-  # DualHead on NUC
-  # TODO: update synergy package with these extras (username)
-  # TODO: add crypto layer
-  systemd.services."synergy-client" = {
-    environment.DISPLAY = ":0";
-    serviceConfig.User = user;
-  };
-
-  services.synergy = {
-    client = {
-      enable = true;
-      screenName = "wbob";
-      serverAddress = "x.r";
-    };
-  };
 }
