@@ -1,7 +1,7 @@
 { pass, write, writeDash, ... }:
 
 write "secrets" {
-  "/bin/secrets".link = writeDash "brain" ''
+  "/bin/secrets".link = writeDash "secrets" ''
     PASSWORD_STORE_DIR=$HOME/.secrets-pass/ \
     exec ${pass}/bin/pass $@
   '';

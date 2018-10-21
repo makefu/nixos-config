@@ -6,7 +6,6 @@
     gimp
     inkscape
     libreoffice
-    quodlibet
     # skype
     synergy
     tdesktop

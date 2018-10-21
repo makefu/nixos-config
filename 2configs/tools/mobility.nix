@@ -7,6 +7,8 @@
     rclone
     exfat
     (pkgs.callPackage ./secrets.nix {})
+
+    opensc pcsctools libu2f-host
   ];
 
   # boot.extraModulePackages = [ config.boot.kernelPackages.exfat-nofuse ];

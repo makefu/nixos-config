@@ -3,7 +3,7 @@
 {
   users.users.makefu.packages = with pkgs; [
     taskwarrior
-    pass
+    (pass.withExtensions (ext: [ ext.pass-otp ]))
     gopass
     mutt
     weechat

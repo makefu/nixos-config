@@ -7,7 +7,7 @@
     vlc
     mumble
     mplayer
-    quodlibet
+    quodlibet # exfalso
 
     plowshare
     streamripper
