@@ -27,4 +27,7 @@
     powersave = true;
     scanRandMacAddress = true;
   };
+  state = [
+    "/etc/NetworkManager/system-connections"  #NM stateful config files
+  ];
 }
