@@ -41,6 +41,7 @@ let
     autosync = { };
     fenkins = { };
     pass = { };
+    secrets = { };
   };
 
   connector-repos = mapAttrs make-priv-repo {
