@@ -11,6 +11,11 @@ let
     payload_available= "Online";
     payload_not_available= "Offline";
   };
+  tasmota_stecki = name: topic:
+    ( tasmota_plug name topic) // 
+    { state_topic = "/bam/${topic}/stat/POWER";
+      command_topic = "/bam/${topic}/cmnd/POWER";
+  };
   espeasy_dht22 = name: [
   { platform = "mqtt";
     name = "${name} DHT22 Temperature";
@@ -72,7 +77,7 @@ in {
       switch = [
         (tasmota_plug "Bauarbeiterlampe" "plug")
         (tasmota_plug "Blitzdings" "plug2")
-        (tasmota_plug "Fernseher" "plug3")
+        (tasmota_stecki "Fernseher" "fernseher")
         (tasmota_plug "Pluggy" "plug4")
       ];
       binary_sensor = [
@@ -116,6 +121,31 @@ in {
       frontend = { };
       http = { };
       feedreader.urls = [ "http://www.heise.de/security/rss/news-atom.xml" ];
+      automation = [
+        { alias = "Turn on Fernseher on movement";
+          trigger = {
+            platform = "state";
+            entity_id = "binary_sensor.motion";
+            to = "on";
+          };
+          action = {
+            service= "homeassistant.turn_on";
+            entity_id= "switch.fernseher";
+          };
+        }
+        { alias = "Turn off Fernseher 10 minutes after last movement";
+          trigger = {
+            platform = "state";
+            entity_id = "binary_sensor.motion";
+            to = "off";
+            for.minutes = 10;
+          };
+          action = {
+            service= "homeassistant.turn_off";
+            entity_id= "switch.fernseher";
+          };
+        }
+      ];
     };
   };
 }
