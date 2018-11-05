@@ -8,18 +8,6 @@ in {
   imports = [
       <stockholm/makefu>
       ./hardware-config.nix
-      {
-        users.users.lass = {
-          uid = 9002;
-          isNormalUser = true;
-          createHome = true;
-          useDefaultShell = true;
-          openssh.authorizedKeys.keys = with config.krebs.users; [
-            lass.pubkey
-            makefu.pubkey
-          ];
-        };
-      }
       <stockholm/makefu/2configs/headless.nix>
       # <stockholm/makefu/2configs/smart-monitor.nix>
 
@@ -73,16 +61,6 @@ in {
       # <stockholm/makefu/2configs/deployment/boot-euer.nix>
       # <stockholm/makefu/2configs/deployment/bgt/hidden_service.nix>
 
-      {
-        services.taskserver.enable = true;
-        services.taskserver.fqdn = config.krebs.build.host.name;
-        services.taskserver.listenHost = "::";
-        services.taskserver.organisations.home.users = [ "makefu" ];
-        networking.firewall.extraCommands = ''
-          iptables -A INPUT -i retiolum -p tcp --dport 53589 -j ACCEPT
-          ip6tables -A INPUT -i retiolum -p tcp --dport 53589 -j ACCEPT
-        '';
-      }
       # <stockholm/makefu/2configs/ipfs.nix>
       # <stockholm/makefu/2configs/syncthing.nix>
 
@@ -110,7 +88,6 @@ in {
       #    locations."/".proxyPass = "http://localhost:5000";
       #  };
       #}
-      <stockholm/makefu/2configs/wireguard/server.nix>
 
   ];
   makefu.dl-dir = "/var/download";

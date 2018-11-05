@@ -1,0 +1,11 @@
+mount /dev/mapper/nixos-root /mnt
+mount /dev/sda2 /mnt/boot
+
+chroot-prepare /mnt
+chroot /mnt /bin/sh
+
+journalctl  -D /mnt/var/log/journal --since today # find the active system (or check grub)
+
+export PATH=/nix/store/9incs5sfn7n1vh1lavgp95v761nh11w3-nixos-system-nextgum-18.03pre-git/sw/bin
+/nix/store/9incs5sfn7n1vh1lavgp95v761nh11w3-nixos-system-nextgum-18.03pre-git/activate
+/nix/store/9incs5sfn7n1vh1lavgp95v761nh11w3-nixos-system-nextgum-18.03pre-git/sw/bin/nixos-rebuild
