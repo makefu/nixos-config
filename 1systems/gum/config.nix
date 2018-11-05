@@ -8,7 +8,6 @@ in {
   imports = [
       <stockholm/makefu>
       ./hardware-config.nix
-      ./transfer-config.nix
       {
         users.users.lass = {
           uid = 9002;
