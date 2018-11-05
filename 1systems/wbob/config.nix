@@ -11,10 +11,10 @@ in {
       <stockholm/makefu>
       <stockholm/makefu/2configs/zsh-user.nix>
       <stockholm/makefu/2configs/tools/core.nix>
-      <stockholm/makefu/2configs/disable_v6.nix>
-      # <stockholm/makefu/2configs/tools/core-gui.nix>
-      # <stockholm/makefu/2configs/tools/extra-gui.nix>
-      # <stockholm/makefu/2configs/tools/media.nix>
+      # <stockholm/makefu/2configs/disable_v6.nix>
+      <stockholm/makefu/2configs/tools/core-gui.nix>
+      <stockholm/makefu/2configs/tools/extra-gui.nix>
+      <stockholm/makefu/2configs/tools/media.nix>
       <stockholm/makefu/2configs/virtualisation/libvirt.nix>
       <stockholm/makefu/2configs/tinc/retiolum.nix>
       <stockholm/makefu/2configs/mqtt.nix>
@@ -33,9 +33,6 @@ in {
 
       <stockholm/makefu/2configs/share/wbob.nix>
       <stockholm/makefu/2configs/bluetooth-mpd.nix>
-      {
-        users.users.makefu.extraGroups = [ "pulse" ];
-      }
 
       # Sensors
       <stockholm/makefu/2configs/stats/telegraf>
@@ -46,10 +43,11 @@ in {
       <stockholm/makefu/2configs/deployment/led-fader.nix>
       <stockholm/makefu/2configs/hw/mceusb.nix>
       # <stockholm/makefu/2configs/stats/telegraf/bamstats.nix>
-
+      { environment.systemPackages = [ pkgs.vlc ]; }
 
 
       <stockholm/makefu/2configs/deployment/bureautomation>
+      <stockholm/makefu/2configs/deployment/bureautomation/mpd.nix>
       <stockholm/makefu/2configs/deployment/bureautomation/hass.nix>
       (let
           collectd-port = 25826;
