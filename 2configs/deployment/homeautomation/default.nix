@@ -17,7 +17,7 @@ let
     # state
     # TODO: currently broken, will not use the custom state topic
     #state_topic = "/ham/${topic}/stat/POWER";
-    state_topic = "stat/${topic}/POWER";
+    state_topic = "/ham/${topic}/stat/POWER";
     command_topic = "/ham/${topic}/cmnd/POWER";
     availability_topic = "/ham/${topic}/tele/LWT";
     payload_on= "ON";
@@ -47,7 +47,7 @@ let
       device_class = "motion";
       inherit name;
       # TODO: currently broken, will not use the custom state topic
-      state_topic = "stat/${topic}/POWER";
+      state_topic = "/ham/${topic}/stat/POWER";
       payload_on = "ON";
       payload_off = "OFF";
       availability_topic = "/ham/${topic}/tele/LWT";
@@ -85,6 +85,20 @@ let
       state_topic = "/ham/${topic}/tele/SENSOR";
       value_template = "{{ value_json.BME280.Pressure }}";
       unit_of_measurement = "hPa";
+    }
+  ];
+  tasmota_am2301 = name: topic:
+  [ { platform = "mqtt";
+      name = "${name} Temperatur";
+      state_topic = "/ham/${topic}/tele/SENSOR";
+      value_template = "{{ value_json.AM2301.Temperature }}";
+      unit_of_measurement = "°C";
+    }
+    { platform = "mqtt";
+      name = "${name} Luftfeuchtigkeit";
+      state_topic = "/ham/${topic}/tele/SENSOR";
+      value_template = "{{ value_json.AM2301.Humidity }}";
+      unit_of_measurement = "%";
     }
   ];
 in {
@@ -153,7 +167,7 @@ in {
         #  monitored_conditions = [ "ping" "download" "upload" ];
         #}
         { platform = "luftdaten";
-          name = "Ditzingen";
+          name = "Wangen";
           sensorid = "663";
           monitored_conditions = [ "P1" "P2" ];
         }
@@ -165,18 +179,23 @@ in {
           monitored_conditions = [ "summary" "icon"
           "nearest_storm_distance" "precip_probability"
           "precip_intensity"
-          "temperature" # "temperature_high" "temperature_low"
+          "temperature"
+          "apparent_temperature"
           "hourly_summary"
+          "humidity"
+          "pressure"
           "uv_index" ];
           units =  "si" ;
           update_interval = {
                 days = 0;
                 hours = 0;
-                minutes = 10;
+                minutes = 30;
                 seconds = 0;
           };
         }
-      ] ++ (tasmota_bme "Schlafzimmer" "schlafzimmer");
+      ]
+      ++ (tasmota_bme "Schlafzimmer" "schlafzimmer")
+      ++ (tasmota_am2301 "Arbeitszimmer" "arbeitszimmer");
       frontend = { };
       group =
         { default_view =
@@ -186,6 +205,7 @@ in {
               "group.schlafzimmer"
               "group.draussen"
               "group.wohnzimmer"
+              "group.arbeitszimmer"
             ];
           };
           flur = [
@@ -198,6 +218,8 @@ in {
           draussen = [
             "sensor.dark_sky_temperature"
             "sensor.dark_sky_hourly_summary"
+            "sensor.wangen_pm10"
+            "sensor.wangen_pm25"
           ];
           schlafzimmer = [
             "sensor.schlafzimmer_temperatur"
@@ -205,12 +227,32 @@ in {
             "sensor.schlafzimmer_luftfeuchtigkeit"
             "switch.lichterkette_schlafzimmer"
           ];
+          arbeitszimmer = [
+            "switch.strom_staubsauger"
+            "sensor.arbeitszimmer_temperatur"
+            "sensor.arbeitszimmer_luftfeuchtigkeit"
+          ];
         };
       http = { };
       switch = [
         (tasmota_plug "Lichterkette Schlafzimmer" "schlafzimmer")
+        (tasmota_plug "Strom Staubsauger" "arbeitszimmer")
       ];
       light = [ (tasmota_rgb "Flurlicht" "flurlicht" ) ];
+      automation = [
+        { alias = "Staubsauger Strom aus nach 6h";
+          trigger = {
+            platform = "state";
+            entity_id = "switch.strom_staubsauger";
+            to = "on";
+            for.hours = 6;
+          };
+          action = {
+            service= "homeassistant.turn_off";
+            entity_id= "switch.strom_staubsauger";
+          };
+        }
+      ];
     };
     enable = true;
     #configDir = "/var/lib/hass";
