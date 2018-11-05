@@ -27,12 +27,14 @@ in {
   systemd.services.arafetch = {
     startAt = "Mon,Wed,Fri 09:15:00";
     wantedBy = [ "multi-user.target" ];
+    after = [ "network-online.target" ];
     environment = {
       OUTDIR = home;
     };
     path = [ pkg  pkgs.git pkgs.wget ];
     serviceConfig = {
       User = "arafetch";
+      Restart = "always";
       WorkingDirectory = home;
       PrivateTmp = true;
       ExecStart = pkgs.writeDash "start-weekrun" ''

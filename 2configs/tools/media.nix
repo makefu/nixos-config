@@ -12,5 +12,7 @@
     plowshare
     streamripper
     youtube-dl
+
+    pulseeffects
   ];
 }
