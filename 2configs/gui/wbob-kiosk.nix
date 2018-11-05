@@ -4,23 +4,26 @@
   imports = [
       ./base.nix
   ];
-  users.users.makefu.packages = [ pkgs.chromium ];
+  users.users.makefu = {
+    packages = [ pkgs.chromium ];
+    extraGroups = [ "audio" "pulse" ];
+  };
   services.xserver = {
-    layout = lib.mkForce "de";
-    xkbVariant = lib.mkForce "";
 
     windowManager = lib.mkForce {
       awesome.enable = false;
       default = "none";
     };
-    desktopManager.xfce.enable = true;
+    desktopManager.xfce = {
+      extraSessionCommands = ''
+        ${pkgs.xlibs.xset}/bin/xset -display :0 s off -dpms
+        ${pkgs.xlibs.xrandr}/bin/xrandr --output HDMI2 --right-of HDMI1
+      '';
+      enable = true;
+    };
 
     # xrandrHeads = [ "HDMI1" "HDMI2" ];
     # prevent screen from turning off, disable dpms
-    displayManager.sessionCommands = ''
-      xset -display :0 s off -dpms
-      xrandr --output HDMI2 --right-of HDMI1
-    '';
   };
 
   systemd.services.xset-off = {
@@ -29,7 +32,8 @@
     serviceConfig = {
       ExecStart = "${pkgs.xlibs.xset}/bin/xset -display :0 s off -dpms";
       RemainAfterExit = "yes";
-      TimeoutSec = "5";
+      TimeoutSec = "5s";
+      RestartSec="5s";
       Restart = "on-failure";
     };
   };
