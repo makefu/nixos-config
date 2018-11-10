@@ -8,7 +8,7 @@
     timerConfig = {
       OnCalendar = "*:0/30";
     };
-    url = "http://prism.r/realwallpaper-sat-krebs.png";
+    url = "http://prism.r/realwallpaper-krebs.png";
   };
 
 }
