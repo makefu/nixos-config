@@ -45,7 +45,12 @@ in {
       # <stockholm/makefu/2configs/stats/telegraf/bamstats.nix>
       { environment.systemPackages = [ pkgs.vlc ]; }
 
-
+      {
+        # Risikoübernahme
+        nixpkgs.config.permittedInsecurePackages = [
+          "homeassistant-0.77.2"
+        ];
+      }
       <stockholm/makefu/2configs/deployment/bureautomation>
       <stockholm/makefu/2configs/deployment/bureautomation/mpd.nix>
       <stockholm/makefu/2configs/deployment/bureautomation/hass.nix>

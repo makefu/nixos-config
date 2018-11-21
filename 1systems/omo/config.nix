@@ -63,9 +63,17 @@ in {
       }
       # <stockholm/makefu/2configs/syncthing.nix>
       <stockholm/makefu/2configs/remote-build/slave.nix>
-      <stockholm/makefu/2configs/deployment/google-muell.nix>
+      # TODO:
+      # <stockholm/makefu/2configs/deployment/google-muell.nix>
       <stockholm/makefu/2configs/virtualisation/docker.nix>
       <stockholm/makefu/2configs/bluetooth-mpd.nix>
+
+      {
+        # Risikoübernahme
+        nixpkgs.config.permittedInsecurePackages = [
+          "homeassistant-0.77.2"
+        ];
+      }
       <stockholm/makefu/2configs/deployment/homeautomation>
       {
         makefu.ps3netsrv = {
@@ -97,6 +105,7 @@ in {
 
     ];
   makefu.full-populate =  true;
+  nixpkgs.config.allowUnfree = true;
   krebs.rtorrent = (builtins.trace (builtins.toJSON config.services.telegraf.extraConfig)) {
     downloadDir = lib.mkForce "/media/cryptX/torrent";
     extraConfig = ''
