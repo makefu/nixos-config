@@ -1,12 +1,25 @@
 { config, lib, pkgs, ... }:
 
+with import <stockholm/lib>;
 let
-  ident = (toString <secrets>) + "/mirrorsync.gum.id_ed25519";
+  ident = (builtins.readFile ./auphonic.pub);
 in {
-  systemd.services.mirrorsync = {
-    startAt = "08:00:00";
-    path = with pkgs; [ rsync openssh ];
-    script = ''rsync -av -e "ssh -i ${ident}" mirrorsync@159.69.132.234:/var/www/html/ /var/www/binaergewitter'';
+  services.openssh = {
+    allowSFTP = true;
+    sftpFlags = [ "-l VERBOSE" ];
+    extraConfig = ''
+      Match User auphonic
+        ForceCommand internal-sftp
+        AllowTcpForwarding no
+        X11Forwarding no
+        PasswordAuthentication no
+    '';
+  };
+  users.users.auphonic = {
+    uid = genid "auphonic";
+    group = "nginx";
+    useDefaultShell = true;
+    openssh.authorizedKeys.keys = [ ident config.krebs.users.makefu.pubkey ];
   };
   services.nginx = {
     enable = lib.mkDefault true;
