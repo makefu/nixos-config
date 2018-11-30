@@ -7,7 +7,6 @@
 
   host-src = {
     secure = false;
-    full = false;
     torrent = false;
     hw = false;
     musnix = false;
@@ -23,7 +22,11 @@
     {
       # nixos-18.09 @ 2018-09-18
       # + uhub/sqlite: 5dd7610401747
-      nixpkgs = if test then {
+      # + hovercraft: 7134801b17d72
+      nixpkgs = if host-src.arm6 then {
+        # TODO: we want to track the unstable channel
+        symlink = "/nix/var/nix/profiles/per-user/root/channels/nixos/";
+      } else {
         file = {
           path = toString (pkgs.fetchFromGitHub {
             owner = "makefu";
@@ -33,14 +36,6 @@
           });
           useChecksum = true;
         };
-      } else if host-src.full then {
-        git.ref = nixpkgs-src.rev;
-        git.url = nixpkgs-src.url;
-      } else if host-src.arm6 then {
-        # TODO: we want to track the unstable channel
-        symlink = "/nix/var/nix/profiles/per-user/root/channels/nixos/";
-      } else {
-        file = "/home/makefu/store/${nixpkgs-src.rev}";
       };
       nixos-config.symlink = "stockholm/makefu/1systems/${name}/config.nix";
 

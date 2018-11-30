@@ -6,4 +6,4 @@ nix-shell -p nix-prefetch-git --run 'nix-prefetch-git \
   --rev refs/heads/master' \
 > $dir/nixpkgs.json
 newref=$(cat $dir/nixpkgs.json | jq -r .rev | sed 's/\(.\{7\}\).*/\1/')
-echo git commit $dir/nixpkgs.json -m "nixpkgs: $oldref -> $newref"
+echo "git commit $dir/nixpkgs.json -m 'ma nixpkgs: $oldref -> $newref'"
