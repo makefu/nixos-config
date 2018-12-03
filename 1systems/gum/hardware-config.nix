@@ -46,7 +46,7 @@ in {
     "ata_piix" "vmw_pvscsi" "virtio_pci" "sd_mod" "ahci"
     "xhci_pci" "ehci_pci" "ahci" "sd_mod"
   ];
-  boot.kernelModules = [ "kvm-intel"  ];
+  boot.kernelModules = [ "dm-thin-pool" "kvm-intel"  ];
   hardware.enableRedistributableFirmware = true;
   fileSystems."/" = {
     device = "/dev/mapper/nixos-root";
@@ -56,9 +56,18 @@ in {
     device = "/dev/mapper/nixos-lib";
     fsType = "ext4";
   };
+  fileSystems."/var/log" = {
+    device = "/dev/mapper/nixos-log";
+    fsType = "ext4";
+  };
   fileSystems."/var/download" = {
     device = "/dev/mapper/nixos-download";
     fsType = "ext4";
+  };
+  fileSystems."/var/www/binaergewitter" = {
+    device = "/dev/mapper/nixos-binaergewitter";
+    fsType = "ext4";
+    options = [ "nofail" ];
   };
   fileSystems."/var/lib/borgbackup" = {
     device = "/dev/mapper/nixos-backup";

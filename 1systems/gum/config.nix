@@ -4,13 +4,14 @@ with import <stockholm/lib>;
 let
   external-ip = config.krebs.build.host.nets.internet.ip4.addr;
   ext-if = config.makefu.server.primary-itf;
+  allDisks = [ "/dev/sda" "/dev/sdb" ];
 in {
   imports = [
       <stockholm/makefu>
       ./hardware-config.nix
       {
         users.users.lass = {
-          uid = 9002;
+          uid = 19002;
           isNormalUser = true;
           createHome = true;
           useDefaultShell = true;
@@ -21,7 +22,7 @@ in {
         };
       }
       <stockholm/makefu/2configs/headless.nix>
-      # <stockholm/makefu/2configs/smart-monitor.nix>
+      <stockholm/makefu/2configs/smart-monitor.nix>
 
       # Security
       <stockholm/makefu/2configs/sshd-totp.nix>
@@ -93,13 +94,15 @@ in {
       <stockholm/makefu/2configs/nginx/misa-felix-hochzeit.ml.nix>
       <stockholm/makefu/2configs/nginx/gold.krebsco.de.nix>
       <stockholm/makefu/2configs/nginx/iso.euer.nix>
+      <stockholm/krebs/2configs/cache.nsupdate.info.nix>
       <stockholm/makefu/2configs/shack/events-publisher>
 
       <stockholm/makefu/2configs/deployment/photostore.krebsco.de.nix>
       <stockholm/makefu/2configs/deployment/graphs.nix>
       <stockholm/makefu/2configs/deployment/owncloud.nix>
       <stockholm/makefu/2configs/deployment/boot-euer.nix>
-      <stockholm/makefu/2configs/deployment/bgt/hidden_service.nix>
+      <stockholm/makefu/2configs/bgt/download.binaergewitter.de.nix>
+      <stockholm/makefu/2configs/bgt/hidden_service.nix>
 
       <stockholm/makefu/2configs/stats/client.nix>
       # <stockholm/makefu/2configs/logging/client.nix>
@@ -132,7 +135,7 @@ in {
       ListenAddress = ${external-ip} 21031
     '';
     connectTo = [
-      "prism" "ni" "enklave" "dishfire" "echelon" "hotdog"
+      "prism" "ni" "enklave" "eve" "archprism"
     ];
   };
 
@@ -189,6 +192,7 @@ in {
     nameservers = [ "8.8.8.8" ];
   };
   users.users.makefu.extraGroups = [ "download" "nginx" ];
+  services.smartd.devices = builtins.map (x: { device = x; }) allDisks;
   boot.tmpOnTmpfs = true;
   state = [ "/home/makefu/.weechat" ];
 }
