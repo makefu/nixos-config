@@ -10,7 +10,7 @@ with import <stockholm/lib>;
   ];
   # TODO: NIX_PATH and nix.nixPath are being set by default.nix right now
   # cd ~/stockholm ; nix-build -A config.system.build.isoImage -I nixos-config=makefu/1systems/iso.nix -I secrets=/home/makefu/secrets/iso /var/src/nixpkgs/nixos
-  krebs.build.host = { cores = 1; };
+  krebs.build.host = { cores = 0; };
   isoImage.isoBaseName = lib.mkForce "stockholm";
   krebs.hidden-ssh.enable = true;
   environment.systemPackages = with pkgs; [
