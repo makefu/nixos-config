@@ -21,8 +21,12 @@ in {
           ];
         };
       }
+      # <stockholm/makefu/2configs/stats/client.nix>
+      <stockholm/makefu/2configs/stats/netdata-server.nix>
+
       <stockholm/makefu/2configs/headless.nix>
       <stockholm/makefu/2configs/smart-monitor.nix>
+      { services.smartd.devices = builtins.map (x: { device = x; }) allDisks; }
 
       # Security
       <stockholm/makefu/2configs/sshd-totp.nix>
@@ -31,6 +35,8 @@ in {
       <stockholm/makefu/2configs/tools/core.nix>
       <stockholm/makefu/2configs/tools/dev.nix>
       <stockholm/makefu/2configs/tools/sec.nix>
+      <stockholm/makefu/2configs/tools/desktop.nix>
+
       <stockholm/makefu/2configs/zsh-user.nix>
       <stockholm/makefu/2configs/mosh.nix>
       # <stockholm/makefu/2configs/gui/xpra.nix>
@@ -42,17 +48,47 @@ in {
       <stockholm/makefu/2configs/iodined.nix>
       # <stockholm/makefu/2configs/backup.nix>
       <stockholm/makefu/2configs/tinc/retiolum.nix>
+      { # bonus retiolum config for connecting more hosts
+        krebs.tinc.retiolum = {
+          extraConfig = ''
+            ListenAddress = ${external-ip} 53
+            ListenAddress = ${external-ip} 655
+            ListenAddress = ${external-ip} 21031
+          '';
+          connectTo = [
+            "prism" "ni" "enklave" "eve" "archprism"
+          ];
+        };
+        networking.firewall = {
+          allowedTCPPorts =
+          [
+            53
+            655
+            21031
+          ];
+          allowedUDPPorts =
+          [
+            53
+            655
+            21031
+          ];
+        };
+      }
 
       # ci
       # <stockholm/makefu/2configs/exim-retiolum.nix>
       <stockholm/makefu/2configs/git/cgit-retiolum.nix>
+      <stockholm/makefu/2configs/shack/events-publisher>
       <stockholm/makefu/2configs/shack/gitlab-runner>
       <stockholm/makefu/2configs/remote-build/slave.nix>
       <stockholm/makefu/2configs/taskd.nix>
 
       # services
-      <stockholm/makefu/2configs/sabnzbd.nix>
+      # <stockholm/makefu/2configs/sabnzbd.nix>
       <stockholm/makefu/2configs/mail/mail.euer.nix>
+      {
+        krebs.exim.enable = mkForce false;
+      }
 
       # sharing
       <stockholm/makefu/2configs/share/gum.nix>
@@ -60,13 +96,6 @@ in {
       #<stockholm/makefu/2configs/retroshare.nix>
       ## <stockholm/makefu/2configs/ipfs.nix>
       #<stockholm/makefu/2configs/syncthing.nix>
-      { # ncdc
-        environment.systemPackages = [ pkgs.ncdc ];
-        networking.firewall = {
-          allowedUDPPorts = [ 51411 ];
-          allowedTCPPorts = [ 51411 ];
-        };
-      }
       # <stockholm/makefu/2configs/opentracker.nix>
 
       ## network
@@ -92,10 +121,9 @@ in {
       #<stockholm/makefu/2configs/nginx/public_html.nix>
       #<stockholm/makefu/2configs/nginx/update.connector.one.nix>
       <stockholm/makefu/2configs/nginx/misa-felix-hochzeit.ml.nix>
-      <stockholm/makefu/2configs/nginx/gold.krebsco.de.nix>
+      # <stockholm/makefu/2configs/nginx/gold.krebsco.de.nix>
       <stockholm/makefu/2configs/nginx/iso.euer.nix>
       <stockholm/krebs/2configs/cache.nsupdate.info.nix>
-      <stockholm/makefu/2configs/shack/events-publisher>
 
       <stockholm/makefu/2configs/deployment/photostore.krebsco.de.nix>
       <stockholm/makefu/2configs/deployment/graphs.nix>
@@ -104,7 +132,6 @@ in {
       <stockholm/makefu/2configs/bgt/download.binaergewitter.de.nix>
       <stockholm/makefu/2configs/bgt/hidden_service.nix>
 
-      <stockholm/makefu/2configs/stats/client.nix>
       # <stockholm/makefu/2configs/logging/client.nix>
 
       # sharing
@@ -118,7 +145,8 @@ in {
 
       # krebs infrastructure services
       <stockholm/makefu/2configs/stats/server.nix>
-  ];
+    ];
+
   makefu.dl-dir = "/var/download";
 
   services.openssh.hostKeys = [
@@ -128,71 +156,14 @@ in {
   services.nginx.virtualHosts.cgit.serverAliases = [ "cgit.euer.krebsco.de" ];
   krebs.build.host = config.krebs.hosts.gum;
 
-  krebs.tinc.retiolum = {
-    extraConfig = ''
-      ListenAddress = ${external-ip} 53
-      ListenAddress = ${external-ip} 655
-      ListenAddress = ${external-ip} 21031
-    '';
-    connectTo = [
-      "prism" "ni" "enklave" "eve" "archprism"
-    ];
-  };
-
-
-  # access
-  users.users = {
-    root.openssh.authorizedKeys.keys = [ config.krebs.users.makefu-omo.pubkey ];
-    makefu.openssh.authorizedKeys.keys = [ config.krebs.users.makefu-vbob.pubkey config.krebs.users.makefu-bob.pubkey ];
-  };
-
-  # Chat
-  environment.systemPackages = with pkgs;[
-    weechat
-    bepasty-client-cli
-    tmux
-  ];
-
-  # Hardware
-
   # Network
   networking = {
     firewall = {
         allowPing = true;
         logRefusedConnections = false;
-        allowedTCPPorts = [
-          # smtp
-          25
-          # http
-          80 443
-          # httptunnel
-          8080 8443
-          # tinc
-          655
-          # tinc-shack
-          21032
-          # tinc-retiolum
-          21031
-          # taskserver
-          53589
-          # temp vnc
-          18001
-          # temp reverseshell
-          31337
-        ];
-        allowedUDPPorts = [
-          # tinc
-          655 53
-          # tinc-retiolum
-          21031
-          # tinc-shack
-          21032
-        ];
     };
     nameservers = [ "8.8.8.8" ];
   };
   users.users.makefu.extraGroups = [ "download" "nginx" ];
-  services.smartd.devices = builtins.map (x: { device = x; }) allDisks;
-  boot.tmpOnTmpfs = true;
   state = [ "/home/makefu/.weechat" ];
 }
