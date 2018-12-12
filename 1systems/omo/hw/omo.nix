@@ -48,9 +48,8 @@ in {
 
   makefu.snapraid = {
     enable = true;
-    # TODO: 3 is not protected
-    disks = map toMapper [ 0 1 ];
-    parity = toMapper 2;
+    disks = map toMapper [ 0 2 3 ];
+    parity = toMapper 1;
   };
   fileSystems = let
     cryptMount = name:
