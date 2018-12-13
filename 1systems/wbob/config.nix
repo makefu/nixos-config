@@ -20,9 +20,6 @@ in {
       <stockholm/makefu/2configs/mqtt.nix>
       <stockholm/makefu/2configs/gui/wbob-kiosk.nix>
 
-      <stockholm/makefu/2configs/stats/client.nix>
-
-
       # <stockholm/makefu/2configs/gui/studio-virtual.nix>
       # <stockholm/makefu/2configs/audio/jack-on-pulse.nix>
       # <stockholm/makefu/2configs/audio/realtime-audio.nix>
@@ -35,6 +32,8 @@ in {
       <stockholm/makefu/2configs/bluetooth-mpd.nix>
 
       # Sensors
+      <stockholm/makefu/2configs/stats/client.nix>
+      <stockholm/makefu/2configs/stats/collectd-client.nix>
       <stockholm/makefu/2configs/stats/telegraf>
       <stockholm/makefu/2configs/stats/telegraf/airsensor.nix>
       <stockholm/makefu/2configs/stats/telegraf/europastats.nix>
@@ -51,9 +50,9 @@ in {
           "homeassistant-0.77.2"
         ];
       }
-      <stockholm/makefu/2configs/deployment/bureautomation>
-      <stockholm/makefu/2configs/deployment/bureautomation/mpd.nix>
-      <stockholm/makefu/2configs/deployment/bureautomation/hass.nix>
+      <stockholm/makefu/2configs/bureautomation>
+      <stockholm/makefu/2configs/bureautomation/mpd.nix>
+      <stockholm/makefu/2configs/bureautomation/hass.nix>
       (let
           collectd-port = 25826;
           influx-port = 8086;
