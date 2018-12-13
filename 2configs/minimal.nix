@@ -7,8 +7,8 @@
   # the only true timezone (even after the the removal of DST)
   time.timeZone = "Europe/Berlin";
 
-  networking.hostName = config.krebs.build.host.name;
-  nix.buildCores = config.krebs.build.host.cores;
+  networking.hostName = lib.mkIf (lib.hasAttr "host" config.krebs.build) config.krebs.build.host.name;
+  nix.buildCores = 0; # until https://github.com/NixOS/nixpkgs/pull/50440 is in stable
 
   # we use gpg if necessary (or nothing at all)
   programs.ssh.startAgent = false;
@@ -85,4 +85,6 @@
     "net.ipv6.conf.all.use_tempaddr" = 2;
     "net.ipv6.conf.default.use_tempaddr" = 2;
   };
+
+  services.nscd.enable = false;
 }
