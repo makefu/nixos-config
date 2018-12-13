@@ -44,7 +44,8 @@ in {
       # <stockholm/makefu/2configs/share/omo-timemachine.nix>
       <stockholm/makefu/2configs/tinc/retiolum.nix>
 
-
+      # statistics
+      <stockholm/makefu/2configs/stats/client.nix>
       # Logging
       #influx + grafana
       <stockholm/makefu/2configs/stats/server.nix>
@@ -74,7 +75,8 @@ in {
           "homeassistant-0.77.2"
         ];
       }
-      <stockholm/makefu/2configs/deployment/homeautomation>
+      <stockholm/makefu/2configs/homeautomation>
+      <stockholm/makefu/2configs/homeautomation/google-muell.nix>
       {
         makefu.ps3netsrv = {
           enable = true;
