@@ -5,6 +5,7 @@ _:
     ./awesome-extra.nix
     ./deluge.nix
     ./forward-journal.nix
+    ./netdata.nix
     ./opentracker.nix
     ./ps3netsrv.nix
     ./logging-config.nix
