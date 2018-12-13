@@ -3,6 +3,6 @@
 {
    services.bitlbee = {
     enable = true;
-    libpurple_plugins = [ pkgs.telegram-purple ];
+    libpurple_plugins = [ pkgs.telegram-purple pkgs.pidgin-skypeweb];
   };
 }
