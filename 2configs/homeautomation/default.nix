@@ -31,7 +31,7 @@ let
     brightness_scale = 100;
     # color
     rgb_state_topic = "/ham/${topic}/stat/Color";
-    rgb_command_topic = "/ham/${topic}/cmnd/Color2";
+    rgb_command_topic = "/ham/${topic}/cmnd/MEM1"; # use enabled tasmota rule
     rgb_command_mode = "hex";
     rgb_command_template = "{{ '%02x%02x%02x' | format(red, green, blue)}}";
     # effects
