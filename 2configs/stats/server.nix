@@ -21,6 +21,13 @@ in {
   services.influxdb.extraConfig = {
     meta.hostname = config.krebs.build.host.name;
     # meta.logging-enabled = true;
+    logging.level = "info";
+    http.log-enabled = true;
+    http.write-tracing = false;
+    http.suppress-write-log = true;
+    data.trace-logging-enabled = false;
+    data.query-log-enabled = false;
+
     http.bind-address = ":${toString influx-port}";
     admin.bind-address = ":8083";
     monitoring = {
