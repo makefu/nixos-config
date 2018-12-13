@@ -32,7 +32,7 @@ let
       ${user}
 
       protocol=dyndns2
-      usev5=if, if=${primary-itf}
+      usev6=if, if=${primary-itf}
       ssl=yes
       server=ipv6.nsupdate.info
       login=${user}
