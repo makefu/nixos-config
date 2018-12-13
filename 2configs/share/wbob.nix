@@ -8,6 +8,7 @@
     home = "/home/share";
     createHome = true;
   };
+  users.groups.mpd.members = [ "makefu" ];
   services.samba = {
     enable = true;
     enableNmbd = true;
@@ -23,6 +24,12 @@
         "read only" = "yes";
         browseable = "yes";
         "guest ok" = "yes";
+      };
+      music-rw = {
+        path = "/data/music";
+        "read only" = "no";
+        browseable = "yes";
+        "guest ok" = "no";
       };
     };
     extraConfig = ''
