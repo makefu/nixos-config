@@ -21,6 +21,7 @@ in {
           ];
         };
       }
+      <stockholm/makefu/2configs/support-nixos.nix>
       # <stockholm/makefu/2configs/stats/client.nix>
       <stockholm/makefu/2configs/stats/netdata-server.nix>
 

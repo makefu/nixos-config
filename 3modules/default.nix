@@ -3,6 +3,7 @@ _:
 {
   imports = [
     ./awesome-extra.nix
+    ./bump-distrowatch.nix
     ./deluge.nix
     ./forward-journal.nix
     ./netdata.nix
