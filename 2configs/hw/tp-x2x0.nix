@@ -4,6 +4,7 @@ with import <stockholm/lib>;
 {
   imports = [
     ./tpm.nix
+    ./ssd.nix
   ];
 
   boot.kernelModules = [
@@ -49,6 +50,7 @@ with import <stockholm/lib>;
     CPU_MIN_PERF_ON_BAT=0
     CPU_MAX_PERF_ON_BAT=30
   '';
+
 
   powerManagement.resumeCommands = ''
     ${pkgs.rfkill}/bin/rfkill unblock all
