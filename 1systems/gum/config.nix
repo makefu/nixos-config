@@ -124,7 +124,6 @@ in {
       <stockholm/makefu/2configs/nginx/misa-felix-hochzeit.ml.nix>
       # <stockholm/makefu/2configs/nginx/gold.krebsco.de.nix>
       <stockholm/makefu/2configs/nginx/iso.euer.nix>
-      <stockholm/krebs/2configs/cache.nsupdate.info.nix>
 
       <stockholm/makefu/2configs/deployment/photostore.krebsco.de.nix>
       <stockholm/makefu/2configs/deployment/graphs.nix>
