@@ -3,6 +3,8 @@
 with import <stockholm/lib>;
 let
   ident = (builtins.readFile ./auphonic.pub);
+  bgtaccess = "/var/spool/nginx/logs/binaergewitter.access.log";
+  bgterror = "/var/spool/nginx/logs/binaergewitter.error.log";
 in {
   services.openssh = {
     allowSFTP = true;
@@ -21,6 +23,19 @@ in {
     useDefaultShell = true;
     openssh.authorizedKeys.keys = [ ident config.krebs.users.makefu.pubkey ];
   };
+  services.logrotate = {
+    enable = true;
+    config = ''
+    ${bgtaccess} ${bgterror} {
+      rotate 5
+      weekly
+      create 600 nginx nginx
+      postrotate
+        ${pkgs.systemd}/bin/systemctl reload nginx
+      endscript
+    }
+    '';
+  };
   services.nginx = {
     enable = lib.mkDefault true;
     recommendedGzipSettings = true;
@@ -29,10 +44,21 @@ in {
         serverAliases = [ "dl2.binaergewitter.de" ];
         root = "/var/www/binaergewitter";
         extraConfig = ''
-          access_log /var/spool/nginx/logs/binaergewitter.access.log combined;
-          error_log /var/spool/nginx/logs/binaergewitter.error.log error;
+          access_log ${bgtaccess} combined;
+          error_log ${bgterror} error;
           autoindex on;
         '';
     };
   };
+  environment.etc."netdata/python.d/web_log.conf".text = ''
+    nginx_log3:
+      name: 'nginx'
+      path: '/var/spool/nginx/logs/access.log'
+    nginx_log4:
+      name: 'bgt'
+      path: '${bgtaccess}'
+  '';
+
+  users.users.netdata.extraGroups = [ "nginx" ];
+
 }
