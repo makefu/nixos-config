@@ -38,6 +38,9 @@
      })
   ];
   networking.wireless.enable = true;
+  users.extraUsers.root.openssh.authorizedKeys.keys = [
+    config.krebs.users.Mic92.pubkey
+  ];
 
 # File systems configuration for using the installer's partition layout
   fileSystems = {
