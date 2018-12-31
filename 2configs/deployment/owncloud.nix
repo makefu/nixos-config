@@ -169,6 +169,7 @@ in  {
     ( serveCloud [ "o.euer.krebsco.de" ] )
   ];
 
+  networking.firewall.allowedTCPPorts = [ 80 443 ];
   services.redis.enable = true;
   services.mysql = {
     enable = false;
