@@ -34,7 +34,7 @@ in {
         prefixLength = external-netmask6;
       }];
     };
-    defaultGateway6 = external-gw6;
+    defaultGateway6 = { address = external-gw6; interface = ext-if; };
     defaultGateway = external-gw;
   };
   boot.kernelParams = [ ];
