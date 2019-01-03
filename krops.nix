@@ -27,15 +27,15 @@
         # TODO: we want to track the unstable channel
         symlink = "/nix/var/nix/profiles/per-user/root/channels/nixos/";
       } else {
-        file = {
-          path = toString (pkgs.fetchFromGitHub {
+        derivation = ''
+          with import <nixpkgs> {};
+          pkgs.fetchFromGitHub {
             owner = "makefu";
             repo = "nixpkgs";
-            rev = nixpkgs-src.rev;
-            sha256 = nixpkgs-src.sha256;
-          });
-          useChecksum = true;
-        };
+            rev = "${nixpkgs-src.rev}";
+            sha256 = "${nixpkgs-src.sha256}";
+          }
+        '';
       };
       nixos-config.symlink = "stockholm/makefu/1systems/${name}/config.nix";
 
