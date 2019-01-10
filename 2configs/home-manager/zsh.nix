@@ -56,7 +56,7 @@
         ];
       }
       EOF
-          ${EDITOR:-vim} default.nix
+          ''${EDITOR:-vim} default.nix
         fi
       }
       eval "$(direnv hook zsh)"
