@@ -1,7 +1,7 @@
 {
   "url": "https://github.com/makefu/nixpkgs",
-  "rev": "eebd1a9263716a04689a37b6537e50801d376b5e",
-  "date": "2019-01-03T20:01:07+01:00",
-  "sha256": "0s1fylhjqp2h4j044iwbwndgnips3nrynh2ip5ijh96kavizf2gb",
+  "rev": "125873064a6eabd2896833d00aede7778a453fdf",
+  "date": "2019-01-11T14:24:21+01:00",
+  "sha256": "1ki50426m9simqvxdzckfgycibz5rdhwl6hzi31i72dqiafl8j6s",
   "fetchSubmodules": false
 }
