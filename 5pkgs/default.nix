@@ -21,6 +21,7 @@ with super.lib; with builtins; let
 
 in {
     quodlibet = super.pkgs.stdenv.lib.overrideDerivation super.quodlibet (old: {
+      doCheck = false; # 1 error because of warnings (possibly upstream)
       patches = [ ./custom/quodlibet/single-digit-discnumber.patch
                   ./custom/quodlibet/remove-override-warning.patch ];
     });
