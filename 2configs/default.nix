@@ -36,7 +36,6 @@ with import <stockholm/lib>;
     enable = true;
 
     dns.providers.lan  = "hosts";
-    search-domain = "r";
     build.user = config.krebs.users.makefu;
   };
 
