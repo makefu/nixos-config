@@ -69,6 +69,7 @@
       # Hardware
       <stockholm/makefu/2configs/hw/tp-x230.nix>
       <stockholm/makefu/2configs/hw/mceusb.nix>
+      <stockholm/makefu/2configs/hw/malduino_elite.nix>
       # <stockholm/makefu/2configs/hw/tpm.nix>
       # <stockholm/makefu/2configs/hw/rtl8812au.nix>
       <stockholm/makefu/2configs/hw/network-manager.nix>
