@@ -1,8 +1,9 @@
 { pkgs, lib, ... }:
 
 {
-  users.users.makefu.packages = with pkgs;[ bat direnv ];
+  users.users.makefu.packages = with pkgs;[ bat direnv clipit ];
   home-manager.users.makefu = {
+    systemd.user.services.network-manager-applet.Service.Environment = ''XDG_DATA_DIRS=/run/current-system/sw/share:${pkgs.networkmanagerapplet}/share GDK_PIXBUF_MODULE_FILE=${pkgs.librsvg.out}/lib/gdk-pixbuf-2.0/2.10.0/loaders.cache'';
     programs.browserpass = { browsers = [ "firefox" ] ; enable = true; };
     programs.firefox.enable = true;
     programs.obs-studio.enable = true;
@@ -36,6 +37,7 @@
       };
 
       Service = {
+        Environment = ''XDG_DATA_DIRS=/run/current-system/sw/share:${pkgs.clipit}/share GDK_PIXBUF_MODULE_FILE=${pkgs.librsvg.out}/lib/gdk-pixbuf-2.0/2.10.0/loaders.cache'';
         ExecStart = "${pkgs.clipit}/bin/clipit";
         Restart = "on-abort";
       };
