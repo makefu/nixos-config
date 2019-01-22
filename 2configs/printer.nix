@@ -6,7 +6,8 @@ in {
   services.printing = {
     enable = true;
     drivers = with pkgs; [
-      samsungUnifiedLinuxDriver
+      # samsungUnifiedLinuxDriver
+      splix # scx 3200
       cups-dymo # dymo labelwriter
       foo2zjs # magicolor 1690mf
       cups-zj-58
