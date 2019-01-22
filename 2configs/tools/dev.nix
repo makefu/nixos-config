@@ -22,6 +22,7 @@
     cdrtools
     # nix related
     nix-index
+    nix-review
     # git-related
     tig
   ];
