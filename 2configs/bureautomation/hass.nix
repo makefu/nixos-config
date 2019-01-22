@@ -3,18 +3,13 @@ let
   tasmota_plug = name: topic:
   { platform = "mqtt";
     inherit name;
-    state_topic = "/bam/${topic}/stat/POWER1";
-    command_topic = "/bam/${topic}/cmnd/POWER1";
+    state_topic = "/bam/${topic}/stat/POWER";
+    command_topic = "/bam/${topic}/cmnd/POWER";
     availability_topic = "/bam/${topic}/tele/LWT";
     payload_on= "ON";
     payload_off= "OFF";
     payload_available= "Online";
     payload_not_available= "Offline";
-  };
-  tasmota_stecki = name: topic:
-    ( tasmota_plug name topic) //
-    { state_topic = "/bam/${topic}/stat/POWER";
-      command_topic = "/bam/${topic}/cmnd/POWER";
   };
   espeasy_dht22 = name: [
   { platform = "mqtt";
@@ -77,8 +72,8 @@ in {
       switch = [
         (tasmota_plug "Bauarbeiterlampe" "plug")
         (tasmota_plug "Blitzdings" "plug2")
-        (tasmota_stecki "Fernseher" "fernseher")
-        (tasmota_plug "Pluggy" "plug4")
+        (tasmota_plug "Fernseher" "plug3")
+        (tasmota_plug "Feuer" "plug4")
       ];
       binary_sensor = [
         { platform = "mqtt";
@@ -179,7 +174,7 @@ in {
           "switch.bauarbeiterlampe"
           "switch.blitzdings"
           "switch.fernseher"
-          "switch.pluggy"
+          "switch.feuer"
         ];
         camera = [
           "camera.Baumarkt"
@@ -212,7 +207,7 @@ in {
           };
           action = {
             service = "homeassistant.turn_on";
-            entity_id =  [ "switch.fernseher" "switch.blitzdings" ];
+            entity_id =  [ "switch.fernseher" "switch.feuer" ];
           };
         }
         { alias = "Turn off Fernseher 10 minutes after last movement";
@@ -231,7 +226,7 @@ in {
         ];
           action = {
             service = "homeassistant.turn_off";
-            entity_id =  [ "switch.fernseher" "switch.blitzdings" ];
+            entity_id =  [ "switch.fernseher" "switch.feuer" ];
           };
           condition =
           { condition = "and";
