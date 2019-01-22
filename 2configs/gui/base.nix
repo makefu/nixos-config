@@ -28,6 +28,7 @@ in
 
     windowManager = {
       awesome.enable = true;
+      awesome.noArgb = true;
       awesome.luaModules = [ pkgs.luaPackages.vicious ];
       default = "awesome";
     };
