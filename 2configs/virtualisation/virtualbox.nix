@@ -2,8 +2,7 @@
 
 {
   virtualisation.virtualbox.host.enable = true;
-  nixpkgs.config.virtualbox.enableExtensionPack = true;
-  virtualisation.virtualbox.host.enableHardening = false;
-
+  virtualisation.virtualbox.host.enableExtensionPack = true;
+  # virtualisation.virtualbox.host.enableHardening = false;
   users.extraGroups.vboxusers.members = [ config.krebs.build.user.name ];
 }
