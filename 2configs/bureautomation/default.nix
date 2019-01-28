@@ -5,7 +5,7 @@ let
   port = 3001;
   runit = pkgs.writeDash "runit" ''
     set -xeuf
-    PATH=${pkgs.curl}/bin:${pkgs.coreutils}/bin
+    PATH=${pkgs.mosquitto}/bin:${pkgs.coreutils}/bin
     name=''${1?must provide name as first arg}
     state=''${2?must provide state as second arg}
     # val=''${3?must provide val as third arg}
@@ -14,9 +14,10 @@ let
     test $state = alerting || exit 0
 
     echo $name - $state
-    curl 'http://bauarbeiterlampe/ay?o=1'
+    topic=plug
+    mosquitto_pub -t /bam/$topic/cmnd/POWER -m ON
     sleep 5
-    curl 'http://bauarbeiterlampe/ay?o=1'
+    mosquitto_pub -t /bam/$topic/cmnd/POWER -m OFF
   '';
 in {
   services.logstash = {
