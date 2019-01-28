@@ -4,6 +4,7 @@
   users.users.makefu.packages = with pkgs;[
     python3
     python3Packages.pyserial
+    picocom
     python3Packages.virtualenv
     # embedded
     gi
