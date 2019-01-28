@@ -52,7 +52,7 @@
       # Virtualization
       <stockholm/makefu/2configs/virtualisation/libvirt.nix>
       <stockholm/makefu/2configs/virtualisation/docker.nix>
-      # <stockholm/makefu/2configs/virtualisation/virtualbox.nix>
+      <stockholm/makefu/2configs/virtualisation/virtualbox.nix>
       {
         networking.firewall.allowedTCPPorts = [ 8080 ];
         networking.nat = {
