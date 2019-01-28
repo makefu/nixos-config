@@ -19,6 +19,7 @@
       <stockholm/makefu/2configs/backup/state.nix>
       # <stockholm/makefu/2configs/dnscrypt/client.nix>
       <stockholm/makefu/2configs/avahi.nix>
+      <stockholm/makefu/2configs/support-nixos.nix>
 
       # Debugging
       # <stockholm/makefu/2configs/disable_v6.nix>
@@ -51,7 +52,7 @@
       # Virtualization
       <stockholm/makefu/2configs/virtualisation/libvirt.nix>
       <stockholm/makefu/2configs/virtualisation/docker.nix>
-      <stockholm/makefu/2configs/virtualisation/virtualbox.nix>
+      # <stockholm/makefu/2configs/virtualisation/virtualbox.nix>
       {
         networking.firewall.allowedTCPPorts = [ 8080 ];
         networking.nat = {
@@ -65,7 +66,7 @@
       <stockholm/makefu/2configs/tor.nix>
       <stockholm/makefu/2configs/vpn/vpngate.nix>
       # <stockholm/makefu/2configs/buildbot-standalone.nix>
-      # <stockholm/makefu/2configs/remote-build/master.nix>
+      <stockholm/makefu/2configs/remote-build/aarch64-community.nix>
 
       # Hardware
       <stockholm/makefu/2configs/hw/tp-x230.nix>
