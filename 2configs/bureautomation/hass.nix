@@ -1,5 +1,40 @@
 { pkgs, lib, ... }:
 let
+  tasmota_rgb = name: topic:
+# LED WS2812b
+#      effect_state_topic: "stat/led/Scheme"
+#      effect_command_topic: "cmnd/led/Scheme"
+#      effect_value_template: "{{ value_json.Scheme }}"
+  { platform = "mqtt";
+    inherit name;
+    retain = false;
+    qos = 1;
+    optimistic = false;
+    # state
+    # TODO: currently broken, will not use the custom state topic
+    state_topic = "/bam/${topic}/stat/POWER";
+    command_topic = "/bam/${topic}/cmnd/POWER";
+    availability_topic = "/bam/${topic}/tele/LWT";
+    payload_on= "ON";
+    payload_off= "OFF";
+    payload_available= "Online";
+    payload_not_available= "Offline";
+    # brightness
+    brightness_state_topic = "/bam/${topic}/stat/Dimmer";
+    brightness_command_topic = "/bam/${topic}/cmnd/Dimmer";
+    brightness_value_template = "{{ value_json.Dimmer }}";
+    brightness_scale = 100;
+    # color
+    rgb_state_topic = "/bam/${topic}/stat/Color";
+    rgb_command_topic = "/bam/${topic}/cmnd/Color2";
+    rgb_command_mode = "hex";
+    rgb_command_template = "{{ '%02x%02x%02x' | format(red, green, blue)}}";
+    # effects
+    effect_state_topic = "/bam/${topic}/stat/Scheme";
+    effect_command_topic = "/bam/${topic}/cmnd/Scheme";
+    effect_value_template = "{{ value_json.Scheme }}";
+    effect_list = [ 0 1 2 3 4 5 6 7 8 9 10 11 12 ];
+};
   tasmota_plug = name: topic:
   { platform = "mqtt";
     inherit name;
@@ -74,6 +109,10 @@ in {
         (tasmota_plug "Blitzdings" "plug2")
         (tasmota_plug "Fernseher" "plug3")
         (tasmota_plug "Feuer" "plug4")
+        (tasmota_plug "Nachtlicht" "plug5")
+      ];
+      light = [
+        (tasmota_rgb "Status Felix" "status1")
       ];
       binary_sensor = [
         { platform = "mqtt";
@@ -169,12 +208,16 @@ in {
           };
         automation = [
           "automation.turn_off_fernseher_10_minutes_after_last_movement"
+          "automation.turn_off_nachtlicht_on_sunrise"
+          "automation.turn_on_nachtlicht_on_motion_and_dusk"
         ];
         switches = [
           "switch.bauarbeiterlampe"
           "switch.blitzdings"
           "switch.fernseher"
           "switch.feuer"
+          "switch.nachtlicht"
+          "light.status_felix"
         ];
         camera = [
           "camera.Baumarkt"
@@ -207,11 +250,55 @@ in {
           };
           action = {
             service = "homeassistant.turn_on";
-            entity_id =  [ "switch.fernseher" "switch.feuer" ];
+            entity_id =  [
+              "switch.fernseher"
+              "switch.feuer"
+              "light.status_felix"
+            ];
+          };
+        }
+        {
+          alias = "Turn off Nachtlicht on sunrise";
+          trigger =
+          {
+            platform = "sun";
+            event = "sunrise";
+          };
+          action =
+          {
+            service = "homeassistant.turn_off";
+            entity_id =  [ "switch.nachtlicht" ];
+          };
+        }
+        {
+          alias = "Turn on Nachtlicht on motion and dusk";
+          trigger =
+          {
+            platform = "state";
+            entity_id = "binary_sensor.motion";
+            to = "on";
+          };
+          condition = # 'when dark'
+          {
+            condition = "or";
+            conditions = [
+              { condition = "sun";
+                after = "sunset";
+                after_offset = "-00:45:00"; # on dusk
+              }
+              { condition = "sun";
+                before = "sunrise";
+              }
+            ];
+          };
+          action =
+          {
+            service = "homeassistant.turn_on";
+            entity_id =  [ "switch.nachtlicht" ];
           };
         }
         { alias = "Turn off Fernseher 10 minutes after last movement";
-          trigger = [ 
+          trigger = [
           { # trigger when movement was detected at the time
             platform = "state";
             entity_id = "binary_sensor.motion";
@@ -226,7 +313,11 @@ in {
         ];
           action = {
             service = "homeassistant.turn_off";
-            entity_id =  [ "switch.fernseher" "switch.feuer" ];
+            entity_id =  [
+              "switch.fernseher"
+              "switch.feuer"
+              "light.status_felix"
+            ];
           };
           condition =
           { condition = "and";
