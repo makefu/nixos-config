@@ -14,6 +14,7 @@
       <stockholm/makefu/2configs/main-laptop.nix>
       <stockholm/makefu/2configs/extra-fonts.nix>
       <stockholm/makefu/2configs/tools/all.nix>
+      <stockholm/makefu/2configs/dict.nix>
 
       <stockholm/makefu/2configs/backup/state.nix>
       # <stockholm/makefu/2configs/dnscrypt/client.nix>
