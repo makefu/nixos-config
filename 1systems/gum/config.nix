@@ -84,6 +84,7 @@ in {
       <stockholm/makefu/2configs/shack/events-publisher>
       <stockholm/makefu/2configs/shack/gitlab-runner>
       <stockholm/makefu/2configs/remote-build/slave.nix>
+      <stockholm/makefu/2configs/remote-build/aarch64-community.nix>
       <stockholm/makefu/2configs/taskd.nix>
 
       # services
