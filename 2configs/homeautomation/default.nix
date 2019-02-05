@@ -257,4 +257,8 @@ in {
     enable = true;
     #configDir = "/var/lib/hass";
   };
+  nixpkgs.config.permittedInsecurePackages = [
+    "homeassistant-0.77.2"
+  ];
+
 }
