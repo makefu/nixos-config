@@ -8,7 +8,6 @@
     ( pkgs.writeScriptBin "unknow" ''#!/bin/sh
 ${gnused}/bin/sed -i "''${1}d" ~/.ssh/known_hosts
     '')
-    at_spi2_core
     acpi
     bc
     rsync
@@ -17,6 +16,7 @@ ${gnused}/bin/sed -i "''${1}d" ~/.ssh/known_hosts
     lsof
     which
     binutils
+    screen
 
     # fs
     cifs-utils

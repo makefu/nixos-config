@@ -2,6 +2,7 @@
 
 {
   users.users.makefu.packages = with pkgs; [
+    at_spi2_core
     chromium
     feh
     clipit
