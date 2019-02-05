@@ -86,7 +86,8 @@
         share = true;
       };
       sessionVariables = {
-        TERM = "rxvt-unicode-256color";
+        # TERM = "rxvt-unicode-256color";
+        TERM = "xterm";
         LANG = "en_US.UTF8";
         LS_COLORS = ":di=1;31:";
         EDITOR = "vim";
