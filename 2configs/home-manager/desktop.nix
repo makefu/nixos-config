@@ -11,6 +11,15 @@
     services.network-manager-applet.enable = true;
     services.blueman-applet.enable = true;
     services.pasystray.enable = true;
+    services.flameshot.enable = true;
+    home.file.".config/Dharkael/flameshot.ini".text = ''
+      [General]
+      disabledTrayIcon=false
+      drawColor=@Variant(\0\0\0\x43\x1\xff\xff\0\0\0\0\xff\xff\0\0)
+      drawThickness=0
+      filenamePattern=%F_%T_shot
+    '';
+
     systemd.user.services.pasystray.Service.Environment = "PATH=" + (lib.makeBinPath (with pkgs;[ pavucontrol paprefs /* pavumeter  */  /* paman */ ]) );
     programs.chromium = {
       enable = true;
