@@ -5,6 +5,7 @@
       useDefaultShell = true;
       openssh.authorizedKeys.keys = [
         config.krebs.users.buildbotSlave.pubkey
+        config.krebs.users.makefu-remote-builder.pubkey
       ];
     };
 }

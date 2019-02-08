@@ -15,6 +15,13 @@
       <stockholm/makefu/2configs/extra-fonts.nix>
       <stockholm/makefu/2configs/tools/all.nix>
       <stockholm/makefu/2configs/dict.nix>
+      #<stockholm/makefu/3modules/netboot_server.nix>
+      #{
+      #  netboot_server = {
+      #    network.wan = "wlp3s0";
+      #    network.lan = "enp0s25";
+      #  };
+      #}
 
       <stockholm/makefu/2configs/backup/state.nix>
       # <stockholm/makefu/2configs/dnscrypt/client.nix>
@@ -52,21 +59,22 @@
       # Virtualization
       <stockholm/makefu/2configs/virtualisation/libvirt.nix>
       <stockholm/makefu/2configs/virtualisation/docker.nix>
-      <stockholm/makefu/2configs/virtualisation/virtualbox.nix>
-      {
-        networking.firewall.allowedTCPPorts = [ 8080 ];
-        networking.nat = {
-          enable = true;
-          externalInterface = "wlp3s0";
-          internalInterfaces = [ "vboxnet0" ];
-        };
-      }
+      # <stockholm/makefu/2configs/virtualisation/virtualbox.nix>
+      #{
+      #  networking.firewall.allowedTCPPorts = [ 8080 ];
+      #  networking.nat = {
+      #    enable = true;
+      #    externalInterface = "wlp3s0";
+      #    internalInterfaces = [ "vboxnet0" ];
+      #  };
+      #}
       # Services
       <stockholm/makefu/2configs/git/brain-retiolum.nix>
       <stockholm/makefu/2configs/tor.nix>
       <stockholm/makefu/2configs/vpn/vpngate.nix>
       # <stockholm/makefu/2configs/buildbot-standalone.nix>
       <stockholm/makefu/2configs/remote-build/aarch64-community.nix>
+      <stockholm/makefu/2configs/remote-build/gum.nix>
 
       # Hardware
       <stockholm/makefu/2configs/hw/tp-x230.nix>
@@ -162,7 +170,6 @@
     "/home/makefu/docs"
     "/home/makefu/.password-store"
     "/home/makefu/.secrets-pass"
-    "/home/makefu/autosync/Database.kdb"
   ];
 
   services.syncthing.user = lib.mkForce "makefu";
