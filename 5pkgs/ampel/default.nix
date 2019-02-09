@@ -2,7 +2,7 @@
 
 with pkgs.python3Packages;buildPythonPackage rec {
   name = "ampel-${version}";
-  version = "0.2.1";
+  version = "0.2.4";
 
   propagatedBuildInputs = [
     docopt
@@ -16,8 +16,8 @@ with pkgs.python3Packages;buildPythonPackage rec {
 
   src = pkgs.fetchgit {
       url = "http://cgit.euer.krebsco.de/ampel";
-      rev = "92321d7";
-      sha256 = "0mvpbpf1rx8sc589qjb73gl8z6fir2zs3gl3br1pbhg5jgn0ij4n";
+      rev = "04e1c8c38ffe53175ae719121ad88534a8a662db";
+      sha256 = "00jgr3jg2yi91hd7388v8rncfbq8fx8dvr03sg749dzpsg58hfxn";
   };
   meta = {
     homepage = http://cgit.euer.krebsco.de/ampel;

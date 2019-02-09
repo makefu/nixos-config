@@ -3,13 +3,20 @@ with import <stockholm/lib>;
 let
   pkg = pkgs.ampel;
   home = "/var/lib/ampel";
-  sec = "${toString <secrets>}/google-muell.json";
+  sec = "${toString <secrets>}/ampel/google-muell.json";
   ampelsec = "${home}/google-muell.json";
-  cred = "${toString <secrets>}/google-muell-creds.json";
+  cred = "${toString <secrets>}/ampel/google-muell-creds.json";
   # TODO: generate this credential file locally
   ampelcred = "${home}/google-muell-creds.json";
-  esp = "192.168.8.204";
   sleepval = "1800";
+  default-color = "244,220,66";
+  config_json = toFile "config.json" (toJSON {
+    mq_hostname = "localhost";
+    mq_port = 1883;
+    mq_username = "sensor";
+    mq_topic = "/ham/flurlicht/cmnd/MEM1";
+    mq_password = replaceChars ["\n"] [""] (readFile "${toString <secrets>}/mqtt/sensor");
+  });
 in {
   users.users.ampel = {
     uid = genid "ampel";
@@ -27,7 +34,7 @@ in {
         install -m600 -o ampel ${sec} ${ampelsec}
         install -m600 -o ampel ${cred} ${ampelcred}
       '';
-      ExecStart = "${pkg}/bin/google-muell --esp=${esp} --client-secrets=${ampelsec} --credential-path=${ampelcred} --sleepval=${sleepval}";
+      ExecStart = "${pkg}/bin/google-muell --config ${config_json} --default-color=${default-color} --client-secrets=${ampelsec} --credential-path=${ampelcred} --sleepval=${sleepval}";
       PermissionsStartOnly = true;
       Restart = "always";
       RestartSec = 10;
