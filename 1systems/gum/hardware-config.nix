@@ -41,36 +41,36 @@ in {
   boot.loader.grub.enable = true;
   boot.loader.grub.version = 2;
   boot.loader.grub.devices = [ main-disk ];
-  boot.initrd.kernelModules = [  "dm-raid" ];
+  boot.initrd.kernelModules = [  "dm-raid" "dm_cache" ];
   boot.initrd.availableKernelModules = [
     "ata_piix" "vmw_pvscsi" "virtio_pci" "sd_mod" "ahci"
     "xhci_pci" "ehci_pci" "ahci" "sd_mod"
   ];
-  boot.kernelModules = [ "dm-thin-pool" "kvm-intel"  ];
+  boot.kernelModules = [ "dm-raid" "dm_cache" "dm-thin-pool" "kvm-intel"  ];
   hardware.enableRedistributableFirmware = true;
   fileSystems."/" = {
-    device = "/dev/mapper/nixos-root";
+    device = "/dev/nixos/root";
     fsType = "ext4";
   };
   fileSystems."/var/lib" = {
-    device = "/dev/mapper/nixos-lib";
+    device = "/dev/nixos/lib";
     fsType = "ext4";
   };
   fileSystems."/var/log" = {
-    device = "/dev/mapper/nixos-log";
+    device = "/dev/nixos/log";
     fsType = "ext4";
   };
   fileSystems."/var/download" = {
-    device = "/dev/mapper/nixos-download";
+    device = "/dev/nixos/download";
     fsType = "ext4";
   };
   fileSystems."/var/www/binaergewitter" = {
-    device = "/dev/mapper/nixos-binaergewitter";
+    device = "/dev/nixos/binaergewitter";
     fsType = "ext4";
-    options = [ "nofail" ];
+    options = [ "nofail" "x-systemd.automount" "x-systemd.device-timeout=5s" "x-systemd.mount-timeout=5s" ];
   };
   fileSystems."/var/lib/borgbackup" = {
-    device = "/dev/mapper/nixos-backup";
+    device = "/dev/nixos/backup";
     fsType = "ext4";
   };
   fileSystems."/boot" = {
