@@ -75,6 +75,7 @@
       # <stockholm/makefu/2configs/buildbot-standalone.nix>
       <stockholm/makefu/2configs/remote-build/aarch64-community.nix>
       <stockholm/makefu/2configs/remote-build/gum.nix>
+      { nixpkgs.overlays = [ (self: super: super.prefer-remote-fetch self super) ]; }
 
       # Hardware
       <stockholm/makefu/2configs/hw/tp-x230.nix>
