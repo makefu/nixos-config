@@ -14,7 +14,7 @@ in {
     serviceConfig = {
       # User = "nobody"; # need a user with permissions to run nix-shell
       ExecStartPre = pkgs.writeDash "sleep.sh" "sleep 2";
-      ExecStart = "${pkg}/bin/ampel 4";
+      ExecStart = "${pkg}/bin/ampel";
       Restart = "always";
       RestartSec = 10;
       PrivateTmp = true;

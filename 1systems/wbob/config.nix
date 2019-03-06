@@ -9,6 +9,7 @@ in {
   imports =
     [ # Include the results of the hardware scan.
       <stockholm/makefu>
+      <stockholm/makefu/2configs/support-nixos.nix>
       <stockholm/makefu/2configs/zsh-user.nix>
       <stockholm/makefu/2configs/tools/core.nix>
       # <stockholm/makefu/2configs/disable_v6.nix>
@@ -39,7 +40,6 @@ in {
       <stockholm/makefu/2configs/stats/telegraf/europastats.nix>
       <stockholm/makefu/2configs/stats/external/aralast.nix>
       <stockholm/makefu/2configs/stats/arafetch.nix>
-      <stockholm/makefu/2configs/deployment/led-fader.nix>
       <stockholm/makefu/2configs/hw/mceusb.nix>
       # <stockholm/makefu/2configs/stats/telegraf/bamstats.nix>
       { environment.systemPackages = [ pkgs.vlc ]; }
@@ -51,6 +51,7 @@ in {
         ];
       }
       <stockholm/makefu/2configs/bureautomation>
+      <stockholm/makefu/2configs/bureautomation/led-fader.nix>
       <stockholm/makefu/2configs/bureautomation/mpd.nix>
       <stockholm/makefu/2configs/bureautomation/hass.nix>
       (let
