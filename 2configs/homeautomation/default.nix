@@ -55,7 +55,8 @@ let
       payload_not_available = "Offline";
     };
 
-  firetv = "192.168.1.238";
+  firetv = "192.168.1.183";
+  hassdir = "/var/lib/hass";
   tasmota_plug = name: topic:
   { platform = "mqtt";
     inherit name;
@@ -105,13 +106,7 @@ in {
   imports = [
     ./mqtt.nix
   ];
-  #systemd.services.firetv = {
-  #  wantedBy = [ "multi-user.target" ];
-  #  serviceConfig = {
-  #    User = "nobody";
-  #    ExecStart = "${pkgs.python-firetv}/bin/firetv-server -d ${firetv}:5555";
-  #  };
-  #};
+
   services.home-assistant = {
     config = {
       homeassistant = {
@@ -133,9 +128,11 @@ in {
         { platform = "kodi";
           host = firetv;
         }
-        #{ platform = "firetv";
-        #  # assumes python-firetv running
-        #}
+        { platform = "firetv";
+          name = "FireTV Stick";
+          host = firetv;
+          adbkey = <secrets/hass/adbkey>;
+        }
       ];
       mqtt = {
         broker = "localhost";
@@ -211,9 +208,12 @@ in {
           flur = [
             "light.flurlicht"
             "binary_sensor.flur_bewegung"
+            "automation.dunkel_bei_sonnenuntergang"
+            "automation.hell_bei_sonnenaufgang"
           ];
           wohnzimmer = [
             "media_player.kodi"
+            "media_player.firetv_stick"
           ];
           draussen = [
             "sensor.dark_sky_temperature"
@@ -240,6 +240,47 @@ in {
       ];
       light = [ (tasmota_rgb "Flurlicht" "flurlicht" ) ];
       automation = [
+        { alias = "Dunkel bei Sonnenuntergang";
+          trigger = {
+            platform = "sun";
+            event = "sunset";
+            # offset: "-00:45:00"
+          };
+          action = [
+            {
+              service= "light.turn_on";
+              data = {
+                entity_id= "light.flurlicht";
+                # rgb_color = [ 0,0,0 ]; <-- TODO default color
+                brightness_pct = 15;
+              };
+            }
+            {
+              service= "light.turn_off";
+              entity_id= "light.flurlicht";
+            }
+          ];
+        }
+        { alias = "Hell bei Sonnenaufgang";
+          trigger = {
+            platform = "sun";
+            event = "sunrise";
+            # offset: "-00:00:00"
+          };
+          action = [
+            {
+              service= "light.turn_on";
+              data = {
+                entity_id= "light.flurlicht";
+                brightness_pct = 85;
+              };
+            }
+            {
+              service= "light.turn_off";
+              entity_id= "light.flurlicht";
+            }
+          ];
+        }
         { alias = "Staubsauger Strom aus nach 6h";
           trigger = {
             platform = "state";
@@ -255,7 +296,7 @@ in {
       ];
     };
     enable = true;
-    #configDir = "/var/lib/hass";
+    configDir = hassdir;
   };
   nixpkgs.config.permittedInsecurePackages = [
     "homeassistant-0.77.2"

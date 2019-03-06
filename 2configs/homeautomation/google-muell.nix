@@ -9,7 +9,8 @@ let
   # TODO: generate this credential file locally
   ampelcred = "${home}/google-muell-creds.json";
   sleepval = "1800";
-  default-color = "244,220,66";
+  # default-color = "18,63,40";
+  default-color = "255,127,0";
   config_json = toFile "config.json" (toJSON {
     mq_hostname = "localhost";
     mq_port = 1883;
