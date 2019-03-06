@@ -26,5 +26,6 @@
     nix-review
     # git-related
     tig
+    init-host
   ];
 }
