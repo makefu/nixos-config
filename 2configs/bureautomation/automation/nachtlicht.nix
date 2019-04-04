@@ -9,7 +9,7 @@
           action =
           {
             service = "homeassistant.turn_off";
-            entity_id =  [ "switch.nachtlicht" ];
+            entity_id =  [ "group.nachtlicht" ];
           };
         }
 
@@ -37,7 +37,7 @@
           action =
           {
             service = "homeassistant.turn_on";
-            entity_id =  [ "switch.nachtlicht" ];
+            entity_id =  [ "group.nachtlicht" ];
           };
         }
 ]

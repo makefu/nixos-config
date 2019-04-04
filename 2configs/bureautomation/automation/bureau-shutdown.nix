@@ -1,9 +1,10 @@
 [
-  { alias = "Turn on Fernseher on movement";
+  { alias = "Turn on Fernseher on group home";
     trigger = {
-      platform = "state";
-      entity_id = "binary_sensor.motion";
-      to = "on";
+      condition = "state";
+      entity_id = "group.team";
+      from = "not_home";
+      to = "home";
     };
     action = {
       service = "homeassistant.turn_on";
@@ -13,15 +14,15 @@
       ];
     };
   }
-  { alias = "Turn off Fernseher 10 minutes after last movement";
+  { alias = "Turn off Fernseher after last in group left";
     trigger = [
     { # trigger when movement was detected at the time
-      platform = "state";
-      entity_id = "binary_sensor.motion";
-      to = "off";
-      for.minutes = 10;
+      condition = "state";
+      entity_id = "group.team";
+      from = "home";
+      to = "not_home";
     }
-    { # trigger at 20:00 no matter what
+    { # trigger at 18:00 no matter what
       # to avoid 'everybody left before 18:00:00'
       platform = "time";
       at = "18:00:00";
@@ -44,10 +45,10 @@
           after  = "18:00:00";
           # weekday = [ "mon" "tue" "wed" "thu" "fri" ];
         }
-        {
+        { # if anybody is still there
           condition = "state";
-          entity_id = "binary_sensor.motion";
-          state = "off";
+          entity_id = "group.team";
+          state = "not_home";
         }
       ];
     };

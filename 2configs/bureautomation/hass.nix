@@ -1,8 +1,9 @@
 { pkgs, lib, ... }:
 let
+  kodi-host = "192.168.8.11";
 in {
   networking.firewall.allowedTCPPorts = [ 8123 ];
-
+  state = [ "/var/lib/hass/known_devices.yaml" ];
   services.home-assistant = {
     enable = true;
     config = {
@@ -33,7 +34,8 @@ in {
           retain = true;
         };
       };
-      switch = (import ./switch/tasmota_switch.nix);
+      switch = (import ./switch/tasmota_switch.nix) ++
+               (import ./switch/rfbridge.nix);
       light =  (import ./light/statuslight.nix) ++
                (import ./light/buzzer.nix);
       timer = {
@@ -54,7 +56,12 @@ in {
         {
           platform = "kodi";
           name = "wbob";
-          host = "192.168.8.11";
+          host = kodi-host;
+        }
+      ];
+      media_player = [
+        { platform = "kodi";
+          host = kodi-host;
         }
       ];
       script = (import ./script/multi_blink.nix) {inherit lib;};
@@ -70,6 +77,10 @@ in {
       camera =
         (import ./camera/verkehrskamera.nix);
 
+      # not yet released
+      #person =
+      #  (import ./person/team.nix );
+
       frontend = { };
       http = { };
       conversation = {};
@@ -82,36 +93,55 @@ in {
         { view = "yes";
           entities = [
               "group.sensors"
+              "group.camera"
               "group.outside"
-              "group.switches"
-              "group.automation"
-              # "group.camera"
+              "group.team"
+              "group.nachtlicht"
+              # "group.switches"
             ];
           };
         automation = [
-          "timer.felix_10h"
-          "script.blitz_10s"
-          "script.buzz_red_led_fast"
-          "camera.Baumarkt"
         ];
         switches = [
           "switch.bauarbeiterlampe"
           "switch.blitzdings"
           "switch.fernseher"
           "switch.feuer"
-          "switch.nachtlicht"
           "light.status_felix"
           "light.status_daniel"
           "light.buslicht"
           "light.redbutton_buzzer"
         ];
-
-        camera = [ ];
+        team = [
+          "device_tracker.thorsten_phone"
+          "device_tracker.felix_phone"
+          "device_tracker.ecki_tablet"
+          "device_tracker.daniel_phone"
+          "device_tracker.carsten_phone"
+        #  "person.thorsten"
+        #  "person.felix"
+        #  "person.ecki"
+        #  "person.daniel"
+        ];
+        camera = [
+          "camera.Baumarkt"
+          "camera.Autobahn_Heilbronn"
+          "camera.Autobahn_Singen"
+        ];
+        nachtlicht = [
+          "switch.nachtlicht_a"
+          "switch.nachtlicht_b"
+          "switch.nachtlicht_c"
+          "switch.nachtlicht_d"
+        ];
         sensors = [
-          "binary_sensor.motion"
-          "binary_sensor.redbutton"
+          "media_player.kodi"
+          "script.blitz_10s"
+          "script.buzz_red_led_fast"
+          "timer.felix_10h"
           "sensor.easy2_dht22_humidity"
           "sensor.easy2_dht22_temperature"
+          # "binary_sensor.redbutton"
         ];
         outside = [
           # "sensor.ditzingen_pm10"
@@ -120,8 +150,7 @@ in {
           "sensor.dark_sky_humidity"
           # "sensor.dark_sky_pressure"
           "sensor.dark_sky_hourly_summary"
-          "camera.Autobahn_Heilbronn"
-          "camera.Autobahn_Singen"
+          "device_tracker.router"
         ];
       };
       # only for automation
@@ -131,7 +160,7 @@ in {
       automation = (import ./automation/bureau-shutdown.nix) ++
                    (import ./automation/nachtlicht.nix) ++
                    (import ./automation/10h_timer.nix);
-
+      device_tracker = (import ./device_tracker/openwrt.nix );
     };
   };
 }

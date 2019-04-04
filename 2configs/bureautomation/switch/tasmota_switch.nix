@@ -15,5 +15,5 @@ in [
   (tasmota_plug "Blitzdings" "plug2")
   (tasmota_plug "Fernseher" "plug3")
   (tasmota_plug "Feuer" "plug4")
-  (tasmota_plug "Nachtlicht" "plug5")
+  (tasmota_plug "Blaulicht" "plug5")
 ]

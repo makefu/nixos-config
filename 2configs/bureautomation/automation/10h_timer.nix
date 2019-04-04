@@ -2,8 +2,9 @@
   { alias = "start Felix 10h";
     trigger = {
       platform = "state";
-      entity_id = "binary_sensor.redbutton";
-      to = "on";
+      entity_id = [ "device_tracker.felix_phone" "device_tracker.felix_laptop" ];
+      from =  "not_home";
+      to = "home";
     };
     condition = {
       condition = "and";
