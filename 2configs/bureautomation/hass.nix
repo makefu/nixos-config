@@ -97,7 +97,7 @@ in {
               "group.outside"
               "group.team"
               "group.nachtlicht"
-              # "group.switches"
+              "group.switches"
             ];
           };
         automation = [
@@ -110,7 +110,6 @@ in {
           "light.status_felix"
           "light.status_daniel"
           "light.buslicht"
-          "light.redbutton_buzzer"
         ];
         team = [
           "device_tracker.thorsten_phone"
