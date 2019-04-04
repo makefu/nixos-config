@@ -1,7 +1,7 @@
 [
   { alias = "Turn on Fernseher on group home";
     trigger = {
-      condition = "state";
+      platform = "state";
       entity_id = "group.team";
       from = "not_home";
       to = "home";
@@ -17,7 +17,7 @@
   { alias = "Turn off Fernseher after last in group left";
     trigger = [
     { # trigger when movement was detected at the time
-      condition = "state";
+      platform = "state";
       entity_id = "group.team";
       from = "home";
       to = "not_home";
