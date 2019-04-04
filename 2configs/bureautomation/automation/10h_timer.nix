@@ -128,7 +128,13 @@
     };
     action =
     [
-      # TODO: Pushbullet
+      {
+        service = "notify.telegrambot";
+        data = {
+          title = "Zu lange Felix!";
+          message = "Du bist schon 10 Stunden auf Arbeit, geh jetzt gefälligst nach Hause!";
+        };
+      }
       {
         service = "homeassistant.turn_on";
         entity_id =  [

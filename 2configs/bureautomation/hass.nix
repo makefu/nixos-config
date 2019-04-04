@@ -55,8 +55,15 @@ in {
       notify = [
         {
           platform = "kodi";
-          name = "wbob";
+          name = "wbob-kodi";
           host = kodi-host;
+        }
+        {
+          platform = "telegram";
+          name = "telegrambot";
+          chat_id = builtins.elemAt
+            (builtins.fromJSON (builtins.readFile
+              <secrets/hass/telegram-bot.json>)).allowed_chat_ids 0;
         }
       ];
       media_player = [
@@ -88,6 +95,10 @@ in {
       logbook = {};
       tts = [ { platform = "google";} ];
       recorder = {};
+      telegram_bot = [
+        (builtins.fromJSON
+          (builtins.readFile <secrets/hass/telegram-bot.json>))
+      ];
       group =
       { default_view =
         { view = "yes";

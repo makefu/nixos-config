@@ -28,14 +28,24 @@
       at = "18:00:00";
     }
   ];
-    action = {
-      service = "homeassistant.turn_off";
-      entity_id =  [
-        "switch.fernseher"
-        "switch.feuer"
-        "light.status_felix"
-      ];
-    };
+    action = [
+      {
+        service = "homeassistant.turn_off";
+        entity_id =  [
+          "switch.fernseher"
+          "switch.feuer"
+          "light.status_felix"
+          "light.status_daniel"
+        ];
+      }
+      {
+        service = "notify.telegrambot";
+        data = {
+          title = "Bureau Shutdown";
+          message = "All devices are turned off due to {{ trigger.platform }} - {{ trigger }}";
+        };
+      }
+    ];
     condition =
     { condition = "and";
       conditions = [
