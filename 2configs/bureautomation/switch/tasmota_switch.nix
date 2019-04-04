@@ -2,13 +2,16 @@ let
   tasmota_plug = name: topic:
   { platform = "mqtt";
     inherit name;
-    state_topic = "/bam/${topic}/stat/POWER";
+    state_topic = "/bam/${topic}/tele/STATE";
+    value_template = "{{ value_json.POWER }}";
     command_topic = "/bam/${topic}/cmnd/POWER";
     availability_topic = "/bam/${topic}/tele/LWT";
     payload_on= "ON";
     payload_off= "OFF";
     payload_available= "Online";
     payload_not_available= "Offline";
+    retain = false;
+    qos = 1;
   };
 in [
   (tasmota_plug "Bauarbeiterlampe" "plug")

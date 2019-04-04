@@ -8,20 +8,20 @@ let
     inherit name;
     retain = false;
     qos = 1;
-    optimistic = false;
+    #optimistic = true;
     # state
-    # TODO: currently broken, will not use the custom state topic
-    state_topic = "/bam/${topic}/stat/POWER";
     command_topic = "/bam/${topic}/cmnd/POWER";
+    state_topic = "/bam/${topic}/tele/STATE";
+    value_template = "{{ value_json.POWER }}";
     availability_topic = "/bam/${topic}/tele/LWT";
-    payload_on= "ON";
-    payload_off= "OFF";
+    payload_on = "ON";
+    payload_off = "OFF";
     payload_available= "Online";
     payload_not_available= "Offline";
     # brightness
-    brightness_state_topic = "/bam/${topic}/stat/Dimmer";
+    brightness_state_topic = "/bam/${topic}/tele/STATE";
+    brightness_value_template = "{{value_json.Dimmer}}";
     brightness_command_topic = "/bam/${topic}/cmnd/Dimmer";
-    brightness_value_template = "{{ value_json.Dimmer }}";
     brightness_scale = 100;
     # color
     rgb_state_topic = "/bam/${topic}/stat/Color";
@@ -29,10 +29,11 @@ let
     rgb_command_mode = "hex";
     rgb_command_template = "{{ '%02x%02x%02x' | format(red, green, blue)}}";
     # effects
-    effect_state_topic = "/bam/${topic}/stat/Scheme";
+    effect_state_topic = "/bam/${topic}/tele/STATE";
+    effects_value_template = "{{value_json.Scheme}}";
     effect_command_topic = "/bam/${topic}/cmnd/Scheme";
     effect_value_template = "{{ value_json.Scheme }}";
-    effect_list = [ 
+    effect_list = [
       0  # single color for LED light
       1  # start wake up sequence (same as Wakeup)
       2  # cycle up through colors using Speed option
