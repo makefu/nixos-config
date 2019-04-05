@@ -10,6 +10,7 @@
     ./games.nix
     ./media.nix
     ./mobility.nix
+    ./pcmanfm-extra.nix
     ./scanner-tools.nix
     ./sec.nix
     ./sec-gui.nix

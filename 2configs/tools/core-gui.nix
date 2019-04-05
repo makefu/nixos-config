@@ -6,7 +6,7 @@
     chromium
     feh
     clipit
-    firefox
+    # firefox
     keepassx
     pcmanfm
     evince

@@ -14,5 +14,6 @@
     saleae-logic
     gitAndTools.gitFull
     signal-desktop
+    rambox
   ];
 }
