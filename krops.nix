@@ -1,6 +1,6 @@
 { config ? config, name, target ? name }: let
   krops = ../submodules/krops;
-  nixpkgs-src = lib.importJSON ./nixpkgs.json;
+  nixpkgs-src = lib.importJSON ../krebs/nixpkgs.json;
 
   lib = import "${krops}/lib";
   pkgs = import "${krops}/pkgs" {};
