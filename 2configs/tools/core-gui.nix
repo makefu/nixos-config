@@ -10,7 +10,8 @@
     keepassx
     pcmanfm
     evince
-    mirage
+    # replacement for mirage:
+    sxiv
     tightvnc
     gnome3.dconf
     xdotool
