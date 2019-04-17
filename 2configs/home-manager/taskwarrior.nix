@@ -3,6 +3,12 @@ let
   loc = "/home/makefu/.task";
 in {
   state = [ "${loc}/keys" ];
+  environment.shellAliases = {
+    tshack = "task tags:shack";
+    tkrebs = "task tags:krebs";
+    thome = "task tags:home";
+    t = "task project: ";
+  };
   home-manager.users.makefu.programs.taskwarrior = {
     enable = true;
     dataLocation = loc;

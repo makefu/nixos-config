@@ -67,6 +67,7 @@
       home-manager.users.makefu.programs.zsh.shellAliases = {
         cat = "bat";
         catn = "${pkgs.coreutils}/bin/cat";
+        ncat = "${pkgs.coreutils}/bin/cat";
       };
     }
   ];

@@ -5,7 +5,10 @@
   home-manager.users.makefu = {
     systemd.user.services.network-manager-applet.Service.Environment = ''XDG_DATA_DIRS=/run/current-system/sw/share:${pkgs.networkmanagerapplet}/share GDK_PIXBUF_MODULE_FILE=${pkgs.librsvg.out}/lib/gdk-pixbuf-2.0/2.10.0/loaders.cache'';
     programs.browserpass = { browsers = [ "firefox" ] ; enable = true; };
-    programs.firefox.enable = true;
+    programs.firefox = {
+      enable = true;
+      enableIcedTea = true;
+    };
     programs.obs-studio.enable = true;
     xdg.enable = true;
     services.network-manager-applet.enable = true;
@@ -20,7 +23,6 @@
       filenamePattern=%F_%T_shot
     '';
 
-    systemd.user.services.pasystray.Service.Environment = "PATH=" + (lib.makeBinPath (with pkgs;[ pavucontrol paprefs /* pavumeter  */  /* paman */ ]) );
     programs.chromium = {
       enable = true;
       extensions = [
