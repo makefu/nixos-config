@@ -6,6 +6,7 @@ in {
   state = [ "/var/lib/hass/known_devices.yaml" ];
   services.home-assistant = {
     enable = true;
+    package = pkgs.home-assistant.override { python3 = pkgs.python36; };
     config = {
       homeassistant = {
         name = "Bureautomation";
@@ -13,8 +14,14 @@ in {
         latitude = "48.8265";
         longitude = "9.0676";
         elevation = 303;
+        auth_providers = [
+          { type = "homeassistant";}
+          { type = "legacy_api_password";}
+          { type = "trusted_networks";
+            # allow_bypass_login = true;
+          }
+        ];
       };
-
       mqtt = {
         broker = "localhost";
         port = 1883;
@@ -79,7 +86,8 @@ in {
       sensor =
         (import ./sensor/espeasy.nix) ++
         ((import ./sensor/outside.nix) {inherit lib;}) ++
-        (import ./sensor/influxdb.nix);
+        (import ./sensor/influxdb.nix) ++
+        (import ./sensor/tasmota_firmware.nix);
 
       camera =
         (import ./camera/verkehrskamera.nix);
@@ -89,12 +97,22 @@ in {
       #  (import ./person/team.nix );
 
       frontend = { };
-      http = { };
+      http = {
+        # TODO: https://github.com/home-assistant/home-assistant/issues/16149
+        api_password = "sistemas";
+        trusted_networks = [
+          "127.0.0.1/32"
+          "192.168.8.0/24"
+          "::1/128"
+          "fd00::/8"
+        ];
+      };
       conversation = {};
       history = {};
       logbook = {};
       tts = [ { platform = "google";} ];
       recorder = {};
+      sun = {};
       telegram_bot = [
         (builtins.fromJSON
           (builtins.readFile <secrets/hass/telegram-bot.json>))
@@ -156,8 +174,10 @@ in {
         outside = [
           # "sensor.ditzingen_pm10"
           # "sensor.ditzingen_pm25"
+          "sensor.dark_sky_icon"
           "sensor.dark_sky_temperature"
           "sensor.dark_sky_humidity"
+          "sensor.dark_sky_uv_index"
           # "sensor.dark_sky_pressure"
           "sensor.dark_sky_hourly_summary"
           "device_tracker.router"
@@ -169,6 +189,7 @@ in {
       # home-assistant
       automation = (import ./automation/bureau-shutdown.nix) ++
                    (import ./automation/nachtlicht.nix) ++
+                   (import ./automation/hass-restart.nix) ++
                    (import ./automation/10h_timer.nix);
       device_tracker = (import ./device_tracker/openwrt.nix );
     };

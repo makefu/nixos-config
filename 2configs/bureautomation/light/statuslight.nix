@@ -20,7 +20,7 @@ let
     payload_not_available= "Offline";
     # brightness
     brightness_state_topic = "/bam/${topic}/tele/STATE";
-    brightness_value_template = "{{value_json.Dimmer}}";
+    brightness_value_template = "{{value_json.Dimmer|default(100)}}";
     brightness_command_topic = "/bam/${topic}/cmnd/Dimmer";
     brightness_scale = 100;
     # color
@@ -30,9 +30,8 @@ let
     rgb_command_template = "{{ '%02x%02x%02x' | format(red, green, blue)}}";
     # effects
     effect_state_topic = "/bam/${topic}/tele/STATE";
-    effects_value_template = "{{value_json.Scheme}}";
+    effects_value_template = "{{value_json.Scheme|default(0)}}";
     effect_command_topic = "/bam/${topic}/cmnd/Scheme";
-    effect_value_template = "{{ value_json.Scheme }}";
     effect_list = [
       0  # single color for LED light
       1  # start wake up sequence (same as Wakeup)

@@ -5,14 +5,40 @@
       entity_id = "group.team";
       from = "not_home";
       to = "home";
+      for.seconds = 30;
     };
-    action = {
-      service = "homeassistant.turn_on";
-      entity_id =  [
-        "switch.fernseher"
-        "switch.feuer"
-      ];
-    };
+    action = [
+      {
+        service = "homeassistant.turn_on";
+        entity_id =  [
+          "switch.fernseher"
+          "switch.feuer"
+        ];
+      }
+      {
+        service = "media_player.kodi_call_method";
+        data = {
+          entity_id = "media_player.kodi";
+          method = "Player.Open";
+          item.partymode = "music";
+        };
+      }
+      {
+        service = "tts.google_say";
+        entity_id =  "media_player.kodi";
+        data = {
+          message = "Willkommen in deinem Lieblingsbüro";
+          language = "de";
+        };
+      }
+      {
+        service = "notify.telegrambot";
+        data = {
+          title = "Bureau Startup";
+          message = "Willkommen {{ trigger.platform }}";
+        };
+      }
+    ];
   }
   { alias = "Turn off Fernseher after last in group left";
     trigger = [
@@ -42,7 +68,7 @@
         service = "notify.telegrambot";
         data = {
           title = "Bureau Shutdown";
-          message = "All devices are turned off due to {{ trigger.platform }} - {{ trigger }}";
+          message = "All devices are turned off due to {{ trigger.platform }}";
         };
       }
     ];
