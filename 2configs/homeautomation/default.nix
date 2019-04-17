@@ -108,6 +108,7 @@ in {
   ];
 
   services.home-assistant = {
+    package = pkgs.home-assistant.override { python3 = pkgs.python36; };
     config = {
       homeassistant = {
         name = "Home"; time_zone = "Europe/Berlin";

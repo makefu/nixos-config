@@ -20,6 +20,9 @@ let
     mosquitto_pub -t /bam/$topic/cmnd/POWER -m OFF
   '';
 in {
+  imports = [
+    ./ota.nix
+  ];
   services.logstash = {
     package = pkgs.logstash5;
     enable = true;
