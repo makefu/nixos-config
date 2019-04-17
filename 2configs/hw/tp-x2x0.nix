@@ -1,6 +1,5 @@
 { config, lib, pkgs, ... }:
 
-with import <stockholm/lib>;
 {
   imports = [
     ./tpm.nix
@@ -19,7 +18,6 @@ with import <stockholm/lib>;
   hardware.cpu.intel.updateMicrocode = true;
 
   zramSwap.enable = true;
-  zramSwap.numDevices = 2;
 
   # enable synaptics so we can easily disable the touchpad
   #   enable the touchpad with `synclient TouchpadOff=0`
