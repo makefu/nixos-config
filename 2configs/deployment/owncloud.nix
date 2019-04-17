@@ -23,9 +23,9 @@ let
     in {
       system.activationScripts."prepare-nextcloud-${domain}" = ''
         if test ! -e ${root} ;then
-          echo "copying latest ${pkgs.owncloud.name} release to ${root}"
+          echo "copying latest ${pkgs.nextcloud.name} release to ${root}"
           mkdir -p $(dirname "${root}")
-          cp -r  ${pkgs.owncloud} "${root}"
+          cp -r  ${pkgs.nextcloud} "${root}"
           chown -R nginx:nginx "${root}"
           chmod 770 "${root}"
         fi
