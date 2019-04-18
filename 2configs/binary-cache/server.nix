@@ -19,9 +19,10 @@
   };
   services.nginx = {
     enable = true;
-    virtualHosts.nix-serve = {
-      serverAliases = [ "cache.gum.r"
-                        "cache.euer.krebsco.de"
+    virtualHosts."cache.euer.krebsco.de" = {
+      forceSSL = true;
+      enableACME = true;
+      serverAliases = [ # "cache.gum.r"
                         "cache.gum.krebsco.de"
                       ];
       locations."/".proxyPass= "http://localhost:${toString config.services.nix-serve.port}";
