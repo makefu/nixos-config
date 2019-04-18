@@ -11,9 +11,13 @@
       <stockholm/makefu/2configs/home-manager/desktop.nix>
       <stockholm/makefu/2configs/home-manager/cli.nix>
       <stockholm/makefu/2configs/home-manager/mail.nix>
+      <stockholm/makefu/2configs/home-manager/taskwarrior.nix>
+
       <stockholm/makefu/2configs/main-laptop.nix>
       <stockholm/makefu/2configs/extra-fonts.nix>
       <stockholm/makefu/2configs/tools/all.nix>
+      { programs.adb.enable = true; }
+
       <stockholm/makefu/2configs/dict.nix>
       #<stockholm/makefu/3modules/netboot_server.nix>
       #{
@@ -23,7 +27,14 @@
       #  };
       #}
 
+      # Restore:
+      # systemctl cat borgbackup-job-state
+      # export BORG_PASSCOMMAND BORG_REPO BORG_RSH
+      # borg list "$BORG_REPO"
+      # mount newroot somewhere && cd somewhere
+      # borg extract  "$BORG_REPO::x-state-2019-04-17T01:41:51"  --progress # < extract to cwd
       <stockholm/makefu/2configs/backup/state.nix>
+
       # <stockholm/makefu/2configs/dnscrypt/client.nix>
       <stockholm/makefu/2configs/avahi.nix>
       <stockholm/makefu/2configs/support-nixos.nix>
@@ -46,19 +57,18 @@
 
       # Krebs
       <stockholm/makefu/2configs/tinc/retiolum.nix>
-      <stockholm/makefu/2configs/share/gum-client.nix>
+      # <stockholm/makefu/2configs/share/gum-client.nix>
 
 
       # applications
       <stockholm/makefu/2configs/exim-retiolum.nix>
       <stockholm/makefu/2configs/mail-client.nix>
       <stockholm/makefu/2configs/printer.nix>
-      <stockholm/makefu/2configs/task-client.nix>
       # <stockholm/makefu/2configs/syncthing.nix>
 
       # Virtualization
-      <stockholm/makefu/2configs/virtualisation/libvirt.nix>
-      <stockholm/makefu/2configs/virtualisation/docker.nix>
+      # <stockholm/makefu/2configs/virtualisation/libvirt.nix>
+      # <stockholm/makefu/2configs/virtualisation/docker.nix>
       <stockholm/makefu/2configs/virtualisation/virtualbox.nix>
       #{
       #  networking.firewall.allowedTCPPorts = [ 8080 ];
@@ -71,35 +81,43 @@
       # Services
       <stockholm/makefu/2configs/git/brain-retiolum.nix>
       <stockholm/makefu/2configs/tor.nix>
-      <stockholm/makefu/2configs/vpn/vpngate.nix>
+      # <stockholm/makefu/2configs/vpn/vpngate.nix>
       # <stockholm/makefu/2configs/buildbot-standalone.nix>
       <stockholm/makefu/2configs/remote-build/aarch64-community.nix>
-      <stockholm/makefu/2configs/remote-build/gum.nix>
-      { nixpkgs.overlays = [ (self: super: super.prefer-remote-fetch self super) ]; }
+      # <stockholm/makefu/2configs/remote-build/gum.nix>
+      # { nixpkgs.overlays = [ (self: super: super.prefer-remote-fetch self super) ]; }
+
+      <stockholm/makefu/2configs/binary-cache/gum.nix>
+      <stockholm/makefu/2configs/binary-cache/lass.nix>
 
       # Hardware
       <stockholm/makefu/2configs/hw/tp-x230.nix>
-      <stockholm/makefu/2configs/hw/mceusb.nix>
-      <stockholm/makefu/2configs/hw/malduino_elite.nix>
+      # <stockholm/makefu/2configs/hw/mceusb.nix>
       # <stockholm/makefu/2configs/hw/tpm.nix>
       # <stockholm/makefu/2configs/hw/rtl8812au.nix>
       <stockholm/makefu/2configs/hw/network-manager.nix>
-      <stockholm/makefu/2configs/hw/stk1160.nix>
-      <stockholm/makefu/2configs/hw/irtoy.nix>
+      # <stockholm/makefu/2configs/hw/stk1160.nix>
+      # <stockholm/makefu/2configs/hw/irtoy.nix>
+      # <stockholm/makefu/2configs/hw/malduino_elite.nix>
       <stockholm/makefu/2configs/hw/switch.nix>
       <stockholm/makefu/2configs/hw/bluetooth.nix>
       # <stockholm/makefu/2configs/hw/rad1o.nix>
       <stockholm/makefu/2configs/hw/smartcard.nix>
+
+      {
+        services.upower.enable = true;
+        users.users.makefu.packages = [ pkgs.gnome3.gnome-power-manager ];
+      }
 
       # Filesystem
       <stockholm/makefu/2configs/fs/sda-crypto-root-home.nix>
 
       # Security
       <stockholm/makefu/2configs/sshd-totp.nix>
-      { programs.adb.enable = true; }
+
       # temporary
-      { services.redis.enable = true; }
-      <stockholm/makefu/2configs/pyload.nix>
+      # { services.redis.enable = true; }
+      # <stockholm/makefu/2configs/pyload.nix>
       # <stockholm/makefu/2configs/dcpp/airdcpp.nix>
       # <stockholm/makefu/2configs/nginx/rompr.nix>
       # <stockholm/makefu/2configs/lanparty/lancache.nix>
@@ -136,6 +154,9 @@
   makefu.server.primary-itf = "wlp3s0";
 
   nixpkgs.config.allowUnfree = true;
+  nixpkgs.config.oraclejdk.accept_license = true;
+
+
 
   # configure pulseAudio to provide a HDMI sink as well
   networking.firewall.enable = true;
@@ -163,7 +184,6 @@
     "/home/makefu/.ssh/"
     "/home/makefu/.zsh_history"
     "/home/makefu/.bash_history"
-    "/home/makefu/.zshrc"
     "/home/makefu/bin"
     "/home/makefu/.gnupg"
     "/home/makefu/.imapfilter"
@@ -171,6 +191,7 @@
     "/home/makefu/docs"
     "/home/makefu/.password-store"
     "/home/makefu/.secrets-pass"
+    "/home/makefu/.config/syncthing"
   ];
 
   services.syncthing.user = lib.mkForce "makefu";
