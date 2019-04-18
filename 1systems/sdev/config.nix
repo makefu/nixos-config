@@ -7,12 +7,12 @@
       <stockholm/makefu>
 
       # <stockholm/makefu/2configs/hw/vbox-guest.nix> # broken since 2019-04-18
-      #{ # until virtualbox-image is fixed
-      #  imports = [
-      #      <stockholm/makefu/2configs/fs/single-partition-ext4.nix>
-      #    ];
-      #  boot.loader.grub.device = lib.mkForce "/dev/sda";
-      #}
+      { # until virtualbox-image is fixed
+        imports = [
+            <stockholm/makefu/2configs/fs/single-partition-ext4.nix>
+          ];
+        boot.loader.grub.device = lib.mkForce "/dev/sda";
+      }
       <stockholm/makefu/2configs/main-laptop.nix>
       # <secrets/extra-hosts.nix>
 
