@@ -196,4 +196,6 @@
 
   services.syncthing.user = lib.mkForce "makefu";
   services.syncthing.dataDir = lib.mkForce "/home/makefu/.config/syncthing/";
+  # latest kernel (5.0) has issues with wifi card
+  boot.kernelPackages = pkgs.linuxPackages;
 }
