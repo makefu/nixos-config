@@ -30,4 +30,7 @@
   state = [
     "/etc/NetworkManager/system-connections"  #NM stateful config files
   ];
+  networking.networkmanager.dispatcherScripts = [
+    { source = "${pkgs.prison-break}/bin/prison-break"; }
+  ];
 }
