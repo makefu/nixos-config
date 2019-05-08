@@ -32,4 +32,5 @@ in {
       tcp 192.168.1.5
     ''; #home printer SCX-3205W
   };
+  state = [ "/var/lib/cups" ];
 }
