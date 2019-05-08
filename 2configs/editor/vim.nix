@@ -23,7 +23,6 @@ in {
       vimrcConfig.vam.pluginDictionaries = [
         { names = [ "undotree"
           # "YouCompleteMe"
-          "LanguageClient-neovim"
           "vim-better-whitespace" ]; }
         # vim-nix handles indentation better but does not perform sanity
         { names = [ "vim-addon-nix" ]; ft_regex = "^nix\$"; }
