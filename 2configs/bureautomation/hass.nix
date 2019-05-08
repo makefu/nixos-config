@@ -146,6 +146,7 @@ in {
           "device_tracker.ecki_tablet"
           "device_tracker.daniel_phone"
           "device_tracker.carsten_phone"
+          "device_tracker.thierry_phone"
         #  "person.thorsten"
         #  "person.felix"
         #  "person.ecki"
