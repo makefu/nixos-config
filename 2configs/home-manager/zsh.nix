@@ -25,12 +25,12 @@
         then
           [ -d .direnv ] || mkdir .direnv
           local tmp=$(nix-shell --show-trace "$@" \
-            --run "\"$direnv\" dump bash")
+            --run "\"$direnv\" dump zsh")
           echo "$tmp" > "$cache"
         fi
 
         local path_backup=$PATH term_backup=$TERM
-        direnv_load cat "$cache"
+        . "$cache"
 
         export PATH=$PATH:$path_backup TERM=$term_backup
 
