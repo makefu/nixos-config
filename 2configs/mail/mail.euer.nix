@@ -1,7 +1,7 @@
 { config, pkgs, ... }:
 {
   imports = [
-    (builtins.fetchTarball "https://gitlab.com/simple-nixos-mailserver/nixos-mailserver/-/archive/v2.2.0/nixos-mailserver-v2.2.0.tar.gz")
+    (builtins.fetchTarball "https://gitlab.com/simple-nixos-mailserver/nixos-mailserver/-/archive/v2.2.1/nixos-mailserver-v2.2.1.tar.gz")
   ];
 
   mailserver = {
@@ -32,8 +32,12 @@
   };
 
   services.dovecot2.extraConfig = ''
-    ssl_dh = </var/lib/dhparams/dovecot.pem
+    ssl_dh = </var/lib/dhparams/dovecot2.pem
   '';
+  state = [ # https://gitlab.com/simple-nixos-mailserver/nixos-mailserver/wikis/A-Complete-Backup-Guide
+    config.mailserver.mailDirectory
+    config.mailserver.dkimKeyDirectory
+  ];
   # workaround for DH creation
   # security.dhparams = {
   #   enable = true;
