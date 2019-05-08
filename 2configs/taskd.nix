@@ -1,5 +1,6 @@
 {config, ... }:
 {
+  state = [ config.services.taskserver.dataDir ];
   services.taskserver.enable = true;
   services.taskserver.fqdn = config.krebs.build.host.name;
   services.taskserver.listenHost = "::";
