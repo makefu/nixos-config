@@ -9,8 +9,7 @@
   # boot 500M
   # rest rest
 # cryptsetup luksFormat /dev/sda2
-#
-with import <stockholm/lib>;
+# mkfs.ext4 -L nixboot /dev/sda1
 {
   boot = {
     loader.grub.enable = true;
