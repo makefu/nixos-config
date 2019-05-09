@@ -1,4 +1,7 @@
 { pkgs, lib, ... }:
+let
+  prison-break = pkgs.callPackage ../../../krebs/5pkgs/simple/prison-break {};
+in
 {
   users.users.makefu = {
     extraGroups = [ "networkmanager" ];
@@ -31,6 +34,6 @@
     "/etc/NetworkManager/system-connections"  #NM stateful config files
   ];
   networking.networkmanager.dispatcherScripts = [
-    { source = "${pkgs.prison-break}/bin/prison-break"; }
+    { source = "${prison-break}/bin/prison-break"; }
   ];
 }
