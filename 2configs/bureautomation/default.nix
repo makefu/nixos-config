@@ -24,22 +24,20 @@ in {
     ./ota.nix
   ];
   services.logstash = {
-    package = pkgs.logstash5;
+    package = pkgs.logstash7;
+    plugins =  [ pkgs.logstash-output-exec ];
     enable = true;
     inputConfig = ''
        http {
         port => ${toString port}
         host => "127.0.0.1"
+        type => "schlechteluft"
       }
     '';
-    filterConfig = ''
-    '';
     outputConfig = ''
-      stdout { codec => json }
-      exec { command => "${runit} '%{ruleName}' '%{state}'" }
-    '';
-    extraSettings = ''
-      path.plugins: [ "${pkgs.logstash-output-exec}" ]
+      if [type] == "schlechteluft" {
+        exec { command => "${runit} '%{ruleName}' '%{state}'" }
+      }
     '';
   };
 }

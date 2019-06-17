@@ -1,12 +1,32 @@
-{ pkgs, lib, ... }:
+{ config, pkgs, lib, ... }:
 let
   kodi-host = "192.168.8.11";
+
 in {
   networking.firewall.allowedTCPPorts = [ 8123 ];
   state = [ "/var/lib/hass/known_devices.yaml" ];
-  services.home-assistant = {
+  services.home-assistant = let
+      dwd_pollen = pkgs.fetchFromGitHub {
+        owner = "marcschumacher";
+        repo = "dwd_pollen";
+        rev = "0.1";
+        sha256 = "1af2mx99gv2hk1ad53g21fwkdfdbymqcdl3jvzd1yg7dgxlkhbj1";
+      };
+    in {
     enable = true;
-    package = pkgs.home-assistant.override { python3 = pkgs.python36; };
+    package = (pkgs.home-assistant.overrideAttrs (old: {
+      # TODO: find correct python package
+      postInstall = ''
+        cp -r ${dwd_pollen} $out/lib/python3.7/site-packages/homeassistant/components/dwd_pollen
+      '';
+    })).override {
+      extraPackages = ps: with ps; [
+        pkgs.pico2wave
+        python-forecastio jsonrpc-async jsonrpc-websocket
+        (callPackage ./gtts-token.nix { })
+      ];
+    };
+    autoExtraComponents = true;
     config = {
       homeassistant = {
         name = "Bureautomation";
@@ -84,6 +104,7 @@ in {
         (import ./binary_sensor/motion.nix);
 
       sensor =
+        (import ./sensor/pollen.nix) ++
         (import ./sensor/espeasy.nix) ++
         ((import ./sensor/outside.nix) {inherit lib;}) ++
         (import ./sensor/influxdb.nix) ++
@@ -99,6 +120,7 @@ in {
       frontend = { };
       http = {
         # TODO: https://github.com/home-assistant/home-assistant/issues/16149
+        base_url = "http://192.168.8.11:8123";
         api_password = "sistemas";
         trusted_networks = [
           "127.0.0.1/32"
@@ -110,7 +132,18 @@ in {
       conversation = {};
       history = {};
       logbook = {};
-      tts = [ { platform = "google";} ];
+      tts = [
+        { platform = "google";
+           language = "de";
+        }
+        { platform = "voicerss";
+          api_key = builtins.readFile <secrets/hass/voicerss.apikey>;
+          language = "de-de";
+        }
+        { platform = "picotts";
+          language = "de-DE";
+        }
+      ];
       recorder = {};
       sun = {};
       telegram_bot = [
@@ -147,6 +180,7 @@ in {
           "device_tracker.daniel_phone"
           "device_tracker.carsten_phone"
           "device_tracker.thierry_phone"
+          "device_tracker.frank_phone"
         #  "person.thorsten"
         #  "person.felix"
         #  "person.ecki"
@@ -181,7 +215,6 @@ in {
           "sensor.dark_sky_uv_index"
           # "sensor.dark_sky_pressure"
           "sensor.dark_sky_hourly_summary"
-          "device_tracker.router"
         ];
       };
       # only for automation
