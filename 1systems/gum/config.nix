@@ -97,6 +97,24 @@ in {
       # sharing
       <stockholm/makefu/2configs/share/gum.nix>
       <stockholm/makefu/2configs/torrent.nix>
+      { services.sickbeard = {
+        enable = true;
+        package = pkgs.sickgear;
+          user = "sickbeard";
+          group = "download";
+          port = 8280;
+        };
+        services.nginx.virtualHosts."sick.makefu.r" = {
+          locations."/".proxyPass = http://localhost:8280;
+          extraConfig = ''
+            if ( $server_addr = "${external-ip}" ) {
+              return 403;
+            }
+          '';
+        };
+        users.users.sickbeard.extraGroups = [ "nginx" ];
+      }
+      { nixpkgs.config.allowUnfree = true; }
       #<stockholm/makefu/2configs/retroshare.nix>
       ## <stockholm/makefu/2configs/ipfs.nix>
       #<stockholm/makefu/2configs/syncthing.nix>
@@ -111,6 +129,7 @@ in {
       <stockholm/makefu/2configs/iodined.nix>
       <stockholm/makefu/2configs/bitlbee.nix>
       <stockholm/makefu/2configs/wireguard/server.nix>
+      <stockholm/makefu/2configs/wireguard/wiregrill.nix>
 
       # Removed until move: no extra mails
       <stockholm/makefu/2configs/urlwatch>
@@ -153,11 +172,17 @@ in {
 
   makefu.dl-dir = "/var/download";
 
-  services.openssh.hostKeys = [
+  services.openssh.hostKeys = lib.mkForce [
     { bits = 4096; path = (toString <secrets/ssh_host_rsa_key>); type = "rsa"; }
     { path = (toString <secrets/ssh_host_ed25519_key>); type = "ed25519"; } ];
   ###### stable
-  services.nginx.virtualHosts.cgit.serverAliases = [ "cgit.euer.krebsco.de" ];
+
+  services.nginx.virtualHosts."cgit.euer.krebsco.de" = {
+    forceSSL = true;
+    enableACME = true;
+    locations."/".proxyPass = "http://cgit.gum.r";
+  };
+
   krebs.build.host = config.krebs.hosts.gum;
 
   # Network
