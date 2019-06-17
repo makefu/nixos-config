@@ -16,15 +16,16 @@ in {
       <stockholm/makefu/2configs/tools/core-gui.nix>
       <stockholm/makefu/2configs/tools/extra-gui.nix>
       <stockholm/makefu/2configs/tools/media.nix>
-      <stockholm/makefu/2configs/virtualisation/libvirt.nix>
+      # <stockholm/makefu/2configs/virtualisation/libvirt.nix>
+      # <stockholm/makefu/2configs/virtualisation/virtualbox.nix>
       <stockholm/makefu/2configs/tinc/retiolum.nix>
-      <stockholm/makefu/2configs/mqtt.nix>
       <stockholm/makefu/2configs/gui/wbob-kiosk.nix>
 
       # <stockholm/makefu/2configs/gui/studio-virtual.nix>
       # <stockholm/makefu/2configs/audio/jack-on-pulse.nix>
       # <stockholm/makefu/2configs/audio/realtime-audio.nix>
       # <stockholm/makefu/2configs/vncserver.nix>
+      <stockholm/makefu/2configs/logging/server.nix>
 
       # Services
       # <stockholm/makefu/2configs/hydra/stockholm.nix>
@@ -33,7 +34,7 @@ in {
       <stockholm/makefu/2configs/bluetooth-mpd.nix>
 
       # Sensors
-      <stockholm/makefu/2configs/stats/client.nix>
+      # <stockholm/makefu/2configs/stats/client.nix>
       <stockholm/makefu/2configs/stats/collectd-client.nix>
       <stockholm/makefu/2configs/stats/telegraf>
       <stockholm/makefu/2configs/stats/telegraf/airsensor.nix>
@@ -53,6 +54,7 @@ in {
       <stockholm/makefu/2configs/bureautomation>
       <stockholm/makefu/2configs/bureautomation/led-fader.nix>
       <stockholm/makefu/2configs/bureautomation/mpd.nix>
+      <stockholm/makefu/2configs/mqtt.nix>
       <stockholm/makefu/2configs/bureautomation/hass.nix>
       (let
           collectd-port = 25826;
@@ -85,6 +87,7 @@ in {
           '';
       })
 
+      <stockholm/makefu/2configs/backup/state.nix>
       # temporary
       # <stockholm/makefu/2configs/temp/rst-issue.nix>
   ];
@@ -106,6 +109,7 @@ in {
 
     LoadPlugin curl
     <Plugin curl>
+      Interval 300
       TotalTime true
       NamelookupTime true
       ConnectTime true
