@@ -1,0 +1,4 @@
+{
+  name="cake";
+  full = true;
+}
