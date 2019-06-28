@@ -1,7 +1,8 @@
 { config, pkgs, lib, ... }:
 let
   kodi-host = "192.168.8.11";
-
+  ten_hours = import ./combination/10h_timers.nix { inherit lib; }; # provides: timer automation script
+  mittagessen = import ./combination/mittagessen.nix { inherit lib; }; # provides: automation script
 in {
   networking.firewall.allowedTCPPorts = [ 8123 ];
   state = [ "/var/lib/hass/known_devices.yaml" ];
@@ -22,7 +23,7 @@ in {
     })).override {
       extraPackages = ps: with ps; [
         pkgs.pico2wave
-        python-forecastio jsonrpc-async jsonrpc-websocket
+        python-forecastio jsonrpc-async jsonrpc-websocket mpd2
         (callPackage ./gtts-token.nix { })
       ];
     };
@@ -41,6 +42,14 @@ in {
             # allow_bypass_login = true;
           }
         ];
+      };
+      # https://www.home-assistant.io/components/influxdb/
+      influxdb = {
+        database = "hass";
+        tags = {
+          instance = "wbob";
+          source = "hass";
+        };
       };
       mqtt = {
         broker = "localhost";
@@ -62,23 +71,10 @@ in {
         };
       };
       switch = (import ./switch/tasmota_switch.nix) ++
-               (import ./switch/rfbridge.nix);
+              (import ./switch/rfbridge.nix);
       light =  (import ./light/statuslight.nix) ++
-               (import ./light/buzzer.nix);
-      timer = {
-        felix_10h = {
-          name = "Felix 10h Timer";
-          duration = "10:00:00";
-        };
-        felix_8_30h = {
-          name = "Felix 8_30h Timer";
-          duration = "08:30:00";
-        };
-        felix_7h = {
-          name = "Felix 7h Timer";
-          duration = "07:00:00";
-        };
-      };
+              (import ./light/buzzer.nix);
+      timer = ten_hours.timer;
       notify = [
         {
           platform = "kodi";
@@ -97,8 +93,15 @@ in {
         { platform = "kodi";
           host = kodi-host;
         }
+        { platform = "mpd";
+          host = "127.0.0.1";
+        }
       ];
-      script = (import ./script/multi_blink.nix) {inherit lib;};
+      script = lib.fold lib.recursiveUpdate {} [
+        ((import ./script/multi_blink.nix) {inherit lib;})
+        ten_hours.script
+        mittagessen.script
+      ];
       binary_sensor =
         (import ./binary_sensor/buttons.nix) ++
         (import ./binary_sensor/motion.nix);
@@ -134,7 +137,7 @@ in {
       logbook = {};
       tts = [
         { platform = "google";
-           language = "de";
+          language = "de";
         }
         { platform = "voicerss";
           api_key = builtins.readFile <secrets/hass/voicerss.apikey>;
@@ -162,8 +165,8 @@ in {
               "group.switches"
             ];
           };
-        automation = [
-        ];
+        automation = [];
+
         switches = [
           "switch.bauarbeiterlampe"
           "switch.blitzdings"
@@ -181,6 +184,7 @@ in {
           "device_tracker.carsten_phone"
           "device_tracker.thierry_phone"
           "device_tracker.frank_phone"
+          "device_tracker.anthony_phone"
         #  "person.thorsten"
         #  "person.felix"
         #  "person.ecki"
@@ -202,6 +206,7 @@ in {
           "script.blitz_10s"
           "script.buzz_red_led_fast"
           "timer.felix_10h"
+          "timer.frank_10h"
           "sensor.easy2_dht22_humidity"
           "sensor.easy2_dht22_temperature"
           # "binary_sensor.redbutton"
@@ -222,9 +227,10 @@ in {
       # we don't use imports because the expressions do not merge in
       # home-assistant
       automation = (import ./automation/bureau-shutdown.nix) ++
-                   (import ./automation/nachtlicht.nix) ++
-                   (import ./automation/hass-restart.nix) ++
-                   (import ./automation/10h_timer.nix);
+                  (import ./automation/nachtlicht.nix) ++
+                  (import ./automation/hass-restart.nix) ++
+                  ten_hours.automation ++
+                  mittagessen.automation;
       device_tracker = (import ./device_tracker/openwrt.nix );
     };
   };
