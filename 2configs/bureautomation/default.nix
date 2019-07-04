@@ -5,6 +5,9 @@ let
   mittagessen = import ./combination/mittagessen.nix { inherit lib; }; # provides: automation script
   matrix = import ./combination/matrix.nix { inherit lib; }; # provides: matrix automation
 in {
+  imports = [
+    ./ota.nix
+  ];
   networking.firewall.allowedTCPPorts = [ 8123 ];
   state = [ "/var/lib/hass/known_devices.yaml" ];
   services.home-assistant = let
@@ -214,6 +217,7 @@ in {
           "timer.frank_10h"
           "sensor.easy2_dht22_humidity"
           "sensor.easy2_dht22_temperature"
+          "sensor.air_quality"
           # "binary_sensor.redbutton"
         ];
         outside = [
@@ -233,6 +237,7 @@ in {
       # home-assistant
       automation = (import ./automation/bureau-shutdown.nix) ++
                   (import ./automation/nachtlicht.nix) ++
+                  (import ./automation/schlechteluft.nix) ++
                   (import ./automation/hass-restart.nix) ++
                   ten_hours.automation ++
                   matrix.automation ++
