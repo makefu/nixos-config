@@ -24,14 +24,6 @@
         };
       }
       {
-        service = "tts.google_say";
-        entity_id =  "media_player.mpd";
-        data = {
-          message = "Willkommen in deinem Lieblingsbüro";
-          language = "de";
-        };
-      }
-      {
         service = "notify.telegrambot";
         data = {
           title = "Bureau Startup";
