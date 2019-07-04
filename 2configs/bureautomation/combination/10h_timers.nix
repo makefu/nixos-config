@@ -1,14 +1,15 @@
 {lib, ... }:
 let
-  persons = [ "frank"  "daniel" "thorsten" "carsten" "thierry" "ecki" 
-  # "felix" # custom actions
+  persons = [ "frank"  "daniel" "thorsten" "carsten" "thierry" "ecki" "felix"
+  "anthony" # antony
+  "thierry" # tjeri
   ];
   random_zu_lange = name: ''{{ [
     "Du musst jetzt endlich nach Hause gehen ${name}!",
     "10 Stunden sind rum, bald schenkst du den Franzosen deine Lebenszeit",
     "Nur eine Minute über 10 Stunden kann zu einer Stunde Arbeit für Thorsten werden, ${name}.",
     "In 10 Minuten kommt dich der Security Mann holen, ${name}",
-      "Zu lange, ${name}!" ] | random }}'' ;
+    "Zu lange, ${name}!" ] | random }}'' ;
 
 
   random_announce = name: ''{{ [
@@ -94,8 +95,9 @@ let
   };
 
   zu_lange_user = name:
-  { "announce_${name}" = {
+  { "zu_lange_${name}" = {
       alias = "Random Zu Lange ${name}";
+
       sequence = [
         { service = "media_player.play_media";
           data = {
@@ -176,14 +178,21 @@ let
       ];
     }
 
-    {
-      alias = "Zu lange ${name}!";
+    { alias = "Zu lange ${name}!";
       trigger =
       {
         platform = "event";
         event_type = "timer.finished";
         event_data.entity_id = "timer.${name}_10h";
       };
+
+      condition =
+      {
+        condition = "state";
+        entity_id = "device_tracker.${name}_phone";
+        state = "home";
+      };
+
       action =
       [
         { service = "homeassistant.turn_on";
@@ -198,186 +207,11 @@ let
 in
 {
   timer =lib.fold lib.recursiveUpdate {}
-    ([
-      (tmr_10h "felix") 
-    { felix_8_30h = {
-        name = "Felix 8_30h Timer";
-        duration = "08:30:00";
-      };
-      felix_7h = {
-        name = "Felix 7h Timer";
-        duration = "07:00:00";
-      };
-    }
-    ] ++  (map tmr_10h persons));
-  automation = lib.flatten (map automation_10h persons) ++
-  [
-  { alias = "start Felix 10h";
-    trigger = {
-      platform = "state";
-      entity_id = [ "device_tracker.felix_phone" "device_tracker.felix_laptop" ];
-      from =  "not_home";
-      to = "home";
-    };
-    condition = {
-      condition = "and";
-      conditions = [
-        {
-          condition = "state";
-          entity_id = "timer.felix_10h";
-          state =  "idle";
-        }
-        {
-          condition = "time";
-          after   = "06:00:00";
-          before  = "12:00:00";
-        }
-      ];
-    };
-    action = [
-      { service = "timer.start";
-        entity_id =  [ "timer.felix_10h" "timer.felix_8_30h" "timer.felix_7h" ] ;
-      }
-      { service = "homeassistant.turn_on";
-        entity_id =  [
-          # "script.buzz_felix"
-          "script.blitz_10s"
-        ];
-      }
-      {
-        service = "tts.google_say";
-        entity_id =  "media_player.mpd";
-        data_template = {
-          message = "Willkommen, Felix!";
-          language = "de";
-        };
-      }
-      { service = "light.turn_on";
-      data = {
-          effect = "2";
-          entity_id =  [ "light.status_felix" ];
-        };
-      }
-    ];
-  }
-
-  { alias = "Disable Felix timer at button press";
-    trigger = {
-      platform = "state";
-      entity_id = "binary_sensor.redbutton";
-      to = "on";
-    };
-    condition = {
-      condition = "and";
-      conditions = [
-        {
-          condition = "state";
-          entity_id = "timer.felix_10h";
-          state =  "active";
-        }
-        {
-          condition = "time";
-          after = "12:00:00";
-          before  = "22:00:00";
-        }
-      ];
-    };
-    action =
-    [
-      {
-        service = "timer.cancel";
-        entity_id =  [ "timer.felix_10h" "timer.felix_8_30h" "timer.felix_7h" ];
-      }
-      {
-        service = "homeassistant.turn_on";
-        entity_id =  [ "script.buzz_red_led_fast"  ];
-      }
-      {
-        service = "homeassistant.turn_off";
-        entity_id =  [ "light.status_felix"  ];
-      }
-    ];
-  }
-
-  {
-    alias = "Genug gearbeitet Felix";
-    trigger =
-    {
-      platform = "event";
-      event_type = "timer.finished";
-      event_data.entity_id = "timer.felix_7h";
-    };
-    action =
-    [
-      { service = "light.turn_on";
-        data = {
-          rgb_color= [0 255 0];
-          # effect = "0";
-          entity_id =  [ "light.status_felix" ];
-        };
-      }
-    ];
-  }
-
-  {
-    alias = "nun aber nach hause";
-    trigger =
-    {
-      platform = "event";
-      event_type = "timer.finished";
-      event_data.entity_id = "timer.felix_8_30h";
-    };
-    action =
-    [
-      { service = "light.turn_on";
-        data = {
-          rgb_color= [255 255 0];
-          # effect = "0";
-          entity_id =  [ "light.status_felix" ];
-        };
-      }
-    ];
-  }
-
-  {
-    alias = "Zu lange Felix!";
-    trigger =
-    {
-      platform = "event";
-      event_type = "timer.finished";
-      event_data.entity_id = "timer.felix_10h";
-    };
-    action =
-    [
-      {
-        service = "notify.telegrambot";
-        data = {
-          title = "Zu lange Felix!";
-          message = "Du bist schon 10 Stunden auf Arbeit, geh jetzt gefälligst nach Hause!";
-        };
-      }
-      {
-        service = "homeassistant.turn_on";
-        entity_id =  [
-          # "script.buzz_felix"
-          "script.blitz_10s"
-        ];
-      }
-      { service = "light.turn_on";
-        data = {
-          rgb_color= [255 0 0];
-          effect = "0";
-          entity_id =  [ "light.status_felix" ];
-        };
-      }
-    ];
-  }
-  ]
-  ;
+    (map tmr_10h persons);
+  automation = (lib.flatten (map automation_10h persons));
   script =  lib.fold lib.recursiveUpdate {} (
     (map (ab: buzz_user ab.fst ab.snd) (lib.zipLists persons patterns)) ++
     (map (p: announce_user p) persons) ++
-    (map (p: zu_lange_user p) persons) ++
-    [ (announce_user "felix" ) (buzz_user "felix" [125 250 500] ) ]
+    (map (p: zu_lange_user p) persons)
   );
 }
