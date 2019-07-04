@@ -57,41 +57,11 @@ let
     "Wer wohnt in der Ananas ganz tief im Meer? ${name} Schwammkopf!",
     "Arbeit ist Freizeit! Wachstum ist Fortschritt! Sicherheit ist Freiheit!",
     "Willkommen ${name}"] | random }}'' ;
-  patterns = [
-    [1000 500 250] # TODO: maybe even play a short audio announcement?
-    [150 150 150]
-    [255 255]
-    [500 500 100]
-    [100 1000 100]
-    # [125 250 500]
-  ];
   tmr_10h = name: {
     "${name}_10h" = {
       name = "${name} 10h Timer";
       duration = "10:00:00";
     };
-  };
-  multi_flash = { entity, delays ? [ 500 ], alias ?  "${entity}_multi_flash_${toString (lib.length delays)}" }:
-  {
-    inherit alias;
-    sequence = lib.flatten (builtins.map (delay: [
-      { service = "homeassistant.turn_on";
-        data.entity_id = entity;
-      }
-      { delay.milliseconds = delay; }
-      { service = "homeassistant.turn_off";
-        data.entity_id = entity;
-      }
-      { delay.milliseconds = delay; }
-    ]
-     ) delays);
-   };
-
-  buzz_user = name: delays: { "buzz_${name}" = (multi_flash {
-      entity = "light.redbutton_buzzer";
-      inherit delays;
-      alias = "Red Button Buzz ${name}";
-    });
   };
 
   zu_lange_user = name:
@@ -210,7 +180,6 @@ in
     (map tmr_10h persons);
   automation = (lib.flatten (map automation_10h persons));
   script =  lib.fold lib.recursiveUpdate {} (
-    (map (ab: buzz_user ab.fst ab.snd) (lib.zipLists persons patterns)) ++
     (map (p: announce_user p) persons) ++
     (map (p: zu_lange_user p) persons)
   );
