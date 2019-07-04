@@ -45,17 +45,10 @@ in {
       # <stockholm/makefu/2configs/stats/telegraf/bamstats.nix>
       { environment.systemPackages = [ pkgs.vlc ]; }
 
-      {
-        # Risikoübernahme
-        nixpkgs.config.permittedInsecurePackages = [
-          "homeassistant-0.77.2"
-        ];
-      }
-      <stockholm/makefu/2configs/bureautomation>
+      <stockholm/makefu/2configs/bureautomation> # new hass entry point
       <stockholm/makefu/2configs/bureautomation/led-fader.nix>
-      <stockholm/makefu/2configs/bureautomation/mpd.nix>
+      # <stockholm/makefu/2configs/bureautomation/mpd.nix> #mpd is only used for TTS
       <stockholm/makefu/2configs/mqtt.nix>
-      <stockholm/makefu/2configs/bureautomation/hass.nix>
       (let
           collectd-port = 25826;
           influx-port = 8086;
