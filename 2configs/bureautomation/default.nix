@@ -21,6 +21,9 @@ in {
     enable = true;
     package = (pkgs.home-assistant.overrideAttrs (old: {
       # TODO: find correct python package
+      installCheckPhase = ''
+        echo LOLLLLLLLLLLLLLL
+      '';
       postInstall = ''
         cp -r ${dwd_pollen} $out/lib/python3.7/site-packages/homeassistant/components/dwd_pollen
       '';
