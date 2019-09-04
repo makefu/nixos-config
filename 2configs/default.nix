@@ -31,7 +31,8 @@ with import <stockholm/lib>;
 
   boot.kernelPackages = lib.mkDefault pkgs.linuxPackages_latest;
 
-  nixpkgs.config.allowUnfreePredicate =  (pkg: pkgs.lib.hasPrefix "unrar-" pkg.name);
+  nixpkgs.config.allowUnfreePredicate = pkg: packageName pkg == "unrar";
+
   krebs = {
     enable = true;
 
