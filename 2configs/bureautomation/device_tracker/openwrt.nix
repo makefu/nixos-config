@@ -1,3 +1,6 @@
+# requires `opkg install luci-mod-rpc` on router
+# see https://www.home-assistant.io/components/luci/
+
 [
   { platform = "luci";
     name = "router";

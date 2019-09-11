@@ -1,5 +1,7 @@
 {lib, ... }:
 let
+  # TODO: flash with different delay
+
   # let an entity blink for X times with  a delay of Y milliseconds
   flash_entity = { entity, delay ? 500, count ? 4, alias ?  "${entity}_blink_${toString count}_${toString delay}" }:
   {
@@ -33,5 +35,11 @@ in {
     delay = 10000;
     count = 1;
     alias = "blitz for 10 seconds";
+  });
+  schlechteluft = (flash_entity {
+    entity = "switch.bauarbeiterlampe";
+    alias = "Schlechte Luft Lampe 5 secs";
+    delay = 5000;
+    count = 1;
   });
 }

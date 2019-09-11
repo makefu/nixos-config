@@ -48,7 +48,6 @@ in {
   hardware.cpu.amd.updateMicrocode = true;
 
   zramSwap.enable = true;
-  zramSwap.numDevices = 2;
 
   makefu.snapraid = let
     toMedia = name: "/media/" + name;

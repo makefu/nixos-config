@@ -41,7 +41,7 @@ in {
   boot.loader.grub.enable = true;
   boot.loader.grub.version = 2;
   boot.loader.grub.devices = [ main-disk ];
-  boot.initrd.kernelModules = [  "dm-raid" "dm_cache" ];
+  boot.initrd.kernelModules = [  "dm-raid" "dm_cache" "dm-thin-pool" ];
   boot.initrd.availableKernelModules = [
     "ata_piix" "vmw_pvscsi" "virtio_pci" "sd_mod" "ahci"
     "xhci_pci" "ehci_pci" "ahci" "sd_mod"
@@ -67,7 +67,7 @@ in {
   fileSystems."/var/www/binaergewitter" = {
     device = "/dev/nixos/binaergewitter";
     fsType = "ext4";
-    options = [ "nofail" "x-systemd.automount" "x-systemd.device-timeout=5s" "x-systemd.mount-timeout=5s" ];
+    options = [ "nofail" ];
   };
   fileSystems."/var/lib/borgbackup" = {
     device = "/dev/nixos/backup";
