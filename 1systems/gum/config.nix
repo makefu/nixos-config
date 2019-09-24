@@ -114,11 +114,14 @@ in {
         };
         users.users.sickbeard.extraGroups = [ "nginx" ];
       }
+
       { nixpkgs.config.allowUnfree = true; }
       #<stockholm/makefu/2configs/retroshare.nix>
       ## <stockholm/makefu/2configs/ipfs.nix>
       #<stockholm/makefu/2configs/syncthing.nix>
       # <stockholm/makefu/2configs/opentracker.nix>
+
+      <stockholm/makefu/2configs/shiori.nix>
 
       ## network
       <stockholm/makefu/2configs/vpn/openvpn-server.nix>
