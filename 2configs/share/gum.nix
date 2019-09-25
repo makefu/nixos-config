@@ -35,5 +35,6 @@ in {
   };
   networking.firewall.extraCommands = ''
       iptables -A INPUT -i retiolum -p tcp --dport 445 -j ACCEPT
+      iptables -A INPUT -i wiregrill -p tcp --dport 445 -j ACCEPT
   '';
 }
