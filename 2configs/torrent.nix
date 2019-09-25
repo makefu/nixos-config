@@ -55,7 +55,7 @@ in {
       # log.add_output = "dht_debug", "rtorrent-systemd"
       # log.add_output = "tracker_debug", "rtorrent-systemd"
       log.add_output = "rpc_events", "rtorrent-systemd"
-      log.add_output = "rpc_dump", "rtorrent-systemd"
+      # log.add_output = "rpc_dump", "rtorrent-systemd"
       system.daemon.set = true
     '';
     # dump old torrents into watch folder to have them re-added
