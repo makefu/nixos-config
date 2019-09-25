@@ -37,8 +37,9 @@ in
     displayManager.auto.user = mainUser;
     desktopManager.xterm.enable = false;
   };
+  environment.systemPackages = [ pkgs.gnome3.defaultIconTheme ];
   # lid switch is handled via button presses
-  services.logind.extraConfig = mkDefault "HandleLidSwitch=ignore";
+  services.logind.lidSwitch = "ignore";
   makefu.awesome.enable = true;
   i18n.consoleFont = "Lat2-Terminus16";
 
