@@ -15,6 +15,7 @@
 
       <stockholm/makefu/2configs/main-laptop.nix>
       <stockholm/makefu/2configs/extra-fonts.nix>
+      <stockholm/makefu/2configs/editor/neovim>
       <stockholm/makefu/2configs/tools/all.nix>
       { programs.adb.enable = true; }
 
@@ -58,6 +59,7 @@
       # Krebs
       <stockholm/makefu/2configs/tinc/retiolum.nix>
       # <stockholm/makefu/2configs/share/gum-client.nix>
+      # <stockholm/makefu/2configs/share/temp-share-samba.nix>
 
 
       # applications
@@ -68,7 +70,7 @@
 
       # Virtualization
       # <stockholm/makefu/2configs/virtualisation/libvirt.nix>
-      # <stockholm/makefu/2configs/virtualisation/docker.nix>
+      <stockholm/makefu/2configs/virtualisation/docker.nix>
       <stockholm/makefu/2configs/virtualisation/virtualbox.nix>
       #{
       #  networking.firewall.allowedTCPPorts = [ 8080 ];
@@ -189,6 +191,7 @@
     "/home/makefu/.imapfilter"
     "/home/makefu/.mutt"
     "/home/makefu/docs"
+    "/home/makefu/notes"
     "/home/makefu/.password-store"
     "/home/makefu/.secrets-pass"
     "/home/makefu/.config/syncthing"
@@ -198,4 +201,11 @@
   services.syncthing.dataDir = lib.mkForce "/home/makefu/.config/syncthing/";
   # latest kernel (5.0) has issues with wifi card
   boot.kernelPackages = pkgs.linuxPackages;
+  # Bugfix for wifi card
+  powerManagement.resumeCommands = ''
+    sleep 2
+    echo 1 > /sys/bus/pci/devices/0000:03:00.0/remove
+    sleep 3
+    echo 1 > /sys/bus/pci/rescan
+  '';
 }
