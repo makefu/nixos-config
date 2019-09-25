@@ -11,6 +11,7 @@ in {
       ./hw/omo.nix
       #./hw/tsp.nix
       <stockholm/makefu>
+      { environment.systemPackages = with pkgs;[ tmux picocom ];}
       <stockholm/makefu/2configs/support-nixos.nix>
       <stockholm/makefu/2configs/zsh-user.nix>
       <stockholm/makefu/2configs/backup/state.nix>
