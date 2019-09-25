@@ -3,14 +3,21 @@
 with import <stockholm/lib>;
 let
 
-  repos = priv-repos // krebs-repos // connector-repos // krebsroot-repos;
+  repos = pub-repos // priv-repos // krebs-repos // connector-repos // krebsroot-repos;
   rules = concatMap krebs-rules (attrValues krebs-repos)
+    ++ concatMap priv-rules (attrValues pub-repos)
     ++ concatMap priv-rules (attrValues priv-repos)
     ++ concatMap connector-rules (attrValues connector-repos)
     ++ concatMap krebsroot-rules (attrValues krebsroot-repos);
 
   krebsroot-repos = mapAttrs make-krebs-repo {
     hydra-stockholm = { };
+  };
+
+  pub-repos = mapAttrs make-pub-repo {
+    yacos-backend = {
+      cgit.desc = "Yet Another Check-Out System";
+    };
   };
 
   krebs-repos = mapAttrs make-krebs-repo {
@@ -57,6 +64,11 @@ let
   make-priv-repo = name: { ... }: {
     inherit name;
     public = false;
+  };
+
+  make-pub-repo = name: { ... }: {
+    inherit name;
+    public = true;
   };
 
   make-krebs-repo = with git; name: { cgit ? {}, ... }: {
