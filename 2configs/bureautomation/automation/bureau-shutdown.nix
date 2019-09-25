@@ -34,18 +34,18 @@
   }
   { alias = "Turn off Fernseher after last in group left";
     trigger = [
-    { # trigger when movement was detected at the time
-      platform = "state";
-      entity_id = "group.team";
-      from = "home";
-      to = "not_home";
-    }
-    { # trigger at 18:00 no matter what
-      # to avoid 'everybody left before 18:00:00'
-      platform = "time";
-      at = "18:00:00";
-    }
-  ];
+      { # trigger when movement was detected at the time
+        platform = "state";
+        entity_id = "group.team";
+        from = "home";
+        to = "not_home";
+      }
+      { # trigger at 18:00 no matter what
+        # to avoid 'everybody left before 18:00:00'
+        platform = "time";
+        at = "18:00:00";
+      }
+    ];
     action = [
       {
         service = "homeassistant.turn_off";
@@ -58,7 +58,7 @@
       }
       {
         service = "notify.telegrambot";
-        data = {
+        data_template = {
           title = "Bureau Shutdown";
           message = "All devices are turned off due to {{ trigger.platform }}";
         };
