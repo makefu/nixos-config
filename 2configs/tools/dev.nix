@@ -6,31 +6,37 @@
       ps.python-language-server
       # the following plugins are optional, they provide type checking, import sorting and code formatting
       ps.pyls-mypy ps.pyls-isort ps.pyls-black
-      ps.virtualenv
+      ps.virtualenv ps.pyserial ps.virtualenv
     ]))
-    picocom
-    python3.pkgs.pyserial
-    python3.pkgs.virtualenv
     # embedded
+    picocom
     gi
     flashrom
     mosquitto
-    libcoap
     nodemcu-uploader
     esptool
+    # nix related
+    nix-index
+    nix-review
+    brain
+    whatsupnix
+    nixpkgs-pytools
+    # git-related
+    git-preview
+    tig
+    (pkgs.callPackage ./init-host {})
+    # used more than once
+    imagemagick
+    qrencode
+    exiftool
     cac-api
     cac-panel
     krebszones
     ovh-zone
-    whatsupnix
-    brain
     gen-oath-safe
     cdrtools
-    # nix related
-    nix-index
-    nix-review
-    # git-related
-    tig
-    (pkgs.callPackage ./init-host {})
+    # network related
+    sshuttle
+    pciutils
   ];
 }
