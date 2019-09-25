@@ -47,8 +47,8 @@ in {
 
       <stockholm/makefu/2configs/bureautomation> # new hass entry point
       <stockholm/makefu/2configs/bureautomation/led-fader.nix>
-      <stockholm/makefu/2configs/bureautomation/visitor-photostore.nix>
-      # <stockholm/makefu/2configs/bureautomation/mpd.nix> #mpd is only used for TTS
+      # <stockholm/makefu/2configs/bureautomation/visitor-photostore.nix>
+      # <stockholm/makefu/2configs/bureautomation/mpd.nix> #mpd is only used for TTS, this is the web interface
       <stockholm/makefu/2configs/mqtt.nix>
       (let
           collectd-port = 25826;
