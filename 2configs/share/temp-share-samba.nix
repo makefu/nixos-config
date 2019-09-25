@@ -1,4 +1,10 @@
 {config, ... }:{
+  services.avahi = {
+    enable = true;
+    interfaces = [ config.makefu.server.primary-itf ];
+    publish.enable = true;
+    publish.userServices = true;
+  };
   networking.firewall.allowedUDPPorts = [ 137 138 ];
   networking.firewall.allowedTCPPorts = [ 139 445 ];
   users.users.smbguest = {
@@ -14,6 +20,12 @@
       share-home = {
         path = "/home/share/";
         "read only" = "no";
+        browseable = "yes";
+        "guest ok" = "yes";
+      };
+      movies = {
+        path = "/home/makefu/movies";
+        "read only" = "yes";
         browseable = "yes";
         "guest ok" = "yes";
       };
