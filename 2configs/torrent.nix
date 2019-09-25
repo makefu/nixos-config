@@ -35,7 +35,9 @@ in {
     rtorrent.members = [ "download" ];
   };
 
-  krebs.rtorrent = {
+  krebs.rtorrent = let
+    d = config.makefu.dl-dir;
+  in {
     enable = true;
     web = {
       enable = true;
@@ -45,7 +47,17 @@ in {
     rutorrent.enable = true;
     enableXMLRPC = true;
     listenPort = peer-port;
-    downloadDir = config.makefu.dl-dir;
+    downloadDir = d + "/finished/incoming";
+    watchDir = d + "/watch";
+    # TODO: maybe test out multiple watch dirs with tags: https://github.com/rakshasa/rtorrent/wiki/TORRENT-Watch-directories
+    extraConfig = ''
+      # log.add_output = "debug", "rtorrent-systemd"
+      # log.add_output = "dht_debug", "rtorrent-systemd"
+      # log.add_output = "tracker_debug", "rtorrent-systemd"
+      log.add_output = "rpc_events", "rtorrent-systemd"
+      log.add_output = "rpc_dump", "rtorrent-systemd"
+      system.daemon.set = true
+    '';
     # dump old torrents into watch folder to have them re-added
   };
 

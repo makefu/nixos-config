@@ -1,6 +1,5 @@
 { config, lib, pkgs, ... }:
 
-with import <stockholm/lib>;
 let
 in {
   networking.firewall.allowedTCPPorts = [ 80 443 514 ];

@@ -5,5 +5,5 @@
     docker
     docker_compose
   ];
-  users.extraUsers.${config.krebs.build.user.name}.extraGroups = [ "docker" ];
+  users.users.${config.krebs.build.user.name}.extraGroups = [ "docker" ];
 }
