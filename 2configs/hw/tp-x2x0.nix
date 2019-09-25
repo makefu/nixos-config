@@ -10,6 +10,8 @@
     "kvm-intel"
   ];
 
+  # hardware.opengl.extraPackages = [ pkgs.intel-media-driver ];
+
   networking.wireless.enable = lib.mkDefault true;
 
   hardware.enableAllFirmware = true;

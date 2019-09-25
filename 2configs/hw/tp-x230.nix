@@ -23,5 +23,11 @@ with import <stockholm/lib>;
   hardware.pulseaudio.extraConfig = ''
     load-module module-alsa-sink device=hw:0,3 sink_properties=device.description="HDMIOutput" sink_name="HDMI"
   '';
+  # load graphical equalizer module
+  # load-module module-equalizer-sink
+
+  # combine multiple sinks to one:
+  # list all sinks: pactl list short sinks
+  # pacmd load-module module-combine-sink sink_name=combined sink_properties=device.description=CombinedSink slaves=sink1,sink2 channels=2
 
 }
