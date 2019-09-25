@@ -1,0 +1,15 @@
+BLOCKLIST [\/\w\.]+
+DOMAIN [\w\.\-]+
+DNSID \d+
+PORT \d+
+DNSRESPONSE cached|reply|forwarded|query
+# TODO: there are some strange responses for certain queries like <CNAME> or ...
+IPORWORD %{IP}|[<>\.\/\w>]+
+
+# TODO use public suffix list by mozilla
+TLD [a-z]{2,63}
+# matches CCSLD and TLD together (e.g. co.uk )
+CCSLD_TLD [a-z]+\.uk
+# actually after a CCTLD this would be the third level domain ...
+PUBLIC_SUFFIX (xn--)?%{FUNCTIONAL_SLD}\.(%{CCSLD_TLD}|%{TLD})
+FUNCTIONAL_SLD [a-z0-9-]{1,63}
