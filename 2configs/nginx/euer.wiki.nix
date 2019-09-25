@@ -75,6 +75,7 @@ in {
 
   services.nginx = {
     enable = mkDefault true;
+    recommendedGzipSettings = true;
     virtualHosts = {
       "${ext-dom}" = {
         #serverAliases = [
@@ -83,14 +84,6 @@ in {
         #];
         forceSSL = true;
         enableACME = true;
-        # recommendedGzipSettings = true;
-        extraConfig = ''
-          gzip on;
-          gzip_buffers 4 32k;
-          gzip_types  text/plain application/x-javascript text/css;
-          default_type text/plain;
-
-        '';
         locations = {
           "/" = {
             root = wiki-dir;
