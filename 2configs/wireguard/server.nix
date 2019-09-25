@@ -47,6 +47,11 @@ in { # wireguard server
       allowedIPs = [ "10.244.0.6/32" ];
       publicKey = "OFhCF56BrV9tjqW1sxqXEKH/GdqamUT1SqZYSADl5GA=";
     }
+    {
+      # mobile
+      allowedIPs = [ "10.244.0.7/32" ];
+      publicKey = "Y6fOW2QDt0SsHT7hSVzzJYQVB3JI/txO4/FDB54Z52A=";
+    }
     ];
   };
 }
