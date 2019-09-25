@@ -69,6 +69,11 @@ in {
     fsType = "ext4";
     options = [ "nofail" ];
   };
+  fileSystems."/var/www/o.euer.krebsco.de" = {
+    device = "/dev/nixos/nextcloud";
+    fsType = "ext4";
+    options = [ "nofail" ];
+  };
   fileSystems."/var/lib/borgbackup" = {
     device = "/dev/nixos/backup";
     fsType = "ext4";

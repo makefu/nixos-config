@@ -81,7 +81,7 @@ in {
       # ci
       # <stockholm/makefu/2configs/exim-retiolum.nix>
       <stockholm/makefu/2configs/git/cgit-retiolum.nix>
-      <stockholm/makefu/2configs/shack/events-publisher>
+      # <stockholm/makefu/2configs/shack/events-publisher>
       <stockholm/makefu/2configs/shack/gitlab-runner>
       <stockholm/makefu/2configs/remote-build/slave.nix>
       <stockholm/makefu/2configs/remote-build/aarch64-community.nix>
@@ -90,30 +90,12 @@ in {
       # services
       # <stockholm/makefu/2configs/sabnzbd.nix>
       <stockholm/makefu/2configs/mail/mail.euer.nix>
-      {
-        krebs.exim.enable = mkForce false;
-      }
+      { krebs.exim.enable = mkForce false; }
 
       # sharing
       <stockholm/makefu/2configs/share/gum.nix>
       <stockholm/makefu/2configs/torrent.nix>
-      { services.sickbeard = {
-        enable = true;
-        package = pkgs.sickgear;
-          user = "sickbeard";
-          group = "download";
-          port = 8280;
-        };
-        services.nginx.virtualHosts."sick.makefu.r" = {
-          locations."/".proxyPass = http://localhost:8280;
-          extraConfig = ''
-            if ( $server_addr = "${external-ip}" ) {
-              return 403;
-            }
-          '';
-        };
-        users.users.sickbeard.extraGroups = [ "nginx" ];
-      }
+      <stockholm/makefu/2configs/sickbeard>
 
       { nixpkgs.config.allowUnfree = true; }
       #<stockholm/makefu/2configs/retroshare.nix>
@@ -121,7 +103,6 @@ in {
       #<stockholm/makefu/2configs/syncthing.nix>
       # <stockholm/makefu/2configs/opentracker.nix>
 
-      <stockholm/makefu/2configs/shiori.nix>
 
       ## network
       <stockholm/makefu/2configs/vpn/openvpn-server.nix>
@@ -154,6 +135,8 @@ in {
       <stockholm/makefu/2configs/deployment/graphs.nix>
       <stockholm/makefu/2configs/deployment/owncloud.nix>
       <stockholm/makefu/2configs/deployment/boot-euer.nix>
+      <stockholm/makefu/2configs/shiori.nix>
+
       <stockholm/makefu/2configs/bgt/download.binaergewitter.de.nix>
       <stockholm/makefu/2configs/bgt/hidden_service.nix>
       <stockholm/makefu/2configs/bgt/backup.nix>
@@ -162,6 +145,11 @@ in {
 
       # sharing
       <stockholm/makefu/2configs/dcpp/airdcpp.nix>
+      { krebs.airdcpp.dcpp.shares = {
+          download.path = config.makefu.dl-dir + "/finished";
+          sorted.path = config.makefu.dl-dir + "/sorted";
+        };
+      }
       <stockholm/makefu/2configs/dcpp/hub.nix>
 
       ## Temporary:
