@@ -47,6 +47,7 @@ in {
 
       <stockholm/makefu/2configs/bureautomation> # new hass entry point
       <stockholm/makefu/2configs/bureautomation/led-fader.nix>
+      <stockholm/makefu/2configs/bureautomation/visitor-photostore.nix>
       # <stockholm/makefu/2configs/bureautomation/mpd.nix> #mpd is only used for TTS
       <stockholm/makefu/2configs/mqtt.nix>
       (let
@@ -146,10 +147,8 @@ in {
   # rt2870.bin wifi card, part of linux-unfree
   hardware.enableAllFirmware = true;
   nixpkgs.config.allowUnfree = true;
-  networking.wireless.enable = true;
   # rt2870 with nonfree creates wlp2s0 from wlp0s20u2
   # not explicitly setting the interface results in wpa_supplicant to crash
-  networking.wireless.interfaces = [ "wlp2s0" ];
   networking.interfaces.virbr1.ipv4.addresses = [{
     address = "10.8.8.11";
     prefixLength = 24;
@@ -161,8 +160,8 @@ in {
   hardware.cpu.intel.updateMicrocode = true;
   boot.initrd.availableKernelModules = [ "xhci_pci" "ehci_pci" "ahci" "usbhid" "usb_storage" "sd_mod" ];
 
-  boot.kernelModules = [ "kvm-intel"
-    "snd-seq" "snd-rawmidi"
+  boot.kernelModules = [
+    "kvm-intel" "snd-seq" "snd-rawmidi"
   ];
   fileSystems = {
     "/" = {
