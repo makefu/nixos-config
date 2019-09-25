@@ -18,7 +18,12 @@ in {
       PrivateTmp = true;
     };
   };
-  services.nginx.virtualHosts."bookmark.euer.krebsco.de".locations."/" = {
+  services.nginx.virtualHosts."bookmark.euer.krebsco.de" = {
+    forceSSL = true;
+    enableACME = true;
+
+    locations."/" = {
       proxyPass = "http://127.0.0.1:${toString web_port}/";
     };
+  };
 }

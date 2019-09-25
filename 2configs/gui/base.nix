@@ -11,7 +11,6 @@
 # if this is not enough, check out main-laptop.nix
 
 
-with import <stockholm/lib>;
 let
   mainUser = config.krebs.build.user.name;
 in
@@ -39,7 +38,7 @@ in
   };
   environment.systemPackages = [ pkgs.gnome3.defaultIconTheme ];
   # lid switch is handled via button presses
-  services.logind.lidSwitch = "ignore";
+  services.logind.lidSwitch = lib.mkDefault "ignore";
   makefu.awesome.enable = true;
   i18n.consoleFont = "Lat2-Terminus16";
 
