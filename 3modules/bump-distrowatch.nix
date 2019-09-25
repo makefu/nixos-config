@@ -5,7 +5,7 @@ let
 
   imp = {
     systemd.services.distrobump = {
-      after = [ "network.target" ];
+      after = [ "network-online.target" ];
       wantedBy = [ "multi-user.target" ];
       path = [ pkgs.curl ];
       restartIfChanged = false;
