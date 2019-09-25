@@ -1,7 +1,6 @@
 {lib, ... }:
 let
-  persons = [ "frank"  "daniel" "thorsten" "carsten" "thierry" "ecki" "felix"
-  "anthony" # antony
+  persons = [ "frank"  "daniel" "thorsten" "carsten" "ecki" "felix"
   "thierry" # tjeri
   ];
   random_zu_lange = name: ''{{ [
@@ -45,7 +44,7 @@ let
     "Im Kalender von ${name} sind heute acht Meetings eingeplant, von denen zwei bereits verpasst wurden",
     "Das Postfach von ${name} beinhaltet einhundertachtundzwanzig ungelesene E-Mails.",
     "Nachricht von Serge: ${name}, bitte melden Sie sich Umgehend bei mir im Büro!",
-    "Luftqualität hat sich durch das Eintreffen von ${name} um zweihunder Punkte verschlechtert, bitte alle Fenster öffnen.",
+    "Luftqualität hat sich durch das Eintreffen von ${name} um zweihundert Punkte verschlechtert, bitte alle Fenster öffnen.",
     "Die Tür geht auf, wer mag das sein? Schon schreitet hier der ${name} ein. Das Volk, es jubelt, Dirnen schmachten. Fürs Festmahl beginnt man schon zu schlachten. Er wird nur nach dem besten streben! Der ${name}, er soll lange leben!",
     "${name} arbeitet gern für seinen Konzern",
     "${name} ist nur froh im Großraumbüro",
@@ -147,8 +146,8 @@ let
           entity_id =  [ "timer.${name}_10h" ] ;
         }
         { service = "homeassistant.turn_on";
-          entity_id =  [
-            # "script.buzz_${name}"
+        entity_id =  [
+            "switch.fernseher"
             "script.blitz_10s"
             "script.announce_${name}"
           ];

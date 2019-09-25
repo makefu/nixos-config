@@ -1,9 +1,10 @@
 { config, pkgs, lib, ... }:
 let
   kodi-host = "192.168.8.11";
-  ten_hours = import ./combination/10h_timers.nix { inherit lib; }; # provides: timer automation script
-  mittagessen = import ./combination/mittagessen.nix { inherit lib; }; # provides: automation script
-  matrix = import ./combination/matrix.nix { inherit lib; }; # provides: matrix automation
+  ten_hours = import ./multi/10h_timers.nix { inherit lib; }; # provides: timer automation script
+  mittagessen = import ./multi/mittagessen.nix { inherit lib; }; # provides: automation script
+  matrix = import ./multi/matrix.nix { inherit lib; }; # provides: matrix automation
+  aramark = import ./multi/aramark.nix { inherit lib; }; # provides: pommes sensor
 in {
   imports = [
     ./ota.nix
