@@ -8,6 +8,7 @@ let
 in {
   imports = [
     ./ota.nix
+    ./comic-updater.nix
   ];
   networking.firewall.allowedTCPPorts = [ 8123 ];
   state = [ "/var/lib/hass/known_devices.yaml" ];
@@ -114,7 +115,8 @@ in {
       ];
       binary_sensor =
         (import ./binary_sensor/buttons.nix) ++
-        (import ./binary_sensor/motion.nix);
+        (import ./binary_sensor/motion.nix) ++
+        aramark.binary_sensor;
 
       sensor =
         [{ platform = "version"; }] ++
@@ -123,10 +125,12 @@ in {
         (import ./sensor/airquality.nix) ++
         ((import ./sensor/outside.nix) {inherit lib;}) ++
         (import ./sensor/influxdb.nix) ++
-        (import ./sensor/tasmota_firmware.nix);
+        (import ./sensor/tasmota_firmware.nix) ++
+        aramark.sensor;
 
       camera =
-        (import ./camera/verkehrskamera.nix);
+         (import ./camera/verkehrskamera.nix)
+         ++ (import ./camera/comic.nix);
 
       # not yet released
       #person =
@@ -175,6 +179,7 @@ in {
               "group.team"
               "group.nachtlicht"
               "group.switches"
+              "group.aramark"
             ];
           };
         automation = [];
@@ -196,7 +201,6 @@ in {
           "device_tracker.carsten_phone"
           "device_tracker.thierry_phone"
           "device_tracker.frank_phone"
-          "device_tracker.anthony_phone"
         #  "person.thorsten"
         #  "person.felix"
         #  "person.ecki"
@@ -206,12 +210,28 @@ in {
           "camera.Baumarkt"
           "camera.Autobahn_Heilbronn"
           "camera.Autobahn_Singen"
+          "camera.poorly_drawn_lines"
         ];
         nachtlicht = [
           "switch.nachtlicht_a"
           "switch.nachtlicht_b"
           "switch.nachtlicht_c"
           "switch.nachtlicht_d"
+        ];
+        Aramark = [
+          "binary_sensor.pommes"
+          "sensor.menu_1"
+          "sensor.menu_1_text"
+          "sensor.menu_1_preis"
+          "sensor.menu_2"
+          "sensor.menu_2_text"
+          "sensor.menu_2_preis"
+          "sensor.aktion"
+          "sensor.aktion_text"
+          "sensor.aktion_preis"
+          "sensor.mercato"
+          "sensor.mercato_text"
+          "sensor.mercato_preis"
         ];
         sensors = [
           "media_player.kodi"
@@ -222,6 +242,7 @@ in {
           "sensor.easy2_dht22_humidity"
           "sensor.easy2_dht22_temperature"
           "sensor.air_quality"
+          # "binary_sensor.aramark_pommes"
           # "binary_sensor.redbutton"
         ];
         outside = [
