@@ -57,7 +57,7 @@ let
     "Trotz schwerer Männergrippe ist ${name} heute im Büro erschienen.",
     "${name} kenne keine Parteien mehr, ${name} kenne nur noch Arbeitsplätze",
     "${name}, Frage nicht, was dein Arbeitsplatz für dich tun kann. Frage, was du für deinen Arbeitsplatz tun kannst",
-    "${name} läuft bis in den Jemen - für sein Unternehmen. ${name} schwimmt bis nach Birma - für meine Firma",
+    "${name} läuft bis in den Jemen - für sein Unternehmen. ${name} schwimmt bis nach Birma - für seine Firma",
     "Der Cyberian ${name} ist gekommen um die Bahnwelt vor Cyber-Angriffen zu schützen",
     "Alles paletto im Ghetto, ${name}?",
     "Hach, ${name}, wenn du hier rein kommst fühlt es sich gleich wieder an wie Montag.",
@@ -147,7 +147,7 @@ let
         }
         { service = "homeassistant.turn_on";
         entity_id =  [
-            "switch.fernseher"
+            # "switch.fernseher"
             "script.blitz_10s"
             "script.announce_${name}"
           ];
