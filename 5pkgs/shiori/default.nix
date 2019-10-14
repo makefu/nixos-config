@@ -4,13 +4,13 @@ let
 in
 builder rec {
   name = "shiori-${version}";
-  version = "1.6.0-master";
+  version = "1.6.0-warc";
   goPackagePath = "github.com/go-shiori/shiori";
   src = fetchFromGitHub {
     owner = "go-shiori";
     repo = "shiori";
-    rev = "c77b17caf8fcdf336adea33d0e4ac7ab13c10bc5";
-    sha256 = "11c5yxkmawwpswk256d151ixmj1vlnhrhsbfp9xan1v5cbqpkxdm";
+    rev = "83f133dd07bf661d3c4cf03043392100da489559";
+    sha256 = "02b17hjbh4w0ip0snd8hmdjmbc2w1pv9sws9cf9r8w09c225nw2i";
   };
   goDeps = ./deps.nix;
 }

@@ -28,10 +28,10 @@ in {
     rclone = super.pkgs.stdenv.lib.overrideDerivation super.rclone (old: {
       postInstall = old.postInstall + ''
 
-            $bin/bin/rclone genautocomplete zsh _rclone
-            install -D -m644 _rclone $bin/share/zsh/vendor-completions/_rclone
-            $bin/bin/rclone genautocomplete bash _rclone
-            install -D -m644 _rclone $bin/etc/bash_completion.d/rclone
+            $out/bin/rclone genautocomplete zsh _rclone
+            install -D -m644 _rclone $out/share/zsh/vendor-completions/_rclone
+            $out/bin/rclone genautocomplete bash _rclone
+            install -D -m644 _rclone $out/etc/bash_completion.d/rclone
         '';
     });
     alsa-hdspconf = callPackage ./custom/alsa-tools { alsaToolTarget="hdspconf";};
