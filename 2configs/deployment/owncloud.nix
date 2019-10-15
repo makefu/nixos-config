@@ -118,23 +118,25 @@ let
           access_log off;
         '';
       };
-      services.phpfpm.poolConfigs."${domain}" = ''
-        listen = ${socket}
-        user = nginx
-        group = nginx
-        pm = dynamic
-        pm.max_children = 32
-        pm.max_requests = 500
-        pm.start_servers = 2
-        pm.min_spare_servers = 2
-        pm.max_spare_servers = 5
-        listen.owner = nginx
-        listen.group = nginx
-        php_admin_value[error_log] = 'stderr'
-        php_admin_flag[log_errors] = on
-        env[PATH] = ${lib.makeBinPath [ pkgs.php ]}
-        catch_workers_output = yes
-      '';
+      services.phpfpm.pools."${domain}" = {
+          user = "nginx";
+          group = "nginx";
+          listen = socket;
+          settings = {
+            "pm" = "dynamic";
+            "pm.max_children" = 32;
+            "pm.max_requests" = 500;
+            "pm.start_servers" = 2;
+            "pm.min_spare_servers" = 2;
+            "pm.max_spare_servers" = 5;
+          };
+          extraConfig = ''
+            php_admin_value[error_log] = 'stderr'
+            php_admin_flag[log_errors] = on
+            env[PATH] = ${lib.makeBinPath [ pkgs.php ]}
+            catch_workers_output = yes
+        '';
+      };
       services.phpfpm.phpOptions = ''
         opcache.enable=1
         opcache.enable_cli=1
