@@ -58,7 +58,7 @@
 
       # Krebs
       <stockholm/makefu/2configs/tinc/retiolum.nix>
-      # <stockholm/makefu/2configs/share/gum-client.nix>
+      <stockholm/makefu/2configs/share/gum-client.nix>
       # <stockholm/makefu/2configs/share/temp-share-samba.nix>
 
 
@@ -93,23 +93,18 @@
       <stockholm/makefu/2configs/binary-cache/lass.nix>
 
       # Hardware
-      <stockholm/makefu/2configs/hw/tp-x230.nix>
+      <stockholm/makefu/2configs/hw/tp-x230.nix> # + bluetooth
       # <stockholm/makefu/2configs/hw/mceusb.nix>
-      # <stockholm/makefu/2configs/hw/tpm.nix>
+      <stockholm/makefu/2configs/hw/tpm.nix>
       # <stockholm/makefu/2configs/hw/rtl8812au.nix>
       <stockholm/makefu/2configs/hw/network-manager.nix>
       # <stockholm/makefu/2configs/hw/stk1160.nix>
       # <stockholm/makefu/2configs/hw/irtoy.nix>
       # <stockholm/makefu/2configs/hw/malduino_elite.nix>
       <stockholm/makefu/2configs/hw/switch.nix>
-      <stockholm/makefu/2configs/hw/bluetooth.nix>
       # <stockholm/makefu/2configs/hw/rad1o.nix>
       <stockholm/makefu/2configs/hw/smartcard.nix>
-
-      {
-        services.upower.enable = true;
-        users.users.makefu.packages = [ pkgs.gnome3.gnome-power-manager ];
-      }
+      <stockholm/makefu/2configs/hw/upower.nix>
 
       # Filesystem
       <stockholm/makefu/2configs/fs/sda-crypto-root-home.nix>
@@ -147,9 +142,6 @@
           ];
         };
       }
-      # {
-      #   services.zerotierone.enable = true;
-      # }
 
     ];
 
@@ -167,12 +159,8 @@
 
   krebs.build.host = config.krebs.hosts.x;
 
-  krebs.tinc.retiolum.connectTo = [ "omo" "gum" "prism" "nextgum" ];
+  krebs.tinc.retiolum.connectTo = [ "omo" "prism" "nextgum" "wbob" ];
 
-  networking.extraHosts = ''
-    192.168.1.11  omo.local
-    80.92.65.53 www.wifionice.de wifionice.de
-  '';
   # hard dependency because otherwise the device will not be unlocked
   boot.initrd.luks.devices = [ { name = "luksroot"; device = "/dev/sda2"; allowDiscards=true; }];
   # avoid full boot dir
@@ -199,13 +187,4 @@
 
   services.syncthing.user = lib.mkForce "makefu";
   services.syncthing.dataDir = lib.mkForce "/home/makefu/.config/syncthing/";
-  # latest kernel (5.0) has issues with wifi card
-  boot.kernelPackages = pkgs.linuxPackages;
-  # Bugfix for wifi card
-  powerManagement.resumeCommands = ''
-    sleep 2
-    echo 1 > /sys/bus/pci/devices/0000:03:00.0/remove
-    sleep 3
-    echo 1 > /sys/bus/pci/rescan
-  '';
 }
