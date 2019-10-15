@@ -4,6 +4,7 @@
   imports = [
     ./tpm.nix
     ./ssd.nix
+    ./bluetooth.nix
   ];
 
   boot.kernelModules = [

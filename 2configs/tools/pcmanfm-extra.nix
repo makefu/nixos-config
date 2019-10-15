@@ -7,5 +7,5 @@
     lxmenu-data
   ];
   environment.variables.GIO_EXTRA_MODULES = [ "${pkgs.gvfs}/lib/gio/modules" ];
-  services.gnome3.gvfs.enable = true;
+  services.gvfs.enable = true;
 }

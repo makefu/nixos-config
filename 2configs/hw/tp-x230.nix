@@ -7,7 +7,6 @@ with import <stockholm/lib>;
 
   # configured media keys inside awesomerc
   # sound.mediaKeys.enable = true;
-  hardware.bluetooth.enable = true;
 
   # possible i915 powersave options:
   #  options i915 enable_rc6=1 enable_fbc=1 semaphores=1

@@ -18,7 +18,7 @@ let
     };
 
     args = mkOption {
-      type = types.string;
+      type = types.separatedString;
       description = ''
         see https://erdgeist.org/arts/software/opentracker/ for all params
       '';
