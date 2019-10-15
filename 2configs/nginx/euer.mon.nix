@@ -32,7 +32,7 @@ in {
             auth_basic       "Needs Autherization to visit";
             auth_basic_user_file ${authFile};
             proxy_http_version 1.1;
-            proxy_set_header Host $http_host;
+            proxy_set_header Host $host;
             proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
             proxy_redirect off;
         '';
