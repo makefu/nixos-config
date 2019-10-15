@@ -171,27 +171,29 @@ in  {
 
   networking.firewall.allowedTCPPorts = [ 80 443 ];
   services.redis.enable = true;
-  services.mysql = {
-    enable = false;
-    package = pkgs.mariadb;
-    rootPassword = config.krebs.secret.files.mysql_rootPassword.path;
-    initialDatabases = [
-      # Or use writeText instead of literalExample?
-      #{ name = "nextcloud"; schema = literalExample "./nextcloud.sql"; }
-      {
-        name = "nextcloud";
-        schema = pkgs.writeText "nextcloud.sql"
-        ''
-        create user if not exists 'nextcloud'@'localhost' identified by 'password';
-        grant all privileges on nextcloud.* to 'nextcloud'@'localhost' identified by 'password';
-        '';
-      }
-    ];
-  };
+
+  #services.mysql = {
+  #  enable = false;
+  #  package = pkgs.mariadb;
+  #  rootPassword = config.krebs.secret.files.mysql_rootPassword.path;
+  #  initialDatabases = [
+  #    # Or use writeText instead of literalExample?
+  #    #{ name = "nextcloud"; schema = literalExample "./nextcloud.sql"; }
+  #    {
+  #      name = "nextcloud";
+  #      schema = pkgs.writeText "nextcloud.sql"
+  #      ''
+  #      create user if not exists 'nextcloud'@'localhost' identified by 'password';
+  #      grant all privileges on nextcloud.* to 'nextcloud'@'localhost' identified by 'password';
+  #      '';
+  #    }
+  #  ];
+  #};
+
   # dataDir is only defined after mysql is enabled
-  # krebs.secret.files.mysql_rootPassword = {
-  #   path = "${config.services.mysql.dataDir}/mysql_rootPassword";
-  #   owner.name = "root";
-  #   source-path = toString <secrets> + "/mysql_rootPassword";
-  # };
+  #krebs.secret.files.mysql_rootPassword = {
+  #  path = "${config.services.mysql.dataDir}/mysql_rootPassword";
+  #  owner.name = "root";
+  #  source-path = toString <secrets> + "/mysql_rootPassword";
+  #};
 }
