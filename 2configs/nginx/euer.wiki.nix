@@ -27,6 +27,7 @@ in {
       inherit user group;
       listen = fpm-socket;
       settings = {
+        "listen.owner" = user;
         "pm" = "dynamic";
         "pm.max_children" = 5;
         "pm.start_servers" = 2;

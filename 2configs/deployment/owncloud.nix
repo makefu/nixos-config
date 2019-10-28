@@ -127,6 +127,7 @@ let
           group = "nginx";
           listen = socket;
           settings = {
+            "listen.owner" = "nginx";
             "pm" = "dynamic";
             "pm.max_children" = 32;
             "pm.max_requests" = 500;
