@@ -15,7 +15,7 @@
       "uv_index"
     ];
     units =  "si" ;
-    update_interval = { days = 0; hours = 0; minutes = 30; seconds = 0; };
+    scan_interval = "00:30:00";
   }
   { platform = "luftdaten";
     name = "Ditzingen";
