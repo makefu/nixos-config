@@ -34,7 +34,6 @@ in {
         pkgs.pico2wave
         python-forecastio jsonrpc-async jsonrpc-websocket mpd2
         (callPackage ./deps/gtts-token.nix { })
-        (callPackage ./deps/pyhaversion.nix { })
       ];
     };
     autoExtraComponents = true;
