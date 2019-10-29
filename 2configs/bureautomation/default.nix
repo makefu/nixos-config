@@ -47,8 +47,14 @@ in {
         elevation = 303;
         auth_providers = [
           { type = "homeassistant";}
-          { type = "legacy_api_password";}
+          # { type = "legacy_api_password";}
           { type = "trusted_networks";
+            trusted_networks = [
+              "127.0.0.1/32"
+              "192.168.8.0/24"
+              "::1/128"
+              "fd00::/8"
+            ];
             # allow_bypass_login = true;
           }
         ];
@@ -141,19 +147,15 @@ in {
         # TODO: https://github.com/home-assistant/home-assistant/issues/16149
         base_url = "http://192.168.8.11:8123";
         api_password = "sistemas";
-        trusted_networks = [
-          "127.0.0.1/32"
-          "192.168.8.0/24"
-          "::1/128"
-          "fd00::/8"
-        ];
       };
       conversation = {};
       history = {};
       logbook = {};
       tts = [
-        { platform = "google";
+        { platform = "google_translate";
           language = "de";
+          time_memory = 57600;
+          service_name =  "google_say";
         }
         { platform = "voicerss";
           api_key = builtins.readFile <secrets/hass/voicerss.apikey>;
