@@ -24,13 +24,13 @@ let
     brightness_command_topic = "/bam/${topic}/cmnd/Dimmer";
     brightness_scale = 100;
     # color
-    rgb_state_topic = "/bam/${topic}/stat/Color";
+    rgb_state_topic = "/bam/${topic}/stat/RESULT";
     rgb_command_topic = "/bam/${topic}/cmnd/Color2";
-    rgb_command_mode = "hex";
-    rgb_command_template = "{{ '%02x%02x%02x' | format(red, green, blue)}}";
+     rgb_value_template = "{{(value_json.Channel[0]*2.55)|int}},{{(value_json.Channel[1]*2.55)|int}},{{(value_json.Channel[2]*2.55)|int}}";
+
     # effects
     effect_state_topic = "/bam/${topic}/tele/STATE";
-    effects_value_template = "{{value_json.Scheme|default(0)}}";
+    effect_value_template = "{{value_json.Scheme|default(0)}}";
     effect_command_topic = "/bam/${topic}/cmnd/Scheme";
     effect_list = [
       0  # single color for LED light
