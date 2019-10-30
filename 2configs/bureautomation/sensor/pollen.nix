@@ -1,6 +1,6 @@
 [ {
   platform = "dwd_pollen";
-  partsregion_ids = [
+  partregion_ids = [
     112
   ];
 }
