@@ -3,7 +3,7 @@
     id = 1;
     device_trackers = [
       "device_tracker.thorsten_phone"
-      "device_tracker.thorsten_arbeitphone"
+      #"device_tracker.thorsten_arbeitphone"
     ];
   }
   { name = "Felix";
@@ -24,6 +24,42 @@
     id = 4;
     device_trackers = [
       "device_tracker.daniel_phone"
+    ];
+  }
+  { name = "Thierry";
+    id = 5;
+    device_trackers = [
+      "device_tracker.thierry_phone"
+    ];
+  }
+  { name = "Frank";
+    id = 6;
+    device_trackers = [
+      "device_tracker.frank_phone"
+    ];
+  }
+  { name = "Carsten";
+    id = 7;
+    device_trackers = [
+      "device_tracker.carsten_phone"
+    ];
+  }
+  { name = "Emeka";
+    id = 8;
+    device_trackers = [
+      "device_tracker.emeka_phone"
+    ];
+  }
+  #{ name = "Sabine";
+  #  id = 9;
+  #  device_trackers = [
+  #    "device_tracker.sabine_phone"
+  #  ];
+  #}
+  { name = "Tobias";
+    id = 10;
+    device_trackers = [
+      "device_tracker.tobias_phone"
     ];
   }
 ]
