@@ -4,7 +4,9 @@ let
   ten_hours = import ./multi/10h_timers.nix { inherit lib; }; # provides: timer automation script
   mittagessen = import ./multi/mittagessen.nix { inherit lib; }; # provides: automation script
   matrix = import ./multi/matrix.nix { inherit lib; }; # provides: matrix automation
-  aramark = import ./multi/aramark.nix { inherit lib; }; # provides: pommes sensor
+  frosch = import ./multi/frosch.nix { inherit lib; }; # provides: sensor binary_sensor switch light script automation
+  aramark = import ./multi/aramark.nix { inherit lib; }; # provides: sensor binary_sensor
+  standup = import ./multi/daily-standup.nix { inherit lib; }; # provides: automation script
 in {
   imports = [
     ./ota.nix
@@ -88,10 +90,12 @@ in {
           retain = true;
         };
       };
-      switch = (import ./switch/tasmota_switch.nix) ++
-              (import ./switch/rfbridge.nix);
-      light =  (import ./light/statuslight.nix) ++
-              (import ./light/buzzer.nix);
+      switch = (import ./switch/tasmota_switch.nix)
+               ++ frosch.switch
+               ++ (import ./switch/rfbridge.nix);
+      light = (import ./light/statuslight.nix)
+              ++ (import ./light/buzzer.nix)
+              ++ frosch.light;
       timer = ten_hours.timer;
       notify = [
         {
@@ -117,31 +121,34 @@ in {
       ];
       script = lib.fold lib.recursiveUpdate {} [
         ((import ./script/multi_blink.nix) {inherit lib;})
+        frosch.script
         ten_hours.script
         mittagessen.script
+        standup.script
       ];
       binary_sensor =
-        (import ./binary_sensor/buttons.nix) ++
-        (import ./binary_sensor/motion.nix) ++
-        aramark.binary_sensor;
+        (import ./binary_sensor/buttons.nix)
+        ++ (import ./binary_sensor/motion.nix)
+        ++ frosch.binary_sensor
+        ++ aramark.binary_sensor;
 
       sensor =
         # [{ platform = "version"; }] ++ # pyhaversion
-        (import ./sensor/pollen.nix) ++
-        (import ./sensor/espeasy.nix) ++
-        (import ./sensor/airquality.nix) ++
-        ((import ./sensor/outside.nix) {inherit lib;}) ++
-        (import ./sensor/influxdb.nix) ++
-        (import ./sensor/tasmota_firmware.nix) ++
-        aramark.sensor;
+        (import ./sensor/pollen.nix)
+        ++ (import ./sensor/espeasy.nix)
+        ++ (import ./sensor/airquality.nix)
+        ++ ((import ./sensor/outside.nix) {inherit lib;})
+        ++ (import ./sensor/influxdb.nix)
+        ++ (import ./sensor/tasmota_firmware.nix)
+        ++ frosch.sensor
+        ++ aramark.sensor;
 
       camera =
          (import ./camera/verkehrskamera.nix)
          ++ (import ./camera/comic.nix);
 
-      # not yet released
-      #person =
-      #  (import ./person/team.nix );
+      person =
+        (import ./person/team.nix );
 
       frontend = { };
       http = {
@@ -196,13 +203,22 @@ in {
           "light.buslicht"
         ];
         team = [
-          "device_tracker.thorsten_phone"
-          "device_tracker.felix_phone"
-          "device_tracker.ecki_tablet"
-          "device_tracker.daniel_phone"
-          "device_tracker.carsten_phone"
-          "device_tracker.thierry_phone"
-          "device_tracker.frank_phone"
+          "person.thorsten"
+          #"device_tracker.thorsten_phone"
+          "person.felix"
+          "person.ecki"
+          "person.daniel"
+          # "person.carsten"
+          "person.thierry"
+          "person.frank"
+          "person.emeka"
+          #"device_tracker.felix_phone"
+          #"device_tracker.ecki_tablet"
+          #"device_tracker.daniel_phone"
+          #"device_tracker.carsten_phone"
+          #"device_tracker.thierry_phone"
+          #"device_tracker.frank_phone"
+          #"device_tracker.emeka_phone"
         #  "person.thorsten"
         #  "person.felix"
         #  "person.ecki"
@@ -237,8 +253,6 @@ in {
         ];
         sensors = [
           "media_player.kodi"
-          "script.blitz_10s"
-          "script.buzz_red_led_fast"
           "timer.felix_10h"
           "timer.frank_10h"
           "sensor.easy2_dht22_humidity"
@@ -262,13 +276,15 @@ in {
       # feedreader.urls = [ "http://www.heise.de/security/rss/news-atom.xml" ];
       # we don't use imports because the expressions do not merge in
       # home-assistant
-      automation = (import ./automation/bureau-shutdown.nix) ++
-                  (import ./automation/nachtlicht.nix) ++
-                  (import ./automation/schlechteluft.nix) ++
-                  (import ./automation/hass-restart.nix) ++
-                  ten_hours.automation ++
-                  matrix.automation ++
-                  mittagessen.automation;
+      automation = (import ./automation/bureau-shutdown.nix)
+                  ++ (import ./automation/nachtlicht.nix)
+                  ++ (import ./automation/schlechteluft.nix)
+                  ++ (import ./automation/hass-restart.nix)
+                  ++ ten_hours.automation
+                  ++ matrix.automation
+                  ++ standup.automation
+                  ++ frosch.automation
+                  ++ mittagessen.automation;
       device_tracker = (import ./device_tracker/openwrt.nix );
     };
   };

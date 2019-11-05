@@ -122,7 +122,7 @@ let
       trigger = {
         platform = "state";
         # TODO: ecki
-        entity_id = [ "device_tracker.${name}_phone"];
+        entity_id = [ "person.${name}"];
         from =  "not_home";
         to = "home";
       };
@@ -166,7 +166,7 @@ let
       condition =
       {
         condition = "state";
-        entity_id = "device_tracker.${name}_phone";
+        entity_id = "person.${name}";
         state = "home";
       };
 

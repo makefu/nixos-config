@@ -1,6 +1,6 @@
 { lib }:
+# needs: binary_sensor.pommes
 let
-
    random_pommes = '' {{ [
      "Nur ein Pommes Tag ist ein guter Tag",
      "Schaut wie schön sie fliegen, die Pommes Seifenblasen",
