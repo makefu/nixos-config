@@ -145,7 +145,7 @@ in {
   #};
 
   # rt2870.bin wifi card, part of linux-unfree
-  hardware.enableAllFirmware = true;
+  hardware.enableRedistributableFirmware = true;
   nixpkgs.config.allowUnfree = true;
   # rt2870 with nonfree creates wlp2s0 from wlp0s20u2
   # not explicitly setting the interface results in wpa_supplicant to crash
