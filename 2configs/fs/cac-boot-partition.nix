@@ -1,7 +1,6 @@
 { config, lib, pkgs, ... }:
 
 # vda1 ext4 (label nixos) -> only root partition
-with import <stockholm/lib>;
 {
   boot.loader.grub.enable = true;
   boot.loader.grub.version = 2;
@@ -16,6 +15,6 @@ with import <stockholm/lib>;
     fsType = "ext4";
   };
 
-  hardware.enableAllFirmware = true;
+  hardware.enableRedistributableFirmware = true;
   nixpkgs.config.allowUnfree = true;
 }

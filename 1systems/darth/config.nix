@@ -41,7 +41,7 @@ in {
   makefu.server.primary-itf = "enp0s25";
   # krebs.hidden-ssh.enable = true;
   boot.kernelModules = [ "coretemp" "f71882fg" ];
-  hardware.enableAllFirmware = true;
+  hardware.enableRedistributableFirmware = true;
   nixpkgs.config.allowUnfree = true;
   networking = {
     wireless.enable = true;

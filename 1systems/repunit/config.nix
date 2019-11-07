@@ -21,7 +21,7 @@
   boot.initrd.availableKernelModules = [ "ata_piix" "uhci_hcd" "ehci_pci" "virtio_pci" "virtio_blk" ];
   boot.kernelModules = [ ];
   boot.extraModulePackages = [ ];
-  hardware.enableAllFirmware = true;
+  hardware.enableRedistributableFirmware = true;
   hardware.cpu.amd.updateMicrocode = true;
 
 # networking.firewall is enabled by default
