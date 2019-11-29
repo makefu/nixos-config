@@ -3,20 +3,32 @@
 with import <stockholm/lib>;
 {
   imports = [
-    <stockholm/makefu>
+    #<stockholm/makefu>
     <nixpkgs/nixos/modules/installer/cd-dvd/installation-cd-minimal.nix>
     <nixpkgs/nixos/modules/installer/cd-dvd/channel.nix>
-    <stockholm/makefu/2configs/tools/core.nix>
+    # <stockholm/makefu/2configs/tools/core.nix>
+    ./justdoit.nix
+    {
+      kexec.justdoit = {
+        # bootSize = 512;
+        rootDevice = "/dev/sdb";
+        swapSize = 1024;
+        bootType = "vfat";
+        luksEncrypt = true;
+        uefi = true;
+      };
+    }
   ];
+  boot.kernelPackages = lib.mkDefault pkgs.linuxPackages_latest;
   # TODO: NIX_PATH and nix.nixPath are being set by default.nix right now
-  # cd ~/stockholm ; nix-build -A config.system.build.isoImage -I nixos-config=makefu/1systems/iso.nix -I secrets=/home/makefu/secrets/iso /var/src/nixpkgs/nixos
-  krebs.build.host = { cores = 0; };
+  # cd ~/stockholm ; nix-build -A config.system.build.isoImage -I nixos-config=makefu/1systems/iso/config.nix -I secrets=/home/makefu/secrets/iso /var/src/nixpkgs/nixos
+  #krebs.build.host = { cores = 0; };
   isoImage.isoBaseName = lib.mkForce "stockholm";
-  krebs.hidden-ssh.enable = true;
-  environment.systemPackages = with pkgs; [
-    aria2
-    ddrescue
-  ];
+  #krebs.hidden-ssh.enable = true;
+  # environment.systemPackages = with pkgs; [
+  #   aria2
+  #   ddrescue
+  # ];
   environment.extraInit = ''
     EDITOR=vim
   '';
