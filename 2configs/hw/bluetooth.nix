@@ -5,6 +5,7 @@
   hardware.pulseaudio = {
     enable = true;
     package = pkgs.pulseaudioFull;
+    extraModules = [ pkgs.pulseaudio-modules-bt ];
 # systemWide = true;
     support32Bit = true;
     configFile = pkgs.writeText "default.pa" ''
@@ -23,7 +24,7 @@
       load-module module-switch-on-port-available
       '';
   };
-
+  services.blueman.enable = true;
 # presumably a2dp Sink
 # Enable profile:
 ## pacmd set-card-profile "$(pactl list cards short | egrep -o bluez_card[[:alnum:]._]+)" a2dp_sink
@@ -32,10 +33,17 @@
   hardware.bluetooth = {
     enable = true;
     powerOnBoot = false;
+
     extraConfig = ''
       [general]
       Enable=Source,Sink,Media,Socket
     '';
   };
   services.dbus.packages = [ pkgs.blueman ];
+  nixpkgs.overlays = [
+  (self: super: {
+    blueman = super.blueman.overrideAttrs (oldAttrs: {
+      buildInputs = oldAttrs.buildInputs ++ [ self.gnome3.adwaita-icon-theme ];
+    });
+  })];
 }
