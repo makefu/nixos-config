@@ -20,13 +20,17 @@
       RestartSec = "5";
     };
   };
-  networking.networkmanager.enable = true;
 
 # nixOSUnstable
+  networking.networkmanager.enable = true;
   networking.networkmanager.wifi = {
     powersave = true;
     scanRandMacAddress = true;
+    backend = "iwd";
   };
+  services.gnome3.gnome-keyring.enable = true;
+  networking.wireless.iwd.enable = true;
+
   state = [
     "/etc/NetworkManager/system-connections"  #NM stateful config files
   ];
