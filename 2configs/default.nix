@@ -28,6 +28,7 @@ with import <stockholm/lib>;
         openssh.authorizedKeys.keys = [ config.krebs.users.makefu.pubkey ];
     };
   };
+  nix.trustedUsers = [ config.krebs.build.user.name ];
 
   boot.kernelPackages = lib.mkDefault pkgs.linuxPackages_latest;
 
@@ -39,8 +40,6 @@ with import <stockholm/lib>;
     dns.providers.lan  = "hosts";
     build.user = config.krebs.users.makefu;
   };
-
-
 
 
   boot.tmpOnTmpfs = true;
@@ -61,7 +60,7 @@ with import <stockholm/lib>;
   environment.shellAliases = {
     # TODO: see .aliases
     lsl = "ls -lAtr";
-    dmesg = "journalctl -kb | cat";
+    dmesg = "dmesg -L --reltime";
     psg = "ps -ef | grep";
     nmap = "nmap -oN $HOME/loot/scan-`date +\%s`.nmap -oX $HOME/loot/scan-`date +%s`.xml";
     grep = "grep --color=auto";
