@@ -2,106 +2,21 @@
 
 # Ideas:
 ## wake-on-lan server
-## 
+##
 let
-  tasmota_rgb = name: topic:
-# LED WS2812b
-#      effect_state_topic: "stat/led/Scheme"
-#      effect_command_topic: "cmnd/led/Scheme"
-#      effect_value_template: "{{ value_json.Scheme }}"
-  { platform = "mqtt";
-    inherit name;
-    retain = false;
-    qos = 1;
-    optimistic = false;
-    # state
-    # TODO: currently broken, will not use the custom state topic
-    #state_topic = "/ham/${topic}/stat/POWER";
-    state_topic = "/ham/${topic}/stat/POWER";
-    command_topic = "/ham/${topic}/cmnd/POWER";
-    availability_topic = "/ham/${topic}/tele/LWT";
-    payload_on= "ON";
-    payload_off= "OFF";
-    payload_available= "Online";
-    payload_not_available= "Offline";
-    # brightness
-    brightness_state_topic = "/ham/${topic}/stat/Dimmer";
-    brightness_command_topic = "/ham/${topic}/cmnd/Dimmer";
-    brightness_value_template = "{{ value_json.Dimmer }}";
-    brightness_scale = 100;
-    # color
-    rgb_state_topic = "/ham/${topic}/stat/Color";
-    rgb_command_topic = "/ham/${topic}/cmnd/MEM1"; # use enabled tasmota rule
-    rgb_command_mode = "hex";
-    rgb_command_template = "{{ '%02x%02x%02x' | format(red, green, blue)}}";
-    # effects
-    effect_state_topic = "/ham/${topic}/stat/Scheme";
-    effect_command_topic = "/ham/${topic}/cmnd/Scheme";
-    effect_value_template = "{{ value_json.Scheme }}";
-    effect_list = [ 0 1 2 3 4 5 6 7 8 9 10 11 12 ];
-};
-    # switchmode 1 - also toggle power
-    # switchtopic flurlicht
-    tasmota_motion = name: topic:
-    { platform = "mqtt";
-      device_class = "motion";
-      inherit name;
-      # TODO: currently broken, will not use the custom state topic
-      state_topic = "/ham/${topic}/stat/POWER";
-      payload_on = "ON";
-      payload_off = "OFF";
-      availability_topic = "/ham/${topic}/tele/LWT";
-      payload_available = "Online";
-      payload_not_available = "Offline";
-    };
-
+  hlib = (import ./lib);
+  prefix = hlib.prefix;
+  tasmota = hlib.tasmota;
   firetv = "192.168.1.183";
+  kodi-host = firetv;
   hassdir = "/var/lib/hass";
-  tasmota_plug = name: topic:
-  { platform = "mqtt";
-    inherit name;
-    state_topic = "/ham/${topic}/stat/POWER1";
-    command_topic = "/ham/${topic}/cmnd/POWER1";
-    availability_topic = "/ham/${topic}/tele/LWT";
-    payload_on= "ON";
-    payload_off= "OFF";
-    payload_available= "Online";
-    payload_not_available= "Offline";
-  };
-  tasmota_bme = name: topic:
-  [ { platform = "mqtt";
-      name = "${name} Temperatur";
-      state_topic = "/ham/${topic}/tele/SENSOR";
-      value_template = "{{ value_json.BME280.Temperature }}";
-      unit_of_measurement = "°C";
-    }
-    { platform = "mqtt";
-      name = "${name} Luftfeuchtigkeit";
-      state_topic = "/ham/${topic}/tele/SENSOR";
-      value_template = "{{ value_json.BME280.Humidity }}";
-      unit_of_measurement = "%";
-    }
-    { platform = "mqtt";
-      name = "${name} Luftdruck";
-      state_topic = "/ham/${topic}/tele/SENSOR";
-      value_template = "{{ value_json.BME280.Pressure }}";
-      unit_of_measurement = "hPa";
-    }
-  ];
-  tasmota_am2301 = name: topic:
-  [ { platform = "mqtt";
-      name = "${name} Temperatur";
-      state_topic = "/ham/${topic}/tele/SENSOR";
-      value_template = "{{ value_json.AM2301.Temperature }}";
-      unit_of_measurement = "°C";
-    }
-    { platform = "mqtt";
-      name = "${name} Luftfeuchtigkeit";
-      state_topic = "/ham/${topic}/tele/SENSOR";
-      value_template = "{{ value_json.AM2301.Humidity }}";
-      unit_of_measurement = "%";
-    }
-  ];
+  zigbee = import ./multi/zigbee2mqtt.nix;
+#   switch
+#   automation
+#   binary_sensor
+#   sensor
+#   input_select
+#   timer
 in {
   imports = [
     ./mqtt.nix
@@ -109,6 +24,8 @@ in {
 
   services.home-assistant = {
     config = {
+      input_select = zigbee.input_select; # dict
+      timer = zigbee.timer; # dict
       homeassistant = {
         name = "Home"; time_zone = "Europe/Berlin";
         latitude = "48.7687";
@@ -120,8 +37,36 @@ in {
       history = {};
       logbook = {};
       tts = [
-        { platform = "google";}
+        { platform = "google_translate";
+          language = "de";
+          time_memory = 57600;
+          service_name =  "google_say";
+        }
       ];
+
+      telegram_bot = [
+        # secrets file: {
+        #  "platform": "broadcast",
+        #  "api_key": "", # talk to Botfather /newbot
+        #  "allowed_chat_ids": [ ID ] # curl -X GET #  https://api.telegram.org/bot<YOUR_API_TOKEN>/getUpdates
+        #}
+        (builtins.fromJSON
+          (builtins.readFile <secrets/hass/telegram-bot.json>))
+      ];
+      notify = [
+        {
+          platform = "kodi";
+          name = "wohnzimmer";
+          host = kodi-host;
+        }
+        {
+          platform = "telegram";
+          name = "telegrambot";
+          chat_id = builtins.elemAt
+            (builtins.fromJSON (builtins.readFile
+              <secrets/hass/telegram-bot.json>)).allowed_chat_ids 0;
+            }
+          ];
       sun.elevation = 247;
       recorder = {};
       media_player = [
@@ -143,56 +88,32 @@ in {
         keepalive = 60;
         protocol = 3.1;
         birth_message = {
-          topic = "/ham/hass/tele/LWT";
+          topic = "${prefix}/hass/tele/LWT";
           payload = "Online";
           qos = 1;
           retain = true;
         };
         will_message = {
-          topic = "/ham/hass/tele/LWT";
+          topic = "${prefix}/hass/tele/LWT";
           payload = "Offline";
           qos = 1;
           retain = true;
         };
       };
       binary_sensor = [
-        (tasmota_motion "Flur Bewegung" "flurlicht")
-      ];
+        (tasmota.motion { name = "Flur Bewegung"; host = "flurlicht";})
+      ] ++ zigbee.binary_sensor;
       sensor = [
         # broken
         #{ platform = "speedtest";
         #  monitored_conditions = [ "ping" "download" "upload" ];
         #}
-        { platform = "luftdaten";
-          name = "Wangen";
-          sensorid = "663";
-          monitored_conditions = [ "P1" "P2" ];
-        }
         # https://www.home-assistant.io/cookbook/automation_for_rainy_days/
-        { platform = "darksky";
-          api_key = lib.removeSuffix "\n"
-            (builtins.readFile <secrets/hass/darksky.apikey>);
-          language = "de";
-          monitored_conditions = [ "summary" "icon"
-          "nearest_storm_distance" "precip_probability"
-          "precip_intensity"
-          "temperature"
-          "apparent_temperature"
-          "hourly_summary"
-          "humidity"
-          "pressure"
-          "uv_index" ];
-          units =  "si" ;
-          update_interval = {
-                days = 0;
-                hours = 0;
-                minutes = 30;
-                seconds = 0;
-          };
-        }
       ]
-      ++ (tasmota_bme "Schlafzimmer" "schlafzimmer")
-      ++ (tasmota_am2301 "Arbeitszimmer" "arbeitszimmer");
+      ++ ((import ./sensor/outside.nix) {inherit lib;})
+      ++ zigbee.sensor
+      ++ (tasmota.bme { name = "Schlafzimmer"; host =  "schlafzimmer";})
+      ++ (tasmota.am2301 { name= "Arbeitszimmer" ; host = "arbeitszimmer"; });
       frontend = { };
       group =
         { default_view =
@@ -218,8 +139,10 @@ in {
           draussen = [
             "sensor.dark_sky_temperature"
             "sensor.dark_sky_hourly_summary"
-            "sensor.wangen_pm10"
-            "sensor.wangen_pm25"
+            "sensor.dark_sky_humidity"
+            "sensor.dark_sky_pressure"
+            "sensor.muehlhausen_pm10"
+            "sensor.muehlhausen_pm25"
           ];
           schlafzimmer = [
             "sensor.schlafzimmer_temperatur"
@@ -235,10 +158,10 @@ in {
         };
       http = { };
       switch = [
-        (tasmota_plug "Lichterkette Schlafzimmer" "schlafzimmer")
-        (tasmota_plug "Strom Staubsauger" "arbeitszimmer")
-      ];
-      light = [ (tasmota_rgb "Flurlicht" "flurlicht" ) ];
+        (tasmota.plug { name = "Lichterkette Schlafzimmer"; host = "schlafzimmer";})
+        (tasmota.plug { name = "Strom Staubsauger"; host = "arbeitszimmer"; } )
+      ] ++ zigbee.switch;
+      light = [ (tasmota.rgb { name = "Flurlicht"; host = "flurlicht";} ) ];
       automation = [
         { alias = "Dunkel bei Sonnenuntergang";
           trigger = {
@@ -281,25 +204,22 @@ in {
             }
           ];
         }
-        { alias = "Staubsauger Strom aus nach 6h";
-          trigger = {
-            platform = "state";
-            entity_id = "switch.strom_staubsauger";
-            to = "on";
-            for.hours = 6;
-          };
-          action = {
-            service= "homeassistant.turn_off";
-            entity_id= "switch.strom_staubsauger";
-          };
-        }
-      ];
+        #{ alias = "Staubsauger Strom aus nach 6h";
+        #  trigger = {
+        #    platform = "state";
+        #    entity_id = "switch.strom_staubsauger";
+        #    to = "on";
+        #    for.hours = 6;
+        #  };
+        #  action = {
+        #    service= "homeassistant.turn_off";
+        #    entity_id= "switch.strom_staubsauger";
+        #  };
+        #}
+      ] ++ zigbee.automation;
     };
     enable = true;
     configDir = hassdir;
   };
-  nixpkgs.config.permittedInsecurePackages = [
-    "homeassistant-0.77.2"
-  ];
 
 }
