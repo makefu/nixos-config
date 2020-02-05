@@ -57,7 +57,7 @@ in {
       <stockholm/makefu/2configs/stats/telegraf>
       # <stockholm/makefu/2configs/stats/telegraf/europastats.nix>
       <stockholm/makefu/2configs/stats/telegraf/hamstats.nix>
-      <stockholm/makefu/2configs/stats/arafetch.nix>
+      # <stockholm/makefu/2configs/stats/arafetch.nix>
 
       # services
       {
@@ -71,14 +71,9 @@ in {
       <stockholm/makefu/2configs/virtualisation/docker.nix>
       <stockholm/makefu/2configs/bluetooth-mpd.nix>
 
-      {
-        # Risikoübernahme
-        nixpkgs.config.permittedInsecurePackages = [
-          "homeassistant-0.77.2"
-        ];
-      }
-      <stockholm/makefu/2configs/homeautomation>
-      <stockholm/makefu/2configs/homeautomation/google-muell.nix>
+      <stockholm/makefu/2configs/ham>
+      <stockholm/makefu/2configs/ham/google-muell.nix>
+      <stockholm/makefu/2configs/ham/zigbee2mqtt>
       {
         makefu.ps3netsrv = {
           enable = true;
@@ -120,7 +115,7 @@ in {
     gid = (import <stockholm/lib>).genid "share";
     members = [ "makefu" "misa" ];
   };
-  networking.firewall.trustedInterfaces = [ primaryInterface ];
+  networking.firewall.trustedInterfaces = [ primaryInterface "docker0" ];
 
 
 
@@ -141,18 +136,18 @@ in {
       sed-plugin
       random-emoji ];
   };
-  krebs.Reaktor.reaktor-bgt = {
-    nickname = "Reaktor|bgt";
-    workdir = "/var/lib/Reaktor/bgt";
-    channels = [ "#binaergewitter" ];
-    plugins = with pkgs.ReaktorPlugins;
-    [ titlebot
-      # stockholm-issue
-      nixos-version
-      shack-correct
-      sed-plugin
-      random-emoji ];
-  };
+  #krebs.Reaktor.reaktor-bgt = {
+  #  nickname = "Reaktor|bgt";
+  #  workdir = "/var/lib/Reaktor/bgt";
+  #  channels = [ "#binaergewitter" ];
+  #  plugins = with pkgs.ReaktorPlugins;
+  #  [ titlebot
+  #    # stockholm-issue
+  #    nixos-version
+  #    shack-correct
+  #    sed-plugin
+  #    random-emoji ];
+  #};
 
   krebs.build.host = config.krebs.hosts.omo;
 }
