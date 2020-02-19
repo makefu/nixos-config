@@ -1,14 +1,13 @@
 { config, lib, pkgs, ... }:
 
-with import <stockholm/lib>;
 let
   pkg = pkgs.stdenv.mkDerivation {
     name = "aralast-master";
     src = pkgs.fetchFromGitHub {
       owner = "makefu";
       repo = "aralast";
-      rev = "7121598";
-      sha256 = "0vw027c698h9b69ksid5p3pji9960hd7n9xi4arrax0vfkwryb4m";
+      rev = "a0d3aeaa109e219fb6fc57170e59020c23413718";
+      sha256 = "0bi0nc51z5wk72lnjhg1gfzr5yvvsshyzq924yjbbqpqw08v7i4p";
     };
     installPhase = ''
       install -m755 -D aralast.sh $out/bin/aralast

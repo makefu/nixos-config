@@ -2,7 +2,7 @@
 with import <stockholm/lib>;
 let
   pkg = with pkgs.python3Packages;buildPythonPackage rec {
-    rev = "cce2394";
+    rev = "56d41de8219adc";
     name = "arafetch-${rev}";
     propagatedBuildInputs = [
       requests
@@ -14,7 +14,7 @@ let
     src = pkgs.fetchgit {
       url = "http://cgit.euer.krebsco.de/arafetch";
       inherit rev;
-      sha256 = "sha256:0zdz8sqn9n8i69rqngcg7nakmvahf1i5dwajzjpylsh1x5csv2gs";
+      sha256 = "0hnwbmj0plynhv3h2idhrzf2zcqx3qnw6lq8zzyn9am74pmvza39";
     };
   };
   home = "/var/lib/arafetch";
