@@ -7,10 +7,12 @@ let
   hlib = (import ./lib);
   prefix = hlib.prefix;
   tasmota = hlib.tasmota;
-  firetv = "192.168.1.183";
-  kodi-host = firetv;
+  firetv_stick = "192.168.1.24";
   hassdir = "/var/lib/hass";
   zigbee = import ./multi/zigbee2mqtt.nix;
+  flurlicht = import ./multi/flurlicht.nix;
+  kurzzeitwecker = import ./multi/kurzzeitwecker.nix;
+  esphome = import ./multi/esphome.nix;
 #   switch
 #   automation
 #   binary_sensor
@@ -25,7 +27,7 @@ in {
   services.home-assistant = {
     config = {
       input_select = zigbee.input_select; # dict
-      timer = zigbee.timer; # dict
+      timer = zigbee.timer // kurzzeitwecker.timer; # dict
       homeassistant = {
         name = "Home"; time_zone = "Europe/Berlin";
         latitude = "48.7687";
@@ -57,7 +59,7 @@ in {
         {
           platform = "kodi";
           name = "wohnzimmer";
-          host = kodi-host;
+          host = firetv_stick;
         }
         {
           platform = "telegram";
@@ -71,12 +73,13 @@ in {
       recorder = {};
       media_player = [
         { platform = "kodi";
-          host = firetv;
+          host = firetv_stick;
         }
-        { platform = "firetv";
+        { platform = "androidtv";
           name = "FireTV Stick";
-          host = firetv;
-          adbkey = <secrets/hass/adbkey>;
+          device_class = "firetv";
+          # adb_server_ip = firetv_stick;
+          host = firetv_stick;
         }
       ];
       mqtt = {
@@ -100,21 +103,26 @@ in {
           retain = true;
         };
       };
-      binary_sensor = [
-        (tasmota.motion { name = "Flur Bewegung"; host = "flurlicht";})
-      ] ++ zigbee.binary_sensor;
+      luftdaten = {
+        show_on_map = true;
+        sensor_id = 679;
+        sensors.monitored_conditions = [ "P1" "P2" ];
+      };
+      binary_sensor =
+         zigbee.binary_sensor
+      ++ esphome.binary_sensor
+      ++ flurlicht.binary_sensor;
       sensor = [
-        # broken
-        #{ platform = "speedtest";
-        #  monitored_conditions = [ "ping" "download" "upload" ];
-        #}
+        { platform = "speedtest";
+          monitored_conditions = [ "ping" "download" "upload" ];
+        }
         # https://www.home-assistant.io/cookbook/automation_for_rainy_days/
       ]
       ++ ((import ./sensor/outside.nix) {inherit lib;})
-      ++ zigbee.sensor
-      ++ (tasmota.bme { name = "Schlafzimmer"; host =  "schlafzimmer";})
-      ++ (tasmota.am2301 { name= "Arbeitszimmer" ; host = "arbeitszimmer"; });
+      ++ esphome.sensor
+      ++ zigbee.sensor ;
       frontend = { };
+      light = flurlicht.light ++ esphome.light;
       group =
         { default_view =
           { view = "yes";
@@ -157,66 +165,14 @@ in {
           ];
         };
       http = { };
-      switch = [
-        (tasmota.plug { name = "Lichterkette Schlafzimmer"; host = "schlafzimmer";})
-        (tasmota.plug { name = "Strom Staubsauger"; host = "arbeitszimmer"; } )
-      ] ++ zigbee.switch;
-      light = [ (tasmota.rgb { name = "Flurlicht"; host = "flurlicht";} ) ];
-      automation = [
-        { alias = "Dunkel bei Sonnenuntergang";
-          trigger = {
-            platform = "sun";
-            event = "sunset";
-            # offset: "-00:45:00"
-          };
-          action = [
-            {
-              service= "light.turn_on";
-              data = {
-                entity_id= "light.flurlicht";
-                # rgb_color = [ 0,0,0 ]; <-- TODO default color
-                brightness_pct = 15;
-              };
-            }
-            {
-              service= "light.turn_off";
-              entity_id= "light.flurlicht";
-            }
-          ];
-        }
-        { alias = "Hell bei Sonnenaufgang";
-          trigger = {
-            platform = "sun";
-            event = "sunrise";
-            # offset: "-00:00:00"
-          };
-          action = [
-            {
-              service= "light.turn_on";
-              data = {
-                entity_id= "light.flurlicht";
-                brightness_pct = 85;
-              };
-            }
-            {
-              service= "light.turn_off";
-              entity_id= "light.flurlicht";
-            }
-          ];
-        }
-        #{ alias = "Staubsauger Strom aus nach 6h";
-        #  trigger = {
-        #    platform = "state";
-        #    entity_id = "switch.strom_staubsauger";
-        #    to = "on";
-        #    for.hours = 6;
-        #  };
-        #  action = {
-        #    service= "homeassistant.turn_off";
-        #    entity_id= "switch.strom_staubsauger";
-        #  };
-        #}
-      ] ++ zigbee.automation;
+      switch =
+         esphome.switch
+      ++ zigbee.switch;
+      automation =
+         flurlicht.automation
+      ++ kurzzeitwecker.automation
+      ++ zigbee.automation;
+      script = kurzzeitwecker.script; # dict
     };
     enable = true;
     configDir = hassdir;
