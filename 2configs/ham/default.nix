@@ -108,8 +108,7 @@ in {
         sensors.monitored_conditions = [ "P1" "P2" ];
       };
       binary_sensor =
-         zigbee.binary_sensor
-      ++ flurlicht.binary_sensor;
+         flurlicht.binary_sensor;
       sensor = [
         { platform = "speedtest";
           monitored_conditions = [ "ping" "download" "upload" ];
@@ -162,8 +161,7 @@ in {
           ];
         };
       http = { };
-      switch =
-         zigbee.switch;
+      switch = [];
       automation =
          flurlicht.automation
       ++ kurzzeitwecker.automation
