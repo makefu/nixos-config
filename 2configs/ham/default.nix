@@ -12,7 +12,6 @@ let
   zigbee = import ./multi/zigbee2mqtt.nix;
   flurlicht = import ./multi/flurlicht.nix;
   kurzzeitwecker = import ./multi/kurzzeitwecker.nix;
-  esphome = import ./multi/esphome.nix;
 #   switch
 #   automation
 #   binary_sensor
@@ -34,7 +33,7 @@ in {
         longitude = "9.2478";
         elevation = 247;
       };
-      #discovery = {};
+      discovery = {};
       conversation = {};
       history = {};
       logbook = {};
@@ -110,7 +109,6 @@ in {
       };
       binary_sensor =
          zigbee.binary_sensor
-      ++ esphome.binary_sensor
       ++ flurlicht.binary_sensor;
       sensor = [
         { platform = "speedtest";
@@ -119,10 +117,9 @@ in {
         # https://www.home-assistant.io/cookbook/automation_for_rainy_days/
       ]
       ++ ((import ./sensor/outside.nix) {inherit lib;})
-      ++ esphome.sensor
       ++ zigbee.sensor ;
       frontend = { };
-      light = flurlicht.light ++ esphome.light;
+      light = flurlicht.light;
       group =
         { default_view =
           { view = "yes";
@@ -166,8 +163,7 @@ in {
         };
       http = { };
       switch =
-         esphome.switch
-      ++ zigbee.switch;
+         zigbee.switch;
       automation =
          flurlicht.automation
       ++ kurzzeitwecker.automation
