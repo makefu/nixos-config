@@ -4,13 +4,14 @@
 ## wake-on-lan server
 ##
 let
+  upkgs = (import <nixpkgs-unstable> {}).pkgs;
   hlib = (import ./lib);
   prefix = hlib.prefix;
   tasmota = hlib.tasmota;
   firetv_stick = "192.168.1.24";
   hassdir = "/var/lib/hass";
   zigbee = import ./multi/zigbee2mqtt.nix;
-  flurlicht = import ./multi/flurlicht.nix;
+  #flurlicht = import ./multi/flurlicht.nix;
   kurzzeitwecker = import ./multi/kurzzeitwecker.nix;
 #   switch
 #   automation
@@ -24,6 +25,13 @@ in {
   ];
 
   services.home-assistant = {
+    package = (upkgs.home-assistant.overrideAttrs (old: {
+    })).override {
+      extraPackages = ps: with ps; [
+        python-forecastio jsonrpc-async jsonrpc-websocket mpd2 pkgs.picotts
+        (ps.callPackage ./androidtv {})
+      ];
+    };
     config = {
       input_select = zigbee.input_select; # dict
       timer = zigbee.timer // kurzzeitwecker.timer; # dict
@@ -71,7 +79,7 @@ in {
       sun.elevation = 247;
       recorder = {};
       media_player = [
-        { platform = "kodi";
+        { platform = "FireTV Stick kodi";
           host = firetv_stick;
         }
         { platform = "androidtv";
@@ -79,10 +87,13 @@ in {
           device_class = "firetv";
           # adb_server_ip = firetv_stick;
           host = firetv_stick;
+          port = 5555;
         }
       ];
       mqtt = {
         broker = "localhost";
+        discovery = true; #enable esphome discovery
+        discovery_prefix = "homeassistant";
         port = 1883;
         client_id = "home-assistant";
         username = "hass";
@@ -107,8 +118,8 @@ in {
         sensor_id = 679;
         sensors.monitored_conditions = [ "P1" "P2" ];
       };
-      binary_sensor =
-         flurlicht.binary_sensor;
+      #binary_sensor =
+      #   flurlicht.binary_sensor;
       sensor = [
         { platform = "speedtest";
           monitored_conditions = [ "ping" "download" "upload" ];
@@ -118,53 +129,13 @@ in {
       ++ ((import ./sensor/outside.nix) {inherit lib;})
       ++ zigbee.sensor ;
       frontend = { };
-      light = flurlicht.light;
-      group =
-        { default_view =
-          { view = "yes";
-            entities = [
-              "group.flur"
-              "group.schlafzimmer"
-              "group.draussen"
-              "group.wohnzimmer"
-              "group.arbeitszimmer"
-            ];
-          };
-          flur = [
-            "light.flurlicht"
-            "binary_sensor.flur_bewegung"
-            "automation.dunkel_bei_sonnenuntergang"
-            "automation.hell_bei_sonnenaufgang"
-          ];
-          wohnzimmer = [
-            "media_player.kodi"
-            "media_player.firetv_stick"
-          ];
-          draussen = [
-            "sensor.dark_sky_temperature"
-            "sensor.dark_sky_hourly_summary"
-            "sensor.dark_sky_humidity"
-            "sensor.dark_sky_pressure"
-            "sensor.muehlhausen_pm10"
-            "sensor.muehlhausen_pm25"
-          ];
-          schlafzimmer = [
-            "sensor.schlafzimmer_temperatur"
-            "sensor.schlafzimmer_luftdruck"
-            "sensor.schlafzimmer_luftfeuchtigkeit"
-            "switch.lichterkette_schlafzimmer"
-          ];
-          arbeitszimmer = [
-            "switch.strom_staubsauger"
-            "sensor.arbeitszimmer_temperatur"
-            "sensor.arbeitszimmer_luftfeuchtigkeit"
-          ];
-        };
+      # light = flurlicht.light;
       http = { };
       switch = [];
       automation =
-         flurlicht.automation
-      ++ kurzzeitwecker.automation
+        (import ./automation/firetv_restart.nix)
+         kurzzeitwecker.automation
+      #++ flurlicht.automation
       ++ zigbee.automation;
       script = kurzzeitwecker.script; # dict
     };
