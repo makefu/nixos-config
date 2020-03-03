@@ -40,4 +40,5 @@ in
       entity = "firetv";
     };
   };
+  zigbee.prefix = "/ham/zigbee";
 }

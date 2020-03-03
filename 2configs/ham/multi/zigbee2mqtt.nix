@@ -8,43 +8,10 @@
 let
   inherit (import ../lib) zigbee;
   prefix = zigbee.prefix;
-  xiaomi_btn = name: [
-    (zigbee.battery name)
-    (zigbee.linkquality name)
-    (zigbee.click name)
-  ];
-  xiaomi_temp = name: [
-    (zigbee.battery name)
-    (zigbee.linkquality name)
-    (zigbee.temperature name)
-    (zigbee.humidity name)
-    (zigbee.pressure name)
-  ];
-  xiaomi_contact = name: [
-    (zigbee.battery name)
-    (zigbee.linkquality name)
-    (zigbee.contact name)
-  ];
-  router_link = name: [
-    (zigbee.linkquality name)
-  ];
-  router_bin = name: [
-    (zigbee.state name)
-  ];
 in {
   sensor =
-     (xiaomi_btn "btn1")
-  ++ (xiaomi_btn "btn2")
-  ++ (xiaomi_btn "btn3")
 
-  ++ (xiaomi_temp "temp1")
-  ++ (xiaomi_temp "temp2")
-  ++ (xiaomi_temp "temp3")
-
-  ++ (router_link "router1")
-  ++ (router_link "router2")
-
-  ++ [
+     [
     # Sensor for monitoring the bridge state
     {
       platform = "mqtt";
@@ -69,9 +36,6 @@ in {
       icon = "mdi:chip";
     }
   ];
-  binary_sensor =
-     (router_bin "router1")
-  ++ (router_bin "router2");
   switch = [
   {
     platform = "mqtt";

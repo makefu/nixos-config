@@ -17,10 +17,4 @@
     units =  "si" ;
     scan_interval = "00:30:00";
   }
-  { platform = "luftdaten";
-    name = "Muehlhausen";
-    show_on_map = true;
-    sensor_id = "679";
-    sensors.monitored_conditions = [ "P1" "P2" ];
-  }
   ]
