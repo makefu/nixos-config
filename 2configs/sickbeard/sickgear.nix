@@ -7,13 +7,13 @@ let
 in stdenv.mkDerivation rec {
   pname = "sickgear";
   #version = "0.21.6";
-  version = "0.21.7";
+  version = "0.21.21";
 
   src = fetchFromGitHub {
     owner = "SickGear";
     repo = "SickGear";
-    rev = "hotfix/${version}";
-    sha256 = "0kj8l6xq7vycr6d15lxybnk02b39z0zk4jzy0b2lbapgk0kx3ims";
+    rev = "release_${version}";
+    sha256 = "15nlxg2867l846qqxklmfyqmn5nc01ksd4lpwbrbjdzpk4y3xi78";
   };
 
   dontBuild = true;
