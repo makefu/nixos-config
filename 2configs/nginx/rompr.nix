@@ -15,7 +15,6 @@ let
 
 in {
   services.phpfpm = {
-    # phpfpm does not have an enable option
     poolConfigs  = {
       mpd = ''
         user =  ${user}

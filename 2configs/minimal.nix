@@ -74,11 +74,7 @@
   };
 
   # suppress chrome autit event messages
-  security.audit = {
-    rules = [
-      "-a task,never"
-    ];
-  };
+  security.audit.rules = [ "-a task,never" ];
 
   # Enable IPv6 Privacy Extensions
   boot.kernel.sysctl = {

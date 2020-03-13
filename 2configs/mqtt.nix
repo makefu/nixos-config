@@ -6,7 +6,7 @@
     users = {};
     # TODO: secure that shit
     aclExtraConf = ''
-      pattern readwrite /#
+      pattern readwrite #
     '';
     allowAnonymous = true;
   };

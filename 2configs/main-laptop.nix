@@ -68,11 +68,10 @@ in {
   };
   security.sudo.extraConfig = "${config.krebs.power-action.user} ALL= (root) NOPASSWD: ${pkgs.systemd}/bin/systemctl suspend";
 
-  services.redshift = {
-    enable = true;
-    latitude = "48.7";
-    longitude = "9.1";
-  };
+  services.redshift.enable = true;
+  location.latitude = 48.7;
+  location.longitude = 9.1;
+
   systemd.services.look-up = {
     startAt = "*:30";
     serviceConfig = {

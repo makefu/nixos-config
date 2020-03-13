@@ -1,0 +1,91 @@
+diff --git a/SickBeard.py b/SickBeard.py
+index 31cfd1e1..10a4ef5e 100755
+--- a/SickBeard.py
++++ b/SickBeard.py
+@@ -1,4 +1,4 @@
+-#!/usr/bin/env python2
++#!/usr/bin/env python3
+ #
+ # This file is part of SickGear.
+ #
+diff --git a/sickbeard/providers/generic.py b/sickbeard/providers/generic.py
+index 5c1f7bfe..8999b468 100644
+--- a/sickbeard/providers/generic.py
++++ b/sickbeard/providers/generic.py
+@@ -1203,6 +1203,7 @@ class GenericProvider(object):
+             ep_num = None
+             if 1 == len(ep_obj_results):
+                 ep_num = ep_obj_results[0].episode
++                logger.log(f'{ep_obj_results[0]}',logger.DEBUG)
+                 logger.log(u'Single episode result.', logger.DEBUG)
+             elif 1 < len(ep_obj_results):
+                 ep_num = MULTI_EP_RESULT
+diff --git a/sickbeard/providers/horriblesubs.py b/sickbeard/providers/horriblesubs.py
+index 870e8461..dbdeacc8 100644
+--- a/sickbeard/providers/horriblesubs.py
++++ b/sickbeard/providers/horriblesubs.py
+@@ -98,6 +98,7 @@ class HorribleSubsProvider(generic.TorrentProvider):
+ 
+             results = self._sort_seeding(mode, results + items[mode])
+ 
++        logger.log(f"{results}",logger.DEBUG)
+         return results
+ 
+     def _season_strings(self, *args, **kwargs):
+@@ -131,6 +132,7 @@ class HorribleSubsProvider(generic.TorrentProvider):
+                                          .find_all('a', href=re.compile('(?i)(torrent$|^magnet:)'))))[0]
+             except (BaseException, Exception):
+                 pass
++        logger.log(f"{result}",logger.DEBUG)
+         return result
+ 
+ 
+diff --git a/sickbeard/search.py b/sickbeard/search.py
+index f4957c3a..dd3a352d 100644
+--- a/sickbeard/search.py
++++ b/sickbeard/search.py
+@@ -986,22 +986,26 @@ def search_providers(
+ 
+             best_result = pick_best_result(found_results[provider_id][cur_search_result], show_obj, quality_list,
+                                            filter_rls=orig_thread_name)
+-
++            logger.log(f"Best result: {best_result}",logger.DEBUG)
+             # if all results were rejected move on to the next episode
+             if not best_result:
+                 continue
+-
++            
+             # filter out possible bad torrents from providers
+             if 'torrent' == best_result.resultType:
++                logger.log(f"Best result is torrent {best_result.url}",logger.DEBUG)
+                 if not best_result.url.startswith('magnet') and None is not best_result.get_data_func:
+                     best_result.url = best_result.get_data_func(best_result.url)
+                     best_result.get_data_func = None  # consume only once
+                     if not best_result.url:
+                         continue
+                 if best_result.url.startswith('magnet'):
++                    logger.log("url is magnet link",logger.DEBUG)
+                     if 'blackhole' != sickbeard.TORRENT_METHOD:
++                        logger.log(f"Setting content to None because TORRENT_METHODD is not blackhole ({sickbeard.TORRENT_METHOD} instead)",logger.DEBUG)
+                         best_result.content = None
+                 else:
++                    logger.log("url is torrent link",logger.DEBUG)
+                     cache_file = ek.ek(os.path.join, sickbeard.CACHE_DIR or helpers.get_system_temp_dir(),
+                                        '%s.torrent' % (helpers.sanitize_filename(best_result.name)))
+                     if not helpers.download_file(best_result.url, cache_file, session=best_result.provider.session):
+@@ -1044,6 +1048,7 @@ def search_providers(
+                     best_result.after_get_data_func(best_result)
+                     best_result.after_get_data_func = None  # consume only once
+ 
++            logger.log(f"After torrent detection",logger.DEBUG)
+             # add result if its not a duplicate
+             found = False
+             for i, result in enumerate(final_results):
+@@ -1054,6 +1059,7 @@ def search_providers(
+                         else:
+                             found = True
+             if not found:
++                logger.log(f"Not already found, adding to best_result to final_results",logger.DEBUG)
+                 final_results += [best_result]
+ 
+         # check that we got all the episodes we wanted first before doing a match and snatch
