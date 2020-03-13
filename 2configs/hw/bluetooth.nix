@@ -40,10 +40,4 @@
     '';
   };
   services.dbus.packages = [ pkgs.blueman ];
-  nixpkgs.overlays = [
-  (self: super: {
-    blueman = super.blueman.overrideAttrs (oldAttrs: {
-      buildInputs = oldAttrs.buildInputs ++ [ self.gnome3.adwaita-icon-theme ];
-    });
-  })];
 }
