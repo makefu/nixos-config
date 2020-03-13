@@ -21,11 +21,12 @@ in {
           ];
         };
       }
+      <stockholm/makefu/2configs/nur.nix>
       <stockholm/makefu/2configs/support-nixos.nix>
       <stockholm/makefu/2configs/home-manager>
       <stockholm/makefu/2configs/home-manager/cli.nix>
       # <stockholm/makefu/2configs/stats/client.nix>
-      <stockholm/makefu/2configs/stats/netdata-server.nix>
+      # <stockholm/makefu/2configs/stats/netdata-server.nix>
 
       <stockholm/makefu/2configs/headless.nix>
       <stockholm/makefu/2configs/smart-monitor.nix>
@@ -89,8 +90,8 @@ in {
 
       # services
       # <stockholm/makefu/2configs/sabnzbd.nix>
-      <stockholm/makefu/2configs/mail/mail.euer.nix>
-      { krebs.exim.enable = mkForce false; }
+      # <stockholm/makefu/2configs/mail/mail.euer.nix>
+      { krebs.exim.enable = mkDefault true; }
 
       # sharing
       <stockholm/makefu/2configs/share/gum.nix>
@@ -119,7 +120,7 @@ in {
       <stockholm/makefu/2configs/urlwatch>
       # Removed until move: avoid letsencrypt ban
       ### Web
-      #<stockholm/makefu/2configs/nginx/share-download.nix>
+      <stockholm/makefu/2configs/nginx/dl.euer.krebsco.de.nix>
       #<stockholm/makefu/2configs/nginx/euer.test.nix>
       <stockholm/makefu/2configs/nginx/euer.mon.nix>
       <stockholm/makefu/2configs/nginx/euer.wiki.nix>
@@ -131,10 +132,14 @@ in {
       # <stockholm/makefu/2configs/nginx/gold.krebsco.de.nix>
       # <stockholm/makefu/2configs/nginx/iso.euer.nix>
 
-      <stockholm/makefu/2configs/deployment/photostore.krebsco.de.nix>
+      # <stockholm/makefu/2configs/deployment/photostore.krebsco.de.nix>
       <stockholm/makefu/2configs/deployment/graphs.nix>
       <stockholm/makefu/2configs/deployment/owncloud.nix>
+      <stockholm/makefu/2configs/deployment/board.euer.krebsco.de.nix>
+      <stockholm/makefu/2configs/deployment/rss.euer.krebsco.de.nix>
       <stockholm/makefu/2configs/deployment/boot-euer.nix>
+      <stockholm/makefu/2configs/deployment/gecloudpad>
+      <stockholm/makefu/2configs/deployment/docker/archiveteam-warrior.nix>
       <stockholm/makefu/2configs/shiori.nix>
 
       <stockholm/makefu/2configs/bgt/download.binaergewitter.de.nix>
