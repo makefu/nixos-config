@@ -13,6 +13,7 @@ let
   zigbee = import ./multi/zigbee2mqtt.nix;
   #flurlicht = import ./multi/flurlicht.nix;
   kurzzeitwecker = import ./multi/kurzzeitwecker.nix;
+  firetv_restart = import ./multi/firetv_restart.nix;
 #   switch
 #   automation
 #   binary_sensor
@@ -45,6 +46,9 @@ in {
       conversation = {};
       history = {};
       logbook = {};
+      logger = {
+        default = "info";
+      };
       tts = [
         { platform = "google_translate";
           language = "de";
@@ -132,12 +136,14 @@ in {
       # light = flurlicht.light;
       http = { };
       switch = [];
-      automation =
-        (import ./automation/firetv_restart.nix)
-         kurzzeitwecker.automation
-      #++ flurlicht.automation
-      ++ zigbee.automation;
-      script = kurzzeitwecker.script; # dict
+      automation = []
+        ++ (import ./automation/firetv_restart.nix)
+        ++ kurzzeitwecker.automation
+        #++ flurlicht.automation
+        ++ zigbee.automation;
+        script =
+        { }
+        // kurzzeitwecker.script; # dict
     };
     enable = true;
     configDir = hassdir;
