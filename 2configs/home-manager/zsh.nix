@@ -2,65 +2,8 @@
 {
   imports = [
     { #direnv
-      home-manager.users.makefu.home.packages = [ pkgs.direnv ];
-      home-manager.users.makefu.home.file.".direnvrc".text = ''
-      use_nix() {
-        local path="$(nix-instantiate --find-file nixpkgs)"
-
-        if [ -f "$${path}/.version-suffix" ]; then
-          local version="$(< $path/.version-suffix)"
-        elif [ -f "$path/.version" ]; then
-          local version="$(< $path/.version)"
-        else
-          local version="$(< $(< $path/.git/HEAD))"
-        fi
-
-        local cache=".direnv/cache-''${version:-unknown}"
-
-        if [[ ! -e "$cache" ]] || \
-          [[ "$HOME/.direnvrc" -nt "$cache" ]] || \
-          [[ .envrc -nt "$cache" ]] || \
-          [[ default.nix -nt "$cache" ]] || \
-          [[ shell.nix -nt "$cache" ]];
-        then
-          [ -d .direnv ] || mkdir .direnv
-          local tmp=$(nix-shell --show-trace "$@" \
-            --run "\"$direnv\" dump zsh")
-          echo "$tmp" > "$cache"
-        fi
-
-        local path_backup=$PATH term_backup=$TERM
-        . "$cache"
-
-        export PATH=$PATH:$path_backup TERM=$term_backup
-
-        if [[ $# = 0 ]]; then
-          watch_file default.nix
-          watch_file shell.nix
-        fi
-      }
-      '';
-      home-manager.users.makefu.programs.zsh.initExtra = ''
-      nixify() {
-        if [ ! -e ./.envrc ]; then
-          echo "use nix" > .envrc
-          direnv allow
-        fi
-        if [ ! -e default.nix ]; then
-          cat > default.nix <<'EOF'
-      with import <nixpkgs> {};
-      stdenv.mkDerivation {
-        name = "env";
-        buildInputs = [
-          bashInteractive
-        ];
-      }
-      EOF
-          ''${EDITOR:-vim} default.nix
-        fi
-      }
-      eval "$(direnv hook zsh)"
-      '';
+      home-manager.users.makefu.home.packages = [ pkgs.direnv pkgs.nur.repos.kalbasit.nixify ];
+      # home-manager.users.makefu.home.file.".direnvrc".text = '''';
     }
     { # bat
     home-manager.users.makefu.home.packages = [ pkgs.bat ];
