@@ -85,7 +85,6 @@ in {
         makefu.mpd.musicDirectory = "/media/cryptX/music";
       }
 
-
       # security
       <stockholm/makefu/2configs/sshd-totp.nix>
       # <stockholm/makefu/2configs/logging/central-logging-client.nix>

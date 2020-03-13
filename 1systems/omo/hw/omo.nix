@@ -26,9 +26,10 @@ let
   # |_______|
   # cryptDisk0 = byid "ata-ST2000DM001-1CH164_Z240XTT6";
   cryptDisk0 = byid "ata-ST8000DM004-2CX188_ZCT01PLV";
-  cryptDisk1 = byid "ata-TP02000GB_TPW151006050068";
-  cryptDisk2 = byid "ata-ST4000DM000-1F2168_Z303HVSG";
+  cryptDisk1 = byid "ata-WDC_WD80EZAZ-11TDBA0_7SJPVLYW";
   cryptDisk3 = byid "ata-ST8000DM004-2CX188_ZCT01SG4";
+  cryptDisk2 = byid "ata-WDC_WD80EZAZ-11TDBA0_7SJPWT5W";
+
   # cryptDisk3 = byid "ata-WDC_WD20EARS-00MVWB0_WD-WMAZA1786907";
   # all physical disks
 
@@ -48,8 +49,8 @@ in {
 
   makefu.snapraid = {
     enable = true;
-    disks = map toMapper [ 0 2 3 ];
-    parity = toMapper 1;
+    disks = map toMapper [ 0 1 3 ];
+    parity = toMapper 2; # find -name PARITY_PARTITION
   };
   fileSystems = let
     cryptMount = name:
@@ -102,6 +103,8 @@ in {
       "firewire_ohci"
       "usb_storage"
       "usbhid"
+      "raid456"
+      "megaraid_sas"
     ];
 
     kernelModules = [ "kvm-intel" ];
