@@ -1,5 +1,6 @@
 { lib }:
 # needs: binary_sensor.pommes
+#        notify.matrix_notify
 let
    random_pommes = '' {{ [
      "Nur ein Pommes Tag ist ein guter Tag",
@@ -51,7 +52,7 @@ in {
     { alias = "Pommeszeit";
       trigger = {
         platform = "time";
-        at = "12:15:00";
+        at = "11:00:00";
       };
       condition = {
         condition = "state";
@@ -88,6 +89,9 @@ in {
             message = random_pommes;
             language = "de";
           };
+        }
+        { service = "notify.matrix_notify";
+          data_template.message = random_pommes;
         }
       ];
     };

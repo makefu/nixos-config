@@ -50,16 +50,23 @@
       "device_tracker.emeka_phone"
     ];
   }
-  #{ name = "Sabine";
-  #  id = 9;
-  #  device_trackers = [
-  #    "device_tracker.sabine_phone"
-  #  ];
-  #}
+  { name = "Sabine";
+    id = 9;
+    device_trackers = [
+      "device_tracker.sabine_phone"
+    ];
+  }
   { name = "Tobias";
     id = 10;
     device_trackers = [
       "device_tracker.tobias_phone"
+    ];
+  }
+  { name = "Tancrede";
+    id = 11;
+    device_trackers = [
+      "device_tracker.tancrede_phone"
+      "device_tracker.tancrede_laptop"
     ];
   }
 ]

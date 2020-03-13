@@ -66,9 +66,6 @@ in [
           language = "de";
         };
       }
-      { service = "notify.matrix_notify";
-        data_template.message = "Schlechte Luft Alarm seit ${toString long_threshold} Minuten ({{states.sensor.air_quality.state_with_unit}})!";
-      }
     ];
   }
 ]

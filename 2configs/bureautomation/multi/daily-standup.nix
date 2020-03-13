@@ -3,9 +3,9 @@ let
   random_daily_text = ''{{ [
     "Es ist so weit, es ist Standup Zeit!",
     "Zehn Uhr Fünfunddreissig ist genau die richtige Zeit für ein Standup!",
-    "Hat jeder seine Hausaufgaben gemacht? Bitte einmal aufstehen und den Zettel nach rechts geben",
+    "Hat jeder seine zum Standup seine Hausaufgaben gemacht. Bitte einmal aufstehen und den Zettel nach rechts geben",
     "Aufstehen zum Appell, es wird die Anwesenheit kontrolliert!",
-    "Hallo Kinder, wisst ihr welche Zeit es ist??? ... Genau! ... Standup Zeit!",
+    "Hallo Kinder, wisst ihr welche Zeit es ist ... Genau ... Standup Zeit!",
     "Morgens, halb elf in Deutschland - das Standupchen" ] | random }}'';
 
 in {

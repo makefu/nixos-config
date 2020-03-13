@@ -2,6 +2,8 @@
 let
   persons = [ "frank"  "daniel" "thorsten" "carsten" "ecki" "felix"
   "thierry" # tjeri
+  "emeka"
+  "tancrede"
   ];
   random_zu_lange = name: ''{{ [
     "Du musst jetzt endlich nach Hause gehen ${name}!",
@@ -20,6 +22,7 @@ let
   random_announce = name: ''{{ [
     "${name} is in da House",
     "Ahoi ${name}",
+    "Hallöchen Popöchen ${name}",
     "Moinsen ${name}",
     "Moin Moin ${name}",
     "Palim, Palim ${name}",
@@ -55,7 +58,7 @@ let
     "Und es startet für ${name} wieder ein Tag im Paradies",
     "Lieber ${name}, Markus Keck hat dich bereits drei mal Versucht anzurufen!",
     "Trotz schwerer Männergrippe ist ${name} heute im Büro erschienen.",
-    "${name} kenne keine Parteien mehr, ${name} kenne nur noch Arbeitsplätze",
+    "${name} kennt keine Parteien mehr, ${name} kennt nur noch Arbeitsplätze",
     "${name}, Frage nicht, was dein Arbeitsplatz für dich tun kann. Frage, was du für deinen Arbeitsplatz tun kannst",
     "${name} läuft bis in den Jemen - für sein Unternehmen. ${name} schwimmt bis nach Birma - für seine Firma",
     "Der Cyberian ${name} ist gekommen um die Bahnwelt vor Cyber-Angriffen zu schützen",
@@ -121,7 +124,6 @@ let
     { alias = "start ${name} 10h";
       trigger = {
         platform = "state";
-        # TODO: ecki
         entity_id = [ "person.${name}"];
         from =  "not_home";
         to = "home";
@@ -129,13 +131,11 @@ let
       condition = {
         condition = "and";
         conditions = [
-          {
-            condition = "state";
+          { condition = "state";
             entity_id = "timer.${name}_10h";
             state =  "idle";
           }
-          {
-            condition = "time";
+          { condition = "time";
             after   = "06:00:00";
             before  = "12:00:00";
           }
@@ -146,8 +146,8 @@ let
           entity_id =  [ "timer.${name}_10h" ] ;
         }
         { service = "homeassistant.turn_on";
-        entity_id =  [
-            # "switch.fernseher"
+          entity_id =
+          [ "switch.fernseher"
             "script.blitz_10s"
             "script.announce_${name}"
           ];
@@ -155,30 +155,45 @@ let
       ];
     }
 
+    { alias = "pommes announce ${name}";
+      trigger =
+      { platform = "event";
+        event_type = "timer.started";
+        event_data.entity_id = "timer.${name}_10h";
+      };
+
+      condition =
+      { condition = "state";
+        entity_id = "binary_sensor.pommes";
+        state =  "on";
+      };
+
+      action =
+      { service = "homeassistant.turn_on";
+        entity_id = "script.blasen_10s" ;
+      };
+    }
+
     { alias = "Zu lange ${name}!";
       trigger =
-      {
-        platform = "event";
+      { platform = "event";
         event_type = "timer.finished";
         event_data.entity_id = "timer.${name}_10h";
       };
 
       condition =
-      {
-        condition = "state";
+      { condition = "state";
         entity_id = "person.${name}";
         state = "home";
       };
 
       action =
-      [
-        { service = "homeassistant.turn_on";
-          entity_id =  [
-            "script.blitz_10s"
-            "script.zu_lange_${name}"
-          ];
-        }
-      ];
+      { service = "homeassistant.turn_on";
+        entity_id =  [
+          "script.blitz_10s"
+          "script.zu_lange_${name}"
+        ];
+      };
     }
   ];
 in
@@ -187,7 +202,7 @@ in
     (map tmr_10h persons);
   automation = (lib.flatten (map automation_10h persons));
   script =  lib.fold lib.recursiveUpdate {} (
-    (map (p: announce_user p) persons) ++
-    (map (p: zu_lange_user p) persons)
+    (map announce_user persons) ++
+    (map zu_lange_user persons)
   );
 }

@@ -11,6 +11,7 @@ in {
   imports = [
     ./ota.nix
     ./comic-updater.nix
+    ./puppy-proxy.nix
   ];
   networking.firewall.allowedTCPPorts = [ 8123 ];
   state = [ "/var/lib/hass/known_devices.yaml" ];
@@ -33,13 +34,14 @@ in {
       '';
     })).override {
       extraPackages = ps: with ps; [
-        pkgs.pico2wave
+        pkgs.picotts
         python-forecastio jsonrpc-async jsonrpc-websocket mpd2
         (callPackage ./deps/openwrt-luci-rpc.nix { })
       ];
     };
     autoExtraComponents = true;
     config = {
+      discovery = {};
       homeassistant = {
         name = "Bureautomation";
         time_zone = "Europe/Berlin";
@@ -72,6 +74,8 @@ in {
       };
       matrix = matrix.matrix;
       mqtt = {
+        discovery = true;
+        discovery_prefix = "homeassistant";
         broker = "localhost";
         port = 1883;
         client_id = "home-assistant";
@@ -124,7 +128,7 @@ in {
         frosch.script
         ten_hours.script
         mittagessen.script
-        standup.script
+        # standup.script
       ];
       binary_sensor =
         (import ./binary_sensor/buttons.nix)
@@ -145,7 +149,8 @@ in {
 
       camera =
          (import ./camera/verkehrskamera.nix)
-         ++ (import ./camera/comic.nix);
+         ++ (import ./camera/comic.nix)
+         ++ (import ./camera/stuttgart.nix);
 
       person =
         (import ./person/team.nix );
@@ -198,9 +203,10 @@ in {
           "switch.blitzdings"
           "switch.fernseher"
           "switch.feuer"
+          "switch.frosch_blasen"
           "light.status_felix"
-          "light.status_daniel"
-          "light.buslicht"
+          # "light.status_daniel"
+          # "light.buslicht"
         ];
         team = [
           "person.thorsten"
@@ -212,6 +218,7 @@ in {
           "person.thierry"
           "person.frank"
           "person.emeka"
+          "person.tancrede"
           #"device_tracker.felix_phone"
           #"device_tracker.ecki_tablet"
           #"device_tracker.daniel_phone"
@@ -228,6 +235,7 @@ in {
           "camera.Baumarkt"
           "camera.Autobahn_Heilbronn"
           "camera.Autobahn_Singen"
+          "camera.puppies"
           "camera.poorly_drawn_lines"
         ];
         nachtlicht = [
@@ -264,7 +272,6 @@ in {
         outside = [
           # "sensor.ditzingen_pm10"
           # "sensor.ditzingen_pm25"
-          "sensor.dark_sky_icon"
           "sensor.dark_sky_temperature"
           "sensor.dark_sky_humidity"
           "sensor.dark_sky_uv_index"
@@ -282,7 +289,7 @@ in {
                   ++ (import ./automation/hass-restart.nix)
                   ++ ten_hours.automation
                   ++ matrix.automation
-                  ++ standup.automation
+                  # ++ standup.automation
                   ++ frosch.automation
                   ++ mittagessen.automation;
       device_tracker = (import ./device_tracker/openwrt.nix );

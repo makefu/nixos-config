@@ -36,6 +36,18 @@ in {
     count = 1;
     alias = "blitz for 10 seconds";
   });
+  blasen_10s = (flash_entity {
+    entity = "switch.frosch_blasen";
+    delay = 10000;
+    count = 1;
+    alias = "blasen for 10 seconds";
+  });
+  blasen_30s = (flash_entity {
+    entity = "switch.frosch_blasen";
+    delay = 30000;
+    count = 1;
+    alias = "blasen for 30 seconds";
+  });
   schlechteluft = (flash_entity {
     entity = "switch.bauarbeiterlampe";
     alias = "Schlechte Luft Lampe 5 secs";
