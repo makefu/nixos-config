@@ -1,6 +1,5 @@
-{ python3Packages, fetchFromGitHub }:
+{ docopt, requests, beautifulsoup4, fetchFromGitHub, buildPythonPackage }:
 
-with python3Packages;
 buildPythonPackage rec {
   name = "hydra-check";
   version = "1.0.0";
@@ -16,6 +15,5 @@ buildPythonPackage rec {
     requests
     beautifulsoup4
   ];
-
-  checkInputs = [ black jq ];
+  doCheck = false; # no tests
 }
