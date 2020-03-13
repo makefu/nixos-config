@@ -58,7 +58,7 @@
 
       # Krebs
       <stockholm/makefu/2configs/tinc/retiolum.nix>
-      <stockholm/makefu/2configs/share/gum-client.nix>
+      # <stockholm/makefu/2configs/share/gum-client.nix>
       # <stockholm/makefu/2configs/share/temp-share-samba.nix>
 
 
@@ -103,6 +103,7 @@
       # <stockholm/makefu/2configs/hw/malduino_elite.nix>
       <stockholm/makefu/2configs/hw/switch.nix>
       # <stockholm/makefu/2configs/hw/rad1o.nix>
+      <stockholm/makefu/2configs/hw/cc2531.nix>
       <stockholm/makefu/2configs/hw/smartcard.nix>
       <stockholm/makefu/2configs/hw/upower.nix>
 
@@ -142,7 +143,6 @@
           ];
         };
       }
-
     ];
 
   makefu.server.primary-itf = "wlp3s0";
