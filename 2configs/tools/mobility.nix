@@ -11,5 +11,6 @@
     opensc pcsctools libu2f-host
   ];
 
-  # boot.extraModulePackages = [ config.boot.kernelPackages.exfat-nofuse ];
+  boot.extraModulePackages = [ config.boot.kernelPackages.exfat-nofuse ];
+  boot.supportedFilesystems = [ "exfat" ];
 }

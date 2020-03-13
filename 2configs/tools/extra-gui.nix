@@ -4,6 +4,7 @@
   users.users.makefu.packages = with pkgs;[
     # media
     gimp
+    mirage
     inkscape
     libreoffice
     # skype
