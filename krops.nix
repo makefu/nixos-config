@@ -46,6 +46,12 @@
         };
       };
     }
+    (lib.mkIf (host-src.unstable) {
+      nixpkgs-unstable.git = {
+          url = "https://github.com/nixos/nixpkgs-channels";
+          ref = (lib.importJSON ../krebs/nixpkgs-unstable.json).rev;
+        };
+    })
     (lib.mkIf (host-src.torrent) {
       torrent-secrets = if test then {
         file =  toString ./0tests/data/secrets;
@@ -71,7 +77,7 @@
     (lib.mkIf ( host-src.home-manager ) {
       home-manager.git = {
         url = https://github.com/rycee/home-manager;
-        ref = "f856c78a4a220f44b64ce5045f228cbb9d4d9f31";
+        ref = "9781f37";
       };
     })
   ];
