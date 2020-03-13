@@ -176,7 +176,8 @@ in {
   services.nginx.virtualHosts."cgit.euer.krebsco.de" = {
     forceSSL = true;
     enableACME = true;
-    locations."/".proxyPass = "http://cgit.gum.r";
+    locations."/".proxyPass = "http://localhost/";
+    locations."/".extraConfig = ''proxy_set_header Host cgit;'';
   };
 
   krebs.build.host = config.krebs.hosts.gum;
