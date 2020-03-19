@@ -24,7 +24,7 @@ buildPythonPackage rec {
   meta = with lib; {
     description = "LiveProxy is a local Proxyserver between Streamlink and an URL";
     homepage = https://github.com/back-to/liveproxy;
-    license = licenses.BSD 2-Clause "Simplified" License;
+    license = lib.licenses.bsd2;
     # maintainers = [ maintainers. ];
   };
 }
