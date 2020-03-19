@@ -2,13 +2,13 @@
 
 buildPythonPackage rec {
   name = "hydra-check";
-  version = "1.0.0";
+  version = "1.1.0";
 
   src = fetchFromGitHub {
-    owner = "makefu";
+    owner = "nix-community";
     repo = "hydra-check";
     rev = version;
-    sha256 = "0359s9rvl2q23a3yddhbn6w2sd5r1f1jl6whyik7qql7blpcvyi7";
+    sha256 = "1q4n5l238lnzcms3z1ax4860inaliawqlxv7nf1wb4knl4wr26fk";
   };
   propagatedBuildInputs = [
     docopt
