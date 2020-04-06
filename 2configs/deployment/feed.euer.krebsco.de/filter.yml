@@ -18,11 +18,6 @@
   zipcode: 70378
   q: Duplo
   distance: 10
-- name: Valve Index
-  q: Valve Index
-  maxPrice: 1300
-  minPrice: 500
-  locationId: 3331
 - name: Baby Gummistiefel
   zipcode: 70378
   q: Gummistiefel
