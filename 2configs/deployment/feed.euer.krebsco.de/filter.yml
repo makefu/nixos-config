@@ -1,0 +1,49 @@
+- name: Free Stuff by Category
+  zipcode: 70378
+  distance: 2
+  categoryId: 192
+- name: Kies
+  zipcode: 70378
+  q: grobkies
+  distance: 2
+- name: pflanzkübel
+  zipcode: 70378
+  q: Pflanzkübel
+  distance: 3
+- name: Ikea Samla
+  zipcode: 70378
+  q: samla
+  distance: 5
+- name: Duplo
+  zipcode: 70378
+  q: Duplo
+  distance: 10
+- name: Valve Index
+  q: Valve Index
+  maxPrice: 1300
+  minPrice: 500
+  locationId: 3331
+- name: Baby Gummistiefel
+  zipcode: 70378
+  q: Gummistiefel
+  distance: 5
+- name: Werkbank
+  zipcode: 70378
+  q: Werkbank
+  distance: 5
+- name: Stirnthermometer
+  zipcode: 70378
+  q: Stirnthermometer
+  distance: 5
+- name: Ohrthermometer
+  zipcode: 70378
+  q: Ohrthermometer
+  distance: 5
+- name: Fieberthermometer
+  zipcode: 70378
+  q: Fieberthermometer
+  distance: 5
+- name: Einhell
+  zipcode: 70378
+  q: Einhell
+  distance: 5
