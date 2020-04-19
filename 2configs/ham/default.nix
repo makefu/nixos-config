@@ -14,6 +14,7 @@ let
   #flurlicht = import ./multi/flurlicht.nix;
   kurzzeitwecker = import ./multi/kurzzeitwecker.nix;
   firetv_restart = import ./multi/firetv_restart.nix;
+  the_playlist = import ./multi/the_playlist.nix;
 #   switch
 #   automation
 #   binary_sensor
@@ -131,6 +132,7 @@ in {
         # https://www.home-assistant.io/cookbook/automation_for_rainy_days/
       ]
       ++ ((import ./sensor/outside.nix) {inherit lib;})
+      ++ the_playlist.sensor
       ++ zigbee.sensor ;
       frontend = { };
       # light = flurlicht.light;
