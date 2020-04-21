@@ -137,6 +137,7 @@ in {
       <stockholm/makefu/2configs/deployment/owncloud.nix>
       <stockholm/makefu/2configs/deployment/board.euer.krebsco.de.nix>
       <stockholm/makefu/2configs/deployment/rss.euer.krebsco.de.nix>
+      <stockholm/makefu/2configs/deployment/feed.euer.krebsco.de>
       <stockholm/makefu/2configs/deployment/boot-euer.nix>
       <stockholm/makefu/2configs/deployment/gecloudpad>
       <stockholm/makefu/2configs/deployment/docker/archiveteam-warrior.nix>
