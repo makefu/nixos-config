@@ -5,11 +5,11 @@
 
 buildPythonPackage rec {
   pname = "pure-python-adb";
-  version = "0.2.3.dev0";
+  version = "0.2.2.dev0";
 
   src = fetchPypi {
     inherit pname version;
-    sha256 = "88e5a4578435197799aa368fb1a5d87fe43e02a888cb7e85c2ad66173b383c89";
+    sha256 = "1xigv6c8xyb4g852nr3smz0137rnp81jvlikza071y7rc6pdzwza";
   };
 
   meta = with lib; {
