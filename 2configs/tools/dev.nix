@@ -21,6 +21,7 @@
     brain
     whatsupnix
     nixpkgs-pytools
+    hydra-check
     # git-related
     git-preview
     tig

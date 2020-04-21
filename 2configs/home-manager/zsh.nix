@@ -8,7 +8,7 @@
     { # bat
     home-manager.users.makefu.home.packages = [ pkgs.bat ];
       home-manager.users.makefu.programs.zsh.shellAliases = {
-        cat = "bat";
+        cat = "bat --style=header,snip";
         catn = "${pkgs.coreutils}/bin/cat";
         ncat = "${pkgs.coreutils}/bin/cat";
       };
