@@ -50,6 +50,8 @@ in {
       logger = {
         default = "info";
       };
+      rest_command = {}
+      // the_playlist.rest_command;
       tts = [
         { platform = "google_translate";
           language = "de";
@@ -142,6 +144,7 @@ in {
         ++ (import ./automation/firetv_restart.nix)
         ++ kurzzeitwecker.automation
         #++ flurlicht.automation
+        ++ the_playlist.automation
         ++ zigbee.automation;
         script =
         { }
