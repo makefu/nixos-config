@@ -32,8 +32,11 @@ in
       default = "awesome";
     };
 
-    displayManager.auto.enable = true;
-    displayManager.auto.user = mainUser;
+    displayManager.lightdm = {
+      enable = true;
+      autoLogin.enable = true;
+      autoLogin.user = mainUser;
+    };
     desktopManager.xterm.enable = false;
   };
   environment.systemPackages = [ pkgs.gnome3.defaultIconTheme ];
@@ -43,10 +46,9 @@ in
   i18n.consoleFont = "Lat2-Terminus16";
 
   fonts = {
-    enableCoreFonts = true;
     enableFontDir = true;
     enableGhostscriptFonts = true;
-    fonts = [ pkgs.terminus_font ];
+    fonts = [ pkgs.terminus_font pkgs.corefonts ];
   };
 
   users.users.${mainUser} = {
