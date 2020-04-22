@@ -42,6 +42,18 @@ in {
         browseable = "yes";
         "guest ok" = "yes";
       };
+      anime = {
+        path = "/media/cryptX/anime";
+        "read only" = "yes";
+        browseable = "yes";
+        "guest ok" = "yes";
+      };
+      serien = {
+        path = "/media/cryptX/series";
+        "read only" = "yes";
+        browseable = "yes";
+        "guest ok" = "yes";
+      };
       crypX-games = {
         path = "/media/cryptX/games";
         "read only" = "yes";

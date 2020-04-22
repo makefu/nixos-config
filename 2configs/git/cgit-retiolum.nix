@@ -18,6 +18,7 @@ let
     yacos-backend = {
       cgit.desc = "Yet Another Check-Out System";
     };
+    ebk-notify.cgit.desc = "Ebay Kleinanzeigen Notify";
   };
 
   krebs-repos = mapAttrs make-krebs-repo {
