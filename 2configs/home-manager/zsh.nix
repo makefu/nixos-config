@@ -9,6 +9,7 @@
     home-manager.users.makefu.home.packages = [ pkgs.bat ];
       home-manager.users.makefu.programs.zsh.shellAliases = {
         cat = "bat --style=header,snip";
+        mirage = "sxiv"; # only available when tools/extra-gui is in use
         catn = "${pkgs.coreutils}/bin/cat";
         ncat = "${pkgs.coreutils}/bin/cat";
       };
