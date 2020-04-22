@@ -85,4 +85,8 @@ with import <stockholm/lib>;
     RuntimeMaxUse=128M
     '';
   environment.pathsToLink = [ "/share" ];
+  security.acme = {
+    email = "letsencrypt@syntax-fehler.de";
+    acceptTerms = true;
+  };
 }
