@@ -1,6 +1,9 @@
 { pkgs, ... }:
 
 {
+  nixpkgs.config.permittedInsecurePackages = [
+    "openssl-1.0.2u" # required for studio-link
+  ];
   users.users.makefu.packages = with pkgs; [
     obs-studio
     studio-link
