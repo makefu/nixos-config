@@ -12,7 +12,7 @@
 
     windowManager = lib.mkForce {
       awesome.enable = false;
-      default = "none";
+      default = "xfce";
     };
     desktopManager.xfce = {
       extraSessionCommands = ''
