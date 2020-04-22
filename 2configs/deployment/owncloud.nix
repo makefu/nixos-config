@@ -15,6 +15,7 @@ with lib;
 
 let
   # TODO: copy-paste from lass/2/websites/util.nix
+  nextcloud = nextcloud18;
   serveCloud = domains:
     let
       domain = head domains;
@@ -23,9 +24,9 @@ let
     in {
       system.activationScripts."prepare-nextcloud-${domain}" = ''
         if test ! -e ${root} ;then
-          echo "copying latest ${pkgs.nextcloud.name} release to ${root}"
+          echo "copying latest ${nextcloud.name} release to ${root}"
           mkdir -p $(dirname "${root}")
-          cp -r  ${pkgs.nextcloud} "${root}"
+          cp -r  ${nextcloud} "${root}"
           chown -R nginx:nginx "${root}"
           chmod 770 "${root}"
         fi
