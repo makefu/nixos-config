@@ -10,7 +10,7 @@ in {
     serviceConfig = {
       SyslogIdentifier = "urxvtd";
       ExecReload = "${pkgs.coreutils}/bin/echo NOP";
-      ExecStart = "${pkgs.rxvt_unicode_with-plugins}/bin/urxvtd";
+      ExecStart = "${pkgs.rxvt_unicode-with-plugins}/bin/urxvtd";
       Restart = "always";
       RestartSec = "2s";
       StartLimitBurst = 0;
