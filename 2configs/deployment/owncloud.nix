@@ -15,7 +15,7 @@ with lib;
 
 let
   # TODO: copy-paste from lass/2/websites/util.nix
-  nextcloud = nextcloud18;
+  nextcloud = pkgs.nextcloud18;
   serveCloud = domains:
     let
       domain = head domains;
