@@ -30,7 +30,7 @@ in
       awesome.noArgb = true;
       awesome.luaModules = [ pkgs.luaPackages.vicious ];
     };
-    displayManager.defaultSession = lib.mkDefault "awesome";
+    displayManager.defaultSession = lib.mkDefault "none+awesome";
     displayManager.lightdm = { enable = true; autoLogin.enable = true; autoLogin.user = mainUser; };
     desktopManager.xterm.enable = false;
   };
