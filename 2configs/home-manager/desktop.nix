@@ -7,7 +7,6 @@
     programs.browserpass = { browsers = [ "firefox" ] ; enable = true; };
     programs.firefox = {
       enable = true;
-      enableIcedTea = true;
     };
     programs.obs-studio.enable = true;
     xdg.enable = true;
