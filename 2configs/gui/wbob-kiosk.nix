@@ -12,16 +12,15 @@
 
     windowManager = lib.mkForce {
       awesome.enable = false;
-      default = "xfce";
     };
     desktopManager.xfce = {
-      extraSessionCommands = ''
+      enable = true;
+    };
+    displayManager.defaultSession = "xfce";
+    displayManager.sessionCommands = ''
         ${pkgs.xlibs.xset}/bin/xset -display :0 s off -dpms
         ${pkgs.xlibs.xrandr}/bin/xrandr --output HDMI2 --right-of HDMI1
       '';
-      enable = true;
-    };
-
     # xrandrHeads = [ "HDMI1" "HDMI2" ];
     # prevent screen from turning off, disable dpms
   };
