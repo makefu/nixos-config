@@ -22,7 +22,8 @@ in {
       vimrcConfig.vam.knownPlugins = pkgs.vimPlugins // customPlugins;
       vimrcConfig.vam.pluginDictionaries = [
         { names = [ "undotree"
-          "YouCompleteMe" "UltiSnips"
+        "YouCompleteMe"
+        #"UltiSnips"
           "vim-better-whitespace" ]; }
         # vim-nix handles indentation better but does not perform sanity
         { names = [ "vim-addon-nix" ]; ft_regex = "^nix\$"; }
