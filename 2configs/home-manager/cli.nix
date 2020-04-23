@@ -1,15 +1,6 @@
 {pkgs, ... }: {
   imports = [ ./zsh.nix ];
   home-manager.users.makefu = {
-    services.gpg-agent = {
-      enable = true;
-      defaultCacheTtl = 900;
-      maxCacheTtl = 7200;
-      defaultCacheTtlSsh = 3600;
-      maxCacheTtlSsh = 86400;
-      enableSshSupport = true;
-      enableScDaemon = true;
-    };
     programs.direnv = {
       stdlib = ''
 use_nix() {

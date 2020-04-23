@@ -1,5 +1,12 @@
 { pkgs, ... }:
 {
+  programs = {
+    ssh.startAgent = false;
+    gnupg.agent = {
+      enable = true;
+      enableSSHSupport = true;
+    };
+  };
   imports = [
     { #direnv
       home-manager.users.makefu.home.packages = [ pkgs.direnv pkgs.nur.repos.kalbasit.nixify ];
@@ -54,8 +61,6 @@
         setopt HIST_IGNORE_SPACE
         setopt HIST_FIND_NO_DUPS
 
-        unset SSH_AGENT_PID
-        export SSH_AUTH_SOCK="/run/user/$UID/gnupg/S.gpg-agent.ssh"
         compdef _pass brain
         zstyle ':completion::complete:brain::' prefix "$HOME/brain"
         compdef _pass secrets
