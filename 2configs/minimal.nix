@@ -69,9 +69,9 @@
 
   # the only locale you will ever need
   i18n = {
-    consoleKeyMap = "us";
     defaultLocale = "en_US.UTF-8";
   };
+  console.keyMap = "us";
 
   # suppress chrome autit event messages
   security.audit.rules = [ "-a task,never" ];
