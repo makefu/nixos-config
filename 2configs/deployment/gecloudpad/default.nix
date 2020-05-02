@@ -4,12 +4,14 @@ let
   wsgi-sock = "${workdir}/uwsgi-gecloudpad.sock";
   workdir = config.services.uwsgi.runDir;
   gecloudpad = pkgs.python3Packages.callPackage ./gecloudpad.nix {};
+  gecloudpad_settings = pkgs.writeText "gecloudpad_settings" ''
+    BASEURL = "https://etherpad.euer.krebsco.de"
+  '';
 in {
 
   services.uwsgi = {
     enable = true;
     user = "nginx";
-    # runDir = "/var/lib/photostore";
     plugins = [ "python3" ];
     instance = {
       type = "emperor";
@@ -18,6 +20,7 @@ in {
           type = "normal";
           pythonPackages = self: with self; [ gecloudpad ];
           socket = wsgi-sock;
+          env = ["GECLOUDPAD_SETTINGS=${gecloudpad_settings}"];
         };
       };
     };
