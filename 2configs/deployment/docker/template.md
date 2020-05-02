@@ -11,13 +11,12 @@
 4. klatschen
 5. Hallo und herzlich Willkommen
 
+## Vorschläge
 ### Backlog von Picks und Lesefoo aus der letzten Woche
 
-
+---
 
 ## Blast from the Past
-
-## Vorschläge
 
 ## Toter der Woche
 
