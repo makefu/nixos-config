@@ -26,6 +26,10 @@ in {
       # <stockholm/makefu/2configs/disable_v6.nix>
       #<stockholm/makefu/2configs/graphite-standalone.nix>
       #<stockholm/makefu/2configs/share-user-sftp.nix>
+
+      <stockholm/makefu/2configs/urlwatch>
+      <stockholm/makefu/2configs/legacy_only.nix>
+
       <stockholm/makefu/2configs/share/omo.nix>
       <stockholm/makefu/2configs/dcpp/airdcpp.nix>
       { krebs.airdcpp.dcpp.shares = let
@@ -125,16 +129,16 @@ in {
 
   zramSwap.enable = true;
 
-  krebs.Reaktor.reaktor-shack = {
-    nickname = "Reaktor|shack";
-    workdir = "/var/lib/Reaktor/shack";
-    channels = [ "#shackspace" ];
-    plugins = with pkgs.ReaktorPlugins;
-    [ shack-correct
-      # stockholm-issue
-      sed-plugin
-      random-emoji ];
-  };
+  #krebs.Reaktor.reaktor-shack = {
+  #  nickname = "Reaktor|shack";
+  #  workdir = "/var/lib/Reaktor/shack";
+  #  channels = [ "#shackspace" ];
+  #  plugins = with pkgs.ReaktorPlugins;
+  #  [ shack-correct
+  #    # stockholm-issue
+  #    sed-plugin
+  #    random-emoji ];
+  #};
   #krebs.Reaktor.reaktor-bgt = {
   #  nickname = "Reaktor|bgt";
   #  workdir = "/var/lib/Reaktor/bgt";
