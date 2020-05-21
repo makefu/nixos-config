@@ -41,6 +41,7 @@ in {
     };
     autoExtraComponents = true;
     config = {
+      config = {};
       discovery = {};
       homeassistant = {
         name = "Bureautomation";

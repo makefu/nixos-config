@@ -35,6 +35,7 @@ in {
       ];
     };
     config = {
+      config = {};
       input_select = zigbee.input_select; # dict
       timer = zigbee.timer // kurzzeitwecker.timer; # dict
       homeassistant = {
