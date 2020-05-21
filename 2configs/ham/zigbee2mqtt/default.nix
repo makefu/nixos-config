@@ -17,4 +17,5 @@
     volumes = ["/var/lib/zigbee2mqtt:/app/data"];
   };
   state = [ "/var/lib/zigbee2mqtt/configuration.yaml" "/var/lib/zigbee2mqtt/state.json" ];
+  systemd.services.docker-zigbee2mqtt.after = [ "home-assistant.service" "docker.service" "network-online.target" ];
 }
