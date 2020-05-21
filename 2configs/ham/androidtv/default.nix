@@ -6,11 +6,11 @@
 
 buildPythonPackage rec {
   pname = "androidtv";
-  version = "0.0.38";
+  version = "0.0.39";
 
   src = fetchPypi {
     inherit pname version;
-    sha256 = "0ri1fnc63zashc667w2mlpb0c7ri3x6wnhnf54klb89v73pdnb8k";
+    sha256 = "06lrjj74g2f3pkhsn3c8h13mkykgqqf4g9q6x5yv23z6ghjnk2dz";
   };
 
   propagatedBuildInputs = [
