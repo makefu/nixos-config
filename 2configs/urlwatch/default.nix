@@ -5,11 +5,15 @@ let
     url = "https://github.com/${name}/releases.atom";
     filter = "grepi:(<updated|<media.thumbnail)";
   };
+  lidl = url: {
+    inherit url;
+    filter = "grepi:<!-- sf";
+  };
 in {
   krebs.urlwatch = {
     enable = true;
     mailto = config.krebs.users.makefu.mail;
-    onCalendar = "*-*-* 05:00:00";
+    onCalendar = "*-*-* 03,15:13:37";
     hooksFile = ./hook.py;
     urls = [
       ## nixpkgs maintenance
@@ -30,7 +34,6 @@ in {
       https://pypi.python.org/simple/pyserial/
       https://pypi.python.org/simple/semantic_version/
       # weird shit
-      http://guest:derpi@cvs2svn.tigris.org/svn/cvs2svn/tags/
       http://ftp.debian.org/debian/pool/main/a/apt-cacher-ng/
       https://erdgeist.org/gitweb/opentracker/info/refs?service=git-upload-pack
 
@@ -40,18 +43,24 @@ in {
         url = https://newellrubbermaid.secure.force.com/dymopkb/articles/en_US/FAQ/Dymo-Drivers-and-Downloads/?l=en_US&c=Segment:Dymo&fs=Search&pn=1 ;
         filter = "grep:Software/Linux/dymo-cups-drivers";
       }
+
+      # shopping
+      ( lidl https://www.lidl.de/de/parkside-nass-trockensauger-pnts-1500-d5/p303117 )
+      ( lidl https://www.lidl.de/de/parkside-mauernutfraese-pmnf-1350-d4/p294989 )
+
       # TODO: dymo cups
     ] ++ map grss [
       "amadvance/snapraid"
       "radare/radare2"
       "ovh/python-ovh"
       "embray/d2to1"
-      "Mic92/vicious"
+      "vicious-widgets/vicious"
       "embray/d2to1"
       "dorimanx/exfat-nofuse"
       "rapid7/metasploit-framework"
       "GothenburgBitFactory/taskserver"
       "GothenburgBitFactory/taskwarrior"
+      "mhagger/cvs2svn"
     ];
   };
 }
