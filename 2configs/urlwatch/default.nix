@@ -46,7 +46,6 @@ in {
 
       # shopping
       ( lidl https://www.lidl.de/de/parkside-nass-trockensauger-pnts-1500-d5/p303117 )
-      ( lidl https://www.lidl.de/de/parkside-mauernutfraese-pmnf-1350-d4/p294989 )
 
       # TODO: dymo cups
     ] ++ map grss [
