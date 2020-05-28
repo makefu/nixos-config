@@ -11,19 +11,26 @@ in {
       ./hw/omo.nix
       #./hw/tsp.nix
       <stockholm/makefu>
-      { environment.systemPackages = with pkgs;[ tmux picocom ];}
+      <stockholm/makefu/2configs/headless.nix>
       <stockholm/makefu/2configs/support-nixos.nix>
+      <stockholm/makefu/2configs/nur.nix>
+
       <stockholm/makefu/2configs/zsh-user.nix>
+      <stockholm/makefu/2configs/home-manager>
+      <stockholm/makefu/2configs/home-manager/cli.nix>
+      <stockholm/makefu/2configs/editor/neovim>
+
+
       <stockholm/makefu/2configs/backup/state.nix>
       <stockholm/makefu/2configs/exim-retiolum.nix>
       # <stockholm/makefu/2configs/smart-monitor.nix>
       <stockholm/makefu/2configs/mail-client.nix>
       <stockholm/makefu/2configs/mosh.nix>
       <stockholm/makefu/2configs/tools/core.nix>
+      <stockholm/makefu/2configs/tools/dev.nix>
       <stockholm/makefu/2configs/tools/desktop.nix>
       <stockholm/makefu/2configs/tools/mobility.nix>
       { environment.systemPackages = [ pkgs.esniper ]; }
-      # <stockholm/makefu/2configs/disable_v6.nix>
       #<stockholm/makefu/2configs/graphite-standalone.nix>
       #<stockholm/makefu/2configs/share-user-sftp.nix>
 
@@ -108,7 +115,7 @@ in {
     ];
   makefu.full-populate =  true;
   nixpkgs.config.allowUnfree = true;
-  krebs.rtorrent = (builtins.trace (builtins.toJSON config.services.telegraf.extraConfig)) {
+  krebs.rtorrent = {
     downloadDir = lib.mkForce "/media/cryptX/torrent";
     extraConfig = ''
       upload_rate = 500

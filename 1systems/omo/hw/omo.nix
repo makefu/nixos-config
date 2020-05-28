@@ -80,18 +80,19 @@ in {
   boot = {
     initrd.luks = {
       devices = let
-        usbkey = name: device: {
-          inherit name device keyFile;
+        usbkey = device: {
+          inherit device keyFile;
           keyFileSize = 4096;
           allowDiscards = true;
         };
-      in [
-        (usbkey "luksroot" rootPartition)
-        (usbkey "crypt0" cryptDisk0)
-        (usbkey "crypt1" cryptDisk1)
-        (usbkey "crypt2" cryptDisk2)
-        (usbkey "crypt3" cryptDisk3)
-      ];
+      in
+      {
+        luksroot = usbkey rootPartition;
+        crypt0 = usbkey  cryptDisk0;
+        crypt1 = usbkey  cryptDisk1;
+        crypt2 = usbkey  cryptDisk2;
+        crypt3 = usbkey  cryptDisk3;
+      };
     };
     loader.grub.device = lib.mkForce rootDisk;
 
