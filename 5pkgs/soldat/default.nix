@@ -100,12 +100,11 @@ stdenv.mkDerivation {
 
     install ${base}/soldat.smod $share/soldat.smod
     install ${base}/play-regular.ttf $share/play-regular.ttf;
+
     install -m755 client/build/soldat_x64 $share/soldat_x64
     install client/media/soldat.ico $share/soldat.ico
 
     install -m755 server/build/soldatserver_x64 $share/soldatserver_x64
-
-    ls -alhtr $share/
 
     makeWrapper $share/soldat_x64 $bin/soldat --add-flags '-fs_portable 0'
     makeWrapper $share/soldatserver_x64 $bin/soldatserver --add-flags '-fs_userpath ~/.local/share/Soldat/Soldat'
