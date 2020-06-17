@@ -17,5 +17,6 @@
     xdotool
     xorg.xbacklight
     scrot
+    libnotify
   ];
 }

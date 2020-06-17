@@ -39,5 +39,6 @@
     # network related
     sshuttle
     pciutils
+    navi
   ];
 }

@@ -49,7 +49,7 @@ ${gnused}/bin/sed -i "''${1}d" ~/.ssh/known_hosts
     populate
 
     rxvt_unicode.terminfo
-    krebspaste
+    kpaste
 
   ];
 }

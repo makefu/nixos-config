@@ -8,11 +8,13 @@
     mumble
     mplayer
     # quodlibet # exfalso
+    tinymediamanager
 
     plowshare
     streamripper
     youtube-dl
 
     pulseeffects
+    
   ];
 }

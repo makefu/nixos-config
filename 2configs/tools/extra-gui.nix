@@ -8,6 +8,7 @@
     inkscape
     libreoffice
     # skype
+    teams
     synergy
     tdesktop
     virtmanager
