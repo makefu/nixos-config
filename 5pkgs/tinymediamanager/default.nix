@@ -18,7 +18,8 @@ stdenv.mkDerivation rec {
   version = "3.1.6";
 
   src = fetchurl {
-    url = "http://release.tinymediamanager.org/v3/dist/tmm_${version}_linux.tar.gz";
+    #url = "http://release.tinymediamanager.org/v3/dist/tmm_${version}_linux.tar.gz";
+    url = "https://archive.org/download/tmm_linux.tar/tmm_${version}_linux.tar.gz";
     sha256 = "06h0q52f0q4aq600nqzjkgrbkwxa2gnpbbn3nbfhni550bdgvf40";
   };
   sourceRoot = ".";
