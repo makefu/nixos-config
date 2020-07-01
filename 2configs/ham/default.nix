@@ -15,6 +15,7 @@ let
   kurzzeitwecker = import ./multi/kurzzeitwecker.nix;
   firetv_restart = import ./multi/firetv_restart.nix;
   the_playlist = import ./multi/the_playlist.nix;
+  fliegen-counter = import ./multi/fliegen-couter.nix;
 #   switch
 #   automation
 #   binary_sensor
@@ -28,10 +29,13 @@ in {
 
   services.home-assistant = {
     package = (upkgs.home-assistant.overrideAttrs (old: {
+      doCheck = false;
+      checkPhase = ":";
+      installCheckPhase = ":";
     })).override {
       extraPackages = ps: with ps; [
         python-forecastio jsonrpc-async jsonrpc-websocket mpd2 pkgs.picotts
-        (ps.callPackage ./androidtv {})
+        (callPackage ./androidtv {})
       ];
     };
     config = {
@@ -48,6 +52,7 @@ in {
       conversation = {};
       history = {};
       logbook = {};
+      counter = fliegen-counter.counter;
       logger = {
         default = "info";
       };
@@ -138,6 +143,7 @@ in {
       ++ the_playlist.sensor
       ++ zigbee.sensor ;
       frontend = { };
+      calendar = [ (import ./calendar/nextcloud.nix) ];
       # light = flurlicht.light;
       http = { };
       switch = [];
@@ -146,6 +152,7 @@ in {
         ++ kurzzeitwecker.automation
         #++ flurlicht.automation
         ++ the_playlist.automation
+        ++ fliegen-counter.automation
         ++ zigbee.automation;
         script =
         { }
