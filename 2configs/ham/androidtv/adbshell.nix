@@ -9,11 +9,11 @@
 
 buildPythonPackage rec {
   pname = "adb_shell";
-  version = "0.1.1";
+  version = "0.1.3";
 
   src = fetchPypi {
     inherit pname version;
-    sha256 = "0a4mjrnw2lrhsakb1vjb5l6m3cr1ii7fibs7020nwv08cyx6pq6q";
+    sha256 = "16wb8n4fsh465fjlbsxi83xpi7xklaf28s9568bsb3nkyvfvl58h";
   };
 
   propagatedBuildInputs = [
