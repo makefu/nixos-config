@@ -1,5 +1,13 @@
+{ pkgs, ... }:
 {
   home-manager.users.makefu = {
+    home.packages= with pkgs;[ (pkgs.writers.writeDashBin "mailsync"''
+      ${imapfilter}/bin/imapfilter -t /etc/ssl/certs/ca-bundle.crt  \
+        && ${isync}/bin/mbsync -a  \
+        && ${libnotify}/bin/notify-send -t 1000000 -u critical 'Mail sync finished'
+
+      ''
+    )];
     programs.mbsync.enable = true;
     accounts.email.maildirBasePath =  "/home/makefu/Mail";
     accounts.email.certificatesFile = "/etc/ssl/certs/ca-certificates.crt";

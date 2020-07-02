@@ -9,11 +9,13 @@
   };
   imports = [
     { #direnv
-      home-manager.users.makefu.home.packages = [ pkgs.direnv pkgs.nur.repos.kalbasit.nixify ];
-      # home-manager.users.makefu.home.file.".direnvrc".text = '''';
+      home-manager.users.makefu.home.packages = [
+        (pkgs.writers.writeDashBin "privatefox" "exec firefox -P Privatefox")
+        pkgs.direnv pkgs.nur.repos.kalbasit.nixify ];
+        # home-manager.users.makefu.home.file.".direnvrc".text = '''';
     }
     { # bat
-    home-manager.users.makefu.home.packages = [ pkgs.bat ];
+      home-manager.users.makefu.home.packages = [ pkgs.bat ];
       home-manager.users.makefu.programs.zsh.shellAliases = {
         cat = "bat --style=header,snip";
         mirage = "sxiv"; # only available when tools/extra-gui is in use
@@ -65,8 +67,11 @@
         zstyle ':completion::complete:brain::' prefix "$HOME/brain"
         compdef _pass secrets
         zstyle ':completion::complete:secrets::' prefix "$HOME/.secrets-pass/"
-
+        
+        # navi
+        source ${pkgs.navi}/share/navi/shell/navi.plugin.zsh
         # ctrl-x ctrl-e
+        autoload -U compinit && compinit
         autoload -U edit-command-line
         zle -N edit-command-line
         bindkey '^xe' edit-command-line
