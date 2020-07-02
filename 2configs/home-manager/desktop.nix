@@ -1,8 +1,14 @@
-{ pkgs, lib, ... }:
+{ pkgs, lib, config, ... }:
 
 {
+
   users.users.makefu.packages = with pkgs;[ bat direnv clipit ];
   home-manager.users.makefu = {
+    systemd.user.services.flameshot.Service.Environment = lib.mkForce [
+      "IMGUR_CREATE_URL=https://p.krebsco.de/image"
+      "IMGUR_DELETE_URL=https://p.krebsco.de/image/delete/%%1"
+      "PATH=${config.home-manager.users.makefu.home.profileDirectory}/bin"
+    ];
     systemd.user.services.network-manager-applet.Service.Environment = ''XDG_DATA_DIRS=/run/current-system/sw/share:${pkgs.networkmanagerapplet}/share GDK_PIXBUF_MODULE_FILE=${pkgs.librsvg.out}/lib/gdk-pixbuf-2.0/2.10.0/loaders.cache'';
     programs.browserpass = { browsers = [ "firefox" ] ; enable = true; };
     programs.firefox = {
