@@ -89,4 +89,5 @@ with import <stockholm/lib>;
     email = "letsencrypt@syntax-fehler.de";
     acceptTerms = true;
   };
+  system.stateVersion = lib.mkDefault "20.03";
 }
