@@ -14,6 +14,15 @@ in {
       <stockholm/makefu/2configs/headless.nix>
       <stockholm/makefu/2configs/support-nixos.nix>
       <stockholm/makefu/2configs/nur.nix>
+      # x11 forwarding
+      {
+        services.openssh.forwardX11 = true;
+        users.users.makefu.packages = [
+          pkgs.tinymediamanager
+        ];
+      }
+      { environment.systemPackages = [ pkgs.youtube-dl2kodi pkgs.youtube-dl]; }
+
 
       <stockholm/makefu/2configs/zsh-user.nix>
       <stockholm/makefu/2configs/home-manager>
@@ -35,7 +44,7 @@ in {
       #<stockholm/makefu/2configs/share-user-sftp.nix>
 
       <stockholm/makefu/2configs/urlwatch>
-      <stockholm/makefu/2configs/legacy_only.nix>
+      # <stockholm/makefu/2configs/legacy_only.nix>
 
       <stockholm/makefu/2configs/share/omo.nix>
       <stockholm/makefu/2configs/dcpp/airdcpp.nix>
