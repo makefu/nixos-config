@@ -30,6 +30,13 @@ let
       data_format = "value";
       # json_query = tags.sensor; #TODO?
     };
+    flycounter = name:
+            (genTopic_plain name ''/ham/flycounter/${name}''
+                      { inherit name;
+                       "sensor" = name;
+                       "type" = "gauge";
+                       "scope" = "ham";
+                      } );
     esensor = room: name: sensor:
             (genTopic_plain sensor ''/ham/${room}/${name}/sensor/${sensor}/state''
                       { inherit room sensor name;
@@ -56,5 +63,7 @@ in {
     ++ (esphome_temphum "arbeitszimmer" "box")
     ++ (esphome_temphum "schlafzimmer" "plug")
     ++ (esphome_temphum "wohnzimmer" "plug")
-    ++ (esphome_temphum "terrasse" "plug");
+    ++ (esphome_temphum "terrasse" "plug")
+    ++ [ (flycounter "misa_fliegen") (flycounter "felix_fliegen") ]
+    ;
 }
