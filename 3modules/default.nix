@@ -5,6 +5,7 @@ _:
     ./awesome-extra.nix
     ./bump-distrowatch.nix
     ./deluge.nix
+    ./etherpad.nix
     ./forward-journal.nix
     ./netdata.nix
     ./opentracker.nix
