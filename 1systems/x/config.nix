@@ -14,6 +14,7 @@
       <stockholm/makefu/2configs/home-manager/taskwarrior.nix>
 
       <stockholm/makefu/2configs/main-laptop.nix>
+      <stockholm/makefu/2configs/kdeconnect.nix>
       <stockholm/makefu/2configs/extra-fonts.nix>
       <stockholm/makefu/2configs/editor/neovim>
       <stockholm/makefu/2configs/tools/all.nix>
@@ -21,7 +22,7 @@
 
       { systemd.services.docker.wantedBy = lib.mkForce []; }
       <stockholm/makefu/2configs/dict.nix>
-      <stockholm/makefu/2configs/legacy_only.nix>
+      # <stockholm/makefu/2configs/legacy_only.nix>
       #<stockholm/makefu/3modules/netboot_server.nix>
       #{
       #  netboot_server = {
@@ -48,6 +49,7 @@
 
       # Testing
       # <stockholm/makefu/2configs/deployment/gitlab.nix>
+      # <stockholm/makefu/2configs/deployment/docker/etherpad.nix>
       # <stockholm/makefu/2configs/deployment/wiki-irc-bot>
 
       # <stockholm/makefu/2configs/torrent.nix>
@@ -169,8 +171,6 @@
       device = "/dev/sda2";
       allowDiscards = true;
   };
-  # avoid full boot dir
-  boot.loader.grub.configurationLimit = 3;
 
   environment.systemPackages = [ pkgs.passwdqc-utils ];
 
