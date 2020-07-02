@@ -116,7 +116,7 @@ in {
       <stockholm/makefu/2configs/wireguard/wiregrill.nix>
 
       # Removed until move: no extra mails
-      <stockholm/makefu/2configs/urlwatch>
+      # <stockholm/makefu/2configs/urlwatch>
       # Removed until move: avoid letsencrypt ban
       ### Web
       <stockholm/makefu/2configs/nginx/dl.euer.krebsco.de.nix>
