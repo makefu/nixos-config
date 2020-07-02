@@ -10,7 +10,7 @@ in {
     locations."/".proxyPass = "http://localhost:${toString port}";
   };
   docker-containers."etherpad-lite" = {
-    image = "makefoo/bgt-etherpad:2020-05-02.5";
+    image = "makefoo/bgt-etherpad:2020-05-02.6";
     ports = [ "127.0.0.1:${toString port}:9001" ];
     volumes = [
       "/var/src/secrets/etherpad/apikey:/opt/etherpad-lite/APIKEY.txt"
