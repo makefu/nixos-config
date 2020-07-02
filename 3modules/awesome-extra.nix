@@ -1,6 +1,6 @@
 {config, lib, pkgs, ... }:
 
-with import <stockholm/lib>;
+with lib;
 let
   cfg = config.makefu.awesome;
   out = {
@@ -27,13 +27,10 @@ let
     };
   };
   imp = {
-    # TODO: configure display manager as well
-    nixpkgs.config.packageOverrides = pkgs: rec {
-      awesome = pkgs.stdenv.lib.overrideDerivation pkgs.awesome (oldAttrs : {
-          postFixup = let
-            rclua = cfg.baseConfig.override { inherit (cfg) modkey; };
-          in "cp ${rclua}  $out/etc/xdg/awesome/rc.lua";
-      });
-    };
+    home-manager.users.makefu.home.file.".config/awesome/rc.lua".source =
+      cfg.baseConfig.override {
+        inherit (cfg) modkey;
+      };
+
   };
 in out
