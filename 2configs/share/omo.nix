@@ -54,6 +54,12 @@ in {
         browseable = "yes";
         "guest ok" = "yes";
       };
+      youtube = {
+        path = "/media/cryptX/youtube";
+        "read only" = "yes";
+        browseable = "yes";
+        "guest ok" = "yes";
+      };
       crypX-games = {
         path = "/media/cryptX/games";
         "read only" = "yes";
