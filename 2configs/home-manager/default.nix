@@ -3,6 +3,7 @@
     <home-manager/nixos>
   ];
   home-manager.useUserPackages = true;
+  home-manager.useGlobalPkgs = true;
   home-manager.users.makefu = {
     home.stateVersion = "19.03";
   };
