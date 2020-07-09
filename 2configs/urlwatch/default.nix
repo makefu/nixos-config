@@ -45,16 +45,6 @@ in {
       }
 
       # shopping
-      ( lidl https://www.lidl.de/de/parkside-nass-trockensauger-pnts-1500-d5/p303117 )
-      ( lidl https://www.lidl.de/de/black-decker-werkzeugkoffer-auf-rollen-3in1/p317626 )
-      {
-        url = "https://www.hornbach.de/shop/Installationsrohr-starr-M20-grau-3m/5005523/artikel.html" ;
-        filter = "element-by-id:article-order-buttons";
-      }
-      {
-        url = "https://www.bauhaus.info/nass-trockensauger/scheppach-nass-trockensauger-asp30-es/p/26664156" ;
-        filter = "element-by-class:productWrapper,html2text";
-      }
 
       # TODO: dymo cups
     ] ++ map grss [
