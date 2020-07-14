@@ -15,6 +15,5 @@
     youtube-dl
 
     pulseeffects
-    
   ];
 }
