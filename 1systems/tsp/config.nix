@@ -7,6 +7,7 @@
   imports =
     [ # Include the results of the hardware scan.
       <stockholm/makefu>
+      <stockholm/makefu/2configs/home-manager>
       <stockholm/makefu/2configs/main-laptop.nix>
       # <stockholm/makefu/2configs/tools/all.nix>
       <stockholm/makefu/2configs/fs/single-partition-ext4.nix>

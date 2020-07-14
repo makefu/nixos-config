@@ -5,6 +5,7 @@
   imports =
     [ # Include the results of the hardware scan.
       <stockholm/makefu>
+      <stockholm/makefu/2configs/home-manager>
 
       # <stockholm/makefu/2configs/hw/vbox-guest.nix> # broken since 2019-04-18
       { # until virtualbox-image is fixed

@@ -9,6 +9,7 @@ in {
   imports =
     [ # Include the results of the hardware scan.
       <stockholm/makefu>
+      <stockholm/makefu/2configs/home-manager>
       <stockholm/makefu/2configs/support-nixos.nix>
       <stockholm/makefu/2configs/zsh-user.nix>
       <stockholm/makefu/2configs/tools/core.nix>
