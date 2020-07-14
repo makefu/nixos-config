@@ -10,7 +10,7 @@ in {
     <stockholm/makefu/2configs/binary-cache/nixos.nix>
     #<stockholm/makefu/2configs/support-nixos.nix>
     <stockholm/makefu/2configs/homeautomation/default.nix>
-    <stockholm/makefu/2configs/homeautomation/google-muell.nix>
+    # <stockholm/makefu/2configs/homeautomation/google-muell.nix>
     # configure your hw:
     # <stockholm/makefu/2configs/save-diskspace.nix>
   ];

@@ -87,12 +87,10 @@ in {
       # <stockholm/makefu/2configs/syncthing.nix>
       <stockholm/makefu/2configs/remote-build/slave.nix>
       # TODO:
-      # <stockholm/makefu/2configs/deployment/google-muell.nix>
       <stockholm/makefu/2configs/virtualisation/docker.nix>
       <stockholm/makefu/2configs/bluetooth-mpd.nix>
 
       <stockholm/makefu/2configs/ham>
-      <stockholm/makefu/2configs/ham/google-muell.nix>
       <stockholm/makefu/2configs/ham/zigbee2mqtt>
       {
         makefu.ps3netsrv = {
