@@ -52,7 +52,7 @@ in {
       };
       action = {
         service = "notify.matrix_notify";
-        data_template.message = "Temp: {{states.sensor.notizen_temperature.state_with_unit | replace (" ","")}}, Hum:{{states.sensor.notizen_humidity.state_with_unit | replace (" ","")}}, airquality:{{states.sensor.air_quality.state_with_unit}}";
+        data_template.message = ''Temp: {{states.sensor.notizen_temperature.state_with_unit | replace (" ","")}}, Hum:{{states.sensor.notizen_humidity.state_with_unit | replace (" ","")}}, airquality:{{states.sensor.air_quality.state_with_unit}}'';
       };
     }
 
