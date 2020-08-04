@@ -12,7 +12,7 @@
     after = [
       config.krebs.secret.files.nix-serve-key.service
     ];
-    requires = [
+    partOf = [
       config.krebs.secret.files.nix-serve-key.service
     ];
   };

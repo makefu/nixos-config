@@ -74,7 +74,7 @@ in
       after = [
         config.krebs.secret.files.netdata-stream.service
       ];
-      requires = [
+      partOf = [
         config.krebs.secret.files.netdata-stream.service
       ];
     };
