@@ -71,8 +71,12 @@ in
   };
   config = mkIf cfg.enable {
     systemd.services.netdata = {
-      requires = [ "secret.service" ];
-      after = [ "secret.service" ];
+      after = [
+        config.krebs.secret.files.netdata-stream.service
+      ];
+      requires = [
+        config.krebs.secret.files.netdata-stream.service
+      ];
     };
     krebs.secret.files.netdata-stream = {
       path = "/run/secret/netdata-stream.conf";
