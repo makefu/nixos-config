@@ -9,8 +9,12 @@
   };
 
   systemd.services.nix-serve = {
-    requires = ["secret.service"];
-    after = ["secret.service"];
+    after = [
+      config.krebs.secret.files.nix-serve-key.service
+    ];
+    partOf = [
+      config.krebs.secret.files.nix-serve-key.service
+    ];
   };
   krebs.secret.files.nix-serve-key = {
     path = "/run/secret/nix-serve.key";
