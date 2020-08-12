@@ -137,9 +137,9 @@ in {
         ++ frosch.binary_sensor
         ++ aramark.binary_sensor;
 
-      sensor =
-        # [{ platform = "version"; }] ++ # pyhaversion
-        (import ./sensor/pollen.nix)
+      sensor = []
+        ++ [{ platform = "version"; }] # pyhaversion
+        ++ (import ./sensor/pollen.nix)
         ++ (import ./sensor/espeasy.nix)
         ++ (import ./sensor/airquality.nix)
         ++ ((import ./sensor/outside.nix) {inherit lib;})
@@ -238,6 +238,7 @@ in {
           "camera.Autobahn_Singen"
           "camera.puppies"
           "camera.poorly_drawn_lines"
+          "camera.xkcd"
         ];
         nachtlicht = [
           "switch.nachtlicht_a"
