@@ -1,4 +1,5 @@
-{ lib, stdenv,  fetchFromGitHub }:
+{ lib, stdenv,  fetchFromGitHub
+}:
 stdenv.mkDerivation rec {
   pname = "hactool";
   name = "${pname}-${version}";
@@ -8,16 +9,16 @@ stdenv.mkDerivation rec {
     owner = "SciresM";
     repo = "hactool";
     rev = version;
-    sha256 = "162zv7my79a5ssn6zwk1yh64jjwlzr9kiplbpyvj4ly79dpngwyn";
+    sha256 = "0305ngsnwm8npzgyhyifasi4l802xnfz19r0kbzzniirmcn4082d";
   };
-
   preBuild = ''
     cp config.mk.template config.mk
   '';
-
   installPhase = ''
     install -D hactool $out/bin/hactool
   '';
+  buildInputs = [ ];
+  nativeBuildInputs = [ ];
 
   meta = {
     description = "tool to view information about, decrypt, and extract common file formats for the Nintendo Switch, especially Nintendo Content Archives";
