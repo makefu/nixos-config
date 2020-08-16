@@ -19,6 +19,7 @@ let
       cgit.desc = "Yet Another Check-Out System";
     };
     ebk-notify.cgit.desc = "Ebay Kleinanzeigen Notify";
+    kalauerbot.cgit.desc = "Kalauer König";
   };
 
   krebs-repos = mapAttrs make-krebs-repo {
