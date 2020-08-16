@@ -1,5 +1,4 @@
-{ lib, stdenv,  fetchFromGitHub
-}:
+{ lib, stdenv,  fetchFromGitHub }:
 stdenv.mkDerivation rec {
   pname = "hactool";
   name = "${pname}-${version}";
@@ -9,21 +8,21 @@ stdenv.mkDerivation rec {
     owner = "SciresM";
     repo = "hactool";
     rev = version;
-    sha256 = "0305ngsnwm8npzgyhyifasi4l802xnfz19r0kbzzniirmcn4082d";
+    sha256 = "162zv7my79a5ssn6zwk1yh64jjwlzr9kiplbpyvj4ly79dpngwyn";
   };
+
   preBuild = ''
     cp config.mk.template config.mk
   '';
+
   installPhase = ''
     install -D hactool $out/bin/hactool
   '';
-  buildInputs = [ ];
-  nativeBuildInputs = [ ];
 
   meta = {
-    description = "PulseAudio volumene meter";
-    homepage = http://0pointer.de/lennart/projects/pavumeter;
-    license = stdenv.lib.licenses.gpl2;
+    description = "tool to view information about, decrypt, and extract common file formats for the Nintendo Switch, especially Nintendo Content Archives";
+    homepage = https://github.com/SciresM/hactool;
+    license = stdenv.lib.licenses.isc;
     platforms = stdenv.lib.platforms.linux;
     maintainers = with stdenv.lib.maintainers; [ makefu ];
   };
