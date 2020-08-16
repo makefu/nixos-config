@@ -7,6 +7,7 @@
     vlc
     mumble
     mplayer
+    mpv
     # quodlibet # exfalso
     tinymediamanager
 

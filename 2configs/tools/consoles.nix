@@ -5,5 +5,7 @@
     hdl-dump
     bin2iso
     cue2pops
+    nx_game_info
+    hactool
   ];
 }
