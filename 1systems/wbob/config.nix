@@ -26,7 +26,8 @@ in {
       # <stockholm/makefu/2configs/audio/jack-on-pulse.nix>
       # <stockholm/makefu/2configs/audio/realtime-audio.nix>
       # <stockholm/makefu/2configs/vncserver.nix>
-      <stockholm/makefu/2configs/logging/server.nix>
+      ## no need for dns logs anymore
+      # <stockholm/makefu/2configs/logging/server.nix>
 
       # Services
       # <stockholm/makefu/2configs/hydra/stockholm.nix>
@@ -48,6 +49,7 @@ in {
 
       <stockholm/makefu/2configs/bureautomation> # new hass entry point
       <stockholm/makefu/2configs/bureautomation/led-fader.nix>
+      <stockholm/makefu/2configs/bureautomation/kalauerbot.nix>
       # <stockholm/makefu/2configs/bureautomation/visitor-photostore.nix>
       # <stockholm/makefu/2configs/bureautomation/mpd.nix> #mpd is only used for TTS, this is the web interface
       <stockholm/makefu/2configs/mqtt.nix>
