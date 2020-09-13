@@ -13,8 +13,7 @@
     gi
     flashrom
     mosquitto
-    nodemcu-uploader
-    esptool
+    esphome
     # nix related
     nix-index
     nix-review
