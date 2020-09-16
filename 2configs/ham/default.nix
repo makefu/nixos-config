@@ -39,6 +39,15 @@ in {
       ];
     };
     config = {
+      influxdb = {
+        database = "ham";
+        host = "localhost:8086";
+        tags = {
+          instance = "omo";
+          source = "hass";
+        };
+      };
+
       config = {};
       input_select = zigbee.input_select; # dict
       timer = zigbee.timer // kurzzeitwecker.timer; # dict
@@ -91,6 +100,7 @@ in {
           ];
       sun.elevation = 247;
       recorder = {};
+      device_tracker = (import ./device_tracker/openwrt.nix);
       media_player = [
         { platform = "FireTV Stick kodi";
           host = firetv_stick;
@@ -128,7 +138,7 @@ in {
       };
       luftdaten = {
         show_on_map = true;
-        sensor_id = 679;
+        sensor_id = 10529;
         sensors.monitored_conditions = [ "P1" "P2" ];
       };
       #binary_sensor =
@@ -162,4 +172,5 @@ in {
     configDir = hassdir;
   };
 
+  state = [ "/var/lib/hass/known_devices.yaml" ];
 }
