@@ -7,5 +7,6 @@
     cue2pops
     nx_game_info
     hactool
+    nsrenamer
   ];
 }
