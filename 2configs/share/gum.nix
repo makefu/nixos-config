@@ -33,8 +33,6 @@ in {
       disable spoolss = yes
     '';
   };
-  networking.firewall.extraCommands = ''
-      iptables -A INPUT -i retiolum -p tcp --dport 445 -j ACCEPT
-      iptables -A INPUT -i wiregrill -p tcp --dport 445 -j ACCEPT
-  '';
+  networking.firewall.interfaces.retiolum.allowedTCPPorts = [ 445 ];
+  networking.firewall.interfaces.wiregrill.allowedTCPPorts =  [ 445 ];
 }
