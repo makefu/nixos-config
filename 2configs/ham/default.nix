@@ -34,14 +34,13 @@ in {
       installCheckPhase = ":";
     })).override {
       extraPackages = ps: with ps; [
-        python-forecastio jsonrpc-async jsonrpc-websocket mpd2 pkgs.picotts
-        (callPackage ./androidtv {})
+        python-forecastio jsonrpc-async jsonrpc-websocket mpd2 pkgs.picotts androidtv
       ];
     };
     config = {
       influxdb = {
         database = "ham";
-        host = "localhost:8086";
+        host = "localhost";
         tags = {
           instance = "omo";
           source = "hass";
@@ -74,7 +73,9 @@ in {
           service_name =  "google_say";
         }
       ];
-
+      api = {};
+      esphome = {};
+      camera = [];
       telegram_bot = [
         # secrets file: {
         #  "platform": "broadcast",
