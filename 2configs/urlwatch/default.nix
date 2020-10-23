@@ -3,7 +3,7 @@
 let
   grss = name: { #github rss feed
     url = "https://github.com/${name}/releases.atom";
-    filter = "grepi:(<updated|<media.thumbnail|Travis CI build log:)";
+    filter = "grepi:(<updated|<media.thumbnail|Continuous build|Travis CI build log:)";
   };
   lidl = url: {
     inherit url;
