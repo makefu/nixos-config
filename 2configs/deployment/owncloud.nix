@@ -98,7 +98,7 @@ let
           fastcgi_param PATH_INFO $fastcgi_path_info;
           fastcgi_param HTTPS on;
           fastcgi_param modHeadersAvailable true; #Avoid sending the security headers twice
-          fastcgi_pass unix:${socket};
+          fastcgi_pass unix:${config.services.phpfpm.pools.${domain}.socket};
           fastcgi_intercept_errors on;
         '';
 
@@ -126,7 +126,6 @@ let
       services.phpfpm.pools."${domain}" = {
           user = "nginx";
           group = "nginx";
-          listen = socket;
           settings = {
             "listen.owner" = "nginx";
             "pm" = "dynamic";
@@ -135,13 +134,11 @@ let
             "pm.start_servers" = 2;
             "pm.min_spare_servers" = 2;
             "pm.max_spare_servers" = 5;
+            "php_admin_value[error_log]" = "stderr";
+            "php_admin_flag[log_errors]" = "on";
+            "catch_workers_output" = true;
           };
-          extraConfig = ''
-            php_admin_value[error_log] = 'stderr'
-            php_admin_flag[log_errors] = on
-            env[PATH] = ${lib.makeBinPath [ pkgs.php ]}
-            catch_workers_output = yes
-        '';
+          phpEnv."PATH" = lib.makeBinPath [ pkgs.php ];
       };
       services.phpfpm.phpOptions = ''
         opcache.enable=1
