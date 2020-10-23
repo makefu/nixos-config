@@ -42,6 +42,16 @@ in {
     nodemcu-uploader = super.pkgs.callPackage ./nodemcu-uploader {};
     liveproxy = super.pkgs.python3Packages.callPackage ./custom/liveproxy {};
     hydra-check = super.pkgs.python3Packages.callPackage ./custom/hydra-check {};
+    pwqgen-ger = super.pkgs.passwdqc-utils.override {
+      wordset-file = super.pkgs.fetchurl {
+        urls = [
+          https://gist.githubusercontent.com/makefu/b56f5554c9ef03fe6e09878962e6fd8d/raw/1f147efec51325bc9f80c823bad8381d5b7252f6/wordset_4k.c
+          https://archive.org/download/nixos-stockholm-tarballs/pviar5j1gxiqcf3l34b4n2pil06xc8zf-wordset_4k.c
+        ];
+        sha256 = "18ddzyh11bywrhzdkzvrl7nvgp5gdb4k1s0zxbz2bkhd14vi72bb";
+      };
+    };
+
 }
 
 // (mapAttrs (_: flip callPackage {})
