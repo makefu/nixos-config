@@ -68,7 +68,6 @@ in {
     {
       id = "zigbee_join_enabled";
       alias = "Zigbee Join Enabled";
-      hide_entity = "true";
       trigger =
       {
         platform = "state";
@@ -85,7 +84,6 @@ in {
     {
       id = "zigbee_join_disabled";
       alias = "Zigbee Join Disabled";
-      hide_entity = "true";
       trigger = [
         {
           platform = "event";
