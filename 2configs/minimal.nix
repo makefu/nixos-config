@@ -82,5 +82,4 @@
     "net.ipv6.conf.default.use_tempaddr" = 2;
   };
 
-  services.nscd.enable = false;
 }
