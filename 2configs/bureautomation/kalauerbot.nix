@@ -12,6 +12,9 @@
       WorkingDirectory = "/var/lib/kalauerbot";
       ExecStart = "${pkgs.kalauerbot}/bin/kalauerbot";
       PrivateTmp = true;
+
+      Restart = "always";
+      RuntimeMaxSec = "12h";
     };
   };
 }

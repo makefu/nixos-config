@@ -1,0 +1,14 @@
+diff --git a/matrix_client/client.py b/matrix_client/client.py
+index af0e08f..f848c4f 100644
+--- a/matrix_client/client.py
++++ b/matrix_client/client.py
+@@ -471,7 +471,7 @@ class MatrixClient(object):
+         self._sync(timeout_ms)
+ 
+     def listen_forever(self, timeout_ms=30000, exception_handler=None,
+-                       bad_sync_timeout=5):
++                       bad_sync_timeout=61):
+         """ Keep listening for events forever.
+ 
+         Args:
+

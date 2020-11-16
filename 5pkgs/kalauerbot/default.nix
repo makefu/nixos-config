@@ -8,7 +8,12 @@ rev = "08d98aa";
     sha256 = "017hh61smgq4zsxd10brgwmykwgwabgllxjs31xayvs1hnqmkv2v";
   };
   propagatedBuildInputs = with python3.pkgs;[
-    (callPackage ./python-matrixbot.nix {})
+     (callPackage ./python-matrixbot.nix {
+      matrix-client = (stdenv.lib.overrideDerivation matrix-client (self: {
+      patches = [ ./badsync.patch ];
+    }));
+    })
+
     (stdenv.lib.overrideDerivation googletrans (self: {
       patches = [ ./translate.patch ];
     }))

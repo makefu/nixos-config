@@ -47,6 +47,7 @@ in {
       # <stockholm/makefu/2configs/legacy_only.nix>
 
       <stockholm/makefu/2configs/share/omo.nix>
+      <stockholm/makefu/2configs/share/gum-client.nix>
       <stockholm/makefu/2configs/dcpp/airdcpp.nix>
       { krebs.airdcpp.dcpp.shares = let
           d = path: "/media/cryptX/${path}";

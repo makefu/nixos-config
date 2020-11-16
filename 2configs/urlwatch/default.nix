@@ -34,6 +34,9 @@ in {
       https://pypi.python.org/simple/pyserial/
       https://pypi.python.org/simple/semantic_version/
       # weird shit
+      { url = "https://www.zigbee2mqtt.io/information/supported_adapters.html";
+        filter = "html2text";
+      }
       http://ftp.debian.org/debian/pool/main/a/apt-cacher-ng/
       https://erdgeist.org/gitweb/opentracker/info/refs?service=git-upload-pack
 
