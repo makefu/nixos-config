@@ -37,10 +37,11 @@
     passwdqc-utils
     gnupg
     populate
-    (pkgs.writeScriptBin "tor-browser" ''
-      #! /bin/sh
-      TOR_SKIP_LAUNCH=1 ${torbrowser}/bin/tor-browser
-    '')
+    # 20.09: torbrowser is broken
+    #(pkgs.writeScriptBin "tor-browser" ''
+    #  #! /bin/sh
+    #  TOR_SKIP_LAUNCH=1 ${torbrowser}/bin/tor-browser
+    #'')
   ];
 
   networking.firewall.allowedTCPPorts = [
