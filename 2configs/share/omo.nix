@@ -82,6 +82,9 @@ in {
       printing = bsd
       printcap name = /dev/null
       disable spoolss = yes
+      workgroup = WORKGROUP
+      server string = ${config.networking.hostName}
+      netbios name = ${config.networking.hostName}
     '';
   };
 }
