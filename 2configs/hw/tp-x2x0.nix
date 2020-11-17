@@ -54,6 +54,6 @@
 
 
   powerManagement.resumeCommands = ''
-    ${pkgs.rfkill}/bin/rfkill unblock all
+    ${pkgs.utillinux}/bin/rfkill unblock all
   '';
 }
