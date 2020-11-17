@@ -157,10 +157,9 @@ let
         error_reporting = E_ALL | E_STRICT
         html_errors = On
         date.timezone = "Europe/Berlin"
-        # extension=${pkgs.phpPackages.memcached}/lib/php/extensions/memcached.so
         extension=${pkgs.phpPackages.redis}/lib/php/extensions/redis.so
         extension=${pkgs.phpPackages.apcu}/lib/php/extensions/apcu.so
-      '';
+      ''; # extension=${pkgs.phpPackages.memcached}/lib/php/extensions/memcached.so
       systemd.services."nextcloud-cron-${domain}" = {
         serviceConfig = {
           User = "nginx";
