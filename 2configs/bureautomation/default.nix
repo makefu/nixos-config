@@ -15,30 +15,8 @@ in {
   ];
   networking.firewall.allowedTCPPorts = [ 8123 ];
   state = [ "/var/lib/hass/known_devices.yaml" ];
-  services.home-assistant = let
-      dwd_pollen = pkgs.fetchFromGitHub {
-        owner = "marcschumacher";
-        repo = "dwd_pollen";
-        rev = "0.1";
-        sha256 = "1af2mx99gv2hk1ad53g21fwkdfdbymqcdl3jvzd1yg7dgxlkhbj1";
-      };
-    in {
+  services.home-assistant = {
     enable = true;
-    package = (pkgs.home-assistant.overrideAttrs (old: {
-      # TODO: find correct python package
-      installCheckPhase = ''
-        echo LOLLLLLLLLLLLLLL
-      '';
-      postInstall = ''
-        cp -r ${dwd_pollen} $out/lib/python3.7/site-packages/homeassistant/components/dwd_pollen
-      '';
-    })).override {
-      extraPackages = ps: with ps; [
-        pkgs.picotts
-        python-forecastio jsonrpc-async jsonrpc-websocket mpd2
-        (callPackage ./deps/openwrt-luci-rpc.nix { })
-      ];
-    };
     autoExtraComponents = true;
     config = {
       config = {};
@@ -139,7 +117,7 @@ in {
 
       sensor = []
         ++ [{ platform = "version"; }] # pyhaversion
-        ++ (import ./sensor/pollen.nix)
+        # ++ (import ./sensor/pollen.nix)
         ++ (import ./sensor/espeasy.nix)
         ++ (import ./sensor/airquality.nix)
         ++ ((import ./sensor/outside.nix) {inherit lib;})
