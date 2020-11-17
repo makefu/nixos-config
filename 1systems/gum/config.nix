@@ -82,8 +82,12 @@ in {
       # ci
       # <stockholm/makefu/2configs/exim-retiolum.nix>
       <stockholm/makefu/2configs/git/cgit-retiolum.nix>
+
+      ###### Shack #####
       # <stockholm/makefu/2configs/shack/events-publisher>
-      <stockholm/makefu/2configs/shack/gitlab-runner>
+      # <stockholm/makefu/2configs/shack/gitlab-runner>
+
+
       <stockholm/makefu/2configs/remote-build/slave.nix>
       <stockholm/makefu/2configs/remote-build/aarch64-community.nix>
       <stockholm/makefu/2configs/taskd.nix>
