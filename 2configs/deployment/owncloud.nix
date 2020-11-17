@@ -14,8 +14,18 @@ with lib;
 
 
 let
+  phpPackage = let
+      base = pkgs.php74;
+    in
+      base.buildEnv {
+        extensions = { enabled, all }: with all;
+          enabled ++ [
+            apcu redis memcached imagick
+          ];
+      };
+
   # TODO: copy-paste from lass/2/websites/util.nix
-  nextcloud = pkgs.nextcloud18;
+  nextcloud = pkgs.nextcloud20;
   serveCloud = domains:
     let
       domain = head domains;
@@ -126,6 +136,7 @@ let
       services.phpfpm.pools."${domain}" = {
           user = "nginx";
           group = "nginx";
+          phpPackage = phpPackage;
           settings = {
             "listen.owner" = "nginx";
             "pm" = "dynamic";
@@ -138,7 +149,7 @@ let
             "php_admin_flag[log_errors]" = "on";
             "catch_workers_output" = true;
           };
-          phpEnv."PATH" = lib.makeBinPath [ pkgs.php ];
+          phpEnv."PATH" = lib.makeBinPath [ phpPackage ];
       };
       services.phpfpm.phpOptions = ''
         opcache.enable=1
@@ -149,7 +160,7 @@ let
         opcache.save_comments=1
         opcache.revalidate_freq=1
         opcache.file_cache = .opcache
-        zend_extension=${pkgs.php}/lib/php/extensions/opcache.so
+        zend_extension=${phpPackage}/lib/php/extensions/opcache.so
 
         display_errors = on
         display_startup_errors = on
@@ -157,13 +168,15 @@ let
         error_reporting = E_ALL | E_STRICT
         html_errors = On
         date.timezone = "Europe/Berlin"
-        extension=${pkgs.phpPackages.redis}/lib/php/extensions/redis.so
-        extension=${pkgs.phpPackages.apcu}/lib/php/extensions/apcu.so
-      ''; # extension=${pkgs.phpPackages.memcached}/lib/php/extensions/memcached.so
+        extension=${phpPackage}/lib/php/extensions/memcached.so
+        extension=${phpPackage}/lib/php/extensions/redis.so
+        extension=${phpPackage}/lib/php/extensions/apcu.so
+        '';
+
       systemd.services."nextcloud-cron-${domain}" = {
         serviceConfig = {
           User = "nginx";
-          ExecStart = "${pkgs.php}/bin/php -f ${root}/cron.php";
+          ExecStart = "${phpPackage}/bin/php -f ${root}/cron.php";
         };
         startAt = "*:0/15";
       };
