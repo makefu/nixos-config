@@ -3,10 +3,8 @@
 {
 
   environment.systemPackages = [
-    pkgs.python27Full # required for youcompleteme
-    (pkgs.vim_configurable.customize {
+    ((pkgs.vim_configurable.override { python = pkgs.python3; }).customize {
       name = "vim";
-
       vimrcConfig.customRC = builtins.readFile ./vimrc;
       vimrcConfig.vam.knownPlugins = pkgs.vimPlugins;
       vimrcConfig.vam.pluginDictionaries = [
