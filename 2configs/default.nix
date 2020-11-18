@@ -43,9 +43,6 @@ with import <stockholm/lib>;
 
 
   boot.tmpOnTmpfs = true;
-  systemd.tmpfiles.rules = [
-    "d /tmp 1777 root root - -"
-  ];
 
   environment.systemPackages = with pkgs; [
       jq
