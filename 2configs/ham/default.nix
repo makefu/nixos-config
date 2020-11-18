@@ -18,10 +18,16 @@ in {
     ./multi/kurzzeitwecker.nix
     ./multi/the_playlist.nix
     ./multi/fliegen-couter.nix
+
     ./device_tracker/openwrt.nix
+
     ./sensor/outside.nix
+
     ./calendar/nextcloud.nix
+
     ./automation/firetv_restart.nix
+
+    ./light/groups.nix
   ];
 
   services.home-assistant = {
