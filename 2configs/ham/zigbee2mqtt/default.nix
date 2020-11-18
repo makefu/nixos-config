@@ -17,6 +17,7 @@ in
   state = [ "${dataDir}/configuration.yaml" "${dataDir}/state.json" ];
 
   systemd.services.zigbee2mqtt = {
+    # override automatic configuration.yaml deployment
     serviceConfig.ExecStartPre = lib.mkForce "${pkgs.coreutils}/bin/true";
     after = [
       "home-assistant.service"
