@@ -1,21 +1,27 @@
 {config, pkgs, lib, ...}:
 
-
-{
+let
+  dataDir = "/var/lib/zigbee2mqtt";
+in
+  {
   # symlink the zigbee controller
   services.udev.extraRules = ''
-    SUBSYSTEM=="tty", ATTRS{idVendor}=="0451", ATTRS{idProduct}=="16a8", SYMLINK+="cc2531", MODE="0660", GROUP="dailout"
+    SUBSYSTEM=="tty", ATTRS{idVendor}=="0451", ATTRS{idProduct}=="16a8", SYMLINK+="cc2531", MODE="0660", GROUP="dialout"
   '';
 
-  system.activationScripts.installZigbee = ''
-    install -d /var/lib/zigbee2mqtt
-  '';
-
-  docker-containers.zigbee2mqtt = {
-    image = "koenkk/zigbee2mqtt";
-    extraDockerOptions = [ "--device=/dev/cc2531:/dev/cc2531" ];
-    volumes = ["/var/lib/zigbee2mqtt:/app/data"];
+  services.zigbee2mqtt = {
+    enable = true;
+    inherit dataDir;
   };
-  state = [ "/var/lib/zigbee2mqtt/configuration.yaml" "/var/lib/zigbee2mqtt/state.json" ];
-  systemd.services.docker-zigbee2mqtt.after = [ "home-assistant.service" "docker.service" "network-online.target" ];
+
+  state = [ "${dataDir}/configuration.yaml" "${dataDir}/state.json" ];
+
+  systemd.services.zigbee2mqtt = {
+    serviceConfig.ExecStartPre = lib.mkForce "${pkgs.coreutils}/bin/true";
+    after = [
+      "home-assistant.service"
+      "mosquitto.service"
+      "network-online.target"
+    ];
+  };
 }
