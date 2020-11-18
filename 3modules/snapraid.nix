@@ -86,7 +86,7 @@ let
       '';
     };
     extraConfig = mkOption {
-      type = types.string;
+      type = types.lines;
       default = "";
       description = ''
         Extra configuration to be appended to the snapraid conf file.
