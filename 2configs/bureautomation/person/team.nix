@@ -40,12 +40,12 @@
         "device_tracker.frank_phone"
       ];
     }
-    { name = "Carsten";
-      id = 7;
-      device_trackers = [
-        "device_tracker.carsten_phone"
-      ];
-    }
+    #{ name = "Carsten";
+    #  id = 7;
+    #  device_trackers = [
+    #    "device_tracker.carsten_phone"
+    #  ];
+    #}
     { name = "Emeka";
       id = 8;
       device_trackers = [
@@ -58,17 +58,23 @@
         "device_tracker.sabine_phone"
       ];
     }
-    { name = "Tobias";
-      id = 10;
+    #{ name = "Tobias";
+    #  id = 10;
+    #  device_trackers = [
+    #    "device_tracker.tobias_phone"
+    #  ];
+    #}
+    #{ name = "Tancrede";
+    #  id = 11;
+    #  device_trackers = [
+    #    "device_tracker.tancrede_phone"
+    #    "device_tracker.tancrede_laptop"
+    #  ];
+    #}
+    { name = "Chris";
+      id = 12;
       device_trackers = [
-        "device_tracker.tobias_phone"
-      ];
-    }
-    { name = "Tancrede";
-      id = 11;
-      device_trackers = [
-        "device_tracker.tancrede_phone"
-        "device_tracker.tancrede_laptop"
+        "device_tracker.chris_phone"
       ];
     }
   ];
