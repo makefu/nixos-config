@@ -4,39 +4,27 @@
 ## wake-on-lan server
 ##
 let
-  upkgs = (import <nixpkgs-unstable> {}).pkgs;
-  hlib = (import ./lib);
-  prefix = hlib.prefix;
-  tasmota = hlib.tasmota;
+  prefix = (import ./lib).prefix;
   firetv_stick = "192.168.1.24";
   hassdir = "/var/lib/hass";
-  zigbee = import ./multi/zigbee2mqtt.nix;
-  #flurlicht = import ./multi/flurlicht.nix;
-  kurzzeitwecker = import ./multi/kurzzeitwecker.nix;
-  firetv_restart = import ./multi/firetv_restart.nix;
-  the_playlist = import ./multi/the_playlist.nix;
-  fliegen-counter = import ./multi/fliegen-couter.nix;
-#   switch
-#   automation
-#   binary_sensor
-#   sensor
-#   input_select
-#   timer
 in {
   imports = [
     ./mqtt.nix
+    ./zigbee2mqtt/default.nix
+
+    # hass config
+    ./zigbee2mqtt/hass.nix
+    # ./multi/flurlicht.nix
+    ./multi/kurzzeitwecker.nix
+    ./multi/the_playlist.nix
+    ./multi/fliegen-couter.nix
+    ./device_tracker/openwrt.nix
+    ./sensor/outside.nix
+    ./calendar/nextcloud.nix
+    ./automation/firetv_restart.nix
   ];
 
   services.home-assistant = {
-    package = (upkgs.home-assistant.overrideAttrs (old: {
-      doCheck = false;
-      checkPhase = ":";
-      installCheckPhase = ":";
-    })).override {
-      extraPackages = ps: with ps; [
-        python-forecastio jsonrpc-async jsonrpc-websocket mpd2 pkgs.picotts androidtv
-      ];
-    };
     config = {
       influxdb = {
         database = "ham";
@@ -48,8 +36,6 @@ in {
       };
 
       config = {};
-      input_select = zigbee.input_select; # dict
-      timer = zigbee.timer // kurzzeitwecker.timer; # dict
       homeassistant = {
         name = "Home"; time_zone = "Europe/Berlin";
         latitude = "48.7687";
@@ -60,12 +46,10 @@ in {
       conversation = {};
       history = {};
       logbook = {};
-      counter = fliegen-counter.counter;
       logger = {
         default = "info";
       };
-      rest_command = {}
-      // the_playlist.rest_command;
+      rest_command = {};
       tts = [
         { platform = "google_translate";
           language = "de";
@@ -81,7 +65,7 @@ in {
         #  "platform": "broadcast",
         #  "api_key": "", # talk to Botfather /newbot
         #  "allowed_chat_ids": [ ID ] # curl -X GET #  https://api.telegram.org/bot<YOUR_API_TOKEN>/getUpdates
-        #}
+        # }
         (builtins.fromJSON
           (builtins.readFile <secrets/hass/telegram-bot.json>))
       ];
@@ -101,7 +85,6 @@ in {
           ];
       sun.elevation = 247;
       recorder = {};
-      device_tracker = (import ./device_tracker/openwrt.nix);
       media_player = [
         { platform = "FireTV Stick kodi";
           host = firetv_stick;
@@ -149,25 +132,12 @@ in {
           monitored_conditions = [ "ping" "download" "upload" ];
         }
         # https://www.home-assistant.io/cookbook/automation_for_rainy_days/
-      ]
-      ++ ((import ./sensor/outside.nix) {inherit lib;})
-      ++ the_playlist.sensor
-      ++ zigbee.sensor ;
+      ];
       frontend = { };
-      calendar = [ (import ./calendar/nextcloud.nix) ];
-      # light = flurlicht.light;
       http = { };
       switch = [];
-      automation = []
-        ++ (import ./automation/firetv_restart.nix)
-        ++ kurzzeitwecker.automation
-        #++ flurlicht.automation
-        ++ the_playlist.automation
-        ++ fliegen-counter.automation
-        ++ zigbee.automation;
-        script =
-        { }
-        // kurzzeitwecker.script; # dict
+      automation = [];
+      script = { };
     };
     enable = true;
     configDir = hassdir;
