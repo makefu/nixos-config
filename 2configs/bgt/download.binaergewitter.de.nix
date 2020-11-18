@@ -36,6 +36,11 @@ in {
     }
     '';
   };
+
+  # 20.09 unharden nginx to write logs
+  systemd.services.nginx.serviceConfig.ReadWritePaths = [
+    "/var/spool/nginx/logs/"
+  ];
   services.nginx = {
     appendHttpConfig = ''
       types {
