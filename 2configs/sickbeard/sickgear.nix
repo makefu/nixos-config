@@ -1,8 +1,8 @@
-{ stdenv, fetchFromGitHub, python3, makeWrapper }:
+{ stdenv, fetchFromGitHub, python37, makeWrapper }:
 
 let
-  pythonEnv = python3.withPackages(ps: with ps; [
-    (python3.pkgs.callPackage ./cheetah3.nix {})
+  pythonEnv = python37.withPackages(ps: with ps; [
+    (ps.callPackage ./cheetah3.nix {})
   ]);
 in stdenv.mkDerivation rec {
   pname = "sickgear";
