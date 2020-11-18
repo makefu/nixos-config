@@ -17,12 +17,14 @@ in {
         PasswordAuthentication no
     '';
   };
+
   users.users.auphonic = {
     uid = genid "auphonic";
     group = "nginx";
     useDefaultShell = true;
     openssh.authorizedKeys.keys = [ ident config.krebs.users.makefu.pubkey ];
   };
+
   services.logrotate = {
     enable = true;
     config = ''
@@ -41,6 +43,7 @@ in {
   systemd.services.nginx.serviceConfig.ReadWritePaths = [
     "/var/spool/nginx/logs/"
   ];
+
   services.nginx = {
     appendHttpConfig = ''
       types {
@@ -60,15 +63,4 @@ in {
         '';
     };
   };
-  environment.etc."netdata/python.d/web_log.conf".text = ''
-    nginx_log3:
-      name: 'nginx'
-      path: '/var/spool/nginx/logs/access.log'
-    nginx_log4:
-      name: 'bgt'
-      path: '${bgtaccess}'
-  '';
-
-  users.users.netdata.extraGroups = [ "nginx" ];
-
 }
