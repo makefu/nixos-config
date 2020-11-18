@@ -38,20 +38,17 @@
   };
 
   services.tlp.enable = true;
-  services.tlp.extraConfig = ''
+  services.tlp.settings = {
     # BUG: http://linrunner.de/en/tlp/docs/tlp-faq.html#erratic-battery
-    START_CHARGE_THRESH_BAT0=95
-    STOP_CHARGE_THRESH_BAT0=100
-
-
-    CPU_SCALING_GOVERNOR_ON_AC=performance
-    CPU_SCALING_GOVERNOR_ON_BAT=ondemand
-    CPU_MIN_PERF_ON_AC=0
-    CPU_MAX_PERF_ON_AC=100
-    CPU_MIN_PERF_ON_BAT=0
-    CPU_MAX_PERF_ON_BAT=30
-  '';
-
+    START_CHARGE_THRESH_BAT0 = 95;
+    STOP_CHARGE_THRESH_BAT0 = 100;
+    CPU_SCALING_GOVERNOR_ON_AC = "performance";
+    CPU_SCALING_GOVERNOR_ON_BAT = "ondemand";
+    CPU_MIN_PERF_ON_AC = 0;
+    CPU_MAX_PERF_ON_AC = 100;
+    CPU_MIN_PERF_ON_BAT = 0;
+    CPU_MAX_PERF_ON_BAT = 30;
+  };
 
   powerManagement.resumeCommands = ''
     ${pkgs.utillinux}/bin/rfkill unblock all
