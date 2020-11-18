@@ -31,8 +31,10 @@ in
       awesome.luaModules = [ pkgs.luaPackages.vicious ];
     };
     displayManager.defaultSession = lib.mkDefault "none+awesome";
-    displayManager.lightdm = { enable = true; autoLogin.enable = true; autoLogin.user = mainUser; };
-    desktopManager.xterm.enable = false;
+    displayManager.autoLogin = {
+      enable = true;
+      user = mainUser;
+    };
   };
   environment.systemPackages = [ pkgs.gnome3.defaultIconTheme ];
   # lid switch is handled via button presses
