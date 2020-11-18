@@ -1,20 +1,51 @@
 { config, pkgs, lib, ... }:
 let
   kodi-host = "192.168.8.11";
-  ten_hours = import ./multi/10h_timers.nix { inherit lib; }; # provides: timer automation script
-  mittagessen = import ./multi/mittagessen.nix { inherit lib; }; # provides: automation script
-  matrix = import ./multi/matrix.nix { inherit lib; }; # provides: matrix automation
-  frosch = import ./multi/frosch.nix { inherit lib; }; # provides: sensor binary_sensor switch light script automation
-  aramark = import ./multi/aramark.nix { inherit lib; }; # provides: sensor binary_sensor
-  standup = import ./multi/daily-standup.nix { inherit lib; }; # provides: automation script
 in {
   imports = [
     ./ota.nix
     ./comic-updater.nix
     ./puppy-proxy.nix
+
+    # hass config
+    ## complex configs
+    ./multi/daily-standup.nix
+    ./multi/aramark.nix
+    ./multi/matrix.nix
+    ./multi/frosch.nix
+    ./multi/mittagessen.nix
+    ./multi/10h_timers.nix
+
+    ./switch/tasmota_switch.nix
+    ./switch/rfbridge.nix
+
+    ./light/statuslight.nix
+    ./light/buzzer.nix
+
+    ./script/multi_blink.nix
+
+    ./binary_sensor/buttons.nix
+    ./binary_sensor/motion.nix
+
+    # ./sensor/pollen.nix requires dwd_pollen
+    ./sensor/espeasy.nix
+    ./sensor/airquality.nix
+    ./sensor/outside.nix
+    ./sensor/tasmota_firmware.nix
+
+    ./camera/verkehrskamera.nix
+    ./camera/comic.nix
+    ./camera/stuttgart.nix
+    ./automation/bureau-shutdown.nix
+    ./automation/nachtlicht.nix
+    ./automation/schlechteluft.nix
+    ./automation/hass-restart.nix
+    ./device_tracker/openwrt.nix
+    ./person/team.nix
   ];
   networking.firewall.allowedTCPPorts = [ 8123 ];
   state = [ "/var/lib/hass/known_devices.yaml" ];
+
   services.home-assistant = {
     enable = true;
     autoExtraComponents = true;
@@ -51,7 +82,6 @@ in {
           source = "hass";
         };
       };
-      matrix = matrix.matrix;
       mqtt = {
         discovery = true;
         discovery_prefix = "homeassistant";
@@ -73,13 +103,6 @@ in {
           retain = true;
         };
       };
-      switch = (import ./switch/tasmota_switch.nix)
-               ++ frosch.switch
-               ++ (import ./switch/rfbridge.nix);
-      light = (import ./light/statuslight.nix)
-              ++ (import ./light/buzzer.nix)
-              ++ frosch.light;
-      timer = ten_hours.timer;
       notify = [
         {
           platform = "kodi";
@@ -93,7 +116,7 @@ in {
             (builtins.fromJSON (builtins.readFile
               <secrets/hass/telegram-bot.json>)).allowed_chat_ids 0;
         }
-      ] ++ matrix.notify;
+      ];
       media_player = [
         { platform = "kodi";
           host = kodi-host;
@@ -102,37 +125,10 @@ in {
           host = "127.0.0.1";
         }
       ];
-      script = lib.fold lib.recursiveUpdate {} [
-        ((import ./script/multi_blink.nix) {inherit lib;})
-        frosch.script
-        ten_hours.script
-        mittagessen.script
-        # standup.script
-      ];
-      binary_sensor =
-        (import ./binary_sensor/buttons.nix)
-        ++ (import ./binary_sensor/motion.nix)
-        ++ frosch.binary_sensor
-        ++ aramark.binary_sensor;
 
-      sensor = []
-        ++ [{ platform = "version"; }] # pyhaversion
-        # ++ (import ./sensor/pollen.nix)
-        ++ (import ./sensor/espeasy.nix)
-        ++ (import ./sensor/airquality.nix)
-        ++ ((import ./sensor/outside.nix) {inherit lib;})
-        ++ (import ./sensor/influxdb.nix)
-        ++ (import ./sensor/tasmota_firmware.nix)
-        ++ frosch.sensor
-        ++ aramark.sensor;
+      sensor = [{ platform = "version"; }]; # pyhaversion
 
-      camera =
-         (import ./camera/verkehrskamera.nix)
-         ++ (import ./camera/comic.nix)
-         ++ (import ./camera/stuttgart.nix);
 
-      person =
-        (import ./person/team.nix );
 
       frontend = { };
       http = {
@@ -263,16 +259,6 @@ in {
       # feedreader.urls = [ "http://www.heise.de/security/rss/news-atom.xml" ];
       # we don't use imports because the expressions do not merge in
       # home-assistant
-      automation = (import ./automation/bureau-shutdown.nix)
-                  ++ (import ./automation/nachtlicht.nix)
-                  ++ (import ./automation/schlechteluft.nix)
-                  ++ (import ./automation/hass-restart.nix)
-                  ++ ten_hours.automation
-                  ++ matrix.automation
-                  # ++ standup.automation
-                  ++ frosch.automation
-                  ++ mittagessen.automation;
-      device_tracker = (import ./device_tracker/openwrt.nix );
     };
   };
 }

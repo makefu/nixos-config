@@ -13,10 +13,13 @@ let
     retain = false;
     qos = 1;
   };
-in [
-  (tasmota_plug "Bauarbeiterlampe" "plug")
-  (tasmota_plug "Blitzdings" "plug2")
-  (tasmota_plug "Fernseher" "plug3")
-  (tasmota_plug "Feuer" "plug4")
-  (tasmota_plug "Blaulicht" "plug5")
-]
+in {
+  services.home-assistant.config.switch =
+  [
+    (tasmota_plug "Bauarbeiterlampe" "plug")
+    (tasmota_plug "Blitzdings" "plug2")
+    (tasmota_plug "Fernseher" "plug3")
+    (tasmota_plug "Feuer" "plug4")
+    (tasmota_plug "Blaulicht" "plug5")
+  ];
+}

@@ -12,6 +12,9 @@ let
     # expire_after = "5"; #expire after 5 seconds
     qos = 1;
   };
-in [
-  (tasmota_button "RedButton" "redbutton")
-]
+in {
+  services.home-assistant.config.binary_sensor =
+    [
+    (tasmota_button "RedButton" "redbutton")
+  ];
+}

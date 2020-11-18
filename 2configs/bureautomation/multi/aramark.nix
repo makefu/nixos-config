@@ -12,13 +12,16 @@ let
    ((aramark "${menue}/price" "${menue} Preis") // { unit_of_measurement = "€"; })
   ];
 in
-{
-  sensor = (aramark_menue "Menü 1")
-        ++ (aramark_menue "Menü 2")
-        ++ (aramark_menue "Mercato")
-        ++ (aramark_menue "Aktion");
-  binary_sensor =
-  [
-    ((aramark "pommes" "Pommes" ) // { payload_on = "True"; payload_off = "False"; })
-  ];
+  {
+  services.home-assistant.config =
+  {
+    sensor = (aramark_menue "Menü 1")
+          ++ (aramark_menue "Menü 2")
+          ++ (aramark_menue "Mercato")
+          ++ (aramark_menue "Aktion");
+    binary_sensor =
+    [
+      ((aramark "pommes" "Pommes" ) // { payload_on = "True"; payload_off = "False"; })
+    ];
+  };
 }

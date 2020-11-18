@@ -38,52 +38,55 @@ let
      "Jetzt nur noch kurz die Mail fertig schreiben und schon kann es los gehen.",
      "Es ist 13 Uhr und die Mittagspause ist bald vorbei .... Kleiner Scherz, es ist erst 12:30, aber Ihr hättet auch nicht wirklich etwas verpasst.",
      "Hallo, es ist nun 12 Uhr 30! Dies entspricht der Essenszeit aller Büroinsassen. Bitte begebt euch zur Aramark Essensausgabe um euren menschlichen Bedürfnissen nachzukommen."] | random }}'';
-in {
-  automation = [
-    { alias = "Mittagessen";
-      trigger = {
-        platform = "time";
-        at = "12:30:00";
+in
+{
+  services.home-assistant.config = {
+    automation = [
+      { alias = "Mittagessen";
+        trigger = {
+          platform = "time";
+          at = "12:30:00";
+        };
+        action = [
+        { service = "homeassistant.turn_on";
+            entity_id =  [
+              "script.mittagessen_announce"
+              "script.blitz_10s"
+              "script.mittagessenlicht"
+            ];
+          }
+        ];
+      }
+    ];
+    script = {
+      mittagessenlicht = (flash_entity {
+        entity = "switch.bauarbeiterlampe";
+        alias = "Bauarbeiterlampe Mittagessenlicht";
+        delay = 1000;
+        count = 5;
+      });
+      mittagessen_announce = {
+        alias = "Random Mittagessen announce";
+        sequence = [
+          {
+            service = "media_player.play_media";
+            data = {
+              entity_id = "media_player.mpd";
+              media_content_type = "playlist";
+              media_content_id = "ansage";
+            };
+          }
+          { delay.seconds = 5; }
+          {
+            service = "tts.google_say";
+            entity_id =  "media_player.mpd";
+            data_template = {
+              message = random_mittagessen;
+              language = "de";
+            };
+          }
+        ];
       };
-      action = [
-      { service = "homeassistant.turn_on";
-          entity_id =  [
-            "script.mittagessen_announce"
-            "script.blitz_10s"
-            "script.mittagessenlicht"
-          ];
-        }
-      ];
-    }
-  ];
-  script = {
-    mittagessenlicht = (flash_entity {
-      entity = "switch.bauarbeiterlampe";
-      alias = "Bauarbeiterlampe Mittagessenlicht";
-      delay = 1000;
-      count = 5;
-    });
-    mittagessen_announce = {
-      alias = "Random Mittagessen announce";
-      sequence = [
-        {
-          service = "media_player.play_media";
-          data = {
-            entity_id = "media_player.mpd";
-            media_content_type = "playlist";
-            media_content_id = "ansage";
-          };
-        }
-        { delay.seconds = 5; }
-        {
-          service = "tts.google_say";
-          entity_id =  "media_player.mpd";
-          data_template = {
-            message = random_mittagessen;
-            language = "de";
-          };
-        }
-      ];
     };
   };
 }

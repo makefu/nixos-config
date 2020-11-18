@@ -9,8 +9,11 @@ let
   payload_not_available= "Offline";
   };
 in
+{
+  services.home-assistant.config.sensor =
   map tasmota_firmware [
     "plug" "plug2" "plug3" "plug4" "plug5"
     "status1" "status2" "buslicht"
     "rfbridge"
-  ]
+  ];
+}

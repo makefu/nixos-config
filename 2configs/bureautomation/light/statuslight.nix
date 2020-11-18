@@ -48,9 +48,11 @@ let
       12 # fire pattern
     ];
   };
-in
-[
-  (tasmota_rgb "Status Felix" "status1")
-  (tasmota_rgb "Status Daniel" "status2")
-  (tasmota_rgb "Buslicht" "buslicht")
-]
+in {
+  services.home-assistant.config.light =
+  [
+    (tasmota_rgb "Status Felix" "status1")
+    (tasmota_rgb "Status Daniel" "status2")
+    (tasmota_rgb "Buslicht" "buslicht")
+  ];
+}

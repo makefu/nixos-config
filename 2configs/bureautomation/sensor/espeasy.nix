@@ -24,8 +24,10 @@ let
     payload_available = "Online";
     payload_not_available = "Offline";
   };
-in
-(espeasy_dht22 "easy1") ++
-(espeasy_dht22 "easy2") ++ [
-  (espeasy_ds18 "easy3" )
-]
+in {
+  services.home-assistant.config.sensor =
+    (espeasy_dht22 "easy1") ++
+    (espeasy_dht22 "easy2") ++ [
+    (espeasy_ds18 "easy3" )
+  ];
+}

@@ -198,11 +198,13 @@ let
   ];
 in
 {
-  timer =lib.fold lib.recursiveUpdate {}
-    (map tmr_10h persons);
-  automation = (lib.flatten (map automation_10h persons));
-  script =  lib.fold lib.recursiveUpdate {} (
-    (map announce_user persons) ++
-    (map zu_lange_user persons)
-  );
+  services.home-assistant.config = {
+    timer =lib.fold lib.recursiveUpdate {}
+      (map tmr_10h persons);
+    automation = (lib.flatten (map automation_10h persons));
+    script =  lib.fold lib.recursiveUpdate {} (
+      (map announce_user persons) ++
+      (map zu_lange_user persons)
+      );
+  };
 }
