@@ -92,7 +92,6 @@ in {
       <stockholm/makefu/2configs/bluetooth-mpd.nix>
 
       <stockholm/makefu/2configs/ham>
-      <stockholm/makefu/2configs/ham/zigbee2mqtt>
       {
         makefu.ps3netsrv = {
           enable = true;
