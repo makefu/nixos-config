@@ -9,7 +9,7 @@ let
   sec = seconds: { delay.seconds = seconds; };
 in
 {
-  services.home-assistant.config.sensor =
+  services.home-assistant.config.automation =
   [
     {
       alias = "Nightly reboot of firetv";
