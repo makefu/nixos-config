@@ -52,6 +52,7 @@
         xo = "mimeopen";
         nmap = "nmap -oN $HOME/loot/scan-`date +\%s`.nmap -oX $HOME/loot/scan-`date +%s`.xml";
       };
+      # navi package does not come with the navi.plugin.zsh anymore so we use .src
       initExtra = ''
         bindkey -e
         # shift-tab
@@ -69,7 +70,7 @@
         zstyle ':completion::complete:secrets::' prefix "$HOME/.secrets-pass/"
         
         # navi
-        source ${pkgs.navi}/share/navi/shell/navi.plugin.zsh
+        . ${pkgs.navi.src}/shell/navi.plugin.zsh
         # ctrl-x ctrl-e
         autoload -U compinit && compinit
         autoload -U edit-command-line
