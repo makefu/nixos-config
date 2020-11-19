@@ -13,7 +13,7 @@ let
     "light.wohnzimmer_stehlampe_osram_light"
   ];
   schlafzimmer_licht = [
-    "schlafzimmer_komode_osram_light"
+    "light.schlafzimmer_komode_osram_light"
   ];
 in {
   services.home-assistant.config.light = [

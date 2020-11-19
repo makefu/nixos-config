@@ -26,6 +26,7 @@ in {
     ./calendar/nextcloud.nix
 
     ./automation/firetv_restart.nix
+    ./automation/light_buttons.nix
 
     ./light/groups.nix
   ];
