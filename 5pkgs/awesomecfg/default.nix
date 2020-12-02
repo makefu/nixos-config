@@ -6,7 +6,7 @@
 , blueman
 , clipit
 , flameshot
-, chapter-marker
+, chapter-marker ? false
 , modkey ? "Mod4"
 , locker? "${pkgs.xlock}/bin/xlock -mode blank"
 , ... }:
