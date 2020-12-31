@@ -1,9 +1,8 @@
 { config, lib, pkgs, ... }:
 
-with import <stockholm/lib>;
 {
   services.nginx = {
-    enable = mkDefault true;
+    enable = lib.mkDefault true;
     recommendedGzipSettings = true;
     recommendedOptimisation = true;
     virtualHosts."dl.euer.krebsco.de" = {
@@ -12,6 +11,12 @@ with import <stockholm/lib>;
         forceSSL = true;
         enableACME = true;
         basicAuth = import <secrets/dl.euer.krebsco.de-auth.nix>;
+    };
+    virtualHosts."dl.gum.r" = {
+        serverAliases = [ "dl.gum" "dl.makefu.r" "dl.makefu" ];
+        root = config.makefu.dl-dir;
+        extraConfig = "autoindex on;";
+        basicAuth = import <secrets/dl.gum-auth.nix>;
     };
   };
 }
