@@ -1,10 +1,25 @@
 { lib, pkgs, config, ... }:
 with lib;
 
+# services.redis.enable = true;
+# to enable caching with redis first start up everything, then run:
+# nextcloud-occ config:system:set redis 'host' --value 'localhost' --type string
+# nextcloud-occ config:system:set redis 'port' --value 6379 --type integer
+# nextcloud-occ config:system:set memcache.local --value '\OC\Memcache\Redis' --type string
+# nextcloud-occ config:system:set memcache.locking --value '\OC\Memcache\Redis' --type string
+
+# services.memcached.enable = true;
+# to enable caching with memcached run:
+# nextcloud-occ config:system:set memcached_servers 0 0 --value 127.0.0.1 --type string
+# nextcloud-occ config:system:set memcached_servers 0 1 --value 11211 --type integer
+# nextcloud-occ config:system:set memcache.local --value '\OC\Memcache\APCu' --type string
+# nextcloud-occ config:system:set memcache.distributed --value '\OC\Memcache\Memcached' --type string
+
 let
   adminpw = "/run/secret/nextcloud-admin-pw";
   dbpw = "/run/secret/nextcloud-db-pw";
 in {
+
   krebs.secret.files.nextcloud-db-pw = {
     path = dbpw;
     owner.name = "nextcloud";
@@ -21,7 +36,7 @@ in {
     forceSSL = true;
     enableACME = true;
   };
-
+  state = [ "${config.services.nextcloud.home}/config" ];
   services.nextcloud = {
     enable = true;
     package = pkgs.nextcloud20;
@@ -33,6 +48,8 @@ in {
     # Set what time makes sense for you
     autoUpdateApps.startAt = "05:00:00";
 
+    caching.redis = true;
+    # caching.memcached = true;
     config = {
       # Further forces Nextcloud to use HTTPS
       overwriteProtocol = "https";
@@ -47,7 +64,8 @@ in {
       adminuser = "admin";
     };
   };
-
+  services.redis.enable = true;
+  systemd.services.redis.serviceConfig.LimitNOFILE=65536;
   services.postgresql = {
     enable = true;
     # Ensure the database, user, and permissions always exist
