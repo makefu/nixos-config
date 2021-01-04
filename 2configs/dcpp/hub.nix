@@ -41,7 +41,6 @@ in {
   };
 
   systemd.services = {
-    redis.serviceConfig.LimitNOFILE=10032;
     ddclient-nsupdate-uhub = {
       wantedBy = [ "multi-user.target" ];
       after = [ "ip-up.target" ];
