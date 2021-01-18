@@ -11,8 +11,7 @@
     { #direnv
       home-manager.users.makefu.home.packages = [
         (pkgs.writers.writeDashBin "privatefox" "exec firefox -P Privatefox")
-        pkgs.direnv pkgs.nur.repos.kalbasit.nixify ];
-        # home-manager.users.makefu.home.file.".direnvrc".text = '''';
+      ];
     }
     { # bat
       home-manager.users.makefu.home.packages = [ pkgs.bat ];
@@ -25,6 +24,10 @@
     }
   ];
   environment.pathsToLink = [ "/share/zsh" ];
+
+  programs.direnv.enable = true;
+  programs.direnv.enableNixDirenvIntegration = true;
+
   home-manager.users.makefu = {
     programs.fzf.enable = false; # alt-c
     programs.zsh = {
