@@ -19,8 +19,37 @@
       <stockholm/makefu/2configs/editor/neovim>
       <stockholm/makefu/2configs/tools/all.nix>
       { programs.adb.enable = true; }
+      {
+        services.openssh.hostKeys = [
+          { bits = 4096; path = (toString <secrets/ssh_host_rsa_key>); type = "rsa";}
+        ];
+      }
 
-      { systemd.services.docker.wantedBy = lib.mkForce []; }
+      #{
+      #  users.users.makefu.packages = with pkgs;[ mpc_cli ncmpcpp ];
+      #  services.ympd.enable = true;
+      #  services.mpd = {
+      #    enable = true;
+      #    extraConfig = ''
+      #      log_level "default"
+      #      auto_update "yes"
+
+      #      audio_output {
+      #        type "httpd"
+      #        name "lassulus radio"
+      #        encoder "vorbis" # optional
+      #        port "8000"
+      #        quality "5.0" # do not define if bitrate is defined
+      #        # bitrate "128" # do not define if quality is defined
+      #        format "44100:16:2"
+      #        always_on "yes" # prevent MPD from disconnecting all listeners when playback is stopped.
+      #        tags "yes" # httpd supports sending tags to listening streams.
+      #      }
+      #    '';
+      #  };
+      #}
+
+      # { systemd.services.docker.wantedBy = lib.mkForce []; }
       <stockholm/makefu/2configs/dict.nix>
       # <stockholm/makefu/2configs/legacy_only.nix>
       #<stockholm/makefu/3modules/netboot_server.nix>
@@ -59,10 +88,13 @@
       # <stockholm/makefu/2configs/deployment/hound>
       # <stockholm/makefu/2configs/deployment/photostore.krebsco.de.nix>
       # <stockholm/makefu/2configs/deployment/bureautomation/hass.nix>
+      <stockholm/makefu/2configs/bureautomation/office-radio>
 
       # Krebs
       <stockholm/makefu/2configs/tinc/retiolum.nix>
-      # <stockholm/makefu/2configs/share/gum-client.nix>
+      # <stockholm/makefu/2configs/share/anon-ftp.nix>
+      # <stockholm/makefu/2configs/share/anon-sftp.nix>
+      <stockholm/makefu/2configs/share/gum-client.nix>
       # <stockholm/makefu/2configs/share/temp-share-samba.nix>
 
 
@@ -108,6 +140,7 @@
       <stockholm/makefu/2configs/hw/switch.nix>
       # <stockholm/makefu/2configs/hw/rad1o.nix>
       <stockholm/makefu/2configs/hw/cc2531.nix>
+      <stockholm/makefu/2configs/hw/droidcam.nix>
       <stockholm/makefu/2configs/hw/smartcard.nix>
       <stockholm/makefu/2configs/hw/upower.nix>
 
@@ -115,7 +148,7 @@
       <stockholm/makefu/2configs/fs/sda-crypto-root-home.nix>
 
       # Security
-      <stockholm/makefu/2configs/sshd-totp.nix>
+      # <stockholm/makefu/2configs/sshd-totp.nix>
 
       # temporary
       # { services.redis.enable = true; }
@@ -158,8 +191,8 @@
 
   # configure pulseAudio to provide a HDMI sink as well
   networking.firewall.enable = true;
-  networking.firewall.allowedUDPPorts = [ 665 26061 ];
-  networking.firewall.trustedInterfaces = [ "vboxnet0" ];
+  networking.firewall.allowedUDPPorts = [ 665 26061 1514 ];
+  networking.firewall.trustedInterfaces = [ "vboxnet0" "enp0s25" ];
 
   krebs.build.host = config.krebs.hosts.x;
 
