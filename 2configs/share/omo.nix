@@ -60,6 +60,12 @@ in {
         browseable = "yes";
         "guest ok" = "yes";
       };
+      photos = {
+        path = "/media/cryptX/photos";
+        "read only" = "yes";
+        browseable = "yes";
+        "guest ok" = "yes";
+      };
       crypX-games = {
         path = "/media/cryptX/games";
         "read only" = "yes";
