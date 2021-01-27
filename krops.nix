@@ -71,7 +71,7 @@
     (lib.mkIf ( host-src.hw ) {
       nixos-hardware.git = {
         url = https://github.com/nixos/nixos-hardware.git;
-        ref = "30fdd53";
+        ref = "a0d8383";
       };
     })
     (lib.mkIf ( host-src.home-manager ) {
