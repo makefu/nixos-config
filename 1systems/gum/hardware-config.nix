@@ -69,7 +69,7 @@ in {
     fsType = "ext4";
     options = [ "nofail" ];
   };
-  fileSystems."/var/www/o.euer.krebsco.de" = {
+  fileSystems."/var/lib/nextcloud/data" = {
     device = "/dev/nixos/nextcloud";
     fsType = "ext4";
     options = [ "nofail" ];

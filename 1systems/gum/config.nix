@@ -65,7 +65,7 @@ in {
         };
         networking.firewall = {
           allowedTCPPorts =
-          [
+            [
             53
             655
             21031
@@ -83,6 +83,9 @@ in {
       # <stockholm/makefu/2configs/exim-retiolum.nix>
       <stockholm/makefu/2configs/git/cgit-retiolum.nix>
 
+      ### systemdUltras ###
+      <stockholm/makefu/2configs/systemdultras/ircbot.nix>
+
       ###### Shack #####
       # <stockholm/makefu/2configs/shack/events-publisher>
       # <stockholm/makefu/2configs/shack/gitlab-runner>
@@ -98,7 +101,7 @@ in {
       { krebs.exim.enable = mkDefault true; }
 
       # sharing
-      <stockholm/makefu/2configs/share/gum.nix>
+      <stockholm/makefu/2configs/share/gum.nix> # samba sahre
       <stockholm/makefu/2configs/torrent.nix>
       <stockholm/makefu/2configs/sickbeard>
 
@@ -145,7 +148,10 @@ in {
       <stockholm/makefu/2configs/deployment/gecloudpad>
       <stockholm/makefu/2configs/deployment/docker/archiveteam-warrior.nix>
       <stockholm/makefu/2configs/deployment/docker/etherpad.euer.krebsco.de.nix>
+      # <stockholm/makefu/2configs/deployment/systemdultras-rss.nix>
+
       <stockholm/makefu/2configs/shiori.nix>
+      <stockholm/makefu/2configs/workadventure>
 
       <stockholm/makefu/2configs/bgt/download.binaergewitter.de.nix>
       <stockholm/makefu/2configs/bgt/hidden_service.nix>
@@ -177,12 +183,19 @@ in {
     { bits = 4096; path = (toString <secrets/ssh_host_rsa_key>); type = "rsa"; }
     { path = (toString <secrets/ssh_host_ed25519_key>); type = "ed25519"; } ];
   ###### stable
-
-  services.nginx.virtualHosts."cgit.euer.krebsco.de" = {
-    forceSSL = true;
-    enableACME = true;
-    locations."/".proxyPass = "http://localhost/";
-    locations."/".extraConfig = ''proxy_set_header Host cgit;'';
+  security.acme.certs."cgit.euer.krebsco.de" = {
+    email = "letsencrypt@syntax-fehler.de";
+    webroot = "/var/lib/acme/acme-challenge";
+    group = "nginx";
+  };
+  services.nginx.virtualHosts."cgit" = {
+    serverAliases = [ "cgit.euer.krebsco.de" ];
+    addSSL = true;
+    sslCertificate = "/var/lib/acme/cgit.euer.krebsco.de/fullchain.pem";
+    sslCertificateKey = "/var/lib/acme/cgit.euer.krebsco.de/key.pem";
+    locations."/.well-known/acme-challenge".extraConfig = ''
+      root /var/lib/acme/acme-challenge;
+    '';
   };
 
   krebs.build.host = config.krebs.hosts.gum;
@@ -190,6 +203,7 @@ in {
   # Network
   networking = {
     firewall = {
+        allowedTCPPorts = [ 80 443 ];
         allowPing = true;
         logRefusedConnections = false;
     };
