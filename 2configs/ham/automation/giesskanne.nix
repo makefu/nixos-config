@@ -7,7 +7,7 @@ let
     light = "light.espcam_02_light";
     seconds = 60; # default shutoff to protect the LED from burning out
   };
-  seconds = 6;
+  seconds = 60;
   pump = "switch.arbeitszimmer_giesskanne_relay";
   # sensor = "sensor.statistics_for_sensor_crafting_brotbox_soil_moisture";
 in
