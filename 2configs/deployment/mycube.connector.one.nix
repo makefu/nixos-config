@@ -1,15 +1,12 @@
 { config, lib, pkgs, ... }:
 # more than just nginx config but not enough to become a module
-with import <stockholm/lib>;
 let
   hostname = config.krebs.build.host.name;
   external-ip = config.krebs.build.host.nets.internet.ip4.addr;
   wsgi-sock = "${config.services.uwsgi.runDir}/uwsgi.sock";
 in {
-  services.redis = {
-    enable = true;
-  };
-  systemd.services.redis.serviceConfig.LimitNOFILE=10032;
+  services.redis = { enable = true; };
+  systemd.services.redis.serviceConfig.LimitNOFILE=65536;
 
   services.uwsgi = {
     enable = true;
@@ -28,7 +25,7 @@ in {
   };
 
   services.nginx = {
-    enable = mkDefault true;
+    enable = lib.mkDefault true;
     virtualHosts."mybox.connector.one" = {
         locations = {
           "/".extraConfig = ''
