@@ -4,7 +4,30 @@
 { config, pkgs, lib, ... }:
 {
   imports =
-    [ # base
+    [
+      # hardware-dependent
+      # device
+
+
+      ./x13
+      # ./x230
+
+      # Common Hardware Components
+
+      # <stockholm/makefu/2configs/hw/mceusb.nix>
+      # <stockholm/makefu/2configs/hw/rtl8812au.nix>
+      <stockholm/makefu/2configs/hw/network-manager.nix>
+      # <stockholm/makefu/2configs/hw/stk1160.nix>
+      # <stockholm/makefu/2configs/hw/irtoy.nix>
+      # <stockholm/makefu/2configs/hw/malduino_elite.nix>
+      <stockholm/makefu/2configs/hw/switch.nix>
+      # <stockholm/makefu/2configs/hw/rad1o.nix>
+      <stockholm/makefu/2configs/hw/cc2531.nix>
+      <stockholm/makefu/2configs/hw/droidcam.nix>
+      <stockholm/makefu/2configs/hw/smartcard.nix>
+      <stockholm/makefu/2configs/hw/upower.nix>
+
+      # base
       <stockholm/makefu>
       <stockholm/makefu/2configs/nur.nix>
       <stockholm/makefu/2configs/home-manager>
@@ -107,7 +130,7 @@
       # Virtualization
       # <stockholm/makefu/2configs/virtualisation/libvirt.nix>
       <stockholm/makefu/2configs/virtualisation/docker.nix>
-      <stockholm/makefu/2configs/virtualisation/virtualbox.nix>
+      # <stockholm/makefu/2configs/virtualisation/virtualbox.nix>
       #{
       #  networking.firewall.allowedTCPPorts = [ 8080 ];
       #  networking.nat = {
@@ -128,24 +151,7 @@
       <stockholm/makefu/2configs/binary-cache/gum.nix>
       <stockholm/makefu/2configs/binary-cache/lass.nix>
 
-      # Hardware
-      <stockholm/makefu/2configs/hw/tp-x230.nix> # + bluetooth
-      # <stockholm/makefu/2configs/hw/mceusb.nix>
-      <stockholm/makefu/2configs/hw/tpm.nix>
-      # <stockholm/makefu/2configs/hw/rtl8812au.nix>
-      <stockholm/makefu/2configs/hw/network-manager.nix>
-      # <stockholm/makefu/2configs/hw/stk1160.nix>
-      # <stockholm/makefu/2configs/hw/irtoy.nix>
-      # <stockholm/makefu/2configs/hw/malduino_elite.nix>
-      <stockholm/makefu/2configs/hw/switch.nix>
-      # <stockholm/makefu/2configs/hw/rad1o.nix>
-      <stockholm/makefu/2configs/hw/cc2531.nix>
-      <stockholm/makefu/2configs/hw/droidcam.nix>
-      <stockholm/makefu/2configs/hw/smartcard.nix>
-      <stockholm/makefu/2configs/hw/upower.nix>
 
-      # Filesystem
-      <stockholm/makefu/2configs/fs/sda-crypto-root-home.nix>
 
       # Security
       # <stockholm/makefu/2configs/sshd-totp.nix>
@@ -182,7 +188,6 @@
       }
     ];
 
-  makefu.server.primary-itf = "wlp3s0";
 
   nixpkgs.config.allowUnfree = true;
   nixpkgs.config.oraclejdk.accept_license = true;
@@ -198,12 +203,6 @@
 
   krebs.tinc.retiolum.connectTo = [ "omo" "prism" "nextgum" "wbob" ];
 
-  # hard dependency because otherwise the device will not be unlocked
-  boot.initrd.luks.devices.luksroot =
-  {
-      device = "/dev/sda2";
-      allowDiscards = true;
-  };
 
   environment.systemPackages = [ pkgs.passwdqc-utils ];
 
