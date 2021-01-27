@@ -8,7 +8,7 @@
     };
   };
   imports = [
-    { #direnv
+    { 
       home-manager.users.makefu.home.packages = [
         (pkgs.writers.writeDashBin "privatefox" "exec firefox -P Privatefox")
       ];
@@ -23,12 +23,34 @@
       };
     }
   ];
-  environment.pathsToLink = [ "/share/zsh" ];
+  environment.pathsToLink = [
+    "/share/zsh"
+  ];
 
-  programs.direnv.enable = true;
-  programs.direnv.enableNixDirenvIntegration = true;
+  nix.extraOptions = ''
+    keep-outputs = true
+    keep-derivations = true
+  '';
 
   home-manager.users.makefu = {
+
+    programs.direnv.enable = true;
+    programs.direnv.enableNixDirenvIntegration = true;
+    programs.direnv.enableZshIntegration = true;
+    home.packages = [ (pkgs.writeDashBin "nixify" ''
+test ! -e shell.nix && cat > shell.nix <<EOF
+{ pkgs ? import <nixpkgs> {}}:
+
+pkgs.mkShell {
+  nativeBuildInputs = [ pkgs.hello ];
+}
+EOF
+echo "use nix" >> .envrc
+direnv allow
+'')
+    ];
+    #home.packages = [ pkgs.direnv pkgs.nix-direnv ];
+
     programs.fzf.enable = false; # alt-c
     programs.zsh = {
       enable = true;
