@@ -7,10 +7,20 @@ let
   prefix = (import ./lib).prefix;
   firetv_stick = "192.168.1.24";
   hassdir = "/var/lib/hass";
+  unstable = import (pkgs.fetchFromGitHub {
+    owner = "nixos";
+    repo = "nixpkgs";
+    rev = (lib.importJSON ../../../krebs/nixpkgs-unstable.json).rev;
+    sha256 = (lib.importJSON ../../../krebs/nixpkgs-unstable.json).sha256;
+  }) {};
+
+
 in {
   imports = [
+    ./nginx.nix
     ./mqtt.nix
-    ./zigbee2mqtt/default.nix
+    ./zigbee2mqtt
+    ./signal-rest
 
     # hass config
     ./zigbee2mqtt/hass.nix
@@ -25,11 +35,13 @@ in {
 
     ./calendar/nextcloud.nix
 
+    ./automation/fenster_auf.nix
     ./automation/firetv_restart.nix
     ./automation/light_buttons.nix
     ./automation/wohnzimmer_rf_fernbedienung.nix
     ./automation/giesskanne.nix
-    ./automation/urlaub.nix
+    #./automation/urlaub.nix
+    ./automation/moodlight.nix
 
     ./light/arbeitszimmer.nix
     ./light/schlafzimmer.nix
@@ -37,6 +49,15 @@ in {
   ];
 
   services.home-assistant = {
+    package = (unstable.home-assistant.overrideAttrs (old: {
+      doInstallCheck = false;
+    })).override {
+      extraPackages = p: [ 
+        (p.callPackage ./deps/dwdwfsapi.nix {}) 
+        (p.callPackage ./deps/pykodi.nix {}) 
+        p.APScheduler ];
+    };
+
     config = {
       influxdb = {
         database = "ham";
@@ -53,6 +74,13 @@ in {
         latitude = "48.7687";
         longitude = "9.2478";
         elevation = 247;
+        auth_providers = [
+          { type = "trusted_networks";
+            trusted_networks = [ "192.168.1.0/24" ];
+            allow_bypass_login = true;
+          }
+          { type = "homeassistant"; }
+        ];
       };
       discovery = {};
       conversation = {};
@@ -72,33 +100,39 @@ in {
       api = {};
       esphome = {};
       camera = [];
-      telegram_bot = [
-        # secrets file: {
-        #  "platform": "broadcast",
-        #  "api_key": "", # talk to Botfather /newbot
-        #  "allowed_chat_ids": [ ID ] # curl -X GET #  https://api.telegram.org/bot<YOUR_API_TOKEN>/getUpdates
-        # }
-        (builtins.fromJSON
-          (builtins.readFile <secrets/hass/telegram-bot.json>))
-      ];
+      #telegram_bot = [
+      #  # secrets file: {
+      #  #  "platform": "broadcast",
+      #  #  "api_key": "", # talk to Botfather /newbot
+      #  #  "allowed_chat_ids": [ ID ] # curl -X GET #  https://api.telegram.org/bot<YOUR_API_TOKEN>/getUpdates
+      #  # }
+      #  (builtins.fromJSON
+      #    (builtins.readFile <secrets/hass/telegram-bot.json>))
+      #];
       notify = [
         {
           platform = "kodi";
-          name = "wohnzimmer";
+          name = "Kodi Wohnzimmer";
           host = firetv_stick;
         }
         {
-          platform = "telegram";
-          name = "telegrambot";
-          chat_id = builtins.elemAt
-            (builtins.fromJSON (builtins.readFile
-              <secrets/hass/telegram-bot.json>)).allowed_chat_ids 0;
-            }
+          platform = "nfandroidtv";
+          name = "FireTV Wohnzimmer";
+          host = firetv_stick;
+        }
+        #{
+        #  platform = "telegram";
+        #  name = "telegrambot";
+        #  chat_id = builtins.elemAt
+        #    (builtins.fromJSON (builtins.readFile
+        #      <secrets/hass/telegram-bot.json>)).allowed_chat_ids 0;
+        #}
           ];
       sun.elevation = 247;
       recorder = {};
       media_player = [
-        { platform = "FireTV Stick kodi";
+        { platform = "kodi";
+          name = "FireTV Stick kodi";
           host = firetv_stick;
         }
         { platform = "androidtv";
@@ -146,7 +180,12 @@ in {
         # https://www.home-assistant.io/cookbook/automation_for_rainy_days/
       ];
       frontend = { };
-      http = { };
+      http = {
+        use_x_forwarded_for = true;
+        server_host = "127.0.0.1";
+        trusted_proxies = [ "127.0.0.1" ];
+        #trusted_proxies = [ "192.168.1.0/24" ];
+      };
       switch = [];
       automation = [];
       script = { };
