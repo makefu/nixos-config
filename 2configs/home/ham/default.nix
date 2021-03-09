@@ -7,12 +7,7 @@ let
   prefix = (import ./lib).prefix;
   firetv_stick = "192.168.1.24";
   hassdir = "/var/lib/hass";
-  unstable = import (pkgs.fetchFromGitHub {
-    owner = "nixos";
-    repo = "nixpkgs";
-    rev = (lib.importJSON ../../../krebs/nixpkgs-unstable.json).rev;
-    sha256 = (lib.importJSON ../../../krebs/nixpkgs-unstable.json).sha256;
-  }) {};
+  unstable = import <nixpkgs-unstable> {};
 
 
 in {
