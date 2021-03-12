@@ -10,13 +10,14 @@
   };
   services.xserver = {
 
-    windowManager = lib.mkForce {
-      awesome.enable = false;
-    };
-    desktopManager.xfce = {
+    windowManager = lib.mkForce { awesome.enable = false; };
+    displayManager.gdm.enable = true;
+    displayManager.autoLogin = {
       enable = true;
+      user = "makefu";
     };
-    displayManager.defaultSession = "xfce";
+    displayManager.defaultSession = "gnome";
+    desktopManager.gnome3.enable = true;
     displayManager.sessionCommands = ''
         ${pkgs.xlibs.xset}/bin/xset -display :0 s off -dpms
         ${pkgs.xlibs.xrandr}/bin/xrandr --output HDMI2 --right-of HDMI1
@@ -24,6 +25,10 @@
     # xrandrHeads = [ "HDMI1" "HDMI2" ];
     # prevent screen from turning off, disable dpms
   };
+
+
+  environment.systemPackages = [ pkgs.gnomeExtensions.appindicator ];
+  services.dbus.packages = with pkgs; [ gnome2.GConf gnome3.gnome-settings-daemon ];
 
   systemd.services.xset-off = {
     after = [ "display-manager.service" ];
