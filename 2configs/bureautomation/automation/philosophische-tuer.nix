@@ -1,0 +1,108 @@
+{ config, pkgs, lib, ... }:
+
+let
+  short_threshold = 30; #seconds
+  long_threshold = 30; #minutes
+  sensor = "binary_sensor.buerotuer_contact";
+
+  # get the list of all
+  name = "tueraudio";
+  prefix = "http://localhost:8123/local/${name}";
+  audiodir = "${config.services.home-assistant.configDir}/www/${name}";
+  recordrepo = pkgs.fetchFromGitHub {
+    owner = "makefu";
+    repo = "philosophische_tuer";
+    rev = "17544c6";
+    sha256 = "0bm0697fyf6s05c6yw6y25cyck04rlxj1dgazkq8mfqk6756v2bq";
+  };
+  samples = user: lib.mapAttrsToList
+    (file: _: ''"${prefix}/${name}/${user}/${file}"'')
+    (builtins.readDir (toString ( recordrepo+ "/recordings/${user}")));
+  random_tuerspruch = ''{{'' + (lib.concatStringsSep "," ((samples "Felix") ++ (samples "Sofia") ++ (samples "Markus"))) + ''| random}}''; # TODO read from derivation
+in
+{
+  systemd.tmpfiles.rules = [
+    "d ${audiodir} - hass hass - -"
+  ];
+
+  systemd.services.copy-philosophische-tuersounds = {
+    description = "copy philosophische tuer";
+    wantedBy = [ "multi-user.target"  ];
+    serviceConfig = {
+      Type = "oneshot";
+      User = "hass";
+      WorkingDirectory = audiodir;
+      ExecStart = pkgs.writeDash "update-samples" ''
+        cp -vr ${recordrepo} ${audiodir}
+      '';
+    };
+  };
+
+  services.home-assistant.config.media_extractor = { };
+  services.home-assistant.config.script."philosophische_tuer" = {
+    alias = "Durchsage der philosophischen Tür";
+    sequence = [
+      { service = "media_player.play_media";
+        data = {
+          entity_id = "media_player.mpd";
+          media_content_type = "playlist";
+          media_content_id = "ansage";
+        };
+      }
+      { delay.seconds = 5; }
+      { service = "media_extractor.play_media";
+        entity_id =  "media_player.mpd";
+        data_template = {
+          media_content_id = random_tuerspruch;
+          media_content_type = "MUSIC";
+        };
+      }
+    ];
+  };
+  services.home-assistant.config.automation =
+  [
+    {
+      alias = "Tür offen seit ${toString short_threshold} sekunden";
+      trigger =
+      { platform = "state";
+        entity_id = sensor;
+        to = "on";
+        for.seconds = 60;
+      };
+      condition = { };
+
+      action = [
+        { service = "homeassistant.turn_on";
+          entity_id = [
+            "script.philosophische_tuer"
+          ];
+        }
+      ];
+    }
+    {
+      alias = "Tür offen seit ${toString long_threshold} minuten";
+      trigger =
+      { platform = "state";
+        entity_id = sensor;
+        to = "on";
+        for.minutes = long_threshold;
+      };
+      condition = { };
+
+      action = [
+        { service = "homeassistant.turn_on";
+          entity_id = [
+            "script.philosophische_tuer"
+          ];
+        }
+        { service = "tts.google_say";
+          entity_id =  "media_player.mpd";
+          data_template = {
+            message = "BEEP BOOP - Die Tür ist schon seit ${toString long_threshold} Minuten offen! Student Nummer {{ range(1,500) | random }}, bitte schliesse die Tür";
+            language = "de";
+          };
+        }
+      ];
+    }
+  ];
+}
