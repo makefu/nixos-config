@@ -16,8 +16,8 @@
 let
   port = "2347";
   photodir = "/media/cryptX/photos";
-  statedir = "/var/lib/photoprism/appsrv";
-  db-dir = "/var/lib/photoprism/mysql";
+  statedir = "/media/cryptX/lib/photoprism/appsrv";
+  db-dir = "/media/cryptX/lib/photoprism/mysql";
   internal-ip = "192.168.1.11";
   sec = import <secrets/photoprism.nix>;
 in
@@ -97,6 +97,7 @@ in
       PHOTOPRISM_SITE_CAPTION = "FeMi Fotos";
       PHOTOPRISM_SITE_DESCRIPTION = "Unsere Fotos";
       PHOTOPRISM_SITE_AUTHOR = "FeMi";
+      PHOTOPRISM_SPONSOR = "true";
 
     };
   };
@@ -135,11 +136,11 @@ in
   #  };
   #};
 
-  systemd.services.photoprism.serviceConfig = {
+  systemd.services.docker-photoprism.serviceConfig = {
     StandardOutput = lib.mkForce "journal";
     StandardError = lib.mkForce "journal";
   };
-  systemd.services.mysql-photoprism.serviceConfig = {
+  systemd.services.docker-mysql-photoprism.serviceConfig = {
     StandardOutput = lib.mkForce "journal";
     StandardError = lib.mkForce "journal";
   };

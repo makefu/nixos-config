@@ -28,9 +28,11 @@ in {
       <stockholm/makefu/2configs/home-manager>
       <stockholm/makefu/2configs/home-manager/cli.nix>
       <stockholm/makefu/2configs/editor/neovim>
+      <stockholm/makefu/2configs/storj/client.nix>
 
 
       <stockholm/makefu/2configs/backup/state.nix>
+      <stockholm/makefu/2configs/backup/server.nix>
       <stockholm/makefu/2configs/exim-retiolum.nix>
       # <stockholm/makefu/2configs/smart-monitor.nix>
       <stockholm/makefu/2configs/mail-client.nix>
@@ -68,7 +70,7 @@ in {
       <stockholm/makefu/2configs/tinc/retiolum.nix>
 
       # statistics
-      <stockholm/makefu/2configs/stats/client.nix>
+      # <stockholm/makefu/2configs/stats/client.nix>
       # Logging
       #influx + grafana
       <stockholm/makefu/2configs/stats/server.nix>
@@ -91,13 +93,18 @@ in {
       <stockholm/makefu/2configs/virtualisation/docker.nix>
       <stockholm/makefu/2configs/bluetooth-mpd.nix>
 
-      <stockholm/makefu/2configs/ham>
+      <stockholm/makefu/2configs/home/ham>
+      <stockholm/makefu/2configs/home/airsonic.nix>
+      <stockholm/makefu/2configs/home/photoprism.nix>
+      <stockholm/makefu/2configs/home/metube.nix>
       {
         makefu.ps3netsrv = {
           enable = true;
           servedir = "/media/cryptX/emu/ps3";
         };
       }
+
+
       {
         hardware.pulseaudio.systemWide = true;
         makefu.mpd.musicDirectory = "/media/cryptX/music";
@@ -107,7 +114,15 @@ in {
       <stockholm/makefu/2configs/sshd-totp.nix>
       # <stockholm/makefu/2configs/logging/central-logging-client.nix>
 
-      <stockholm/makefu/2configs/torrent.nix>
+      # <stockholm/makefu/2configs/torrent.nix>
+      {
+        #krebs.rtorrent = {
+        #  downloadDir = lib.mkForce "/media/cryptX/torrent";
+        #  extraConfig = ''
+        #    upload_rate = 500
+        #  '';
+        #};
+      }
 
       # <stockholm/makefu/2configs/elchos/search.nix>
       # <stockholm/makefu/2configs/elchos/log.nix>
@@ -118,16 +133,11 @@ in {
 
       # Temporary:
       # <stockholm/makefu/2configs/temp/rst-issue.nix>
+      <stockholm/makefu/2configs/bgt/social-to-irc.nix>
 
     ];
   makefu.full-populate =  true;
   nixpkgs.config.allowUnfree = true;
-  krebs.rtorrent = {
-    downloadDir = lib.mkForce "/media/cryptX/torrent";
-    extraConfig = ''
-      upload_rate = 500
-    '';
-  };
   users.groups.share = {
     gid = (import <stockholm/lib>).genid "share";
     members = [ "makefu" "misa" ];

@@ -51,6 +51,10 @@ in {
     enable = true;
     disks = map toMapper [ 0 1 3 ];
     parity = toMapper 2; # find -name PARITY_PARTITION
+    extraConfig = ''
+      exclude /lib/storj/
+      exclude /.bitcoin/blocks/
+    '';
   };
   fileSystems = let
     cryptMount = name:
