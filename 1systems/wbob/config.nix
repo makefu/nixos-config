@@ -1,14 +1,15 @@
 { config, pkgs, lib, ... }:
 let
-  rootdisk = "/dev/disk/by-id/ata-TS256GMTS800_C613840115";
-  datadisk = "/dev/disk/by-id/ata-HGST_HTS721010A9E630_JR10006PH3A02F";
   user = config.makefu.gui.user;
   primaryIP = "192.168.8.11";
 in {
 
   imports =
-    [ # Include the results of the hardware scan.
+    [
       <stockholm/makefu>
+      # Include the results of the hardware scan.
+      ./nuc
+
       <stockholm/makefu/2configs/home-manager>
       <stockholm/makefu/2configs/support-nixos.nix>
       <stockholm/makefu/2configs/zsh-user.nix>
@@ -37,13 +38,13 @@ in {
 
       # Sensors
       # <stockholm/makefu/2configs/stats/client.nix>
-      <stockholm/makefu/2configs/stats/collectd-client.nix>
+      # <stockholm/makefu/2configs/stats/collectd-client.nix>
       <stockholm/makefu/2configs/stats/telegraf>
       <stockholm/makefu/2configs/stats/telegraf/airsensor.nix>
       <stockholm/makefu/2configs/stats/telegraf/europastats.nix>
       <stockholm/makefu/2configs/stats/external/aralast.nix>
       <stockholm/makefu/2configs/stats/arafetch.nix>
-      <stockholm/makefu/2configs/hw/mceusb.nix>
+      # <stockholm/makefu/2configs/hw/mceusb.nix>
       # <stockholm/makefu/2configs/stats/telegraf/bamstats.nix>
       { environment.systemPackages = [ pkgs.vlc ]; }
 
@@ -94,44 +95,6 @@ in {
       build.host = config.krebs.hosts.wbob;
   };
 
-  swapDevices = [ { device = "/var/swap"; } ];
-  services.collectd.extraConfig = lib.mkAfter ''
-
-    #LoadPlugin ping
-    # does not work because it requires privileges
-    #<Plugin "ping">
-    #  Host "google.de"
-    #  Host "heise.de"
-    #</Plugin>
-
-    LoadPlugin curl
-    <Plugin curl>
-      Interval 300
-      TotalTime true
-      NamelookupTime true
-      ConnectTime true
-
-      <Page "google">
-        MeasureResponseTime true
-        MeasureResponseCode true
-        URL "https://google.de"
-      </Page>
-
-      <Page "webde">
-        MeasureResponseTime true
-        MeasureResponseCode true
-        URL "http://web.de"
-      </Page>
-
-    </Plugin>
-    #LoadPlugin netlink
-    #<Plugin "netlink">
-    #  Interface "enp0s25"
-    #  Interface "wlp2s0"
-    #  IgnoreSelected false
-    #</Plugin>
-  '';
-
   networking.firewall.allowedUDPPorts = [ 655 ];
   networking.firewall.allowedTCPPorts = [
     655
@@ -146,7 +109,7 @@ in {
   #    Port = 1655
   #  '';
   #};
-
+  boot.kernelPackages = pkgs.linuxPackages_latest;
   # rt2870.bin wifi card, part of linux-unfree
   hardware.enableRedistributableFirmware = true;
   nixpkgs.config.allowUnfree = true;
@@ -156,24 +119,5 @@ in {
     address = "10.8.8.11";
     prefixLength = 24;
   }];
-
-
   # nuc hardware
-  boot.loader.grub.device = rootdisk;
-  hardware.cpu.intel.updateMicrocode = true;
-  boot.initrd.availableKernelModules = [ "xhci_pci" "ehci_pci" "ahci" "usbhid" "usb_storage" "sd_mod" ];
-
-  boot.kernelModules = [
-    "kvm-intel" "snd-seq" "snd-rawmidi"
-  ];
-  fileSystems = {
-    "/" = {
-      device = rootdisk + "-part1";
-      fsType = "ext4";
-    };
-    "/data" = {
-      device = datadisk + "-part1";
-      fsType = "ext4";
-    };
-  };
 }
