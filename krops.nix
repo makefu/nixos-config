@@ -1,4 +1,4 @@
-{ config ? config, name, target ? name }: let
+{ config ? config, name, target ? name , buildTarget ? target }: let
   krops = ../submodules/krops;
   nixpkgs-src = lib.importJSON ../krebs/nixpkgs.json;
 
@@ -87,6 +87,7 @@ in {
   deploy = pkgs.krops.writeDeploy "${name}-deploy" {
     source = source { test = false; };
     target = "root@${target}/var/src";
+    buildTarget = if target == buildTarget then "root@${target}/var/src" else "root@${buildTarget}/tmp/";
   };
 
   # usage: $(nix-build --no-out-link --argstr name HOSTNAME --argstr target PATH -A test)
