@@ -3,12 +3,16 @@
 let
   dataDir = "/var/lib/zigbee2mqtt";
   sec = import <secrets/zigbee2mqtt.nix>;
+  internal-ip = "192.168.1.11";
+  webport = 8521;
 in
   {
   # symlink the zigbee controller
   #services.udev.extraRules = ''
   #  SUBSYSTEM=="tty", ATTRS{idVendor}=="0451", ATTRS{idProduct}=="16a8", SYMLINK+="cc2531", MODE="0660", GROUP="dialout"
   #'';
+
+  # /dev/serial/by-id/usb-Silicon_Labs_slae.sh_cc2652rb_stick_-_slaesh_s_iot_stuff_00_12_4B_00_21_CC_45_BD-if00-port0
   services.udev.extraRules = ''
     SUBSYSTEM=="tty", ATTRS{idVendor}=="10c4", ATTRS{idProduct}=="ea60", SYMLINK+="cc2531", MODE="0660", GROUP="dialout"
   '';
@@ -27,6 +31,9 @@ in
         password = sec.mqtt.password;
         include_device_information = true;
         client_id = "zigbee2mqtt";
+      };
+      frontend = {
+        port = webport;
       };
       advanced = {
         log_level = "debug";
@@ -54,6 +61,19 @@ in
         };
       };
     };
+  };
+
+  services.nginx.recommendedProxySettings = true;
+  services.nginx.virtualHosts."zigbee" = {
+    serverAliases = [ "zigbee.lan" ];
+    locations."/".proxyPass = "http://localhost:${toString webport}";
+    locations."/api".proxyPass = "http://localhost:${toString webport}";
+    locations."/api".proxyWebsockets = true;
+    extraConfig = ''
+      if ( $server_addr != "${internal-ip}" ) {
+        return 403;
+      }
+    '';
   };
 
   state = [ "${dataDir}/devices.yaml" "${dataDir}/state.json" ];
