@@ -6,5 +6,10 @@ in {
     serverAliases = [ "hass.lan" "ha" "ha.lan" ];
     locations."/".proxyPass = "http://localhost:8123";
     locations."/".proxyWebsockets = true;
+    extraConfig = ''
+      if ( $server_addr != "${internal-ip}" ) {
+        return 403;
+      }
+    '';
   };
 }
