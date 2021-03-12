@@ -14,17 +14,17 @@ in {
     ];
   };
 
-  # scanners are printers just in reverse anyway
-  services.saned.enable = true;
   users.users."${mainUser}".extraGroups = [ "scanner" "lp" ];
 
+  # scanners are printers just in reverse anyway
+  services.saned.enable = true;
   hardware.sane = {
     enable = true;
     extraBackends = [ ];
     netConf =
       # drucker.lan SCX-3205W
       ''
-        192.168.1.6''
+        192.168.1.16''
       # uhrenkind.shack magicolor 1690mf
     + ''
         10.42.20.30'';
