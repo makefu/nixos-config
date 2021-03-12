@@ -17,6 +17,7 @@ ${gnused}/bin/sed -i "''${1}d" ~/.ssh/known_hosts
     which
     binutils
     screen
+    rename # rename 's/^/hello/' *.txt
 
     # fs
     cifs-utils
