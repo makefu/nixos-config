@@ -6,7 +6,7 @@ in {
   services.nginx.virtualHosts."etherpad.euer.krebsco.de" = {
     # useACMEHost = "euer.krebsco.de";
     extraConfig = ''
-      ssl_session_timeout  5m;
+      ssl_session_timeout  30m;
     '';
     enableACME = true;
     forceSSL = true;
@@ -27,7 +27,7 @@ in {
         # WebSocket proxying - from https://nginx.org/en/docs/http/websocket.html
         proxy_set_header  Upgrade $http_upgrade;
         proxy_set_header  Connection "upgrade";
-        proxy_read_timeout 61s;
+        proxy_read_timeout 1799s;
     '';
   };
   docker-containers."etherpad-lite" = {
