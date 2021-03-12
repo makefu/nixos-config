@@ -57,6 +57,7 @@ with import <stockholm/lib>;
   environment.shellAliases = {
     # TODO: see .aliases
     lsl = "ls -lAtr";
+    ip = "ip -c -br";
     dmesg = "dmesg -L --reltime";
     psg = "ps -ef | grep";
     nmap = "nmap -oN $HOME/loot/scan-`date +\%s`.nmap -oX $HOME/loot/scan-`date +%s`.xml";
