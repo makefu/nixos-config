@@ -1,6 +1,5 @@
 { config, lib, pkgs, ... }:
 
-with import <stockholm/lib>;
 {
 
   imports = [ ./tp-x2x0.nix  <nixos-hardware/lenovo/thinkpad/x230> ];
@@ -10,6 +9,13 @@ with import <stockholm/lib>;
 
   # possible i915 powersave options:
   #  options i915 enable_rc6=1 enable_fbc=1 semaphores=1
+
+  boot.extraModprobeConfig = ''
+    options thinkpad_acpi fan_control=1
+    options i915 enable_rc6=1 enable_fbc=1 semaphores=1
+  '';
+
+  boot.initrd.availableKernelModules = [ "thinkpad_acpi" ];
 
   services.xserver.displayManager.sessionCommands =''
     xinput set-int-prop "TPPS/2 IBM TrackPoint" "Evdev Wheel Emulation" 8 1
