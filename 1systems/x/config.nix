@@ -158,7 +158,8 @@
 
       # temporary
       # { services.redis.enable = true; }
-      # <stockholm/makefu/2configs/pyload.nix>
+      { services.mongodb.enable = true; }
+      # <stockholm/makefu/2configs/home/photoprism.nix>
       # <stockholm/makefu/2configs/dcpp/airdcpp.nix>
       # <stockholm/makefu/2configs/nginx/rompr.nix>
       # <stockholm/makefu/2configs/lanparty/lancache.nix>
