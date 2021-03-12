@@ -43,6 +43,7 @@ in {
 
       <stockholm/makefu/2configs/zsh-user.nix>
       <stockholm/makefu/2configs/mosh.nix>
+      <stockholm/makefu/2configs/storj/forward-port.nix>
       # <stockholm/makefu/2configs/gui/xpra.nix>
 
       # networking
@@ -156,6 +157,7 @@ in {
       <stockholm/makefu/2configs/bgt/download.binaergewitter.de.nix>
       <stockholm/makefu/2configs/bgt/hidden_service.nix>
       <stockholm/makefu/2configs/bgt/backup.nix>
+      <stockholm/makefu/2configs/bgt/social-to-irc.nix>
 
       # <stockholm/makefu/2configs/logging/client.nix>
 
@@ -203,7 +205,10 @@ in {
   # Network
   networking = {
     firewall = {
-        allowedTCPPorts = [ 80 443 ];
+        allowedTCPPorts = [
+          80 443
+          28967  # storj
+        ];
         allowPing = true;
         logRefusedConnections = false;
     };
