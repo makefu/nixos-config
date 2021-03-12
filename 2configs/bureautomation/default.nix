@@ -1,11 +1,14 @@
 { config, pkgs, lib, ... }:
 let
   kodi-host = "192.168.8.11";
+  unstable = import <nixpkgs-unstable> {};
 in {
   imports = [
     ./ota.nix
     ./comic-updater.nix
     ./puppy-proxy.nix
+
+    ./zigbee2mqtt
 
     # hass config
     ## complex configs
@@ -39,15 +42,22 @@ in {
     ./automation/bureau-shutdown.nix
     ./automation/nachtlicht.nix
     ./automation/schlechteluft.nix
+    ./automation/philosophische-tuer.nix
     ./automation/hass-restart.nix
     ./device_tracker/openwrt.nix
     ./person/team.nix
   ];
+
   networking.firewall.allowedTCPPorts = [ 8123 ];
   state = [ "/var/lib/hass/known_devices.yaml" ];
 
   services.home-assistant = {
     enable = true;
+    package = (unstable.home-assistant.overrideAttrs (old: {
+      doInstallCheck = false;
+    })).override {
+      extraPackages = p: [ p.APScheduler ];
+    };
     autoExtraComponents = true;
     config = {
       config = {};
