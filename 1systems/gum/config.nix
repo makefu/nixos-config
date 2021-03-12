@@ -148,7 +148,7 @@ in {
       <stockholm/makefu/2configs/deployment/boot-euer.nix>
       <stockholm/makefu/2configs/deployment/gecloudpad>
       <stockholm/makefu/2configs/deployment/docker/archiveteam-warrior.nix>
-      <stockholm/makefu/2configs/deployment/docker/etherpad.euer.krebsco.de.nix>
+      <stockholm/makefu/2configs/bgt/etherpad.euer.krebsco.de.nix>
       # <stockholm/makefu/2configs/deployment/systemdultras-rss.nix>
 
       <stockholm/makefu/2configs/shiori.nix>
