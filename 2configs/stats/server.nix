@@ -27,6 +27,7 @@ in {
     http.suppress-write-log = true;
     data.trace-logging-enabled = false;
     data.query-log-enabled = false;
+    reporting-disabled = true;
 
     http.bind-address = ":${toString influx-port}";
     admin.bind-address = ":8083";
