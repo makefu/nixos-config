@@ -86,6 +86,7 @@ in {
   # usage: $(nix-build --no-out-link --argstr name HOSTNAME -A deploy)
   deploy = pkgs.krops.writeDeploy "${name}-deploy" {
     source = source { test = false; };
+    fast = true;
     target = "root@${target}/var/src";
     buildTarget = if target == buildTarget then "root@${target}/var/src" else "root@${buildTarget}/tmp/";
   };
