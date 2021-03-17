@@ -1,4 +1,8 @@
 { lib, ... }:
+let
+  port = "14002";
+internal-ip = "192.168.1.11";
+in
 {
   networking.firewall.allowedTCPPorts = [ 28967 ];
   virtualisation.oci-containers.containers.storj-storagenode = {
@@ -6,7 +10,7 @@
     ports = [
       # TODO: omo ip
       "0.0.0.0:28967:28967"
-      "127.0.0.1:14002:14002"
+      "127.0.0.1:${port}:${port}"
     ];
     environment = {
       # SETUP = "true"; # must be run only once ...
@@ -23,5 +27,19 @@
   systemd.services.docker-storj-storagenode.serviceConfig = {
     StandardOutput = lib.mkForce "journal";
     StandardError = lib.mkForce "journal";
+  };
+
+  services.nginx.virtualHosts."storj" = {
+    serverAliases = [
+              "storj.lan"
+    ];
+
+    locations."/".proxyPass = "http://localhost:${port}";
+    locations."/".proxyWebsockets = true;
+    extraConfig = ''
+      if ( $server_addr != "${internal-ip}" ) {
+        return 403;
+      }
+    '';
   };
 }
