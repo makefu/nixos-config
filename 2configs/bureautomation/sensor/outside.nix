@@ -20,10 +20,13 @@
       units =  "si" ;
       scan_interval = "00:30:00";
     }
-    { platform = "luftdaten";
-      name = "Ditzingen";
-      sensorid = "5341";
-      monitored_conditions = [ "P1" "P2" ];
-    }
   ];
+  services.home-assistant.config.luftdaten = {
+    sensor_id = "26237";
+    show_on_map = true;
+    sensors.monitored_conditions = [
+      "P1"
+      "P2"
+    ];
+  };
 }

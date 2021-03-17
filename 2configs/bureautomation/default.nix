@@ -56,7 +56,11 @@ in {
     package = (unstable.home-assistant.overrideAttrs (old: {
       doInstallCheck = false;
     })).override {
-      extraPackages = p: [ p.APScheduler ];
+      extraPackages = p: [ 
+        # TODO: put somewhere else
+        (p.callPackage <stockholm/makefu/2configs/home/ham/deps/dwdwfsapi.nix> {})
+        (p.callPackage <stockholm/makefu/2configs/home/ham/deps/pykodi.nix> {})
+        p.APScheduler ];
     };
     autoExtraComponents = true;
     config = {
@@ -119,13 +123,13 @@ in {
           name = "wbob-kodi";
           host = kodi-host;
         }
-        {
-          platform = "telegram";
-          name = "telegrambot";
-          chat_id = builtins.elemAt
-            (builtins.fromJSON (builtins.readFile
-              <secrets/hass/telegram-bot.json>)).allowed_chat_ids 0;
-        }
+        #{
+        #  platform = "telegram";
+        #  name = "telegrambot";
+        #  chat_id = builtins.elemAt
+        #    (builtins.fromJSON (builtins.readFile
+        #      <secrets/hass/telegram-bot.json>)).allowed_chat_ids 0;
+        #}
       ];
       media_player = [
         { platform = "kodi";
@@ -136,7 +140,7 @@ in {
         }
       ];
 
-      sensor = [{ platform = "version"; }]; # pyhaversion
+      # sensor = [{ platform = "version"; }]; # pyhaversion
 
 
 
@@ -158,113 +162,16 @@ in {
           api_key = builtins.readFile <secrets/hass/voicerss.apikey>;
           language = "de-de";
         }
-        { platform = "picotts";
-          language = "de-DE";
-        }
+        #{ platform = "picotts";
+        #  language = "de-DE";
+        #}
       ];
       recorder = {};
       sun = {};
-      telegram_bot = [
-        (builtins.fromJSON
-          (builtins.readFile <secrets/hass/telegram-bot.json>))
-      ];
-      group =
-      { default_view =
-        { view = "yes";
-          entities = [
-              "group.sensors"
-              "group.camera"
-              "group.outside"
-              "group.team"
-              "group.nachtlicht"
-              "group.switches"
-              "group.aramark"
-            ];
-          };
-        automation = [];
-
-        switches = [
-          "switch.bauarbeiterlampe"
-          "switch.blitzdings"
-          "switch.fernseher"
-          "switch.feuer"
-          "switch.frosch_blasen"
-          "light.status_felix"
-          # "light.status_daniel"
-          # "light.buslicht"
-        ];
-        team = [
-          "person.thorsten"
-          #"device_tracker.thorsten_phone"
-          "person.felix"
-          "person.ecki"
-          "person.daniel"
-          # "person.carsten"
-          "person.thierry"
-          "person.frank"
-          "person.emeka"
-          "person.tancrede"
-          #"device_tracker.felix_phone"
-          #"device_tracker.ecki_tablet"
-          #"device_tracker.daniel_phone"
-          #"device_tracker.carsten_phone"
-          #"device_tracker.thierry_phone"
-          #"device_tracker.frank_phone"
-          #"device_tracker.emeka_phone"
-        #  "person.thorsten"
-        #  "person.felix"
-        #  "person.ecki"
-        #  "person.daniel"
-        ];
-        camera = [
-          "camera.Baumarkt"
-          "camera.Autobahn_Heilbronn"
-          "camera.Autobahn_Singen"
-          "camera.puppies"
-          "camera.poorly_drawn_lines"
-          "camera.xkcd"
-        ];
-        nachtlicht = [
-          "switch.nachtlicht_a"
-          "switch.nachtlicht_b"
-          "switch.nachtlicht_c"
-          "switch.nachtlicht_d"
-        ];
-        Aramark = [
-          "binary_sensor.pommes"
-          "sensor.menu_1"
-          "sensor.menu_1_text"
-          "sensor.menu_1_preis"
-          "sensor.menu_2"
-          "sensor.menu_2_text"
-          "sensor.menu_2_preis"
-          "sensor.aktion"
-          "sensor.aktion_text"
-          "sensor.aktion_preis"
-          "sensor.mercato"
-          "sensor.mercato_text"
-          "sensor.mercato_preis"
-        ];
-        sensors = [
-          "media_player.kodi"
-          "timer.felix_10h"
-          "timer.frank_10h"
-          "sensor.easy2_dht22_humidity"
-          "sensor.easy2_dht22_temperature"
-          "sensor.air_quality"
-          # "binary_sensor.aramark_pommes"
-          # "binary_sensor.redbutton"
-        ];
-        outside = [
-          # "sensor.ditzingen_pm10"
-          # "sensor.ditzingen_pm25"
-          "sensor.dark_sky_temperature"
-          "sensor.dark_sky_humidity"
-          "sensor.dark_sky_uv_index"
-          # "sensor.dark_sky_pressure"
-          "sensor.dark_sky_hourly_summary"
-        ];
-      };
+      #telegram_bot = [
+      #  (builtins.fromJSON
+      #    (builtins.readFile <secrets/hass/telegram-bot.json>))
+      #];
       # only for automation
       # feedreader.urls = [ "http://www.heise.de/security/rss/news-atom.xml" ];
       # we don't use imports because the expressions do not merge in

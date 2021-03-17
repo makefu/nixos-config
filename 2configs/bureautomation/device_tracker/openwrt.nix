@@ -12,7 +12,6 @@
       consider_home = 300; # 5 minutes timeout
       new_device_defaults = {
         track_new_devices = true;
-        hide_if_away = false;
       };
     }
   ];
