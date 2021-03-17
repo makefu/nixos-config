@@ -14,11 +14,10 @@ in {
   imports = [
     ./nginx.nix
     ./mqtt.nix
-    ./zigbee2mqtt
     ./signal-rest
 
     # hass config
-    ./zigbee2mqtt/hass.nix
+    ../zigbee2mqtt/hass.nix
     # ./multi/flurlicht.nix
     ./multi/kurzzeitwecker.nix
     ./multi/the_playlist.nix
