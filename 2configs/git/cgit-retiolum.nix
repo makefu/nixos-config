@@ -36,6 +36,7 @@ let
       cgit.desc = "Build new Stockholm hosts";
     };
     cac-api = { };
+    oof = { };
     euer_blog = { };
     ampel = { };
     europastats = { };
