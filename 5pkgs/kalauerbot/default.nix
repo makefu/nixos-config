@@ -1,11 +1,11 @@
 { stdenv, python3, fetchgit }:
 python3.pkgs.buildPythonPackage rec {
 name = "kalauerbot";
-rev = "2a1e868";
+rev = "f244b35";
   src = fetchgit {
     url = "http://cgit.euer.krebsco.de/kalauerbot";
     inherit rev;
-    sha256 = "1vymz3dnpgcxwfgbnrpc0plcdmihxcq7xsvpap755c5jvzvb8a1k";
+    sha256 = "08y4rlsil9p0726wlpkw2lpmkcnckaj3zqsifbj5w6rgivp6ly0v";
   };
   propagatedBuildInputs = with python3.pkgs;[
      (callPackage ./python-matrixbot.nix {
