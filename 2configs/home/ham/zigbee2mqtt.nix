@@ -6,7 +6,7 @@
 #   input_select
 #   timer
 let
-  inherit (import ../lib) zigbee;
+  inherit (import ./lib) zigbee;
   prefix = zigbee.prefix;
 in
 {
