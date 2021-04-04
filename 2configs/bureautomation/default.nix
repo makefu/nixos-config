@@ -12,7 +12,7 @@ in {
 
     # hass config
     ## complex configs
-    ./multi/daily-standup.nix
+    # ./multi/daily-standup.nix
     ./multi/aramark.nix
     ./multi/matrix.nix
     ./multi/frosch.nix
