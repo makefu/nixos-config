@@ -18,7 +18,9 @@ let
   samples = user: lib.mapAttrsToList
     (file: _: ''"${prefix}/${user}/${file}"'')
     (builtins.readDir (toString ( recordrepo+ "/recordings/${user}")));
-  random_tuerspruch = ''{{'' + (lib.concatStringsSep "," ((samples "Felix") ++ (samples "Sofia") ++ (samples "Markus"))) + ''| random}}''; # TODO read from derivation
+    random_tuerspruch = ''{{['' + (lib.concatStringsSep "," (
+      (samples "Felix") ++ (samples "Sofia") ++ (samples "Markus")
+      )) + ''] | random}}''; # TODO read from derivation
 in
 {
   systemd.services.copy-philosophische-tuersounds = {
