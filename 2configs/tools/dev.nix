@@ -13,7 +13,8 @@
     gi
     flashrom
     mosquitto
-    esphome
+    # esphome # broken
+
     # nix related
     nix-index
     nix-review
