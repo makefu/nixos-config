@@ -36,10 +36,20 @@ in {
     forceSSL = true;
     enableACME = true;
   };
-  state = [ "${config.services.nextcloud.home}/config" ];
+  services.postgresqlBackup = {
+    enable = true;
+    databases = [ config.services.nextcloud.config.dbname ];
+  };
+
+  state = [
+    # services.postgresql.dataDir
+    # "${config.services.nextcloud.home}/config"
+    config.services.postgresqlBackup.location
+  ];
+
   services.nextcloud = {
     enable = true;
-    package = pkgs.nextcloud20;
+    package = pkgs.nextcloud21;
     hostName = "o.euer.krebsco.de";
     # Use HTTPS for links
     https = true;
