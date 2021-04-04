@@ -21,7 +21,7 @@ in {
     };
   in
     foldl' mergeAttrs {} (map proxy instances);
-  docker-containers = let
+  virtualisation.oci-containers.containers = let
     container = ident:
       { "archiveteam-warrior${toString ident}" = {
         image = "archiveteam/warrior-dockerfile";
