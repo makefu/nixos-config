@@ -104,7 +104,8 @@ in {
       # sharing
       <stockholm/makefu/2configs/share/gum.nix> # samba sahre
       <stockholm/makefu/2configs/torrent.nix>
-      <stockholm/makefu/2configs/sickbeard>
+      # <stockholm/makefu/2configs/sickbeard>
+      <stockholm/makefu/2configs/bitwarden.nix>
 
       { nixpkgs.config.allowUnfree = true; }
       #<stockholm/makefu/2configs/retroshare.nix>
@@ -117,7 +118,9 @@ in {
       <stockholm/makefu/2configs/vpn/openvpn-server.nix>
       # <stockholm/makefu/2configs/vpn/vpnws/server.nix>
       <stockholm/makefu/2configs/binary-cache/server.nix>
+      { makefu.backup.server.repo = "/var/backup/borg"; }
       <stockholm/makefu/2configs/backup/server.nix>
+      <stockholm/makefu/2configs/backup/state.nix>
       <stockholm/makefu/2configs/iodined.nix>
       <stockholm/makefu/2configs/bitlbee.nix>
       <stockholm/makefu/2configs/wireguard/server.nix>
