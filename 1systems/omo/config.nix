@@ -32,6 +32,8 @@ in {
 
 
       <stockholm/makefu/2configs/backup/state.nix>
+
+      { makefu.backup.server.repo = "/media/cryptX/backup/borg"; }
       <stockholm/makefu/2configs/backup/server.nix>
       <stockholm/makefu/2configs/exim-retiolum.nix>
       # <stockholm/makefu/2configs/smart-monitor.nix>
