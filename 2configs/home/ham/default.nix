@@ -17,7 +17,7 @@ in {
     ./signal-rest
 
     # hass config
-    ../zigbee2mqtt/hass.nix
+    ./zigbee2mqtt.nix
     # ./multi/flurlicht.nix
     ./multi/kurzzeitwecker.nix
     ./multi/the_playlist.nix
@@ -48,8 +48,7 @@ in {
     })).override {
       extraPackages = p: [ 
         (p.callPackage ./deps/dwdwfsapi.nix {}) 
-        (p.callPackage ./deps/pykodi.nix {}) 
-        p.APScheduler ];
+        (p.callPackage ./deps/pykodi.nix {}) ];
     };
 
     config = {
@@ -92,7 +91,7 @@ in {
         }
       ];
       api = {};
-      esphome = {};
+      esphome = {}; # fails
       camera = [];
       #telegram_bot = [
       #  # secrets file: {
