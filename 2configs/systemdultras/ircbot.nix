@@ -8,18 +8,15 @@
         host = "irc.freenode.net";
         port = 6667;
       };
+      notifyErrors = false;
       bots = {
         r-systemdultras-rss = {
           feed = "https://www.reddit.com/r/systemdultras/.rss";
           delay = 136;
-          channels = [ "#systemdultras" ];
-          notifyErrors = false;
         };
         r-systemd-rss = {
           feed = "https://www.reddit.com/r/systemd/.rss";
           delay = 172;
-          channels = [ "#systemdultras" ];
-          notifyErrors = false;
         };
       };
     };
