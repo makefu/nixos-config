@@ -3,7 +3,7 @@ let
   web_port = 9011;
   statedir = "/var/lib/shiori";
 in {
-  state = [ statedir ];
+  state = [ "/var/lib/private/shiori" ]; # when using dynamicUser
   systemd.services.shiori = {
     description = "Shiori Server";
     after = [ "network-online.target" ];
