@@ -9,7 +9,13 @@ in {
   };
   systemd.services.tt-rss.serviceConfig.ExecStart = lib.mkForce "${pkgs.php}/bin/php /var/lib/tt-rss/update_daemon2.php";
   services.postgresql.package = pkgs.postgresql_9_6;
-  state = [ config.services.postgresql.dataDir ];
+  state = [ config.services.postgresqlBackup.location ];
+
+  services.postgresqlBackup = {
+    enable = true;
+    databases = [ config.services.tt-rss.database.name ];
+  };
+
   services.nginx.virtualHosts."${fqdn}" = {
     enableACME = true;
     forceSSL = true;
