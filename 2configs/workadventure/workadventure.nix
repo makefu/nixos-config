@@ -60,7 +60,7 @@ in {
   };
 
   virtualisation.oci-containers.backend = "docker";
-
+  security.acme.certs."${domain}".extraDomainNames = [ apiURL frontURL pusherURL uploaderURL ];
   services.nginx.virtualHosts."${domain}" = {
     enableACME = true;
     forceSSL = true;
@@ -82,7 +82,7 @@ in {
     extraOptions = [ "--network=workadventure" ];
   };
   services.nginx.virtualHosts."${frontURL}" = {
-    enableACME = true;
+    useACMEHost = domain;
     forceSSL = true;
     locations."/" = { proxyPass = "http://127.0.0.1:${toString frontPort}"; };
   };
@@ -99,7 +99,7 @@ in {
     extraOptions = [ "--network=workadventure" ];
   };
   services.nginx.virtualHosts."${pusherURL}" = {
-    enableACME = true;
+    useACMEHost = domain;
     forceSSL = true;
     locations."/" = {
       proxyPass = "http://127.0.0.1:${toString pusherPort}";
@@ -123,7 +123,7 @@ in {
     extraOptions = [ "--network=workadventure" ];
   };
   services.nginx.virtualHosts."${apiURL}" = {
-    enableACME = true;
+    useACMEHost = domain;
     forceSSL = true;
     locations."/" = { proxyPass = "http://127.0.0.1:${toString apiPort}"; };
   };
@@ -134,7 +134,7 @@ in {
     extraOptions = [ "--network=workadventure" ];
   };
   services.nginx.virtualHosts."${uploaderURL}" = {
-    enableACME = true;
+    useACMEHost = domain;
     forceSSL = true;
     locations."/" = {
       proxyPass = "http://127.0.0.1:${toString uploaderPort}";
