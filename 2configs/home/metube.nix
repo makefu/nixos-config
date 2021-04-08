@@ -5,7 +5,7 @@ let
   port = "2348";
   dl-dir = "/media/cryptX/youtube/music";
   uid = 20421;
-  internal-ip = "192.168.1.11";
+  internal-ip = "192.168.111.11";
 in
   {
   systemd.tmpfiles.rules = [

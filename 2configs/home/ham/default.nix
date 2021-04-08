@@ -5,7 +5,7 @@
 ##
 let
   prefix = (import ./lib).prefix;
-  firetv_stick = "192.168.1.24";
+  firetv_stick = "192.168.111.24";
   hassdir = "/var/lib/hass";
   unstable = import <nixpkgs-unstable> {};
 

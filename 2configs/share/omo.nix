@@ -4,7 +4,7 @@ with import <stockholm/lib>;
 let
   hostname = config.krebs.build.host.name;
   # TODO local-ip from the nets config
-  local-ip = "192.168.1.11";
+  internal-ip = "192.168.111.11";
   # local-ip = config.krebs.build.host.nets.retiolum.ip4.addr;
 in {
 

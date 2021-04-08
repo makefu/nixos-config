@@ -1,7 +1,7 @@
 { lib, ... }:
 let
   port = "14002";
-internal-ip = "192.168.1.11";
+  internal-ip = "192.168.111.11";
 in
 {
   networking.firewall.allowedTCPPorts = [ 28967 ];

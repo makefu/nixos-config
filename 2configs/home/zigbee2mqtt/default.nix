@@ -3,7 +3,7 @@
 let
   dataDir = "/var/lib/zigbee2mqtt";
   sec = import <secrets/zigbee2mqtt.nix>;
-  internal-ip = "192.168.1.11";
+  internal-ip = "192.168.111.11";
   webport = 8521;
 in
   {

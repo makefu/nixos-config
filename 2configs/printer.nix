@@ -24,7 +24,7 @@ in {
     netConf =
       # drucker.lan SCX-3205W
       ''
-        192.168.1.16''
+        192.168.111.16''
       # uhrenkind.shack magicolor 1690mf
     + ''
         10.42.20.30'';

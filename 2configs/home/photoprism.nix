@@ -18,7 +18,7 @@ let
   photodir = "/media/cryptX/photos";
   statedir = "/media/cryptX/lib/photoprism/appsrv";
   db-dir = "/media/cryptX/lib/photoprism/mysql";
-  internal-ip = "192.168.1.11";
+  internal-ip = "192.168.111.11";
   sec = import <secrets/photoprism.nix>;
 in
 {
