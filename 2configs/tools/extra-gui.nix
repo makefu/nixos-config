@@ -17,5 +17,6 @@
     gitAndTools.gitFull
     signal-desktop
     # rambox
+    vscode
   ];
 }
