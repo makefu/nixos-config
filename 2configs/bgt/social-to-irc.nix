@@ -1,3 +1,4 @@
+{ pkgs, ... }:
 {
   systemd.services.brockman.environment."BROCKMAN_LOG_LEVEL" = "DEBUG";
   systemd.services.restart-brockman = {

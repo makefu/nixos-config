@@ -160,7 +160,7 @@ in {
       <stockholm/makefu/2configs/bgt/download.binaergewitter.de.nix>
       <stockholm/makefu/2configs/bgt/hidden_service.nix>
       <stockholm/makefu/2configs/bgt/backup.nix>
-      <stockholm/makefu/2configs/bgt/social-to-irc.nix>
+      # <stockholm/makefu/2configs/bgt/social-to-irc.nix>
 
       # <stockholm/makefu/2configs/logging/client.nix>
 
