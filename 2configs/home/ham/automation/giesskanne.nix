@@ -5,9 +5,9 @@ let
     name = "chilicam";
     camera = "camera.espcam_02";
     light = "light.espcam_02_light";
-    seconds = 60; # default shutoff to protect the LED from burning out
+    seconds = 90; # default shutoff to protect the LED from burning out
   };
-  seconds = 60;
+  seconds = 70; # time for giesskanne
   pump = "switch.arbeitszimmer_giesskanne_relay";
   # sensor = "sensor.statistics_for_sensor_crafting_brotbox_soil_moisture";
 in

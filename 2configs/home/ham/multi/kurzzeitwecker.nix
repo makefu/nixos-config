@@ -5,9 +5,10 @@
 
 # Needs:
 #  sensor.zigbee_btn1_click
-#  notify.telegrambot
+#  notify.signal_home
 let
   button = "sensor.zigbee_btn2_click";
+  notify = "notify.signal_home";
 in
 {
   services.home-assistant.config = {
@@ -56,7 +57,7 @@ in
             data.duration = "00:05:00";
           }
           {
-            service = "notify.telegrambot";
+            service = notify;
             data.message = "Timer gestartet {{state_attr('timer.kurzzeitwecker', 'remaining') }}, verbleibend ";
           }
         ];
@@ -79,7 +80,7 @@ in
             entity_id =  "script.add_5_minutes_to_kurzzeitwecker";
           }
           {
-            service = "notify.telegrambot";
+            service = notify;
             data.message = ''Timer um 5 minuten verlängert, {{ state_attr('timer.kurzzeitwecker', 'remaining') | truncate(9,True," ") }} verbleibend '';
           }
         ];
@@ -111,7 +112,7 @@ in
             entity_id =  "timer.kurzzeitwecker";
           }
           {
-            service = "notify.telegrambot";
+            service = notify;
             data.message = "Timer gestoppt, abgebrochen";
           }
         ];
@@ -125,7 +126,7 @@ in
         };
         action = [
           {
-            service = "notify.telegrambot";
+            service = notify;
             data.message = "Timer beendet";
           }
         ];

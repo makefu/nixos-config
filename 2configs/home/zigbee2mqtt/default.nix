@@ -40,7 +40,6 @@ in
         log_output = [ "console" ];
         last_seen = "ISO_8601";
         elapsed = true;
-        reporting = true; # TODO test if it is better with groups
         pan_id = 6755;
         inherit (sec.zigbee) network_key;
       };

@@ -33,7 +33,8 @@ in {
     ./automation/firetv_restart.nix
     ./automation/light_buttons.nix
     ./automation/wohnzimmer_rf_fernbedienung.nix
-    ./automation/giesskanne.nix
+    #./automation/giesskanne.nix
+    ./automation/pflanzen_giessen_erinnerung.nix
     #./automation/urlaub.nix
     ./automation/moodlight.nix
 
@@ -48,7 +49,9 @@ in {
     })).override {
       extraPackages = p: [ 
         (p.callPackage ./deps/dwdwfsapi.nix {}) 
-        (p.callPackage ./deps/pykodi.nix {}) ];
+        (p.callPackage ./signal-rest/pkg.nix {}) 
+        #(p.callPackage ./deps/pykodi.nix {}) 
+      ];
     };
 
     config = {
@@ -103,11 +106,11 @@ in {
       #    (builtins.readFile <secrets/hass/telegram-bot.json>))
       #];
       notify = [
-        {
-          platform = "kodi";
-          name = "Kodi Wohnzimmer";
-          host = firetv_stick;
-        }
+        #{
+        #  platform = "kodi";
+        #  name = "Kodi Wohnzimmer";
+        #  host = firetv_stick;
+        #}
         {
           platform = "nfandroidtv";
           name = "FireTV Wohnzimmer";
@@ -166,8 +169,10 @@ in {
       };
       #binary_sensor =
       #   flurlicht.binary_sensor;
+
       sensor = [
-        { platform = "speedtest";
+        { platform = "speedtestdotnet";
+          scan_interval.hours = 6;
           monitored_conditions = [ "ping" "download" "upload" ];
         }
         # https://www.home-assistant.io/cookbook/automation_for_rainy_days/
