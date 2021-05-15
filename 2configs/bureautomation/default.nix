@@ -59,7 +59,7 @@ in {
       extraPackages = p: [ 
         # TODO: put somewhere else
         (p.callPackage <stockholm/makefu/2configs/home/ham/deps/dwdwfsapi.nix> {})
-        (p.callPackage <stockholm/makefu/2configs/home/ham/deps/pykodi.nix> {})
+        # (p.callPackage <stockholm/makefu/2configs/home/ham/deps/pykodi.nix> {})
         p.APScheduler ];
     };
     autoExtraComponents = true;
@@ -147,7 +147,7 @@ in {
       frontend = { };
       http = {
         # TODO: https://github.com/home-assistant/home-assistant/issues/16149
-        base_url = "http://192.168.8.11:8123";
+        # base_url = "http://192.168.8.11:8123";
       };
       conversation = {};
       history = {};
