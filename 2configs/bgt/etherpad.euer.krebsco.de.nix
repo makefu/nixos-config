@@ -30,8 +30,12 @@ in {
         proxy_read_timeout 1799s;
     '';
   };
-  docker-containers."etherpad-lite" = {
-    image = "makefoo/bgt-etherpad:2020-05-02.6";
+  state = [ "/var/lib/docker/volumes/etherpad_data/_data/" ];
+  virtualisation.oci-containers.containers."etherpad-lite" = {
+    image = "makefoo/bgt-etherpad:2021-04-16.3"; # --build-arg ETHERPAD_PLUGINS="ep_markdown"
+    # ep_codepad does not work anymore
+
+    #image = "etherpad/etherpad:1.8.13";
     ports = [ "127.0.0.1:${toString port}:9001" ];
     volumes = [
       "/var/src/secrets/etherpad/apikey:/opt/etherpad-lite/APIKEY.txt"
@@ -46,7 +50,10 @@ in {
   #DB_PASS=mypassword
     environment = {
       # ADMIN_PASSWORD = "auf jeden fall nicht das echte admin passwort";
+      # LOGLEVEL = "DEBUG";
+
       SUPPRESS_ERRORS_IN_PAD_TEXT = "true";
+      TRUST_PROXY =  "true";
       TITLE = "Binärgewitter Etherpad";
       SKIN_NAME = "no-skin";
       DEFAULT_PAD_TEXT = builtins.replaceStrings ["\n"] ["\\n"] (builtins.readFile ./template.md);
