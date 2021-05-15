@@ -11,11 +11,11 @@
 
 stdenv.mkDerivation rec {
   name = "studio-link-${version}";
-  version = "20.05.5";
+  version = "21.03.2";
 
   src = fetchurl {
     url = "https://download.studio.link/releases/v${version}-stable/linux/studio-link-standalone-v${version}.tar.gz";
-    sha256 = "0wmcvihyxf4xvgrspvy3qhhabczv86hdfcfq61jv51hfrzibc2q1";
+    sha256 = "0szaym9lrkbnwxaffab9snlsij6kkwlin70d36bm3vi2la8iayc6";
   };
 
   nativeBuildInputs = [
