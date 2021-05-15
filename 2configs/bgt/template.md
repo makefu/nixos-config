@@ -21,6 +21,7 @@
 ## Vorschläge
 ### Backlog von Picks und Lesefoo aus der letzten Woche
 
+die Nachfolgenden 3 Striche sind sehr wichtig, bitte nicht löschen
 ---
 
 ## Blast from the Past
