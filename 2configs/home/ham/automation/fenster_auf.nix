@@ -61,7 +61,7 @@ let
 in {
   services.home-assistant.config = {
     input_boolean = {
-      badezimmerfinester_lang_offen.name = "Badezimmer lange offen";
+      badezimmerfenster_lang_offen.name = "Badezimmer lange offen";
       duschfenster_lang_offen.name = "Duschfenster lange offen";
     };
     automation = [
