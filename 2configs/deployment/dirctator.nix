@@ -15,7 +15,7 @@ in {
     inputConfig = ''
       irc {
         channels => [ "#krebs", "#afra" ]
-        host => "irc.freenode.net"
+        host => "irc.hackint.org"
         nick => "dirctator"
       }
     '';

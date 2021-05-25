@@ -11,7 +11,7 @@
     config = {
       channel = "#systemdultras";
       irc = {
-        host = "irc.freenode.net";
+        host = "irc.hackint.org";
         port = 6667;
       };
       notifyErrors = false;

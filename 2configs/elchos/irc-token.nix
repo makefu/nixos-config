@@ -17,7 +17,7 @@ in {
       echo "$message"
       LOGNAME=sec-announcer
       HOSTNAME=$(${pkgs.systemd}/bin/hostnamectl --transient)
-      IRC_SERVER=irc.freenode.net
+      IRC_SERVER=irc.hackint.org
       IRC_PORT=6667
       IRC_NICK=$HOSTNAME-$$
       IRC_CHANNEL='#eloop'

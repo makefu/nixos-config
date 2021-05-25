@@ -13,7 +13,7 @@
       channel = "#binaergewitter";
       notifyErrors = false;
       irc = {
-        host = "irc.freenode.net";
+        host = "irc.libera.chat";
         port = 6667;
       };
       #controller = {
