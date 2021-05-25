@@ -32,5 +32,9 @@
 
   users.groups.video = {};
   users.users.makefu.extraGroups = [ "video" ];
+
+  boot.extraModprobeConfig = ''
+    options thinkpad_acpi fan_control=1
+  '';
 }
 
