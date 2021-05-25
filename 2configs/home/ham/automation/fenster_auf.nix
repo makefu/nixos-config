@@ -36,6 +36,7 @@ let
             platform = "state";
             entity_id = entity;
             to = "off";
+            for.seconds = 10;
           }
         ];
       condition = [
@@ -66,7 +67,8 @@ in {
     };
     automation = [
       (fenster_geschlossen_lang "Badezimmerfenster" "binary_sensor.badezimmer_fenster_contact")
-      (fenster_geschlossen_lang "Duschfenster" "binary_sensor.badezimmer_fenster_contact")
+      (fenster_geschlossen_lang "Duschfenster" "binary_sensor.dusche_fenster_contact")
+
       (fenster_offen "Badezimmerfenster" "binary_sensor.badezimmer_fenster_contact")
       (fenster_offen "Duschfenster" "binary_sensor.dusche_fenster_contact")
     ];
