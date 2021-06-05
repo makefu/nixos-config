@@ -12,6 +12,7 @@
     uid = config.ids.uids.smbguest;
     description = "smb guest user";
     home = "/home/share";
+    isNormalUser = true;
     createHome = true;
   };
   services.samba = {

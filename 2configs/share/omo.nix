@@ -14,6 +14,7 @@ in {
     uid = config.ids.uids.smbguest;
     description = "smb guest user";
     home = "/var/empty";
+    isNormalUser = true;
   };
   services.samba = {
     enable = true;
