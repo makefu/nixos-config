@@ -18,5 +18,6 @@
     signal-desktop
     # rambox
     vscode
+    chitubox
   ];
 }
