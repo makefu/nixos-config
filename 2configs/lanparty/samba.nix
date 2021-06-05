@@ -3,11 +3,10 @@
   networking.firewall.allowedTCPPorts = [ 139 445 ];
   users.users.smbguest = {
     name = "smbguest";
-    uid = config.ids.uids.smbguest;
+    uid = config.ids.uids.smbguest; #effectively systemUser
     description = "smb guest user";
     home = "/data/lanparty";
     createHome = true;
-    isNormalUser = true;
   };
   services.samba = {
     enable = true;
