@@ -15,6 +15,6 @@
     streamripper
     youtube-dl
 
-    pulseeffects
+    pulseeffects-legacy # for pulse
   ];
 }
