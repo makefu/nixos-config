@@ -126,6 +126,9 @@ in {
       <stockholm/makefu/2configs/wireguard/server.nix>
       <stockholm/makefu/2configs/wireguard/wiregrill.nix>
 
+      { # recent changes mediawiki bot
+        networking.firewall.allowedUDPPorts = [ 5005 5006 ];
+      }
       # Removed until move: no extra mails
       # <stockholm/makefu/2configs/urlwatch>
       # Removed until move: avoid letsencrypt ban
