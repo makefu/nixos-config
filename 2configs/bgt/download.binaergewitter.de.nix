@@ -22,6 +22,7 @@ in {
     uid = genid "auphonic";
     group = "nginx";
     useDefaultShell = true;
+    isSystemUser = true;
     openssh.authorizedKeys.keys = [ ident config.krebs.users.makefu.pubkey ];
   };
 
