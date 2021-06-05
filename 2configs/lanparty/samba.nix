@@ -7,6 +7,7 @@
     description = "smb guest user";
     home = "/data/lanparty";
     createHome = true;
+    isNormalUser = true;
   };
   services.samba = {
     enable = true;

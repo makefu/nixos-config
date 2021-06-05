@@ -5,6 +5,7 @@
     share = {
       uid = 9002;
       home = "/var/empty";
+      isNormalUser = true;
       openssh.authorizedKeys.keys = [ config.krebs.users.makefu.pubkey ];
     };
   };

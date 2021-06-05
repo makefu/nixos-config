@@ -43,7 +43,6 @@ in {
       <stockholm/makefu/2configs/tools/dev.nix>
       <stockholm/makefu/2configs/tools/desktop.nix>
       <stockholm/makefu/2configs/tools/mobility.nix>
-      { environment.systemPackages = [ pkgs.esniper ]; }
       #<stockholm/makefu/2configs/graphite-standalone.nix>
       #<stockholm/makefu/2configs/share-user-sftp.nix>
 
@@ -141,6 +140,7 @@ in {
     ];
   makefu.full-populate =  true;
   nixpkgs.config.allowUnfree = true;
+  users.users.share.isNormalUser = true;
   users.groups.share = {
     gid = (import <stockholm/lib>).genid "share";
     members = [ "makefu" "misa" ];
@@ -152,6 +152,7 @@ in {
   users.users.misa = {
     uid = 9002;
     name = "misa";
+    isNormalUser = true;
   };
 
   zramSwap.enable = true;

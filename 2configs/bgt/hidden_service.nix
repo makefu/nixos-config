@@ -41,8 +41,8 @@ in
   services.tor = {
     enable = true;
     hiddenServices."${name}".map = [
-     { port = "80"; }
-     # { port = "443"; toHost = "blog.binaergewitter.de"; }
+     { port = 80; }
+     # { port = 443; toHost = "blog.binaergewitter.de"; }
     ];
   };
 }
