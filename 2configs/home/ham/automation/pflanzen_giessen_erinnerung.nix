@@ -5,7 +5,7 @@ let
   };
   notify_home = message: {
     service = "notify.signal_home";
-    data.message = message;
+    data.message_template = message;
   };
 in
 {
@@ -32,7 +32,10 @@ in
         weekday = [ "sat" ];
       };
       action = [
-        (notify_home "Es ist Wochenende und die Pflanzen würden sich über ein bisschen Wasser freuen.")
+        (notify_home
+        ''Es ist Wochenende und die Pflanzen würden sich über ein bisschen Wasser freuen.
+         Die Wettervorhersage: {{sensor.dark_sky_summary}} mit einer Regenwahrscheinlichkeit von {{states.sensor.dark_sky_precip_probability.state}}%.
+          Aktuell sind es {{states.sensor.dark_sky_temperature.state}}°C bei {{states.sensor.dark_sky_humidity.state}}% Luftfeuchte'')
       ];
     }
   ];

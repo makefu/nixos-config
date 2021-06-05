@@ -20,7 +20,7 @@ let
         {
           service = "notify.signal_home";
           data = {
-            message= "${name} seit ${toString min} Minuten offen\nBitte einmal checken ob das ok ist :)";
+            message_template = "${name} seit ${toString min} Minuten offen und draussen ist es gerade {{states.sensor.dark_sky_temperature.state}}°C bei {{states.sensor.dark_sky_humidity.state}}% Luftfeuchte";
           };
         }
         {
