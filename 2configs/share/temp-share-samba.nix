@@ -9,7 +9,7 @@
   networking.firewall.allowedTCPPorts = [ 139 445 ];
   users.users.smbguest = {
     name = "smbguest";
-    uid = config.ids.uids.smbguest;
+    uid = config.ids.uids.smbguest; # effectively systemUser
     description = "smb guest user";
     home = "/home/share";
     createHome = true;

@@ -34,6 +34,7 @@ in {
     description = "ddclient daemon user";
     home = stateDir;
     createHome = true;
+    isSystemUser = true;
   };
 
   systemd.services = {

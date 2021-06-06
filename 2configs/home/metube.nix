@@ -26,7 +26,10 @@ in
     ];
     user = "metube";
   };
-  users.users.metube.uid = uid;
+  users.users.metube = {
+    uid = uid;
+    isSystemUser = true;
+  };
 
   systemd.services.docker-metube.serviceConfig = {
     StandardOutput = lib.mkForce "journal";

@@ -6,7 +6,7 @@ in {
   imports = [
     ./ota.nix
     ./comic-updater.nix
-    ./puppy-proxy.nix
+    # ./puppy-proxy.nix
 
     ./zigbee2mqtt
 

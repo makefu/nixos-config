@@ -20,5 +20,6 @@
     # rambox
 
     vscode
+    chitubox
   ];
 }

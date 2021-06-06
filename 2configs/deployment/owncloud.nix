@@ -75,7 +75,7 @@ in {
     };
   };
   services.redis.enable = true;
-  systemd.services.redis.serviceConfig.LimitNOFILE=65536;
+  systemd.services.redis.serviceConfig.LimitNOFILE=mkForce "65536";
   services.postgresql = {
     enable = true;
     # Ensure the database, user, and permissions always exist

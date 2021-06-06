@@ -11,7 +11,10 @@ in {
   #   home = "/var/empty";
   # };
   environment.systemPackages = [ pkgs.samba ];
-  users.users.download.uid = genid "download";
+  users.users.download = {
+    uid = genid "download";
+    isNormalUser = true;
+  };
   services.samba = {
     enable = true;
     shares = {

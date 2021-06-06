@@ -6,7 +6,7 @@ let
 in {
   users.users.smbguest = {
     name = "smbguest";
-    uid = config.ids.uids.smbguest;
+    uid = config.ids.uids.smbguest; # effectively systemUser
     description = "smb guest user";
     home = "/var/empty";
   };

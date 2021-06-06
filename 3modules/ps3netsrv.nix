@@ -50,6 +50,7 @@ let
     # TODO only create if user is ps3netsrv
     users.users.ps3netsrv = {
       uid = genid "ps3netsrv";
+      isSystemUser = true;
     };
     users.groups.ps3netsrv.gid = genid "ps3netsrv";
   };

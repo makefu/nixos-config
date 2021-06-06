@@ -33,10 +33,11 @@ let
   uhubDir = "/var/lib/uhub";
 
 in {
-  users.extraUsers."${ddclientUser}" = {
+  users.users."${ddclientUser}" = {
     uid = genid "ddclient";
     description = "ddclient daemon user";
     home = stateDir;
+    isSystemUser = true;
     createHome = true;
   };
 

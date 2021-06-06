@@ -23,6 +23,7 @@ with import <stockholm/lib>;
       group = "users";
       home = "/home/makefu";
       createHome = true;
+      isNormalUser = true;
       useDefaultShell = true;
       extraGroups = [ "wheel" ];
         openssh.authorizedKeys.keys = [ config.krebs.users.makefu.pubkey ];

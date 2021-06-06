@@ -1,7 +1,7 @@
 {config, ... }:{
   users.users.smbguest = {
     name = "smbguest";
-    uid = config.ids.uids.smbguest;
+    uid = config.ids.uids.smbguest;  # effectively systemUser
     group = "share";
     description = "smb guest user";
     home = "/var/empty";

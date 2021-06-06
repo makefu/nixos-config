@@ -23,6 +23,7 @@ in {
     uid = genid "arafetch";
     inherit home;
     createHome = true;
+    isSystemUser = true;
   };
 
   systemd.services.ara2mqtt = {
