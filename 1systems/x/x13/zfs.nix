@@ -13,6 +13,7 @@
   boot.kernelModules = [ "kvm-amd" ];
   boot.extraModulePackages = [ ];
 
+  boot.zfs.enableUnstable = true; # required for 21.05
   fileSystems."/" =
     { device = "zroot/root/nixos";
       fsType = "zfs";
