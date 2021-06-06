@@ -180,7 +180,8 @@ in {
       frontend = { };
       http = {
         use_x_forwarded_for = true;
-        server_host = "127.0.0.1";
+        #server_host = "127.0.0.1";
+        server_host = "0.0.0.0";
         trusted_proxies = [ "127.0.0.1" ];
         #trusted_proxies = [ "192.168.1.0/24" ];
       };
