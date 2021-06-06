@@ -97,7 +97,7 @@ in {
 
       <stockholm/makefu/2configs/home/airsonic.nix>
       <stockholm/makefu/2configs/home/photoprism.nix>
-      <stockholm/makefu/2configs/home/metube.nix>
+      # <stockholm/makefu/2configs/home/metube.nix>
       <stockholm/makefu/2configs/home/ham>
       <stockholm/makefu/2configs/home/zigbee2mqtt>
       {
