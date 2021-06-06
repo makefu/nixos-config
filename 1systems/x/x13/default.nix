@@ -8,7 +8,7 @@
     <nixos-hardware/lenovo/thinkpad/l14/amd> # close enough
     # <stockholm/makefu/2configs/hw/tpm.nix>
     <stockholm/makefu/2configs/hw/ssd.nix>
-    <stockholm/makefu/2configs/hw/xmm7360.nix>
+    # <stockholm/makefu/2configs/hw/xmm7360.nix>
   ];
   boot.zfs.requestEncryptionCredentials = true;
   networking.hostId = "f8b8e0a2";
