@@ -19,8 +19,8 @@ let
       [
         {
           service = "notify.signal_home";
-          data = {
-            message_template = "${name} seit ${toString min} Minuten offen und draussen ist es gerade {{states.sensor.dark_sky_temperature.state}}°C bei {{states.sensor.dark_sky_humidity.state}}% Luftfeuchte";
+          data_template = {
+            message = "${name} seit ${toString min} Minuten offen und draussen ist es gerade {{states.sensor.dark_sky_temperature.state}}°C bei {{states.sensor.dark_sky_humidity.state}}% Luftfeuchte";
           };
         }
         {
