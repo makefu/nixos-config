@@ -56,7 +56,7 @@ in {
       TRUST_PROXY =  "true";
       TITLE = "Binärgewitter Etherpad";
       SKIN_NAME = "no-skin";
-      DEFAULT_PAD_TEXT = builtins.replaceStrings ["\n"] ["\\n"] (builtins.readFile ./template.md);
+      DEFAULT_PAD_TEXT = builtins.readFile ./template.md;
       PAD_OPTIONS_USE_MONOSPACE_FONT = "true";
       PAD_OPTIONS_USER_NAME = "true";
       PAD_OPTIONS_USER_COLOR = "true";
