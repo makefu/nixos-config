@@ -15,6 +15,12 @@ let
             for.minutes = min;
           }
       ];
+      condition = [
+        { condition = "state";
+          entity_id = "input_boolean.ist_sommer";
+          state = "off";
+        }
+      ];
       action =
       [
         {
@@ -61,10 +67,19 @@ let
     };
 in {
   services.home-assistant.config = {
+    sensor = [
+      { platform = "season"; type = "meteorological";}
+    ];
+
     input_boolean = {
       badezimmerfenster_lang_offen.name = "Badezimmer lange offen";
       duschfenster_lang_offen.name = "Duschfenster lange offen";
+      ist_sommer = {
+        name = "Es ist Sommer";
+        initial = true; # TODO
+      };
     };
+
     automation = [
       (fenster_geschlossen_lang "Badezimmerfenster" "binary_sensor.badezimmer_fenster_contact")
       (fenster_geschlossen_lang "Duschfenster" "binary_sensor.dusche_fenster_contact")
