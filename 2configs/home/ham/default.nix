@@ -1,5 +1,4 @@
 { pkgs, lib, config, ... }:
-
 # Ideas:
 ## wake-on-lan server
 ##
@@ -33,6 +32,7 @@ in {
     ./automation/firetv_restart.nix
     ./automation/light_buttons.nix
     ./automation/wohnzimmer_rf_fernbedienung.nix
+    ./automation/ladestecker_timer.nix
     #./automation/giesskanne.nix
     ./automation/pflanzen_giessen_erinnerung.nix
     #./automation/urlaub.nix
