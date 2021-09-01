@@ -23,6 +23,7 @@ in {
       }
       <stockholm/makefu/2configs/nur.nix>
       <stockholm/makefu/2configs/support-nixos.nix>
+      <stockholm/makefu/2configs/nix-community/mediawiki-matrix-bot.nix>
       <stockholm/makefu/2configs/home-manager>
       <stockholm/makefu/2configs/home-manager/cli.nix>
       # <stockholm/makefu/2configs/stats/client.nix>
@@ -182,7 +183,7 @@ in {
       <stockholm/makefu/2configs/virtualisation/libvirt.nix>
 
       # krebs infrastructure services
-      <stockholm/makefu/2configs/stats/server.nix>
+      # <stockholm/makefu/2configs/stats/server.nix>
     ];
 
   makefu.dl-dir = "/var/download";
