@@ -24,6 +24,7 @@ in {
       <stockholm/makefu/2configs/nur.nix>
       <stockholm/makefu/2configs/support-nixos.nix>
       <stockholm/makefu/2configs/nix-community/mediawiki-matrix-bot.nix>
+      <stockholm/makefu/2configs/nix-community/supervision.nix>
       <stockholm/makefu/2configs/home-manager>
       <stockholm/makefu/2configs/home-manager/cli.nix>
       # <stockholm/makefu/2configs/stats/client.nix>
