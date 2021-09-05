@@ -41,6 +41,7 @@ in {
     inherit (callPackage ./devpi {}) devpi-web ;
     nodemcu-uploader = super.pkgs.callPackage ./nodemcu-uploader {};
     liveproxy = super.pkgs.python3Packages.callPackage ./custom/liveproxy {};
+    mediawiki-matrix-bot = super.pkgs.python3Packages.callPackage ./custom/mediawiki-matrix-bot {};
     hydra-check = super.pkgs.python3Packages.callPackage ./custom/hydra-check {};
     pwqgen-ger = super.pkgs.passwdqc-utils.override {
       wordset-file = super.pkgs.fetchurl {
