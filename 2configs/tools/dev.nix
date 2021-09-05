@@ -33,6 +33,7 @@
     cac-api
     cac-panel
     krebszones
+    cyberlocker-tools
     ovh-zone
     gen-oath-safe
     cdrtools
