@@ -4,26 +4,26 @@
 , libpulseaudio
 , xlibs
 , gst_all_1
-, kerberos
+, krb5
 , alsaLib
 }:
 # via https://raw.githubusercontent.com/simon-the-sourcerer-ab/chitubox/main/default.nix
 stdenv.mkDerivation rec {
   pname = "chitubox";
 
-  version = "1.8.1";
+  version = "1.9.0";
 
   src = builtins.fetchTarball {
     #url = "https://sac.chitubox.com/software/download.do?softwareId=17839&softwareVersionId=v${version}&fileName=CHITUBOX_V${version}.tar.gz";
     url = "https://archive.org/download/chitubox-v-1.8.1.tar/CHITUBOX_V${version}.tar.gz";
-    sha256 = "08fh8w7s5qvlx6bhdg24g81a7zprq7n8m27w2vdv0cd8j0wixbsx";
+    sha256 = "1ywcizxdkwlhi8z3jshl3b6ha8iwibssxh8fk7s32h3z8vl8zcl7";
   };
   nativeBuildInputs = [ autoPatchelfHook ];
 
   buildInputs = with xlibs; [ stdenv.cc.cc.lib libglvnd libgcrypt zlib glib fontconfig freetype libdrm 
-  libxkbcommon libpulseaudio kerberos alsaLib
+  libxkbcommon libpulseaudio alsaLib
   xcbutilwm xcbutilimage xcbutilrenderutil xcbutilkeysyms
-  gst_all_1.gst-plugins-base gst_all_1.gstreamer
+  gst_all_1.gst-plugins-base gst_all_1.gstreamer krb5
 ];
 
   buildPhase = ''
