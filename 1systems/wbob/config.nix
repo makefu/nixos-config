@@ -67,6 +67,8 @@ in {
           services.grafana.enable = true;
           services.grafana.addr = "0.0.0.0";
           services.influxdb.enable = true;
+          systemd.services.influxdb.serviceConfig.LimitNOFILE = 8192;
+
           services.influxdb.extraConfig = {
             meta.hostname = config.krebs.build.host.name;
             # meta.logging-enabled = true;
