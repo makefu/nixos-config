@@ -43,7 +43,7 @@ in
   console.font = "Lat2-Terminus16";
 
   fonts = {
-    enableFontDir = true;
+    fontDir.enable = true;
     enableGhostscriptFonts = true;
     fonts = [ pkgs.terminus_font pkgs.corefonts ];
   };
