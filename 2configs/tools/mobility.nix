@@ -9,6 +9,5 @@
 
     opensc pcsctools libu2f-host
   ];
-
   boot.supportedFilesystems = [ "exfat" ];
 }
