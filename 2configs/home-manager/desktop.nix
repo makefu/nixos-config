@@ -58,5 +58,6 @@
         Restart = "on-abort";
       };
     };
+    programs.beets.enable = true;
   };
 }
