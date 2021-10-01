@@ -41,5 +41,8 @@
     sshuttle
     pciutils
     navi
+    platformio
   ];
+  services.udev.packages = [ pkgs.platformio ];
+
 }
