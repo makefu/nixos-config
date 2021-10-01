@@ -30,37 +30,27 @@
       withPython3 = true;
       # withNodeJs = true;
       extraPython3Packages = (ps: with ps; [ python-language-server pyls-mypy black libxml2]);
-      configure = {
-        customRC = builtins.readFile ./vimrc;
-        packages.myVimPackage = with pkgs.vimPlugins;
-          {
-            # loaded on launch
-            start = [
-              undotree
-              vim-addon-nix
+      extraConfig = builtins.readFile ./vimrc;
+      plugins = with pkgs.vimPlugins;[
+        undotree
+        vim-addon-nix
 
-              nerdtree # file manager
-              commentary # comment stuff out based on language
-              fugitive # full git integration
-              vim-airline-themes # lean & mean status/tabline
-              vim-airline # status bar
-              gitgutter # git diff in the gutter (sign column)
-              vim-trailing-whitespace # trailing whitspaces in red
-              tagbar # F3 function overview
-              ReplaceWithRegister # For better copying/replacing
-              polyglot # Language pack
-              vim-indent-guides # for displaying indent levels
-              deoplete-nvim # general autocompletion
-              deoplete-go
-              ale
-              molokai # color scheme
-            ];
-            # manually loadable by calling `:packadd $plugin-name`
-            opt = [];
-            # To automatically load a plugin when opening a filetype, add vimrc lines like:
-            # autocmd FileType php :packadd phpCompletion
-        };
-      };
+        nerdtree # file manager
+        commentary # comment stuff out based on language
+        fugitive # full git integration
+        vim-airline-themes # lean & mean status/tabline
+        vim-airline # status bar
+        gitgutter # git diff in the gutter (sign column)
+        vim-trailing-whitespace # trailing whitspaces in red
+        tagbar # F3 function overview
+        ReplaceWithRegister # For better copying/replacing
+        polyglot # Language pack
+        vim-indent-guides # for displaying indent levels
+        deoplete-nvim # general autocompletion
+        deoplete-go
+        ale
+        molokai # color scheme
+      ];
     };
   };
 }
