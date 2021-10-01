@@ -42,14 +42,15 @@ in {
 
       http://www.iozone.org/src/current/
 
-      {
-        url = https://newellrubbermaid.secure.force.com/dymopkb/articles/en_US/FAQ/Dymo-Drivers-and-Downloads/?l=en_US&c=Segment:Dymo&fs=Search&pn=1 ;
-        filter = "grep:Software/Linux/dymo-cups-drivers";
-      }
+      #{
+      #  url = https://newellrubbermaid.secure.force.com/dymopkb/articles/en_US/FAQ/Dymo-Drivers-and-Downloads/?l=en_US&c=Segment:Dymo&fs=Search&pn=1 ;
+      #  filter = "grep:Software/Linux/dymo-cups-drivers";
+      #}
 
       # shopping
 
       # TODO: dymo cups
+    
     ] ++ map grss [
       "amadvance/snapraid"
       "radare/radare2"
