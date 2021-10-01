@@ -31,6 +31,11 @@
           #extraChannels = [ "#binaergewitter" ];
           delay = 180;
         };
+        bgt-twitter = {
+          feed = "http://rss.makefu.r/?action=display&bridge=Twitter&context=By+username&u=binaergewitter&format=Atom";
+          #extraChannels = [ "#binaergewitter" ];
+          delay = 180;
+        };
       };
     };
 
