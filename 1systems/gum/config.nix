@@ -160,7 +160,7 @@ in {
       # <stockholm/makefu/2configs/deployment/systemdultras-rss.nix>
 
       <stockholm/makefu/2configs/shiori.nix>
-      <stockholm/makefu/2configs/workadventure>
+      # <stockholm/makefu/2configs/workadventure>
 
       <stockholm/makefu/2configs/bgt/download.binaergewitter.de.nix>
       <stockholm/makefu/2configs/bgt/hidden_service.nix>
