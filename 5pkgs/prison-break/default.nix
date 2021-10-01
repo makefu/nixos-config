@@ -3,17 +3,18 @@ with pkgs.python3.pkgs;
 
 buildPythonPackage rec {
   pname = "prison-break";
-  version = "1.3.0";
+  version = "1.5.0";
   src = fetchFromGitHub {
     owner = "makefu";
     repo = pname;
     rev = version;
-    sha256 = "sha256:1kjfwsz6wg5l9pa7484vq64f054qil0ksf6dh9arwspxwnzshgdh";
+    sha256 = "sha256:0gk7g5k9hzscsdkddm6978m43f4cdv2nzr47sclhjl7g2x7v97pm";
   };
   propagatedBuildInputs = [
     docopt
     requests
     beautifulsoup4
+    notify2
     (callPackage ./straight-plugin.nix {})
   ];
   checkInputs = [ black ];
