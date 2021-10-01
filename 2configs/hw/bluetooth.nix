@@ -33,7 +33,7 @@
   hardware.bluetooth = {
     enable = true;
     powerOnBoot = false;
-    config.general.Enable = "Source,Sink,Media,Socket";
+    settings.general.Enable = "Source,Sink,Media,Socket";
   };
   services.dbus.packages = [ pkgs.blueman ];
 }

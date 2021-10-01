@@ -28,7 +28,7 @@
     scanRandMacAddress = true;
     backend = "iwd";
   };
-  services.gnome3.gnome-keyring.enable = true;
+  services.gnome.gnome-keyring.enable = true;
   networking.wireless.iwd.enable = true;
 
   state = [
@@ -37,4 +37,11 @@
   networking.networkmanager.dispatcherScripts = [
     { source = "${pkgs.prison-break}/bin/prison-break"; }
   ];
+
+  # TODO: not sure if this actually works
+  systemd.services.NetworkManager-dispatcher.environment = {
+    DISPLAY= ":0";
+    DBUS_SESSION_BUS_ADDRESS = "unix:path=/run/user/9001/bus";
+  };
+
 }
