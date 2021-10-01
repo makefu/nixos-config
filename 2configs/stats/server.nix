@@ -14,6 +14,8 @@ in {
   services.grafana.addr = "0.0.0.0";
 
   services.influxdb.enable = true;
+  systemd.services.influxdb.serviceConfig.LimitNOFILE = 8192;
+
   # redirect grafana to stats.makefu.r
   services.nginx.enable = true;
   services.nginx.virtualHosts."stats.makefu.r".locations."/".proxyPass = "http://localhost:3000";
