@@ -22,7 +22,8 @@
   ];
   hardware.opengl.extraPackages = [ pkgs.amdvlk pkgs.rocm-opencl-icd ];
   # is required for amd graphics support ( xorg wont boot otherwise )
-  boot.kernelPackages = pkgs.linuxPackages_latest;
+  #boot.kernelPackages = pkgs.linuxPackages_latest;
+  boot.kernelPackages = lib.mkForce pkgs.linuxPackages;
 
   environment.variables.VK_ICD_FILENAMES =
     "/run/opengl-driver/share/vulkan/icd.d/amd_icd64.json";
