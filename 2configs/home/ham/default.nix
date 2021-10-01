@@ -33,6 +33,7 @@ in {
     ./automation/light_buttons.nix
     ./automation/wohnzimmer_rf_fernbedienung.nix
     ./automation/ladestecker_timer.nix
+    ./automation/flurlicht.nix
     #./automation/giesskanne.nix
     ./automation/pflanzen_giessen_erinnerung.nix
     #./automation/urlaub.nix

@@ -123,7 +123,23 @@ in
       (rf_state "401511" "light.wohnzimmer_schrank_osram" 128)              # D
 
                                                                         # OFF Lane
-      (rf_turn_off "400554" "all")                                       # A
+      (let code = "400554"; in {
+        alias = "Turn off living room light via rf code ${code}"; # A
+        trigger = {
+          platform = "event";
+          event_type = "esphome.rf_code_received";
+          event_data.code = code;
+        };
+        action = {
+          service = "light.turn_off";
+          data.entity_id = [
+            "light.wohnzimmer_fernseher_led_strip" "light.wohnzimmer_stehlampe_osram"
+            "light.wohnzimmer_komode_osram" "light.wohnzimmer_schrank_osram"
+            "light.wohnzimmer_fenster_lichterkette_licht" "light.wohnzimmer_fernsehwand_led"
+          ];
+        };
+      })
+
       (rf_toggle "401154" "light.wohnzimmer_fenster_lichterkette_licht") # B
       (rf_toggle "401454" "light.wohnzimmer_fernsehwand_led")            # C
       # (rf_toggle "401514" "")   # D
