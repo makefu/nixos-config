@@ -23,9 +23,11 @@
       <stockholm/makefu/2configs/hw/switch.nix>
       # <stockholm/makefu/2configs/hw/rad1o.nix>
       <stockholm/makefu/2configs/hw/cc2531.nix>
+      <stockholm/makefu/2configs/hw/platformio.nix>
       <stockholm/makefu/2configs/hw/droidcam.nix>
       <stockholm/makefu/2configs/hw/smartcard.nix>
       <stockholm/makefu/2configs/hw/upower.nix>
+      #<stockholm/makefu/2configs/hw/ps4-compat.nix>
 
       # base
       <stockholm/makefu>
@@ -100,6 +102,24 @@
       # <stockholm/makefu/2configs/pyload.nix>
 
       # Testing
+      #{
+      #  services.nginx = {
+      #    enable = true;
+      #    recommendedProxySettings = true;
+      #    virtualHosts.local = {
+      #      default = true;
+      #      locations."/".proxyPass= "http://localhost:4567";
+      #    };
+      #  };
+      #  services.gollum = {
+      #    enable = true;
+      #    extraConfig = ''
+      #      Gollum::Hook.register(:post_commit, :hook_id) do |committer, sha1|
+      #        File.open('/tmp/lol', 'w') { |file| file.write(self.to_s) }
+      #      end
+      #    '';
+      #  };
+      #}
       # <stockholm/makefu/2configs/deployment/gitlab.nix>
       # <stockholm/makefu/2configs/deployment/docker/etherpad.nix>
       # <stockholm/makefu/2configs/deployment/wiki-irc-bot>
@@ -158,7 +178,8 @@
 
       # temporary
       # { services.redis.enable = true; }
-      { services.mongodb.enable = true; }
+      # { services.mongodb.enable = true; }
+      # <stockholm/makefu/2configs/deployment/nixos.wiki>
       # <stockholm/makefu/2configs/home/photoprism.nix>
       # <stockholm/makefu/2configs/dcpp/airdcpp.nix>
       # <stockholm/makefu/2configs/nginx/rompr.nix>
