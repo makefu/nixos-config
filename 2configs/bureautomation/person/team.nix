@@ -1,4 +1,10 @@
+{config, ... }:
 {
+  # all configured persons become part of group "team"
+  services.home-assistant.config.group.team = {
+    name = "team";
+    entities = map (x: "person.${x.name}" ) config.services.home-assistant.config.person;
+  };
   services.home-assistant.config.person =
   [
     { name = "Thorsten";

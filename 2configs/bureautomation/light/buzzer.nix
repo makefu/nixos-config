@@ -25,6 +25,6 @@ in {
   services.home-assistant.config.light =
   [
   # (tasmota_pwm "RedButton LED" "redbutton" 1 1023) #LED PWM1
-    (tasmota_pwm "RedButton Buzzer" "redbutton" 2 512) #buzzer PWM2
+  #  (tasmota_pwm "RedButton Buzzer" "redbutton" 2 512) #buzzer PWM2
   ];
 }
