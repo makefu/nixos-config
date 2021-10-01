@@ -1,6 +1,6 @@
 { stdenv, fetchFromGitHub, python3, kernel, kmod }:
 let
-  py = python3.withPackages (p: [ p.ConfigArgParse p.pyroute2 ]);
+  py = python3.withPackages (p: [ p.ConfigArgParse p.pyroute2 p.dbus-python ]);
 in
 stdenv.mkDerivation rec {
   name = "xmm7360-pci-${version}-${kernel.version}";
@@ -9,8 +9,8 @@ stdenv.mkDerivation rec {
   src = fetchFromGitHub {
     owner = "xmm7360";
     repo = "xmm7360-pci";
-    rev = "0060149";
-    sha256 = "0nr7adlwglpw6hp44x0pq8xhv7kik7nsb8yzbxllvy2v1pinyflv";
+    rev = "b28714b6fb73887ecd5c0c25ffc0613d6eab6533";
+    sha256 = "1f1r3cnnjaxdxig56a9v4wfjq1r2z1wg8lq59klxxnybydk91m60";
   };
 
   #sourceRoot = "source/linux/v4l2loopback";
@@ -27,12 +27,13 @@ stdenv.mkDerivation rec {
     "KDIR=${kernel.dev}/lib/modules/${kernel.modDirVersion}/build"
     "INSTALL_MOD_PATH=$(out)"
   ];
+  installFlags = [ "DEPMOD=true" ];
   postInstall = ''
     install -d $out/lib/xmm7360/
     cp -r rpc/ $out/lib/xmm7360/
     cat > open_xdatachannel <<EOF
     cd $out/lib/xmm7360
-    exec ${py}/bin/python3 rpc/open_xdatachannel.py $@
+    exec ${py}/bin/python3 rpc/open_xdatachannel.py "\$@"
     EOF
     install -D open_xdatachannel $out/bin/open_xdatachannel
   '';
