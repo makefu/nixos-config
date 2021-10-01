@@ -3,8 +3,8 @@
   services.nginx = {
     enable = lib.mkDefault true;
     virtualHosts."misa-felix.ml" = {
-      forceSSL = true;
-      enableACME = true;
+      #forceSSL = true;
+      #enableACME = true;
       locations = {
         "/" = {
           index = "index.html";
