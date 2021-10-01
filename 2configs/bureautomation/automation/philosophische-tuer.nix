@@ -12,8 +12,8 @@ let
   recordrepo = pkgs.fetchFromGitHub {
     owner = "makefu";
     repo = "philosophische_tuer";
-    rev = "17544c6";
-    sha256 = "0bm0697fyf6s05c6yw6y25cyck04rlxj1dgazkq8mfqk6756v2bq";
+    rev = "607eff7";
+    sha256 = "1qlyqmc65yfb42q4fzd92vinx4i191w431skmcp7xjncb45lfp8j";
   };
   samples = user: lib.mapAttrsToList
     (file: _: ''"${prefix}/${user}/${file}"'')
