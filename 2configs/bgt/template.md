@@ -1,4 +1,4 @@
-# BGT<NUMBER>
+# <SENDUNGSNUMMER>
 
 0.  Sendung twittern und mastodieren (eine Woche + eine Stunde vorher) (wichtig)
 1.  `eine` Person anrufen (den Host):
