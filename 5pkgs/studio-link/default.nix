@@ -26,7 +26,6 @@ stdenv.mkDerivation rec {
     alsaLib
     openssl
     zlib
-    libjack2
     pulseaudio
   ];
 
