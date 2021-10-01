@@ -23,7 +23,6 @@
       <stockholm/makefu/2configs/hw/switch.nix>
       # <stockholm/makefu/2configs/hw/rad1o.nix>
       <stockholm/makefu/2configs/hw/cc2531.nix>
-      <stockholm/makefu/2configs/hw/platformio.nix>
       <stockholm/makefu/2configs/hw/droidcam.nix>
       <stockholm/makefu/2configs/hw/smartcard.nix>
       <stockholm/makefu/2configs/hw/upower.nix>
