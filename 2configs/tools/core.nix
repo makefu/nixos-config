@@ -24,6 +24,8 @@ ${gnused}/bin/sed -i "''${1}d" ~/.ssh/known_hosts
     dosfstools
     ntfs3g
     smartmontools
+    lm_sensors
+    iotop
 
     # io
     pv
