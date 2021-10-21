@@ -20,6 +20,9 @@
     # rambox
 
     vscode
+
+    # 3d Modelling
     chitubox
+    freecad
   ];
 }
