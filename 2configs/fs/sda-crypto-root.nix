@@ -16,8 +16,8 @@
     loader.grub.version = 2;
     loader.grub.device = lib.mkDefault "/dev/sda";
 
-    initrd.luks.cryptoModules = ["aes" "sha512" "sha1" "xts" ];
-    initrd.availableKernelModules = ["xhci_hcd" "ehci_pci" "ahci" "usb_storage" ];
+    #initrd.luks.cryptoModules = ["aes" "sha512" "sha1" "xts" ];
+    initrd.availableKernelModules = ["cbc" "hmac" "sha256" "rng" "aes" "encrypted_keys" "xhci_hcd" "ehci_pci" "ahci" "usb_storage" ];
   };
   fileSystems = {
     "/" = {
