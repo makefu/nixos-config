@@ -6,6 +6,7 @@ in {
 
   networking.firewall.extraCommands = ''
     iptables -A INPUT -i retiolum -p tcp --dport ${port} -j ACCEPT
+    ip6tables -A INPUT -i retiolum -p tcp --dport ${port} -j ACCEPT
   '';
 
   services.telegraf = {
