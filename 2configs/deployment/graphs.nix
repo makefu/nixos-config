@@ -18,7 +18,7 @@ in {
           }
         '';
         serverAliases = [
-          "graph.r"
+          "graph.makefu.r"
           "graph.${hn}" "graph.${hn}.r"
         ];
       };
