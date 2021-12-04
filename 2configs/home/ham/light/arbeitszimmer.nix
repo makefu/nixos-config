@@ -6,7 +6,8 @@ let
   ];
   arbeitszimmerbeleuchtung = [
     "light.arbeitszimmer_schrank_dimmer"
-    "light.arbeitszimmer_kerze" # arbeitszimmer_kerze
+    "light.arbeitszimmer_kerze"
+    "light.arbeitszimmer_pflanzenlicht"
   ];
 in {
   services.home-assistant.config.light = [
@@ -19,6 +20,23 @@ in {
       platform = "group";
       name = "Arbeitszimmer Deko";
       entities = arbeitszimmer_deko;
+    }
+    { platform = "switch";
+      name = "Arbeitszimmer Pflanzenlicht";
+      entity_id = "switch.arbeitszimmer_stecker1";
+    }
+  ];
+  services.home-assistant.config.automation = [
+    {
+      alias = "Toggle Arbeitszimmerbeleuchtung via Remote";
+      trigger = {
+        platform = "state";
+        entity_id = "sensor.arbeitszimmer_remote1_action";
+      };
+      action = {
+        service = "light.toggle";
+        data.entity_id = "light.arbeitszimmerbeleuchtung";
+      };
     }
   ];
 }
