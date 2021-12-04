@@ -9,8 +9,7 @@
     listeners = [
       {
         port = 1883;
-        omitPasswordAuth = true;
-        checkPasswords = true;
+        omitPasswordAuth = false;
         users.sensor = {
           hashedPassword = "$6$2DXU7W1bvqXPqxkF$vtdz5KTd/T09hmoc9LjgEGFjvpwQbQth6vlVcr5hJNLgcBHv4U03YCKC8TKXbmQAa8xiJ76xJIg25kcL+KI3tg==";
           acl = [ "topic readwrite #" ];
