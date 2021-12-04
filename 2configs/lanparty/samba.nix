@@ -7,7 +7,9 @@
     description = "smb guest user";
     home = "/data/lanparty";
     createHome = true;
+    group = "share";
   };
+  users.groups.share = {};
   services.samba = {
     enable = true;
     enableNmbd = true;

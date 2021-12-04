@@ -9,7 +9,9 @@ in {
     uid = config.ids.uids.smbguest; # effectively systemUser
     description = "smb guest user";
     home = "/var/empty";
+    group = "share";
   };
+  users.groups.share = {};
   services.samba = {
     enable = true;
     shares = {
