@@ -1,4 +1,4 @@
-{ stdenv, fetchFromGitHub, python3, kernel, kmod }:
+{ stdenv, lib, fetchFromGitHub, python3, kernel, kmod }:
 let
   py = python3.withPackages (p: [ p.ConfigArgParse p.pyroute2 p.dbus-python ]);
 in
@@ -38,7 +38,7 @@ stdenv.mkDerivation rec {
     install -D open_xdatachannel $out/bin/open_xdatachannel
   '';
 
-  meta = with stdenv.lib; {
+  meta = with lib; {
     description = "A kernel module to create V4L2 loopback devices";
     homepage = "https://github.com/aramg/droidcam";
     license = licenses.gpl2;
