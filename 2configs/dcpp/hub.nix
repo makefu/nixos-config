@@ -80,8 +80,11 @@ in {
   users.users.uhub = {
     home = uhubDir;
     createHome = true;
+    isSystemUser = true;
+    group = "uhub";
   };
-  services.uhub = {
+  users.group.uhub = {};
+  services.uhub.home = {
     enable = true;
     port = 1511;
     enableTLS = true;
