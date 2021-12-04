@@ -83,7 +83,7 @@ in {
     isSystemUser = true;
     group = "uhub";
   };
-  users.group.uhub = {};
+  users.groups.uhub = {};
   services.uhub.home = {
     enable = true;
     port = 1511;
