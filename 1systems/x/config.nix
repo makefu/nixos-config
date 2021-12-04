@@ -178,6 +178,7 @@
       # temporary
       # { services.redis.enable = true; }
       # { services.mongodb.enable = true; }
+      # { services.elasticsearch.enable = true; }
       # <stockholm/makefu/2configs/deployment/nixos.wiki>
       # <stockholm/makefu/2configs/home/photoprism.nix>
       # <stockholm/makefu/2configs/dcpp/airdcpp.nix>
