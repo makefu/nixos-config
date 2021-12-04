@@ -51,6 +51,7 @@ let
     users.users.ps3netsrv = {
       uid = genid "ps3netsrv";
       isSystemUser = true;
+      group = "ps3netsrv";
     };
     users.groups.ps3netsrv.gid = genid "ps3netsrv";
   };

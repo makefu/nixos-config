@@ -7,7 +7,9 @@
     description = "smb guest user";
     home = "/home/share";
     createHome = true;
+    group = "smbguest";
   };
+  users.groups.smbguest = {};
   users.groups.mpd.members = [ "makefu" ];
   services.samba = {
     enable = true;

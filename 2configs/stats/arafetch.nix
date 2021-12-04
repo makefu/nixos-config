@@ -24,7 +24,9 @@ in {
     inherit home;
     createHome = true;
     isSystemUser = true;
+    group = "arafetch";
   };
+  users.groups.arafetch = {};
 
   systemd.services.ara2mqtt = {
     startAt = "05:00:00";

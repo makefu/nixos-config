@@ -13,7 +13,9 @@
     description = "smb guest user";
     home = "/home/share";
     createHome = true;
+    group = "smbguest";
   };
+  users.groups.smbguest = {};
   services.samba = {
     enable = true;
     shares = {
