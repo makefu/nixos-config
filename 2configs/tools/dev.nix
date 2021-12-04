@@ -2,8 +2,8 @@
 
 {
   users.users.makefu.packages = with pkgs;[
-    (python37.withPackages(ps: [
-      ps.python-language-server
+    (python3.withPackages(ps: [
+      #ps.python-language-server
       # the following plugins are optional, they provide type checking, import sorting and code formatting
       ps.pyls-mypy ps.pyls-isort ps.pyls-black
       ps.virtualenv ps.pyserial ps.virtualenv

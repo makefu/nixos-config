@@ -29,7 +29,11 @@
       enable = true;
       withPython3 = true;
       # withNodeJs = true;
-      extraPython3Packages = (ps: with ps; [ python-language-server pyls-mypy black libxml2]);
+      extraPython3Packages = (ps: with ps; [
+        # python-language-server
+        # pyls-mypy
+        black libxml2
+      ]);
       extraConfig = builtins.readFile ./vimrc;
       plugins = with pkgs.vimPlugins;[
         undotree
