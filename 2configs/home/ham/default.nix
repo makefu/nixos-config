@@ -23,6 +23,7 @@ in {
     # ./multi/fliegen-couter.nix
 
     ./device_tracker/openwrt.nix
+    ./device_tracker/tile.nix
 
     ./sensor/outside.nix
 
