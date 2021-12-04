@@ -1,4 +1,4 @@
-{ coreutils, makeWrapper, openssl, libcaca, qrencode, fetchFromGitHub, yubikey-manager, python, stdenv, ... }:
+{ coreutils, makeWrapper, openssl, libcaca, qrencode, fetchFromGitHub, yubikey-manager, python, stdenv, lib,  ... }:
 
 stdenv.mkDerivation {
   name = "gen-oath-safe-2017-06-30";
@@ -19,7 +19,7 @@ stdenv.mkDerivation {
 
   installPhase =
     let
-      path = stdenv.lib.makeBinPath [
+      path = lib.makeBinPath [
         coreutils
         openssl
         qrencode

@@ -24,8 +24,8 @@ stdenv.mkDerivation rec {
   meta = with lib; {
     description = "logstash output plugin";
     homepage    = https://github.com/logstash-plugins/logstash-input-rss;
-    license     = stdenv.lib.licenses.asl20;
-    platforms   = stdenv.lib.platforms.unix;
+    license     = lib.licenses.asl20;
+    platforms   = lib.platforms.unix;
     maintainers = with maintainers; [ makefu ];
   };
 }

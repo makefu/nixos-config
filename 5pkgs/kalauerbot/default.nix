@@ -1,4 +1,4 @@
-{ stdenv, python3, fetchgit }:
+{ stdenv, lib, python3, fetchgit }:
 python3.pkgs.buildPythonPackage rec {
 name = "kalauerbot";
 rev = "f244b35";
@@ -9,12 +9,12 @@ rev = "f244b35";
   };
   propagatedBuildInputs = with python3.pkgs;[
      (callPackage ./python-matrixbot.nix {
-      matrix-client = (stdenv.lib.overrideDerivation matrix-client (self: {
+      matrix-client = (lib.overrideDerivation matrix-client (self: {
       patches = [ ./badsync.patch ];
     }));
     })
 
-    (stdenv.lib.overrideDerivation googletrans (self: {
+    (lib.overrideDerivation googletrans (self: {
       patches = [ ./translate.patch ];
     }))
   ];

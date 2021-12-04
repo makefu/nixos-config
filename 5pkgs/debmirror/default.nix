@@ -1,4 +1,4 @@
-{ stdenv, pkgs, fetchgit }:
+{ stdenv, lib, pkgs, fetchgit }:
 
 pkgs.perlPackages.buildPerlPackage rec {
   pname = "debmirror";
@@ -34,8 +34,8 @@ pkgs.perlPackages.buildPerlPackage rec {
   meta = {
     description = "mirror apt repos";
     homepage = https://tracker.debian.org/pkg/debmirror;
-    license = stdenv.lib.licenses.gpl2;
-    platforms = stdenv.lib.platforms.linux;
-    maintainers = with stdenv.lib.maintainers; [ makefu ];
+    license = lib.licenses.gpl2;
+    platforms = lib.platforms.linux;
+    maintainers = with lib.maintainers; [ makefu ];
   };
 }

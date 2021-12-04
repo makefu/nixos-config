@@ -1,8 +1,8 @@
-{ stdenv, fetchurl, buildPackages, perl, fetchgit
+{ stdenv, lib, fetchurl, buildPackages, perl, fetchgit
 , hostPlatform
 }:
 
-with stdenv.lib;
+with lib;
 
 let
 
@@ -70,8 +70,8 @@ let
     meta = {
       homepage = https://sourceforge.net/p/cmpforopenssl ;
       description = "A cryptographic library that implements the SSL and TLS protocols";
-      platforms = stdenv.lib.platforms.all;
-      maintainers = [ stdenv.lib.maintainers.makefu ];
+      platforms = lib.platforms.all;
+      maintainers = [ lib.maintainers.makefu ];
       priority = 0; # resolves collision with ‘man-pages’
     };
   };

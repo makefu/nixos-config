@@ -1,4 +1,4 @@
-{ stdenv, fetchurl, pkgs }:
+{ stdenv, lib, fetchurl, pkgs }:
 # source: https://github.com/hyphon81/Nixtack/blob/master/noVNC/noVNC.nix
 let
 in
@@ -11,7 +11,7 @@ stdenv.mkDerivation rec {
     url = "https://github.com/novnc/noVNC/archive/v${version}.tar.gz";
     sha256 = "16ygbdzdmnfg9a26d9il4a6fr16qmq0ix9imfbpzl0drfbj7z8kh";
   };
-  p = stdenv.lib.makeBinPath [ pkgs.nettools pkgs.python27Packages.websockify
+  p = lib.makeBinPath [ pkgs.nettools pkgs.python27Packages.websockify
                                pkgs.coreutils pkgs.which pkgs.procps ];
   patchPhase = ''
     sed -i '1aset -efu\nexport PATH=${p}\n' utils/launch.sh
@@ -29,7 +29,7 @@ stdenv.mkDerivation rec {
     cp vnc_auto.html $out
   '';
 
-  meta = with stdenv.lib; {
+  meta = with lib; {
     homepage = http://novnc.com/info.html;
     repositories.git = git://github.com/novnc/noVNC.git;
     description = ''

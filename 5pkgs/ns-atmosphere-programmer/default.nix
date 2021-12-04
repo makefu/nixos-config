@@ -1,4 +1,4 @@
-{ stdenv, fetchzip
+{ stdenv, fetchzip, lib
 , makeWrapper
 , autoPatchelfHook
 , xlibs
@@ -26,7 +26,7 @@ stdenv.mkDerivation rec {
 
   dontStrip = true;
 
-  meta = with stdenv.lib; {
+  meta = with lib; {
     description = "Payload programmer for ns-atmosphere injector for nintendo switch";
     homepage = http://www.ns-atmosphere.com;
     maintainers = [ maintainers.makefu ];

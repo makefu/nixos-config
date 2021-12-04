@@ -22,9 +22,9 @@ let
     meta = {
       description = "Content Manager Assistant for the PS Vita";
       homepage = https://github.com/codestation/qcma;
-      license = stdenv.lib.licenses.gpl2;
-      platforms = stdenv.lib.platforms.linux;
-      maintainers = with stdenv.lib.maintainers; [ makefu ];
+      license = lib.licenses.gpl2;
+      platforms = lib.platforms.linux;
+      maintainers = with lib.maintainers; [ makefu ];
     };
   };
 in stdenv.mkDerivation rec {
@@ -50,8 +50,8 @@ in stdenv.mkDerivation rec {
   meta = {
     description = "Content Manager Assistant for the PS Vita";
     homepage = https://github.com/codestation/qcma;
-    license = stdenv.lib.licenses.gpl2;
-    platforms = stdenv.lib.platforms.linux;
-    maintainers = with stdenv.lib.maintainers; [ makefu ];
+    license = lib.licenses.gpl2;
+    platforms = lib.platforms.linux;
+    maintainers = with lib.maintainers; [ makefu ];
   };
 }

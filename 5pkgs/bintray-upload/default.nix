@@ -1,4 +1,4 @@
-{ pkgs, ... }:
+{ pkgs, lib, ... }:
 
 pkgs.python3Packages.buildPythonPackage rec {
   name = "bintray-upload-${version}";
@@ -14,6 +14,6 @@ pkgs.python3Packages.buildPythonPackage rec {
 
   meta = {
     description = "Simple BinTray utility for uploading packages";
-    license = pkgs.stdenv.lib.licenses.asl20;
+    license = lib.licenses.asl20;
   };
 }

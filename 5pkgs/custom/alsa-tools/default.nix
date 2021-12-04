@@ -1,4 +1,4 @@
-{stdenv,alsaToolTarget,fetchurl, alsaLib, ncurses, fltk13, gtk3}:
+{stdenv, lib, alsaToolTarget,fetchurl, alsaLib, ncurses, fltk13, gtk3}:
 
 stdenv.mkDerivation rec {
   name = "alsa-${alsaToolTarget}-${version}";
@@ -20,7 +20,7 @@ stdenv.mkDerivation rec {
     homepage = http://www.alsa-project.org/;
     description = "ALSA tools - ${name}";
 
-    platforms = stdenv.lib.platforms.linux;
-    maintainers = [ stdenv.lib.maintainers.makefu ];
+    platforms = lib.platforms.linux;
+    maintainers = [ lib.maintainers.makefu ];
   };
 }

@@ -1,4 +1,4 @@
-{ stdenv, fetchFromGitHub, kernel, kmod }:
+{ stdenv, lib, fetchFromGitHub, kernel, kmod }:
 
 stdenv.mkDerivation rec {
   name = "v4l2loopback-dc-${version}-${kernel.version}";
@@ -26,7 +26,7 @@ stdenv.mkDerivation rec {
     "INSTALL_MOD_PATH=$(out)"
   ];
 
-  meta = with stdenv.lib; {
+  meta = with lib; {
     description = "A kernel module to create V4L2 loopback devices";
     homepage = "https://github.com/aramg/droidcam";
     license = licenses.gpl2;

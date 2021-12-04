@@ -1,5 +1,5 @@
 { pkgs ? import <nixpkgs> {} }:
-with pkgs.stdenv.lib;
+with pkgs.lib;
 let
 
   readme-renderer = pkgs.python3Packages.buildPythonPackage rec {

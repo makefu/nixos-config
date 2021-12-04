@@ -1,4 +1,4 @@
-{ stdenv, bundlerEnv, ruby, fetchFromGitHub, nodejs }:
+{ stdenv, lib, bundlerEnv, ruby, fetchFromGitHub, nodejs }:
 # nix-shell --command "bundler install && bundix" in the clone, copy gemset.nix, Gemfile and Gemfile.lock
 let
   gems = bundlerEnv {
@@ -35,7 +35,7 @@ EOF
     chmod +x $bin
   '';
 
-  meta = with stdenv.lib; {
+  meta = with lib; {
     homepage = https://beefproject.com/;
     description = "The Browser Exploitation Framework";
     platforms = platforms.linux;

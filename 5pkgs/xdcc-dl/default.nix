@@ -11,7 +11,7 @@
 let
 
   inherit (pkgs) makeWrapper;
-  inherit (pkgs.stdenv.lib) fix' extends inNixShell;
+  inherit (pkgs.lib) fix' extends inNixShell;
 
   pythonPackages =
   import "${toString pkgs.path}/pkgs/top-level/python-packages.nix" {
@@ -73,7 +73,7 @@ let
       propagatedBuildInputs = [
       self."six"
     ];
-      meta = with pkgs.stdenv.lib; {
+      meta = with pkgs.lib; {
         homepage = "";
         license = licenses.mit;
         description = "Run JavaScript code from Python";
@@ -91,7 +91,7 @@ let
       propagatedBuildInputs = [
       self."beautifulsoup4"
     ];
-      meta = with pkgs.stdenv.lib; {
+      meta = with pkgs.lib; {
         homepage = "";
         license = licenses.mit;
         description = "Screen-scraping library";
@@ -106,7 +106,7 @@ let
       doCheck = commonDoCheck;
       buildInputs = commonBuildInputs;
       propagatedBuildInputs = [ ];
-      meta = with pkgs.stdenv.lib; {
+      meta = with pkgs.lib; {
         homepage = "";
         license = "MPL-2.0";
         description = "Python package for providing Mozilla's CA Bundle.";
@@ -124,7 +124,7 @@ let
       self."PyExecJS"
       self."requests"
     ];
-      meta = with pkgs.stdenv.lib; {
+      meta = with pkgs.lib; {
         homepage = "";
         license = "";
         description = "A simple Python module to bypass Cloudflare's anti-bot page. See https://github.com/Anorov/cloudflare-scrape for more information.";
@@ -139,7 +139,7 @@ let
       doCheck = commonDoCheck;
       buildInputs = commonBuildInputs;
       propagatedBuildInputs = [ ];
-      meta = with pkgs.stdenv.lib; {
+      meta = with pkgs.lib; {
         homepage = "";
         license = licenses.psfl;
         description = "Type Hints for Python";
@@ -155,7 +155,7 @@ let
       doCheck = commonDoCheck;
       buildInputs = commonBuildInputs;
       propagatedBuildInputs = [ ];
-      meta = with pkgs.stdenv.lib; {
+      meta = with pkgs.lib; {
         homepage = "";
         license = licenses.lgpl2;
         description = "A full-featured console (xterm et al.) user interface library";
@@ -177,7 +177,7 @@ let
       self."typing"
       self."urwid"
     ];
-      meta = with pkgs.stdenv.lib; {
+      meta = with pkgs.lib; {
         homepage = "";
         license = licenses.gpl3;
         description = "An XDCC File Downloader based on the irclib framework";

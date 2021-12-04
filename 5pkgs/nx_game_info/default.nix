@@ -1,4 +1,4 @@
-{ lib, stdenv, fetchurl , mono , unzip
+{ lib, stdenv, fetchurl , mono , unzip,
 }:
 stdenv.mkDerivation rec {
   pname = "NX_Game_Info";
@@ -25,8 +25,8 @@ stdenv.mkDerivation rec {
   meta = {
     description = "Tool to read information from Nintendo Switch game files";
     homepage = https://github.com/garoxas/NX_Game_Info;
-    license = stdenv.lib.licenses.gpl3;
-    platforms = stdenv.lib.platforms.linux;
-    maintainers = with stdenv.lib.maintainers; [ makefu ];
+    license = lib.licenses.gpl3;
+    platforms = lib.platforms.linux;
+    maintainers = with lib.maintainers; [ makefu ];
   };
 }

@@ -1,4 +1,5 @@
 { stdenv
+, lib
 , fetchurl
 , alsaLib
 , unzip
@@ -34,7 +35,7 @@ stdenv.mkDerivation rec {
     install -m755 -D studio-link-standalone-v${version} $out/bin/studio-link
   '';
 
-  meta = with stdenv.lib; {
+  meta = with lib; {
     homepage = https://studio-link.com;
     description = "Voip transfer";
     platforms = platforms.linux;
