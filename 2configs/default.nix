@@ -75,10 +75,10 @@ with import <stockholm/lib>;
     auto-optimise-store = true
   '';
 
-  security.wrappers.sendmail = {
-    source = "${pkgs.exim}/bin/sendmail";
-    setuid = true;
-  };
+  #security.wrappers.sendmail = {
+  #  source = "${pkgs.exim}/bin/sendmail";
+  #  setuid = true;
+  #};
   services.journald.extraConfig = ''
     SystemMaxUse=1G
     RuntimeMaxUse=128M
