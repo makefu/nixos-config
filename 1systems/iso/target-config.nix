@@ -1,4 +1,4 @@
-{ ... }:
+{ lib, ... }:
 
 {
   imports = [ ./hardware-configuration.nix ./generated.nix ];
@@ -33,8 +33,8 @@
     defaultLocale = "en_US.UTF-8";
   };
   boot.kernel.sysctl = {
-    "net.ipv6.conf.all.use_tempaddr" = 2;
-    "net.ipv6.conf.default.use_tempaddr" = 2;
+    "net.ipv6.conf.all.use_tempaddr" = lib.mkDefault "2";
+    "net.ipv6.conf.default.use_tempaddr" = lib.mkDefault "2";
   };
   services.nscd.enable = false;
 }
