@@ -78,8 +78,8 @@
 
   # Enable IPv6 Privacy Extensions
   boot.kernel.sysctl = {
-    "net.ipv6.conf.all.use_tempaddr" = 2;
-    "net.ipv6.conf.default.use_tempaddr" = 2;
+    "net.ipv6.conf.all.use_tempaddr" = lib.mkDefault "2";
+    "net.ipv6.conf.default.use_tempaddr" = lib.mkDefault "2";
   };
 
 }
