@@ -17,6 +17,6 @@ in {
   krebs.build.host = config.krebs.hosts.filepimp;
 
   networking.firewall.trustedInterfaces = [ itf ];
-  networking.interfaces.${itf}.wakeOnLan = true;
+  networking.interfaces.${itf}.wakeOnLan.enable = true;
 
 }
