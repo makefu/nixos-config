@@ -30,5 +30,6 @@ pythonPackages.buildPythonApplication rec {
     homepage = https://github.com/mwrlabs/drozer/;
     description = "The Leading Security Assessment Framework for Android";
     license = lib.licenses.bsd2;
+    broken = true;
   };
 }
