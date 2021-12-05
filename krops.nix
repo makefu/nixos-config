@@ -77,7 +77,7 @@
     (lib.mkIf ( host-src.home-manager ) {
       home-manager.git = {
         url = https://github.com/rycee/home-manager;
-        ref = "fd5fbb0a241f644908cdf01ccd1821d0606fb4fd";
+        ref = "6ce1d64073f48b9bc9425218803b1b607454c1e7";
       };
     })
   ];
