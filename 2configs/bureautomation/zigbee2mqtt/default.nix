@@ -12,7 +12,7 @@ in
   services.zigbee2mqtt = {
     enable = true;
     inherit dataDir;
-    config = {
+    settings = {
       permit_join = true;
       serial.port = "/dev/cc2531";
       homeassistant = true;

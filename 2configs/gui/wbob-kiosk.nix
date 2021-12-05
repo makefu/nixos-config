@@ -17,7 +17,7 @@
       user = "makefu";
     };
     displayManager.defaultSession = "gnome";
-    desktopManager.gnome3.enable = true;
+    desktopManager.gnome.enable = true;
     displayManager.sessionCommands = ''
         ${pkgs.xlibs.xset}/bin/xset -display :0 s off -dpms
         ${pkgs.xlibs.xrandr}/bin/xrandr --output HDMI2 --right-of HDMI1
