@@ -39,7 +39,9 @@ in {
     home = stateDir;
     isSystemUser = true;
     createHome = true;
+    group = ddclientUser;
   };
+  users.groups.${ddclientUser} = {};
 
   systemd.services = {
     ddclient-nsupdate-uhub = {
@@ -86,29 +88,30 @@ in {
   users.groups.uhub = {};
   services.uhub.home = {
     enable = true;
-    port = 1511;
     enableTLS = true;
-    hubConfig = ''
-      hub_name = "krebshub"
-      tls_certificate = ${uhubDir}/uhub.crt
-      tls_private_key = ${uhubDir}/uhub.key
-      registered_users_only = true
-    '';
-    plugins = {
-      welcome = {
-        enable = true;
-        motd = "shareit";
-        rules = "1. Don't be an asshole";
-      };
-      history = {
-        enable = true;
-      };
-      authSqlite = {
-        enable = true;
-        file = "${uhubDir}/uhub.sql";
-      };
-
+    settings = {
+      server_port = 1511;
+      hub_name = "krebshub";
+      tls_certificate = "${uhubDir}/uhub.crt";
+      tls_private_key = "${uhubDir}/uhub.key";
+      registered_users_only = true;
     };
+    plugins = [
+      {
+        plugin = "${pkgs.uhub}/plugins/mod_auth_sqlite.so";
+        settings.file = "${uhubDir}/uhub.sql";
+      }
+      {
+        plugin = "${pkgs.uhub}/plugins/mod_welcome.so";
+        settings.motd = "shareit";
+        settings.rules = "1. Don't be an asshole";
+      }
+      {
+        plugin = "${pkgs.uhub}/plugins/mod_history.so";
+        settings.motd = "shareit";
+        settings.rules = "1. Don't be an asshole";
+      }
+    ];
   };
   networking.firewall.allowedTCPPorts = [ 411 1511 ];
 }

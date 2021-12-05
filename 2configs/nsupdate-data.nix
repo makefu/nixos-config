@@ -28,14 +28,16 @@ let
   '';
 
 in {
-  users.extraUsers = singleton {
+  users.users.${ddclientUser} = {
     name = ddclientUser;
-    uid = genid "ddclient";
+    uid = genid ddclientUser;
     description = "ddclient daemon user";
     home = stateDir;
     createHome = true;
     isSystemUser = true;
+    group = ddclientUser;
   };
+  users.groups.${ddclientUser} = {};
 
   systemd.services = {
     ddclient-nsupdate-elchos = {
