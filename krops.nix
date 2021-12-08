@@ -25,7 +25,10 @@
         symlink = "/nix/var/nix/profiles/per-user/root/channels/nixos/";
       } else {
         derivation = ''
-          with import <nixpkgs> {};
+          with import (builtins.fetchTarball {
+            url = "https://github.com/nixos/nixpkgs/archive/${nixpkgs-src.rev}.tar.gz";
+            sha256 = "${nixpkgs-src.sha256}";
+          }) {};
           pkgs.fetchFromGitHub {
             owner = "nixos";
             repo = "nixpkgs";
