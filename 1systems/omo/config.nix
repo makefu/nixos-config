@@ -94,7 +94,7 @@ in {
       <stockholm/makefu/2configs/virtualisation/docker.nix>
       <stockholm/makefu/2configs/bluetooth-mpd.nix>
 
-      <stockholm/makefu/2configs/home/airsonic.nix>
+      <stockholm/makefu/2configs/home/music.nix>
       <stockholm/makefu/2configs/home/photoprism.nix>
       # <stockholm/makefu/2configs/home/metube.nix>
       <stockholm/makefu/2configs/home/ham>

@@ -1,19 +1,21 @@
 { config, ... }:
 let
   internal-ip = "192.168.111.11";
-  port = 4040;
+  port = 4533;
 in
 {
-  # networking.firewall.allowedTCPPorts = [ 4040 ];
-  services.airsonic = {
-    enable = true;
-    listenAddress = "0.0.0.0";
-    inherit port;
+  services.navidrome.enable = true;
+  services.navidrome.settings = {
+    MusicFolder = "/media/cryptX/music";
+    Address = "0.0.0.0";
   };
-  state = [ config.services.airsonic.home ];
-  services.nginx.virtualHosts."airsonic" = {
+
+  state = [ "/var/lib/navidrome" ];
+  # networking.firewall.allowedTCPPorts = [ 4040 ];
+  # state = [ config.services.airsonic.home ];
+  services.nginx.virtualHosts."navidrome" = {
     serverAliases = [
-              "airsonic.lan"
+              "navidrome.lan"
       "music"  "music.lan"
       "musik" "musik.lan"
     ];
