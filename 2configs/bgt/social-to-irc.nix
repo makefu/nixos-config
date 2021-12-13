@@ -1,12 +1,6 @@
 { pkgs, ... }:
 {
   systemd.services.brockman.environment."BROCKMAN_LOG_LEVEL" = "DEBUG";
-  systemd.services.restart-brockman = {
-    after = [ "brockman.service" ];
-    wantedBy = [ "multi-user.target" ];
-    startAt = "daily";
-    script = "${pkgs.systemd}/bin/systemctl try-restart brockman.service";
-  };
   krebs.brockman = {
     enable = true;
     config = {
