@@ -20,11 +20,11 @@
       bots = {
         r-systemdultras-rss = {
           feed = "https://www.reddit.com/r/systemdultras/.rss";
-          delay = 136;
+          delay = 236;
         };
         r-systemd-rss = {
           feed = "https://www.reddit.com/r/systemd/.rss";
-          delay = 172;
+          delay = 272;
         };
         r-pid_eins-twitter = {
           feed = "http://rss.makefu.r/?action=display&bridge=Twitter&context=By+username&u=pid_eins&format=Atom";
