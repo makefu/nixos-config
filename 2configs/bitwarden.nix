@@ -2,7 +2,7 @@
 let
   port = 8812;
 in {
-  services.bitwarden_rs = {
+  services.vaultwarden = {
     enable = true;
     dbBackend = "postgresql";
     config.signups_allowed = false;
@@ -13,17 +13,15 @@ in {
     config.websocket_enabled = true;
   };
 
-  systemd.services.bitwarden_rs.after = [ "postgresql.service" ];
+  systemd.services.vaultwarden.after = [ "postgresql.service" ];
 
   services.postgresql = {
     enable = true;
     ensureDatabases = [ "bitwarden" ];
-    ensureUsers = [ { name = "bitwarden_rs"; ensurePermissions."DATABASE bitwarden" = "ALL PRIVILEGES"; } ];
-    #initialScript = pkgs.writeText "postgresql-init.sql" ''
-    #  CREATE DATABASE bitwarden;
-    #  CREATE USER bitwardenuser WITH PASSWORD '${dbPassword}';
-    #  GRANT ALL PRIVILEGES ON DATABASE bitwarden TO bitwardenuser;
-    #'';
+    ensureUsers = [
+      { name = "bitwarden_rs"; ensurePermissions."DATABASE bitwarden" = "ALL PRIVILEGES"; } 
+      { name = "vaultwarden"; ensurePermissions."DATABASE bitwarden" = "ALL PRIVILEGES"; } 
+    ];
   };
 
   services.nginx.virtualHosts."bw.euer.krebsco.de" ={
