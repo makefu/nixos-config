@@ -6,22 +6,9 @@
   services.nix-serve = {
     enable = true;
     port = 5001;
-    secretKeyFile = config.krebs.secret.files.nix-serve-key.path;
+    secretKeyFile = toString <secrets> + "/nix-serve.key";
   };
 
-  systemd.services.nix-serve = {
-    after = [
-      config.krebs.secret.files.nix-serve-key.service
-    ];
-    partOf = [
-      config.krebs.secret.files.nix-serve-key.service
-    ];
-  };
-  krebs.secret.files.nix-serve-key = {
-    path = "/run/secret/nix-serve.key";
-    owner.name = "nix-serve";
-    source-path = toString <secrets> + "/nix-serve.key";
-  };
   services.nginx = {
     enable = true;
     virtualHosts."cache.euer.krebsco.de" = {
