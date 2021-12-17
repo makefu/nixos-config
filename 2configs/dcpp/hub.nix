@@ -63,8 +63,11 @@ in {
   networking.firewall.extraCommands = ''
     iptables -A PREROUTING -t nat -i ${ext-if} -p tcp --dport 411 -j REDIRECT --to-port 1511
   '';
-  systemd.services.uhub.serviceConfig = {
+  systemd.services.uhub-home.serviceConfig = {
     PrivateTmp = true;
+    DynamicUser = lib.mkForce false;
+    User = "uhub";
+    WorkingDirectory = uhubDir;
     PermissionsStartOnly = true;
     ExecStartPre = pkgs.writeDash "uhub-pre" ''
       cp -f ${toString <secrets/wildcard.krebsco.de.crt>} ${uhubDir}/uhub.crt
@@ -86,6 +89,7 @@ in {
     group = "uhub";
   };
   users.groups.uhub = {};
+
   services.uhub.home = {
     enable = true;
     enableTLS = true;
@@ -103,13 +107,12 @@ in {
       }
       {
         plugin = "${pkgs.uhub}/plugins/mod_welcome.so";
-        settings.motd = "shareit";
-        settings.rules = "1. Don't be an asshole";
+        settings.motd = toString (pkgs.writeText "motd" "shareit");
+        settings.rules = toString (pkgs.writeText "rules" "1. Don't be an asshole");
       }
       {
-        plugin = "${pkgs.uhub}/plugins/mod_history.so";
-        settings.motd = "shareit";
-        settings.rules = "1. Don't be an asshole";
+        plugin = "${pkgs.uhub}/plugins/mod_chat_history.so";
+        settings = {};
       }
     ];
   };
