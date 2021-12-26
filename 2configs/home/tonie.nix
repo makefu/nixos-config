@@ -1,12 +1,5 @@
 { config, pkgs, lib, ... }:
 let
-  bp = pkgs.callPackage ( pkgs.fetchFromGitHub {
-    repo = "npmlock2nix";
-    owner = "nix-community";
-    rev = "ff17a3c59233911f776d8d462d61d82a3e41df34";
-    sha256 = "0l624gkkpn1r0g48b204k0wcqm9cwy5rzd5mnxwfjhyjj1wg4nl7";
-
-  }) {};
   backend_port = 30005;
   #host = config.networking.hostName;
   ident = 998;
@@ -23,17 +16,6 @@ let
       },
     }
   '';
-  srcpkg = pkgs.fetchFromGitHub {
-    owner = "makefu";
-    repo = "toniebox-audio-match";
-    rev = "f652016a79de97c2395e81d010a139d0167d4f0f";
-    sha256 = "11mvdzs6pabfkikxpdyxg3vqxyl7n5w1z18ycbyjb2nqgyiss4dm";
-  };
-  package = bp.build {
-    src = srcpkg + /client;
-    installPhase = "cp -r dist $out";
-    buildCommands = [ "npm run build" ];
-  };
   audiobookdir = "/media/cryptX/music/kinder_hoerspiele";
   #  TONIE_AUDIO_MATCH_USER = username;
   #  TONIE_AUDIO_MATCH_PASS = password;
@@ -81,7 +63,7 @@ in
   };
   services.nginx.virtualHosts."tonie" = {
     serverAliases = [ "tonie.lan" "tonie.omo.r" backend_host ];
-    locations."/".root = package;
+    locations."/".proxyPass = "http://localhost:${toString frontend_port}";
     locations."/upload".proxyPass = "http://localhost:${toString backend_port}";
     locations."/creativetonies".proxyPass = "http://localhost:${toString backend_port}";
     locations."/audiobooks".proxyPass = "http://localhost:${toString backend_port}";
