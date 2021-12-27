@@ -27,13 +27,10 @@ in
     ];
   networking.firewall.allowedTCPPorts = [ frontend_port backend_port ];
   virtualisation.oci-containers.containers.toniebox-front = {
-    image = "makefoo/toniebox-audio-match_front:1.0.0";
+    image = "makefoo/toniebox-audio-match_front:1.0.1";
     inherit user;
     environment = {
-      VUE_APP_BACKEND_SCHEME = "http";
-      VUE_APP_BACKEND_HOST = backend_host;
-      #VUE_APP_BACKEND_PORT = toString backend_port;
-      VUE_APP_BACKEND_PORT = "80";
+      VUE_APP_BACKEND_IS_LOCAL = "true";
     };
     ports = [ "${toString frontend_port}:8080" ];
     volumes = [
