@@ -12,7 +12,6 @@
     evince
     # replacement for mirage:
     sxiv
-    tightvnc
     gnome3.dconf
     xdotool
     xorg.xbacklight
