@@ -49,7 +49,6 @@ in {
       # <stockholm/makefu/2configs/gui/xpra.nix>
 
       # networking
-      <stockholm/makefu/2configs/vpn/openvpn-server.nix>
       # <stockholm/makefu/2configs/vpn/vpnws/server.nix>
       #<stockholm/makefu/2configs/dnscrypt/server.nix>
       <stockholm/makefu/2configs/iodined.nix>
@@ -63,7 +62,7 @@ in {
             ListenAddress = ${external-ip} 21031
           '';
           connectTo = [
-            "prism" "ni" "enklave" "eve" "archprism"
+            "prism" "ni" "enklave" "eve" "dishfire"
           ];
         };
         networking.firewall = {
@@ -117,7 +116,7 @@ in {
 
 
       ## network
-      <stockholm/makefu/2configs/vpn/openvpn-server.nix>
+      # <stockholm/makefu/2configs/vpn/openvpn-server.nix>
       # <stockholm/makefu/2configs/vpn/vpnws/server.nix>
       <stockholm/makefu/2configs/binary-cache/server.nix>
       { makefu.backup.server.repo = "/var/backup/borg"; }
@@ -156,6 +155,7 @@ in {
       <stockholm/makefu/2configs/deployment/boot-euer.nix>
       <stockholm/makefu/2configs/deployment/gecloudpad>
       <stockholm/makefu/2configs/deployment/docker/archiveteam-warrior.nix>
+      <stockholm/makefu/2configs/deployment/mediengewitter.de.nix>
       <stockholm/makefu/2configs/bgt/etherpad.euer.krebsco.de.nix>
       # <stockholm/makefu/2configs/deployment/systemdultras-rss.nix>
 
@@ -181,7 +181,7 @@ in {
       ## Temporary:
       # <stockholm/makefu/2configs/temp/rst-issue.nix>
       <stockholm/makefu/2configs/virtualisation/docker.nix>
-      <stockholm/makefu/2configs/virtualisation/libvirt.nix>
+      #<stockholm/makefu/2configs/virtualisation/libvirt.nix>
 
       # krebs infrastructure services
       # <stockholm/makefu/2configs/stats/server.nix>
