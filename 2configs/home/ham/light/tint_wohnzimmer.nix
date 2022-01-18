@@ -15,32 +15,39 @@
 # {% endif -%}
 
 let
+  # effect        - color
+  # Solid Pattern - Hult
   group_id_1 = 16388;
   group_id_2 = 16389;
   group_id_3 = 16390;
-  remote = "sensor.schlafzimmer_remote1_action";
-  main_light_1 = "light.wled";
-  default_scene_1 = "Solid";
-  default_color_1 = "Default";
-  main_color_select_1 = "select.wled_color_palette";
-  light_group_1 = { entity_id = [ main_light_1 ];};
+  # main_light_1 = "light.wled";
+  # default_scene_1 = "Solid";
+  # default_color_1 = "Default";
+  # main_color_select_1 = "select.wled_color_palette";
 
   # contains only the actually changeable lights 
-  light_group_2 = { entity_id = [
-    "light.wohnzimmer_komode_osram"
-    "light.wohnzimmer_schrank_osram"
-    "light.wohnzimmer_fenster_lichterkette_licht"
-    ];
-  };
-  light_group_3 = { entity_id = [ "light.wohnzimmer_stehlampe_osram" ]; };
 
   statecond = cond: { # cond must be a list
     condition = "template";
     value_template = "{{ trigger.to_state.attributes.action in ( " +
       (lib.concatMapStringsSep "," (x: "'${x}'") cond) + ") }}";
-  };
-in {
-  services.home-assistant.config.automation = [
+    };
+
+    # The remote manages WLED on ID1, and basic lights on ID2 and ID3
+    tint_remote = { remote
+    , wled_name_1
+    , lights_2 ? []
+    , lights_3 ? []
+    , main_light_1 ? "light.${wled_name_1}"
+    , main_color_select_1 ? "select.${wled_name_1}_color_plaette"
+    , default_scene_1 ? "Solid"
+    , default_color_1 ? "Default"
+  }:
+    let
+      light_group_1.entity_id = [ main_light_1 ];
+      light_group_2.entity_id = lights_2;
+      light_group_3.entity_id = lights_2;
+    in
     {
       alias = "Perform Actions with ${remote}";
       mode = "queued";
@@ -288,5 +295,15 @@ in {
         }
       ];
     }
+ 
+    ;
+in {
+  services.home-assistant.config.automation = [
+    (tint_remote {
+      remote = "sensor.schlafzimmer_remote1_action";
+      wled_name_1 = "wled";
+      lights_2 = [ "light.wohnzimmer_komode_osram" "light.wohnzimmer_schrank_osram" "light.wohnzimmer_fenster_lichterkette_licht" ];
+      lights_3 = [ "light.wohnzimmer_stehlampe_osram" ];
+    })
   ];
 }
