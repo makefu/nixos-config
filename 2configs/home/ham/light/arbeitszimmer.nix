@@ -10,6 +10,8 @@ let
     "light.arbeitszimmer_pflanzenlicht"
   ];
 in {
+  imports = [ ./tint_arbeitszimmer.nix ];
+
   services.home-assistant.config.light = [
     {
       platform = "group";
@@ -27,16 +29,5 @@ in {
     }
   ];
   services.home-assistant.config.automation = [
-    {
-      alias = "Toggle Arbeitszimmerbeleuchtung via Remote";
-      trigger = {
-        platform = "state";
-        entity_id = "sensor.arbeitszimmer_remote1_action";
-      };
-      action = {
-        service = "light.toggle";
-        data.entity_id = "light.arbeitszimmerbeleuchtung";
-      };
-    }
   ];
 }

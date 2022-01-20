@@ -9,6 +9,8 @@ let
     "light.kinderzimmer_lichterkette_licht" # led um fenster
   ];
 in {
+  imports = [ ./tint_wohnzimmer.nix ];
+  services.home-assistant.config.wled = {};
   services.home-assistant.config.light = [
     {
       platform = "group";
@@ -22,3 +24,8 @@ in {
     }
   ];
 }
+
+#   trigger.to_state.attributes.action_group:
+#       1: 18388
+#       2: 18389
+#       3: 18390

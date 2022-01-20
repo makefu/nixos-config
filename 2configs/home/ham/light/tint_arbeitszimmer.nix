@@ -1,40 +1,24 @@
 { lib, ...}:
-# cycle through scenes
-
-# cycle through color palettes
-# {% set options = state_attr('select.wled_color_palette','options') -%}
-# {% set selection = options.index(states('select.wled_color_palette'))  -%}
-# {% if false -%}
-#   {% if (selection + 1) >= options | length -%}
-#     {{ options[0] }}
-#   {% else -%}
-#     {{ options[selection + 1] }}
-#   {% endif %}
-# {% elif true -%}
-#    {{ options[selection -1] }}
-# {% endif -%}
 
 let
-  # Solid Pattern
-  # Hult
+  # effect        - color
+  # Solid Pattern - Hult
   group_id_1 = 16388;
   group_id_2 = 16389;
   group_id_3 = 16390;
-  remote = "sensor.schlafzimmer_remote1_action";
-  main_light_1 = "light.wled";
+  remote = "sensor.arbeitszimmer_remote1_action";
+  main_light_1 = "light.wled_4";
   default_scene_1 = "Solid";
   default_color_1 = "Default";
-  main_color_select_1 = "select.wled_color_palette";
+  main_color_select_1 = "select.wled_color_palette_4";
   light_group_1 = { entity_id = [ main_light_1 ];};
 
-  # contains only the actually changeable lights 
+  # contains only the actually changeable lights
   light_group_2 = { entity_id = [
-    "light.wohnzimmer_komode_osram"
-    "light.wohnzimmer_schrank_osram"
-    "light.wohnzimmer_fenster_lichterkette_licht"
+    "light.arbeitszimmer_schrank_dimmer"
     ];
   };
-  light_group_3 = { entity_id = [ "light.wohnzimmer_stehlampe_osram" ]; };
+  light_group_3 = { entity_id = [ "light.arbeitszimmer_pflanzenlicht" ]; };
 
   statecond = cond: { # cond must be a list
     condition = "template";
