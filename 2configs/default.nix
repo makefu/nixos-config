@@ -11,6 +11,7 @@ with import <stockholm/lib>;
     ./editor/vim.nix
     ./binary-cache/nixos.nix
     ./minimal.nix
+    ./security/hotfix.nix
   ];
 
   # users are super important
