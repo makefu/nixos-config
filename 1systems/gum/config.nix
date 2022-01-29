@@ -51,15 +51,17 @@ in {
       # networking
       # <stockholm/makefu/2configs/vpn/vpnws/server.nix>
       #<stockholm/makefu/2configs/dnscrypt/server.nix>
-      <stockholm/makefu/2configs/iodined.nix>
+      # <stockholm/makefu/2configs/iodined.nix>
       # <stockholm/makefu/2configs/backup.nix>
       <stockholm/makefu/2configs/tinc/retiolum.nix>
       { # bonus retiolum config for connecting more hosts
         krebs.tinc.retiolum = {
-          extraConfig = ''
+          extraConfig = lib.mkForce ''
             ListenAddress = ${external-ip} 53
             ListenAddress = ${external-ip} 655
             ListenAddress = ${external-ip} 21031
+            StrictSubnets = yes
+            LocalDiscovery = no
           '';
           connectTo = [
             "prism" "ni" "enklave" "eve" "dishfire"
@@ -112,6 +114,7 @@ in {
       #<stockholm/makefu/2configs/retroshare.nix>
       ## <stockholm/makefu/2configs/ipfs.nix>
       #<stockholm/makefu/2configs/syncthing.nix>
+      <stockholm/makefu/2configs/sync>
       # <stockholm/makefu/2configs/opentracker.nix>
 
 
@@ -122,7 +125,6 @@ in {
       { makefu.backup.server.repo = "/var/backup/borg"; }
       <stockholm/makefu/2configs/backup/server.nix>
       <stockholm/makefu/2configs/backup/state.nix>
-      <stockholm/makefu/2configs/iodined.nix>
       <stockholm/makefu/2configs/bitlbee.nix>
       <stockholm/makefu/2configs/wireguard/server.nix>
       <stockholm/makefu/2configs/wireguard/wiregrill.nix>
@@ -160,7 +162,7 @@ in {
       # <stockholm/makefu/2configs/deployment/systemdultras-rss.nix>
 
       # <stockholm/makefu/2configs/shiori.nix>
-      # <stockholm/makefu/2configs/workadventure>
+      #<stockholm/makefu/2configs/workadventure>
 
       <stockholm/makefu/2configs/bgt/download.binaergewitter.de.nix>
       <stockholm/makefu/2configs/bgt/hidden_service.nix>
