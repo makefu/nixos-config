@@ -135,7 +135,7 @@ in
           data.entity_id = [
             "light.wohnzimmer_fernseher_led_strip" "light.wohnzimmer_stehlampe_osram"
             "light.wohnzimmer_komode_osram" "light.wohnzimmer_schrank_osram"
-            "light.wohnzimmer_fenster_lichterkette_licht" "light.wohnzimmer_fernsehwand_led"
+            "light.wohnzimmer_fenster_lichterkette_licht" "light.wled"
           ];
         };
       })

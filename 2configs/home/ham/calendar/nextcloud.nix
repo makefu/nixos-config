@@ -8,8 +8,6 @@ in
       platform = "caldav";
       inherit (cred) username password;
       url = "https://o.euer.krebsco.de/remote.php/dav";
-      # make calendars "all-day" before uploading:
-      #   sed -i -e 's/^\(DTSTART;.*\)T......\r$/\1\r/' -e #   's/^\(DTEND;.*\)T......\r$/\1\r/' abfall.ical
       custom_calendars = [
         {
           name = "Gelbersack";

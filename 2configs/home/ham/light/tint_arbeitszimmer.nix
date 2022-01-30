@@ -11,14 +11,17 @@ let
   default_scene_1 = "Solid";
   default_color_1 = "Default";
   main_color_select_1 = "select.wled_color_palette_4";
-  light_group_1 = { entity_id = [ main_light_1 ];};
+  light_group_1.entity_id = [
+    main_light_1
+  ];
 
   # contains only the actually changeable lights
-  light_group_2 = { entity_id = [
+  light_group_2.entity_id = [
     "light.arbeitszimmer_schrank_dimmer"
-    ];
-  };
-  light_group_3 = { entity_id = [ "light.arbeitszimmer_pflanzenlicht" ]; };
+  ];
+  light_group_3.entity_id = [
+    "light.arbeitszimmer_pflanzenlicht"
+  ];
 
   statecond = cond: { # cond must be a list
     condition = "template";

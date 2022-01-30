@@ -8,36 +8,50 @@ in
     tts = { message, entity }:
     [
       {
-        service = "media_player.turn_on";
-        data.entity_id = entity;
+        service = "sonos.snapshot";
+        target.entity_id = entity;
       }
       {
-        service = "media_player.play_media";
+        service = "tts.google_say";
         data = {
-          entity_id = entity;
-          media_content_type = "playlist";
-          media_content_id = "ansage";
-        };
-      }
-      {
-        service = "media_player.turn_on";
-        data.entity_id = entity;
-      }
-      { delay.seconds = 8; }
-      {
-        service = "tts.say";
-        entity_id =  entity;
-        data_template = {
+          entity_id =  entity;
           inherit message;
           language = "de";
         };
       }
+      #{ wait_template = "{{ is_state('${entity}' , 'playing') }}";
+      #  timeout = "00:00:02";
+      #}
+      #{ wait_template = "{{ not is_state('${entity}' , 'playing') }}";
+      #  timeout = "00:01:00";
+      #}
+      { delay.seconds = 1; }
+      { delay = ''
+        {% set duration = states.${entity}.attributes.media_duration %}
+        {% if duration > 0 %}
+          {% set duration = duration - 1 %}
+        {% endif %}
+        {% set seconds = duration % 60 %}
+        {% set minutes = (duration / 60)|int % 60 %}
+        {% set hours = (duration / 3600)|int %}
+        {{ "%02i:%02i:%02i"|format(hours, minutes, seconds)}}
+
+        '';
+      }
+      {
+        service = "sonos.restore";
+        target.entity_id = entity;
+      }
     ];
   in
   {
-    firetv = message: tts {
+    living_room = message: tts {
       inherit message;
-      entity = "firetv";
+      entity = "media_player.living_room";
+    };
+    office = message: tts {
+      inherit message;
+      entity = "media_player.office";
     };
   };
 

@@ -5,8 +5,9 @@
 
 let
   schranklicht = "light.wohnzimmer_schrank_osram";
-  fernsehlicht = "light.wohnzimmer_fernseher_led_strip";
-  final_off = "01:00";
+  weihnachtslicht = "light.wohnzimmer_fenster_lichterkette_licht";
+  fernsehlicht = "light.wled";
+  final_off = "00:37";
 
   turn_on = entity_id: at:
   { alias = "Turn on ${entity_id} at ${at}";
@@ -25,6 +26,7 @@ in
     automation =
     [
       (turn_on schranklicht "17:30")
+      (turn_on weihnachtslicht "17:30")
       (turn_on fernsehlicht "19:00")
 
       { alias = "Always turn off the urlaub lights at ${final_off}";
@@ -35,7 +37,7 @@ in
         [
           {
             service = "light.turn_off";
-            entity_id =  [ schranklicht fernsehlicht ];
+            entity_id =  [ schranklicht weihnachtslicht fernsehlicht ];
           }
         ];
       }

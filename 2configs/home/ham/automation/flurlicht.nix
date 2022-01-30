@@ -1,5 +1,7 @@
 let
-  licht = "light.flur_statuslight";
+  licht = [ "light.flur_statuslight" "light.wohnzimmer_status_led" ];
+  kehrwoche_color = [ 204 0 255 ]; # pink
+  nachtlicht_color = [ 255 190 0 ]; # ein dunkles rot
 in
 {
   services.home-assistant.config.automation =
@@ -16,22 +18,39 @@ in
           target.entity_id = licht;
           data = {
             brightness = 87;
-            rgbw_color = [ 255 190 0 0 ]; # ein dunkles rot
+            rgb_color = nachtlicht_color;
             #effect = "None";
           };
         }
       ];
     }
-    { alias = "Nachtlicht in Flur aus";
+    { alias = "Nachtlicht in Flur aus, Kehrwoche an";
       trigger = {
         platform = "sun";
         event = "sunrise";
       };
       action =
       [
-        {
-          service = "light.turn_off";
-          entity_id = licht;
+        { choose = [
+          {
+            conditions = {
+              condition = "state";
+              entity_id = "calendar.kehrwoche_kehrwoche";
+              state =  "on";
+            };
+            sequence = {
+              service = "light.turn_on";
+              target.entity_id = licht;
+              data = {
+                brightness = 190;
+                rgb_color = kehrwoche_color; # pink
+              };
+            };
+          }];
+          default = {
+              service = "light.turn_off";
+              entity_id = licht;
+            };
         }
       ];
     }

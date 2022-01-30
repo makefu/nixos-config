@@ -4,7 +4,6 @@
 ##
 let
   prefix = (import ./lib).prefix;
-  firetv_stick = "192.168.111.24";
   hassdir = "/var/lib/hass";
   unstable = import <nixpkgs-unstable> {};
 
@@ -29,6 +28,11 @@ in {
 
     ./calendar/nextcloud.nix
 
+    ./media/firetv.nix
+    ./media/sonos.nix
+    ./media/remote_sound_wohnzimmer.nix
+
+    ./automation/check-in.nix
     ./automation/fenster_auf.nix
     ./automation/firetv_restart.nix
     ./automation/light_buttons.nix
@@ -37,22 +41,25 @@ in {
     ./automation/flurlicht.nix
     #./automation/giesskanne.nix
     ./automation/pflanzen_giessen_erinnerung.nix
-    #./automation/urlaub.nix
+    ./automation/urlaub.nix
     ./automation/moodlight.nix
+    ./automation/shutdown_button.nix
 
     ./light/arbeitszimmer.nix
     ./light/schlafzimmer.nix
     ./light/wohnzimmer.nix
+
+    ./tts/google.nix
   ];
 
   services.home-assistant = {
-    package = (unstable.home-assistant.overrideAttrs (old: {
+    package = (pkgs.home-assistant.overrideAttrs (old: {
       doInstallCheck = false;
     })).override {
-      extraPackages = p: [ 
-        (p.callPackage ./deps/dwdwfsapi.nix {}) 
-        (p.callPackage ./signal-rest/pkg.nix {}) 
-        #(p.callPackage ./deps/pykodi.nix {}) 
+      extraPackages = p: [
+        (p.callPackage ./deps/dwdwfsapi.nix {})
+        (p.callPackage ./signal-rest/pkg.nix {})
+        #(p.callPackage ./deps/pykodi.nix {})
       ];
     };
 
@@ -88,13 +95,6 @@ in {
         default = "info";
       };
       rest_command = {};
-      tts = [
-        { platform = "google_translate";
-          language = "de";
-          time_memory = 57600;
-          service_name =  "google_say";
-        }
-      ];
       api = {};
       esphome = {}; # fails
       camera = [];
@@ -109,16 +109,6 @@ in {
       #];
       notify = [
         #{
-        #  platform = "kodi";
-        #  name = "Kodi Wohnzimmer";
-        #  host = firetv_stick;
-        #}
-        {
-          platform = "nfandroidtv";
-          name = "FireTV Wohnzimmer";
-          host = firetv_stick;
-        }
-        #{
         #  platform = "telegram";
         #  name = "telegrambot";
         #  chat_id = builtins.elemAt
@@ -128,19 +118,6 @@ in {
           ];
       sun.elevation = 247;
       recorder = {};
-      media_player = [
-        { platform = "kodi";
-          name = "FireTV Stick kodi";
-          host = firetv_stick;
-        }
-        { platform = "androidtv";
-          name = "FireTV Stick";
-          device_class = "firetv";
-          # adb_server_ip = firetv_stick;
-          host = firetv_stick;
-          port = 5555;
-        }
-      ];
       mqtt = {
         broker = "localhost";
         discovery = true; #enable esphome discovery

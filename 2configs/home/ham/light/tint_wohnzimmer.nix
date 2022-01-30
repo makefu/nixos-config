@@ -25,16 +25,19 @@ let
   default_scene_1 = "Solid";
   default_color_1 = "Default";
   main_color_select_1 = "select.wled_color_palette";
-  light_group_1 = { entity_id = [ main_light_1 ];};
+  light_group_1.entity_id = [
+    main_light_1
+  ];
 
   # contains only the actually changeable lights 
-  light_group_2 = { entity_id = [
+  light_group_2.entity_id = [
     "light.wohnzimmer_komode_osram"
     "light.wohnzimmer_schrank_osram"
     "light.wohnzimmer_fenster_lichterkette_licht"
-    ];
-  };
-  light_group_3 = { entity_id = [ "light.wohnzimmer_stehlampe_osram" ]; };
+  ];
+  light_group_3.entity_id = [
+    "light.wohnzimmer_stehlampe_osram"
+  ];
 
   statecond = cond: { # cond must be a list
     condition = "template";
