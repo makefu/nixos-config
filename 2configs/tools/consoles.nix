@@ -8,9 +8,14 @@
     bin2iso
     cue2pops
 
+    # PS4
+    pkgrename
+
     # switch
     nx_game_info
     hactool
     nsrenamer
+    sfo
+    exfatprogs exfat-utils exfat
   ];
 }
