@@ -1,4 +1,4 @@
-{ config, pkgs, ... }:
+{ config, lib, pkgs, ... }:
 let
 
   # external-ip = config.krebs.build.host.nets.internet.ip4.addr;
@@ -10,11 +10,13 @@ let
 in {
 
   imports = [
+    ./1blu
     <stockholm/makefu>
+    #<stockholm/makefu/2configs/home-manager>
     # configure your hw:
-    <stockholm/makefu/2configs/hw/CAC.nix>
+    #<stockholm/makefu/2configs/hw/CAC.nix>
     <stockholm/makefu/2configs/tinc/retiolum.nix>
-    <stockholm/makefu/2configs/save-diskspace.nix>
+    #<stockholm/makefu/2configs/save-diskspace.nix>
 
     # Security
     <stockholm/makefu/2configs/sshd-totp.nix>
@@ -25,29 +27,12 @@ in {
     <stockholm/makefu/2configs/zsh-user.nix>
     # Services
     <stockholm/makefu/2configs/remote-build/slave.nix>
-    <stockholm/makefu/2configs/torrent.nix>
+    # <stockholm/makefu/2configs/torrent.nix>
 
   ];
   krebs = {
     enable = true;
     build.host = config.krebs.hosts.latte;
   };
-  boot.initrd.availableKernelModules = [ "ata_piix" "ehci_pci" "virtio_pci" "virtio_blk" "virtio_net" "virtio_scsi" ];
 
-  boot.loader.grub.device = "/dev/vda";
-  boot.loader.grub.copyKernels = true;
-  fileSystems."/" = {
-    device = "/dev/vda1";
-    fsType = "ext4";
-  };
-  networking = {
-    firewall = {
-      allowPing = true;
-      logRefusedConnections = false;
-      allowedTCPPorts = [ ];
-      allowedUDPPorts = [ 655 ];
-    };
-    # network interface receives dhcp address
-    nameservers = [ "8.8.8.8" ];
-  };
 }
