@@ -10,24 +10,39 @@ let
 in {
 
   imports = [
-    ./1blu
-    <stockholm/makefu>
-    #<stockholm/makefu/2configs/home-manager>
-    # configure your hw:
-    #<stockholm/makefu/2configs/hw/CAC.nix>
-    <stockholm/makefu/2configs/tinc/retiolum.nix>
-    #<stockholm/makefu/2configs/save-diskspace.nix>
+      ./1blu
+      <stockholm/makefu>
 
-    # Security
-    <stockholm/makefu/2configs/sshd-totp.nix>
-    # <stockholm/makefu/2configs/stats/client.nix>
+      # common
+      <stockholm/makefu/2configs/nur.nix>
+      <stockholm/makefu/2configs/home-manager>
+      <stockholm/makefu/2configs/home-manager/cli.nix>
 
-    # Tools
-    <stockholm/makefu/2configs/tools/core.nix>
-    <stockholm/makefu/2configs/zsh-user.nix>
-    # Services
-    <stockholm/makefu/2configs/remote-build/slave.nix>
-    # <stockholm/makefu/2configs/torrent.nix>
+      # Security
+      <stockholm/makefu/2configs/sshd-totp.nix>
+
+      # Tools
+      <stockholm/makefu/2configs/tools/core.nix>
+      <stockholm/makefu/2configs/zsh-user.nix>
+
+      # NixOS Build
+      <stockholm/makefu/2configs/remote-build/slave.nix>
+
+      # Storage
+      <stockholm/makefu/2configs/share/hetzner-client.nix>
+
+      # Services:
+      <stockholm/makefu/2configs/nix-community/mediawiki-matrix-bot.nix>
+
+      # Supervision
+      <stockholm/makefu/2configs/nix-community/supervision.nix>
+
+      # Krebs
+      <stockholm/makefu/2configs/tinc/retiolum.nix>
+
+      #<stockholm/makefu/2configs/home-manager>
+      # configure your hw:
+      # <stockholm/makefu/2configs/torrent.nix>
 
   ];
   krebs = {

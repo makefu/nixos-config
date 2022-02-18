@@ -27,5 +27,6 @@ in
     };
     defaultGateway6 = { address = external-gw6; interface = ext-if; };
     defaultGateway = external-gw;
+    nameservers = [ "1.1.1.1" ];
   };
 }
