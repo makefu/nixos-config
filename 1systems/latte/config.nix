@@ -29,10 +29,19 @@ in {
       <stockholm/makefu/2configs/remote-build/slave.nix>
 
       # Storage
+      <stockholm/makefu/2configs/share>
       <stockholm/makefu/2configs/share/hetzner-client.nix>
 
       # Services:
       <stockholm/makefu/2configs/nix-community/mediawiki-matrix-bot.nix>
+      # <stockholm/makefu/2configs/torrent.nix>
+      # <stockholm/makefu/2configs/torrent/deluge.nix>
+      <stockholm/makefu/2configs/torrent/rtorrent.nix>
+      <stockholm/makefu/2configs/deployment/rss.euer.krebsco.de.nix>
+
+      # local usage:
+      <stockholm/makefu/2configs/mosh.nix>
+      <stockholm/makefu/2configs/bitlbee.nix>
 
       # Supervision
       <stockholm/makefu/2configs/nix-community/supervision.nix>
@@ -40,14 +49,17 @@ in {
       # Krebs
       <stockholm/makefu/2configs/tinc/retiolum.nix>
 
-      #<stockholm/makefu/2configs/home-manager>
-      # configure your hw:
-      # <stockholm/makefu/2configs/torrent.nix>
+      # backup
+      <stockholm/makefu/2configs/backup/state.nix>
+
 
   ];
   krebs = {
     enable = true;
     build.host = config.krebs.hosts.latte;
   };
+
+  makefu.dl-dir = "/media/cloud/download";
+  networking.firewall.allowedTCPPorts = [ 80 ];
 
 }

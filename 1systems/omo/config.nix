@@ -43,14 +43,18 @@ in {
       <stockholm/makefu/2configs/tools/dev.nix>
       <stockholm/makefu/2configs/tools/desktop.nix>
       <stockholm/makefu/2configs/tools/mobility.nix>
+      <stockholm/makefu/2configs/tools/consoles.nix>
       #<stockholm/makefu/2configs/graphite-standalone.nix>
       #<stockholm/makefu/2configs/share-user-sftp.nix>
 
       <stockholm/makefu/2configs/urlwatch>
       # <stockholm/makefu/2configs/legacy_only.nix>
 
+      <stockholm/makefu/2configs/share>
       <stockholm/makefu/2configs/share/omo.nix>
       <stockholm/makefu/2configs/share/gum-client.nix>
+      <stockholm/makefu/2configs/share/hetzner-client.nix>
+      <stockholm/makefu/2configs/sync>
       <stockholm/makefu/2configs/dcpp/airdcpp.nix>
       { krebs.airdcpp.dcpp.shares = let
           d = path: "/media/cryptX/${path}";
@@ -96,6 +100,8 @@ in {
 
       <stockholm/makefu/2configs/home/music.nix>
       <stockholm/makefu/2configs/home/photoprism.nix>
+      <stockholm/makefu/2configs/home/tonie.nix>
+      <stockholm/makefu/2configs/home/ps4srv.nix>
       # <stockholm/makefu/2configs/home/metube.nix>
       <stockholm/makefu/2configs/home/ham>
       <stockholm/makefu/2configs/home/zigbee2mqtt>
@@ -104,6 +110,7 @@ in {
           enable = true;
           servedir = "/media/cryptX/emu/ps3";
         };
+        users.users.makefu.packages = [ pkgs.pkgrename ];
       }
 
 
