@@ -137,6 +137,8 @@
       # <stockholm/makefu/2configs/share/anon-ftp.nix>
       # <stockholm/makefu/2configs/share/anon-sftp.nix>
       <stockholm/makefu/2configs/share/gum-client.nix>
+      <stockholm/makefu/2configs/share/hetzner-client.nix>
+      <stockholm/makefu/2configs/share>
       # <stockholm/makefu/2configs/share/temp-share-samba.nix>
 
 
@@ -145,6 +147,7 @@
       <stockholm/makefu/2configs/mail-client.nix>
       <stockholm/makefu/2configs/printer.nix>
       # <stockholm/makefu/2configs/syncthing.nix>
+      <stockholm/makefu/2configs/sync>
 
       # Virtualization
       # <stockholm/makefu/2configs/virtualisation/libvirt.nix>
@@ -167,7 +170,7 @@
       # <stockholm/makefu/2configs/remote-build/gum.nix>
       # { nixpkgs.overlays = [ (self: super: super.prefer-remote-fetch self super) ]; }
 
-      <stockholm/makefu/2configs/binary-cache/gum.nix>
+      # <stockholm/makefu/2configs/binary-cache/gum.nix>
       <stockholm/makefu/2configs/binary-cache/lass.nix>
 
 
@@ -223,7 +226,8 @@
 
   krebs.build.host = config.krebs.hosts.x;
 
-  krebs.tinc.retiolum.connectTo = [ "omo" "prism" "nextgum" "wbob" ];
+  #krebs.tinc.retiolum.connectTo = lib.mkForce [ "gum" ];
+  #krebs.tinc.retiolum.extraConfig = "AutoConnect = no";
 
 
   environment.systemPackages = [ pkgs.passwdqc-utils ];
@@ -245,6 +249,6 @@
     "/home/makefu/.config/syncthing"
   ];
 
-  services.syncthing.user = lib.mkForce "makefu";
-  services.syncthing.dataDir = lib.mkForce "/home/makefu/.config/syncthing/";
+  # services.syncthing.user = lib.mkForce "makefu";
+  # services.syncthing.dataDir = lib.mkForce "/home/makefu/.config/syncthing/";
 }
