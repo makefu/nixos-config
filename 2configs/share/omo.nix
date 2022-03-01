@@ -32,6 +32,12 @@ in {
         browseable = "yes";
         "guest ok" = "yes";
       };
+      movies = {
+        path = "/media/cryptX/movies";
+        "read only" = "yes";
+        browseable = "yes";
+        "guest ok" = "yes";
+      };
       audiobook = {
         path = "/media/crypt1/audiobooks";
         "read only" = "yes";
