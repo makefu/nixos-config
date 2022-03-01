@@ -1,73 +1,48 @@
 { config, lib, pkgs, ... }:
 
-with import <stockholm/lib>;
-
 let
   basicAuth = import <torrent-secrets/auth.nix>;
   peer-port = 51412;
   web-port = 8112;
   daemon-port = 58846;
-  base-dir = config.krebs.rtorrent.workDir;
+  dldir = config.makefu.dl-dir;
 in {
-
-  users.users = {
-    download = {
-      name = "download";
-      home = base-dir;
-      uid = mkDefault (genid "download");
-      createHome = true;
-      useDefaultShell = true;
-      group = "download";
-      openssh.authorizedKeys.keys = [ ];
-    };
-  };
-
-  users.extraGroups = {
-    download = {
-      gid = lib.mkDefault (genid "download");
-      members = [
-        config.krebs.build.user.name
-        "download"
-        "rtorrent"
-        "nginx"
-      ];
-    };
-    rtorrent.members = [ "download" ];
-  };
-
-  krebs.rtorrent = let
-    d = config.makefu.dl-dir;
-  in {
-    enable = true;
-    web = {
-      enable = true;
-      port = web-port;
-      inherit basicAuth;
-    };
-    rutorrent.enable = true;
-    enableXMLRPC = true;
-    listenPort = peer-port;
-    downloadDir = d + "/finished/incoming";
-    watchDir = d + "/watch";
-    # TODO: maybe test out multiple watch dirs with tags: https://github.com/rakshasa/rtorrent/wiki/TORRENT-Watch-directories
-    extraConfig = ''
-      # log.add_output = "debug", "rtorrent-systemd"
-      # log.add_output = "dht_debug", "rtorrent-systemd"
-      # log.add_output = "tracker_debug", "rtorrent-systemd"
-      log.add_output = "rpc_events", "rtorrent-systemd"
-      # log.add_output = "rpc_dump", "rtorrent-systemd"
-      system.daemon.set = true
-    '';
-    # dump old torrents into watch folder to have them re-added
-  };
-
-  services.nginx.virtualHosts."torrent.${config.krebs.build.host.name}.r".locations."/" = { proxyPass = "http://localhost:${toString web-port}/"; };
-
-  networking.firewall.extraCommands = ''
-    iptables -A INPUT -i retiolum -p tcp --dport ${toString web-port} -j ACCEPT
+  services.rtorrent.enable = true;
+  services.rtorrent.user = "rtorrent";
+  services.rtorrent.group = "download";
+  services.rtorrent.downloadDir = dldir;
+  services.rtorrent.configText = ''
+    schedule2 = watch_start, 10, 10, ((load.start, (cat, (cfg.watch), "/media/cloud/watch/*.torrent")))
   '';
 
-  networking.firewall.allowedTCPPorts = [ peer-port ];
-  networking.firewall.allowedUDPPorts = [ peer-port ];
-  state = [ config.krebs.rtorrent.sessionDir ]; # state which torrents were loaded
+  services.rtorrent.openFirewall = true;
+
+  systemd.services.flood = {
+    wantedBy = [ "multi-user.target" ];
+    wants = [ "rtorrent.service" ];
+    after = [ "rtorrent.service" ];
+    serviceConfig = {
+      User = "rtorrent";
+      ExecStart = "${pkgs.nodePackages.flood}/bin/flood --auth none --port ${toString web-port} --rtsocket ${config.services.rtorrent.rpcSocket}";
+    };
+  };
+
+  #security.acme.certs."torrent.${config.krebs.build.host.name}.r".server = config.krebs.ssl.acmeURL;
+
+  services.nginx = {
+    enable = true;
+    virtualHosts."torrent.${config.krebs.build.host.name}.r" = {
+      # TODO
+      inherit basicAuth;
+      #enableACME = true;
+      #addSSL = true;
+      root = "${pkgs.nodePackages.flood}/lib/node_modules/flood/dist/assets";
+      locations."/api".extraConfig = ''
+        proxy_pass       http://localhost:${toString web-port};
+      '';
+      locations."/".extraConfig = ''
+        try_files $uri /index.html;
+      '';
+    };
+  };
 }
