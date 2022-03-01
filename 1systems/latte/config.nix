@@ -34,10 +34,18 @@ in {
 
       # Services:
       <stockholm/makefu/2configs/nix-community/mediawiki-matrix-bot.nix>
-      # <stockholm/makefu/2configs/torrent.nix>
-      # <stockholm/makefu/2configs/torrent/deluge.nix>
       <stockholm/makefu/2configs/torrent/rtorrent.nix>
+      ## Web
       <stockholm/makefu/2configs/deployment/rss.euer.krebsco.de.nix>
+      <stockholm/makefu/2configs/deployment/owncloud.nix>
+      ### Moving owncloud data dir to /media/cloud/nextcloud-data
+      {
+        users.users.nextcloud.extraGroups = [ "download" ];
+        fileSystems."/var/lib/nextcloud/data" = {
+          device = "/media/cloud/nextcloud-data";
+          options = [ "bind" ];
+        };
+      }
 
       # local usage:
       <stockholm/makefu/2configs/mosh.nix>
@@ -60,6 +68,6 @@ in {
   };
 
   makefu.dl-dir = "/media/cloud/download";
-  networking.firewall.allowedTCPPorts = [ 80 ];
+  networking.firewall.allowedTCPPorts = [ 80 443 ];
 
 }

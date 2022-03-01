@@ -23,11 +23,12 @@ in {
       }
       <stockholm/makefu/2configs/nur.nix>
       <stockholm/makefu/2configs/support-nixos.nix>
-      <stockholm/makefu/2configs/nix-community/mediawiki-matrix-bot.nix>
       <stockholm/makefu/2configs/nix-community/supervision.nix>
       <stockholm/makefu/2configs/home-manager>
       <stockholm/makefu/2configs/home-manager/cli.nix>
       # <stockholm/makefu/2configs/stats/client.nix>
+      <stockholm/makefu/2configs/share>
+      <stockholm/makefu/2configs/share/hetzner-client.nix>
       # <stockholm/makefu/2configs/stats/netdata-server.nix>
 
       <stockholm/makefu/2configs/headless.nix>
@@ -56,13 +57,13 @@ in {
       <stockholm/makefu/2configs/tinc/retiolum.nix>
       { # bonus retiolum config for connecting more hosts
         krebs.tinc.retiolum = {
-          extraConfig = lib.mkForce ''
-            ListenAddress = ${external-ip} 53
-            ListenAddress = ${external-ip} 655
-            ListenAddress = ${external-ip} 21031
-            StrictSubnets = yes
-            LocalDiscovery = no
-          '';
+          #extraConfig = lib.mkForce ''
+          #  ListenAddress = ${external-ip} 53
+          #  ListenAddress = ${external-ip} 655
+          #  ListenAddress = ${external-ip} 21031
+          #  StrictSubnets = yes
+          #  LocalDiscovery = no
+          #'';
           connectTo = [
             "prism" "ni" "enklave" "eve" "dishfire"
           ];
@@ -106,7 +107,7 @@ in {
 
       # sharing
       <stockholm/makefu/2configs/share/gum.nix> # samba sahre
-      <stockholm/makefu/2configs/torrent.nix>
+      <stockholm/makefu/2configs/torrent/rtorrent.nix>
       # <stockholm/makefu/2configs/sickbeard>
       <stockholm/makefu/2configs/bitwarden.nix>
 
@@ -114,7 +115,7 @@ in {
       #<stockholm/makefu/2configs/retroshare.nix>
       ## <stockholm/makefu/2configs/ipfs.nix>
       #<stockholm/makefu/2configs/syncthing.nix>
-      <stockholm/makefu/2configs/sync>
+      # <stockholm/makefu/2configs/sync>
       # <stockholm/makefu/2configs/opentracker.nix>
 
 
@@ -125,9 +126,8 @@ in {
       { makefu.backup.server.repo = "/var/backup/borg"; }
       <stockholm/makefu/2configs/backup/server.nix>
       <stockholm/makefu/2configs/backup/state.nix>
-      <stockholm/makefu/2configs/bitlbee.nix>
       <stockholm/makefu/2configs/wireguard/server.nix>
-      <stockholm/makefu/2configs/wireguard/wiregrill.nix>
+      # <stockholm/makefu/2configs/wireguard/wiregrill.nix>
 
       { # recent changes mediawiki bot
         networking.firewall.allowedUDPPorts = [ 5005 5006 ];
@@ -152,11 +152,10 @@ in {
       <stockholm/makefu/2configs/deployment/graphs.nix>
       <stockholm/makefu/2configs/deployment/owncloud.nix>
       <stockholm/makefu/2configs/deployment/board.euer.krebsco.de.nix>
-      <stockholm/makefu/2configs/deployment/rss.euer.krebsco.de.nix>
       #<stockholm/makefu/2configs/deployment/feed.euer.krebsco.de>
       <stockholm/makefu/2configs/deployment/boot-euer.nix>
       <stockholm/makefu/2configs/deployment/gecloudpad>
-      <stockholm/makefu/2configs/deployment/docker/archiveteam-warrior.nix>
+      #<stockholm/makefu/2configs/deployment/docker/archiveteam-warrior.nix>
       <stockholm/makefu/2configs/deployment/mediengewitter.de.nix>
       <stockholm/makefu/2configs/bgt/etherpad.euer.krebsco.de.nix>
       # <stockholm/makefu/2configs/deployment/systemdultras-rss.nix>
@@ -182,14 +181,15 @@ in {
 
       ## Temporary:
       # <stockholm/makefu/2configs/temp/rst-issue.nix>
-      <stockholm/makefu/2configs/virtualisation/docker.nix>
+      # <stockholm/makefu/2configs/virtualisation/docker.nix>
       #<stockholm/makefu/2configs/virtualisation/libvirt.nix>
 
       # krebs infrastructure services
       # <stockholm/makefu/2configs/stats/server.nix>
     ];
 
-  makefu.dl-dir = "/var/download";
+  # makefu.dl-dir = "/var/download";
+  makefu.dl-dir = "/media/cloud/download";
 
   services.openssh.hostKeys = lib.mkForce [
     { bits = 4096; path = (toString <secrets/ssh_host_rsa_key>); type = "rsa"; }
