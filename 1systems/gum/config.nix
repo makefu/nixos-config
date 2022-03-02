@@ -150,7 +150,7 @@ in {
 
       # <stockholm/makefu/2configs/deployment/photostore.krebsco.de.nix>
       <stockholm/makefu/2configs/deployment/graphs.nix>
-      <stockholm/makefu/2configs/deployment/owncloud.nix>
+      #<stockholm/makefu/2configs/deployment/owncloud.nix>
       <stockholm/makefu/2configs/deployment/board.euer.krebsco.de.nix>
       #<stockholm/makefu/2configs/deployment/feed.euer.krebsco.de>
       <stockholm/makefu/2configs/deployment/boot-euer.nix>

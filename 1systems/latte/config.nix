@@ -41,6 +41,8 @@ in {
       ### Moving owncloud data dir to /media/cloud/nextcloud-data
       {
         users.users.nextcloud.extraGroups = [ "download" ];
+        # nextcloud-setup fails as it cannot set permissions for nextcloud
+        systemd.services.nextcloud-setup.serviceConfig.SuccessExitStatus = "0 1";
         fileSystems."/var/lib/nextcloud/data" = {
           device = "/media/cloud/nextcloud-data";
           options = [ "bind" ];
