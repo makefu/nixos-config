@@ -8,7 +8,7 @@ let
 in {
   imports = [
       <stockholm/makefu>
-      ./hardware-config.nix
+      ./hetznercloud
       {
         users.users.lass = {
           uid = 19002;
@@ -42,7 +42,7 @@ in {
       <stockholm/makefu/2configs/tools/core.nix>
       <stockholm/makefu/2configs/tools/dev.nix>
       <stockholm/makefu/2configs/tools/sec.nix>
-      <stockholm/makefu/2configs/tools/desktop.nix>
+      #<stockholm/makefu/2configs/tools/desktop.nix>
 
       <stockholm/makefu/2configs/zsh-user.nix>
       <stockholm/makefu/2configs/mosh.nix>
@@ -109,7 +109,6 @@ in {
       <stockholm/makefu/2configs/share/gum.nix> # samba sahre
       <stockholm/makefu/2configs/torrent/rtorrent.nix>
       # <stockholm/makefu/2configs/sickbeard>
-      <stockholm/makefu/2configs/bitwarden.nix>
 
       { nixpkgs.config.allowUnfree = true; }
       #<stockholm/makefu/2configs/retroshare.nix>
@@ -189,7 +188,7 @@ in {
     ];
 
   # makefu.dl-dir = "/var/download";
-  makefu.dl-dir = "/media/cloud/download";
+  makefu.dl-dir = "/media/cloud/download/finished";
 
   services.openssh.hostKeys = lib.mkForce [
     { bits = 4096; path = (toString <secrets/ssh_host_rsa_key>); type = "rsa"; }

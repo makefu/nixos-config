@@ -1,0 +1,13 @@
+ROOT_DEVICE=/dev/sda2
+NIXOS_BOOT=/dev/sda1
+
+zpool create -o ashift=12 -o altroot=/mnt rpool $ROOT_DEVICE
+zfs create -o mountpoint=legacy rpool/root
+zfs create -o mountpoint=legacy rpool/home
+zfs create -o mountpoint=legacy rpool/nix
+mount -t zfs rpool/root /mnt
+mkdir /mnt/{home,nix,boot}
+mount -t zfs rpool/home /mnt/home
+mount -t zfs rpool/nix /mnt/nix
+mount $NIXOS_BOOT /mnt/boot/
+
