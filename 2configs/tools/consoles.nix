@@ -15,6 +15,7 @@
     nx_game_info
     hactool
     nsrenamer
+    ns-usbloader
     sfo
     exfatprogs exfat-utils exfat
   ];
