@@ -18,6 +18,9 @@ let
   ext-if = "et0"; # gets renamed on the fly
 in {
   imports = [
+      <stockholm/makefu/2configs/smart-monitor.nix>
+      { services.smartd.devices = builtins.map (x: { device = x; }) allDisks; }
+
   ];
   makefu.server.primary-itf = ext-if;
   services.udev.extraRules = ''

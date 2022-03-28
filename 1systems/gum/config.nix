@@ -32,8 +32,6 @@ in {
       # <stockholm/makefu/2configs/stats/netdata-server.nix>
 
       <stockholm/makefu/2configs/headless.nix>
-      <stockholm/makefu/2configs/smart-monitor.nix>
-      { services.smartd.devices = builtins.map (x: { device = x; }) allDisks; }
 
       # Security
       <stockholm/makefu/2configs/sshd-totp.nix>
