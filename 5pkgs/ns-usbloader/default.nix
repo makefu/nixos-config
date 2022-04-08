@@ -1,4 +1,4 @@
-{ lib, stdenv, fetchurl, makeWrapper, jre }:
+{ lib, stdenv, fetchurl, makeWrapper, wrapGAppsHook, glib , jre }:
 
 stdenv.mkDerivation rec {
   name = "ns-usbloader-${version}";
@@ -10,7 +10,6 @@ stdenv.mkDerivation rec {
   };
 
 
-  nativeBuildInputs = [ makeWrapper ];
   buildInputs = [ jre ];
 
   dontUnpack = true;
@@ -22,6 +21,7 @@ stdenv.mkDerivation rec {
       --add-flags "-jar $out/ns-usbloader/ns-usbloader.jar"
     runHook postInstall
   '';
+  nativeBuildInputs = [ glib wrapGAppsHook makeWrapper ];
 
 
   meta = with lib; {

@@ -13,7 +13,7 @@
       # ./x230
 
       # Common Hardware Components
-
+      <nix-ld/modules/nix-ld.nix>
       # <stockholm/makefu/2configs/hw/mceusb.nix>
       # <stockholm/makefu/2configs/hw/rtl8812au.nix>
       <stockholm/makefu/2configs/hw/network-manager.nix>
@@ -26,6 +26,7 @@
       <stockholm/makefu/2configs/hw/droidcam.nix>
       <stockholm/makefu/2configs/hw/smartcard.nix>
       <stockholm/makefu/2configs/hw/upower.nix>
+      <stockholm/makefu/2configs/hw/nswitch.nix>
       #<stockholm/makefu/2configs/hw/ps4-compat.nix>
 
       # base
