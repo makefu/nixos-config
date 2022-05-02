@@ -1,7 +1,9 @@
 { pkgs, lib, config, ... }:
 let
   fqdn = "rss.euer.krebsco.de";
+  ratt-path = "/var/lib/ratt/";
 in {
+  systemd.tmpfiles.rules = ["d ${ratt-path} 0750 nginx nginx - -" ];
   services.tt-rss = {
     enable = true;
     virtualHost = fqdn;
@@ -19,6 +21,10 @@ in {
   services.nginx.virtualHosts."${fqdn}" = {
     enableACME = true;
     forceSSL = true;
+    locations."/ratt/" = {
+      alias = ratt-path;
+      extraConfig = "autoindex on;";
+    };
   };
 }
 
