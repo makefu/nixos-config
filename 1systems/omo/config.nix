@@ -28,7 +28,7 @@ in {
       <stockholm/makefu/2configs/home-manager>
       <stockholm/makefu/2configs/home-manager/cli.nix>
       <stockholm/makefu/2configs/editor/neovim>
-      <stockholm/makefu/2configs/storj/client.nix>
+      # <stockholm/makefu/2configs/storj/client.nix>
 
 
       <stockholm/makefu/2configs/backup/state.nix>
@@ -98,6 +98,7 @@ in {
       <stockholm/makefu/2configs/virtualisation/docker.nix>
       <stockholm/makefu/2configs/bluetooth-mpd.nix>
 
+      <stockholm/makefu/2configs/home/jellyfin.nix>
       <stockholm/makefu/2configs/home/music.nix>
       <stockholm/makefu/2configs/home/photoprism.nix>
       <stockholm/makefu/2configs/home/tonie.nix>

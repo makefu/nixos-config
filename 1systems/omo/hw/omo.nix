@@ -39,7 +39,9 @@ let
 in {
   imports =
     [ # TODO: unlock home partition via ssh
-      <stockholm/makefu/2configs/fs/sda-crypto-root.nix> ];
+      ./vaapi.nix
+    <stockholm/makefu/2configs/fs/sda-crypto-root.nix> ];
+    
   makefu.server.primary-itf = primaryInterface;
   system.activationScripts.createCryptFolders = ''
     ${lib.concatMapStringsSep "\n"
