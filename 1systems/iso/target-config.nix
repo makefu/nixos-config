@@ -1,12 +1,12 @@
-{ lib, ... }:
+{ pkgs, lib, ... }:
 
 {
   imports = [ ./hardware-configuration.nix ./generated.nix ];
   boot.loader.grub.enable = true;
   boot.loader.grub.version = 2;
   boot.zfs.devNodes = "/dev"; # fixes some virtualmachine issues
-  boot.zfs.forceImportRoot = false;
-  boot.zfs.forceImportAll = false;
+  #boot.zfs.forceImportRoot = false;
+  #boot.zfs.forceImportAll = false;
   boot.kernelParams = [
     "boot.shell_on_fail"
     "panic=30" "boot.panic_on_fail" # reboot the machine upon fatal boot issues
@@ -18,8 +18,15 @@
     SystemMaxUse=1G
     RuntimeMaxUse=128M
   '';
+      environment.systemPackages = [ (pkgs.writeScriptBin "network-setup" ''
+        #!/bin/sh
+        ip addr add  178.254.30.202/255.255.252.0 dev ens3
+        ip route add default via 178.254.28.1
+        echo nameserver 1.1.1.1 > /etc/resolv.conf
+      '')];
 
   # minimal
+  boot.supportedFilesystems = [ "zfs" ];
   programs.command-not-found.enable = false;
   time.timeZone = "Europe/Berlin";
   programs.ssh.startAgent = false;
@@ -36,5 +43,4 @@
     "net.ipv6.conf.all.use_tempaddr" = lib.mkDefault "2";
     "net.ipv6.conf.default.use_tempaddr" = lib.mkDefault "2";
   };
-  services.nscd.enable = false;
 }

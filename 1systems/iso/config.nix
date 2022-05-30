@@ -9,17 +9,22 @@ with import <stockholm/lib>;
     # <stockholm/makefu/2configs/tools/core.nix>
     ./justdoit.nix
     {
+      environment.systemPackages = [ (pkgs.writeScriptBin "network-setup" ''
+        #!/bin/sh
+        ip addr add  178.254.30.202/255.255.252.0 dev ens3
+        ip route add default via 178.254.28.1
+        echo nameserver 1.1.1.1 > /etc/resolv.conf
+      '')];
       kexec.justdoit = {
-        # bootSize = 512;
-        rootDevice = "/dev/sdb";
-        swapSize = 1024;
+        bootSize = 512;
+        rootDevice = "/dev/vda";
         bootType = "vfat";
-        luksEncrypt = true;
-        uefi = true;
+        luksEncrypt = false;
+        uefi = false;
       };
     }
   ];
-  boot.kernelPackages = lib.mkDefault pkgs.linuxPackages_latest;
+  # boot.kernelPackages = lib.mkDefault pkgs.linuxPackages_latest;
   # TODO: NIX_PATH and nix.nixPath are being set by default.nix right now
   # cd ~/stockholm ; nix-build -A config.system.build.isoImage -I nixos-config=makefu/1systems/iso/config.nix -I secrets=/home/makefu/secrets/iso /var/src/nixpkgs/nixos
   #krebs.build.host = { cores = 0; };
@@ -33,7 +38,6 @@ with import <stockholm/lib>;
     EDITOR=vim
   '';
   # iso-specific
-  boot.kernelParams = [ "copytoram" ];
   services.openssh = {
     enable = true;
     hostKeys = [
