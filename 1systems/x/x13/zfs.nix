@@ -29,5 +29,6 @@
       fsType = "zfs";
     };
 
-  swapDevices = [ ];
+    swapDevices = [ ];
+    services.zfs.autoScrub.enable = true;
 }

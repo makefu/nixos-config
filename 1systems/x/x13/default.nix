@@ -28,6 +28,7 @@
   environment.variables.VK_ICD_FILENAMES =
     "/run/opengl-driver/share/vulkan/icd.d/amd_icd64.json";
 
+  services.fwupd.enable = true;
 
   programs.light.enable = true;
 

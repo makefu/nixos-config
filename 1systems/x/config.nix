@@ -26,7 +26,6 @@
       <stockholm/makefu/2configs/hw/droidcam.nix>
       <stockholm/makefu/2configs/hw/smartcard.nix>
       <stockholm/makefu/2configs/hw/upower.nix>
-      <stockholm/makefu/2configs/hw/nswitch.nix>
       #<stockholm/makefu/2configs/hw/ps4-compat.nix>
 
       # base
