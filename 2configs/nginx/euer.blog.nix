@@ -35,6 +35,7 @@ in {
         #serverAliases = [ "blog.euer.krebsco.de" "blog.${hostname}" ];
         enableACME = true;
         forceSSL = true;
+        default = true;
         root = base-dir;
       };
     };

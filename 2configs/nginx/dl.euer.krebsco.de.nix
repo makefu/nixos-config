@@ -1,6 +1,7 @@
 { config, lib, pkgs, ... }:
 
 {
+  users.groups.download.members = [ "nginx" ];
   services.nginx = {
     enable = lib.mkDefault true;
     recommendedGzipSettings = true;
