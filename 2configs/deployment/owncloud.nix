@@ -20,6 +20,12 @@ let
   dbpw = "/run/secret/nextcloud-db-pw";
 in {
 
+  fileSystems."/var/lib/nextcloud/data" = {
+    device = "/media/cloud/nextcloud-data";
+    options = [ "bind" ];
+  };
+
+
   krebs.secret.files.nextcloud-db-pw = {
     path = dbpw;
     owner.name = "nextcloud";
@@ -40,13 +46,15 @@ in {
     enable = true;
     databases = [ config.services.nextcloud.config.dbname ];
   };
-
+systemd.services.postgresqlBackup-nextcloud.serviceConfig.SupplementaryGroups = [ "download" ];
+  
   state = [
     # services.postgresql.dataDir
     # "${config.services.nextcloud.home}/config"
     config.services.postgresqlBackup.location
   ];
 
+  users.users.nextcloud.extraGroups = [ "download" ];
   services.nextcloud = {
     enable = true;
     package = pkgs.nextcloud22;
@@ -59,10 +67,11 @@ in {
     autoUpdateApps.startAt = "05:00:00";
 
     caching.redis = true;
-    # caching.memcached = true;
+    caching.apcu = true;
     config = {
       # Further forces Nextcloud to use HTTPS
       overwriteProtocol = "https";
+      defaultPhoneRegion = "DE";
 
       # Nextcloud PostegreSQL database configuration, recommended over using SQLite
       dbtype = "pgsql";
@@ -71,7 +80,7 @@ in {
       dbname = "nextcloud";
       dbpassFile = dbpw;
       adminpassFile = adminpw;
-      adminuser = "admin";
+      adminuser = "root";
     };
   };
   services.redis.enable = true;
