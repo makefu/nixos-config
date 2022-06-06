@@ -7,15 +7,17 @@ let
   daemon-port = 58846;
   dldir = config.makefu.dl-dir;
 in {
-  services.rtorrent.enable = true;
-  services.rtorrent.user = "rtorrent";
-  services.rtorrent.group = "download";
-  services.rtorrent.downloadDir = dldir;
-  services.rtorrent.configText = ''
-    schedule2 = watch_start, 10, 10, ((load.start, (cat, (cfg.watch), "/media/cloud/watch/*.torrent")))
-  '';
-
-  services.rtorrent.openFirewall = true;
+  services.rtorrent = {
+    enable = true;
+    user = "rtorrent";
+    port = peer-port;
+    openFirewall = true;
+    group = "download";
+    downloadDir = dldir;
+    configText = ''
+      schedule2 = watch_start, 10, 10, ((load.start, (cat, (cfg.watch), "/media/cloud/watch/*.torrent")))
+    '';
+  };
 
   systemd.services.flood = {
     wantedBy = [ "multi-user.target" ];
