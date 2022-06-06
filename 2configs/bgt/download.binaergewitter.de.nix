@@ -5,22 +5,37 @@ let
   ident = (builtins.readFile ./auphonic.pub);
   bgtaccess = "/var/spool/nginx/logs/binaergewitter.access.log";
   bgterror = "/var/spool/nginx/logs/binaergewitter.error.log";
+
+  # TODO: only when the data is stored somewhere else
+  wwwdir = "/var/www/binaergewitter";
+  storedir = "/media/cloud/www/binaergewitter";
 in {
+  fileSystems."${wwwdir}" = {
+    device = storedir;
+    options = [ "bind" ];
+  };
+
   services.openssh = {
     allowSFTP = true;
     sftpFlags = [ "-l VERBOSE" ];
     extraConfig = ''
+      HostkeyAlgorithms +ssh-rsa
+
       Match User auphonic
         ForceCommand internal-sftp
         AllowTcpForwarding no
         X11Forwarding no
         PasswordAuthentication no
+        PubkeyAcceptedAlgorithms +ssh-rsa
+
     '';
   };
 
   users.users.auphonic = {
     uid = genid "auphonic";
     group = "nginx";
+    # for storedir
+    extraGroups = [ "download" ];
     useDefaultShell = true;
     isSystemUser = true;
     openssh.authorizedKeys.keys = [ ident config.krebs.users.makefu.pubkey ];
