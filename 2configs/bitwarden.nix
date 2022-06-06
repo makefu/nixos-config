@@ -23,6 +23,11 @@ in {
       { name = "vaultwarden"; ensurePermissions."DATABASE bitwarden" = "ALL PRIVILEGES"; } 
     ];
   };
+  services.postgresqlBackup = {
+    enable = true;
+    databases = [ "bitwarden" "vaultwarden" ];
+  };
+
 
   services.nginx.virtualHosts."bw.euer.krebsco.de" ={
     forceSSL = true;
