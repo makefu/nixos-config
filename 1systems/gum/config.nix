@@ -148,6 +148,10 @@ in {
           device = "/media/cloud/nextcloud-data";
           options = [ "bind" ];
         };
+        fileSystems."/var/backup" = {
+          device = "/media/cloud/gum-backup";
+          options = [ "bind" ];
+        };
       }
 
       <stockholm/makefu/2configs/nginx/dl.euer.krebsco.de.nix>
