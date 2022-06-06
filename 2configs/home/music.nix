@@ -6,7 +6,7 @@ in
 {
   services.navidrome.enable = true;
   services.navidrome.settings = {
-    MusicFolder = "/media/cryptX/music";
+    MusicFolder = "/media/cryptX/music/kinder";
     Address = "0.0.0.0";
   };
 

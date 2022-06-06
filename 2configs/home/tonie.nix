@@ -4,8 +4,8 @@ let
   #host = config.networking.hostName;
   ident = 998;
   user = "${toString ident}:${toString ident}";
-  #backend_host = "tonie.lan";
-  backend_host = "tonie.omo.r";
+  backend_host = "tonie.lan";
+  #backend_host = "tonie.omo.r";
   frontend_port = 30006;
   homedir = "/var/lib/tonies";
   albumdir = "${homedir}/albumart/";
