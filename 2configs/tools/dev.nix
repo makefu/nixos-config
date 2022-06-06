@@ -38,6 +38,10 @@
     ovh-zone
     gen-oath-safe
     cdrtools
+    unrar
+    ffmpeg
+    dnsutils
+
     # network related
     sshuttle
     pciutils

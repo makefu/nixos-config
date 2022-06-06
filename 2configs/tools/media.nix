@@ -13,7 +13,7 @@
 
     plowshare
     streamripper
-    youtube-dl
+    yt-dlp
 
     pulseeffects-legacy # for pulse
   ];
