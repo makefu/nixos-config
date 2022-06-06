@@ -10,7 +10,6 @@
         LocalDiscovery = no
       ''}
     '';
-  #krebs.tinc.retiolum.connectTo = [ "gum" ];
   environment.systemPackages = [ pkgs.tinc ];
   networking.firewall.allowedTCPPorts = [ config.krebs.build.host.nets.retiolum.tinc.port ];
   networking.firewall.allowedUDPPorts = [ config.krebs.build.host.nets.retiolum.tinc.port ];
