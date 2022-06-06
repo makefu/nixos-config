@@ -7,7 +7,7 @@ in {
   systemd.tmpfiles.rules = ["d ${ratt-path} 0750 nginx nginx - -" ];
   systemd.services.run-ratt = {
     enable = true;
-    path = with pkgs; [ "/nix/store/vhmzblnaav2lp4lwqdgm13l55qlm79mk-ratt-unstable-2022-01-11" xmlstarlet ];
+    path = with pkgs; [ ratt xmlstarlet ];
     script = builtins.readFile ./ratt-hourly.sh;
     scriptArgs = "${./urls} ${out-path}";
 
