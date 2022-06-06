@@ -11,8 +11,9 @@ in {
     path = with pkgs; [ wget xmlstarlet ];
     wantedBy = [ "multi-user.target"  ];
     serviceConfig = {
-      User = "hass";
-      WorkingDirectory = config.services.home-assistant.configDir;
+      # User = "hass";
+      #WorkingDirectory = config.services.home-assistant.configDir;
+      WorkingDirectory = "/var/lib/homeassistant-docker";
       ExecStart = pkgs.writeDash "update-comics" ''
           set -euf
           mkdir -p www/

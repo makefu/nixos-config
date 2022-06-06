@@ -4,17 +4,21 @@
   imports = [
       ./base.nix
   ];
-  users.users.makefu = {
-    packages = [ pkgs.chromium ];
-    extraGroups = [ "audio" "pulse" ];
+  users.users.kiosk = {
+    packages = [ pkgs.chromium pkgs.vscode ];
+    group = "kiosk";
+    isNormalUser = true;
+    uid = 1003;
+    extraGroups = [ "wheel" "audio" "pulse" ];
   };
+  users.groups.kiosk.gid = 989 ;
   services.xserver = {
 
     windowManager = lib.mkForce { awesome.enable = false; };
     displayManager.gdm.enable = true;
     displayManager.autoLogin = {
       enable = true;
-      user = "makefu";
+      user = lib.mkForce "kiosk";
     };
     displayManager.defaultSession = "gnome";
     desktopManager.gnome.enable = true;
