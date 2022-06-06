@@ -31,15 +31,16 @@ in {
     ./media/firetv.nix
     ./media/sonos.nix
     ./media/remote_sound_wohnzimmer.nix
+    ./media/remote_sound_arbeitszimmer.nix
 
     ./automation/check-in.nix
     ./automation/fenster_auf.nix
     ./automation/firetv_restart.nix
     ./automation/light_buttons.nix
     ./automation/wohnzimmer_rf_fernbedienung.nix
-    ./automation/ladestecker_timer.nix
+    # ./automation/ladestecker_timer.nix
     ./automation/flurlicht.nix
-    #./automation/giesskanne.nix
+    ./automation/giesskanne.nix
     ./automation/pflanzen_giessen_erinnerung.nix
     ./automation/urlaub.nix
     ./automation/moodlight.nix
@@ -59,7 +60,7 @@ in {
       extraPackages = p: [
         (p.callPackage ./deps/dwdwfsapi.nix {})
         (p.callPackage ./signal-rest/pkg.nix {})
-        #(p.callPackage ./deps/pykodi.nix {})
+        (p.callPackage ./deps/pykodi.nix {})
       ];
     };
 
@@ -141,11 +142,11 @@ in {
           retain = true;
         };
       };
-      luftdaten = {
-        show_on_map = true;
-        sensor_id = 10529;
-        sensors.monitored_conditions = [ "P1" "P2" ];
-      };
+      #luftdaten = {
+      #  show_on_map = true;
+      #  sensor_id = 10529;
+      #  sensors.monitored_conditions = [ "P1" "P2" ];
+      #};
       #binary_sensor =
       #   flurlicht.binary_sensor;
 

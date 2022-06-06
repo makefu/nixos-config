@@ -3,7 +3,7 @@ let
   light = "light.arbeitszimmer_onebutton_led";
   at_work = "input_boolean.felix_at_work";
   lib = import ../lib;
-  say = lib.say.living_room;
+  say = lib.say.office;
 in
 {
   services.home-assistant.config.input_boolean.felix_at_work.name = "Felix auf Arbeit";
@@ -37,7 +37,16 @@ in
                     { service = "homeassistant.turn_on";
                       entity_id = at_work;
                     }
-                  ] ++ (say "Willkommen auf Arbeit");
+                  ] ++ (say "Willkommen auf Arbeit") ++
+                  [
+                    { service = "media_player.play_media";
+                      data = {
+                        media_content_id = "https://radio.lassul.us/radio.mp3";
+                        media_content_type = "music";
+                      };
+                      target.entity_id = "media_player.office";
+                    }
+                  ];
                 }
                 {
                   conditions = {

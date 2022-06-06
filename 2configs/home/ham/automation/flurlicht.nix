@@ -1,56 +1,57 @@
 let
-  licht = [ "light.flur_statuslight" "light.wohnzimmer_status_led" ];
-  kehrwoche_color = [ 204 0 255 ]; # pink
-  nachtlicht_color = [ 255 190 0 ]; # ein dunkles rot
+  nachtlicht = [ "light.flur_statuslight" "light.wohnzimmer_status_led" ];
+
+  # flurlicht an
+  lightcond = name: conditions: rgb_color: brightness:
+  {
+    inherit conditions;
+    sequence = {
+      service = "light.turn_on";
+      target.entity_id = nachtlicht;
+      data = {
+        inherit rgb_color brightness;
+      };
+    };
+  };
 in
 {
   services.home-assistant.config.automation =
   [
-    { alias = "Nachtlicht im Flur an";
-      trigger = {
-        platform = "sun";
-        event = "sunset";
-      };
-      action =
-      [
-        {
-          service = "light.turn_on";
-          target.entity_id = licht;
-          data = {
-            brightness = 87;
-            rgb_color = nachtlicht_color;
-            #effect = "None";
-          };
+    { alias = "Nachtlicht trigger";
+      trigger = [
+        { platform = "sun"; event = "sunset"; }
+        { platform = "sun"; event = "sunrise"; }
+        { platform = "state"; entity_id = [
+            "calendar.kehrwoche_kehrwoche"
+            "binary_sensor.badezimmer_fenster_contact"
+            "binary_sensor.dusche_fenster_contact"
+          ];
         }
       ];
-    }
-    { alias = "Nachtlicht in Flur aus, Kehrwoche an";
-      trigger = {
-        platform = "sun";
-        event = "sunrise";
-      };
       action =
       [
         { choose = [
-          {
-            conditions = {
-              condition = "state";
-              entity_id = "calendar.kehrwoche_kehrwoche";
-              state =  "on";
-            };
-            sequence = {
-              service = "light.turn_on";
-              target.entity_id = licht;
-              data = {
-                brightness = 190;
-                rgb_color = kehrwoche_color; # pink
-              };
-            };
-          }];
+              (lightcond "Badezimmer Fenster Auf"
+                { condition = "state"; entity_id = "binary_sensor.badezimmer_fenster_contact"; state =  "on"; }
+                [ 64 207 255 ] 255 # helblau
+              )
+              (lightcond "Duschenster auf"
+                { condition = "state"; entity_id = "binary_sensor.dusche_fenster_contact"; state =  "on"; }
+                [ 64 207 255 ] 255 # helblau
+              )
+              (lightcond "Nachtlicht"
+                { condition = "state"; entity_id = "sun.sun"; state =  "below_horizon"; }
+                [ 255 190 0 ] 90 # red
+              )
+              (lightcond "Kehrwoche"
+                { condition = "state"; entity_id = "calendar.kehrwoche_kehrwoche"; state =  "on"; }
+                [ 204 0 255 ] 128 # pink
+              )
+            ];
           default = {
-              service = "light.turn_off";
-              entity_id = licht;
-            };
+            service = "light.turn_off";
+            entity_id = nachtlicht;
+          };
         }
       ];
     }

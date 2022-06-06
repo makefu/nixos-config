@@ -7,8 +7,10 @@ let
     light = "light.espcam_02_light";
     seconds = 90; # default shutoff to protect the LED from burning out
   };
-  seconds = 70; # time for giesskanne
+  seconds = 60*5; # time for giesskanne - 5 minutes
   pump = "switch.arbeitszimmer_giesskanne_relay";
+  light = "switch.terrasse_plug_relay";
+
   # sensor = "sensor.statistics_for_sensor_crafting_brotbox_soil_moisture";
 in
 {
@@ -26,19 +28,27 @@ in
     [
 
       ##### brotbox
-      { alias = "Water the plant for ${toString seconds} seconds";
+      { alias = "Water the plant for ${toString seconds} seconds and turn on the light";
         trigger = [
           { # trigger at 23:15 no matter what
             # TODO: retry or run only if switch.wasser is available
-            platform = "time";
-            at = "23:15:00";
+            platform = "sun";
+            event = "sunrise";
           }
         ];
         action =
         [
-          { # take a snapshot before watering
+
+          { # now turn on the pumping services
+            # i do not start hte pump and light before the snapshot because i do
+            # not know how long it takes (do not want to water the plants for too long)
             service = "homeassistant.turn_on";
-            entity_id =  [ cam.light ];
+            entity_id =  [ pump light ];
+          }
+          { delay.seconds = seconds; }
+          {
+            service = "homeassistant.turn_off";
+            entity_id =  [ pump cam.light ];
           }
           { # TODO: we could also create a recording with camera.record
             service = "camera.snapshot";
@@ -48,34 +58,21 @@ in
               filename = "/var/lib/hass/cam/${cam.name}_{{ now().strftime('%Y%m%d-%H%M%S') }}.jpg";
             };
           }
-
-          { # now turn on the pumping services
-            # i do not start hte pump and light before the snapshot because i do
-            # not know how long it takes (do not want to water the plants for too long)
-            service = "homeassistant.turn_on";
-            entity_id =  [ pump ];
-          }
-          { delay.seconds = seconds; }
-          {
-            service = "homeassistant.turn_off";
-            entity_id =  [ pump cam.light ];
-          }
         ];
       }
-      { alias = "Always turn off the light after ${toString (cam.seconds)}s";
+      { alias = "Turn off the light at sunset";
         trigger = [
           {
-            platform = "state";
-            entity_id = cam.light;
-            to = "on";
-            for.seconds = cam.seconds;
+            platform = "sun";
+            event = "sunset";
+            # offset = "+02:00:00";
           }
         ];
         action =
         [
           {
             service = "homeassistant.turn_off";
-            entity_id =  [ pump cam.light ];
+            entity_id =  [ light ];
           }
         ];
       }
@@ -93,7 +90,7 @@ in
         [
           {
             service = "homeassistant.turn_off";
-            entity_id =  [ pump cam.light ];
+            entity_id =  [ pump ];
           }
         ];
       }

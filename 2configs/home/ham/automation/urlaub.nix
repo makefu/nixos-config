@@ -7,12 +7,26 @@ let
   schranklicht = "light.wohnzimmer_schrank_osram";
   weihnachtslicht = "light.wohnzimmer_fenster_lichterkette_licht";
   fernsehlicht = "light.wled";
+
+  all_lights = [
+    schranklicht weihnachtslicht fernsehlicht 
+    # extra lights to also turn off
+    # wohnzimmer
+    "light.wohnzimmer_komode_osram"
+    "light.wohnzimmer_stehlampe_osram"
+    # arbeitszimmer
+    "light.wled_4"
+    "light.arbeitszimmer_schrank_dimmer"
+    "light.arbeitszimmer_pflanzenlicht"
+  ];
+
   final_off = "00:37";
 
-  turn_on = entity_id: at:
-  { alias = "Turn on ${entity_id} at ${at}";
+  turn_on = entity_id: offset:
+  # negative offset => before sunset
+  { alias = "Turn on ${entity_id} at sunset ${offset}";
     trigger = [
-      { platform = "time"; inherit at; }
+      { platform = "sun"; event = "sunset"; inherit offset; }
     ];
     action =
     [
@@ -25,9 +39,9 @@ in
   {
     automation =
     [
-      (turn_on schranklicht "17:30")
-      (turn_on weihnachtslicht "17:30")
-      (turn_on fernsehlicht "19:00")
+      (turn_on schranklicht "-00:30:00")
+      #(turn_on weihnachtslicht "-00:30:00")
+      (turn_on fernsehlicht "-00:00:00")
 
       { alias = "Always turn off the urlaub lights at ${final_off}";
         trigger = [
