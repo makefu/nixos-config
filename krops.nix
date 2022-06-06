@@ -17,6 +17,7 @@
     arm6 = false;
     clever_kexec = false;
     home-manager = false;
+    nix-ld = false;
   } // import (./. + "/1systems/${name}/source.nix");
   source = { test }: lib.evalSource [
     {
@@ -77,10 +78,17 @@
         ref = "a0d8383";
       };
     })
+
+    (lib.mkIf ( host-src.nix-ld ) {
+      nix-ld.git = {
+        url = https://github.com/Mic92/nix-ld.git;
+        ref = "eb9cb8d";
+      };
+    })
     (lib.mkIf ( host-src.home-manager ) {
       home-manager.git = {
         url = https://github.com/rycee/home-manager;
-        ref = "6ce1d64073f48b9bc9425218803b1b607454c1e7";
+        ref = "426ab2cf111fca61308bd86fe652e14aa12cc2d2";
       };
     })
   ];
