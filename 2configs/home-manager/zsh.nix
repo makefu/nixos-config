@@ -35,7 +35,7 @@
   home-manager.users.makefu = {
 
     programs.direnv.enable = true;
-    programs.direnv.enableNixDirenvIntegration = true;
+    programs.direnv.nix-direnv.enable = true;
     programs.direnv.enableZshIntegration = true;
     home.packages = [ (pkgs.writeDashBin "nixify" ''
 test ! -e shell.nix && cat > shell.nix <<EOF
