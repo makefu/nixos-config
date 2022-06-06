@@ -9,7 +9,7 @@
     iodine
     mtr
     nmap
-    msf
+    metasploit
     thc-hydra
     borgbackup
     ledger
