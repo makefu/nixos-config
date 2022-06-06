@@ -17,6 +17,7 @@ in {
     enable = true;
     databases = [ config.services.tt-rss.database.name ];
   };
+  systemd.services.postgresqlBackup-tt_rss.serviceConfig.SupplementaryGroups = [ "download" ];
 
   services.nginx.virtualHosts."${fqdn}" = {
     enableACME = true;

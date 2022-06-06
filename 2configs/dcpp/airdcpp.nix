@@ -8,7 +8,7 @@
     hubs."krebshub" =
     { Nick = "makefu-${config.krebs.build.host.name}";
       Password = builtins.readFile <secrets/krebshub.pw>;
-      Server = "adcs://hub.nsupdate.info:411";
+      Server = "adcs://hub.nsupdate.info:1511";
       AutoConnect = true;
     };
     dcpp = {

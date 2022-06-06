@@ -25,8 +25,9 @@ in {
   };
   services.postgresqlBackup = {
     enable = true;
-    databases = [ "bitwarden" "vaultwarden" ];
+    databases = [ "bitwarden" ];
   };
+  systemd.services.postgresqlBackup-bitwarden.serviceConfig.SupplementaryGroups = [ "download" ];
 
 
   services.nginx.virtualHosts."bw.euer.krebsco.de" ={

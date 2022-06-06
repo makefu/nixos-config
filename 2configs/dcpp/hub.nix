@@ -95,6 +95,7 @@ in {
     enableTLS = true;
     settings = {
       server_port = 1511;
+      server_bind_addr = "any";
       hub_name = "krebshub";
       tls_certificate = "${uhubDir}/uhub.crt";
       tls_private_key = "${uhubDir}/uhub.key";
