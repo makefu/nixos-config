@@ -57,7 +57,7 @@ systemd.services.postgresqlBackup-nextcloud.serviceConfig.SupplementaryGroups = 
   users.users.nextcloud.extraGroups = [ "download" ];
   services.nextcloud = {
     enable = true;
-    package = pkgs.nextcloud22;
+    package = pkgs.nextcloud23;
     hostName = "o.euer.krebsco.de";
     # Use HTTPS for links
     https = true;
