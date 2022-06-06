@@ -21,7 +21,6 @@ in {
       ## No rate limit
 
       ## rate limited
-      # https://api.github.com/repos/dorimanx/exfat-nofuse/commits
       # https://api.github.com/repos/mcepl/gen-oath-safe/commits
       https://api.github.com/repos/naim94a/udpt/commits
       https://api.github.com/repos/dirkvdb/ps3netsrv--/commits
@@ -58,7 +57,6 @@ in {
       "embray/d2to1"
       "vicious-widgets/vicious"
       "embray/d2to1"
-      "dorimanx/exfat-nofuse"
       "rapid7/metasploit-framework"
       "GothenburgBitFactory/taskserver"
       "GothenburgBitFactory/taskwarrior"
