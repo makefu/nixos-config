@@ -17,6 +17,6 @@
     nsrenamer
     ns-usbloader
     sfo
-    exfatprogs exfat-utils exfat
+    exfatprogs exfat
   ];
 }
