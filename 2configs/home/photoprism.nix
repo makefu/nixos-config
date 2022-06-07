@@ -46,7 +46,7 @@ in
     script = ''
       ${pkgs.docker}/bin/docker network create --driver bridge photoprism ||:
     '';
-    after = [ "docker" ];
+    after = [ "docker.service" ];
     before = [
       "docker-photoprism.service"
       "docker-mysql-photoprism.service"
