@@ -10,7 +10,6 @@ in {
     selfUrlPath = "https://${fqdn}";
   };
 
-  services.postgresql.package = pkgs.postgresql_9_6;
   state = [ config.services.postgresqlBackup.location ];
 
   services.postgresqlBackup = {
