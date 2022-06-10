@@ -12,7 +12,7 @@
     evince
     # replacement for mirage:
     sxiv
-    gnome3.dconf
+    dconf
     xdotool
     xorg.xbacklight
     scrot
