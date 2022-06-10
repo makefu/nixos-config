@@ -5,7 +5,6 @@
   hardware.pulseaudio = {
     enable = true;
     package = pkgs.pulseaudioFull;
-    extraModules = [ pkgs.pulseaudio-modules-bt ];
 # systemWide = true;
     support32Bit = true;
     configFile = pkgs.writeText "default.pa" ''

@@ -36,7 +36,7 @@ in
       user = mainUser;
     };
   };
-  environment.systemPackages = [ pkgs.gnome3.defaultIconTheme ];
+  environment.systemPackages = [ pkgs.gnome.adwaita-icon-theme ];
   # lid switch is handled via button presses
   services.logind.lidSwitch = lib.mkDefault "ignore";
   makefu.awesome.enable = true;

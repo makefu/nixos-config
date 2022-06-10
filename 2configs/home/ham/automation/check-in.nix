@@ -7,8 +7,25 @@ let
 in
 {
   services.home-assistant.config.input_boolean.felix_at_work.name = "Felix auf Arbeit";
+  services.home-assistant.config.script.start_office_radio.sequence =
+    [
+      { service = "media_player.play_media";
+        data = {
+          media_content_id = "http://radio.lassul.us:8000/radio.mp3";
+          media_content_type = "music";
+        };
+        target.entity_id = "media_player.office";
+      }
+    ];
   services.home-assistant.config.automation =
     [
+                    { service = "media_player.play_media";
+                      data = {
+                        media_content_id = "http://radio.lassul.us:8000/radio.mp3";
+                        media_content_type = "music";
+                      };
+                      target.entity_id = "media_player.office";
+                    }
       { alias = "Push Check-in Button Felix with button";
         trigger = [
             {
@@ -41,7 +58,7 @@ in
                   [
                     { service = "media_player.play_media";
                       data = {
-                        media_content_id = "https://radio.lassul.us/radio.mp3";
+                        media_content_id = "http://radio.lassul.us:8000/radio.mp3";
                         media_content_type = "music";
                       };
                       target.entity_id = "media_player.office";

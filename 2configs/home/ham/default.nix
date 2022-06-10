@@ -59,7 +59,7 @@ in {
     })).override {
       extraPackages = p: [
         (p.callPackage ./deps/dwdwfsapi.nix {})
-        (p.callPackage ./signal-rest/pkg.nix {})
+        # (p.callPackage ./signal-rest/pkg.nix {})
         (p.callPackage ./deps/pykodi.nix {})
       ];
     };

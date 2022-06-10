@@ -12,7 +12,6 @@ with import <stockholm/lib>; #genid
   users.users.makefu.packages = with pkgs;[
     gvfs pcmanfm lxmenu-data
   ];
-  environment.variables.GIO_EXTRA_MODULES = [ "${pkgs.gvfs}/lib/gio/modules" ];
 
 ## allow users in group "storage" to mount disk
 # https://github.com/coldfix/udiskie/wiki/Permissions

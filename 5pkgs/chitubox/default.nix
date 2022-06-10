@@ -2,7 +2,7 @@
 , libgcrypt,zlib,glib,fontconfig,freetype,libdrm
 , libxkbcommon
 , libpulseaudio
-, xlibs
+, xorg
 , gst_all_1
 , krb5
 , alsaLib
@@ -20,7 +20,7 @@ stdenv.mkDerivation rec {
   };
   nativeBuildInputs = [ autoPatchelfHook ];
 
-  buildInputs = with xlibs; [ stdenv.cc.cc.lib libglvnd libgcrypt zlib glib fontconfig freetype libdrm 
+  buildInputs = with xorg; [ stdenv.cc.cc.lib libglvnd libgcrypt zlib glib fontconfig freetype libdrm 
   libxkbcommon libpulseaudio alsaLib
   xcbutilwm xcbutilimage xcbutilrenderutil xcbutilkeysyms
   gst_all_1.gst-plugins-base gst_all_1.gstreamer krb5

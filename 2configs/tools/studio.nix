@@ -8,7 +8,7 @@
     obs-studio
     studio-link
     audacity
-    darkice
+    #darkice
     # owncloudclient
     (pkgs.writeScriptBin "prepare-pulseaudio" ''
       pactl load-module module-null-sink sink_name=stream sink_properties=device.description="Streaming"
