@@ -74,7 +74,7 @@
       #}
 
       # { systemd.services.docker.wantedBy = lib.mkForce []; }
-      <stockholm/makefu/2configs/dict.nix>
+      # <stockholm/makefu/2configs/dict.nix>
       # <stockholm/makefu/2configs/legacy_only.nix>
       #<stockholm/makefu/3modules/netboot_server.nix>
       #{
