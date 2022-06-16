@@ -5,7 +5,6 @@
 let
   prefix = (import ./lib).prefix;
   hassdir = "/var/lib/hass";
-  unstable = import <nixpkgs-unstable> {};
 
 
 in {

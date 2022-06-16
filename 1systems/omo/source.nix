@@ -1,6 +1,6 @@
 {
   name="omo";
   torrent = true;
-  unstable = true;
+  #unstable = true;
   home-manager = true;
 }
