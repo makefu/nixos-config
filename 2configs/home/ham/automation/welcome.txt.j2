@@ -1,0 +1,45 @@
+{% set arbeit_heute = is_state("binary_sensor.arbeitstag","on")  -%}
+{% set weekday = ['Montag','Dienstag','Mittwoch','Donnerstag','Freitag','Samstag','Sonntag'][now().weekday()] -%}
+{% set is_friday = now().weekday() == 4 %}
+
+{% if not arbeit_heute %}
+Heute ist {{ weekday }}, du solltest gar nicht arbeiten!
+{% else %}
+Willkommen auf Arbeit Felix. 
+{% endif -%}
+Das aktuell gewählte Projekt ist {{ states("sensor.felix_project") }}.
+
+{% set inside = states("sensor.wohnzimmer_temp_temperature") | float | round(2) -%}
+{% set outside = states("sensor.dark_sky_temperature") | float | round(2) -%}
+{% set arbeit_morgen = is_state("binary_sensor.arbeitstag_morgen","on")  -%}
+
+Die Wetteraussichten: {{ states("sensor.dark_sky_hourly_summary") | replace(".","")}} bei {{ states("sensor.dark_sky_temperature") }} Grad mit {{ states("sensor.dark_sky_humidity") | round(0) }}% Luftfeuchtigkeit.
+{% if states("calendar.abfall_papiermuell") == "on" %}
+Heute ist Papiermuell, bring noch schnell dein Papier raus
+{% endif %} 
+{% if states("calendar.abfall_restmuell") == "on" %}
+Ausserdem ist heute Restmuell.
+{% endif -%}
+
+{% if ( outside < inside ) and ( outside > 18 ) %}
+Draussen ist es gerade {{ ((inside  - outside) | round(1) )}} gerade kühler
+{% endif -%}
+
+{% set current_count = state_attr("sensor.dwd_weather_warnings_current_warning_level", "warning_count") %}
+{% for i in range(current_count) %} 
+{% set idx =  i + 1  %}
+      {% set headline = state_attr("sensor.dwd_weather_warnings_current_warning_level", "warning_" ~ idx ~ "_headline") %}
+      {% set description = state_attr("sensor.dwd_weather_warnings_current_warning_level", "warning_" ~ idx ~ "_description") %}
+      {% set level = state_attr("sensor.dwd_weather_warnings_current_warning_level", "warning_" ~ idx ~ "_level") %}
+      {% set time_start = state_attr("sensor.dwd_weather_warnings_current_warning_level", "warning_" ~ idx ~ "_start") %}
+      {% set time_end = state_attr("sensor.dwd_weather_warnings_current_warning_level", "warning_" ~ idx ~ "_end") %}
+Wetterwarnung {{idx}}: {{ headline }} Stufe {{level}} von {{ time_start.strftime("%H:%M") ~ " bis " ~ time_end.strftime("%H:%M") }} Uhr
+
+{{ description }}
+{% endfor %}
+
+{% if is_friday %}
+Endlich ist Freitag!
+{% elif not arbeit_morgen %}
+Morgen ist Feiertag, also nicht versehentlich arbeiten
+{% endif -%}
