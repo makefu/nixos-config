@@ -3,14 +3,9 @@ let
 in {
   services.home-assistant.config = {
     notify = [
-      #{
-      #  platform = "kodi";
-      #  name = "Kodi Wohnzimmer";
-      #  host = firetv_stick;
-      #}
       {
       platform = "nfandroidtv";
-      name = "FireTV Wohnzimmer";
+      name = "FireTV Wohnzimmer Notification";
       host = firetv_stick;
       }
     ];
@@ -20,10 +15,10 @@ in {
         #  name = "FireTV Stick kodi";
         #  host = firetv_stick;
         #}
+        # Configuration needs to be done by hand via web interface "integration"
         { platform = "androidtv";
-        name = "FireTV Stick";
-        device_class = "firetv";
-          # adb_server_ip = firetv_stick;
+          name = "FireTV Stick Android";
+          device_class = "firetv";
           host = firetv_stick;
           port = 5555;
         }

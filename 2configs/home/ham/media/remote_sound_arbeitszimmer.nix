@@ -1,5 +1,10 @@
 { lib, ...}:
 let
+  # https://www.radiotheque.de/stream/4744806739035994/ABC-Lounge-Music-Radio/pls/
+  # http://listen.radionomy.com/ABC-Lounge
+  # https://str1.openstream.co/589
+  # https://listen.openstream.co/3139/audio
+  # https://str1.openstream.co/589?aw_0_1st.collectionid%3D3139%26stationId%3D3139%26publisherId%3D613%26k%3D1659381767%26aw_0_azn.pcountry%3D%5B%22FR%22%2C%22IT%22%2C%22DE%22%2C%22ES%22%2C%22GB%22%2C%22CH%22%2C%22CA%22%2C%22AT%22%2C%22US%22%5D%26aw_0_azn.planguage%3D%5B%22en%22%2C%22fr%22%2C%22de%22%5D%26aw_0_azn.pgenre%3D%5B%22Jazz%22%2C%22Easy+Listening%22%2C%22Music%22%5D
   statecond = cond: { # cond must be a list
     condition = "template";
     value_template = "{{ trigger.to_state.state in ( " +
