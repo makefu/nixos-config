@@ -59,6 +59,11 @@ in {
   systemd.services.nginx.serviceConfig.ReadWritePaths = [
     "/var/spool/nginx/logs/"
   ];
+  security.acme.certs."download.binaergewitter.de" = {
+    dnsProvider = "cloudflare";
+    credentialsFile = toString <secrets/lego-binaergewitter>;
+    webroot = lib.mkForce null;
+  };
 
   services.nginx = {
     appendHttpConfig = ''
@@ -70,6 +75,8 @@ in {
     recommendedGzipSettings = true;
     recommendedOptimisation = true;
     virtualHosts."download.binaergewitter.de" = {
+      enableSSL = true;
+      enableACME = true;
         serverAliases = [ "dl2.binaergewitter.de" ];
         root = "/var/www/binaergewitter";
         extraConfig = ''
