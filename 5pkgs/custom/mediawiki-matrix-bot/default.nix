@@ -1,4 +1,4 @@
-{ buildPythonApplication,  fetchFromGitHub, feedparser, matrix-nio, docopt, aiohttp, aiofiles, types-aiofiles,
+{ buildPythonApplication,  fetchFromGitHub, feedparser, matrix-nio, docopt, aiohttp, aiofiles,
 mypy }:
 
 buildPythonApplication rec {
