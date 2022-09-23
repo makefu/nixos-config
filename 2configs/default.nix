@@ -52,6 +52,7 @@ with import <stockholm/lib>;
       gnumake
       rxvt_unicode.terminfo
       htop
+      nix-output-monitor
   ];
 
   programs.bash.enableCompletion = true;
@@ -86,8 +87,9 @@ with import <stockholm/lib>;
     '';
   environment.pathsToLink = [ "/share" ];
   security.acme = {
-    email = "letsencrypt@syntax-fehler.de";
+    defaults.email = "letsencrypt@syntax-fehler.de";
     acceptTerms = true;
   };
   system.stateVersion = lib.mkDefault "20.03";
+  services.postgresql.package = pkgs.postgresql_14;
 }
