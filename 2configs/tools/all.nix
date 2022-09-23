@@ -2,18 +2,19 @@
   imports = [
     ./android-pentest.nix
     ./consoles.nix
-    ./core.nix
     ./core-gui.nix
-    ./dev.nix
+    ./core.nix
     ./desktop.nix
+    ./dev.nix
     ./extra-gui.nix
     ./games.nix
+    ./maker.nix
     ./media.nix
     ./mobility.nix
     ./pcmanfm-extra.nix
     ./scanner-tools.nix
-    ./sec.nix
     ./sec-gui.nix
+    ./sec.nix
     ./studio.nix
   ];
 }

@@ -22,6 +22,7 @@
     brain
     whatsupnix
     nixpkgs-pytools
+    nixpkgs-fmt
     hydra-check
     # git-related
     git-preview

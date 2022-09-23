@@ -8,5 +8,6 @@
     games-user-env
     wine
     pkg2zip
+    steam
   ];
 }
