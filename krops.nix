@@ -75,20 +75,20 @@
     (lib.mkIf ( host-src.hw ) {
       nixos-hardware.git = {
         url = https://github.com/nixos/nixos-hardware.git;
-        ref = "a0d8383";
+        ref = "12620020f76b1b5d2b0e6fbbda831ed4f5fe56e1";
       };
     })
 
     (lib.mkIf ( host-src.nix-ld ) {
       nix-ld.git = {
         url = https://github.com/Mic92/nix-ld.git;
-        ref = "eb9cb8d";
+        ref = "c25cc4b";
       };
     })
     (lib.mkIf ( host-src.home-manager ) {
       home-manager.git = {
         url = https://github.com/rycee/home-manager;
-        ref = "426ab2cf111fca61308bd86fe652e14aa12cc2d2";
+        ref = "1de492f";
       };
     })
   ];
@@ -97,7 +97,6 @@ in {
   # usage: $(nix-build --no-out-link --argstr name HOSTNAME -A deploy)
   deploy = pkgs.krops.writeDeploy "${name}-deploy" {
     source = source { test = false; };
-    fast = true;
     target = "root@${target}/var/src";
     buildTarget = if target == buildTarget then "root@${target}/var/src" else "root@${buildTarget}/tmp/";
   };
