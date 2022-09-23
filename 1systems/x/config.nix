@@ -137,7 +137,6 @@
       # <stockholm/makefu/2configs/share/anon-ftp.nix>
       # <stockholm/makefu/2configs/share/anon-sftp.nix>
       <stockholm/makefu/2configs/share/gum-client.nix>
-      <stockholm/makefu/2configs/share/hetzner-client.nix>
       <stockholm/makefu/2configs/share>
       # <stockholm/makefu/2configs/share/temp-share-samba.nix>
 
