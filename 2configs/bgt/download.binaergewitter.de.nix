@@ -75,7 +75,7 @@ in {
     recommendedGzipSettings = true;
     recommendedOptimisation = true;
     virtualHosts."download.binaergewitter.de" = {
-      enableSSL = true;
+      addSSL = true;
       enableACME = true;
         serverAliases = [ "dl2.binaergewitter.de" ];
         root = "/var/www/binaergewitter";
