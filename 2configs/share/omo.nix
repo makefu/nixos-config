@@ -87,6 +87,12 @@ in {
         "guest ok" = "no";
         "valid users" = "makefu";
       };
+      #cloud = {
+      #  path = "/media/cloud/download/finished";
+      #  "read only" = "no";
+      #  browseable = "yes";
+      #  "guest ok" = "yes";
+      #};
     };
     extraConfig = ''
       guest account = smbguest

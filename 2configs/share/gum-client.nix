@@ -2,21 +2,28 @@
 
 let
   automount_opts =
-  [ "x-systemd.automount"
-    "noauto" "x-systemd.idle-timeout=600"
-    "x-systemd.device-timeout=5s"
-    "x-systemd.mount-timeout=5s"
+  [ "x-systemd.automount" "noauto" 
+    "x-systemd.idle-timeout=300"
+    "x-systemd.mount-timeout=60s"
   ];
-  host = "nextgum"; #TODO
+  host = "gum"; #TODO
 in {
-  fileSystems."/media/download" = {
-      device = "//${host}/download";
+  boot.extraModprobeConfig = ''
+    options cifs CIFSMaxBufSize=130048
+  '';
+  fileSystems."/media/cloud" = {
+      device = "//${host}/cloud-proxy";
       fsType = "cifs";
       options = automount_opts ++
       [ "credentials=/var/src/secrets/download.smb"
         "file_mode=0775"
         "dir_mode=0775"
-        "uid=9001"
+        "bsize=8388608"
+        "fsc"
+        "rsize=130048"
+        "cache=loose"
+        "uid=${toString config.users.users.download.uid}"
+        "gid=${toString config.users.groups.download.gid}"
         "vers=3"
       ];
   };

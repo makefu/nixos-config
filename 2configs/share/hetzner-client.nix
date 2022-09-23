@@ -21,11 +21,12 @@ in {
         "dir_mode=0770"
         "uid=${toString config.users.users.download.uid}"
         "gid=${toString config.users.groups.download.gid}"
-        #"vers=3"
-        "vers=2.1"
+        "vers=3"
+        #"vers=2.1"
         "rsize=65536"
         "wsize=130048"
         "iocharset=utf8"
+        "cache=loose"
       ];
   };
 }

@@ -1,6 +1,5 @@
 { config, lib, pkgs, ... }:
 
-with import <stockholm/lib>;
 let
   hostname = config.krebs.build.host.name;
 in {
@@ -11,15 +10,11 @@ in {
   #   home = "/var/empty";
   # };
   environment.systemPackages = [ pkgs.samba ];
-  users.users.download = {
-    uid = genid "download";
-    isNormalUser = true;
-  };
   services.samba = {
     enable = true;
     shares = {
-      download = {
-        path = "/var/download";
+      cloud-proxy = {
+        path = "/media/cloud";
         "read only" = "no";
         browseable = "yes";
         "guest ok" = "no";
