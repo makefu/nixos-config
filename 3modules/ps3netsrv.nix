@@ -41,7 +41,7 @@ let
       };
       serviceConfig = {
         Type = "simple";
-        ExecStart = "${cfg.package}/bin/ps3netsrv++ ${shell.escape cfg.servedir}";
+        ExecStart = "${cfg.package}/bin/ps3netsrv ${shell.escape cfg.servedir}";
         PrivateTmp = true;
         User = "${cfg.user}";
       };
