@@ -14,5 +14,7 @@ in {
     volumes = [
       "${config}:/home/.local/share/signal-cli"
     ];
+    environment.MODE ="json-rpc";
+    #environment.MODE ="native"; # only required for reigstration
   };
 }

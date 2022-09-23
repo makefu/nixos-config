@@ -4,7 +4,10 @@
 #  "all" lights
 
 let
-  schranklicht = "light.wohnzimmer_schrank_osram";
+  schranklicht = [
+    "light.wohnzimmer_schrank_osram"
+    "light.wohnzimmer_komode_osram"
+  ];
   weihnachtslicht = "light.wohnzimmer_fenster_lichterkette_licht";
   fernsehlicht = "light.wled";
 
@@ -24,7 +27,7 @@ let
 
   turn_on = entity_id: offset:
   # negative offset => before sunset
-  { alias = "Turn on ${entity_id} at sunset ${offset}";
+  { alias = "Turn on ${toString entity_id} at sunset ${offset}";
     trigger = [
       { platform = "sun"; event = "sunset"; inherit offset; }
     ];

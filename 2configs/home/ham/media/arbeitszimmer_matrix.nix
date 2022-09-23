@@ -32,10 +32,12 @@ in
     services.home-assistant.config.automation =
     [
       { alias = "Arbeitszimmer Matrix music action";
+        mode = "queued";
       trigger = [
           {
             platform = "state";
             entity_id = all_buttons;
+            to = "on"; # ignore 'unavailable'
           }
       ];
       action =
@@ -59,17 +61,11 @@ in
               }
             )
 
-            (remote_action "b9" 
-              ((say "Guter Song {{ states.sensor.the_playlist_song.state }}") ++ [
-              { service = "rest_command.good_song"; }
-            ]))
+            (remote_action "b9"  [ { service = "rest_command.good_song"; } ])
+            (remote_action "b10" [ { service = "rest_command.bad_song";  } ])
 
-            (remote_action "b10" 
-              ((say "Schlechter Song {{ states.sensor.the_playlist_song.state }}") ++ [
-              { service = "rest_command.bad_song"; }
-            ]))
             (remote_action "3" 
-              ((say "Starte Lassulus Super Radio") ++ [
+              ((say "Starte Lass") ++ [
               { service = "media_player.play_media";
                 data = {
                   media_content_id = "http://radio.lassul.us:8000/radio.mp3";

@@ -32,12 +32,16 @@ in
       [
         { choose = [
               (lightcond "Badezimmer Fenster Auf"
-                { condition = "state"; entity_id = "binary_sensor.badezimmer_fenster_contact"; state =  "on"; }
-                [ 64 207 255 ] 255 # helblau
+              [ { condition = "state"; entity_id = "binary_sensor.badezimmer_fenster_contact"; state =  "on"; }
+                { condition = "state"; entity_id = "input_boolean.ist_sommer"; state = "off"; }
+
+            ]
+                [ 64 207 255 ] 128 # hellblau
               )
               (lightcond "Duschenster auf"
-                { condition = "state"; entity_id = "binary_sensor.dusche_fenster_contact"; state =  "on"; }
-                [ 64 207 255 ] 255 # helblau
+              [ { condition = "state"; entity_id = "binary_sensor.dusche_fenster_contact"; state =  "on"; }
+                { condition = "state"; entity_id = "input_boolean.ist_sommer"; state = "off"; } ]
+                [ 64 207 255 ] 128 # hellblau
               )
               (lightcond "Nachtlicht"
                 { condition = "state"; entity_id = "sun.sun"; state =  "below_horizon"; }

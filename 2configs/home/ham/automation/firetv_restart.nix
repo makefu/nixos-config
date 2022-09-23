@@ -20,17 +20,17 @@ in
       action = [
         (cmd "reboot")
         (sec 90) # go to my music because apparently select_source does not seem to always work
-        (cmd "HOME")
-        (sec 2)
-        (cmd "DOWN")
-        (sec 2)
-        (cmd "DOWN")
-        (sec 2)
-        (cmd "ENTER")
-        (sec 4)
-        (cmd "RIGHT")
-        (sec 2)
-        (cmd "RIGHT")
+        #(cmd "HOME")
+        #(sec 2)
+        #(cmd "DOWN")
+        #(sec 2)
+        #(cmd "DOWN")
+        #(sec 2)
+        #(cmd "ENTER")
+        #(sec 4)
+        #(cmd "RIGHT")
+        #(sec 2)
+        #(cmd "RIGHT")
       ];
     }
   ];

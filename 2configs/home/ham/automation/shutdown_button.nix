@@ -1,5 +1,8 @@
 let
   btn = "sensor.arbeitszimmer_btn1_action";
+  lib = import ../lib;
+  say = lib.say.living_room;
+
   all_lights = [
     # Wohnzimmer
     "light.wled"
@@ -21,6 +24,8 @@ let
   all_media_player = [
     "media_player.living_room"
     "media_player.office"
+    "media_player.bedroom"
+
   ];
 in {
   services.home-assistant.config.automation =
@@ -30,13 +35,13 @@ in {
         {
           platform = "state";
           entity_id = btn;
-          to = "on";
+          to = "single";
         }
       ];
       condition = [ ];
-      action = [
+      action = (say "Alles Aus" )++ [
         {
-          service = "home_assistant.turn_off";
+          service = "light.turn_off";
           target.entity_id = all_lights;
         }
         { service = "media_player.media_stop";

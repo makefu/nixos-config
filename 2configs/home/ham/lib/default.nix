@@ -14,7 +14,7 @@ in
       {
         service = "tts.google_say";
         data = {
-          entity_id =  entity;
+          entity_id = entity;
           inherit message;
           language = "de";
         };
@@ -27,10 +27,7 @@ in
       #}
       { delay.seconds = 1; }
       { delay = ''
-        {% set duration = states.${entity}.attributes.media_duration %}
-        {% if duration > 0 %}
-          {% set duration = duration - 1 %}
-        {% endif %}
+        {% set duration = state_attr("${entity}","media_duration") %}
         {% set seconds = duration % 60 %}
         {% set minutes = (duration / 60)|int % 60 %}
         {% set hours = (duration / 3600)|int %}
@@ -52,6 +49,10 @@ in
     office = message: tts {
       inherit message;
       entity = "media_player.office";
+    };
+    bedroom = message: tts {
+      inherit message;
+      entity = "media_player.bedroom";
     };
   };
 

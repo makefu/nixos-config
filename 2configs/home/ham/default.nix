@@ -24,13 +24,17 @@ in {
     ./device_tracker/tile.nix
 
     ./sensor/outside.nix
+    ./sensor/pollen.nix
+    ./sensor/dwd.nix
 
     ./calendar/nextcloud.nix
 
     ./media/firetv.nix
     ./media/sonos.nix
+    ./media/schlafzimmer_music_remote.nix
     ./media/remote_sound_wohnzimmer.nix
     ./media/remote_sound_arbeitszimmer.nix
+    ./media/arbeitszimmer_matrix.nix
 
     ./automation/check-in.nix
     ./automation/fenster_auf.nix
@@ -41,9 +45,12 @@ in {
     ./automation/flurlicht.nix
     ./automation/giesskanne.nix
     ./automation/pflanzen_giessen_erinnerung.nix
-    ./automation/urlaub.nix
+    # ./automation/urlaub.nix
     ./automation/moodlight.nix
     ./automation/shutdown_button.nix
+    ./automation/project_tracker.nix
+    ./automation/daily_speedtext.nix
+
 
     ./light/arbeitszimmer.nix
     ./light/schlafzimmer.nix
@@ -53,18 +60,14 @@ in {
   ];
 
   services.home-assistant = {
-    package = (pkgs.home-assistant.overrideAttrs (old: {
-      doInstallCheck = false;
-    })).override {
-      extraPackages = p: [
-        (p.callPackage ./deps/dwdwfsapi.nix {})
-        # (p.callPackage ./signal-rest/pkg.nix {})
-        (p.callPackage ./deps/pykodi.nix {})
-      ];
-    };
+    extraComponents = [ "mobile_app" ];
+    extraPackages = python3Packages: with python3Packages; [ pytz ];
 
     config = {
+      default_config = {}; # for sonos aiodiscover
+
       influxdb = {
+        api_version = 1;
         database = "ham";
         host = "localhost";
         tags = {
@@ -87,6 +90,25 @@ in {
           { type = "homeassistant"; }
         ];
       };
+      binary_sensor  = [
+        { platform = "workday";
+          name = "Arbeitstag";
+          country = "DE";
+          province = "BW";
+        }
+        { platform = "workday";
+          name = "Arbeitstag Morgen";
+          country = "DE";
+          province = "BW";
+          days_offset = 1;
+        }
+        { platform = "workday";
+          name = "Arbeitstag Gestern";
+          country = "DE";
+          province = "BW";
+          days_offset = 1;
+        }
+      ];
       discovery = {};
       conversation = {};
       history = {};
@@ -141,22 +163,19 @@ in {
           retain = true;
         };
       };
-      #luftdaten = {
-      #  show_on_map = true;
-      #  sensor_id = 10529;
-      #  sensors.monitored_conditions = [ "P1" "P2" ];
-      #};
+      luftdaten = {
+        # show_on_map = true;
+        sensor_id = 72935;
+        # sensors.monitored_conditions = [ "P1" "P2" ];
+      };
       #binary_sensor =
       #   flurlicht.binary_sensor;
 
       sensor = [
-        { platform = "speedtestdotnet";
-          scan_interval.hours = 6;
-          monitored_conditions = [ "ping" "download" "upload" ];
-        }
         # https://www.home-assistant.io/cookbook/automation_for_rainy_days/
       ];
       frontend = { };
+      speedtestdotnet = { };
       http = {
         use_x_forwarded_for = true;
         #server_host = "127.0.0.1";
@@ -167,6 +186,7 @@ in {
       switch = [];
       automation = [];
       script = { };
+      media_source = {};
     };
     enable = true;
     configDir = hassdir;

@@ -3,7 +3,8 @@ let
   remote = "sensor.schlafzimmer_music_remote_action";
   hlib = import ../lib;
   step = 0.03;
-  room = "bedroom";
+  #room = "bedroom";
+  room = "living_room";
   #room = "office";
 
   player = "media_player.${room}";
@@ -68,6 +69,7 @@ in
     services.home-assistant.config.automation =
     [
       { alias = "Schlafzimmer music action";
+        mode = "queued";
       trigger = [
           {
             platform = "state";
@@ -79,20 +81,27 @@ in
       action =
         [
           { choose = [
-            (remote_action "on" { #also called by hold right and left
-                service = "media_player.media_play";
+            (remote_action "on"
+              ((say "Starte Essensmusik") ++ [
+              { service = "media_player.play_media";
+                data = {
+                  media_content_id = "https://listen.openstream.co/4457/audio.mp3";
+                  media_content_type = "music";
+                };
                 target.entity_id = player;
-            })
-            (remote_action "off" 
-              {
-                service = "media_player.volume_mute";
-                target.entity_id = player;
-                data.is_volume_muted = ''{{ not state_attr('${player}' , 'is_volume_muted') }}'';
               }
+            ]))
+            (remote_action "off" 
+              [
+                {
+                  service = "media_player.media_stop";
+                  target.entity_id = player;
+                }
+              ]
             )
 
             (remote_action "arrow_right_hold" 
-              ((say "Starte Lassulus Super Radio") ++ [
+              ((say "Starte Lass") ++ [
               { service = "media_player.play_media";
                 data = {
                   media_content_id = "http://radio.lassul.us:8000/radio.mp3";
@@ -101,7 +110,7 @@ in
                 target.entity_id = player;
               }
             ]))
-            (remote_action "arrow_left_hold"
+            (remote_action "arrow_left_hold" 
               ((say "Starte Deep House Music") ++ [
               { service = "media_player.play_media";
                 data = {
@@ -111,12 +120,7 @@ in
                 target.entity_id = player;
               }
             ]))
-            #(remote_action "arrow_left_release" {
-
-            #})
-            #(remote_action "arrow_left_release" {
-
-            #})
+              
             # TODO: choose random kindermusik?
             (remote_action "brightness_move_up" 
               ((say "Starte Liam Album") ++ [
@@ -130,14 +134,8 @@ in
                 }
               ])
             )
-            (remote_action "brightness_move_down" 
-              ((say "Stoppe Musik") ++ [
-                {
-                  service = "media_player.media_stop";
-                  target.entity_id = player;
-                }
-              ])
-            )
+            #(remote_action "brightness_move_down" 
+            #)
             (remote_action "arrow_right_click" {
 
                 service = "media_player.volume_set";

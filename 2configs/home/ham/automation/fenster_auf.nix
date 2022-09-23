@@ -4,6 +4,11 @@
 # binary_sensor.badezimmer_fenster_contact
 # binary_sensor.dusche_fenster_contact
 let
+  hlib = import ../lib;
+  say = hlib.say.office;
+  draussen = "sensor.wohnzimmer_temp_temperature";
+  draussen_diff = "sensor.unterschied_draussen_drinnen";
+  draussen_heiss = 23;
   min = 20;
   fenster_offen = name: entity:
     { alias = "${name} seit ${toString min} Minuten offen";
@@ -16,10 +21,6 @@ let
           }
       ];
       condition = [
-        { condition = "state";
-          entity_id = "input_boolean.ist_sommer";
-          state = "off";
-        }
       ];
       action =
       [
@@ -67,6 +68,17 @@ let
     };
 in {
   services.home-assistant.config = {
+    template = [
+      { sensor = {
+        name = "Unterschied Draussen Drinnen";
+        unit_of_measurement = "°C";
+        state = ''
+          {% set inside = states("${draussen}") | float | round(2) -%}
+          {% set outside = states("sensor.dark_sky_temperature") | float | round(2) -%}
+          {{ ((outside - inside) | round(1) )}}'';
+        };
+      }
+    ];
     sensor = [
       { platform = "season"; type = "meteorological";}
     ];
@@ -86,6 +98,41 @@ in {
 
       (fenster_offen "Badezimmerfenster" "binary_sensor.badezimmer_fenster_contact")
       (fenster_offen "Duschfenster" "binary_sensor.dusche_fenster_contact")
+
+      { alias = "Draussen ist wieder kaelter";
+        trigger = [
+            {
+              platform = "numeric_state";
+              entity_id = draussen_diff;
+              below = 0;
+              for.minutes = 20;
+            }
+        ];
+        condition = [
+          { condition = "numeric_state";
+            entity_id = draussen;
+            above = draussen_heiss;
+          }
+        ];
+        action = (say "Draussen ist es endlich kühler, jetzt kann man die Fenster auf machen");
+      }
+      { alias = "Draussen ist zu warm";
+        trigger = [
+            {
+              platform = "numeric_state";
+              entity_id = draussen_diff;
+              above = 0;
+              for.minutes = 20;
+            }
+        ];
+        condition = [
+          { condition = "numeric_state";
+            entity_id = draussen;
+            above = draussen_heiss;
+          }
+        ];
+        action = (say "Draussen wird es jetzt zu warm, besser das fenster schliessen");
+      }
     ];
   };
 }
