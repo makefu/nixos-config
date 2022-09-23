@@ -2,8 +2,9 @@
 , makeWrapper
 , autoPatchelfHook
 , xorg
-, gnome3
 , libpng12
+, gtk3
+, gnome
 }:
 stdenv.mkDerivation rec {
   name = "ns-atmosphere-programmer-${version}";
@@ -15,13 +16,13 @@ stdenv.mkDerivation rec {
     sha256 = "1cnyydsmrcpfwpdiry7qybh179499wpbvlzq5rk442hq9ak416ri";
   };
 
-  buildInputs = with xorg; [ libX11 libXxf86vm libSM gnome3.gtk libpng12 ];
+  buildInputs = with xorg; [ libX11 libXxf86vm libSM gtk3 libpng12 ];
   nativeBuildInputs = [ autoPatchelfHook makeWrapper ];
 
   installPhase = ''
     install -D -m755 NS-Atmosphere $out/bin/NS-Atmosphere
     wrapProgram $out/bin/NS-Atmosphere --prefix XDG_DATA_DIRS : "$GSETTINGS_SCHEMAS_PATH" \
---suffix XDG_DATA_DIRS : '${pkgs.gnome.adwaita-icon-theme}/share'
+--suffix XDG_DATA_DIRS : '${gnome.adwaita-icon-theme}/share'
   '';
 
   dontStrip = true;
