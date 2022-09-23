@@ -53,7 +53,6 @@ in {
       <stockholm/makefu/2configs/share>
       <stockholm/makefu/2configs/share/omo.nix>
       <stockholm/makefu/2configs/share/gum-client.nix>
-      <stockholm/makefu/2configs/share/hetzner-client.nix>
       <stockholm/makefu/2configs/sync>
       <stockholm/makefu/2configs/dcpp/airdcpp.nix>
       { krebs.airdcpp.dcpp.shares = let
