@@ -1,4 +1,4 @@
-{ buildPythonApplication,  fetchFromGitHub, feedparser, matrix-nio, docopt, aiohttp, aiofiles,
+{ buildPythonApplication,  fetchFromGitHub, feedparser, matrix-nio, docopt, aiohttp, aiofiles, types-aiofiles,
 mypy }:
 
 buildPythonApplication rec {
@@ -16,7 +16,10 @@ buildPythonApplication rec {
   nativeBuildInputs = [
     mypy
   ];
-  checkPhase = ''
-    mypy --strict mediawiki_matrix_bot
-  '';
+  #checkInputs = [
+  #  types-aiofiles
+  #];
+  #checkPhase = ''
+  #  mypy --strict mediawiki_matrix_bot
+  #'';
 }
