@@ -22,10 +22,6 @@ in
 
     locations."/".proxyPass = "http://localhost:${toString port}";
     locations."/".proxyWebsockets = true;
-    extraConfig = ''
-      if ( $server_addr != "${internal-ip}" ) {
-        return 403;
-      }
-    '';
   };
+  networking.firewall.allowedTCPPorts = [ port ];
 }
