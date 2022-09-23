@@ -1,3 +1,6 @@
+let
+  unstable = (import <nixpkgs-unstable> {}).pkgs;
+in
 self: super:
 with super.lib; with builtins; let
   # This callPackage will try to detect obsolete overrides.
@@ -43,6 +46,8 @@ in {
     alsa-hdsploader = callPackage ./custom/alsa-tools { alsaToolTarget="hdsploader";};
     qcma = super.pkgs.libsForQt5.callPackage ./custom/qcma { };
     inherit (callPackage ./devpi {}) devpi-web ;
+    jellyfin = unstable.jellyfin;
+    jellyfin-web = unstable.jellyfin-web;
     nodemcu-uploader = super.pkgs.callPackage ./nodemcu-uploader {};
     liveproxy = super.pkgs.python3Packages.callPackage ./custom/liveproxy {};
     mediawiki-matrix-bot = super.pkgs.python3Packages.callPackage ./custom/mediawiki-matrix-bot {};
