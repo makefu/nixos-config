@@ -16,6 +16,8 @@ buildPythonApplication rec {
   nativeBuildInputs = [
     mypy
   ];
+
+  doCheck = false;
   #checkInputs = [
   #  types-aiofiles
   #];
