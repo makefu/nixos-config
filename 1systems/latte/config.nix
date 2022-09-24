@@ -30,7 +30,7 @@ in {
 
       # Storage
       <stockholm/makefu/2configs/share>
-      <stockholm/makefu/2configs/share/hetzner-client.nix>
+      # <stockholm/makefu/2configs/share/hetzner-client.nix>
 
       # Services:
       <stockholm/makefu/2configs/nix-community/mediawiki-matrix-bot.nix>
@@ -42,7 +42,7 @@ in {
 
       # local usage:
       <stockholm/makefu/2configs/mosh.nix>
-      <stockholm/makefu/2configs/bitlbee.nix>
+
 
       # Supervision
       <stockholm/makefu/2configs/nix-community/supervision.nix>
@@ -52,6 +52,9 @@ in {
 
       # backup
       <stockholm/makefu/2configs/backup/state.nix>
+
+      # migrated:
+      # <stockholm/makefu/2configs/bitlbee.nix>
 
 
   ];
