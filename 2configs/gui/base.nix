@@ -17,7 +17,9 @@ in
 {
   imports = [
     ./urxvtd.nix
+    ./pipewire.nix
   ];
+
 
   services.xserver = {
     enable = true;
@@ -49,7 +51,7 @@ in
   };
 
   users.users.${mainUser} = {
-    extraGroups = [ "audio" ];
+    extraGroups = [ "pipewire" "audio" ];
     packages = with pkgs;[
       pavucontrol
       xlockmore
@@ -57,10 +59,6 @@ in
     ];
   };
 
-  hardware.pulseaudio = {
-     enable = true;
-     # systemWide = true;
-  };
   services.xserver.displayManager.sessionCommands = let
     xdefaultsfile = pkgs.writeText "Xdefaults"  ''
       cat |derp <<EOF
@@ -79,6 +77,7 @@ in
       URxvt.urgentOnBell: true
       URxvt.visualBell: false
       URxvt.font : xft:Terminus:size=12
+      URxvt.perl-ext-common: default,-confirm-paste
 
 
       ! blue
