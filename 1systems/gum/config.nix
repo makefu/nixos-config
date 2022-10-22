@@ -99,6 +99,7 @@ in {
       <stockholm/makefu/2configs/taskd.nix>
 
       # services
+      <stockholm/makefu/2configs/bitlbee.nix> # postgres backend
       # <stockholm/makefu/2configs/sabnzbd.nix>
       # <stockholm/makefu/2configs/mail/mail.euer.nix>
       { krebs.exim.enable = mkDefault true; }
@@ -144,14 +145,18 @@ in {
         users.users.nextcloud.extraGroups = [ "download" ];
         # nextcloud-setup fails as it cannot set permissions for nextcloud
         systemd.services.nextcloud-setup.serviceConfig.SuccessExitStatus = "0 1";
-        fileSystems."/var/lib/nextcloud/data" = {
-          device = "/media/cloud/nextcloud-data";
-          options = [ "bind" ];
-        };
-        fileSystems."/var/backup" = {
-          device = "/media/cloud/gum-backup";
-          options = [ "bind" ];
-        };
+        systemd.tmpfiles.rules = [
+          "L /var/lib/nextcloud/data - - - -  /media/cloud/nextcloud-data"
+          "L /var/backup - - - -  /media/cloud/gum-backup"
+        ];
+        #fileSystems."/var/lib/nextcloud/data" = {
+        #  device = "/media/cloud/nextcloud-data";
+        #  options = [ "bind" ];
+        #};
+        #fileSystems."/var/backup" = {
+        #  device = "/media/cloud/gum-backup";
+        #  options = [ "bind" ];
+        #};
       }
 
       <stockholm/makefu/2configs/nginx/dl.euer.krebsco.de.nix>
@@ -159,6 +164,7 @@ in {
       <stockholm/makefu/2configs/nginx/euer.mon.nix>
       <stockholm/makefu/2configs/nginx/euer.wiki.nix>
       <stockholm/makefu/2configs/nginx/euer.blog.nix>
+      <stockholm/makefu/2configs/nginx/music.euer.nix>
       ## <stockholm/makefu/2configs/nginx/gum.krebsco.de.nix>
       #<stockholm/makefu/2configs/nginx/public_html.nix>
       #<stockholm/makefu/2configs/nginx/update.connector.one.nix>
