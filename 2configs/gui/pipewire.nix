@@ -2,6 +2,7 @@
 # TODO test `alsactl init` after suspend to reinit mic
 {
   security.rtkit.enable = true;
+  hardware.pulseaudio.enable = lib.mkForce false;
 
   environment.systemPackages = with pkgs; [
     alsaUtils
