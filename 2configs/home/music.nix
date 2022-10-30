@@ -18,6 +18,8 @@ in
               "navidrome.lan"
       "music"  "music.lan"
       "musik" "musik.lan"
+      "music.omo.r"
+      "music.makefu.r" "music.makefu"
     ];
 
     locations."/".proxyPass = "http://localhost:${toString port}";
