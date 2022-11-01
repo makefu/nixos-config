@@ -6,7 +6,7 @@
    - Felix1      makefu@studio.link
    - L33tFelix   l33tname@studio.link
    - Ingo        ingo@studio.link
-2.  Jitis an machen https://meet.ffmuc.net/bgt  (mittel)
+2.  Jitis an machen https://meet.ffmuc.net/bgt-aktuell  (mittel)
 3.  studio-link aufnehmen drücken (wichtig)
 4.  audiocity starten, 48000Hz einstellen, Audio-Device checken und aufnehmen drücken (wichtig)
 4.  alternative parecord:
@@ -27,6 +27,8 @@
 ## Toter der Woche
 
 ## Untoter der Woche
+
+## AI der Woche
 
 ## News
 
