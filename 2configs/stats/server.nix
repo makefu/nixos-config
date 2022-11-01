@@ -25,6 +25,7 @@ in {
     # meta.logging-enabled = true;
     logging.level = "info";
     http.log-enabled = true;
+    http.flux-enabled = true;
     http.write-tracing = false;
     http.suppress-write-log = true;
     data.trace-logging-enabled = false;
