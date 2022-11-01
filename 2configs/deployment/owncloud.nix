@@ -23,7 +23,9 @@ in {
   fileSystems."/var/lib/nextcloud/data" = {
     device = "/media/cloud/nextcloud-data";
     options = [ "bind" ];
+    depends = [ "/media/cloud" ];
   };
+
 
 
   krebs.secret.files.nextcloud-db-pw = {
