@@ -34,6 +34,7 @@ in {
       # <stockholm/makefu/2configs/hydra/stockholm.nix>
 
       <stockholm/makefu/2configs/share/wbob.nix>
+      <stockholm/makefu/2configs/wireguard/thierry.nix>
       <stockholm/makefu/2configs/bluetooth-mpd.nix>
 
       # Sensors
@@ -54,6 +55,13 @@ in {
       # <stockholm/makefu/2configs/bureautomation/visitor-photostore.nix>
       # <stockholm/makefu/2configs/bureautomation/mpd.nix> #mpd is only used for TTS, this is the web interface
       <stockholm/makefu/2configs/mqtt.nix>
+      {
+        services.mjpg-streamer = {
+          enable = true;
+          inputPlugin = "input_uvc.so -d /dev/video0 -r 640x480 -y -f 30 -q 50 -n";
+          outputPlugin = "output_http.so -w @www@ -n -p 18088";
+        };
+      }
       (let
           collectd-port = 25826;
           influx-port = 8086;
