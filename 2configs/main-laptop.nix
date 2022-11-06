@@ -12,6 +12,7 @@ let
 in {
   imports = [
     ./gui/base.nix
+    ./gui/look-up.nix
     ./fetchWallpaper.nix
     ./zsh-user.nix
     ./tools/core.nix
@@ -72,15 +73,4 @@ in {
   location.latitude = 48.7;
   location.longitude = 9.1;
 
-  systemd.services.look-up = {
-    startAt = "*:30";
-    serviceConfig = {
-      ExecStart= pkgs.writeDash "look-up" ''
-        set -x
-        eval "export '$(egrep -z DBUS_SESSION_BUS_ADDRESS /proc/$(${pkgs.procps}/bin/pgrep -u ${user} ${window-manager})/environ)'"
-        ${pkgs.libnotify}/bin/notify-send -u critical -t 9999999 'look up once in a while'
-      '';
-      User = user;
-    };
-  };
 }
