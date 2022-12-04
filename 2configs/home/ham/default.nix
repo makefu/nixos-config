@@ -18,6 +18,7 @@ in {
     # ./multi/flurlicht.nix
     ./multi/kurzzeitwecker.nix
     ./multi/the_playlist.nix
+    ./multi/heizung.nix
     # ./multi/fliegen-couter.nix
 
     ./device_tracker/openwrt.nix
@@ -192,5 +193,10 @@ in {
     configDir = hassdir;
   };
 
+  krebs.secret.files."hass-secrets" = {
+    source-path = toString <secrets> + "/hass/secrets.yaml";
+    path = "/var/lib/hass/secrets.yaml";
+    owner.name = "hass";
+  };
   state = [ "/var/lib/hass/known_devices.yaml" ];
 }

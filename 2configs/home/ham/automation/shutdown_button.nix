@@ -47,6 +47,9 @@ in {
         { service = "media_player.media_stop";
           target.entity_id = all_media_player;
         }
+        { service = "script.turn_on";
+          target.entity_id = "script.alle_heizungen_aus";
+        }
       ];
     }
   ];

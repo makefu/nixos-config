@@ -4,8 +4,7 @@
   services.home-assistant.config.sensor =
   [
     { platform = "darksky";
-      api_key = lib.removeSuffix "\n"
-        (builtins.readFile <secrets/hass/darksky.apikey>);
+      api_key = "!secret darksky";
       language = "de";
       monitored_conditions = [
         "summary" "icon"
@@ -20,6 +19,12 @@
       ];
       units =  "si" ;
       scan_interval = "00:30:00";
+    }
+    {
+      platform = "open_meteo";
+    }
+    {
+      platform = "met";
     }
   ];
 }

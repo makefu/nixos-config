@@ -88,7 +88,7 @@ in {
       duschfenster_lang_offen.name = "Duschfenster lange offen";
       ist_sommer = {
         name = "Es ist Sommer";
-        initial = true; # TODO
+        initial = false; # TODO
       };
     };
 
