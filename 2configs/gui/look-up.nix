@@ -1,3 +1,4 @@
+{pkgs, ... }:
 {
   systemd.services.look-up = {
     startAt = "*:30";
