@@ -43,7 +43,7 @@ in {
 
   services.logrotate = {
     enable = true;
-    config = ''
+    settings.header = ''
     ${bgtaccess} ${bgterror} {
       rotate 5
       weekly
