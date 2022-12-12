@@ -2,19 +2,19 @@
 }:
 stdenv.mkDerivation rec {
   name = "pkgrename";
-  version = "1.03";
+  version = "1.05";
 
   src = fetchFromGitHub {
     owner = "hippie68";
     repo = "pkgrename";
-    rev = "c3e5c47ed9367273bd09577af46d3d9bf87b2a50";
+    rev = "c7c95f0ea49324433db4a7df8db8b0905198e62e";
     sha256 = "0cphxdpj04h1i0qf5mji3xqdsbyilvd5b4gwp4vx914r6k5f0xf3";
   };
 
   buildInputs = [ curl.dev ];
   buildPhase = ''
     cd pkgrename.c
-    gcc pkgrename.c src/*.c -o pkgrename -lcurl -s -O1 $(curl-config  --cflags --libs)
+    $CC pkgrename.c src/*.c -o pkgrename -s -O3 $(curl-config  --cflags --libs) -Wl,--allow-multiple-definition
   '';
   installPhase = ''
     install -D pkgrename $out/bin/pkgrename
