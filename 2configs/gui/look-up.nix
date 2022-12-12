@@ -1,5 +1,8 @@
-{pkgs, ... }:
-{
+{pkgs, config, ... }:
+let
+  user = config.krebs.build.user.name;
+in
+  {
   systemd.services.look-up = {
     startAt = "*:30";
     serviceConfig = {
