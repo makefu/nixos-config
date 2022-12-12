@@ -75,20 +75,20 @@
     (lib.mkIf ( host-src.hw ) {
       nixos-hardware.git = {
         url = https://github.com/nixos/nixos-hardware.git;
-        ref = "12620020f76b1b5d2b0e6fbbda831ed4f5fe56e1";
+        ref = "9d87bc030a0bf3f00e953dbf095a7d8e852dab6b";
       };
     })
 
     (lib.mkIf ( host-src.nix-ld ) {
       nix-ld.git = {
         url = https://github.com/Mic92/nix-ld.git;
-        ref = "c25cc4b";
+        ref = "7d251c0c5adf6b9b003499243be257d0f130b3d6";
       };
     })
     (lib.mkIf ( host-src.home-manager ) {
       home-manager.git = {
         url = https://github.com/rycee/home-manager;
-        ref = "1de492f";
+        ref = "054d9e3187ca00479e8036dc0e92900a384f30fd";
       };
     })
   ];
