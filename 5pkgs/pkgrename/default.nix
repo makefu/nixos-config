@@ -8,7 +8,7 @@ stdenv.mkDerivation rec {
     owner = "hippie68";
     repo = "pkgrename";
     rev = "c7c95f0ea49324433db4a7df8db8b0905198e62e";
-    sha256 = "0cphxdpj04h1i0qf5mji3xqdsbyilvd5b4gwp4vx914r6k5f0xf3";
+    sha256 = "komFm9VRdH4DPxcnHzbm/sGVEWMbfcvFPLEFdbU/K5g=";
   };
 
   buildInputs = [ curl.dev ];
