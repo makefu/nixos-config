@@ -44,9 +44,10 @@ in {
     ./automation/wohnzimmer_rf_fernbedienung.nix
     # ./automation/ladestecker_timer.nix
     ./automation/flurlicht.nix
-    ./automation/giesskanne.nix
-    ./automation/pflanzen_giessen_erinnerung.nix
-    # ./automation/urlaub.nix
+    # ./automation/giesskanne.nix 
+    # ./automation/pflanzen_giessen_erinnerung.nix
+    ./automation/find_phone.nix
+    ./automation/urlaub.nix
     ./automation/moodlight.nix
     ./automation/shutdown_button.nix
     ./automation/project_tracker.nix
