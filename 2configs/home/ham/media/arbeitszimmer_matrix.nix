@@ -63,6 +63,12 @@ in
 
             (remote_action "b9"  [ { service = "rest_command.good_song"; } ])
             (remote_action "b10" [ { service = "rest_command.bad_song";  } ])
+            (remote_action "b11" [
+              {
+                service = "script.turn_on";
+                target.entity_id = "script.find_felix_phone";
+              }
+            ])
 
             (remote_action "3" 
               ((say "Starte Lass") ++ [

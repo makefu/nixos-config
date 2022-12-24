@@ -11,18 +11,6 @@ let
   weihnachtslicht = "light.wohnzimmer_fenster_lichterkette_licht";
   fernsehlicht = "light.wled";
 
-  all_lights = [
-    schranklicht weihnachtslicht fernsehlicht 
-    # extra lights to also turn off
-    # wohnzimmer
-    "light.wohnzimmer_komode_osram"
-    "light.wohnzimmer_stehlampe_osram"
-    # arbeitszimmer
-    "light.wled_4"
-    "light.arbeitszimmer_schrank_dimmer"
-    "light.arbeitszimmer_pflanzenlicht"
-  ];
-
   final_off = "00:37";
 
   turn_on = entity_id: offset:

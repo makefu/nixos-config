@@ -9,7 +9,8 @@ in
     MusicFolder = "/media/cryptX/music/kinder";
     Address = "0.0.0.0";
   };
-  systemd.services.navidrome.after = [ "media-cryptX.mount" ];
+  systemd.services.navidrome.after = [ "media-cryptX.mount" "cryptsetup.target"
+"local-fs.target" "remote-fs.target" ];
 
   state = [ "/var/lib/navidrome" ];
   # networking.firewall.allowedTCPPorts = [ 4040 ];
@@ -27,4 +28,11 @@ in
     locations."/".proxyWebsockets = true;
   };
   networking.firewall.allowedTCPPorts = [ port ];
+  # also configure dlna
+  services.minidlna.enable = true;
+  services.minidlna.settings = {
+    inotify = "yes";
+    friendly_name = "omo";
+    media_dir = [ "A,/media/cryptX/music" ];
+  };
 }

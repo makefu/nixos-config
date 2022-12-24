@@ -9,7 +9,7 @@
   # also ensure that the webcam always comes up under the same name
   services.udev.extraRules = ''
     SUBSYSTEM=="vchiq",GROUP="video",MODE="0660"
-    SUBSYSTEM=="video4linux", ATTR{name}=="UVC Camera (046d:0825)",SYMLINK+="web_cam", MODE="0666", GROUP="video"
+    KERNEL=="video*",ATTRS{vendor}=="0x046d", ATTRS{device}=="0x0825", GROUP="video", SYMLINK+="web_cam"
   '';
   systemd.services.octoprint = {
     path = [ pkgs.libraspberrypi ];
