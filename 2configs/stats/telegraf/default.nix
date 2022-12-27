@@ -17,13 +17,13 @@ in {
         #  data_format = "influx";
         #}];
 
-        #mqtt = [{
-        #  servers = [ mqtt_server ];
-        #  topic_prefix = "/telegraf";
-        #  data_format = "json";
-        #  qos = 0;
-        #  batch = false;
-        #}];
+        mqtt = [{
+          servers = [ mqtt_server ];
+          topic_prefix = "/telegraf";
+          data_format = "json";
+          qos = 0;
+          batch = false;
+        }];
       };
     };
   };
