@@ -7,7 +7,7 @@ set listchars=tab:▸\
 filetype off
 filetype plugin indent on
 
-colorscheme darkblue
+colorscheme desert
 set background=dark
 
 set number
@@ -49,6 +49,10 @@ set matchtime=3
 set hlsearch
 
 autocmd ColorScheme * highlight ExtraWhitespace ctermbg=red guibg=red
+hi MatchParen cterm=none ctermbg=green ctermfg=blue
+
+let g:better_whitespace_enabled=1
+let g:strip_whitespace_on_save=1
 
 
 " save on focus lost

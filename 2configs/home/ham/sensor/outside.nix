@@ -26,5 +26,19 @@
     {
       platform = "met";
     }
+    {
+      platform = "openweathermap";
+      api_key = "!secret openweathermap";
+      language = "de";
+      mode = "hourly";
+    }
+    {
+      platform = "tomorrowio";
+      api_key = "!secret tomorrowio";
+    }
+    { platform = "octoprint"; }
+    { platform = "accuweather";
+      api_key = "!secret accuweather";
+    }
   ];
 }
