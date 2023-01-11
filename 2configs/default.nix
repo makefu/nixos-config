@@ -68,7 +68,7 @@ with import <stockholm/lib>;
   };
 
   nixpkgs.config.packageOverrides = pkgs: {
-    nano = pkgs.runCommand "empty" {} "mkdir -p $out";
+    #nano = pkgs.runCommand "empty" {} "mkdir -p $out";
     tinc = pkgs.tinc_pre;
   };
 
