@@ -16,6 +16,7 @@ in
       permit_join = true;
       serial.port = "/dev/cc2531";
       homeassistant = true;
+      frontend.port = 8521;
     };
   };
 
