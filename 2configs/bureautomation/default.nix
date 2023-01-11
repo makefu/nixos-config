@@ -10,6 +10,7 @@ in {
     # ./puppy-proxy.nix
 
     ./zigbee2mqtt
+    ./rhasspy.nix
 
     # hass config
     ## complex configs
