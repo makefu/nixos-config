@@ -30,7 +30,7 @@ with import <stockholm/lib>;
         openssh.authorizedKeys.keys = [ config.krebs.users.makefu.pubkey ];
     };
   };
-  nix.trustedUsers = [ config.krebs.build.user.name ];
+  nix.settings.trusted-users = [ config.krebs.build.user.name ];
 
   boot.kernelPackages = lib.mkDefault pkgs.linuxPackages;
 
