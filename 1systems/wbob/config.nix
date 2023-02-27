@@ -22,7 +22,7 @@ in {
       # <stockholm/makefu/2configs/virtualisation/virtualbox.nix>
       <stockholm/makefu/2configs/tinc/retiolum.nix>
       <stockholm/makefu/2configs/gui/wbob-kiosk.nix>
-      { environment.systemPackages = [ pkgs.kodi pkgs.nano ]; }
+      { environment.systemPackages = [  pkgs.nano ]; }
 
       # <stockholm/makefu/2configs/gui/studio-virtual.nix>
       # <stockholm/makefu/2configs/audio/jack-on-pulse.nix>
@@ -47,6 +47,7 @@ in {
       <stockholm/makefu/2configs/stats/external/aralast.nix>
       <stockholm/makefu/2configs/stats/arafetch.nix>
       # <stockholm/makefu/2configs/hw/mceusb.nix>
+      <stockholm/makefu/2configs/hw/slaesh.nix>
       # <stockholm/makefu/2configs/stats/telegraf/bamstats.nix>
       { environment.systemPackages = [ pkgs.vlc ]; }
 
@@ -99,6 +100,7 @@ in {
       <stockholm/makefu/2configs/backup/state.nix>
       # temporary
       # <stockholm/makefu/2configs/temp/rst-issue.nix>
+      { services.jellyfin.enable = true; }
   ];
 
   krebs = {

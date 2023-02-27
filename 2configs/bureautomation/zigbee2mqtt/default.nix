@@ -5,16 +5,13 @@ let
 in
   {
   # symlink the zigbee controller
-  services.udev.extraRules = ''
-    SUBSYSTEM=="tty", ATTRS{idVendor}=="0451", ATTRS{idProduct}=="16a8", SYMLINK+="cc2531", MODE="0660", GROUP="dialout"
-  '';
 
   services.zigbee2mqtt = {
     enable = true;
     inherit dataDir;
     settings = {
       permit_join = true;
-      serial.port = "/dev/cc2531";
+      serial.port = "/dev/zigbee";
       homeassistant = true;
       frontend.port = 8521;
     };
