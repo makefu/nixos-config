@@ -13,16 +13,32 @@ in mkIf (hasAttr "wiregrill" config.krebs.build.host.nets) {
 
   boot.kernel.sysctl = mkIf isRouter {
     "net.ipv6.conf.all.forwarding" = 1;
+    "net.ipv4.conf.all.forwarding" = 1;
+  };
+  networking.nat = {
+    enable = true;
+    externalInterface = ext-if;
+    internalInterfaces = [ "wiregrill" ];
   };
 
   networking.firewall = {
     allowedUDPPorts = [ self.wireguard.port ];
     extraCommands = ''
-      iptables -A FORWARD -i wiregrill -o wiregrill -j ACCEPT
+      ${pkgs.iptables}/bin/iptables -A FORWARD -i wiregrill -o wiregrill -j ACCEPT
     '';
   };
 
   networking.wireguard.interfaces.wiregrill = {
+    postSetup = ''
+        ${pkgs.iptables}/bin/iptables -t nat -A POSTROUTING -s 10.220.245.0/24 -o ${ext-if} -j MASQUERADE
+        ${pkgs.iptables}/bin/ip6tables -t nat -A POSTROUTING -s 42::/16 -o ${ext-if} -j MASQUERADE
+    '';
+
+      # This undoes the above command
+    postShutdown = ''
+        ${pkgs.iptables}/bin/iptables -t nat -D POSTROUTING -s 10.244.245.0/24 -o ${ext-if} -j MASQUERADE
+        ${pkgs.iptables}/bin/ip6tables -t nat -D POSTROUTING -s 42::/16 -o ${ext-if} -j MASQUERADE
+    '';
     ips =
       (optional (!isNull self.ip4) self.ip4.addr) ++
       (optional (!isNull self.ip6) self.ip6.addr);
