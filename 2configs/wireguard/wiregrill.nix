@@ -15,30 +15,55 @@ in mkIf (hasAttr "wiregrill" config.krebs.build.host.nets) {
     "net.ipv6.conf.all.forwarding" = 1;
     "net.ipv4.conf.all.forwarding" = 1;
   };
-  networking.nat = {
+  networking.nat =  mkIf isRouter {
     enable = true;
+    enableIPv6 = true;
     externalInterface = ext-if;
     internalInterfaces = [ "wiregrill" ];
   };
 
   networking.firewall = {
     allowedUDPPorts = [ self.wireguard.port ];
-    extraCommands = ''
-      ${pkgs.iptables}/bin/iptables -A FORWARD -i wiregrill -o wiregrill -j ACCEPT
+    interfaces.wiregrill = mkIf isRouter {
+      allowedUDPPorts = [ 53 ];
+      allowedTCPPorts = [ 53 ];
+    };
+  };
+
+  services.dnsmasq = mkIf isRouter {
+    enable = true;
+    resolveLocalQueries = false;
+    extraConfig = /* dnsmasq */ ''
+      bind-interfaces
+      interface=retiolum,wiregrill
     '';
+    servers = [ "1.1.1.1" ];
   };
 
   networking.wireguard.interfaces.wiregrill = {
-    postSetup = ''
-        ${pkgs.iptables}/bin/iptables -t nat -A POSTROUTING -s 10.220.245.0/24 -o ${ext-if} -j MASQUERADE
-        ${pkgs.iptables}/bin/ip6tables -t nat -A POSTROUTING -s 42::/16 -o ${ext-if} -j MASQUERADE
+    postSetup = optionalString isRouter ''
+        ${pkgs.iptables}/bin/iptables -t nat -A PREROUTING -s 10.244.245.0/24 -j ACCEPT
+        ${pkgs.iptables}/bin/iptables -t nat -A POSTROUTING -s 10.244.245.0/24 ! -d 10.244.245.0/24 -j MASQUERADE
+        ${pkgs.iptables}/bin/iptables -A FORWARD -i wiregrill -o retiolum -j ACCEPT
+        ${pkgs.iptables}/bin/iptables -A FORWARD -i retiolum -o wiregrill -j ACCEPT
+
+        ${pkgs.iptables}/bin/ip6tables -t nat -A PREROUTING -s 42:1::/32 -j ACCEPT
+        ${pkgs.iptables}/bin/ip6tables -t nat -A POSTROUTING -s 42:1::/32 ! -d 42:1::/48 -j MASQUERADE
+        ${pkgs.iptables}/bin/ip6tables -A FORWARD -i wiregrill -o retiolum -j ACCEPT
+        ${pkgs.iptables}/bin/ip6tables -A FORWARD -i retiolum -o wiregrill -j ACCEPT
     '';
 
       # This undoes the above command
-    postShutdown = ''
+    postShutdown = optionalString isRouter ''
         ${pkgs.iptables}/bin/iptables -t nat -D POSTROUTING -s 10.244.245.0/24 -o ${ext-if} -j MASQUERADE
-        ${pkgs.iptables}/bin/ip6tables -t nat -D POSTROUTING -s 42::/16 -o ${ext-if} -j MASQUERADE
-    '';
+        ${pkgs.iptables}/bin/iptables -D FORWARD -i wiregrill -o retiolum -j ACCEPT
+        ${pkgs.iptables}/bin/iptables -D FORWARD -i retiolum -o wiregrill -j ACCEPT
+
+        ${pkgs.iptables}/bin/ip6tables -t nat -D PREROUTING -s 42:1::/32 -j ACCEPT
+        ${pkgs.iptables}/bin/ip6tables -t nat -D POSTROUTING -s 42:1::/32 ! -d 42:1::/48 -j MASQUERADE
+        ${pkgs.iptables}/bin/ip6tables -D FORWARD -i wiregrill -o retiolum -j ACCEPT
+        ${pkgs.iptables}/bin/ip6tables -D FORWARD -i retiolum -o wiregrill -j ACCEPT
+    '' ;
     ips =
       (optional (!isNull self.ip4) self.ip4.addr) ++
       (optional (!isNull self.ip6) self.ip6.addr);
