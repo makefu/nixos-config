@@ -61,6 +61,8 @@ direnv allow
         size = 900001;
         save = 900001;
         ignoreDups = true;
+        ignoreSpace = true;
+
         extended = true;
         share = true;
       };
@@ -77,31 +79,32 @@ direnv allow
         xo = "mimeopen";
         nmap = "nmap -oN $HOME/loot/scan-`date +\%s`.nmap -oX $HOME/loot/scan-`date +%s`.xml";
       };
-      # navi package does not come with the navi.plugin.zsh anymore so we use .src
+      #zplug = {
+      #  enable = true;
+      #  plugins = [
+      #    { name = "denisidoro/navi" ; }
+      #    { name = "zsh-users/zsh-autosuggestions" ; }
+      #  ];
+      #};
       initExtra = ''
         bindkey -e
+        zle -N edit-command-line
+        # ctrl-x ctrl-e
+        bindkey '^xe' edit-command-line
+        bindkey '^x^e' edit-command-line
         # shift-tab
         bindkey '^[[Z' reverse-menu-complete
         bindkey "\e[3~" delete-char
         zstyle ':completion:*' menu select
 
         setopt HIST_IGNORE_ALL_DUPS
-        setopt HIST_IGNORE_SPACE
         setopt HIST_FIND_NO_DUPS
 
         compdef _pass brain
         zstyle ':completion::complete:brain::' prefix "$HOME/brain"
+
         compdef _pass secrets
         zstyle ':completion::complete:secrets::' prefix "$HOME/.secrets-pass/"
-        
-        # navi
-        . ${pkgs.navi.src}/shell/navi.plugin.zsh
-        # ctrl-x ctrl-e
-        autoload -U compinit && compinit
-        autoload -U edit-command-line
-        zle -N edit-command-line
-        bindkey '^xe' edit-command-line
-        bindkey '^x^e' edit-command-line
       '';
     };
   };
