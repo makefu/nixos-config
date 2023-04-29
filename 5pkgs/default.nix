@@ -44,6 +44,7 @@ in {
     alsa-hdspconf = callPackage ./custom/alsa-tools { alsaToolTarget="hdspconf";};
     alsa-hdspmixer = callPackage ./custom/alsa-tools { alsaToolTarget="hdspmixer";};
     alsa-hdsploader = callPackage ./custom/alsa-tools { alsaToolTarget="hdsploader";};
+    brother_ql_web = (builtins.getFlake "github:makefu/brother_ql_web?rev=a3f8625f48111da8cd6f8e562c966cdca445b82d").packages.x86_64-linux.default;
     qcma = super.pkgs.libsForQt5.callPackage ./custom/qcma { };
     inherit (callPackage ./devpi {}) devpi-web ;
     jellyfin = unstable.jellyfin;

@@ -2,6 +2,9 @@
 let
   mainUser = config.krebs.build.user.name;
 in {
+  imports = [
+    ./brother-ql-web.nix
+  ];
   services.printing = {
     enable = true;
     drivers = with pkgs;[

@@ -5,11 +5,11 @@
       ./base.nix
   ];
   users.users.kiosk = {
-    packages = [ pkgs.chromium pkgs.vscode ];
+    packages = with pkgs;[ chromium vscode spotify tartube-yt-dlp ];
     group = "kiosk";
     isNormalUser = true;
     uid = 1003;
-    extraGroups = [ "wheel" "audio" "pulse" ];
+    extraGroups = [ "wheel" "audio" "pulse" "pipewire" ];
   };
   users.groups.kiosk.gid = 989 ;
   services.xserver = {
@@ -31,7 +31,10 @@
   };
 
 
-  environment.systemPackages = [ pkgs.gnomeExtensions.appindicator ];
+  environment.systemPackages = [
+    pkgs.gnomeExtensions.appindicator pkgs.pavucontrol pkgs.jellyfin-media-player pkgs.chromium pkgs.firefox pkgs.kodi 
+    pkgs.pavucontrol
+];
   services.dbus.packages = with pkgs; [ gnome2.GConf gnome3.gnome-settings-daemon ];
 
   systemd.services.xset-off = {
@@ -44,6 +47,10 @@
       RestartSec="5s";
       Restart = "on-failure";
     };
+  };
+  services.pipewire.systemWide = lib.mkForce false;
+  services.pipewire.config.pipewire-pulse = {
+    "pulse.properties"."server.address" = [ "unix:native" "tcp:4713" ];
   };
 
 }
