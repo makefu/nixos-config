@@ -9,5 +9,6 @@
     wine
     pkg2zip
     steam
+    steam-run
   ];
 }
