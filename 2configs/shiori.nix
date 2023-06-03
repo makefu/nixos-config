@@ -4,19 +4,10 @@ let
   statedir = "/var/lib/shiori";
 in {
   state = [ "/var/lib/private/shiori" ]; # when using dynamicUser
-  systemd.services.shiori = {
-    description = "Shiori Server";
-    after = [ "network-online.target" ];
-    environment = {
-      SHIORI_DIR = statedir;
-    };
-    wantedBy = [ "multi-user.target" ];
-    serviceConfig = {
-      DynamicUser = true;
-      StateDirectory = "shiori";
-      ExecStart = "${pkgs.shiori}/bin/shiori serve -a 127.0.0.1 -p ${toString web_port}";
-      PrivateTmp = true;
-    };
+  services.shiori = {
+    enable = true;
+    port = web_port;
+    address = "127.0.0.1";
   };
   services.nginx.virtualHosts."bookmark.euer.krebsco.de" = {
     forceSSL = true;
