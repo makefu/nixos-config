@@ -10,7 +10,7 @@ in {
     <stockholm/makefu/2configs/binary-cache/nixos.nix>
 
     <stockholm/makefu/2configs/home/rhasspy>
-    <stockholm/makefu/2configs/home/rhasspy/led-control.nix>
+    # <stockholm/makefu/2configs/hw/pseyecam.nix>
   ];
   krebs = {
     enable = true;

@@ -2,6 +2,8 @@
 {
   imports = [ 
     <nixpkgs/nixos/modules/installer/scan/not-detected.nix>
+    ./wifi.nix
+    ./sound.nix
   ];
   boot.loader.grub.enable = true;
   boot.loader.grub.version = 2;
@@ -18,4 +20,5 @@
 
   boot.kernelParams = [ "net.ifnames=0" ];
   networking.hostId = "0123AABB";
+
 }

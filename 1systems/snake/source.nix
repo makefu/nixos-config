@@ -3,5 +3,4 @@
   full = true;
   home-manager = true;
   hw = true;
-  disko = true;
 }
