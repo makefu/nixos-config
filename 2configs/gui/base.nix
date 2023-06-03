@@ -18,30 +18,28 @@ in
   imports = [
     ./urxvtd.nix
     ./pipewire.nix
+    ./gnome.nix
   ];
 
 
+  # services.redshift.enable = true;
   services.xserver = {
     enable = true;
     layout = "us";
     xkbVariant = "altgr-intl";
     xkbOptions = "ctrl:nocaps, eurosign:e";
 
-    windowManager = {
-      awesome.enable = true;
-      awesome.noArgb = true;
-      awesome.luaModules = [ pkgs.luaPackages.vicious ];
-    };
-    displayManager.defaultSession = lib.mkDefault "none+awesome";
-    displayManager.autoLogin = {
-      enable = true;
-      user = mainUser;
-    };
+#    windowManager = {
+#      awesome.enable = true;
+#      awesome.noArgb = true;
+#      awesome.luaModules = [ pkgs.luaPackages.vicious ];
+#    };
+#    displayManager.defaultSession = lib.mkDefault "none+awesome";
   };
   environment.systemPackages = [ pkgs.gnome.adwaita-icon-theme ];
   # lid switch is handled via button presses
-  services.logind.lidSwitch = lib.mkDefault "ignore";
-  makefu.awesome.enable = true;
+  # services.logind.lidSwitch = lib.mkDefault "ignore";
+  #makefu.awesome.enable = true;
   console.font = "Lat2-Terminus16";
 
   fonts = {

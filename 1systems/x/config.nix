@@ -48,6 +48,16 @@
           { bits = 4096; path = (toString <secrets/ssh_host_rsa_key>); type = "rsa";}
         ];
       }
+      #{
+      #  imports = [
+      #    <stockholm/makefu/2configs/bureautomation/rhasspy.nix>
+      #  ];
+      #  services.pipewire.config.pipewire-pulse = {
+      #    "pulse.properties"."server.address" = [ "unix:native" "tcp:4713" ];
+      #  };
+      #  networking.firewall.allowedTCPPorts = [ 4713 ];
+
+      #}
 
       #{
       #  users.users.makefu.packages = with pkgs;[ mpc_cli ncmpcpp ];
@@ -130,7 +140,7 @@
       # <stockholm/makefu/2configs/deployment/hound>
       # <stockholm/makefu/2configs/deployment/photostore.krebsco.de.nix>
       # <stockholm/makefu/2configs/deployment/bureautomation/hass.nix>
-      <stockholm/makefu/2configs/bureautomation/office-radio>
+      # <stockholm/makefu/2configs/bureautomation/office-radio>
 
       # Krebs
       <stockholm/makefu/2configs/tinc/retiolum.nix>
@@ -146,7 +156,7 @@
       <stockholm/makefu/2configs/mail-client.nix>
       <stockholm/makefu/2configs/printer.nix>
       # <stockholm/makefu/2configs/syncthing.nix>
-      <stockholm/makefu/2configs/sync>
+      # <stockholm/makefu/2configs/sync>
 
       # Virtualization
       # <stockholm/makefu/2configs/virtualisation/libvirt.nix>
@@ -179,6 +189,7 @@
 
       # temporary
       # { services.redis.enable = true; }
+      # citadel exporter
       # { services.mongodb.enable = true; }
       # { services.elasticsearch.enable = true; }
       # <stockholm/makefu/2configs/deployment/nixos.wiki>
@@ -189,27 +200,28 @@
       # <stockholm/makefu/2configs/lanparty/lancache-dns.nix>
       # <stockholm/makefu/2configs/lanparty/samba.nix>
       # <stockholm/makefu/2configs/lanparty/mumble-server.nix>
+      <stockholm/makefu/2configs/wireguard/wiregrill.nix>
 
-      {
-        networking.wireguard.interfaces.wg0 = {
-          ips = [ "10.244.0.2/24" ];
-          privateKeyFile = (toString <secrets>) + "/wireguard.key";
-          allowedIPsAsRoutes = true;
-          peers = [
-          {
-            # gum
-            endpoint = "${config.krebs.hosts.gum.nets.internet.ip4.addr}:51820";
-            allowedIPs = [ "10.244.0.0/24" ];
-            publicKey = "yAKvxTvcEVdn+MeKsmptZkR3XSEue+wSyLxwcjBYxxo=";
-          }
-          #{
-          #  # vbob
-          #  allowedIPs = [ "10.244.0.3/32" ];
-          #  publicKey = "Lju7EsCu1OWXhkhdNR7c/uiN60nr0TUPHQ+s8ULPQTw=";
-          #}
-          ];
-        };
-      }
+#      {
+#        networking.wireguard.interfaces.wg0 = {
+#          ips = [ "10.244.0.2/24" ];
+#          privateKeyFile = (toString <secrets>) + "/wireguard.key";
+#          allowedIPsAsRoutes = true;
+#          peers = [
+#          {
+#            # gum
+#            endpoint = "${config.krebs.hosts.gum.nets.internet.ip4.addr}:51820";
+#            allowedIPs = [ "10.244.0.0/24" ];
+#            publicKey = "yAKvxTvcEVdn+MeKsmptZkR3XSEue+wSyLxwcjBYxxo=";
+#          }
+#          #{
+#          #  # vbob
+#          #  allowedIPs = [ "10.244.0.3/32" ];
+#          #  publicKey = "Lju7EsCu1OWXhkhdNR7c/uiN60nr0TUPHQ+s8ULPQTw=";
+#          #}
+#          ];
+#        };
+#      }
     ];
 
 
