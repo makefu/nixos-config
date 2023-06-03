@@ -15,12 +15,12 @@ in mkIf (hasAttr "wiregrill" config.krebs.build.host.nets) {
     "net.ipv6.conf.all.forwarding" = 1;
     "net.ipv4.conf.all.forwarding" = 1;
   };
-  networking.nat =  mkIf isRouter {
-    enable = true;
-    enableIPv6 = true;
-    externalInterface = ext-if;
-    internalInterfaces = [ "wiregrill" ];
-  };
+  #networking.nat =  mkIf isRouter {
+  #  enable = true;
+  #  enableIPv6 = true;
+  #  externalInterface = ext-if;
+  #  internalInterfaces = [ "wiregrill" ];
+  #};
 
   networking.firewall = {
     allowedUDPPorts = [ self.wireguard.port ];
@@ -40,30 +40,48 @@ in mkIf (hasAttr "wiregrill" config.krebs.build.host.nets) {
     servers = [ "1.1.1.1" ];
   };
 
-  networking.wireguard.interfaces.wiregrill = {
-    postSetup = optionalString isRouter ''
-        ${pkgs.iptables}/bin/iptables -t nat -A PREROUTING -s 10.244.245.0/24 -j ACCEPT
-        ${pkgs.iptables}/bin/iptables -t nat -A POSTROUTING -s 10.244.245.0/24 ! -d 10.244.245.0/24 -j MASQUERADE
-        ${pkgs.iptables}/bin/iptables -A FORWARD -i wiregrill -o retiolum -j ACCEPT
-        ${pkgs.iptables}/bin/iptables -A FORWARD -i retiolum -o wiregrill -j ACCEPT
+  networking.wireguard.interfaces.wiregrill = let 
+    ipt = "${pkgs.iptables}/bin/iptables";
+    ip6 = "${pkgs.iptables}/bin/ip6tables";
+  in {
+    postSetup = ''
+        ${ipt} -A FORWARD -i wiregrill -o retiolum -j ACCEPT
+        ${ipt} -A FORWARD -i wiregrill -o wiregrill -j ACCEPT
+        ${ipt} -A FORWARD -o wiregrill -m conntrack --ctstate RELATED,ESTABLISHED -j ACCEPT
+        ${ip6} -A FORWARD -i wiregrill -o retiolum -j ACCEPT
+        ${ip6} -A FORWARD -i retiolum -o wiregrill -j ACCEPT
+        ${ip6} -A FORWARD -i wiregrill -o wiregrill -j ACCEPT
+        ${ip6} -A FORWARD -o wiregrill -m conntrack --ctstate RELATED,ESTABLISHED -j ACCEPT
 
-        ${pkgs.iptables}/bin/ip6tables -t nat -A PREROUTING -s 42:1::/32 -j ACCEPT
-        ${pkgs.iptables}/bin/ip6tables -t nat -A POSTROUTING -s 42:1::/32 ! -d 42:1::/48 -j MASQUERADE
-        ${pkgs.iptables}/bin/ip6tables -A FORWARD -i wiregrill -o retiolum -j ACCEPT
-        ${pkgs.iptables}/bin/ip6tables -A FORWARD -i retiolum -o wiregrill -j ACCEPT
-    '';
+    '' + (optionalString isRouter ''
+        #${ipt} -t nat -A PREROUTING -s 10.244.245.0/24 -j ACCEPT
+        #${ipt} -t nat -A POSTROUTING -s 10.244.245.0/24 ! -d 10.244.245.0/24 -j MASQUERADE
+
+        #${ip6} -t nat -A PREROUTING -s 42:1::/32 -j ACCEPT
+        #${ip6} -t nat -A POSTROUTING -s 42:1::/32 ! -d 42:1::/48 -j MASQUERADE
+    '');
 
       # This undoes the above command
-    postShutdown = optionalString isRouter ''
-        ${pkgs.iptables}/bin/iptables -t nat -D POSTROUTING -s 10.244.245.0/24 -o ${ext-if} -j MASQUERADE
-        ${pkgs.iptables}/bin/iptables -D FORWARD -i wiregrill -o retiolum -j ACCEPT
-        ${pkgs.iptables}/bin/iptables -D FORWARD -i retiolum -o wiregrill -j ACCEPT
+      postShutdown = ''
+        ${ipt} -D FORWARD -i wiregrill -o retiolum -j ACCEPT
+        ${ipt} -D FORWARD -i retiolum -o wiregrill -j ACCEPT
+        ${ipt} -D FORWARD -i wiregrill -o wiregrill -j ACCEPT
+        ${ipt} -D FORWARD -i wiregrill -o wiregrill -j ACCEPT
+        ${ipt} -D FORWARD -o wiregrill -m conntrack --ctstate RELATED,ESTABLISHED -j ACCEPT
 
-        ${pkgs.iptables}/bin/ip6tables -t nat -D PREROUTING -s 42:1::/32 -j ACCEPT
-        ${pkgs.iptables}/bin/ip6tables -t nat -D POSTROUTING -s 42:1::/32 ! -d 42:1::/48 -j MASQUERADE
-        ${pkgs.iptables}/bin/ip6tables -D FORWARD -i wiregrill -o retiolum -j ACCEPT
-        ${pkgs.iptables}/bin/ip6tables -D FORWARD -i retiolum -o wiregrill -j ACCEPT
-    '' ;
+        ${ip6} -D FORWARD -i wiregrill -o retiolum -j ACCEPT
+        ${ip6} -D FORWARD -i retiolum -o wiregrill -j ACCEPT
+        ${ip6} -D FORWARD -i wiregrill -o wiregrill -j ACCEPT
+        ${ip6} -D FORWARD -o wiregrill -m conntrack --ctstate RELATED,ESTABLISHED -j ACCEPT
+
+      '' + (optionalString isRouter ''
+
+        ${ipt} -t nat -D PREROUTING -s 10.244.245.0/24 -j ACCEPT
+        ${ipt} -t nat -D POSTROUTING -s 10.244.245.0/24 -j MASQUERADE
+
+        #${ip6} -t nat -D PREROUTING -s 42:1::/32 -j ACCEPT
+        #${ip6} -t nat -D POSTROUTING -s 42:1::/32 ! -d 42:1::/48 -j MASQUERADE
+    '' );
     ips =
       (optional (!isNull self.ip4) self.ip4.addr) ++
       (optional (!isNull self.ip6) self.ip6.addr);

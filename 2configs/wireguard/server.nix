@@ -17,7 +17,6 @@ in { # wireguard server
     externalInterface = ext-if;
     internalInterfaces = [ "wg0" ];
   };
-
   networking.wireguard.interfaces.wg0 = {
     ips = [ "10.244.0.1/24" ];
     listenPort = 51820;
