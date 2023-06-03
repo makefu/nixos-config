@@ -9,8 +9,7 @@ in
     MusicFolder = "/media/cryptX/music/kinder";
     Address = "0.0.0.0";
   };
-  systemd.services.navidrome.after = [ "media-cryptX.mount" "cryptsetup.target"
-"local-fs.target" "remote-fs.target" ];
+  systemd.services.navidrome.serviceConfig.RequiresMountFor = [ "/media/cryptX" ];
 
   state = [ "/var/lib/navidrome" ];
   # networking.firewall.allowedTCPPorts = [ 4040 ];

@@ -27,12 +27,11 @@ in
       #}
       { delay.seconds = 1; }
       { delay = ''
-        {% set duration = state_attr("${entity}","media_duration") %}
-        {% set seconds = duration % 60 %}
+        {% set duration = state_attr("${entity}","media_duration") or 0 %}
+        {% set seconds = (duration % 60 ) %}
         {% set minutes = (duration / 60)|int % 60 %}
         {% set hours = (duration / 3600)|int %}
         {{ "%02i:%02i:%02i"|format(hours, minutes, seconds)}}
-
         '';
       }
       {

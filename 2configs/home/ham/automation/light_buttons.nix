@@ -1,10 +1,12 @@
 
 let
   inherit (import ../lib) btn_cycle_light;
+  schlafzimmer_komode = "light.schlafzimmer_komode_osram";
+  schlafzimmer_button = "sensor.schlafzimmer_btn2_click";
 in {
   services.home-assistant.config.automation = [
     # (btn_cycle_light "light.arbeitszimmerbeleuchtung" "arbeitszimmer_btn1")
-    (btn_cycle_light "light.schlafzimmer_komode_osram" "schlafzimmer_btn2" 128)
+
     {
       alias = "toggle keller";
       trigger = {
@@ -32,21 +34,35 @@ in {
         service = "light.toggle";
         data = {
           entity_id = "light.keller_osram";
-          brightness = 50;
+          brightness = 25;
         };
       };
     }
     # (btn_cycle_light "light.wohnzimmerbeleuchtung" "wohnzimmer_btn3")
     {
-      alias = "Turn of all lights via schlafzimmer_btn2 double click";
+      alias = "Dim Toggle schlafzimmer komode";
       trigger = {
         platform = "state";
-        entity_id = "sensor.schlafzimmer_btn2_click";
+        entity_id = schlafzimmer_button;
+        to = "single";
+      };
+      action = {
+        service = "light.toggle";
+        entity_id = schlafzimmer_komode;
+        brightness = 1;
+      };
+    }
+    {
+      alias = "Bright Toggle schlafzimmer komode";
+      trigger = {
+        platform = "state";
+        entity_id = schlafzimmer_button;
         to = "double";
       };
       action = {
-        service = "light.turn_off";
-        entity_id = "all";
+        service = "light.toggle";
+        entity_id = schlafzimmer_komode;
+        brightness = 255;
       };
     }
   ];

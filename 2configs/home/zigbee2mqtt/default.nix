@@ -32,6 +32,10 @@ in
         include_device_information = true;
         client_id = "zigbee2mqtt";
       };
+      availability = {
+        active.timeout = 10;
+        passive.timeout = 1500;
+      };
       frontend = {
         port = webport;
       };

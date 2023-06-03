@@ -2,13 +2,7 @@
 {% set weekday = ['Montag','Dienstag','Mittwoch','Donnerstag','Freitag','Samstag','Sonntag'][now().weekday()] -%}
 {% set is_friday = now().weekday() == 4 %}
 
-{% if not arbeit_heute %}
-Heute ist {{ weekday }}, du solltest gar nicht arbeiten!
-{% else %}
-Willkommen auf Arbeit Felix. 
-{% endif -%}
-Dein Projekt ist {{ states("sensor.felix_project") }}.
-
+Dies ist deine Persönliche Zusammenfassung
 {% set inside = states("sensor.wohnzimmer_temp_temperature") | float | round(2) -%}
 {% set outside = states("sensor.dark_sky_temperature") | float | round(2) -%}
 {% set arbeit_morgen = is_state("binary_sensor.arbeitstag_morgen","on")  -%}
@@ -40,6 +34,4 @@ Wetterwarnung {{idx}}: {{ headline }} Stufe {{level}} von {{ time_start.strftime
 
 {% if is_friday %}
 Endlich ist Freitag!
-{% elif not arbeit_morgen %}
-Morgen ist Feiertag, also nicht versehentlich arbeiten
 {% endif -%}

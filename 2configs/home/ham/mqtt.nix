@@ -5,7 +5,7 @@
   services.mosquitto = {
     enable = true;
     persistence = false;
-    settings.max_keepalive = 60;
+    settings.max_keepalive = 1060;
     listeners = [
       {
         port = 1883;

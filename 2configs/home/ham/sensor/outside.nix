@@ -40,5 +40,16 @@
     { platform = "accuweather";
       api_key = "!secret accuweather";
     }
+    { platform = "scrape";
+      resource = "https://www.swr.de/wetter/wetter-liste-swr-100.html";
+      name = "SWR Prognose";
+      select = "p[data-refresh=\"weather-headline\"]";
+    }
+    { platform = "scrape";
+      resource = "https://www.swr.de/wetter/wetter-liste-swr-100.html";
+      name = "SWR Prognose Langtext";
+      select = "p[data-refresh=\"weather-text\"]";
+    }
+
   ];
 }

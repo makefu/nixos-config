@@ -9,128 +9,80 @@
 let
   button = "sensor.zigbee_btn2_click";
   notify = "notify.signal_home";
+  # für {{ _intent.siteId }} - name of the rhasspy instance: arbeitszimmer
 in
 {
   services.home-assistant.config = {
-    timer.kurzzeitwecker =
-    {
-      name = "Zigbee Kurzzeitwecker";
-      duration = 300;
+    automation = [];
+    timer.kurzzeitwecker = {
+      name = "Wecker Wohnung";
     };
-      script.add_5_minutes_to_kurzzeitwecker =
-      {
-          alias = "Add 5 minutes to kurzzeitwecker";
-          sequence = [
-            { service = "timer.pause";
-            entity_id = "timer.kurzzeitwecker";
-          }
-          { service = "timer.start";
-            data_template = {
-              entity_id = "timer.kurzzeitwecker";
-              duration = ''
-                {% set r = state_attr('timer.kurzzeitwecker', 'remaining') ~ '-0000' %}
-                {% set t = strptime(r, '%H:%M:%S.%f%z') %}
-                {{ (as_timestamp(t) + 300) | timestamp_custom('%H:%M:%S', false) }}
-              '';
-          };
-        }
-      ];
+    timer.wecker_arbeitszimmer = {
+      name = "Wecker Arbeitszimmer";
     };
-    automation =
-    [
-      {
-        alias = "Start Timer 5min";
-        trigger = {
-          platform = "state";
-          entity_id = button;
-          to =  "single";
-        };
-        condition =
-            { condition = "state";
-              entity_id = "timer.kurzzeitwecker";
-              state =  "idle";
-            };
+    timer.wecker_wohnzimmer = {
+      name = "Wecker Wohnzimmer";
+    };
+    intent = {};
+    intent_script = {
+      TimerjobStart = {
+        speech.text = ''
+          {% set h = hours|default('0')|string %}
+          {% set m = minutes|default('0')|string %}
+          {% if h == "0" %}
+          Wecker  gestellt {{ m }} Minuten
+          {% elif m == "0" %}
+          Wecker gestellt {{ h }} Stunden
+          {% else %}
+          Wecker gestellt {{ h }} Stunden und {{ m }} Minuten
+          {% endif %}
+        '';
+        action = [
+          {
+            service = "timer.start";
+            
+            data.entity_id = "timer.kurzzeitwecker";
+            data.duration = ''
+              {% set h = hours|default("0")|int %}
+              {% set m = minutes|default("0")|int %}
+              {{ "%02d" | format(h) }}:{{ "%02d" | format(m) }}:00
+            '';
 
+          }
+        ];
+      };
+      TimerjobRemaining = {
+        speech.text = ''
+          {% set timer = states('timer.kurzzeitwecker') %}
+          {% if timer == 'idle' %}
+          Wecker läuft nicht
+          {% elif timer == 'active' %}
+            {% set remaining = as_timestamp( state_attr('timer.kurzzeitwecker','finishes_at') )-(  as_timestamp(now()))   %}
+            {% set s = ((remaining % 60)) | int %}
+            {% set m = ((remaining % 3600) / 60) | int %}
+            {% set h = ((remaining % 86400) / 3600) | int %}
+            {% if h == 0 %}
+              Es verbleiben {{ m }} Minuten und {{ s }} Sekunden
+            {% elif m == 0 %}
+              Es verbleiben {{ h }} Stunden
+            {% elif m == 0 and h == 0 %}
+              Es verbleiben {{ s }} Sekunden
+            {% else %}
+              Es verbleiben {{ h }} Stunden {{ m }} Minuten
+            {% endif %}
+          {% endif %}
+        '';
+      };
+      TimerjobStop = {
+        speech.text = ''
+          Wecker gestoppt
+        '';
         action = [
-          { service = "timer.start";
-            entity_id =  "timer.kurzzeitwecker";
-            data.duration = "00:05:00";
-          }
-          {
-            service = notify;
-            data.message = "Timer gestartet {{state_attr('timer.kurzzeitwecker', 'remaining') }}, verbleibend ";
+          { service = "timer.cancel";
+            data.entity_id = "timer.kurzzeitwecker";
           }
         ];
-      }
-      {
-        alias = "Add Timer 5min";
-        trigger = {
-          platform = "state";
-          entity_id = button;
-          to =  "single";
-        };
-        condition =
-            { condition = "state";
-              entity_id = "timer.kurzzeitwecker";
-              state =  "active";
-            };
-
-        action = [
-          { service = "homeassistant.turn_on";
-            entity_id =  "script.add_5_minutes_to_kurzzeitwecker";
-          }
-          {
-            service = notify;
-            data.message = ''Timer um 5 minuten verlängert, {{ state_attr('timer.kurzzeitwecker', 'remaining') | truncate(9,True," ") }} verbleibend '';
-          }
-        ];
-      }
-      {
-        alias = "Stop timer on double click";
-        trigger = [
-          {
-            platform = "state";
-            entity_id = button;
-            to =  "double";
-          }
-          {
-            platform = "state";
-            entity_id = button;
-            to =  "triple";
-          }
-        ];
-        condition =
-        {
-          condition = "state";
-          entity_id = "timer.kurzzeitwecker";
-          state =  "active";
-        };
-
-        action = [
-          {
-            service = "timer.cancel";
-            entity_id =  "timer.kurzzeitwecker";
-          }
-          {
-            service = notify;
-            data.message = "Timer gestoppt, abgebrochen";
-          }
-        ];
-      }
-      {
-        alias = "Timer Finished";
-        trigger = {
-          platform = "event";
-          event_type = "timer.finished";
-          event_data.entity_id = "timer.kurzzeitwecker";
-        };
-        action = [
-          {
-            service = notify;
-            data.message = "Timer beendet";
-          }
-        ];
-      }
-    ];
+      };
+    };
   };
 }

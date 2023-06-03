@@ -1,8 +1,12 @@
 { pkgs, ... }:
+let
+  #dev = "/dev/web_cam";
+  dev = "/dev/video0";
+in
 {
   services.mjpg-streamer = {
     enable = true;
-    inputPlugin = "input_uvc.so -d /dev/web_cam -r 1280x960";
+    inputPlugin = "input_uvc.so -d ${dev} -r 1280x960";
   };
   users.users.octoprint.extraGroups = [ "video" ];
   # allow octoprint to access /dev/vchiq

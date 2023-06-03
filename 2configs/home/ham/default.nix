@@ -17,6 +17,7 @@ in {
     ./zigbee2mqtt.nix
     # ./multi/flurlicht.nix
     ./multi/kurzzeitwecker.nix
+    ./intents
     ./multi/the_playlist.nix
     ./multi/heizung.nix
     # ./multi/fliegen-couter.nix
@@ -92,6 +93,7 @@ in {
           { type = "homeassistant"; }
         ];
       };
+      tasmota = {};
       binary_sensor  = [
         { platform = "workday";
           name = "Arbeitstag";

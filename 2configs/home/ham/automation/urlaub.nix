@@ -6,7 +6,7 @@
 let
   schranklicht = [
     "light.wohnzimmer_schrank_osram"
-    "light.wohnzimmer_komode_osram"
+    # "light.wohnzimmer_komode_osram"
   ];
   weihnachtslicht = "light.wohnzimmer_fenster_lichterkette_licht";
   fernsehlicht = "light.wled";
@@ -31,8 +31,8 @@ in
     automation =
     [
       (turn_on schranklicht "-00:30:00")
-      #(turn_on weihnachtslicht "-00:30:00")
-      (turn_on fernsehlicht "-00:00:00")
+      (turn_on weihnachtslicht "-00:00:00")
+      #(turn_on fernsehlicht "-00:00:00")
 
       { alias = "Always turn off the urlaub lights at ${final_off}";
         trigger = [
