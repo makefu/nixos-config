@@ -31,6 +31,7 @@ with import <stockholm/lib>;
     };
   };
   nix.settings.trusted-users = [ config.krebs.build.user.name ];
+  nix.settings.experimental-features = [ "flakes" "nix-command" ];
 
   boot.kernelPackages = lib.mkDefault pkgs.linuxPackages;
 
