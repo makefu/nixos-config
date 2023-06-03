@@ -17,5 +17,6 @@
     xorg.xbacklight
     scrot
     libnotify
+    thunderbird
   ];
 }

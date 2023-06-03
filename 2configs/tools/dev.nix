@@ -14,6 +14,7 @@
     gi
     flashrom
     mosquitto
+    pwqgen-ger
     # esphome # broken
 
     # nix related
