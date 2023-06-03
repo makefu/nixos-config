@@ -2,7 +2,7 @@
 
 0.  Sendung twittern und mastodieren (eine Woche + eine Stunde vorher) von Ingo/l33tname (wichtig)
 1.  `eine` Person anrufen (den Host):
-   - markus      162dcbf89f@studio.link
+   - markus      madmas@studio.link
    - Felix1      makefu@studio.link
    - L33tFelix   l33tname@studio.link
    - Ingo        ingo@studio.link
