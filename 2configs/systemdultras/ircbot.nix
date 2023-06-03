@@ -26,8 +26,8 @@
           feed = "https://www.reddit.com/r/systemd/.rss";
           delay = 272;
         };
-        r-pid_eins-twitter = {
-          feed = "http://rss.makefu.r/?action=display&bridge=Twitter&context=By+username&u=pid_eins&format=Atom";
+        r-pid_eins-mastodon = {
+          feed = "https://mastodon.social/users/pid_eins.rss";
           delay = 621;
         };
       };
