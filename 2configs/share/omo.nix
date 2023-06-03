@@ -9,6 +9,7 @@ let
 in {
 
   # samba share /media/crypt1/share
+  systemd.services.samba-smbd.serviceConfig.RequiresMountFor = [ "/media/cryptX" ];
   users.users.smbguest = {
     name = "smbguest";
     uid = config.ids.uids.smbguest;

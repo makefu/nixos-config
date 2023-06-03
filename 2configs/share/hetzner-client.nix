@@ -3,7 +3,7 @@
 with <stockholm/lib>;
 let
   automount_opts =
-  ["nofail" "noempty"
+  ["nofail"
   ];
   host = "u288834.your-storagebox.de";
 in {

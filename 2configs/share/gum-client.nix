@@ -6,7 +6,7 @@ let
     "x-systemd.idle-timeout=300"
     "x-systemd.mount-timeout=60s"
   ];
-  host = "gum"; #TODO
+  host = "gum.w"; #TODO
 in {
   boot.extraModprobeConfig = ''
     options cifs CIFSMaxBufSize=130048
