@@ -32,8 +32,6 @@ in {
       <stockholm/makefu/2configs/share>
       # <stockholm/makefu/2configs/share/hetzner-client.nix>
 
-      # Services:
-      <stockholm/makefu/2configs/nix-community/mediawiki-matrix-bot.nix>
 
       # torrent is managed by gum
       # <stockholm/makefu/2configs/torrent/rtorrent.nix>
