@@ -13,10 +13,4 @@ in
     #  user = mainUser;
     #};
   };
-  home-manager.users.${mainUser}.services.gammastep = {
-    enable = true;
-    provider = "manual";
-    latitude = config.location.latitude;
-    longitude = config.location.longitude;
-  };
 }
