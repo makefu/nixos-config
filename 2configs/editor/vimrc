@@ -49,7 +49,6 @@ set matchtime=3
 set hlsearch
 
 autocmd ColorScheme * highlight ExtraWhitespace ctermbg=red guibg=red
-hi MatchParen cterm=none ctermbg=green ctermfg=blue
 
 let g:better_whitespace_enabled=1
 let g:strip_whitespace_on_save=1
@@ -114,3 +113,5 @@ let g:UltiSnipsExpandTrigger       = "<c-j>"
 let g:UltiSnipsJumpForwardTrigger  = "<c-j>"
 let g:UltiSnipsJumpBackwardTrigger = "<c-p>"
 let g:UltiSnipsListSnippets        = "<c-k>" "List possible snippets based on current file
+
+hi MatchParen cterm=none ctermbg=green ctermfg=blue

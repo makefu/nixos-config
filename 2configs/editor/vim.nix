@@ -12,7 +12,7 @@
         #"UltiSnips"
         # vim-nix handles indentation better but does not perform sanity
           "vim-nix"
-        # "vim-addon-nix"
+          "vim-addon-nix"
           "vim-better-whitespace"
       ];
       };
