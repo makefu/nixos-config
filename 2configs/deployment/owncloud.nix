@@ -59,7 +59,7 @@ systemd.services.postgresqlBackup-nextcloud.serviceConfig.SupplementaryGroups = 
   users.users.nextcloud.extraGroups = [ "download" ];
   services.nextcloud = {
     enable = true;
-    package = pkgs.nextcloud24;
+    package = pkgs.nextcloud25;
     hostName = "o.euer.krebsco.de";
     # Use HTTPS for links
     https = true;
@@ -97,5 +97,11 @@ systemd.services.postgresqlBackup-nextcloud.serviceConfig.SupplementaryGroups = 
   systemd.services."nextcloud-setup" = {
     requires = ["postgresql.service"];
     after = ["postgresql.service"];
+    serviceConfig.RequiresMountFor = [ "/media/cloud" ];
   };
+  systemd.services."phpfpm-nextcloud".serviceConfig.RequiresMountFor = [
+    "/media/cloud"
+    "/var/lib/nextcloud/data"
+  ];
+  systemd.services."phpfpm".serviceConfig.RequiresMountFor = [ "/media/cloud" ];
 }
