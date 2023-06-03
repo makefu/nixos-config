@@ -12,7 +12,7 @@ let
 in {
   imports = [
     ./gui/base.nix
-    ./gui/look-up.nix
+    # ./gui/look-up.nix
     ./fetchWallpaper.nix
     ./zsh-user.nix
     ./tools/core.nix
@@ -69,7 +69,6 @@ in {
   };
   security.sudo.extraConfig = "${config.krebs.power-action.user} ALL= (root) NOPASSWD: ${pkgs.systemd}/bin/systemctl suspend";
 
-  services.redshift.enable = true;
   location.latitude = 48.7;
   location.longitude = 9.1;
 
