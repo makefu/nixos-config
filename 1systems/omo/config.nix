@@ -54,17 +54,19 @@ in {
       <stockholm/makefu/2configs/share/omo.nix>
       <stockholm/makefu/2configs/share/gum-client.nix>
       <stockholm/makefu/2configs/sync>
-      <stockholm/makefu/2configs/dcpp/airdcpp.nix>
-      { krebs.airdcpp.dcpp.shares = let
-          d = path: "/media/cryptX/${path}";
-        in {
-          emu.path = d "emu";
-          audiobooks.path = lib.mkForce (d "audiobooks");
-          incoming.path = lib.mkForce (d "torrent");
-          anime.path = d "anime";
-        };
-        krebs.airdcpp.dcpp.DownloadDirectory = "/media/cryptX/torrent/dcpp";
-      }
+
+      <stockholm/makefu/2configs/wireguard/wiregrill.nix>
+      #<stockholm/makefu/2configs/dcpp/airdcpp.nix>
+      #{ krebs.airdcpp.dcpp.shares = let
+      #    d = path: "/media/cryptX/${path}";
+      #  in {
+      #    emu.path = d "emu";
+      #    audiobooks.path = lib.mkForce (d "audiobooks");
+      #    incoming.path = lib.mkForce (d "torrent");
+      #    anime.path = d "anime";
+      #  };
+      #  krebs.airdcpp.dcpp.DownloadDirectory = "/media/cryptX/torrent/dcpp";
+      #}
       {
         # copy config from <secrets/sabnzbd.ini> to /var/lib/sabnzbd/
         #services.sabnzbd.enable = true;
@@ -84,12 +86,12 @@ in {
       <stockholm/makefu/2configs/stats/telegraf>
       # <stockholm/makefu/2configs/stats/telegraf/europastats.nix>
       <stockholm/makefu/2configs/stats/telegraf/hamstats.nix>
-      # <stockholm/makefu/2configs/stats/arafetch.nix>
+      <stockholm/makefu/2configs/hw/cdrip.nix>
 
       # services
       {
         services.nginx.enable = true;
-        networking.firewall.allowedTCPPorts = [ 80 ];
+        networking.firewall.allowedTCPPorts = [ 80 8123 ];
       }
       # <stockholm/makefu/2configs/syncthing.nix>
       <stockholm/makefu/2configs/remote-build/slave.nix>
@@ -100,10 +102,11 @@ in {
       <stockholm/makefu/2configs/home/jellyfin.nix>
       <stockholm/makefu/2configs/home/music.nix>
       <stockholm/makefu/2configs/home/photoprism.nix>
-      <stockholm/makefu/2configs/home/tonie.nix>
+      # <stockholm/makefu/2configs/home/tonie.nix>
       <stockholm/makefu/2configs/home/ps4srv.nix>
       # <stockholm/makefu/2configs/home/metube.nix>
-      <stockholm/makefu/2configs/home/ham>
+      # <stockholm/makefu/2configs/home/ham>
+      <stockholm/makefu/2configs/home/ham/docker.nix>
       <stockholm/makefu/2configs/home/zigbee2mqtt>
       {
         makefu.ps3netsrv = {
