@@ -1,12 +1,16 @@
 { lib, pkgs, python3Packages, makeWrapper, ... }:
 
 # How to use:
-# create configuration .config/HermesLedControl/configuration.yml:
+# create configuration configuration.yml:
 #   engine: "rhasspy"
 #   pathToConfig: "/var/lib/rhasspy/de/profile.json"
 #   hardware: "respeaker4MicArray"
 #   pattern: "fake-name"
 #   enableDoA: false
+# and run HermesLedControl --hermesLedControlConfig path-to-config.yml
+
+# all available config options can be see in:
+#   result/result/lib/HermesLedControl/models/Configuration.py
 
 
 with python3Packages; buildPythonApplication rec {
