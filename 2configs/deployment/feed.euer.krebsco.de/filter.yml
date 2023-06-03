@@ -26,18 +26,6 @@
   zipcode: 70378
   q: Werkbank
   distance: 5
-- name: Stirnthermometer
-  zipcode: 70378
-  q: Stirnthermometer
-  distance: 5
-- name: Ohrthermometer
-  zipcode: 70378
-  q: Ohrthermometer
-  distance: 5
-- name: Fieberthermometer
-  zipcode: 70378
-  q: Fieberthermometer
-  distance: 5
 - name: Einhell
   zipcode: 70378
   q: Einhell

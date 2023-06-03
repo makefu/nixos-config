@@ -16,6 +16,10 @@ in {
     enable = true;
     databases = [ config.services.tt-rss.database.name ];
   };
+  systemd.services.tt-rss.serviceConfig =  {
+    Restart = lib.mkForce "always";
+  };
+
   systemd.services.postgresqlBackup-tt_rss.serviceConfig.SupplementaryGroups = [ "download" ];
 
   services.nginx.virtualHosts."${fqdn}" = {
