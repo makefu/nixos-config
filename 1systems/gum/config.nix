@@ -10,6 +10,12 @@ in {
       <stockholm/makefu>
       ./hetznercloud
       {
+        # wait for mount
+        systemd.services.rtorrent.wantedBy = lib.mkForce [];
+        systemd.services.phpfpm-nextcloud.wantedBy = lib.mkForce [];
+        systemd.services.samba-smbd.wantedBy = lib.mkForce [];
+      }
+      {
         users.users.lass = {
           uid = 19002;
           isNormalUser = true;
@@ -140,6 +146,7 @@ in {
       <stockholm/makefu/2configs/deployment/rss/rss.euer.krebsco.de.nix> # postgres backend
       <stockholm/makefu/2configs/deployment/rss/ratt.nix>
 
+      <stockholm/makefu/2configs/deployment/ntfysh.nix>
       <stockholm/makefu/2configs/deployment/owncloud.nix> #postgres backend
       ### Moving owncloud data dir to /media/cloud/nextcloud-data
       {
@@ -185,7 +192,7 @@ in {
       <stockholm/makefu/2configs/bgt/etherpad.euer.krebsco.de.nix>
       # <stockholm/makefu/2configs/deployment/systemdultras-rss.nix>
 
-      # <stockholm/makefu/2configs/shiori.nix>
+      <stockholm/makefu/2configs/shiori.nix>
       #<stockholm/makefu/2configs/workadventure>
 
       <stockholm/makefu/2configs/bgt/download.binaergewitter.de.nix>
