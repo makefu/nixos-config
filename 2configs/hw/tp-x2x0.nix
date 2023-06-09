@@ -37,7 +37,7 @@
     emulateWheel = true;
   };
 
-  services.tlp.enable = true;
+  services.tlp.enable = ! config.services.power-profiles-daemon.enable;
   services.tlp.settings = {
     # BUG: http://linrunner.de/en/tlp/docs/tlp-faq.html#erratic-battery
     START_CHARGE_THRESH_BAT0 = 95;
