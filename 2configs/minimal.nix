@@ -1,4 +1,4 @@
-{ lib, pkgs, config, ... }:
+{ lib, pkgs, config, nixpkgs, ... }:
 # minimal subset of sane configuration for stockholm
 {
   # nobody needs this
@@ -25,12 +25,11 @@
   services.openssh.enable = true;
 
   # we use stockholm via populate
-  nix.nixPath = [ "/var/src" ];
+  nix.nixPath = [ "nixpkgs=${nixpkgs}"  ];
 
   environment.variables = let
     ca-bundle = "${pkgs.cacert}/etc/ssl/certs/ca-bundle.crt";
   in {
-    NIX_PATH = lib.mkForce "/var/src";
     EDITOR = lib.mkForce "vim";
     CURL_CA_BUNDLE = ca-bundle;
     GIT_SSL_CAINFO = ca-bundle;
