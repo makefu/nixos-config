@@ -44,7 +44,7 @@
     nixosConfigurations.x = nixpkgs.lib.nixosSystem rec {
       system = "x86_64-linux";
       specialArgs = {
-        inherit (inputs) nixos-hardware self stockholm;
+        inherit (inputs) nixos-hardware self stockholm nixpkgs;
         pkgs = import nixpkgs {
           inherit system;
           config.allowUnfree = true;
