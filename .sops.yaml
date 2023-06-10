@@ -6,12 +6,12 @@ creation_rules:
     key_groups:
     - pgp:
       - *makefu
-    - age:
+      age:
       - *x_host
   # host secrets
   - path_regex: 1systems/x/[^/]+\.yaml$
     key_groups:
     - pgp:
       - *makefu
-    - age:
+      age:
       - *x_host
