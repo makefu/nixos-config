@@ -1,13 +1,14 @@
-{ config, pkgs, lib, ... }:
+{ config, pkgs, lib, self, ... }:
 {
   imports =
     [
 
-      # ./x13
       # ./x230
+      ./x13
+
+      (self + "/2configs/default.nix")
 
       ## Common Hardware Components
-      #<nix-ld/modules/nix-ld.nix>
       ## <stockholm/makefu/2configs/hw/mceusb.nix>
       ## <stockholm/makefu/2configs/hw/rtl8812au.nix>
       #<stockholm/makefu/2configs/hw/network-manager.nix>
@@ -222,34 +223,32 @@
   nixpkgs.config.allowUnfree = true;
   nixpkgs.config.oraclejdk.accept_license = true;
 
-  environment.systemPackages = [ xxx ]; 
-
   # configure pulseAudio to provide a HDMI sink as well
   networking.firewall.enable = true;
   networking.firewall.allowedUDPPorts = [ 665 26061 1514 ];
   networking.firewall.trustedInterfaces = [ "vboxnet0" "enp0s25" ];
 
-  # krebs.build.host = config.krebs.hosts.x;
+  krebs.build.host = config.krebs.hosts.x;
 
   #krebs.tinc.retiolum.connectTo = lib.mkForce [ "gum" ];
   #krebs.tinc.retiolum.extraConfig = "AutoConnect = no";
 
   # environment.variables = { GOROOT = [ "${pkgs.go.out}/share/go" ]; };
-  #state = [
-  #  "/home/makefu/stockholm"
-  #  "/home/makefu/.ssh/"
-  #  "/home/makefu/.zsh_history"
-  #  "/home/makefu/.bash_history"
-  #  "/home/makefu/bin"
-  #  "/home/makefu/.gnupg"
-  #  "/home/makefu/.imapfilter"
-  #  "/home/makefu/.mutt"
-  #  "/home/makefu/docs"
-  #  "/home/makefu/notes"
-  #  "/home/makefu/.password-store"
-  #  "/home/makefu/.secrets-pass"
-  #  "/home/makefu/.config/syncthing"
-  #];
+  state = [
+    "/home/makefu/stockholm"
+    "/home/makefu/.ssh/"
+    "/home/makefu/.zsh_history"
+    "/home/makefu/.bash_history"
+    "/home/makefu/bin"
+    "/home/makefu/.gnupg"
+    "/home/makefu/.imapfilter"
+    "/home/makefu/.mutt"
+    "/home/makefu/docs"
+    "/home/makefu/notes"
+    "/home/makefu/.password-store"
+    "/home/makefu/.secrets-pass"
+    "/home/makefu/.config/syncthing"
+  ];
 
   # services.syncthing.user = lib.mkForce "makefu";
   # services.syncthing.dataDir = lib.mkForce "/home/makefu/.config/syncthing/";

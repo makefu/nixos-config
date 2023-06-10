@@ -14,6 +14,7 @@ in
     #};
   };
   programs.dconf.enable = true;
+
   home-manager.users.${mainUser}.dconf = {
     enable = true;
     settings = {

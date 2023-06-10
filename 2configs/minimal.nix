@@ -7,14 +7,13 @@
   # the only true timezone (even after the the removal of DST)
   time.timeZone = "Europe/Berlin";
 
-  networking.hostName = lib.mkIf (lib.hasAttr "host" config.krebs.build) config.krebs.build.host.name;
+  # networking.hostName = lib.mkIf (lib.hasAttr "host" config.krebs.build) config.krebs.build.host.name;
 
   # we use gpg if necessary (or nothing at all)
   programs.ssh.startAgent = false;
 
   # all boxes look the same
   nix.settings.sandbox = true;
-  nix.settings.cores = 0; # until https://github.com/NixOS/nixpkgs/pull/50440 is in stable
   # we configure users via nix
   users.mutableUsers = false;
 

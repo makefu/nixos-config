@@ -1,13 +1,9 @@
 { config, lib, pkgs, ... }:
 
-with import <stockholm/lib>;
+with lib;
 {
   imports = [
-    {
-      users.users =
-        mapAttrs (_: h: { hashedPassword = h; })
-                 (import <secrets/hashedPasswords.nix>);
-    }
+    ./secrets/user-passwords.nix
     ./editor/vim.nix
     ./binary-cache/nixos.nix
     ./minimal.nix
@@ -16,9 +12,7 @@ with import <stockholm/lib>;
 
   # users are super important
   users.users = {
-    root = {
-        openssh.authorizedKeys.keys = [ config.krebs.users.makefu.pubkey ];
-    };
+    root.openssh.authorizedKeys.keys = [ config.krebs.users.makefu.pubkey ];
     makefu = {
       uid = 9001;
       group = "users";
@@ -27,10 +21,10 @@ with import <stockholm/lib>;
       isNormalUser = true;
       useDefaultShell = true;
       extraGroups = [ "wheel" ];
-        openssh.authorizedKeys.keys = [ config.krebs.users.makefu.pubkey ];
+      openssh.authorizedKeys.keys = [ config.krebs.users.makefu.pubkey ];
     };
   };
-  nix.settings.trusted-users = [ config.krebs.build.user.name ];
+  # nix.settings.trusted-users = [ config.krebs.build.user.name ];
   nix.settings.experimental-features = [ "flakes" "nix-command" ];
 
   boot.kernelPackages = lib.mkDefault pkgs.linuxPackages;
@@ -39,13 +33,12 @@ with import <stockholm/lib>;
 
   krebs = {
     enable = true;
-
-    dns.providers.lan  = "hosts";
+  #   dns.providers.lan  = "hosts";
     build.user = config.krebs.users.makefu;
   };
 
 
-  boot.tmpOnTmpfs = true;
+  boot.tmp.useTmpfs = true;
 
   environment.systemPackages = with pkgs; [
       jq
@@ -91,6 +84,6 @@ with import <stockholm/lib>;
     defaults.email = "letsencrypt@syntax-fehler.de";
     acceptTerms = true;
   };
-  system.stateVersion = lib.mkDefault "20.03";
+  system.stateVersion = lib.mkDefault "23.05";
   services.postgresql.package = pkgs.postgresql_14;
 }
