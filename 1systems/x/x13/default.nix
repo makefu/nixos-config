@@ -1,15 +1,18 @@
-{ pkgs, lib, ... }:
+{ pkgs, lib, nixos-hardware, self, ... }:
 # new zfs deployment
 {
   imports = [
-    ./zfs.nix
     ./input.nix
+    ./disk.nix
     ./battery.nix
-    <stockholm/makefu/2configs/hw/bluetooth.nix>
-    <nixos-hardware/lenovo/thinkpad/l14/amd> # close enough
-    # <stockholm/makefu/2configs/hw/tpm.nix>
-    <stockholm/makefu/2configs/hw/ssd.nix>
-    # <stockholm/makefu/2configs/hw/xmm7360.nix>
+
+    (self + "/2configs/hw/bluetooth.nix")
+    (self + "/2configs/hw/tpm.nix")
+    (self + "/2configs/hw/ssd.nix")
+    # (self + "/2configs/hw/xmm7360.nix")
+
+    nixos-hardware.nixosModules.lenovo-thinkpad-l14-amd
+
   ];
   boot.zfs.requestEncryptionCredentials = true;
   networking.hostId = "f8b8e0a2";
@@ -24,9 +27,7 @@
   hardware.opengl.extraPackages = [ pkgs.amdvlk pkgs.rocm-opencl-icd pkgs.rocm-opencl-runtime ];
   # For 32 bit applications
   hardware.opengl.driSupport32Bit = true;
-  hardware.opengl.extraPackages32 = with pkgs; [
-    driversi686Linux.amdvlk
-  ];
+  hardware.opengl.extraPackages32 = with pkgs; [ driversi686Linux.amdvlk ];
   # is required for amd graphics support ( xorg wont boot otherwise )
   #boot.kernelPackages = pkgs.linuxPackages_latest;
   boot.kernelPackages = lib.mkForce pkgs.linuxPackages;

@@ -1,4 +1,7 @@
-{ disk ? "/dev/sda", ... }: {
+{ ... }: 
+let
+  disk = "/dev/nvme0n1";
+in {
   disko.devices = {
     disk = {
       nvme = {

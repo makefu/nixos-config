@@ -1,47 +1,41 @@
-#
-#
-#
-{ config, pkgs, lib, ... }:
+{ config, pkgs, lib, self, ... }:
 {
   imports =
     [
-      # hardware-dependent
-      # device
 
-
-      ./x13
       # ./x230
+      ./x13
 
-      # Common Hardware Components
-      <nix-ld/modules/nix-ld.nix>
-      # <stockholm/makefu/2configs/hw/mceusb.nix>
-      # <stockholm/makefu/2configs/hw/rtl8812au.nix>
-      <stockholm/makefu/2configs/hw/network-manager.nix>
-      # <stockholm/makefu/2configs/hw/stk1160.nix>
-      # <stockholm/makefu/2configs/hw/irtoy.nix>
-      # <stockholm/makefu/2configs/hw/malduino_elite.nix>
-      <stockholm/makefu/2configs/hw/switch.nix>
-      # <stockholm/makefu/2configs/hw/rad1o.nix>
-      <stockholm/makefu/2configs/hw/cc2531.nix>
-      <stockholm/makefu/2configs/hw/droidcam.nix>
-      <stockholm/makefu/2configs/hw/smartcard.nix>
-      <stockholm/makefu/2configs/hw/upower.nix>
-      #<stockholm/makefu/2configs/hw/ps4-compat.nix>
+      (self + "/2configs/default.nix")
+
+      ## Common Hardware Components
+      # (self + "/makefu/2configs/hw/mceusb.nix")
+      # (self + "/2configs/hw/rtl8812au.nix")
+      (self + "/2configs/hw/network-manager.nix")
+      # (self + "/2configs/hw/stk1160.nix")
+      # (self + "/2configs/hw/irtoy.nix")
+      # (self + "/2configs/hw/malduino_elite.nix")
+      (self + "/2configs/hw/switch.nix")
+      # (self + "/2configs/hw/rad1o.nix")
+      (self + "/2configs/hw/cc2531.nix")
+      (self + "/2configs/hw/droidcam.nix")
+      (self + "/2configs/hw/smartcard.nix")
+      (self + "/2configs/hw/upower.nix")
+      #(self + "/2configs/hw/ps4-compat.nix")
 
       # base
-      <stockholm/makefu>
-      <stockholm/makefu/2configs/nur.nix>
-      <stockholm/makefu/2configs/home-manager>
-      <stockholm/makefu/2configs/home-manager/desktop.nix>
-      <stockholm/makefu/2configs/home-manager/cli.nix>
-      <stockholm/makefu/2configs/home-manager/mail.nix>
-      <stockholm/makefu/2configs/home-manager/taskwarrior.nix>
+      (self + "/2configs/nur.nix")
+      (self + "/2configs/home-manager")
+      (self + "/2configs/home-manager/desktop.nix")
+      (self + "/2configs/home-manager/cli.nix")
+      (self + "/2configs/home-manager/mail.nix")
+      (self + "/2configs/home-manager/taskwarrior.nix")
 
-      <stockholm/makefu/2configs/main-laptop.nix>
-      <stockholm/makefu/2configs/kdeconnect.nix>
-      <stockholm/makefu/2configs/extra-fonts.nix>
-      <stockholm/makefu/2configs/editor/neovim>
-      <stockholm/makefu/2configs/tools/all.nix>
+      (self + "/2configs/main-laptop.nix")
+      (self + "/2configs/kdeconnect.nix")
+      (self + "/2configs/extra-fonts.nix")
+      (self + "/2configs/editor/neovim")
+      (self + "/2configs/tools/all.nix")
       { programs.adb.enable = true; }
       {
         services.openssh.hostKeys = [
@@ -50,7 +44,7 @@
       }
       #{
       #  imports = [
-      #    <stockholm/makefu/2configs/bureautomation/rhasspy.nix>
+      #    (self + "/2configs/bureautomation/rhasspy.nix")
       #  ];
       #  services.pipewire.config.pipewire-pulse = {
       #    "pulse.properties"."server.address" = [ "unix:native" "tcp:4713" ];
@@ -84,9 +78,9 @@
       #}
 
       # { systemd.services.docker.wantedBy = lib.mkForce []; }
-      # <stockholm/makefu/2configs/dict.nix>
-      # <stockholm/makefu/2configs/legacy_only.nix>
-      #<stockholm/makefu/3modules/netboot_server.nix>
+      # (self + "/2configs/dict.nix")
+      # (self + "/2configs/legacy_only.nix")
+      #(self + "/3modules/netboot_server.nix")
       #{
       #  netboot_server = {
       #    network.wan = "wlp3s0";
@@ -100,15 +94,15 @@
       # borg list "$BORG_REPO"
       # mount newroot somewhere && cd somewhere
       # borg extract  "$BORG_REPO::x-state-2019-04-17T01:41:51"  --progress # < extract to cwd
-      <stockholm/makefu/2configs/backup/state.nix>
+      (self + "/2configs/backup/state.nix")
 
-      # <stockholm/makefu/2configs/dnscrypt/client.nix>
-      <stockholm/makefu/2configs/avahi.nix>
-      <stockholm/makefu/2configs/support-nixos.nix>
+      # (self + "/2configs/dnscrypt/client.nix")
+      (self + "/2configs/avahi.nix")
+      (self + "/2configs/support-nixos.nix")
 
       # Debugging
-      # <stockholm/makefu/2configs/disable_v6.nix>
-      # <stockholm/makefu/2configs/pyload.nix>
+      # (self + "/2configs/disable_v6.nix")
+      # (self + "/2configs/pyload.nix")
 
       # Testing
       #{
@@ -129,39 +123,39 @@
       #    '';
       #  };
       #}
-      # <stockholm/makefu/2configs/deployment/gitlab.nix>
-      # <stockholm/makefu/2configs/deployment/docker/etherpad.nix>
-      # <stockholm/makefu/2configs/deployment/wiki-irc-bot>
+      # (self + "/2configs/deployment/gitlab.nix")
+      # (self + "/2configs/deployment/docker/etherpad.nix")
+      # (self + "/2configs/deployment/wiki-irc-bot")
 
-      # <stockholm/makefu/2configs/torrent.nix>
-      # <stockholm/makefu/2configs/deployment/dirctator.nix>
-      # <stockholm/makefu/2configs/vncserver.nix>
-      # <stockholm/makefu/2configs/deployment/led-fader>
-      # <stockholm/makefu/2configs/deployment/hound>
-      # <stockholm/makefu/2configs/deployment/photostore.krebsco.de.nix>
-      # <stockholm/makefu/2configs/deployment/bureautomation/hass.nix>
-      # <stockholm/makefu/2configs/bureautomation/office-radio>
+      # (self + "/2configs/torrent.nix")
+      # (self + "/2configs/deployment/dirctator.nix")
+      # (self + "/2configs/vncserver.nix")
+      # (self + "/2configs/deployment/led-fader")
+      # (self + "/2configs/deployment/hound")
+      # (self + "/2configs/deployment/photostore.krebsco.de.nix")
+      # (self + "/2configs/deployment/bureautomation/hass.nix")
+      # (self + "/2configs/bureautomation/office-radio")
 
       # Krebs
-      <stockholm/makefu/2configs/tinc/retiolum.nix>
-      # <stockholm/makefu/2configs/share/anon-ftp.nix>
-      # <stockholm/makefu/2configs/share/anon-sftp.nix>
-      <stockholm/makefu/2configs/share/gum-client.nix>
-      <stockholm/makefu/2configs/share>
-      # <stockholm/makefu/2configs/share/temp-share-samba.nix>
+      (self + "/2configs/tinc/retiolum.nix")
+      # (self + "/2configs/share/anon-ftp.nix")
+      # (self + "/2configs/share/anon-sftp.nix")
+      (self + "/2configs/share/gum-client.nix")
+      (self + "/2configs/share")
+      # (self + "/2configs/share/temp-share-samba.nix")
 
 
       # applications
-      <stockholm/makefu/2configs/exim-retiolum.nix>
-      <stockholm/makefu/2configs/mail-client.nix>
-      <stockholm/makefu/2configs/printer.nix>
-      # <stockholm/makefu/2configs/syncthing.nix>
-      # <stockholm/makefu/2configs/sync>
+      # (self + "/2configs/exim-retiolum.nix")
+      (self + "/2configs/mail-client.nix")
+      (self + "/2configs/printer.nix")
+      # (self + "/2configs/syncthing.nix")
+      # (self + "/2configs/sync")
 
       # Virtualization
-      # <stockholm/makefu/2configs/virtualisation/libvirt.nix>
-      <stockholm/makefu/2configs/virtualisation/docker.nix>
-      <stockholm/makefu/2configs/virtualisation/virtualbox.nix>
+      # (self + "/2configs/virtualisation/libvirt.nix")
+      (self + "/2configs/virtualisation/docker.nix")
+      (self + "/2configs/virtualisation/virtualbox.nix")
       #{
       #  networking.firewall.allowedTCPPorts = [ 8080 ];
       #  networking.nat = {
@@ -171,36 +165,36 @@
       #  };
       #}
       # Services
-      <stockholm/makefu/2configs/git/brain-retiolum.nix>
-      <stockholm/makefu/2configs/tor.nix>
-      # <stockholm/makefu/2configs/vpn/vpngate.nix>
-      # <stockholm/makefu/2configs/buildbot-standalone.nix>
-      <stockholm/makefu/2configs/remote-build/aarch64-community.nix>
-      # <stockholm/makefu/2configs/remote-build/gum.nix>
+      (self + "/2configs/git/brain-retiolum.nix")
+      (self + "/2configs/tor.nix")
+      # (self + "/2configs/vpn/vpngate.nix")
+      # (self + "/2configs/buildbot-standalone.nix")
+      (self + "/2configs/remote-build/aarch64-community.nix")
+      # (self + "/2configs/remote-build/gum.nix")
       # { nixpkgs.overlays = [ (self: super: super.prefer-remote-fetch self super) ]; }
 
-      # <stockholm/makefu/2configs/binary-cache/gum.nix>
-      <stockholm/makefu/2configs/binary-cache/lass.nix>
+      # (self + "/2configs/binary-cache/gum.nix")
+      (self + "/2configs/binary-cache/lass.nix")
 
 
 
       # Security
-      # <stockholm/makefu/2configs/sshd-totp.nix>
+      # (self + "/2configs/sshd-totp.nix")
 
       # temporary
       # { services.redis.enable = true; }
       # citadel exporter
       # { services.mongodb.enable = true; }
       # { services.elasticsearch.enable = true; }
-      # <stockholm/makefu/2configs/deployment/nixos.wiki>
-      # <stockholm/makefu/2configs/home/photoprism.nix>
-      # <stockholm/makefu/2configs/dcpp/airdcpp.nix>
-      # <stockholm/makefu/2configs/nginx/rompr.nix>
-      # <stockholm/makefu/2configs/lanparty/lancache.nix>
-      # <stockholm/makefu/2configs/lanparty/lancache-dns.nix>
-      # <stockholm/makefu/2configs/lanparty/samba.nix>
-      # <stockholm/makefu/2configs/lanparty/mumble-server.nix>
-      <stockholm/makefu/2configs/wireguard/wiregrill.nix>
+      # (self + "/2configs/deployment/nixos.wiki")
+      # (self + "/2configs/home/photoprism.nix")
+      # (self + "/2configs/dcpp/airdcpp.nix")
+      # (self + "/2configs/nginx/rompr.nix")
+      # (self + "/2configs/lanparty/lancache.nix")
+      # (self + "/2configs/lanparty/lancache-dns.nix")
+      # (self + "/2configs/lanparty/samba.nix")
+      # (self + "/2configs/lanparty/mumble-server.nix")
+      (self + "/2configs/wireguard/wiregrill.nix")
 
 #      {
 #        networking.wireguard.interfaces.wg0 = {
@@ -228,8 +222,6 @@
   nixpkgs.config.allowUnfree = true;
   nixpkgs.config.oraclejdk.accept_license = true;
 
-
-
   # configure pulseAudio to provide a HDMI sink as well
   networking.firewall.enable = true;
   networking.firewall.allowedUDPPorts = [ 665 26061 1514 ];
@@ -239,9 +231,6 @@
 
   #krebs.tinc.retiolum.connectTo = lib.mkForce [ "gum" ];
   #krebs.tinc.retiolum.extraConfig = "AutoConnect = no";
-
-
-  environment.systemPackages = [ pkgs.passwdqc-utils ];
 
   # environment.variables = { GOROOT = [ "${pkgs.go.out}/share/go" ]; };
   state = [

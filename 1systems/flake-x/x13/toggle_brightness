@@ -1,8 +1,0 @@
-#!/bin/sh
-proc=/proc/acpi/ibm/lcdshadow
-status=$(awk '/status:/{print $2}' "$proc")
-if [ "$status" -eq 0 ];then
-  echo 1 > "$proc"
-else
-  echo 0 > "$proc"
-fi
