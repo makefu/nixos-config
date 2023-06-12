@@ -27,21 +27,18 @@
   };
   description = "Flakes of makefu";
 
-  outputs = { self, nixpkgs, disko, nixos-hardware, nix-ld, sops-nix, stockholm, ...}@inputs: let
-
-
+  outputs = { self, nixpkgs, disko, nixos-hardware, nix-ld, sops-nix, stockholm, home-manager, ...}@inputs: let
+      inherit (nixpkgs) lib;
   in {
     nixosModules =
-    let
-      inherit (nixpkgs) lib;
-    in builtins.listToAttrs
+    builtins.listToAttrs
       (map
         (name: {name = lib.removeSuffix ".nix" name; value = import (./3modules + "/${name}");})
         (lib.filter
-          (name: name != "default.nix" && !lib.hasPrefix "." name)
+          (name: !lib.hasPrefix "." name)
           (lib.attrNames (builtins.readDir ./3modules))));
 
-    nixosConfigurations.x = nixpkgs.lib.nixosSystem rec {
+    nixosConfigurations = lib.genAttrs ["x" "tsp" ] (host: nixpkgs.lib.nixosSystem rec {
       system = "x86_64-linux";
       specialArgs = {
         inherit (inputs) nixos-hardware self stockholm nixpkgs;
@@ -55,6 +52,7 @@
         disko.nixosModules.disko
         nix-ld.nixosModules.nix-ld
         sops-nix.nixosModules.sops
+        home-manager.nixosModules.default
 
         stockholm.nixosModules.krebs
         stockholm.nixosModules.hosts
@@ -63,13 +61,15 @@
         stockholm.nixosModules.dns
         stockholm.nixosModules.kartei
         stockholm.nixosModules.sitemap
+        stockholm.nixosModules.fetchWallpaper
+        stockholm.nixosModules.git
 
-        self.nixosModules.state
+        self.nixosModules.default
         #self.nixosModules.krebs
-        ./1systems/flake-x/config.nix
+        (./1systems + "/${host}/config.nix")
       ];
 
-    };
+    });
   };
 
 }

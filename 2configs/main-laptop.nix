@@ -22,8 +22,6 @@ in {
 
   users.users.${config.krebs.build.user.name}.extraGroups = [ "dialout" ];
 
-  security.sudo.extraConfig = "${config.krebs.power-action.user} ALL= (root) NOPASSWD: ${pkgs.systemd}/bin/systemctl suspend";
-
   location.latitude = 48.7;
   location.longitude = 9.1;
 
