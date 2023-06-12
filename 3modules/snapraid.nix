@@ -1,6 +1,6 @@
-{ config, lib, pkgs, ... }:
+{ config, lib, pkgs, stockholm, ... }:
 
-with import <stockholm/lib>;
+with stockholm.lib;
 
 let
   # returns dirname without / , used as disk name
@@ -101,7 +101,7 @@ let
       # for scrubbing,fixing
       pkgs.snapraid
     ];
-    krebs.on-failure.plans.snapraid-sync.name = "snapraid-sync";
+    # krebs.on-failure.plans.snapraid-sync.name = "snapraid-sync";
     environment.etc."snapraid.conf".text = snapraid-conf;
     systemd.timers.snapraid-sync = {
       description = "snapraid sync timer";

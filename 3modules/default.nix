@@ -7,7 +7,7 @@ _:
     ./deluge.nix
     ./etherpad.nix
     ./forward-journal.nix
-    ./netdata.nix
+    #./netdata.nix
     ./opentracker.nix
     ./ps3netsrv.nix
     ./logging-config.nix

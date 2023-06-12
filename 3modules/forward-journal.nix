@@ -1,6 +1,6 @@
-{ config, lib, pkgs, ... }:
+{ config, lib, pkgs, stockholm, ... }:
 
-with import <stockholm/lib>;
+with stockholm.lib;
 let
   cfg = config.makefu.forward-journal;
 
