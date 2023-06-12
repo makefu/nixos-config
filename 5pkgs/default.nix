@@ -1,6 +1,3 @@
-let
-  unstable = (import <nixpkgs-unstable> {}).pkgs;
-in
 self: super:
 with super.lib; with builtins; let
   # This callPackage will try to detect obsolete overrides.
@@ -23,7 +20,7 @@ with super.lib; with builtins; let
               (filterAttrs (_: eq "directory") (readDir path));
 
 in {
-    quodlibet = super.pkgs.lib.overrideDerivation super.quodlibet (old: {
+    quodlibet = verrideDerivation super.quodlibet (old: {
       doCheck = false; # 1 error because of warnings (possibly upstream)
       patches = [ ./custom/quodlibet/single-digit-discnumber.patch
                   ./custom/quodlibet/remove-override-warning.patch ];
@@ -45,7 +42,7 @@ in {
     alsa-hdspmixer = callPackage ./custom/alsa-tools { alsaToolTarget="hdspmixer";};
     alsa-hdsploader = callPackage ./custom/alsa-tools { alsaToolTarget="hdsploader";};
     brother_ql_web = (builtins.getFlake "github:makefu/brother_ql_web?rev=a3f8625f48111da8cd6f8e562c966cdca445b82d").packages.x86_64-linux.default;
-    qcma = super.pkgs.libsForQt5.callPackage ./custom/qcma { };
+    qcma = super.libsForQt5.callPackage ./custom/qcma { };
     inherit (callPackage ./devpi {}) devpi-web ;
     jellyfin = unstable.jellyfin;
     jellyfin-web = unstable.jellyfin-web;
