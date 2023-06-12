@@ -1,5 +1,5 @@
-{ pkgs, ... }:
-with import <stockholm/lib>; #genid
+{ pkgs, stockholm, ... }:
+with stockholm.lib; #genid
 { # auto-mounting via polkit
   services.udisks2.enable = true;
 ## automount all disks:

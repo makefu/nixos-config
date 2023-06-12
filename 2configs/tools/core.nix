@@ -49,10 +49,11 @@ ${gnused}/bin/sed -i "''${1}d" ~/.ssh/known_hosts
     jq
     parallel
     proot
-    populate
 
     rxvt_unicode.terminfo
-    kpaste
+
+    # TODO: missing stockholm overlay
+    # kpaste
 
   ];
 }

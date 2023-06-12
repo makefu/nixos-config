@@ -7,7 +7,6 @@
     feh
     clipit
     # firefox
-    keepassx
     pcmanfm
     evince
     # replacement for mirage:

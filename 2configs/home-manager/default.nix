@@ -1,7 +1,5 @@
 {
-  imports = [
-    <home-manager/nixos>
-  ];
+  imports = [ ];
   home-manager.useUserPackages = true;
   home-manager.useGlobalPkgs = true;
   home-manager.users.makefu = {

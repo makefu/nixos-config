@@ -37,7 +37,7 @@
     programs.direnv.enable = true;
     programs.direnv.nix-direnv.enable = true;
     programs.direnv.enableZshIntegration = true;
-    home.packages = [ (pkgs.writeDashBin "nixify" ''
+    home.packages = [ (pkgs.writers.writeDashBin "nixify" ''
 test ! -e shell.nix && cat > shell.nix <<EOF
 { pkgs ? import <nixpkgs> {}}:
 

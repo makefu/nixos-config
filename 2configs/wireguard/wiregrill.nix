@@ -1,5 +1,6 @@
-with import <stockholm/lib>;
-{ config, pkgs, ... }: let
+
+{ config, pkgs, lib, ... }: with lib; with pkgs.stockholm.lib;
+let
 
   self = config.krebs.build.host.nets.wiregrill;
   isRouter = !isNull self.via; # via "internet" is not set
