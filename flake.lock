@@ -169,8 +169,8 @@
         ]
       },
       "locked": {
-        "lastModified": 1686400260,
-        "narHash": "sha256-nW2GqH3yYZl5XRYHN4MpaaO4r01GNEMSPjklJmdIUic=",
+        "lastModified": 1686598920,
+        "narHash": "sha256-kLTqf7tiND/siBJUwOPfCQ02HVyOtxju47PNbeU5Ef4=",
         "path": "/home/makefu/stockholm-flakes",
         "type": "path"
       },

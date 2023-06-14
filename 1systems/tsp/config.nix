@@ -13,7 +13,8 @@
       (self + "/2configs/editor/neovim")
       (self + "/2configs/tools/core.nix")
       # (self + "/2configs/tools/all.nix")
-      (self + "/2configs/fs/disko/single-disk-bcachefs.nix")
+
+      ((import  ../../2configs/fs/disko/single-disk-encrypted-zfs.nix ) { disks = ["/dev/sda" ]; hostId = "f8b8e0a2"; })
       # hardware specifics are in here
       (self + "/2configs/hw/bluetooth.nix")
       (self + "/2configs/hw/network-manager.nix")

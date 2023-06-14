@@ -38,6 +38,7 @@
           (name: !lib.hasPrefix "." name)
           (lib.attrNames (builtins.readDir ./3modules))));
 
+    overlays.default = import ./5pkgs/default.nix;
     nixosConfigurations = lib.genAttrs ["x" "tsp" ] (host: nixpkgs.lib.nixosSystem rec {
       system = "x86_64-linux";
       specialArgs = {
@@ -45,7 +46,7 @@
         pkgs = import nixpkgs {
           inherit system;
           config.allowUnfree = true;
-          overlays = [(self: super: { stockholm.lib = stockholm.lib; })] ;
+          overlays = [(self: super: { inherit (self.writers) writeDash writeDashBin; stockholm.lib = stockholm.lib; }) self.overlays.default] ;
         };
       };
       modules = [

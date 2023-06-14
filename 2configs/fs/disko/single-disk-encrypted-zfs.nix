@@ -1,8 +1,13 @@
-{ disks ? [ "/dev/nvme0n1" ], ... }: 
+{ disks ? [ "/dev/nvme0n1" ], hostId, ... }: 
 let
   disk = builtins.elemAt disks 0;
 in {
+  boot.zfs.requestEncryptionCredentials = true;
   boot.supportedFilesystems = [ "zfs" ];
+  boot.loader.efi.canTouchEfiVariables = true;
+  boot.loader.systemd-boot.enable = true;
+  networking.hostId = hostId;
+
   disko.devices = {
     disk = {
       nvme = {
