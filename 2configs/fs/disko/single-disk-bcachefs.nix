@@ -1,4 +1,5 @@
 { disks ? [ "/dev/sda" ], ... }: {
+  boot.supportedFilesystems = [ "bcachefs" ];
   disko.devices = {
     disk = {
       vdb = {
@@ -26,7 +27,7 @@
               part-type = "primary";
               content = {
                 type = "filesystem";
-                format = "bcachefs";
+                format = "btrfs";
                 mountpoint = "/";
               };
             }
