@@ -1,17 +1,25 @@
 keys:
   - &makefu F7B8DCE46BC6B0A8F95477C8563B8DFE2A0E2029
   - &x_host age1hqe5hs2jz2fk5zvw346ajhwlagkheunacahpu42uruxu0nlnwy7qn9q5k6
+  - &tsp_host age1p7jqdpahxtf7j70kmzy7vg6za7wg63u6sq7ywuw6qkw0qek395nq5kyzae
 creation_rules:
   - path_regex: secrets/common.yaml$
     key_groups:
     - pgp:
       - *makefu
       age:
+      - *tsp_host
       - *x_host
   # host secrets
-  - path_regex: 1systems/x/[^/]+\.yaml$
+  - path_regex: secrets/x.yaml$
     key_groups:
     - pgp:
       - *makefu
       age:
       - *x_host
+  - path_regex: secrets/tsp.yaml$
+    key_groups:
+    - pgp:
+      - *makefu
+      age:
+      - *tsp_host
