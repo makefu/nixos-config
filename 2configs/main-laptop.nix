@@ -1,11 +1,10 @@
-{ config, lib, pkgs, ... }:
+{ config, lib, pkgs, stockholm, ... }:
 
 # stuff for the main laptop
 # this is pretty much nice-to-have and does
 # not fit into base-gui
 # TODO split generic desktop stuff and laptop-specifics like lidswitching
 
-with import <stockholm/lib>;
 let
   window-manager = "awesome";
   user = config.krebs.build.user.name;
