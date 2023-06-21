@@ -11,31 +11,31 @@
       ## Common Hardware Components
       # (self + "/makefu/2configs/hw/mceusb.nix")
       # (self + "/2configs/hw/rtl8812au.nix")
-      (self + "/2configs/hw/network-manager.nix")
-      # (self + "/2configs/hw/stk1160.nix")
-      # (self + "/2configs/hw/irtoy.nix")
-      # (self + "/2configs/hw/malduino_elite.nix")
-      (self + "/2configs/hw/switch.nix")
-      # (self + "/2configs/hw/rad1o.nix")
-      (self + "/2configs/hw/cc2531.nix")
-      (self + "/2configs/hw/droidcam.nix")
-      (self + "/2configs/hw/smartcard.nix")
-      (self + "/2configs/hw/upower.nix")
-      #(self + "/2configs/hw/ps4-compat.nix")
+      ../../2configs/hw/network-manager.nix
+      # ../../2configs/hw/stk1160.nix
+      # ../../2configs/hw/irtoy.nix
+      # ../../2configs/hw/malduino_elite.nix
+      ../../2configs/hw/switch.nix
+      # ../../2configs/hw/rad1o.nix
+      ../../2configs/hw/cc2531.nix
+      ../../2configs/hw/droidcam.nix
+      ../../2configs/hw/smartcard.nix
+      ../../2configs/hw/upower.nix
+      #../../2configs/hw/ps4-compat.nix
 
       # base
-      (self + "/2configs/nur.nix")
-      (self + "/2configs/home-manager")
-      (self + "/2configs/home-manager/desktop.nix")
-      (self + "/2configs/home-manager/cli.nix")
-      (self + "/2configs/home-manager/mail.nix")
-      (self + "/2configs/home-manager/taskwarrior.nix")
+      ../../2configs/nur.nix
+      ../../2configs/home-manager
+      ../../2configs/home-manager/desktop.nix
+      ../../2configs/home-manager/cli.nix
+      ../../2configs/home-manager/mail.nix
+      ../../2configs/home-manager/taskwarrior.nix
 
-      (self + "/2configs/main-laptop.nix")
-      (self + "/2configs/kdeconnect.nix")
-      (self + "/2configs/extra-fonts.nix")
-      (self + "/2configs/editor/neovim")
-      (self + "/2configs/tools/all.nix")
+      ../../2configs/main-laptop.nix
+      ../../2configs/kdeconnect.nix
+      ../../2configs/extra-fonts.nix
+      ../../2configs/editor/neovim
+      ../../2configs/tools/all.nix
       { programs.adb.enable = true; }
       {
         services.openssh.hostKeys = [
@@ -44,7 +44,7 @@
       }
       #{
       #  imports = [
-      #    (self + "/2configs/bureautomation/rhasspy.nix")
+      #    ../../2configs/bureautomation/rhasspy.nix
       #  ];
       #  services.pipewire.config.pipewire-pulse = {
       #    "pulse.properties"."server.address" = [ "unix:native" "tcp:4713" ];
@@ -78,9 +78,9 @@
       #}
 
       # { systemd.services.docker.wantedBy = lib.mkForce []; }
-      # (self + "/2configs/dict.nix")
-      # (self + "/2configs/legacy_only.nix")
-      #(self + "/3modules/netboot_server.nix")
+      # ../../2configs/dict.nix
+      # ../../2configs/legacy_only.nix
+      #../../3modules/netboot_server.nix
       #{
       #  netboot_server = {
       #    network.wan = "wlp3s0";
@@ -94,15 +94,15 @@
       # borg list "$BORG_REPO"
       # mount newroot somewhere && cd somewhere
       # borg extract  "$BORG_REPO::x-state-2019-04-17T01:41:51"  --progress # < extract to cwd
-      (self + "/2configs/backup/state.nix")
+      ../../2configs/backup/state.nix
 
-      # (self + "/2configs/dnscrypt/client.nix")
-      (self + "/2configs/avahi.nix")
-      (self + "/2configs/support-nixos.nix")
+      # ../../2configs/dnscrypt/client.nix
+      ../../2configs/avahi.nix
+      ../../2configs/support-nixos.nix
 
       # Debugging
-      # (self + "/2configs/disable_v6.nix")
-      # (self + "/2configs/pyload.nix")
+      # ../../2configs/disable_v6.nix
+      # ../../2configs/pyload.nix
 
       # Testing
       #{
@@ -123,39 +123,39 @@
       #    '';
       #  };
       #}
-      # (self + "/2configs/deployment/gitlab.nix")
-      # (self + "/2configs/deployment/docker/etherpad.nix")
-      # (self + "/2configs/deployment/wiki-irc-bot")
+      # ../../2configs/deployment/gitlab.nix
+      # ../../2configs/deployment/docker/etherpad.nix
+      # ../../2configs/deployment/wiki-irc-bot
 
-      # (self + "/2configs/torrent.nix")
-      # (self + "/2configs/deployment/dirctator.nix")
-      # (self + "/2configs/vncserver.nix")
-      # (self + "/2configs/deployment/led-fader")
-      # (self + "/2configs/deployment/hound")
-      # (self + "/2configs/deployment/photostore.krebsco.de.nix")
-      # (self + "/2configs/deployment/bureautomation/hass.nix")
-      # (self + "/2configs/bureautomation/office-radio")
+      # ../../2configs/torrent.nix
+      # ../../2configs/deployment/dirctator.nix
+      # ../../2configs/vncserver.nix
+      # ../../2configs/deployment/led-fader
+      # ../../2configs/deployment/hound
+      # ../../2configs/deployment/photostore.krebsco.de.nix
+      # ../../2configs/deployment/bureautomation/hass.nix
+      # ../../2configs/bureautomation/office-radio
 
       # Krebs
-      (self + "/2configs/tinc/retiolum.nix")
-      # (self + "/2configs/share/anon-ftp.nix")
-      # (self + "/2configs/share/anon-sftp.nix")
-      (self + "/2configs/share/gum-client.nix")
-      (self + "/2configs/share")
-      # (self + "/2configs/share/temp-share-samba.nix")
+      ../../2configs/tinc/retiolum.nix
+      # ../../2configs/share/anon-ftp.nix
+      # ../../2configs/share/anon-sftp.nix
+      ../../2configs/share/gum-client.nix
+      ../../2configs/share
+      # ../../2configs/share/temp-share-samba.nix
 
 
       # applications
-      # (self + "/2configs/exim-retiolum.nix")
-      (self + "/2configs/mail-client.nix")
-      (self + "/2configs/printer.nix")
-      # (self + "/2configs/syncthing.nix")
-      # (self + "/2configs/sync")
+      # ../../2configs/exim-retiolum.nix
+      ../../2configs/mail-client.nix
+      ../../2configs/printer.nix
+      # ../../2configs/syncthing.nix
+      # ../../2configs/sync
 
       # Virtualization
-      # (self + "/2configs/virtualisation/libvirt.nix")
-      (self + "/2configs/virtualisation/docker.nix")
-      (self + "/2configs/virtualisation/virtualbox.nix")
+      # ../../2configs/virtualisation/libvirt.nix
+      ../../2configs/virtualisation/docker.nix
+      ../../2configs/virtualisation/virtualbox.nix
       #{
       #  networking.firewall.allowedTCPPorts = [ 8080 ];
       #  networking.nat = {
@@ -165,36 +165,36 @@
       #  };
       #}
       # Services
-      (self + "/2configs/git/brain-retiolum.nix")
-      (self + "/2configs/tor.nix")
-      # (self + "/2configs/vpn/vpngate.nix")
-      # (self + "/2configs/buildbot-standalone.nix")
-      (self + "/2configs/remote-build/aarch64-community.nix")
-      # (self + "/2configs/remote-build/gum.nix")
+      ../../2configs/git/brain-retiolum.nix
+      ../../2configs/tor.nix
+      # ../../2configs/vpn/vpngate.nix
+      # ../../2configs/buildbot-standalone.nix
+      ../../2configs/remote-build/aarch64-community.nix
+      # ../../2configs/remote-build/gum.nix
       # { nixpkgs.overlays = [ (self: super: super.prefer-remote-fetch self super) ]; }
 
-      # (self + "/2configs/binary-cache/gum.nix")
-      (self + "/2configs/binary-cache/lass.nix")
+      # ../../2configs/binary-cache/gum.nix
+      ../../2configs/binary-cache/lass.nix
 
 
 
       # Security
-      # (self + "/2configs/sshd-totp.nix")
+      # ../../2configs/sshd-totp.nix
 
       # temporary
       # { services.redis.enable = true; }
       # citadel exporter
       # { services.mongodb.enable = true; }
       # { services.elasticsearch.enable = true; }
-      # (self + "/2configs/deployment/nixos.wiki")
-      # (self + "/2configs/home/photoprism.nix")
-      # (self + "/2configs/dcpp/airdcpp.nix")
-      # (self + "/2configs/nginx/rompr.nix")
-      # (self + "/2configs/lanparty/lancache.nix")
-      # (self + "/2configs/lanparty/lancache-dns.nix")
-      # (self + "/2configs/lanparty/samba.nix")
-      # (self + "/2configs/lanparty/mumble-server.nix")
-      (self + "/2configs/wireguard/wiregrill.nix")
+      # ../../2configs/deployment/nixos.wiki
+      # ../../2configs/home/photoprism.nix
+      # ../../2configs/dcpp/airdcpp.nix
+      # ../../2configs/nginx/rompr.nix
+      # ../../2configs/lanparty/lancache.nix
+      # ../../2configs/lanparty/lancache-dns.nix
+      # ../../2configs/lanparty/samba.nix
+      # ../../2configs/lanparty/mumble-server.nix
+      ../../2configs/wireguard/wiregrill.nix
 
 #      {
 #        networking.wireguard.interfaces.wg0 = {
