@@ -1,4 +1,4 @@
-{ coreutils, makeWrapper, openssl, libcaca, qrencode, fetchFromGitHub, yubikey-manager, python, stdenv, lib,  ... }:
+{ coreutils, makeWrapper, openssl, libcaca, qrencode, fetchFromGitHub, yubikey-manager, python3, stdenv, lib,  ... }:
 
 stdenv.mkDerivation {
   name = "gen-oath-safe-2017-06-30";
@@ -25,7 +25,7 @@ stdenv.mkDerivation {
         qrencode
         yubikey-manager
         libcaca
-        python
+        python3
       ];
     in
     ''
