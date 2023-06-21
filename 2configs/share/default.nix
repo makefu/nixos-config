@@ -1,5 +1,5 @@
-{ config, lib, ... }:
-with import <stockholm/lib>;
+{ config, lib, stockholm, ... }:
+with stockholm.lib;
 let
   base-dir = config.services.rtorrent.downloadDir;
 in {

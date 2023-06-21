@@ -20,7 +20,7 @@
     # nix related
     nix-index
     nix-review
-    brain
+    # brain
     whatsupnix
     nixpkgs-pytools
     nixpkgs-fmt
@@ -28,7 +28,7 @@
     # git-related
     git-preview
     tig
-    (pkgs.callPackage ./init-host {})
+    # (pkgs.callPackage ./init-host {})
     # used more than once
     imagemagick
     qrencode

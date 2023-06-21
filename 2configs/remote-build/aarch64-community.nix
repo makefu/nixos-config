@@ -1,4 +1,6 @@
+{ config, ... }: 
 {
+  sops.secrets."nixos-community" = {};
   nix = {
     distributedBuilds = true;
     buildMachines = [

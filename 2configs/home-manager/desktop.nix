@@ -2,7 +2,7 @@
 
 {
 
-  users.users.makefu.packages = with pkgs;[ bat direnv clipit ];
+  users.users.makefu.packages = with pkgs;[ bat direnv ];
   home-manager.users.makefu = {
     programs.beets.enable = true;
     programs.firefox = {
@@ -23,5 +23,5 @@
         "kjacjjdnoddnpbbcjilcajfhhbdhkpgk" # forest
       ];
     };
-
+  };
 }

@@ -1,6 +1,5 @@
-{ config, lib, pkgs, ... }:
-# TODO: remove tv lib :)
-with import <stockholm/lib>;
+{ config, lib, pkgs, stockholm, ... }:
+with stockholm.lib;
 let
 
   repos = krebs-repos;

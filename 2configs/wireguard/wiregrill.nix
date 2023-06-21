@@ -31,6 +31,9 @@ in mkIf (hasAttr "wiregrill" config.krebs.build.host.nets) {
     };
   };
 
+  # host secret 
+  sops.secrets."wiregrill.key" = {};
+
   services.dnsmasq = mkIf isRouter {
     enable = true;
     resolveLocalQueries = false;
@@ -87,7 +90,7 @@ in mkIf (hasAttr "wiregrill" config.krebs.build.host.nets) {
       (optional (!isNull self.ip4) self.ip4.addr) ++
       (optional (!isNull self.ip6) self.ip6.addr);
     listenPort = self.wireguard.port;
-    privateKeyFile = (toString <secrets>) + "/wiregrill.key";
+    privateKeyFile = config.sops.secrets."wiregrill.key".path;
     allowedIPsAsRoutes = true;
     peers = mapAttrsToList
       (_: host: {

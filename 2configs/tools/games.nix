@@ -5,7 +5,8 @@
     # ./steam.nix
   ];
   users.users.makefu.packages = with pkgs; [
-    games-user-env
+    # kaputt:
+    # games-user-env
     wine
     pkg2zip
     steam
