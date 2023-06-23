@@ -1,7 +1,5 @@
-{ disks ? [ "/dev/nvme0n1" ], hostId, ... }: 
-let
-  disk = builtins.elemAt disks 0;
-in {
+{ disk ? "/dev/nvme0n1", hostId, ... }: 
+{
   boot.zfs.requestEncryptionCredentials = true;
   boot.supportedFilesystems = [ "zfs" ];
   boot.loader.efi.canTouchEfiVariables = true;

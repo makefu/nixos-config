@@ -14,7 +14,7 @@
       ../../2configs/tools/core.nix
       # ../../2configs/tools/all.nix
 
-      ((import  ../../2configs/fs/disko/single-disk-encrypted-zfs.nix ) { disks = ["/dev/sda" ]; hostId = "f8b8e0a2"; })
+      ((import  ../../2configs/fs/disko/single-disk-encrypted-zfs.nix ) { disk = "/dev/sda"; hostId = "f8b8e0a2"; })
       # hardware specifics are in here
       ../../2configs/hw/bluetooth.nix
       ../../2configs/hw/network-manager.nix

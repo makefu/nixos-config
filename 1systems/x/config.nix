@@ -37,11 +37,14 @@
       ../../2configs/editor/neovim
       ../../2configs/tools/all.nix
       { programs.adb.enable = true; }
-      {
-        services.openssh.hostKeys = [
-          { bits = 4096; path = (toString <secrets/ssh_host_rsa_key>); type = "rsa";}
-        ];
-      }
+
+      # secrets: now deployed once at host provisioning
+      { state = [ "/etc/ssh/ssh_host_rsa_key" ]; }
+      #{
+      #  services.openssh.hostKeys = [
+      #    { bits = 4096; path = (toString <secrets/ssh_host_rsa_key>); type = "rsa";}
+      #  ];
+      #}
       #{
       #  imports = [
       #    ../../2configs/bureautomation/rhasspy.nix

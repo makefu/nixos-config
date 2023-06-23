@@ -4,7 +4,7 @@
   imports = [
     ./input.nix
     
-    ((import  ../../../2configs/fs/disko/single-disk-encrypted-zfs.nix ) { disks = ["/dev/nvme0n1" ]; hostId = "f8b8e0a3"; })
+    ((import  ../../../2configs/fs/disko/single-disk-encrypted-zfs.nix ) { disks ="/dev/nvme0n1"; hostId = "f8b8e0a3"; })
     ./battery.nix
     ./amdgpu.nix
     ../../../2configs/hw/bluetooth.nix
