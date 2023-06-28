@@ -11,6 +11,7 @@ in {
 
     ./zigbee2mqtt
     ./rhasspy.nix
+    ./jellyfin.nix
 
     # hass config
     ## complex configs
