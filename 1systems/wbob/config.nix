@@ -22,7 +22,10 @@ in {
       # <stockholm/makefu/2configs/virtualisation/virtualbox.nix>
       <stockholm/makefu/2configs/tinc/retiolum.nix>
       <stockholm/makefu/2configs/gui/wbob-kiosk.nix>
-      { environment.systemPackages = [  pkgs.nano ]; }
+      { environment.systemPackages = with pkgs ;[
+        nano
+        guake
+      ]; }
 
       # <stockholm/makefu/2configs/gui/studio-virtual.nix>
       # <stockholm/makefu/2configs/audio/jack-on-pulse.nix>
