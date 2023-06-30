@@ -49,8 +49,9 @@
     };
   };
   services.pipewire.systemWide = lib.mkForce false;
-  services.pipewire.config.pipewire-pulse = {
-    "pulse.properties"."server.address" = [ "unix:native" "tcp:4713" ];
-  };
-
+  environment.etc."pipewire/pipewire.conf.d/pulse-server.conf".text = ''
+    pulse.properties = {
+      server.address = [ "unix:native" "tcp:4713" ]
+    }
+  '';
 }
