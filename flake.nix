@@ -24,10 +24,13 @@
     stockholm.url = "path:///home/makefu/stockholm-flakes";
     stockholm.inputs.nixpkgs.follows = "nixpkgs";
 
+    nix-writers.url = "git+http://cgit.krebsco.de/nix-writers";
+    nix-writers.inputs.nixpkgs.follows = "nixpkgs";
+
   };
   description = "Flakes of makefu";
 
-  outputs = { self, nixpkgs, disko, nixos-hardware, nix-ld, sops-nix, stockholm, home-manager, ...}@inputs: let
+  outputs = { self, nixpkgs, disko, nixos-hardware, nix-ld, sops-nix, stockholm, home-manager, nix-writers, ...}@inputs: let
       inherit (nixpkgs) lib;
   in {
     nixosModules =
@@ -39,14 +42,19 @@
           (lib.attrNames (builtins.readDir ./3modules))));
 
     overlays.default = import ./5pkgs/default.nix;
-    nixosConfigurations = lib.genAttrs ["x" "tsp" ] (host: nixpkgs.lib.nixosSystem rec {
+    nixosConfigurations = lib.genAttrs ["x" "tsp" "wbob" ] (host: nixpkgs.lib.nixosSystem rec {
       system = "x86_64-linux";
       specialArgs = {
         inherit (inputs) nixos-hardware self stockholm nixpkgs;
         pkgs = import nixpkgs {
           inherit system;
           config.allowUnfree = true;
-          overlays = [(self: super: { inherit (self.writers) writeDash writeDashBin; stockholm.lib = stockholm.lib; }) self.overlays.default] ;
+          overlays = [
+            (self: super: { inherit (self.writers) writeDash writeDashBin; stockholm.lib = stockholm.lib; })
+            self.overlays.default
+            stockholm.overlays.default
+            nix-writers.overlays.default
+          ] ;
         };
       };
       modules = [
@@ -64,6 +72,8 @@
         stockholm.nixosModules.sitemap
         stockholm.nixosModules.fetchWallpaper
         stockholm.nixosModules.git
+        stockholm.nixosModules.tinc
+        stockholm.nixosModules.systemd
 
         self.nixosModules.default
         #self.nixosModules.krebs

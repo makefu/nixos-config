@@ -1,5 +1,5 @@
 { pkgs, lib, ...}:
-with import <stockholm/lib>;
+with pkgs.stockholm.lib;
 let
   pkg = with pkgs.python3Packages;buildPythonPackage rec {
     rev = "56d41de8219adc";

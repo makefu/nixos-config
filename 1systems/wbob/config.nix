@@ -6,61 +6,62 @@ in {
 
   imports =
     [
-      <stockholm/makefu>
+      ../../2configs/default.nix
       # Include the results of the hardware scan.
       ./nuc
 
-      <stockholm/makefu/2configs/home-manager>
-      <stockholm/makefu/2configs/support-nixos.nix>
-      <stockholm/makefu/2configs/zsh-user.nix>
-      <stockholm/makefu/2configs/tools/core.nix>
-      # <stockholm/makefu/2configs/disable_v6.nix>
-      <stockholm/makefu/2configs/tools/core-gui.nix>
-      <stockholm/makefu/2configs/tools/extra-gui.nix>
-      <stockholm/makefu/2configs/tools/media.nix>
-      # <stockholm/makefu/2configs/virtualisation/libvirt.nix>
-      # <stockholm/makefu/2configs/virtualisation/virtualbox.nix>
-      <stockholm/makefu/2configs/tinc/retiolum.nix>
-      <stockholm/makefu/2configs/gui/wbob-kiosk.nix>
+      ../../2configs/home-manager
+      ../../2configs/support-nixos.nix
+      ../../2configs/zsh-user.nix
+      ../../2configs/tools/core.nix
+      # ../../2configs/disable_v6.nix
+      ../../2configs/tools/core-gui.nix
+      ../../2configs/tools/extra-gui.nix
+      ../../2configs/tools/media.nix
+      # ../../2configs/virtualisation/libvirt.nix
+      # ../../2configs/virtualisation/virtualbox.nix
+
+      # ../../2configs/tinc/retiolum.nix
+      ../../2configs/gui/wbob-kiosk.nix
       { environment.systemPackages = with pkgs ;[
         nano
         guake
       ]; }
 
-      # <stockholm/makefu/2configs/gui/studio-virtual.nix>
-      # <stockholm/makefu/2configs/audio/jack-on-pulse.nix>
-      # <stockholm/makefu/2configs/audio/realtime-audio.nix>
-      # <stockholm/makefu/2configs/vncserver.nix>
+      # ../../2configs/gui/studio-virtual.nix
+      # ../../2configs/audio/jack-on-pulse.nix
+      # ../../2configs/audio/realtime-audio.nix
+      # ../../2configs/vncserver.nix
       ## no need for dns logs anymore
-      # <stockholm/makefu/2configs/logging/server.nix>
+      # ../../2configs/logging/server.nix
 
       # Services
-      # <stockholm/makefu/2configs/hydra/stockholm.nix>
+      # ../../2configs/hydra/stockholm.nix
 
-      <stockholm/makefu/2configs/share/wbob.nix>
-      <stockholm/makefu/2configs/wireguard/thierry.nix>
-      <stockholm/makefu/2configs/bluetooth-mpd.nix>
+      ../../2configs/share/wbob.nix
+      ../../2configs/wireguard/thierry.nix
+      ../../2configs/bluetooth-mpd.nix
 
       # Sensors
-      # <stockholm/makefu/2configs/stats/client.nix>
-      # <stockholm/makefu/2configs/stats/collectd-client.nix>
-      <stockholm/makefu/2configs/stats/telegraf>
-      <stockholm/makefu/2configs/stats/telegraf/airsensor.nix>
-      <stockholm/makefu/2configs/stats/telegraf/europastats.nix>
-      <stockholm/makefu/2configs/stats/external/aralast.nix>
-      <stockholm/makefu/2configs/stats/arafetch.nix>
-      # <stockholm/makefu/2configs/hw/mceusb.nix>
-      <stockholm/makefu/2configs/hw/slaesh.nix>
-      # <stockholm/makefu/2configs/stats/telegraf/bamstats.nix>
+      # ../../2configs/stats/client.nix
+      # ../../2configs/stats/collectd-client.nix
+      ../../2configs/stats/telegraf
+      ../../2configs/stats/telegraf/airsensor.nix
+      ../../2configs/stats/telegraf/europastats.nix
+      ../../2configs/stats/external/aralast.nix
+      ../../2configs/stats/arafetch.nix
+      # ../../2configs/hw/mceusb.nix
+      ../../2configs/hw/slaesh.nix
+      # ../../2configs/stats/telegraf/bamstats.nix
       { environment.systemPackages = [ pkgs.vlc ]; }
 
-      <stockholm/makefu/2configs/bureautomation> # new hass entry point
-      <stockholm/makefu/2configs/bureautomation/led-fader.nix>
-      <stockholm/makefu/2configs/bureautomation/printer.nix>
-      # <stockholm/makefu/2configs/bureautomation/kalauerbot.nix> now runs in thales
-      # <stockholm/makefu/2configs/bureautomation/visitor-photostore.nix>
-      # <stockholm/makefu/2configs/bureautomation/mpd.nix> #mpd is only used for TTS, this is the web interface
-      <stockholm/makefu/2configs/mqtt.nix>
+      ../../2configs/bureautomation # new hass entry point
+      ../../2configs/bureautomation/led-fader.nix
+      ../../2configs/bureautomation/printer.nix
+      # ../../2configs/bureautomation/kalauerbot.nix now runs in thales
+      # ../../2configs/bureautomation/visitor-photostore.nix
+      # ../../2configs/bureautomation/mpd.nix #mpd is only used for TTS, this is the web interface
+      ../../2configs/mqtt.nix
       {
         services.mjpg-streamer = {
           enable = true;
@@ -101,9 +102,9 @@ in {
           '';
       })
 
-      <stockholm/makefu/2configs/backup/state.nix>
+      ../../2configs/backup/state.nix
       # temporary
-      # <stockholm/makefu/2configs/temp/rst-issue.nix>
+      # ../../2configs/temp/rst-issue.nix
       {
         services.jellyfin.enable = true;
       }
