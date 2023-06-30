@@ -44,8 +44,6 @@ in {
     brother_ql_web = (builtins.getFlake "github:makefu/brother_ql_web?rev=a3f8625f48111da8cd6f8e562c966cdca445b82d").packages.x86_64-linux.default;
     qcma = super.libsForQt5.callPackage ./custom/qcma { };
     inherit (callPackage ./devpi {}) devpi-web ;
-    jellyfin = unstable.jellyfin;
-    jellyfin-web = unstable.jellyfin-web;
     nodemcu-uploader = super.pkgs.callPackage ./nodemcu-uploader {};
     liveproxy = super.pkgs.python3Packages.callPackage ./custom/liveproxy {};
     mediawiki-matrix-bot = super.pkgs.python3Packages.callPackage ./custom/mediawiki-matrix-bot {};

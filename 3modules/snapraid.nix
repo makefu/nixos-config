@@ -4,7 +4,7 @@ with stockholm.lib;
 
 let
   # returns dirname without / , used as disk name
-  dname = dir: replaceChars ["/"] [""] (head (reverseList (splitString "/" dir)));
+  dname = dir: replaceStrings ["/"] [""] (head (reverseList (splitString "/" dir)));
   snapraid-conf = ''
     # Disks
     ${concatMapStringsSep "\n" (d: "disk ${dname d} ${d}")  cfg.disks}
