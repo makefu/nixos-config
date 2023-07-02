@@ -27,17 +27,14 @@ in {
   };
 
 
-
-  krebs.secret.files.nextcloud-db-pw = {
+  sops.secrets."nexcloud-db-pw" = {
     path = dbpw;
-    owner.name = "nextcloud";
-    source-path = toString <secrets> + "/nextcloud-db-pw";
+    owner = "nextcloud";
   };
 
-  krebs.secret.files.nextcloud-admin-pw = {
+  sops.secrets."nextcloud-admin-pw" = {
     path = adminpw;
-    owner.name = "nextcloud";
-    source-path = toString <secrets> + "/nextcloud-admin-pw";
+    owner = "nextcloud";
   };
 
   services.nginx.virtualHosts."o.euer.krebsco.de" = {
@@ -48,7 +45,8 @@ in {
     enable = true;
     databases = [ config.services.nextcloud.config.dbname ];
   };
-systemd.services.postgresqlBackup-nextcloud.serviceConfig.SupplementaryGroups = [ "download" ];
+
+  systemd.services.postgresqlBackup-nextcloud.serviceConfig.SupplementaryGroups = [ "download" ];
   
   state = [
     # services.postgresql.dataDir
@@ -99,9 +97,11 @@ systemd.services.postgresqlBackup-nextcloud.serviceConfig.SupplementaryGroups = 
     after = ["postgresql.service"];
     serviceConfig.RequiresMountFor = [ "/media/cloud" ];
   };
+
   systemd.services."phpfpm-nextcloud".serviceConfig.RequiresMountFor = [
     "/media/cloud"
     "/var/lib/nextcloud/data"
   ];
+
   systemd.services."phpfpm".serviceConfig.RequiresMountFor = [ "/media/cloud" ];
 }
