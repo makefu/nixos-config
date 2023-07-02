@@ -1,7 +1,7 @@
 { config, lib, pkgs, ... }:
 
 # vda1 ext4 (label nixos) -> only root partition
-with import <stockholm/lib>;
+with pkgs.stockholm.lib;
 {
   imports = [
     ./single-partition-ext4.nix

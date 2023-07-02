@@ -1,6 +1,6 @@
 { config, lib, pkgs, ... }:
 
-with import <stockholm/lib>;
+with pkgs.stockholm.lib;
 {
   services.nginx = {
     enable = mkDefault true;

@@ -1,6 +1,6 @@
 { pkgs, lib, ...}:
 # docker run -d -p 8081:8081 -v /path/to/downloads:/downloads --user 1001:1001 alexta69/metube
-with import <stockholm/lib>;
+with pkgs.stockholm.lib;
 let
   port = "2348";
   dl-dir = "/media/cryptX/youtube/music";

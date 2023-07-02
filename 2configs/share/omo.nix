@@ -1,6 +1,6 @@
 { config, lib, pkgs, ... }:
 
-with import <stockholm/lib>;
+with pkgs.stockholm.lib;
 let
   hostname = config.krebs.build.host.name;
   # TODO local-ip from the nets config

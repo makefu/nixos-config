@@ -2,7 +2,7 @@
 
 # search also generates ddclient entries for all other logs
 
-with import <stockholm/lib>;
+with pkgs.stockholm.lib;
 let
   #primary-itf = "eth0";
   #primary-itf = "wlp2s0";

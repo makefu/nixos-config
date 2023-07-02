@@ -7,7 +7,7 @@
   # the only true timezone (even after the the removal of DST)
   time.timeZone = "Europe/Berlin";
 
-  # networking.hostName = lib.mkIf (lib.hasAttr "host" config.krebs.build) config.krebs.build.host.name;
+  networking.hostName = lib.mkIf (lib.hasAttr "host" config.krebs.build) config.krebs.build.host.name;
 
   # we use gpg if necessary (or nothing at all)
   programs.ssh.startAgent = false;

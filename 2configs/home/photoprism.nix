@@ -1,4 +1,4 @@
-{ pkgs, lib, ...}:
+{ pkgs, config, lib, ...}:
 # Start    | docker-compose up -d
 # Stop     | docker-compose stop
 # Update   | docker-compose pull
@@ -19,9 +19,9 @@ let
   statedir = "/media/cryptX/lib/photoprism/appsrv";
   db-dir = "/media/cryptX/lib/photoprism/mysql";
   internal-ip = "192.168.111.11";
-  sec = import <secrets/photoprism.nix>;
 in
 {
+  sops.secrets."photoprism/envfile" = {};
   virtualisation.oci-containers.backend = "docker";
 
   services.nginx.virtualHosts."photos" = {
@@ -80,8 +80,6 @@ in
       PHOTOPRISM_DETECT_NSFW = "false";                # Flag photos as private that MAY be offensive (requires TensorFlow)
       PHOTOPRISM_UPLOAD_NSFW = "true";                 # Allow uploads that MAY be offensive
       PHOTOPRISM_AUTH_MODE = "password";
-      PHOTOPRISM_ADMIN_USER = "admin";
-      PHOTOPRISM_ADMIN_PASSWORD = "admin";
 
       #PHOTOPRISM_DATABASE_DRIVER = "postgres";
       #PHOTOPRISM_DATABASE_SERVER = "postgres-prism:5432";
@@ -92,8 +90,6 @@ in
       PHOTOPRISM_DATABASE_DRIVER= "mysql";           # Use MariaDB (or MySQL) instead of SQLite for improved performance
       PHOTOPRISM_DATABASE_SERVER= "mysql-photoprism:3306" ;   # MariaDB database server (hostname:port)
       PHOTOPRISM_DATABASE_NAME= "photoprism";        # MariaDB database schema name
-      PHOTOPRISM_DATABASE_USER= sec.db.username;        # MariaDB database user name
-      PHOTOPRISM_DATABASE_PASSWORD= sec.db.password;      # MariaDB database user password
 
       PHOTOPRISM_SITE_URL = "http://localhost:2342/";  # Public PhotoPrism URL
       PHOTOPRISM_SITE_TITLE = "PhotoPrism";
@@ -122,11 +118,11 @@ in
     #  "--innodb-lock-wait-timeout=50"
     #];
     volumes= [ "${db-dir}:/var/lib/mysql" ];
+    environmentFiles = [
+      config.sops.secrets."photoprism/envfile".path
+    ];
     environment = {
-      MYSQL_ROOT_PASSWORD = "dickidibutt";
       MYSQL_DATABASE= "photoprism";
-      MYSQL_USER = sec.db.username;
-      MYSQL_PASSWORD = sec.db.password;
     };
   };
   #virtualisation.oci-containers.containers.postgres-prism = {

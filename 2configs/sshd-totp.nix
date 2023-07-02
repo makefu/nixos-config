@@ -1,4 +1,4 @@
-{ pkgs, ... }:
+{ pkgs, config, ... }:
 # Enables second factor for ssh password login
 
 ## Usage:
@@ -6,12 +6,12 @@
 ## scan the qrcode with google authenticator (or FreeOTP)
 ## copy last line into secrets/<host>/users.oath (chmod 700)
 {
+  sops.secrets."users.oath" = {};
   security.pam.oath = {
     # enabling it will make it a requisite of `all` services
     # enable = true;
     digits = 6;
-    # TODO assert existing
-    usersFile = (toString <secrets>) + "/users.oath";
+    usersFile = config.sops.secrets."users.oath".path;
   };
   # I want TFA only active for sshd with password-auth
   security.pam.services.sshd.oathAuth = true;

@@ -1,6 +1,6 @@
 { pkgs, config, ... }:
 
-with import <stockholm/lib>;
+with pkgs.stockholm.lib;
 let
   web-port = 8080;
 in {

@@ -1,6 +1,6 @@
 { config, lib, pkgs, ... }:
 # more than just nginx config but not enough to become a module
-with import <stockholm/lib>;
+with pkgs.stockholm.lib;
 let
   hostname = config.krebs.build.host.name;
   bootscript = pkgs.writeTextDir "runit" ''

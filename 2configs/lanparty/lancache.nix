@@ -1,5 +1,5 @@
 { pkgs, lib, config, ... }:
-with import <stockholm/lib>;
+with pkgs.stockholm.lib;
 let
   # see https://github.com/zeropingheroes/lancache for full docs
   lancache= pkgs.stdenv.mkDerivation rec {

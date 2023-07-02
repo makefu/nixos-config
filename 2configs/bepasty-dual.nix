@@ -10,7 +10,7 @@
 #   wildcard.krebsco.de.key
 #   bepasty-secret.nix     <- contains single string
 
-with import <stockholm/lib>;
+with pkgs.stockholm.lib;
 let
   sec = toString <secrets>;
   # secKey is nothing worth protecting on a local machine

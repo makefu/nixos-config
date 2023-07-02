@@ -1,6 +1,6 @@
 { config, lib, pkgs, ... }:
 
-with import <stockholm/lib>;
+with pkgs.stockholm.lib;
 let
   ident = (builtins.readFile ./auphonic.pub);
   bgtaccess = "/var/spool/nginx/logs/binaergewitter.access.log";

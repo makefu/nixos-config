@@ -1,6 +1,6 @@
 { config, lib, pkgs, ... }:
 
-with import <stockholm/lib>;
+with pkgs.stockholm.lib;
 let
   sec = toString <secrets>;
   hostname = config.krebs.build.host.name;

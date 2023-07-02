@@ -1,5 +1,5 @@
 {pkgs, ...}:
-with import <stockholm/lib>;
+with pkgs.stockholm.lib;
 let
   secret = (import <secrets/elchos-token.nix>);
 in {

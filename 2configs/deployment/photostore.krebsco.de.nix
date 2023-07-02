@@ -1,6 +1,6 @@
 { config, lib, pkgs, ... }:
 # more than just nginx config but not enough to become a module
-with import <stockholm/lib>;
+with pkgs.stockholm.lib;
 let
   wsgi-sock = "${workdir}/uwsgi-photostore.sock";
   workdir = config.services.uwsgi.runDir;
