@@ -40,6 +40,21 @@
         "type": "github"
       }
     },
+    "flake-utils": {
+      "locked": {
+        "lastModified": 1676283394,
+        "narHash": "sha256-XX2f9c3iySLCw54rJ/CZs+ZK6IQy7GXNY4nSOyu2QG4=",
+        "owner": "numtide",
+        "repo": "flake-utils",
+        "rev": "3db36a8b464d0c4532ba1c7dda728f4576d6d073",
+        "type": "github"
+      },
+      "original": {
+        "owner": "numtide",
+        "repo": "flake-utils",
+        "type": "github"
+      }
+    },
     "home-manager": {
       "inputs": {
         "nixpkgs": [
@@ -82,7 +97,12 @@
       }
     },
     "nix-writers": {
-      "flake": false,
+      "inputs": {
+        "flake-utils": "flake-utils",
+        "nixpkgs": [
+          "nixpkgs"
+        ]
+      },
       "locked": {
         "lastModified": 1677612737,
         "narHash": "sha256-UaCKZ4PbMZU6UZH7XNFcjRtd5jheswl66rjZDBfQgp8=",
@@ -134,6 +154,7 @@
         "flake-parts": "flake-parts",
         "home-manager": "home-manager",
         "nix-ld": "nix-ld",
+        "nix-writers": "nix-writers",
         "nixos-hardware": "nixos-hardware",
         "nixpkgs": "nixpkgs",
         "sops-nix": "sops-nix",
@@ -163,14 +184,16 @@
     },
     "stockholm": {
       "inputs": {
-        "nix-writers": "nix-writers",
+        "nix-writers": [
+          "nix-writers"
+        ],
         "nixpkgs": [
           "nixpkgs"
         ]
       },
       "locked": {
-        "lastModified": 1686598920,
-        "narHash": "sha256-kLTqf7tiND/siBJUwOPfCQ02HVyOtxju47PNbeU5Ef4=",
+        "lastModified": 1687383477,
+        "narHash": "sha256-o2/aVnTeg+92c06tQjfV+szCTrvqdxF9Tn88Xtd1uhI=",
         "path": "/home/makefu/stockholm-flakes",
         "type": "path"
       },

@@ -23,8 +23,9 @@
     # stockholm.url = "git+https://cgit.lassul.us/stockholm?ref=flakeify";
     stockholm.url = "path:///home/makefu/stockholm-flakes";
     stockholm.inputs.nixpkgs.follows = "nixpkgs";
+    stockholm.inputs.nix-writers.follows = "nix-writers";
 
-    nix-writers.url = "git+http://cgit.krebsco.de/nix-writers";
+    nix-writers.url = "git+https://cgit.krebsco.de/nix-writers";
     nix-writers.inputs.nixpkgs.follows = "nixpkgs";
 
   };
@@ -42,7 +43,7 @@
           (lib.attrNames (builtins.readDir ./3modules))));
 
     overlays.default = import ./5pkgs/default.nix;
-    nixosConfigurations = lib.genAttrs ["x" "tsp" "wbob" ] (host: nixpkgs.lib.nixosSystem rec {
+    nixosConfigurations = lib.genAttrs ["x" "tsp" "wbob" "omo" "gum"] (host: nixpkgs.lib.nixosSystem rec {
       system = "x86_64-linux";
       specialArgs = {
         inherit (inputs) nixos-hardware self stockholm nixpkgs;
@@ -63,6 +64,11 @@
         sops-nix.nixosModules.sops
         home-manager.nixosModules.default
 
+        stockholm.nixosModules.brockman
+
+        stockholm.nixosModules.exim-retiolum
+        stockholm.nixosModules.exim
+
         stockholm.nixosModules.krebs
         stockholm.nixosModules.hosts
         stockholm.nixosModules.users
@@ -74,6 +80,8 @@
         stockholm.nixosModules.git
         stockholm.nixosModules.tinc
         stockholm.nixosModules.systemd
+        stockholm.nixosModules.setuid
+        stockholm.nixosModules.urlwatch
 
         self.nixosModules.default
         #self.nixosModules.krebs
