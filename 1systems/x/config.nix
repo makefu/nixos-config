@@ -6,8 +6,7 @@
       # ./x230
       ./x13
 
-      (self + "/2configs/default.nix")
-
+      ../../2configs/default.nix
       ## Common Hardware Components
       # (self + "/makefu/2configs/hw/mceusb.nix")
       # (self + "/2configs/hw/rtl8812au.nix")

@@ -1,13 +1,12 @@
 { config, lib, pkgs, ... }:
 
-with import <stockholm/lib>;
+with pkgs.stockholm.lib;
 let
   external-ip = config.krebs.build.host.nets.internet.ip4.addr;
   ext-if = config.makefu.server.primary-itf;
   allDisks = [ "/dev/sda" "/dev/sdb" ];
 in {
   imports = [
-      <stockholm/makefu>
       ./hetznercloud
       {
         # wait for mount
@@ -27,38 +26,38 @@ in {
           ];
         };
       }
-      <stockholm/makefu/2configs/nur.nix>
-      <stockholm/makefu/2configs/support-nixos.nix>
-      <stockholm/makefu/2configs/nix-community/supervision.nix>
-      <stockholm/makefu/2configs/home-manager>
-      <stockholm/makefu/2configs/home-manager/cli.nix>
-      # <stockholm/makefu/2configs/stats/client.nix>
-      <stockholm/makefu/2configs/share>
-      <stockholm/makefu/2configs/share/hetzner-client.nix>
-      # <stockholm/makefu/2configs/stats/netdata-server.nix>
+      ../../2configs/nur.nix
+      ../../2configs/support-nixos.nix
+      ../../2configs/nix-community/supervision.nix
+      ../../2configs/home-manager
+      ../../2configs/home-manager/cli.nix
+      # ../../2configs/stats/client.nix
+      ../../2configs/share
+      ../../2configs/share/hetzner-client.nix
+      # ../../2configs/stats/netdata-server.nix
 
-      <stockholm/makefu/2configs/headless.nix>
+      ../../2configs/headless.nix
 
       # Security
-      <stockholm/makefu/2configs/sshd-totp.nix>
+      ../../2configs/sshd-totp.nix
 
       # Tools
-      <stockholm/makefu/2configs/tools/core.nix>
-      <stockholm/makefu/2configs/tools/dev.nix>
-      <stockholm/makefu/2configs/tools/sec.nix>
-      #<stockholm/makefu/2configs/tools/desktop.nix>
+      ../../2configs/tools/core.nix
+      ../../2configs/tools/dev.nix
+      ../../2configs/tools/sec.nix
+      #../../2configs/tools/desktop.nix
 
-      <stockholm/makefu/2configs/zsh-user.nix>
-      <stockholm/makefu/2configs/mosh.nix>
-      <stockholm/makefu/2configs/storj/forward-port.nix>
-      # <stockholm/makefu/2configs/gui/xpra.nix>
+      ../../2configs/zsh-user.nix
+      ../../2configs/mosh.nix
+      ../../2configs/storj/forward-port.nix
+      # ../../2configs/gui/xpra.nix
 
       # networking
-      # <stockholm/makefu/2configs/vpn/vpnws/server.nix>
-      #<stockholm/makefu/2configs/dnscrypt/server.nix>
-      # <stockholm/makefu/2configs/iodined.nix>
-      # <stockholm/makefu/2configs/backup.nix>
-      <stockholm/makefu/2configs/tinc/retiolum.nix>
+      # ../../2configs/vpn/vpnws/server.nix
+      #../../2configs/dnscrypt/server.nix
+      # ../../2configs/iodined.nix
+      # ../../2configs/backup.nix
+      ../../2configs/tinc/retiolum.nix
       { # bonus retiolum config for connecting more hosts
         krebs.tinc.retiolum = {
           #extraConfig = lib.mkForce ''
@@ -89,65 +88,65 @@ in {
       }
 
       # ci
-      # <stockholm/makefu/2configs/exim-retiolum.nix>
-      <stockholm/makefu/2configs/git/cgit-retiolum.nix>
+      # ../../2configs/exim-retiolum.nix
+      ../../2configs/git/cgit-retiolum.nix
 
       ### systemdUltras ###
-      <stockholm/makefu/2configs/systemdultras/ircbot.nix>
+      ../../2configs/systemdultras/ircbot.nix
 
       ###### Shack #####
-      # <stockholm/makefu/2configs/shack/events-publisher>
-      # <stockholm/makefu/2configs/shack/gitlab-runner>
+      # ../../2configs/shack/events-publisher
+      # ../../2configs/shack/gitlab-runner
 
 
-      <stockholm/makefu/2configs/remote-build/slave.nix>
-      <stockholm/makefu/2configs/remote-build/aarch64-community.nix>
-      <stockholm/makefu/2configs/taskd.nix>
+      ../../2configs/remote-build/slave.nix
+      ../../2configs/remote-build/aarch64-community.nix
+      ../../2configs/taskd.nix
 
       # services
-      <stockholm/makefu/2configs/bitlbee.nix> # postgres backend
-      # <stockholm/makefu/2configs/sabnzbd.nix>
-      # <stockholm/makefu/2configs/mail/mail.euer.nix>
+      ../../2configs/bitlbee.nix # postgres backend
+      # ../../2configs/sabnzbd.nix
+      # ../../2configs/mail/mail.euer.nix
       { krebs.exim.enable = mkDefault true; }
-      <stockholm/makefu/2configs/nix-community/mediawiki-matrix-bot.nix>
+      ../../2configs/nix-community/mediawiki-matrix-bot.nix
 
       # sharing
-      <stockholm/makefu/2configs/share/gum.nix> # samba sahre
-      <stockholm/makefu/2configs/torrent/rtorrent.nix>
-      # <stockholm/makefu/2configs/sickbeard>
+      ../../2configs/share/gum.nix # samba sahre
+      ../../2configs/torrent/rtorrent.nix
+      # ../../2configs/sickbeard
 
       { nixpkgs.config.allowUnfree = true; }
-      #<stockholm/makefu/2configs/retroshare.nix>
-      ## <stockholm/makefu/2configs/ipfs.nix>
-      #<stockholm/makefu/2configs/syncthing.nix>
-      # <stockholm/makefu/2configs/sync>
-      # <stockholm/makefu/2configs/opentracker.nix>
+      #../../2configs/retroshare.nix
+      ## ../../2configs/ipfs.nix
+      #../../2configs/syncthing.nix
+      # ../../2configs/sync
+      # ../../2configs/opentracker.nix
 
 
       ## network
-      # <stockholm/makefu/2configs/vpn/openvpn-server.nix>
-      # <stockholm/makefu/2configs/vpn/vpnws/server.nix>
-      <stockholm/makefu/2configs/binary-cache/server.nix>
+      # ../../2configs/vpn/openvpn-server.nix
+      # ../../2configs/vpn/vpnws/server.nix
+      ../../2configs/binary-cache/server.nix
       { makefu.backup.server.repo = "/var/backup/borg"; }
-      <stockholm/makefu/2configs/backup/server.nix>
-      <stockholm/makefu/2configs/backup/state.nix>
-      <stockholm/makefu/2configs/wireguard/server.nix>
-      <stockholm/makefu/2configs/wireguard/wiregrill.nix>
+      ../../2configs/backup/server.nix
+      ../../2configs/backup/state.nix
+      ../../2configs/wireguard/server.nix
+      ../../2configs/wireguard/wiregrill.nix
 
       { # recent changes mediawiki bot
         networking.firewall.allowedUDPPorts = [ 5005 5006 ];
       }
       # Removed until move: no extra mails
-      # <stockholm/makefu/2configs/urlwatch>
+      # ../../2configs/urlwatch
       # Removed until move: avoid letsencrypt ban
       ### Web
 
-      <stockholm/makefu/2configs/bitwarden.nix> # postgres backend
-      <stockholm/makefu/2configs/deployment/rss/rss.euer.krebsco.de.nix> # postgres backend
-      <stockholm/makefu/2configs/deployment/rss/ratt.nix>
+      ../../2configs/bitwarden.nix # postgres backend
+      ../../2configs/deployment/rss/rss.euer.krebsco.de.nix # postgres backend
+      ../../2configs/deployment/rss/ratt.nix
 
-      <stockholm/makefu/2configs/deployment/ntfysh.nix>
-      <stockholm/makefu/2configs/deployment/owncloud.nix> #postgres backend
+      ../../2configs/deployment/ntfysh.nix
+      ../../2configs/deployment/owncloud.nix #postgres backend
       ### Moving owncloud data dir to /media/cloud/nextcloud-data
       {
         users.users.nextcloud.extraGroups = [ "download" ];
@@ -167,57 +166,57 @@ in {
         #};
       }
 
-      <stockholm/makefu/2configs/nginx/dl.euer.krebsco.de.nix>
-      #<stockholm/makefu/2configs/nginx/euer.test.nix>
-      <stockholm/makefu/2configs/nginx/euer.mon.nix>
-      <stockholm/makefu/2configs/nginx/euer.wiki.nix>
-      <stockholm/makefu/2configs/nginx/euer.blog.nix>
-      <stockholm/makefu/2configs/nginx/music.euer.nix>
-      ## <stockholm/makefu/2configs/nginx/gum.krebsco.de.nix>
-      #<stockholm/makefu/2configs/nginx/public_html.nix>
-      #<stockholm/makefu/2configs/nginx/update.connector.one.nix>
-      <stockholm/makefu/2configs/nginx/misa-felix-hochzeit.ml.nix>
-      # <stockholm/makefu/2configs/nginx/gold.krebsco.de.nix>
-      # <stockholm/makefu/2configs/nginx/iso.euer.nix>
+      ../../2configs/nginx/dl.euer.krebsco.de.nix
+      #../../2configs/nginx/euer.test.nix
+      ../../2configs/nginx/euer.mon.nix
+      ../../2configs/nginx/euer.wiki.nix
+      ../../2configs/nginx/euer.blog.nix
+      ../../2configs/nginx/music.euer.nix
+      ## ../../2configs/nginx/gum.krebsco.de.nix
+      #../../2configs/nginx/public_html.nix
+      #../../2configs/nginx/update.connector.one.nix
+      ../../2configs/nginx/misa-felix-hochzeit.ml.nix
+      # ../../2configs/nginx/gold.krebsco.de.nix
+      # ../../2configs/nginx/iso.euer.nix
 
-      # <stockholm/makefu/2configs/deployment/photostore.krebsco.de.nix>
-      # <stockholm/makefu/2configs/deployment/graphs.nix>
-      #<stockholm/makefu/2configs/deployment/owncloud.nix>
-      # <stockholm/makefu/2configs/deployment/board.euer.krebsco.de.nix>
-      #<stockholm/makefu/2configs/deployment/feed.euer.krebsco.de>
-      <stockholm/makefu/2configs/deployment/boot-euer.nix>
-      <stockholm/makefu/2configs/deployment/gecloudpad>
-      #<stockholm/makefu/2configs/deployment/docker/archiveteam-warrior.nix>
-      <stockholm/makefu/2configs/deployment/mediengewitter.de.nix>
-      <stockholm/makefu/2configs/bgt/etherpad.euer.krebsco.de.nix>
-      # <stockholm/makefu/2configs/deployment/systemdultras-rss.nix>
+      # ../../2configs/deployment/photostore.krebsco.de.nix
+      # ../../2configs/deployment/graphs.nix
+      #../../2configs/deployment/owncloud.nix
+      # ../../2configs/deployment/board.euer.krebsco.de.nix
+      #../../2configs/deployment/feed.euer.krebsco.de
+      ../../2configs/deployment/boot-euer.nix
+      ../../2configs/deployment/gecloudpad
+      #../../2configs/deployment/docker/archiveteam-warrior.nix
+      ../../2configs/deployment/mediengewitter.de.nix
+      ../../2configs/bgt/etherpad.euer.krebsco.de.nix
+      # ../../2configs/deployment/systemdultras-rss.nix
 
-      <stockholm/makefu/2configs/shiori.nix>
-      #<stockholm/makefu/2configs/workadventure>
+      ../../2configs/shiori.nix
+      #../../2configs/workadventure
 
-      <stockholm/makefu/2configs/bgt/download.binaergewitter.de.nix>
-      <stockholm/makefu/2configs/bgt/hidden_service.nix>
-      <stockholm/makefu/2configs/bgt/backup.nix>
-      # <stockholm/makefu/2configs/bgt/social-to-irc.nix>
+      ../../2configs/bgt/download.binaergewitter.de.nix
+      ../../2configs/bgt/hidden_service.nix
+      ../../2configs/bgt/backup.nix
+      # ../../2configs/bgt/social-to-irc.nix
 
-      # <stockholm/makefu/2configs/logging/client.nix>
+      # ../../2configs/logging/client.nix
 
       # sharing
-      <stockholm/makefu/2configs/dcpp/airdcpp.nix>
-      { krebs.airdcpp.dcpp.shares = {
-          download.path = config.makefu.dl-dir + "/finished";
-          sorted.path = config.makefu.dl-dir + "/sorted";
-        };
-      }
-      <stockholm/makefu/2configs/dcpp/hub.nix>
+      # ../../2configs/dcpp/airdcpp.nix
+      #{ krebs.airdcpp.dcpp.shares = {
+      #    download.path = config.makefu.dl-dir + "/finished";
+      #    sorted.path = config.makefu.dl-dir + "/sorted";
+      #  };
+      #}
+      # ../../2configs/dcpp/hub.nix
 
       ## Temporary:
-      # <stockholm/makefu/2configs/temp/rst-issue.nix>
-      # <stockholm/makefu/2configs/virtualisation/docker.nix>
-      #<stockholm/makefu/2configs/virtualisation/libvirt.nix>
+      # ../../2configs/temp/rst-issue.nix
+      # ../../2configs/virtualisation/docker.nix
+      #../../2configs/virtualisation/libvirt.nix
 
       # krebs infrastructure services
-      # <stockholm/makefu/2configs/stats/server.nix>
+      # ../../2configs/stats/server.nix
     ];
 
   # makefu.dl-dir = "/var/download";

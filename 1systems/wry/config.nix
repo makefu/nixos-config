@@ -1,6 +1,6 @@
 { config, lib, pkgs, ... }:
 
-with import <stockholm/lib>;
+with pkgs.stockholm.lib;
 let
 
   external-ip = config.krebs.build.host.nets.internet.ip4.addr;

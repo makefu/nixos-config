@@ -1,6 +1,6 @@
 { config, pkgs, lib, ... }:
 
-with import <stockholm/lib>;
+with pkgs.stockholm.lib;
 let
   # all the good stuff resides in /data
 

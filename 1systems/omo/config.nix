@@ -10,10 +10,10 @@ in {
     [
       ./hw/omo.nix
       #./hw/tsp.nix
-      <stockholm/makefu>
-      <stockholm/makefu/2configs/headless.nix>
-      <stockholm/makefu/2configs/support-nixos.nix>
-      <stockholm/makefu/2configs/nur.nix>
+      ../../2configs/default.nix
+      ../../2configs/headless.nix
+      ../../2configs/support-nixos.nix
+      ../../2configs/nur.nix
       # x11 forwarding
       {
         services.openssh.forwardX11 = true;
@@ -24,39 +24,39 @@ in {
       { environment.systemPackages = [ pkgs.youtube-dl2kodi pkgs.youtube-dl]; }
 
 
-      <stockholm/makefu/2configs/zsh-user.nix>
-      <stockholm/makefu/2configs/home-manager>
-      <stockholm/makefu/2configs/home-manager/cli.nix>
-      <stockholm/makefu/2configs/editor/neovim>
-      # <stockholm/makefu/2configs/storj/client.nix>
+      ../../2configs/zsh-user.nix
+      ../../2configs/home-manager
+      ../../2configs/home-manager/cli.nix
+      ../../2configs/editor/neovim
+      # ../../2configs/storj/client.nix
 
 
-      <stockholm/makefu/2configs/backup/state.nix>
+      ../../2configs/backup/state.nix
 
       { makefu.backup.server.repo = "/media/cryptX/backup/borg"; }
-      <stockholm/makefu/2configs/backup/server.nix>
-      <stockholm/makefu/2configs/exim-retiolum.nix>
-      # <stockholm/makefu/2configs/smart-monitor.nix>
-      <stockholm/makefu/2configs/mail-client.nix>
-      <stockholm/makefu/2configs/mosh.nix>
-      <stockholm/makefu/2configs/tools/core.nix>
-      <stockholm/makefu/2configs/tools/dev.nix>
-      <stockholm/makefu/2configs/tools/desktop.nix>
-      <stockholm/makefu/2configs/tools/mobility.nix>
-      <stockholm/makefu/2configs/tools/consoles.nix>
-      #<stockholm/makefu/2configs/graphite-standalone.nix>
-      #<stockholm/makefu/2configs/share-user-sftp.nix>
+      ../../2configs/backup/server.nix
+      ../../2configs/exim-retiolum.nix
+      # ../../2configs/smart-monitor.nix
+      ../../2configs/mail-client.nix
+      ../../2configs/mosh.nix
+      ../../2configs/tools/core.nix
+      ../../2configs/tools/dev.nix
+      ../../2configs/tools/desktop.nix
+      ../../2configs/tools/mobility.nix
+      ../../2configs/tools/consoles.nix
+      #../../2configs/graphite-standalone.nix
+      #../../2configs/share-user-sftp.nix
 
-      <stockholm/makefu/2configs/urlwatch>
-      # <stockholm/makefu/2configs/legacy_only.nix>
+      ../../2configs/urlwatch
+      # ../../2configs/legacy_only.nix
 
-      <stockholm/makefu/2configs/share>
-      <stockholm/makefu/2configs/share/omo.nix>
-      <stockholm/makefu/2configs/share/gum-client.nix>
-      <stockholm/makefu/2configs/sync>
+      ../../2configs/share
+      ../../2configs/share/omo.nix
+      ../../2configs/share/gum-client.nix
+      ../../2configs/sync
 
-      <stockholm/makefu/2configs/wireguard/wiregrill.nix>
-      #<stockholm/makefu/2configs/dcpp/airdcpp.nix>
+      ../../2configs/wireguard/wiregrill.nix
+      #../../2configs/dcpp/airdcpp.nix
       #{ krebs.airdcpp.dcpp.shares = let
       #    d = path: "/media/cryptX/${path}";
       #  in {
@@ -72,42 +72,42 @@ in {
         #services.sabnzbd.enable = true;
         #systemd.services.sabnzbd.environment.SSL_CERT_FILE = "${pkgs.cacert}/etc/ssl/certs/ca-bundle.crt";
       }
-      # <stockholm/makefu/2configs/share/omo-timemachine.nix>
-      <stockholm/makefu/2configs/tinc/retiolum.nix>
+      # ../../2configs/share/omo-timemachine.nix
+      ../../2configs/tinc/retiolum.nix
 
       # statistics
-      # <stockholm/makefu/2configs/stats/client.nix>
+      # ../../2configs/stats/client.nix
       # Logging
       #influx + grafana
-      <stockholm/makefu/2configs/stats/server.nix>
-      # <stockholm/makefu/2configs/stats/nodisk-client.nix>
+      ../../2configs/stats/server.nix
+      # ../../2configs/stats/nodisk-client.nix
       # logs to influx
-      <stockholm/makefu/2configs/stats/external/aralast.nix>
-      <stockholm/makefu/2configs/stats/telegraf>
-      # <stockholm/makefu/2configs/stats/telegraf/europastats.nix>
-      <stockholm/makefu/2configs/stats/telegraf/hamstats.nix>
-      <stockholm/makefu/2configs/hw/cdrip.nix>
+      ../../2configs/stats/external/aralast.nix
+      ../../2configs/stats/telegraf
+      # ../../2configs/stats/telegraf/europastats.nix
+      ../../2configs/stats/telegraf/hamstats.nix
+      ../../2configs/hw/cdrip.nix
 
       # services
       {
         services.nginx.enable = true;
         networking.firewall.allowedTCPPorts = [ 80 8123 ];
       }
-      # <stockholm/makefu/2configs/syncthing.nix>
-      <stockholm/makefu/2configs/remote-build/slave.nix>
+      # ../../2configs/syncthing.nix
+      ../../2configs/remote-build/slave.nix
       # TODO:
-      <stockholm/makefu/2configs/virtualisation/docker.nix>
-      <stockholm/makefu/2configs/bluetooth-mpd.nix>
+      ../../2configs/virtualisation/docker.nix
+      ../../2configs/bluetooth-mpd.nix
 
-      <stockholm/makefu/2configs/home/jellyfin.nix>
-      <stockholm/makefu/2configs/home/music.nix>
-      <stockholm/makefu/2configs/home/photoprism.nix>
-      # <stockholm/makefu/2configs/home/tonie.nix>
-      <stockholm/makefu/2configs/home/ps4srv.nix>
-      # <stockholm/makefu/2configs/home/metube.nix>
-      # <stockholm/makefu/2configs/home/ham>
-      <stockholm/makefu/2configs/home/ham/docker.nix>
-      <stockholm/makefu/2configs/home/zigbee2mqtt>
+      ../../2configs/home/jellyfin.nix
+      ../../2configs/home/music.nix
+      ../../2configs/home/photoprism.nix
+      # ../../2configs/home/tonie.nix
+      ../../2configs/home/ps4srv.nix
+      # ../../2configs/home/metube.nix
+      # ../../2configs/home/ham
+      ../../2configs/home/ham/docker.nix
+      ../../2configs/home/zigbee2mqtt
       {
         makefu.ps3netsrv = {
           enable = true;
@@ -123,10 +123,10 @@ in {
       }
 
       # security
-      <stockholm/makefu/2configs/sshd-totp.nix>
-      # <stockholm/makefu/2configs/logging/central-logging-client.nix>
+      ../../2configs/sshd-totp.nix
+      # ../../2configs/logging/central-logging-client.nix
 
-      # <stockholm/makefu/2configs/torrent.nix>
+      # ../../2configs/torrent.nix
       {
         #krebs.rtorrent = {
         #  downloadDir = lib.mkForce "/media/cryptX/torrent";
@@ -136,23 +136,23 @@ in {
         #};
       }
 
-      # <stockholm/makefu/2configs/elchos/search.nix>
-      # <stockholm/makefu/2configs/elchos/log.nix>
-      # <stockholm/makefu/2configs/elchos/irc-token.nix>
+      # ../../2configs/elchos/search.nix
+      # ../../2configs/elchos/log.nix
+      # ../../2configs/elchos/irc-token.nix
 
       ## as long as pyload is not in nixpkgs:
       # docker run -d -v /var/lib/pyload:/opt/pyload/pyload-config -v /media/crypt0/pyload:/opt/pyload/Downloads --name pyload --restart=always -p 8112:8000 -P writl/pyload
 
       # Temporary:
-      # <stockholm/makefu/2configs/temp/rst-issue.nix>
-      <stockholm/makefu/2configs/bgt/social-to-irc.nix>
+      # ../../2configs/temp/rst-issue.nix
+      ../../2configs/bgt/social-to-irc.nix
 
     ];
   makefu.full-populate =  true;
   nixpkgs.config.allowUnfree = true;
   users.users.share.isNormalUser = true;
   users.groups.share = {
-    gid = (import <stockholm/lib>).genid "share";
+    gid = pkgs.stockholm.lib.genid "share";
     members = [ "makefu" "misa" ];
   };
   networking.firewall.trustedInterfaces = [ primaryInterface "docker0" ];

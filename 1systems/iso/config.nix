@@ -1,6 +1,6 @@
 { config, pkgs, lib, ... }:
 
-with import <stockholm/lib>;
+with pkgs.stockholm.lib;
 {
   imports = [
     #<stockholm/makefu>
