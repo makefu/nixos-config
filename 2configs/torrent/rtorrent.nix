@@ -31,6 +31,7 @@ in {
   #security.acme.certs."torrent.${config.krebs.build.host.name}.r".server = config.krebs.ssl.acmeURL;
   sops.secrets."torrent-auth" = {
     owner = "nginx";
+    sopsFile = ../../secrets/torrent.yaml;
   };
   services.nginx = {
     enable = true;

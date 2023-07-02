@@ -27,7 +27,7 @@ in {
   };
 
 
-  sops.secrets."nexcloud-db-pw" = {
+  sops.secrets."nextcloud-db-pw" = {
     path = dbpw;
     owner = "nextcloud";
   };
