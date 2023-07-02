@@ -2,9 +2,9 @@ keys:
   - &makefu F7B8DCE46BC6B0A8F95477C8563B8DFE2A0E2029
   - &x_host age1hqe5hs2jz2fk5zvw346ajhwlagkheunacahpu42uruxu0nlnwy7qn9q5k6
   - &tsp_host age1p7jqdpahxtf7j70kmzy7vg6za7wg63u6sq7ywuw6qkw0qek395nq5kyzae
-  - &gum_host age1yvcv4s355qzm2a3yuk4a79pfnc3u3kc4uxy0yj9js0qnjdvt05lst7vm07
-  - &omo_host age1rkdqyfk4txy87f8j7y673u93td4chj2x8adqdetvyvhk59c4699ssn3den
-  - &wbob_host age1pdumzc767t387n25kccc949yw9n5m2gzemgzad4ts8pvpcpmkvqqc8m3kj
+  - &gum_host age13ekyvn5ux7zyvclwlrpnhgauw5s6dzn538msjka8vpwhu535ychqa7dk7a
+  - &omo_host age1g0h4fhgnfr7zvp3mqa32u24k4nlfpqmk4dvl5pwnj7t3m6zl2cfs3mw7ht
+  - &wbob_host age1fz3fm09mpur0r5pp43tyuzemkx3f0gfwtgfxj6usv28apq8pfc6qnw3z2s
 creation_rules:
   - path_regex: secrets/common.yaml$
     key_groups:
@@ -32,6 +32,13 @@ creation_rules:
       - *makefu
       age:
       - *gum_host
+  - path_regex: secrets/torrent.yaml$
+    key_groups:
+    - pgp:
+      - *makefu
+      age:
+      - *gum_host
+      - *omo_host
   - path_regex: secrets/omo.yaml$
     key_groups:
     - pgp:
