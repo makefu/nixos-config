@@ -1,6 +1,8 @@
 { config, lib, pkgs, ... }:
 
 {
+  sops.secrets."dl.euer.krebsco.de-auth" = {};
+  sops.secrets."dl.gum-auth" = {};
   users.groups.download.members = [ "nginx" ];
   services.nginx = {
     enable = lib.mkDefault true;
@@ -11,13 +13,13 @@
         extraConfig = "autoindex on;";
         forceSSL = true;
         enableACME = true;
-        basicAuth = import <secrets/dl.euer.krebsco.de-auth.nix>;
+        basicAuthFile = config.sops.secrets."dl.euer.krebsco.de-auth".path;
     };
     virtualHosts."dl.gum.r" = {
         serverAliases = [ "dl.gum" "dl.makefu.r" "dl.makefu" ];
         root = config.makefu.dl-dir;
         extraConfig = "autoindex on;";
-        basicAuth = import <secrets/dl.gum-auth.nix>;
+        basicAuthFile = config.sops.secrets."dl.gum-auth".path;
     };
   };
 }

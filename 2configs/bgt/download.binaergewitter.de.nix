@@ -56,9 +56,10 @@ in {
   systemd.services.nginx.serviceConfig.ReadWritePaths = [
     "/var/spool/nginx/logs/"
   ];
+  sops.secrets."lego-binaergewitter" = {};
   security.acme.certs."download.binaergewitter.de" = {
     dnsProvider = "cloudflare";
-    credentialsFile = toString <secrets/lego-binaergewitter>;
+    credentialsFile = config.sops.secrets."lego-binaergewitter".path;
     webroot = lib.mkForce null;
   };
 

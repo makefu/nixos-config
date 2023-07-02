@@ -1,12 +1,13 @@
 { config, lib, pkgs, ...}:
 
 {
+  sops.secrets."nix-serve.key" = {};
   # generate private key with:
   # nix-store --generate-binary-cache-key gum nix-serve.key nix-serve.pub
   services.nix-serve = {
     enable = true;
     port = 5001;
-    secretKeyFile = toString <secrets> + "/nix-serve.key";
+    secretKeyFile = config.sops.secrets."nix-serve.key".path;
   };
 
   services.nginx = {

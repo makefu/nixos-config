@@ -2,7 +2,6 @@
 
 with pkgs.stockholm.lib;
 let
-  sec = toString <secrets>;
   ext-dom = "wiki.euer.krebsco.de";
 
   user = config.services.nginx.user;
@@ -18,9 +17,10 @@ let
   #  user1 = pass1
   #  userN = passN
   # afterwards put /var/www/<ext-dom>/user1.html as tiddlywiki
-  tw-pass-file = "${sec}/tw-pass.ini";
+  tw-pass-file = config.sops.secrets."tw-pass.ini".path;
 
 in {
+  sops.secrets."tw-pass.ini" = {};
   state = [ base-dir ];
   # hotfix for broken wiki after reboot
   systemd.services."phpfpm-euer-wiki".serviceConfig.RequiresMountFor = [ "/media/cloud" ];

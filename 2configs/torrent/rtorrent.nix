@@ -1,7 +1,6 @@
 { config, lib, pkgs, ... }:
 
 let
-  basicAuth = import <torrent-secrets/auth.nix>;
   peer-port = 51412;
   web-port = 8112;
   daemon-port = 58846;
@@ -30,14 +29,13 @@ in {
   };
 
   #security.acme.certs."torrent.${config.krebs.build.host.name}.r".server = config.krebs.ssl.acmeURL;
-
+  sops.secrets."torrent-auth" = {
+    owner = "nginx";
+  };
   services.nginx = {
     enable = true;
     virtualHosts."torrent.${config.krebs.build.host.name}.r" = {
-      # TODO
-      inherit basicAuth;
-      #enableACME = true;
-      #addSSL = true;
+      basicAuthFile = config.sops.secrets."torrent-auth".path;
       root = "${pkgs.nodePackages.flood}/lib/node_modules/flood/dist/assets";
       locations."/api".extraConfig = ''
         proxy_pass       http://localhost:${toString web-port};
