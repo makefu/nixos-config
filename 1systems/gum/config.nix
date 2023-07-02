@@ -26,6 +26,8 @@ in {
           ];
         };
       }
+      ../../2configs
+
       ../../2configs/nur.nix
       ../../2configs/support-nixos.nix
       ../../2configs/nix-community/supervision.nix
@@ -222,9 +224,12 @@ in {
   # makefu.dl-dir = "/var/download";
   makefu.dl-dir = "/media/cloud/download/finished";
 
+  sops.secrets."ssh_host_rsa_key" = {};
+  sops.secrets."ssh_host_ed25519_key" = {};
   services.openssh.hostKeys = lib.mkForce [
-    { bits = 4096; path = (toString <secrets/ssh_host_rsa_key>); type = "rsa"; }
-    { path = (toString <secrets/ssh_host_ed25519_key>); type = "ed25519"; } ];
+    { bits = 4096; path = (config.sops.secrets."ssh_host_rsa_key".path); type = "rsa"; }
+    { path = config.sops.secrets."ssh_host_ed25519_key".path; type = "ed25519"; } ];
+
   ###### stable
   security.acme.certs."cgit.euer.krebsco.de" = {
     email = "letsencrypt@syntax-fehler.de";
