@@ -43,8 +43,9 @@
           (lib.attrNames (builtins.readDir ./3modules))));
 
     overlays.default = import ./5pkgs/default.nix;
-    nixosConfigurations = lib.genAttrs ["x" "tsp" "wbob" "omo" "gum"] (host: nixpkgs.lib.nixosSystem rec {
-      system = "x86_64-linux";
+    nixosConfigurations = lib.genAttrs ["x" "cake" "tsp" "wbob" "omo" "gum"] (host: nixpkgs.lib.nixosSystem rec {
+      # TODO inject the system somewhere else
+      system = if host == "cake" then  "aarch64-linux" else "x86_64-linux";
       specialArgs = {
         inherit (inputs) nixos-hardware self stockholm nixpkgs;
         pkgs = import nixpkgs {
