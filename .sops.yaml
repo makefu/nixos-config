@@ -5,6 +5,7 @@ keys:
   - &gum_host age13ekyvn5ux7zyvclwlrpnhgauw5s6dzn538msjka8vpwhu535ychqa7dk7a
   - &omo_host age1g0h4fhgnfr7zvp3mqa32u24k4nlfpqmk4dvl5pwnj7t3m6zl2cfs3mw7ht
   - &wbob_host age1fz3fm09mpur0r5pp43tyuzemkx3f0gfwtgfxj6usv28apq8pfc6qnw3z2s
+  - &cake_host age12xhv7z8w3zaq2c0mf940a8afnardplye9fd6p2m5ynnck3k7vd7q00sqjy
 creation_rules:
   - path_regex: secrets/common.yaml$
     key_groups:
@@ -13,6 +14,10 @@ creation_rules:
       age:
       - *tsp_host
       - *x_host
+      - *wbob_host
+      - *cake_host
+      - *omo_host
+      - *gum_host
   # host secrets
   - path_regex: secrets/x.yaml$
     key_groups:
@@ -51,3 +56,9 @@ creation_rules:
       - *makefu
       age:
       - *wbob_host
+  - path_regex: secrets/cake.yaml$
+    key_groups:
+    - pgp:
+      - *makefu
+      age:
+      - *cake_host

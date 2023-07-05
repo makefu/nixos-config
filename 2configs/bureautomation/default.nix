@@ -1,7 +1,6 @@
 { config, pkgs, lib, ... }:
 let
   kodi-host = "192.168.8.11";
-  unstable = import <nixpkgs-unstable> {};
   confdir = "/var/lib/homeassistant-docker";
 in {
   imports = [
