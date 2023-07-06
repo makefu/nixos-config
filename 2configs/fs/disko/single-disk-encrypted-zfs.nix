@@ -1,5 +1,6 @@
 { disk ? "/dev/nvme0n1", hostId, ... }: 
 {
+  services.zfs.autoScrub.enable = true;
   boot.zfs.requestEncryptionCredentials = true;
   boot.supportedFilesystems = [ "zfs" ];
   boot.loader.efi.canTouchEfiVariables = true;

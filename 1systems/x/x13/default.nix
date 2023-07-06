@@ -14,6 +14,13 @@
     nixos-hardware.nixosModules.lenovo-thinkpad-l14-amd
   ];
 
+  swapDevices = [ ];
+  boot.initrd.availableKernelModules = [ "nvme" "ehci_pci" "xhci_pci" "usb_storage" "sd_mod" ];
+  boot.initrd.kernelModules = [ ];
+  boot.kernelModules = [ "kvm-amd" ];
+  boot.extraModulePackages = [ ];
+
+
   boot.kernelPackages = lib.mkForce pkgs.linuxPackages;
 
   services.fwupd.enable = true;
@@ -22,5 +29,9 @@
   boot.extraModprobeConfig = ''
     options thinkpad_acpi fan_control=1
   '';
+
+  hardware.cpu.amd.updateMicrocode = true;
+  hardware.enableRedistributableFirmware = true;
+
 }
 
