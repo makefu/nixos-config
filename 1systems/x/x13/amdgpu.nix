@@ -1,7 +1,7 @@
 { pkgs, ... }:
 {
   services.xserver.videoDrivers = [ "amdgpu" ];
-  boot.initrd.kernelModules = [ "amdgpu" ];
+  #boot.initrd.kernelModules = [ "amdgpu" ];
   hardware.opengl.driSupport = true;
   hardware.opengl.extraPackages = [ pkgs.amdvlk pkgs.rocm-opencl-icd pkgs.rocm-opencl-runtime ];
   # For 32 bit applications

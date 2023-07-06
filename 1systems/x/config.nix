@@ -157,7 +157,7 @@
       # Virtualization
       # ../../2configs/virtualisation/libvirt.nix
       ../../2configs/virtualisation/docker.nix
-      ../../2configs/virtualisation/virtualbox.nix
+      # ../../2configs/virtualisation/virtualbox.nix
       #{
       #  networking.firewall.allowedTCPPorts = [ 8080 ];
       #  networking.nat = {
