@@ -20,8 +20,8 @@
     nix-ld.url = "github:Mic92/nix-ld";
     nix-ld.inputs.nixpkgs.follows = "nixpkgs";
 
-    # stockholm.url = "git+https://cgit.lassul.us/stockholm?ref=flakeify";
-    stockholm.url = "path:///home/makefu/stockholm-flakes";
+     stockholm.url = "git+https://cgit.euer.krebsco.de/stockholm";
+    #stockholm.url = "path:///home/makefu/stockholm-flakes";
     stockholm.inputs.nixpkgs.follows = "nixpkgs";
     stockholm.inputs.nix-writers.follows = "nix-writers";
 
