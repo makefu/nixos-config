@@ -192,14 +192,17 @@
         ]
       },
       "locked": {
-        "lastModified": 1687383477,
-        "narHash": "sha256-o2/aVnTeg+92c06tQjfV+szCTrvqdxF9Tn88Xtd1uhI=",
-        "path": "/home/makefu/stockholm-flakes",
-        "type": "path"
+        "lastModified": 1688669840,
+        "narHash": "sha256-rF0hee3aXjS1AjpB3H1lg7IntoMKz5YXfe9qr9lzw28=",
+        "ref": "refs/heads/master",
+        "rev": "4ed74041f7fa2d1554770eb3bb65c8774dd529eb",
+        "revCount": 11634,
+        "type": "git",
+        "url": "https://cgit.euer.krebsco.de/stockholm"
       },
       "original": {
-        "path": "/home/makefu/stockholm-flakes",
-        "type": "path"
+        "type": "git",
+        "url": "https://cgit.euer.krebsco.de/stockholm"
       }
     },
     "utils": {
