@@ -2,12 +2,13 @@
 
 let
   automount_opts =
-  [ "x-systemd.automount" "noauto" 
+  [ "x-systemd.automount","nofail"
     "x-systemd.idle-timeout=300"
     "x-systemd.mount-timeout=60s"
   ];
-  host = "gum.w"; #TODO
+  host = "gum.w";
 in {
+  sops.secrets."download.smb" = {};
   boot.extraModprobeConfig = ''
     options cifs CIFSMaxBufSize=130048
   '';
@@ -15,7 +16,7 @@ in {
       device = "//${host}/cloud-proxy";
       fsType = "cifs";
       options = automount_opts ++
-      [ "credentials=/var/src/secrets/download.smb"
+      [ "credentials=${config.sops.secrets."download.smb".path}"
         "file_mode=0775"
         "dir_mode=0775"
         "bsize=8388608"

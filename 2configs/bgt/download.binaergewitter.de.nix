@@ -13,6 +13,7 @@ in {
   fileSystems."${wwwdir}" = {
     device = storedir;
     options = [ "bind" ];
+    depends = [ "/media/cloud" ];
   };
 
   services.openssh = {

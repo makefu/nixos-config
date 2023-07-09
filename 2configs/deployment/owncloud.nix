@@ -57,7 +57,7 @@ in {
   users.users.nextcloud.extraGroups = [ "download" ];
   services.nextcloud = {
     enable = true;
-    package = pkgs.nextcloud25;
+    package = pkgs.nextcloud26;
     hostName = "o.euer.krebsco.de";
     # Use HTTPS for links
     https = true;
