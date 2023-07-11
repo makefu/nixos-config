@@ -10,6 +10,7 @@ in {
       # Include the results of the hardware scan.
       ./nuc
 
+
       ../../2configs/home-manager
       ../../2configs/support-nixos.nix
       ../../2configs/zsh-user.nix
@@ -21,8 +22,9 @@ in {
       # ../../2configs/virtualisation/libvirt.nix
       # ../../2configs/virtualisation/virtualbox.nix
 
-      # ../../2configs/tinc/retiolum.nix
+      ../../2configs/tinc/retiolum.nix
       ../../2configs/gui/wbob-kiosk.nix
+      ../../2configs/secrets/wbob-users.nix
       { environment.systemPackages = with pkgs ;[
         nano
         guake

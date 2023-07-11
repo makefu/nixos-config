@@ -4,14 +4,12 @@
   imports = [
       ./base.nix
   ];
-  sops.secrets."passwd/kiosk".neededForUsers = true;
 
   users.users.kiosk = {
     packages = with pkgs;[ chromium vscode spotify tartube-yt-dlp ];
     group = "kiosk";
     isNormalUser = true;
     uid = 1003;
-    passwordFile = config.sops.secrets."passwd/kiosk".path;
     extraGroups = [ "wheel" "audio" "pulse" "pipewire" ];
   };
   users.groups.kiosk.gid = 989 ;
