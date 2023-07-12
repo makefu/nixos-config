@@ -57,12 +57,12 @@ in {
       # ../../2configs/stats/telegraf/bamstats.nix
       { environment.systemPackages = [ pkgs.vlc ]; }
 
-      ../../2configs/bureautomation # new hass entry point
-      ../../2configs/bureautomation/led-fader.nix
-      ../../2configs/bureautomation/printer.nix
-      # ../../2configs/bureautomation/kalauerbot.nix now runs in thales
-      # ../../2configs/bureautomation/visitor-photostore.nix
-      # ../../2configs/bureautomation/mpd.nix #mpd is only used for TTS, this is the web interface
+      ../../2configs/bam # new hass entry point
+      ../../2configs/bam/led-fader.nix
+      ../../2configs/bam/printer.nix
+      # ../../2configs/bam/kalauerbot.nix now runs in thales
+      # ../../2configs/bam/visitor-photostore.nix
+      # ../../2configs/bam/mpd.nix #mpd is only used for TTS, this is the web interface
       ../../2configs/mqtt.nix
       {
         services.mjpg-streamer = {
