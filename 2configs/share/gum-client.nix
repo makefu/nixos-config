@@ -2,7 +2,7 @@
 
 let
   automount_opts =
-  [ "x-systemd.automount","nofail"
+  [ "x-systemd.automount" "nofail"
     "x-systemd.idle-timeout=300"
     "x-systemd.mount-timeout=60s"
   ];
