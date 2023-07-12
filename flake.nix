@@ -28,6 +28,13 @@
     nix-writers.url = "git+https://cgit.krebsco.de/nix-writers";
     nix-writers.inputs.nixpkgs.follows = "nixpkgs";
 
+    # bam inputs
+    ha-ara-menu.url = "github:kalauerclub/ha_ara_menu";
+    ha-ara-menu.inputs.nixpkgs.follows = "nixpkgs";
+
+    inventory4ce.url = "github:kalauerclub/inventory4ce";
+    inventory4ce.inputs.nixpkgs.follows = "nixpkgs";
+
   };
   description = "Flakes of makefu";
 
@@ -43,19 +50,24 @@
           (lib.attrNames (builtins.readDir ./3modules))));
 
     overlays.default = import ./5pkgs/default.nix;
-    nixosConfigurations = lib.genAttrs ["x" "cake" "tsp" "wbob" "omo" "gum"] (host: nixpkgs.lib.nixosSystem rec {
+    nixosConfigurations = lib.genAttrs [ "mrdavid" "x" "cake" "tsp" "wbob" "omo" "gum"] (host: nixpkgs.lib.nixosSystem rec {
       # TODO inject the system somewhere else
       system = if host == "cake" then  "aarch64-linux" else "x86_64-linux";
       specialArgs = {
-        inherit (inputs) nixos-hardware self stockholm nixpkgs;
+        inherit (inputs) nixos-hardware self stockholm ha-ara-menu nixpkgs;
         pkgs = import nixpkgs {
           inherit system;
           config.allowUnfree = true;
           overlays = [
-            (self: super: { inherit (self.writers) writeDash writeDashBin; stockholm.lib = stockholm.lib; })
+            (self: super: {
+              inherit (self.writers) writeDash writeDashBin;
+              stockholm.lib = stockholm.lib;
+              ha-ara-menu = inputs.ha-ara-menu.packages.${system}.default;
+              inventory4ce = inputs.inventory4ce.packages.${system}.default;
+            })
             self.overlays.default
             stockholm.overlays.default
-            nix-writers.overlays.default
+            inputs.nix-writers.overlays.default
           ] ;
         };
       };
