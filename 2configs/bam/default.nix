@@ -11,6 +11,8 @@ in {
     ./zigbee2mqtt
     ./rhasspy.nix
     ./jellyfin.nix
+    ./ha-ara-menu.nix
+    ./inventory4ce.nix
 
     # hass config
     ## complex configs

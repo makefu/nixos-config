@@ -1,17 +1,24 @@
- {pkgs,ha-ara-menu, ... }:
- let
-   pkg = ha-ara-menu.packages.default;
- in { 
+ {pkgs, config, ... }:
+let
+  pkg = pkgs.ha-ara-menu;
+in 
+  { 
+  users.groups.ara-secrets = {};
+  sops.secrets.aramarkconfig = {
+    mode = "0440";
+    group = config.users.groups.ara-secrets.name;
+  };
   systemd.services.ha-ara-menu = {
-    after = [ "mosquitto.service" ];
     description = "ha-ara-menu";
     wantedBy = [ "multi-user.target" ];
     environment = {
+      ARAMARKCONFIG = config.sops.secrets."aramarkconfig".path;
     };
+    startAt = "*:0/30";
     serviceConfig = {
-        ExecStart = "${pkg}/bin/ha-ara-menu";
-        DynamicUser = true;
-        Restart = "always";
+      ExecStart = "${pkg}/bin/send";
+      DynamicUser = true;
+      SupplementaryGroups = [ config.users.groups.ara-secrets.name ];
     };
   };
 }
