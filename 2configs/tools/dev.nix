@@ -15,6 +15,7 @@
     flashrom
     mosquitto
     pwqgen-ger
+    sops
     # esphome # broken
 
     # nix related
