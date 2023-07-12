@@ -61,4 +61,5 @@ in
       };
     };
   };
+  services.dbus.packages = with pkgs; [ gnome2.GConf gnome3.gnome-settings-daemon ];
 }
