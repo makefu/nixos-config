@@ -5,7 +5,6 @@
     [ # Include the results of the hardware scan.
       ./hardware.nix
       ../../2configs/default.nix
-            # ../../2configs/nur.nix
 
       # ../../2configs/nur.nix
       ../../2configs/home-manager
@@ -25,5 +24,5 @@
       # ../../2configs/tinc/retiolum.nix
     ];
 
-  nixpkgs.config.allowUnfree = true;
+  krebs.build.host.name = "mrdavid";
 }
