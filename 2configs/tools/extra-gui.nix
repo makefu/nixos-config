@@ -12,6 +12,7 @@
     synergy
     tdesktop
     virtmanager
+    jellyfin-media-player
     # Dev
     saleae-logic
     gitAndTools.gitFull
