@@ -9,7 +9,12 @@ in
     MusicFolder = "/media/cryptX/music/kinder";
     Address = "0.0.0.0";
   };
-  systemd.services.navidrome.serviceConfig.RequiresMountFor = [ "/media/cryptX" ];
+  systemd.services.navidrome.serviceConfig = {
+    RequiresMountFor = [ "/media/cryptX" ];
+    Restart = "always";
+    
+    RestartSec = "15";
+  };
 
   state = [ "/var/lib/navidrome" ];
   # networking.firewall.allowedTCPPorts = [ 4040 ];
