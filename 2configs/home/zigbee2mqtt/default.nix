@@ -8,6 +8,7 @@ in
 {
   sops.secrets."zigbee2mqtt" = {
     owner = "zigbee2mqtt";
+    
     path = "/var/lib/zigbee2mqtt/configuration.yaml";
   };
   # symlink the zigbee controller
@@ -23,6 +24,8 @@ in
   services.zigbee2mqtt = {
     enable = true;
     inherit dataDir;
+    # sets DeviceAllow in systemd service
+    settings.serial.port = "/dev/cc2531";
   };
 
   services.nginx.recommendedProxySettings = true;
@@ -43,7 +46,7 @@ in
   systemd.services.zigbee2mqtt = {
     # override automatic configuration.yaml deployment
     environment.ZIGBEE2MQTT_DATA = dataDir;
-    #serviceConfig.ExecStartPre = lib.mkForce "${pkgs.coreutils}/bin/true";
+    serviceConfig.ExecStartPre = lib.mkForce "${pkgs.coreutils}/bin/true";
     after = [
       "home-assistant.service"
       "mosquitto.service"
