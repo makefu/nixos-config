@@ -42,6 +42,7 @@ let
     europastats = { };
     arafetch = { };
     disko = { };
+    nixos-config = { };
     init-stockholm = {
       cgit.desc = "Init stuff for stockholm";
     };
