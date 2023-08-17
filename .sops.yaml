@@ -31,6 +31,11 @@ creation_rules:
       - *makefu
       age:
       - *tsp_host
+  - path_regex: secrets/savarcast.yaml$
+    key_groups:
+    - pgp:
+      - *makefu
+      age: []
   - path_regex: secrets/gum.yaml$
     key_groups:
     - pgp:
