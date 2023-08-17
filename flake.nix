@@ -35,10 +35,13 @@
     inventory4ce.url = "github:kalauerclub/inventory4ce";
     inventory4ce.inputs.nixpkgs.follows = "nixpkgs";
 
+    lanzaboote.url = "github:nix-community/lanzaboote/v0.3.0";
+    lanzaboote.inputs.nixpkgs.follows = "nixpkgs";
+
   };
   description = "Flakes of makefu";
 
-  outputs = { self, nixpkgs, disko, nixos-hardware, nix-ld, sops-nix, stockholm, home-manager, nix-writers, ...}@inputs: let
+  outputs = { self, nixpkgs, lanzaboote, disko, nixos-hardware, nix-ld, sops-nix, stockholm, home-manager, nix-writers, ...}@inputs: let
       inherit (nixpkgs) lib;
   in {
     nixosModules =
@@ -50,7 +53,7 @@
           (lib.attrNames (builtins.readDir ./3modules))));
 
     overlays.default = import ./5pkgs/default.nix;
-    nixosConfigurations = lib.genAttrs [ "mrdavid" "x" "cake" "tsp" "wbob" "omo" "gum"] (host: nixpkgs.lib.nixosSystem rec {
+    nixosConfigurations = lib.genAttrs [ "mrdavid" "x" "cake" "tsp" "wbob" "omo" "gum" "savarcast" ] (host: nixpkgs.lib.nixosSystem rec {
       # TODO inject the system somewhere else
       system = if host == "cake" then  "aarch64-linux" else "x86_64-linux";
       specialArgs = {
@@ -76,6 +79,7 @@
         nix-ld.nixosModules.nix-ld
         sops-nix.nixosModules.sops
         home-manager.nixosModules.default
+        lanzaboote.nixosModules.lanzaboote
 
         stockholm.nixosModules.brockman
 
