@@ -10,6 +10,7 @@
     ../../../2configs/hw/bluetooth.nix
     ../../../2configs/hw/tpm.nix
     ../../../2configs/hw/ssd.nix
+    ./secureboot.nix
     # ../../../2configs/hw/xmm7360.nix
     nixos-hardware.nixosModules.lenovo-thinkpad-l14-amd
   ];
