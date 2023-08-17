@@ -22,6 +22,13 @@ in
         mnemonics-enabled = false;
         theme-variant = "dark";
       };
+      "org/gnome/terminal/legacy/profiles:/:b1dcc9dd-5262-4d8d-a863-c897e6d979b9" = {
+        audible-bell=false;
+        font='Terminus 12';
+        scrollback-unlimited=true;
+        use-system-font=false;
+        use-theme-colors=true;
+      };
       "org/gnome/desktop/interface" = {
         enable-animations = false;
         enable-hot-corners = false;
