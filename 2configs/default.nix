@@ -7,7 +7,7 @@ with lib;
     ./editor/vim.nix
     ./binary-cache/nixos.nix
     ./minimal.nix
-    ./secrets
+    ./secrets/ssh_server.nix
     # ./security/hotfix.nix
   ];
 
