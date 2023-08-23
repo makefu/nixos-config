@@ -1,12 +1,15 @@
-{ lib, stdenv, fetchurl, makeWrapper, wrapGAppsHook, glib , jre }:
+{ lib, stdenv, fetchurl, makeWrapper, wrapGAppsHook, glib , jdk19 }:
+let
+    jre = jdk19.override { enableJavaFX = true; };
+in
 
 stdenv.mkDerivation rec {
   name = "ns-usbloader-${version}";
-  version = "5.2";
+  version = "7.0";
 
   src = fetchurl {
     url = "https://github.com/developersu/ns-usbloader/releases/download/v${version}/ns-usbloader-${version}.jar";
-    sha256 = "06kzshlvqfwcjjddzqqgq13pqa5qjlajpyn6ksqxy5p5hgarj6i6";
+    sha256 = "sha256-8RtzUcNVuGRJuLwUibSUH0RWnqC4h3F/c59P++C8gMM=";
   };
 
 
