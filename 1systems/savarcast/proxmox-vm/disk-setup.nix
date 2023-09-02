@@ -9,8 +9,7 @@
         device = "/dev/sda";
         type = "disk";
         content = {
-          type = "table";
-          format = "gpt";
+          type = "gpt";
           partitions = {
             boot = {
               name = "boot";
@@ -23,7 +22,7 @@
               content = {
                 type = "filesystem";
                 format = "vfat";
-                mountpount = "/boot";
+                mountpoint = "/boot";
               };
             };
             root = {
@@ -41,15 +40,14 @@
         device = "/dev/sdb";
         type = "disk";
         content = {
-          type = "table";
-          format = "gpt";
+          type = "gpt";
           partitions = {
             data = {
               size = "100%";
               content = {
                 type = "filesystem";
                 format = "xfs";
-                mountpoint = "/data";
+                mountpoint = "/var/www";
               };
             };
           };

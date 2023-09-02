@@ -2,6 +2,7 @@
 
 {
   imports = [
+      ../../2configs/temp/testusers.nix
 
       # hardware
       ./proxmox-vm
@@ -32,22 +33,19 @@
       ../../2configs/bgt/download.binaergewitter.de.nix
 
       # backup
-      ../../2configs/backup/state.nix
+      #../../2configs/backup/state.nix
       # TODO: migration required
       # ../../2configs/bgt/backup.nix
+      # TODO: isso + isso backup
 
       # misc
       ../../2configs/support-nixos.nix
       ../../2configs/headless.nix
     ];
+    # TODO: ingo:
+    # "ssh-rsa AAAAB3NzaC1yc2EAAAABIwAAAIEA5G4SzPWZAJHrxpN2hQ0TzfPz5KO4eZISZxL3j/pkPs+6/YLXwB22AuU5qvNBi5uVIIZNqJBoaAcj/NePkiu6i2iAVzntAVWhBQlCLIlN0YXwXZ7E19fVUxvG65XV8D86YXSKrKkeDqk6SmQhReeWexMxTIKtj9Ipa7i9lPHBsls="
 
-  sops.secrets."ssh_host_rsa_key" = {};
-  sops.secrets."ssh_host_ed25519_key" = {};
-  services.openssh.hostKeys = lib.mkForce [
-    { bits = 4096; path = (config.sops.secrets."ssh_host_rsa_key".path); type = "rsa"; }
-    { path = config.sops.secrets."ssh_host_ed25519_key".path; type = "ed25519"; } ];
-
-  krebs.build.host = config.krebs.hosts.podcast.savar.de;
+  krebs.build.host = config.krebs.hosts.savarcast;
 
   # Network
   networking = {
