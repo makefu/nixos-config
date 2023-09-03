@@ -1,18 +1,18 @@
 { pkgs, config, ... }:
 
-let
-  # TODO: make this a parameter
-  domain = "io.krebsco.de";
-  pw = import <secrets/iodinepw.nix>;
-in {
+{
   networking.firewall.allowedUDPPorts = [ 53 ];
+  sops.secrets."iodinepw" = {
+    owner = "iodined";
+  };
 
   services.iodine = {
     server = {
       enable = true;
-      domain = domain;
+      domain = "io.krebsco.de";
       ip = "172.16.10.1/24";
-      extraConfig = "-c -P ${pw} -l ${config.krebs.build.host.nets.internet.ip4.addr}";
+      passwordFile = config.sops.secrets."iodinepw".path;
+      extraConfig = "-c -l ${config.krebs.build.host.nets.internet.ip4.addr}";
     };
   };
 
