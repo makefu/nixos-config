@@ -3,8 +3,8 @@
 let
   genTopic_zigbee = name: tags: {
       servers = [ "tcp://localhost:1883" ];
-      username = "stats";
-      passwordFile = config.sops.secrets."mqtt/stats".path;
+      username = "$HOME_MQTT_USER";
+      password = "$HOME_MQTT_PASSWORD";
       qos = 0;
       connection_timeout = "30s";
       topics = [ "/ham/zigbee/${name}" ];
@@ -18,8 +18,8 @@ let
     };
   genTopic_plain = name: topic: tags: {
       servers = [ "tcp://localhost:1883" ];
-      username = "stats";
-      passwordFile = config.sops.secrets."mqtt/stats".path;
+      username = "$HOME_MQTT_USER";
+      password = "$HOME_MQTT_PASSWORD";
       qos = 0;
       connection_timeout = "30s";
       topics = [ topic ];
@@ -56,7 +56,10 @@ let
       (esensor room name ''${room}_${name}_pressure'')
     ];
 in {
-  sops.secrets."mqtt/stats" = {};
+  sops.secrets."mqtt/stats.env" = {};
+  services.telegraf.environmentFiles = [
+    config.sops.secrets."mqtt/stats.env".path
+  ];
   services.telegraf.extraConfig.inputs.mqtt_consumer =
        (zigbee_temphum "Wohnzimmer" "temp1")
     ++ (zigbee_temphum "Badezimmer" "temp2")
