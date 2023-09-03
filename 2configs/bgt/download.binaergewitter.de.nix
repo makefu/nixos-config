@@ -69,11 +69,6 @@ in {
   };
 
   services.nginx = {
-    appendHttpConfig = ''
-      types {
-         audio/ogg oga ogg opus;
-      }
-    '';
     enable = lib.mkDefault true;
     recommendedGzipSettings = true;
     recommendedOptimisation = true;
