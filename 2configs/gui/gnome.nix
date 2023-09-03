@@ -4,6 +4,11 @@ let
   mainUser = config.krebs.build.user.name;
 in
 {
+  environment.systemPackages = with pkgs.gnomeExtensions; [
+    tactile
+    thinkpad-thermal
+  ];
+  services.udev.packages = [ pkgs.gnome.gnome-settings-daemon ];
   programs.gnome-terminal.enable = true;
   services.xserver = {
     desktopManager.gnome.enable = true;
@@ -22,12 +27,40 @@ in
         mnemonics-enabled = false;
         theme-variant = "dark";
       };
+      "org/gnome/shell/extensions/tactile" = {
+        border-size = 0;
+        monitor-0-layout=2;
+        row-0=1;
+      };
       "org/gnome/terminal/legacy/profiles:/:b1dcc9dd-5262-4d8d-a863-c897e6d979b9" = {
         audible-bell=false;
-        font='Terminus 12';
+        font="Terminus 12";
         scrollback-unlimited=true;
         use-system-font=false;
         use-theme-colors=true;
+        visible-name = "default";
+      };
+      "org/gnome/shell/keybindings" = {
+        switch-to-application-1=[];
+        switch-to-application-2=[];
+        switch-to-application-3=[];
+        switch-to-application-4=[];
+      };
+      "org/gnome/shell" = {
+        disable-user-extensions=false;
+        enabled-extensions=[
+          "screenshot-window-sizer@gnome-shell-extensions.gcampax.github.com"
+          "thinkpadthermal@moonlight.drive.vk.gmail.com"
+          "clipboard-indicator@tudmotu.com"
+          "workspace-indicator@gnome-shell-extensions.gcampax.github.com"
+          "drive-menu@gnome-shell-extensions.gcampax.github.com"
+          "places-menu@gnome-shell-extensions.gcampax.github.com"
+          "native-window-placement@gnome-shell-extensions.gcampax.github.com"
+          "unite@hardpixel.eu"
+          "tactile@lundal.io"
+        ];
+        last-selected-power-profile="power-saver";
+
       };
       "org/gnome/desktop/interface" = {
         enable-animations = false;
@@ -41,7 +74,7 @@ in
         tap-to-click = true;
         two-finger-scrolling-enabled = true;
       };
-      "org/gnome/desktop/session".idle-delay = 900;
+      "org/gnome/desktop/session".idle-delay = 900; # 15minutes screensaver
       "org/gnome/desktop/wm/keybindings" = {
         close=["<Shift><Super>c"];
         minimize=["<Super>n"];
