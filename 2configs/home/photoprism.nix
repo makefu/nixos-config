@@ -99,6 +99,9 @@ in
       PHOTOPRISM_SPONSOR = "true";
 
     };
+    environmentFiles = [
+      config.sops.secrets."photoprism/envfile".path
+    ];
   };
 
   virtualisation.oci-containers.containers.mysql-photoprism = {
