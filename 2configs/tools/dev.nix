@@ -16,6 +16,8 @@
     mosquitto
     pwqgen-ger
     sops
+    kpaste
+    cyberlocker-tools
     # esphome # broken
 
     # nix related
