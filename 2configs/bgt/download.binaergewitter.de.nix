@@ -1,15 +1,19 @@
 { config, lib, pkgs, ... }:
 
+
 with pkgs.stockholm.lib;
 let
   ident = (builtins.readFile ./auphonic.pub);
-  bgtaccess = "/var/spool/nginx/logs/binaergewitter.access.log";
-  bgterror = "/var/spool/nginx/logs/binaergewitter.error.log";
+  nginxlogs = "/var/log/nginx";
+  bgtaccess = "${nginxlogs}/binaergewitter.access.log";
+  bgterror =  "${nginxlogs}/binaergewitter.error.log";
 
   # TODO: only when the data is stored somewhere else
   wwwdir = "/var/www/binaergewitter";
   storedir = "/media/cloud/www/binaergewitter";
 in {
+  state = [ bgtaccess bgterror ];
+
   fileSystems."${wwwdir}" = {
     device = storedir;
     options = [ "bind" ];
@@ -54,9 +58,9 @@ in {
   };
 
   # 20.09 unharden nginx to write logs
-  systemd.services.nginx.serviceConfig.ReadWritePaths = [
-    "/var/spool/nginx/logs/"
-  ];
+  systemd.services.nginx.serviceConfig.ReadWritePaths = [ nginxlogs ];
+  systemd.tmpfiles.rules = [ "d ${nginxlogs} 0700 nginx root - -" ];
+
   sops.secrets."lego-binaergewitter" = {};
   security.acme.certs."download.binaergewitter.de" = {
     dnsProvider = "cloudflare";
@@ -76,7 +80,7 @@ in {
     virtualHosts."download.binaergewitter.de" = {
       addSSL = true;
       enableACME = true;
-        serverAliases = [ "dl2.binaergewitter.de" ];
+        serverAliases = [ "binaergewitter.jit.computer" "podcast.savar.de" "dl2.binaergewitter.de" ];
         root = "/var/www/binaergewitter";
         extraConfig = ''
           access_log ${bgtaccess} combined;
