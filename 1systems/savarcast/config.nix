@@ -20,6 +20,7 @@
 
       # Security
       ../../2configs/sshd-totp.nix
+      ../../2configs/bgt/login.nix
 
       # Tools
       ../../2configs/tools/core.nix
