@@ -31,7 +31,8 @@
       ../../2configs/wireguard/wiregrill.nix
 
       # services
-      ../../2configs/bgt/download.binaergewitter.de.nix
+      ../../2configs/bgt/savarcast/download.nix
+      ../../2configs/bgt/savarcast/comments.nix
 
       # backup
       #../../2configs/backup/state.nix
