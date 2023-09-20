@@ -28,6 +28,7 @@ in {
 
   # savarcast is behind traefik, do not configure tls
   services.nginx.virtualHosts."comments.binaergewitter.de" = {
+    locations."/bgt.st".alias = "/var/www/search/bgt.st";
     locations."/".proxyPass = "http://localhost:9292";
   };
 
