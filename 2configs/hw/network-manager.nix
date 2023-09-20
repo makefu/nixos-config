@@ -26,10 +26,10 @@
   networking.networkmanager.wifi = {
     powersave = true;
     scanRandMacAddress = true;
-    #backend = "iwd";
+    backend = "iwd";
   };
   services.gnome.gnome-keyring.enable = true;
-  #networking.wireless.iwd.enable = true;
+  networking.wireless.iwd.enable = true;
 
   state = [
     "/etc/NetworkManager/system-connections"  #NM stateful config files

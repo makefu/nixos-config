@@ -108,6 +108,7 @@ in {
       # ../../2configs/home/ham
       ../../2configs/home/ham/docker.nix
       ../../2configs/home/zigbee2mqtt
+      ../../2configs/home/streams.nix
       {
         makefu.ps3netsrv = {
           enable = true;
