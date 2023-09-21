@@ -29,6 +29,7 @@ in {
         nano
         guake
       ]; }
+      { services.vscode-server.enable = true; }
 
       # ../../2configs/gui/studio-virtual.nix
       # ../../2configs/audio/jack-on-pulse.nix
