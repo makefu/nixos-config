@@ -6,12 +6,12 @@ in {
   imports =
     [ # Include the results of the hardware scan.
       ./hw.nix
-      <stockholm/makefu>
-      <stockholm/makefu/2configs/home-manager>
-      <stockholm/makefu/2configs/fs/single-partition-ext4.nix>
-      <stockholm/makefu/2configs/smart-monitor.nix>
-      <stockholm/makefu/2configs/tinc/retiolum.nix>
-      <stockholm/makefu/2configs/filepimp-share.nix>
+      ../../2configs
+      ../../2configs/home-manager
+      ../../2configs/fs/single-partition-ext4.nix
+      ../../2configs/smart-monitor.nix
+      ../../2configs/tinc/retiolum.nix
+      ../../2configs/filepimp-share.nix
     ];
 
   krebs.build.host = config.krebs.hosts.filepimp;

@@ -38,10 +38,14 @@
     lanzaboote.url = "github:nix-community/lanzaboote/v0.3.0";
     lanzaboote.inputs.nixpkgs.follows = "nixpkgs";
 
-  };
-  description = "Flakes of makefu";
+    vscode-server.url = "github:nix-community/nixos-vscode-server";
+    vscode-server.inputs.nixpkgs.follows = "nixpkgs";
 
-  outputs = { self, nixpkgs, lanzaboote, disko, nixos-hardware, nix-ld, sops-nix, stockholm, home-manager, nix-writers, ...}@inputs: let
+  };
+  description = "Flake of makefu";
+
+  outputs = { self, nixpkgs, lanzaboote, disko, nixos-hardware, nix-ld,
+              sops-nix, stockholm, home-manager, nix-writers, vscode-server, ...}@inputs: let
       inherit (nixpkgs) lib;
   in {
     nixosModules =
@@ -53,7 +57,7 @@
           (lib.attrNames (builtins.readDir ./3modules))));
 
     overlays.default = import ./5pkgs/default.nix;
-    nixosConfigurations = lib.genAttrs [ "mrdavid" "x" "cake" "tsp" "wbob" "omo" "gum" "savarcast" ] (host: nixpkgs.lib.nixosSystem rec {
+    nixosConfigurations = lib.genAttrs [ "filepimp" "mrdavid" "x" "cake" "tsp" "wbob" "omo" "gum" "savarcast" ] (host: nixpkgs.lib.nixosSystem rec {
       # TODO inject the system somewhere else
       system = if host == "cake" then  "aarch64-linux" else "x86_64-linux";
       specialArgs = {
@@ -101,6 +105,7 @@
         stockholm.nixosModules.urlwatch
 
         self.nixosModules.default
+        vscode-server.nixosModules.default
         #self.nixosModules.krebs
         (./1systems + "/${host}/config.nix")
       ];
