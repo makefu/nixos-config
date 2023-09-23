@@ -33,6 +33,7 @@
       # services
       ../../2configs/bgt/savarcast/download.nix
       ../../2configs/bgt/savarcast/comments.nix
+      ../../2configs/bgt/savarcast/search.nix
 
       # backup
       #../../2configs/backup/state.nix
