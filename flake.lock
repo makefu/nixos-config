@@ -583,11 +583,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1692368433,
-        "narHash": "sha256-zQUZwHbBpig3QH4pZ/NpDybBJTOhIdjJhA2EthLF06Q=",
+        "lastModified": 1695936179,
+        "narHash": "sha256-DsgJweSzKKZIZjswVUJRh5rrzIQvH4iwVzBLh0qmEnQ=",
         "ref": "refs/heads/master",
-        "rev": "e157ffa72856e4378aa23b096b2efff233f3cb3d",
-        "revCount": 11752,
+        "rev": "2db6777b7caa37477c5ffddd99d69b2f2c6d9d7f",
+        "revCount": 11895,
         "type": "git",
         "url": "https://cgit.euer.krebsco.de/stockholm"
       },
