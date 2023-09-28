@@ -73,18 +73,6 @@ in {
     recommendedGzipSettings = true;
     recommendedOptimisation = true;
 
-    # using letsencrypt certificate without cloudflare
-    virtualHosts."podcast.savar.de" = {
-      addSSL = true;
-      enableACME = true;
-      serverAliases = [ "binaergewitter.jit.computer" ];
-      root = "/var/www/binaergewitter";
-      extraConfig = ''
-        access_log ${bgtaccess} combined;
-        error_log ${bgterror} error;
-        autoindex on;
-      '';
-    };
     virtualHosts."download.binaergewitter.de" = {
       addSSL = true;
       enableACME = true;
