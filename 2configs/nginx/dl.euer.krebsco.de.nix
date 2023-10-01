@@ -1,8 +1,8 @@
 { config, lib, pkgs, ... }:
 
 {
-  sops.secrets."dl.euer.krebsco.de-auth" = {};
-  sops.secrets."dl.gum-auth" = {};
+  sops.secrets."dl.euer.krebsco.de-auth" = { owner = "nginx"; };
+  sops.secrets."dl.gum-auth" = { owner = "nginx"; };
   users.groups.download.members = [ "nginx" ];
   services.nginx = {
     enable = lib.mkDefault true;

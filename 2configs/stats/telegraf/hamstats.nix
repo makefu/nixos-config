@@ -56,9 +56,8 @@ let
       (esensor room name ''${room}_${name}_pressure'')
     ];
 in {
-  sops.secrets."mqtt/stats.env" = {};
   services.telegraf.environmentFiles = [
-    config.sops.secrets."mqtt/stats.env".path
+    config.sops.secrets."omo-mqtt-stats.env".path
   ];
   services.telegraf.extraConfig.inputs.mqtt_consumer =
        (zigbee_temphum "Wohnzimmer" "temp1")

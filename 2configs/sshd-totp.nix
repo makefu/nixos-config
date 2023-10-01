@@ -6,7 +6,6 @@
 ## scan the qrcode with google authenticator (or FreeOTP)
 ## copy last line into secrets/<host>/users.oath (chmod 700)
 {
-  sops.secrets."users.oath" = {};
   security.pam.oath = {
     # enabling it will make it a requisite of `all` services
     # enable = true;

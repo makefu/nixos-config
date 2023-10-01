@@ -1,13 +1,10 @@
 { config, ... }:
 # back up all state
 let
-  sshkey = config.sops.secrets."borg.priv".path;
-  phrase = config.sops.secrets."borg.pw".path;
+  sshkey = config.sops.secrets."${config.clanCore.machineName}-borg.priv".path;
+  phrase = config.sops.secrets."${config.clanCore.machineName}-borg.pw".path;
 in
 {
-  sops.secrets."borg.priv" = {};
-  sops.secrets."borg.pw" = {};
-
   services.borgbackup.jobs.state = {
     repo = "borg-${config.krebs.build.host.name}@backup.makefu.r:.";
     paths = config.state;
