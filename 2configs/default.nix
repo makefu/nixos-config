@@ -8,6 +8,7 @@ with lib;
     ./binary-cache/nixos.nix
     ./minimal.nix
     ./secrets/ssh_server.nix
+    ./overlays/default.nix
     # ./security/hotfix.nix
   ];
 
