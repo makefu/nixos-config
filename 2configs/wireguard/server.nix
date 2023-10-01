@@ -8,8 +8,7 @@ in { # wireguard server
   # boot.kernel.sysctl."net.ipv4.ip_forward" = 1;
   # conf.all.proxy_arp =1
 
-  sops.secrets."wireguard.key" = {};
-
+  
   networking.firewall = {
     allowedUDPPorts = [ 51820 ];
   };
@@ -23,7 +22,7 @@ in { # wireguard server
   networking.wireguard.interfaces.wg0 = {
     ips = [ "10.244.0.1/24" ];
     listenPort = 51820;
-    privateKeyFile = config.sops.secrets."wireguard.key".path;
+    privateKeyFile = config.sops.secrets."${config.clanCore.machineName}-wireguard.key".path;
     # allowedIPsAsRoutes = true;
     postSetup = ''
         ${pkgs.iptables}/bin/iptables -t nat -A POSTROUTING -s 10.244.0.0/24 -o ${ext-if} -j MASQUERADE
