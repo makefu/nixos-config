@@ -8,10 +8,10 @@
     inkscape
     libreoffice
     # skype
-    teams
+    # teams
     synergy
     tdesktop
-    virtmanager
+    virt-manager
     jellyfin-media-player
     # Dev
     saleae-logic
