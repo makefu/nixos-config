@@ -6,12 +6,12 @@ let
   srvdir = "/var/lib/tor/onion/";
 in
   {
-  sops.secrets."${name}/private_key" = {
+  sops.secrets."${name}-private_key" = {
     path = "${srvdir}/${name}/private_key";
     owner = "tor";
     restartUnits = [ "tor.service" ];
   };
-  sops.secrets."${name}/hostname" = {
+  sops.secrets."${name}-hostname" = {
     path = "${srvdir}/${name}/hostname";
     owner = "tor";
     restartUnits = [ "tor.service" ];
