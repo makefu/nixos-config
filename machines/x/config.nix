@@ -171,7 +171,7 @@
       ../../2configs/tor.nix
       # ../../2configs/vpn/vpngate.nix
       # ../../2configs/buildbot-standalone.nix
-      ../../2configs/remote-build/aarch64-community.nix
+      # ../../2configs/remote-build/aarch64-community.nix
       # ../../2configs/remote-build/gum.nix
       # { nixpkgs.overlays = [ (self: super: super.prefer-remote-fetch self super) ]; }
 
