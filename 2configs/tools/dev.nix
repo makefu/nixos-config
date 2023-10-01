@@ -22,7 +22,7 @@
 
     # nix related
     nix-index
-    nix-review
+    nixpkgs-review
     # brain
     whatsupnix
     nixpkgs-pytools
@@ -38,7 +38,7 @@
     exiftool
     cac-api
     cac-panel
-    krebszones
+    #krebszones
     cyberlocker-tools
     ovh-zone
     gen-oath-safe
