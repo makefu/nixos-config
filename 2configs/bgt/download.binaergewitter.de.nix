@@ -48,13 +48,14 @@ in {
 
   services.logrotate = {
     enable = true;
-    settings.bgt = {
-      files = [ bgtaccess bgterror ];
-      rotate = 5;
-      frequency = "weekly";
-      create = "600 nginx nginx";
-      postrotate = "${pkgs.systemd}/bin/systemctl reload nginx";
-    };
+    # now part of generic logrotate of nginx
+    #settings.bgt = {
+    #  files = [ bgtaccess bgterror ];
+    #  rotate = 5;
+    #  frequency = "weekly";
+    #  create = "600 nginx nginx";
+    #  postrotate = "${pkgs.systemd}/bin/systemctl reload nginx";
+    #};
   };
 
   # 20.09 unharden nginx to write logs
