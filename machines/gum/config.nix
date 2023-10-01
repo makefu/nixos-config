@@ -102,14 +102,14 @@ in {
 
 
       ../../2configs/remote-build/slave.nix
-      ../../2configs/remote-build/aarch64-community.nix
+      # ../../2configs/remote-build/aarch64-community.nix
       ../../2configs/taskd.nix
 
       # services
       ../../2configs/bitlbee.nix # postgres backend
       # ../../2configs/sabnzbd.nix
       # ../../2configs/mail/mail.euer.nix
-      { krebs.exim.enable = mkDefault true; }
+      # { krebs.exim.enable = mkDefault true; }
       ../../2configs/nix-community/mediawiki-matrix-bot.nix
 
       # sharing
