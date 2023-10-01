@@ -1,5 +1,5 @@
 {config,...}:{
-  nix.trustedUsers = [ "nixBuild" ];
+  nix.settings.strusted-users = [ "nixBuild" ];
   users.users.nixBuild = {
     name = "nixBuild";
     isNormalUser = true;
