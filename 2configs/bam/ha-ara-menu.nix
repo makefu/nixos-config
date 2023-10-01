@@ -3,7 +3,6 @@ let
   pkg = pkgs.ha-ara-menu;
 in 
   { 
-  users.groups.ara-secrets = {};
   sops.secrets.aramarkconfig = {
     mode = "0440";
     group = config.users.groups.ara-secrets.name;

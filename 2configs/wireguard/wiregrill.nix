@@ -1,5 +1,5 @@
 
-{ config, pkgs, lib, ... }: with lib; with pkgs.stockholm.lib;
+{ config, pkgs, lib, ... }: with lib; 
 let
 
   self = config.krebs.build.host.nets.wiregrill;
