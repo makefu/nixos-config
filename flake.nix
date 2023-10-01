@@ -6,6 +6,12 @@
     clan-core = {
       url = "git+https://git.clan.lol/clan/clan-core";
       # Don't do this if your machines are on nixpkgs stable.
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+
+    clan-core-unstable = {
+      url = "git+https://git.clan.lol/clan/clan-core";
+      # Don't do this if your machines are on nixpkgs stable.
       inputs.nixpkgs.follows = "nixpkgs-unstable";
     };
 
@@ -48,7 +54,7 @@
   };
   description = "Flake of makefu";
 
-  outputs = { self, nixpkgs, lanzaboote, disko, nixos-hardware, nix-ld, clan-core,
+  outputs = { self, nixpkgs, lanzaboote, disko, nixos-hardware, nix-ld, clan-core,nixpkgs-unstable,
               stockholm, home-manager, nix-writers, vscode-server, ...}@inputs: 
   let
     inherit (nixpkgs) lib;
@@ -108,7 +114,7 @@
       pkgs = nixpkgs.legacyPackages.x86_64-linux;
     in pkgs.mkShell {
           packages = [
-            clan-core.packages.x86_64-linux.clan-cli
+            inputs.clan-core-unstable.packages.x86_64-linux.clan-cli
             pkgs.age
           ];
     };
