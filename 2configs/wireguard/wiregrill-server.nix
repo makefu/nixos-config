@@ -12,7 +12,7 @@ in mkIf (hasAttr "wiregrill" config.krebs.build.host.nets) {
     (pkgs.writeDashBin "modprobe" ":")
   ]);
 
-  boot.kernel.sysctl = mkIf isRouter {
+  boot.kernel.sysctl = {
     "net.ipv6.conf.all.forwarding" = 1;
     "net.ipv4.conf.all.forwarding" = 1;
   };
@@ -25,14 +25,14 @@ in mkIf (hasAttr "wiregrill" config.krebs.build.host.nets) {
 
   networking.firewall = {
     allowedUDPPorts = [ self.wireguard.port ];
-    interfaces.wiregrill = mkIf isRouter {
+    interfaces.wiregrill = {
       allowedUDPPorts = [ 53 ];
       allowedTCPPorts = [ 53 ];
     };
   };
 
 
-  services.dnsmasq = mkIf isRouter {
+  services.dnsmasq = {
     enable = true;
     resolveLocalQueries = false;
     extraConfig = /* dnsmasq */ ''
@@ -55,7 +55,6 @@ in mkIf (hasAttr "wiregrill" config.krebs.build.host.nets) {
         ${ip6} -A FORWARD -i wiregrill -o wiregrill -j ACCEPT
         ${ip6} -A FORWARD -o wiregrill -m conntrack --ctstate RELATED,ESTABLISHED -j ACCEPT
 
-    '' + (optionalString isRouter ''
         #${ipt} -t nat -A PREROUTING -s 10.244.245.0/24 -j ACCEPT
         #${ipt} -t nat -A POSTROUTING -s 10.244.245.0/24 ! -d 10.244.245.0/24 -j MASQUERADE
 
@@ -76,8 +75,6 @@ in mkIf (hasAttr "wiregrill" config.krebs.build.host.nets) {
         ${ip6} -D FORWARD -i wiregrill -o wiregrill -j ACCEPT
         ${ip6} -D FORWARD -o wiregrill -m conntrack --ctstate RELATED,ESTABLISHED -j ACCEPT
 
-      '' + (optionalString isRouter ''
-
         ${ipt} -t nat -D PREROUTING -s 10.244.245.0/24 -j ACCEPT
         ${ipt} -t nat -D POSTROUTING -s 10.244.245.0/24 -j MASQUERADE
 
@@ -92,11 +89,9 @@ in mkIf (hasAttr "wiregrill" config.krebs.build.host.nets) {
     allowedIPsAsRoutes = true;
     peers = mapAttrsToList
       (_: host: {
-        allowedIPs = if isRouter then
+        allowedIPs = 
           (optional (!isNull host.nets.wiregrill.ip4) host.nets.wiregrill.ip4.addr) ++
           (optional (!isNull host.nets.wiregrill.ip6) host.nets.wiregrill.ip6.addr)
-        else
-          host.nets.wiregrill.wireguard.subnets
         ;
         endpoint = mkIf (!isNull host.nets.wiregrill.via) (host.nets.wiregrill.via.ip4.addr + ":${toString host.nets.wiregrill.wireguard.port}");
         persistentKeepalive = mkIf (!isNull host.nets.wiregrill.via) 61;

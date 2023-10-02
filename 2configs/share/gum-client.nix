@@ -8,7 +8,6 @@ let
   ];
   host = "gum.w";
 in {
-  sops.secrets."download.smb" = {};
   boot.extraModprobeConfig = ''
     options cifs CIFSMaxBufSize=130048
   '';
