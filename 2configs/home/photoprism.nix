@@ -21,7 +21,6 @@ let
   internal-ip = "192.168.111.11";
 in
 {
-  sops.secrets."photoprism/envfile" = {};
   virtualisation.oci-containers.backend = "docker";
 
   services.nginx.virtualHosts."photos" = {
@@ -100,7 +99,7 @@ in
 
     };
     environmentFiles = [
-      config.sops.secrets."photoprism/envfile".path
+      config.sops.secrets."omo-photoprism-envfile".path
     ];
   };
 
@@ -122,7 +121,7 @@ in
     #];
     volumes= [ "${db-dir}:/var/lib/mysql" ];
     environmentFiles = [
-      config.sops.secrets."photoprism/envfile".path
+      config.sops.secrets."omo-photoprism-envfile".path
     ];
     environment = {
       MYSQL_DATABASE= "photoprism";

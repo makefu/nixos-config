@@ -6,9 +6,8 @@ let
   webport = 8521;
 in
 {
-  sops.secrets."zigbee2mqtt" = {
+  sops.secrets."omo-zigbee2mqtt" = {
     owner = "zigbee2mqtt";
-    
     path = "/var/lib/zigbee2mqtt/configuration.yaml";
   };
   # symlink the zigbee controller
