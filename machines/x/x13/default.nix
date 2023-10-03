@@ -20,6 +20,9 @@
   boot.initrd.kernelModules = [ ];
   boot.kernelModules = [ "kvm-amd" ];
   boot.extraModulePackages = [ ];
+  boot.kernelParams = [
+    "amd_pstate=active"
+  ];
 
 
   boot.kernelPackages = lib.mkForce pkgs.linuxPackages;

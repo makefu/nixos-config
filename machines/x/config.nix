@@ -11,6 +11,7 @@
       # (self + "/makefu/2configs/hw/mceusb.nix")
       # (self + "/2configs/hw/rtl8812au.nix")
       ../../2configs/hw/network-manager.nix
+      ../../2configs/performance/disable-mitigations.nix
       # ../../2configs/hw/stk1160.nix
       # ../../2configs/hw/irtoy.nix
       # ../../2configs/hw/malduino_elite.nix
@@ -196,7 +197,7 @@
       # ../../2configs/lanparty/lancache-dns.nix
       # ../../2configs/lanparty/samba.nix
       # ../../2configs/lanparty/mumble-server.nix
-      ../../2configs/wireguard/wiregrill.nix
+      ../../2configs/wireguard/wiregrill-client.nix
 
 #      {
 #        networking.wireguard.interfaces.wg0 = {
