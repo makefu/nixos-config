@@ -96,9 +96,19 @@ in
       };
       "org/gnome/settings-daemon/plugins/media-keys/custom-keybindings/custom0" = {
         binding = "<Super>Return";
-        command = "gnome-terminal";
-        name = "terminal";
+        #command = "gnome-terminal";
+        #name = "terminal";
+        command = "guake-toggle";
+        name = "guake";
       };
+      "apps/guake/style/font" = {
+        style="Terminus 12";
+      };
+      "apps/guake/general" = {
+        infinite-history = true;
+        start-at-login = true;
+      };
+
     };
   };
   services.dbus.packages = with pkgs; [ gnome2.GConf gnome3.gnome-settings-daemon ];
