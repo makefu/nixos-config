@@ -7,6 +7,8 @@ in
     mode = "0440";
     group = config.users.groups.ara-secrets.name;
   };
+  users.groups.ara-secrets = {};
+
   systemd.services.ha-ara-menu = {
     description = "ha-ara-menu";
     wantedBy = [ "multi-user.target" ];
