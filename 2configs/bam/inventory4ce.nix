@@ -5,11 +5,11 @@ in
 { 
   users.groups.inventory-secrets = {};
 
-  sops.secrets.inventory_cert = {
+  sops.secrets.wbob-inventory4ce_cert = {
     mode = "0440";
     group = config.users.groups.inventory-secrets.name;
   };
-  sops.secrets.inventory_key = {
+  sops.secrets.wbob-inventory4ce_key = {
     mode = "0440";
     group = config.users.groups.inventory-secrets.name;
   };
@@ -17,8 +17,8 @@ in
     description = "inventory4ce";
     wantedBy = [ "multi-user.target" ];
     environment = {
-      INVENTORY_CERT = config.sops.secrets."inventory_cert".path;
-      INVENTORY_KEY = config.sops.secrets."inventory_key".path;
+      INVENTORY_CERT = config.sops.secrets."wbob-inventory4ce_cert".path;
+      INVENTORY_KEY = config.sops.secrets."wbob-inventory4ce_key".path;
       INVENTORY_PORT = "3001";
       INVENTORY_HOST = "0";
     };
