@@ -11,7 +11,6 @@ in {
     script = builtins.readFile ./ratt-hourly.sh;
     scriptArgs = "${./urls} ${out-path}";
 
-    preStart = "install -v -m750 ${./ebk.yml} ${ratt-path}/ebk.yml"; # ratt requires the config file in the cwd
     serviceConfig.User = "nginx";
     serviceConfig.WorkingDirectory= ratt-path;
     startAt = "00/3:07"; # every 3 hours, fetch latest
