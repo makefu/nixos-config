@@ -2,7 +2,6 @@ _:
 
 {
   imports = [
-    ./awesome-extra.nix
     ./bump-distrowatch.nix
     ./deluge.nix
     ./etherpad.nix
