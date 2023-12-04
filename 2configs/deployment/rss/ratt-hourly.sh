@@ -17,7 +17,7 @@ EOF
 echo "looping through $URLS"
 cat "$URLS" | while read line;do
   echo "fetching $line"
-  ratt auto "$line"  | \
+  ratt "$line"  | \
   xmlstarlet sel -t -c "//item" >> "$OUTFILE" || :
 done
 
