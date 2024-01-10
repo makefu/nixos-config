@@ -1,17 +1,17 @@
 { buildGoModule, fetchFromSourcehut, lib }:
 buildGoModule rec {
   pname = "ratt";
-  version = "unstable-2022-05-09";
+  version = "unstable-2023-10-28";
 
   src = fetchFromSourcehut {
-    owner = "~ghost08";
+    owner = "~makefu";
     repo = "ratt";
-    rev = "bf539e1cb04017f5e9d248a8e5f7a6f22f77d06e";
-    sha256 = "0pfz6wnmpwabklayah3bddxkhvg64f5hfyvzkv3xfqpw8c70jdll";
+    rev = "351e0c2c03b8663332b3a2081763edcdd13aeb22";
+    sha256 = "sha256-eeW8hGMrcAD2VCWyiaJ7T7Tyhd9LlokyiALCFJj2P4I=";
   };
 
   proxyVendor = true;
-  vendorSha256 = "sha256-tCSwyusVstEkz2pXYGX5JmS+VgqErSPtnh4LomaaFcE=";
+  vendorSha256 = "sha256-8iB1+ufoN65n5FnCkLfoVoBXaL3LkNtzgYBF2rPWtGg=";
 
   # tests try to access the internet to scrape websites
   doCheck = false;
