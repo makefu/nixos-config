@@ -1,9 +1,8 @@
 { config, lib, ... }:
 {
-  sops.secrets."wg-thierry.key" = {};
   networking.wireguard.interfaces.thierry-wg = {
     ips = [ "172.27.66.10/24" ]; # TODO: not dnyamic
-    privateKeyFile = config.sops.secrets."wg-thierry.key".path;
+    privateKeyFile = config.sops.secrets."wbob-wg-thierry.key".path;
     allowedIPsAsRoutes = true;
     # explicit route via eth0 to gum
     peers = [
