@@ -1,7 +1,7 @@
 {
   # the pseyecam in the diorama
   services.udev.extraRules = ''
-    KERNEL=="video*",ATTRS{vendor}=="0x1415", ATTRS{device}=="0x2000", GROUP="video", SYMLINK+="diorama_cam"
+    SUBSYSTEM=="video4linux", ATTRS{idVendor}=="1415", ATTRS{idProduct}=="2000", SYMLINK+="diorama_cam"
   '';
   services.mjpg-streamer = {
       enable = true;
