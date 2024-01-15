@@ -31,9 +31,9 @@ let
 in {
   imports = [ ];
 
-  nixpkgs.config.packageOverrides = pkgs: with pkgs; {
-    collectd = pkgs.collectd.override { python= pkgs.python; };
-  };
+  #nixpkgs.config.packageOverrides = pkgs: with pkgs; {
+  #  collectd = pkgs.collectd.override { python= pkgs.python; };
+  #};
   services.collectd = {
     enable = true;
     include = [ (toString connect-time-cfg) (toString graphite-cfg) ];
