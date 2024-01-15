@@ -3,7 +3,7 @@
    fonts = {
      fontDir.enable = true;
      enableGhostscriptFonts = true;
-     fonts = with pkgs; [
+     packages = with pkgs; [
        inconsolata  # monospaced
        ubuntu_font_family  # Ubuntu fonts
        unifont # some international languages
