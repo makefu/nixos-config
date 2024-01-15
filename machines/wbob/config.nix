@@ -65,46 +65,8 @@ in {
       # ../../2configs/bam/visitor-photostore.nix
       # ../../2configs/bam/mpd.nix #mpd is only used for TTS, this is the web interface
       ../../2configs/mqtt.nix
-      {
-        services.mjpg-streamer = {
-          enable = true;
-          inputPlugin = "input_uvc.so -d /dev/video0 -r 640x480 -y -f 30 -q 50 -n";
-          outputPlugin = "output_http.so -w @www@ -n -p 18088";
-        };
-      }
-      (let
-          collectd-port = 25826;
-          influx-port = 8086;
-          admin-port = 8083;
-          grafana-port = 3000; # TODO nginx forward
-          db = "collectd_db";
-          logging-interface = "enp0s25";
-        in {
-          networking.firewall.allowedTCPPorts = [ 3000 influx-port admin-port ];
-
-          services.grafana.enable = true;
-          services.grafana.settings.server.http_addr = "0.0.0.0";
-          services.influxdb.enable = true;
-          systemd.services.influxdb.serviceConfig.LimitNOFILE = 8192;
-
-          services.influxdb.extraConfig = {
-            meta.hostname = config.krebs.build.host.name;
-            # meta.logging-enabled = true;
-            http.bind-address = ":${toString influx-port}";
-            admin.bind-address = ":${toString admin-port}";
-            collectd = [{
-              enabled = true;
-              typesdb = "${pkgs.collectd}/share/collectd/types.db";
-              database = db;
-              bind-address = ":${toString collectd-port}";
-            }];
-          };
-
-          networking.firewall.extraCommands = ''
-            iptables -A INPUT -i ${logging-interface} -p tcp --dport ${toString grafana-port} -j ACCEPT
-          '';
-      })
-
+      ../../2configs/bam/cam.nix
+      ../../2configs/bam/influx.nix
       ../../2configs/backup/state.nix
       # temporary
       # ../../2configs/temp/rst-issue.nix

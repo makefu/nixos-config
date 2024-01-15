@@ -14,6 +14,15 @@ in {
       ../../2configs/headless.nix
       ../../2configs/support-nixos.nix
       ../../2configs/nur.nix
+      {
+        services.xserver.enable = true;
+        services.xserver.displayManager.sddm.enable = true;
+        services.xserver.desktopManager.plasma5.enable = true;
+
+        services.xrdp.enable = true;
+        services.xrdp.defaultWindowManager = "startplasma-x11";
+        services.xrdp.openFirewall = true;
+      }
       # x11 forwarding
       {
         services.openssh.forwardX11 = true;
@@ -53,9 +62,9 @@ in {
       ../../2configs/share
       ../../2configs/share/omo.nix
       ../../2configs/share/gum-client.nix
-      ../../2configs/sync
+      # ../../2configs/sync
 
-      ../../2configs/wireguard/wiregrill.nix
+      ../../2configs/wireguard/wiregrill-client.nix
       #../../2configs/dcpp/airdcpp.nix
       #{ krebs.airdcpp.dcpp.shares = let
       #    d = path: "/media/cryptX/${path}";
@@ -97,7 +106,7 @@ in {
       ../../2configs/remote-build/slave.nix
       # TODO:
       ../../2configs/virtualisation/docker.nix
-      ../../2configs/bluetooth-mpd.nix
+      # ../../2configs/bluetooth-mpd.nix
 
       ../../2configs/home/jellyfin.nix
       ../../2configs/home/music.nix
@@ -117,11 +126,12 @@ in {
         users.users.makefu.packages = [ pkgs.pkgrename ];
       }
 
+      ../../2configs/home/paperless.nix
 
-      {
-        hardware.pulseaudio.systemWide = true;
-        makefu.mpd.musicDirectory = "/media/cryptX/music";
-      }
+      #{
+      #  hardware.pulseaudio.systemWide = true;
+      #  makefu.mpd.musicDirectory = "/media/cryptX/music";
+      #}
 
       # security
       ../../2configs/sshd-totp.nix

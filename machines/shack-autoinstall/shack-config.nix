@@ -13,7 +13,7 @@
   };
   networking.hostName = "shackbook";
 
-  boot.tmpOnTmpfs = true;
+  boot.tmp.useTmpfs = true;
 
   users.users.shack = {
     createHome = true;

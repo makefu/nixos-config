@@ -7,7 +7,7 @@
   boot.loader.generationsDir.enable = lib.mkDefault false;
   boot.supportedFilesystems = lib.mkForce [ "vfat" ];
 
-  boot.tmpOnTmpfs = lib.mkForce false;
+  boot.tmp.useTmpfs = lib.mkForce false;
   boot.cleanTmpDir = true;
   hardware.enableRedistributableFirmware = true;
 
