@@ -1,3 +1,4 @@
+{config, pkgs, ... }:
 let
   collectd-port = 25826;
   influx-port = 8086;
