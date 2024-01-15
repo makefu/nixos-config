@@ -18,6 +18,7 @@
     sops
     kpaste
     cyberlocker-tools
+    inputs.clan-core.packages.x86_64-linux.clan-cli
     # esphome # broken
 
     # nix related
