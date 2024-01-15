@@ -24,7 +24,7 @@ in {
     after = [ "rtorrent.service" ];
     serviceConfig = {
       User = "rtorrent";
-      ExecStart = "${pkgs.nodePackages.flood}/bin/flood --auth none --port ${toString web-port} --rtsocket ${config.services.rtorrent.rpcSocket}";
+      ExecStart = "${pkgs.nodePackages.flood}/bin/flood --noauth --port ${toString web-port} --rtsocket ${config.services.rtorrent.rpcSocket}";
     };
   };
 
