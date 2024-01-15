@@ -16,6 +16,7 @@
   ];
 
   swapDevices = [ ];
+  zramSwap.enable = true;
   boot.initrd.availableKernelModules = [ "nvme" "ehci_pci" "xhci_pci" "usb_storage" "sd_mod" ];
   boot.initrd.kernelModules = [ ];
   boot.kernelModules = [ "kvm-amd" ];
