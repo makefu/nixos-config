@@ -95,13 +95,12 @@ in {
   systemd.services."nextcloud-setup" = {
     requires = ["postgresql.service"];
     after = ["postgresql.service"];
-    serviceConfig.RequiresMountFor = [ "/media/cloud" ];
+    unitConfig.RequiresMountsFor = [ "/media/cloud" ];
   };
 
-  systemd.services."phpfpm-nextcloud".serviceConfig.RequiresMountFor = [
+  systemd.services."phpfpm-nextcloud".unitConfig.RequiresMountsFor = [
     "/media/cloud"
     "/var/lib/nextcloud/data"
   ];
 
-  systemd.services."phpfpm".serviceConfig.RequiresMountFor = [ "/media/cloud" ];
 }
