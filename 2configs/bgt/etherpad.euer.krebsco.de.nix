@@ -1,8 +1,15 @@
-{ lib, ... }:
+{ config, lib, ... }:
 let
   port = 19201;
+  realport = 9001;
 in {
   #services.nginx.virtualHosts."euer.krebsco.de".serverAliases = [ "etherpad.euer.krebsco.de" ];
+  #virtualisation.oci-containers.backend = "docker";
+  #virtualisation.podman = {
+  #  defaultNetwork.settings.dns_enabled = true;
+  #  dockerCompat = true;
+  #  enable = true;
+  #};
   services.nginx.virtualHosts."etherpad.euer.krebsco.de" = {
     # useACMEHost = "euer.krebsco.de";
     extraConfig = ''
@@ -10,7 +17,7 @@ in {
     '';
     enableACME = true;
     forceSSL = true;
-    locations."/".proxyPass = "http://127.0.0.1:${toString port}";
+    locations."/".proxyPass = "http://127.0.0.1:${ toString realport}";
     # from https://github.com/ether/etherpad-lite/wiki/How-to-put-Etherpad-Lite-behind-a-reverse-Proxy
     locations."/".extraConfig = ''
 
@@ -24,20 +31,21 @@ in {
         proxy_set_header    X-Forwarded-Proto $scheme; # for EP to set secure cookie flag when https is used
         proxy_http_version  1.1; # recommended with keepalive connections
 
-        # WebSocket proxying - from https://nginx.org/en/docs/http/websocket.html
         proxy_set_header  Upgrade $http_upgrade;
         proxy_set_header  Connection "upgrade";
         proxy_read_timeout 1799s;
     '';
   };
-  state = [ "/var/lib/docker/volumes/etherpad_data/_data/" ];
+  sops.secrets.etherpad-apikey.mode = "0440";
+  state = [ "/var/lib/containers/storage/volumes/etherpad_data/_data/dirty.db"  ];
   virtualisation.oci-containers.containers."etherpad-lite" = {
     #image = "makefoo/bgt-etherpad:2021-04-16.3"; # --build-arg ETHERPAD_PLUGINS="ep_markdown"
+    #image = "etherpad/etherpad:1.9.4";
     image = "etherpad/etherpad:1.8.14";
-
-    ports = [ "127.0.0.1:${toString port}:9001" ];
+    extraOptions = [ "--network=host"];
+    ports = [ "127.0.0.1:${toString port}:${toString realport}" ];
     volumes = [
-      "/var/src/secrets/etherpad/apikey:/opt/etherpad-lite/APIKEY.txt"
+      "${ config.sops.secrets.etherpad-apikey.path }:/opt/etherpad-lite/APIKEY.txt"
       "etherpad_data:/opt/etherpad-lite/var" # persistent dirtydb
     ];
   # for postgres
@@ -49,9 +57,9 @@ in {
   #DB_PASS=mypassword
     environment = {
       # ADMIN_PASSWORD = "auf jeden fall nicht das echte admin passwort";
-      # LOGLEVEL = "DEBUG";
-
+      LOGLEVEL = "DEBUG";
       SUPPRESS_ERRORS_IN_PAD_TEXT = "true";
+      # IP = "::";
       TRUST_PROXY =  "true";
       TITLE = "Binärgewitter Etherpad";
       SKIN_NAME = "no-skin";
