@@ -3,6 +3,7 @@ _:
 {
   imports = [
     ./bump-distrowatch.nix
+    ./fetchWallpaper.nix
     ./deluge.nix
     ./etherpad.nix
     ./forward-journal.nix

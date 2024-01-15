@@ -14,7 +14,7 @@ let
   '';
 
 in {
-  options.lass.fetchWallpaper = {
+  options.krebs.fetchWallpaper = {
     enable = lib.mkEnableOption "fetch wallpaper";
     url = lib.mkOption {
       type = lib.types.str;
