@@ -8,8 +8,11 @@ in
     enable = true;
     # new camera
     #inputPlugin = "input_uvc.so -d ${dev} -r 1280x960";
+    # inputPlugin = "input_uvc.so -y -d ${dev} -r 640x480";
     # ps eye came
-    inputPlugin = "input_uvc.so -y -d ${dev} -r 640x480";
+
+    inputPlugin = "input_uvc.so -d ${dev} -r 640x480 -y -f 30 -q 50 -n";
+    # outputPlugin = "output_http.so -w @www@ -n -p 18088";
   };
   users.users.octoprint.extraGroups = [ "video" ];
 
@@ -17,9 +20,9 @@ in
   # also ensure that the webcam always comes up under the same name
   services.udev.extraRules = ''
     SUBSYSTEM=="vchiq",GROUP="video",MODE="0660"
-    KERNEL=="video*",ATTRS{vendor}=="0x046d", ATTRS{device}=="0x0825", GROUP="video", SYMLINK+="web_cam"
-    KERNEL=="video*",ATTRS{vendor}=="0x1415", ATTRS{device}=="0x2000", GROUP="video", SYMLINK+="web_cam"
+    SUBSYSTEM=="video4linux", ATTRS{idVendor}=="1415", ATTRS{idProduct}=="2000", SYMLINK+="web_cam"
   '';
+
   systemd.services.octoprint = {
     path = [ pkgs.libraspberrypi ];
   };
@@ -44,7 +47,7 @@ in
       })
     ];
     extraConfig.plugins.mqtt.broker = {
-      url = "omo.lan";
+      url = "192.168.111.11";
       # TODO TODO TODO
       username = "hass";
       password = "lksue43jrf";
