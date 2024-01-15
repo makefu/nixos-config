@@ -1,4 +1,4 @@
-{ pkgs, ... }:
+{ pkgs, inputs, ... }:
 
 {
   users.users.makefu.packages = with pkgs;[

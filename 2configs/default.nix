@@ -8,7 +8,7 @@ with lib;
     ./binary-cache/nixos.nix
     ./minimal.nix
     ./secrets/ssh_server.nix
-    ./overlays/default.nix
+    # ./overlays/default.nix
     # ./security/hotfix.nix
   ];
 
@@ -29,9 +29,9 @@ with lib;
   # nix.settings.trusted-users = [ config.krebs.build.user.name ];
   nix.settings.experimental-features = [ "flakes" "nix-command" ];
 
-  boot.kernelPackages = lib.mkDefault pkgs.linuxPackages;
+  # boot.kernelPackages = lib.mkDefault pkgs.linuxPackages;
 
-  nixpkgs.config.allowUnfreePredicate = pkg: packageName pkg == "unrar";
+  # nixpkgs.config.allowUnfreePredicate = pkg: packageName pkg == "unrar";
 
   krebs = {
     enable = true;
@@ -63,10 +63,10 @@ with lib;
     grep = "grep --color=auto";
   };
 
-  nixpkgs.config.packageOverrides = pkgs: {
+  # nixpkgs.config.packageOverrides = pkgs: {
     #nano = pkgs.runCommand "empty" {} "mkdir -p $out";
-    tinc = pkgs.tinc_pre;
-  };
+  #  tinc = pkgs.tinc_pre;
+  #};
 
 
   nix.extraOptions = ''

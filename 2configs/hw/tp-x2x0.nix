@@ -16,7 +16,6 @@
   networking.wireless.enable = lib.mkDefault true;
 
   hardware.enableRedistributableFirmware = true;
-  nixpkgs.config.allowUnfree = true;
 
   hardware.cpu.intel.updateMicrocode = true;
 
