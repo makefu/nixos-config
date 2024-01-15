@@ -14,16 +14,16 @@ in {
     #../../2configs/support-nixos.nix
     # ../../2configs/homeautomation/default.nix
     # ../../2configs/homeautomation/google-muell.nix
-    # ../../2configs/hw/pseyecam.nix
+    ../../2configs/hw/pseyecam.nix
     # configure your hw:
     # ../../2configs/save-diskspace.nix
 
     # directly use the alsa device instead of attaching to pulse
 
     ../../2configs/tinc/retiolum.nix
-    ../../2configs/audio/respeaker.nix
-    ../../2configs/home/rhasspy/default.nix
-    ../../2configs/home/rhasspy/led-control.nix
+    # ../../2configs/audio/respeaker.nix
+    #../../2configs/home/rhasspy/default.nix
+    #../../2configs/home/rhasspy/led-control.nix
   ];
   krebs = {
     enable = true;
@@ -35,4 +35,5 @@ in {
   documentation.info.enable = false;
   documentation.man.enable = false;
   documentation.nixos.enable = false;
+  #nixpkgs.config.allowUnsupportedSystem = true;
 }

@@ -28,7 +28,7 @@
       ../../2configs/mosh.nix
       # Networking
       ../../2configs/tinc/retiolum.nix
-      ../../2configs/wireguard/wiregrill.nix
+      ../../2configs/wireguard/wiregrill-client.nix
 
       # services
       ../../2configs/bgt/savarcast/download.nix
@@ -52,7 +52,7 @@
 
   # Network
   networking = {
-    useDHCP = lib.mkDefault true;
+    useDHCP = true;
     firewall = {
         allowedTCPPorts = [ 80 443 ];
         allowPing = true;

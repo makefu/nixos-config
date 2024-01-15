@@ -36,7 +36,7 @@
   boot.loader.grub.device = "/dev/sda";
 
   networking.hostId = "3150697b"; # required for zfs use
-  boot.tmpOnTmpfs = true;
+  boot.tmp.useTmpfs = true;
   boot.supportedFilesystems = [ "zfs" ];
 
   boot.loader.grub.enable = true;

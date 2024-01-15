@@ -11,7 +11,7 @@ in {
       {
         # wait for mount
         systemd.services.rtorrent.wantedBy = lib.mkForce [];
-        systemd.services.phpfpm-nextcloud.wantedBy = lib.mkForce [];
+        # systemd.services.phpfpm-nextcloud.wantedBy = lib.mkForce [];
         systemd.services.samba-smbd.wantedBy = lib.mkForce [];
       }
       {
@@ -51,6 +51,7 @@ in {
 
       ../../2configs/zsh-user.nix
       ../../2configs/mosh.nix
+      # ../../2configs/disable_v6.nix
       ../../2configs/storj/forward-port.nix
       # ../../2configs/gui/xpra.nix
 
@@ -132,8 +133,8 @@ in {
       { makefu.backup.server.repo = "/var/backup/borg"; }
       ../../2configs/backup/server.nix
       ../../2configs/backup/state.nix
-      ../../2configs/wireguard/server.nix
-      ../../2configs/wireguard/wiregrill.nix
+      # ../../2configs/wireguard/server.nix
+      ../../2configs/wireguard/wiregrill-server.nix
 
       { # recent changes mediawiki bot
         networking.firewall.allowedUDPPorts = [ 5005 5006 ];

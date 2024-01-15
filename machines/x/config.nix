@@ -172,7 +172,7 @@
       ../../2configs/tor.nix
       # ../../2configs/vpn/vpngate.nix
       # ../../2configs/buildbot-standalone.nix
-      # ../../2configs/remote-build/aarch64-community.nix
+      ../../2configs/remote-build/aarch64-community.nix
       # ../../2configs/remote-build/gum.nix
       # { nixpkgs.overlays = [ (self: super: super.prefer-remote-fetch self super) ]; }
 
@@ -222,8 +222,8 @@
     ];
 
 
-  nixpkgs.config.allowUnfree = true;
-  nixpkgs.config.oraclejdk.accept_license = true;
+  # nixpkgs.config.allowUnfree = true;
+  # nixpkgs.config.oraclejdk.accept_license = true;
 
   # configure pulseAudio to provide a HDMI sink as well
   networking.firewall.enable = true;
@@ -250,6 +250,9 @@
     "/home/makefu/.password-store"
     "/home/makefu/.secrets-pass"
     "/home/makefu/.config/syncthing"
+  ];
+  boot.binfmt.emulatedSystems = [
+    "aarch64-linux"
   ];
 
   # services.syncthing.user = lib.mkForce "makefu";

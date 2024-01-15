@@ -47,26 +47,26 @@ with pkgs.stockholm.lib;
   # enable ssh in the iso boot process
   systemd.services.sshd.wantedBy = lib.mkForce [ "multi-user.target" ];
   # hack `tee` behavior
-  nixpkgs.config.packageOverrides = super: {
-    irc-announce = super.callPackage <stockholm/krebs/5pkgs/simple/irc-announce> {
-      pkgs = pkgs // {
-        coreutils = pkgs.symlinkJoin {
-          name =  "coreutils-hack";
-          paths = [
-            pkgs.coreutils
-            (pkgs.writeDashBin "tee" ''
-              if test "$1" = /dev/stderr; then
-                while read -r line; do
-                  echo "$line"
-                  echo "$line" >&2
-                done
-              else
-                ${super.coreutils}/bin/tee "$@"
-              fi
-            '')
-          ];
-        };
-      };
-    };
-  };
+  #nixpkgs.config.packageOverrides = super: {
+  #  irc-announce = super.callPackage <stockholm/krebs/5pkgs/simple/irc-announce> {
+  #    pkgs = pkgs // {
+  #      coreutils = pkgs.symlinkJoin {
+  #        name =  "coreutils-hack";
+  #        paths = [
+  #          pkgs.coreutils
+  #          (pkgs.writeDashBin "tee" ''
+  #            if test "$1" = /dev/stderr; then
+  #              while read -r line; do
+  #                echo "$line"
+  #                echo "$line" >&2
+  #              done
+  #            else
+  #              ${super.coreutils}/bin/tee "$@"
+  #            fi
+  #          '')
+  #        ];
+  #      };
+  #    };
+  #  };
+  #};
 }
