@@ -1,6 +1,9 @@
 { pkgs, config, ... }:
 {
-  virtualisation.docker.enable = true;
+  virtualisation.docker = {
+    enable = true;
+    storageDriver = "devicemapper";
+  };
   environment.systemPackages = with pkgs;[
     docker
     docker-compose
