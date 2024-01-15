@@ -54,10 +54,11 @@
     inherit (nixpkgs) lib pkgs;
     pkgsForSystem = system: (import nixpkgs {
       inherit system;
-      #system = "x86_64-linux";
       config.allowUnfree = true;
       config.packageOverrides = lib.mkForce (pkgs: { tinc = pkgs.tinc_pre; });
       config.allowUnfreePredicate = pkg: lib.packageName pkg == "unrar";
+      config.android_sdk.accept_license = true;
+      config.oraclejdk.accept_license = true
       overlays = [
         self.overlays.default
         inputs.nix-writers.overlays.default

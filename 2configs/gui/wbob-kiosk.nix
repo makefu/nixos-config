@@ -2,7 +2,7 @@
 {
 
   imports = [
-      ./base.nix
+    ./base.nix
   ];
 
   users.users.kiosk = {

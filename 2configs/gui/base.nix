@@ -45,7 +45,7 @@ in
   fonts = {
     fontDir.enable = true;
     enableGhostscriptFonts = true;
-    fonts = [ pkgs.terminus_font pkgs.corefonts ];
+    packages = [ pkgs.terminus_font pkgs.corefonts ];
   };
 
   users.users.${mainUser} = {

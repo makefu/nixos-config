@@ -1,6 +1,6 @@
 {pkgs, config,  ...}:
 {
-  fonts.fonts = [ pkgs.font-awesome_5 ];
+  fonts.packages = [ pkgs.font-awesome_5 ];
   # Neovim dependencies
   home-manager.users.makefu = {
     home.packages = with pkgs; [
