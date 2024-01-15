@@ -60,7 +60,7 @@ in mkIf (hasAttr "wiregrill" config.krebs.build.host.nets) {
 
         #${ip6} -t nat -A PREROUTING -s 42:1::/32 -j ACCEPT
         #${ip6} -t nat -A POSTROUTING -s 42:1::/32 ! -d 42:1::/48 -j MASQUERADE
-    '');
+    '';
 
       # This undoes the above command
       postShutdown = ''
@@ -80,7 +80,7 @@ in mkIf (hasAttr "wiregrill" config.krebs.build.host.nets) {
 
         #${ip6} -t nat -D PREROUTING -s 42:1::/32 -j ACCEPT
         #${ip6} -t nat -D POSTROUTING -s 42:1::/32 ! -d 42:1::/48 -j MASQUERADE
-    '' );
+    '';
     ips =
       (optional (!isNull self.ip4) self.ip4.addr) ++
       (optional (!isNull self.ip6) self.ip6.addr);
