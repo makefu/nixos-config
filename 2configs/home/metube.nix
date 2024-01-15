@@ -11,7 +11,6 @@ in
   systemd.tmpfiles.rules = [
     "d ${dl-dir} metube nogroup - -"
   ];
-  virtualisation.oci-containers.backend = "docker";
 
   services.nginx.virtualHosts."tube" = {
     serverAliases = [ "tube.lan" ];
