@@ -1,16 +1,39 @@
-{config, ... }:
+{config, lib, ... }:
+let
+  paperuser = config.services.paperless.user;
+in
 {
-  sops.secrets."omo-paperless-admin-pw".owner = "paperless";
+  sops.secrets."paperless-admin-pw".owner = "paperless";
   services.paperless = {
     enable = true;
-    passwordFile config.sops.secrets."omo-paperless-admin-pw".path;
-    settings = {
+    passwordFile = config.sops.secrets."paperless-admin-pw".path;
+    address = "0";
+    # consumptionDir = "/media/cloud/nextcloud-data/makefu/files/SwiftScan";
+    extraConfig = {
       PAPERLESS_DBHOST = "/run/postgresql";
-      PAPERLESS_REDIS = "redis://localhost:6379";
+      #PAPERLESS_REDIS = "redis://127.0.0.1:6379";
       PAPERLESS_TIKA_ENABLED = "1";
-      PAPERLESS_TIKA_GOTENBERG_ENDPOINT = "http://localhost:30300";
-      PAPERLESS_TIKA_ENDPOINT = "http://localhost:9998";
-      PAPERLESS_OCR_LANGUAGES = "de";
+      PAPERLESS_TIKA_GOTENBERG_ENDPOINT = "http://127.0.0.1:30300";
+      PAPERLESS_TIKA_ENDPOINT = "http://127.0.0.1:9998";
+      PAPERLESS_OCR_LANGUAGES = "deu+eng";
+      PAPERLESS_FILENAME_FORMAT = "{created}_{title}";
+      PAPERLESS_OCR_SKIP_ARCHIVE_FILE = "always";
+      # PAPERLESS_OCR_MODE="redo";
+      #USE_X_FORWARD_HOST= true;
+      #USE_X_FORWARD_PORT = true;
+      #PAPERLESS_URL = "http://work.euer.krebsco.de";
+      #PAPERLESS_URL = "http://omo.r";
+    };
+  };
+  users.users.${paperuser}.extraGroups = [ "download"]; # access nextcloud
+
+  services.nginx = {
+    enable = lib.mkDefault true;
+    virtualHosts."paper.omo.r" = {
+      serverAliases = [ "work.euer.krebsco.de" "paper.euer.krebsco.de" "paper.makefu.r" ];
+      locations."/" = {
+        proxyPass = "http://localhost:28981";
+      };
     };
   };
 
@@ -18,13 +41,13 @@
     enable = true;
     ensureDatabases = [ "paperless" ];
     ensureUsers = [
-      { name = config.services.paperless.user;
+      { name = paperuser;
         ensureDBOwnership = true;
       }
     ];
   };
 
-  services.redis.enable = true;
+  # services.redis.enable = true;
 
   virtualisation.oci-containers.containers = {
     gotenberg = {
