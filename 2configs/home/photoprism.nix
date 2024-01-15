@@ -39,23 +39,23 @@ in
     '';
   };
 
-  systemd.services.workadventure-network = {
-    enable = true;
-    wantedBy = [ "multi-user.target" ];
-    script = ''
-      ${pkgs.docker}/bin/docker network create --driver bridge photoprism ||:
-    '';
-    after = [ "docker.service" ];
-    before = [
-      "docker-photoprism.service"
-      "docker-mysql-photoprism.service"
-    ];
-  };
+  #systemd.services.photoprism-network = {
+  #  enable = true;
+  #  wantedBy = [ "multi-user.target" ];
+  #  script = ''
+  #    ${pkgs.docker}/bin/docker network create --driver bridge photoprism ||:
+  #  '';
+  #  after = [ "docker.service" ];
+  #  before = [
+  #    "docker-photoprism.service"
+  #    "docker-mysql-photoprism.service"
+  #  ];
+  #};
 
 
   virtualisation.oci-containers.containers.photoprism = {
     image = "photoprism/photoprism:preview";
-    ports = ["${port}:${port}" ];
+    #ports = ["${port}:${port}" ];
     volumes = [
       "${photodir}:/photoprism/originals"
       "${statedir}:/photoprism/storage"
@@ -63,7 +63,8 @@ in
     extraOptions = [
       "--security-opt" "seccomp=unconfined"
       "--security-opt" "apparmor=unconfined"
-      "--network=photoprism"
+      #"--network=photoprism"
+      "--network=host"
     ];
     environment = {
       PHOTOPRISM_HTTP_PORT = port;                     # Built-in Web server port
@@ -87,7 +88,7 @@ in
       #PHOTOPRISM_DATABASE_PASSWORD = "photoprism";
 
       PHOTOPRISM_DATABASE_DRIVER= "mysql";           # Use MariaDB (or MySQL) instead of SQLite for improved performance
-      PHOTOPRISM_DATABASE_SERVER= "mysql-photoprism:3306" ;   # MariaDB database server (hostname:port)
+      PHOTOPRISM_DATABASE_SERVER= "localhost:3306" ;   # MariaDB database server (hostname:port)
       PHOTOPRISM_DATABASE_NAME= "photoprism";        # MariaDB database schema name
 
       PHOTOPRISM_SITE_URL = "http://localhost:2342/";  # Public PhotoPrism URL
@@ -108,9 +109,10 @@ in
     extraOptions = [
       "--security-opt" "seccomp=unconfined"
       "--security-opt" "apparmor=unconfined"
-      "--network=photoprism"
+      #"--network=photoprism"
+      "--network=host"
     ];
-    ports = [ "3306:3306" ]; # no need to expose the database
+    #ports = [ "3306:3306" ]; # no need to expose the database
     #cmd = [ "mysqld"
     #  "--transaction-isolation=READ-COMMITTED"
     #  "--character-set-server=utf8mb4"
@@ -137,12 +139,4 @@ in
   #  };
   #};
 
-  systemd.services.docker-photoprism.serviceConfig = {
-    StandardOutput = lib.mkForce "journal";
-    StandardError = lib.mkForce "journal";
-  };
-  systemd.services.docker-mysql-photoprism.serviceConfig = {
-    StandardOutput = lib.mkForce "journal";
-    StandardError = lib.mkForce "journal";
-  };
 }
