@@ -1,9 +1,9 @@
 { config, pkgs, lib, ... }:
 let
-  configFile = config.sops.secrets."isso.conf".path;
+  configFile = config.sops.secrets."bgt-isso.conf".path;
 in {
 
-  sops.secrets."isso.conf" = {
+  sops.secrets."bgt-isso.conf" = {
     owner = "isso";
     group = "isso";
   };

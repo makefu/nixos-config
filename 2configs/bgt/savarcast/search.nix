@@ -2,7 +2,6 @@
 let
   searchdir = "/var/www/search";
 in {
-
   users.users.stork = {
     group = "stork";
     isNormalUser = true;
@@ -13,6 +12,7 @@ in {
       "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIGrj6cLVxv6LR0INj2OL/EVdEFMZSk0fOc0pCeXVTirz hi@l33t.name"
     ];
   };
+  users.groups.stork = {};
 
   systemd.tmpfiles.rules = [ "d ${searchdir} 0770 stork nginx - -" ];
 
