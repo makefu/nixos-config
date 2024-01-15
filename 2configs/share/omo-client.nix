@@ -7,7 +7,7 @@ let
     "x-systemd.device-timeout=5s"
     "x-systemd.mount-timeout=5s"
   ];
-  host = "omo.lan";
+  host = "192.168.111.11";
   path = "/media/omo/photos";
 in {
   systemd.tmpfiles.rules = [

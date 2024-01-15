@@ -9,7 +9,7 @@ let
 in {
 
   # samba share /media/crypt1/share
-  systemd.services.samba-smbd.serviceConfig.RequiresMountFor = [ "/media/cryptX" ];
+  systemd.services.samba-smbd.unitConfig.RequiresMountsFor = lib.mkForce [ "/var/lib/samba" "/media/cryptX" ];
   users.users.smbguest = {
     name = "smbguest";
     uid = config.ids.uids.smbguest;
@@ -24,6 +24,12 @@ in {
       winshare = {
         path = "/media/crypt1/share";
         "read only" = "no";
+        browseable = "yes";
+        "guest ok" = "yes";
+      };
+      music = {
+        path = "/media/cryptX/music";
+        "read only" = "yes";
         browseable = "yes";
         "guest ok" = "yes";
       };

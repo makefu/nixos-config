@@ -23,7 +23,7 @@ in {
   sops.secrets."tw-pass.ini" = {};
   state = [ base-dir ];
   # hotfix for broken wiki after reboot
-  systemd.services."phpfpm-euer-wiki".serviceConfig.RequiresMountFor = [ "/media/cloud" ];
+  systemd.services."phpfpm-euer-wiki".unitConfig.RequiresMountsFor = [ "/media/cloud" ];
   services.phpfpm = {
     pools.euer-wiki = {
       inherit user group;
