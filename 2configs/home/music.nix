@@ -9,11 +9,13 @@ in
     MusicFolder = "/media/cryptX/music/kinder";
     Address = "0.0.0.0";
   };
-  systemd.services.navidrome.serviceConfig = {
-    RequiresMountFor = [ "/media/cryptX" ];
-    Restart = "always";
-    
-    RestartSec = "15";
+  systemd.services.navidrome = {
+    serviceConfig = {
+      Restart = "always";
+      
+      RestartSec = "15";
+    };
+    unitConfig.RequiresMountsFor = [ "/media/cryptX" ];
   };
 
   state = [ "/var/lib/navidrome" ];
