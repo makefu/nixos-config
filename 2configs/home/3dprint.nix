@@ -1,6 +1,5 @@
 { pkgs, ... }:
 let
-  #dev = "/dev/web_cam";
   dev = "/dev/web_cam";
 in
 {
@@ -8,13 +7,13 @@ in
     enable = true;
     # new camera
     #inputPlugin = "input_uvc.so -d ${dev} -r 1280x960";
-    # inputPlugin = "input_uvc.so -y -d ${dev} -r 640x480";
     # ps eye came
+    inputPlugin = "input_uvc.so -y -d ${dev} -r 640x480 -f 5";
 
-    inputPlugin = "input_uvc.so -d ${dev} -r 640x480 -y -f 30 -q 50 -n";
     # outputPlugin = "output_http.so -w @www@ -n -p 18088";
   };
   users.users.octoprint.extraGroups = [ "video" ];
+  users.users.mjpg-streamer.extraGroups = [ "video" ];
 
   # allow octoprint to access /dev/vchiq
   # also ensure that the webcam always comes up under the same name
@@ -37,21 +36,19 @@ in
       # octolapse
       (buildPlugin rec {
         pname = "OctoPrint-HomeAssistant";
-        version = "3.6.2";
+        version = "3.7.0";
         src = pkgs.fetchFromGitHub {
           owner = "cmroche";
           repo = pname;
           rev = version;
-          hash = "sha256-oo9OBmHoJFNGK7u9cVouMuBuUcUxRUrY0ppRq0OS1ro=";
+          hash = "sha256-R6ayI8KHpBSR2Cnp6B2mKdJGHaxTENkOKvbvILLte2E=";
         };
       })
     ];
     extraConfig.plugins.mqtt.broker = {
       url = "192.168.111.11";
-      # TODO TODO TODO
       username = "hass";
       password = "lksue43jrf";
-      # TODO TODO TODO
     };
   };
 }
