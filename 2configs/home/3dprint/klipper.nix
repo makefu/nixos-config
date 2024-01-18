@@ -19,7 +19,8 @@
   services.fluidd.enable = true;
   services.fluidd.hostName = "fluidd.lan";
   
-  services.fluidd.nginx.locations."/webcam".proxyPass = "http://127.0.0.1:8080/stream";
+  services.fluidd.nginx.locations."/webcam_stream".proxyPass = "http://127.0.0.1:5050/?action=stream";
+  services.fluidd.nginx.locations."/webcam_snapshot".proxyPass = "http://127.0.0.1:5050/?action=snapshot";
   services.nginx.clientMaxBodySize = "1000m";
 
   services.klipper = {
