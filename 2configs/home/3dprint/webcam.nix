@@ -9,7 +9,7 @@ in
     #inputPlugin = "input_uvc.so -d ${dev} -r 1280x960";
     inputPlugin = "input_uvc.so -y -d ${dev} -r 640x480 -f 5"; # ps eyecam
 
-    # outputPlugin = "output_http.so -w @www@ -n -p 18088";
+    # outputPlugin = "output_http.so -w @www@ -n -p 5050";
   };
 
   services.udev.extraRules = ''
