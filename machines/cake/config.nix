@@ -6,7 +6,7 @@ in {
     ./hardware-config.nix
     ../../2configs
     ../../2configs/home-manager
-    ../../2configs/home/3dprint/
+    ../../2configs/home/3dprint
     #./hardware-config.nix
     { environment.systemPackages = with pkgs;[ rsync screen curl git tmux picocom mosh ];}
     # ../../2configs/tools/core.nix
