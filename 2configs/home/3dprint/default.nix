@@ -2,7 +2,10 @@
 let
   dev = "/dev/web_cam";
 in
-{
+  {
+  imports = [
+    ./klipper.nix
+  ];
   services.mjpg-streamer = {
     enable = true;
     # new camera
