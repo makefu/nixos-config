@@ -6,7 +6,7 @@
     clan-core = {
       url = "git+https://git.clan.lol/clan/clan-core";
       # Don't do this if your machines are on nixpkgs stable.
-      # inputs.nixpkgs.follows = "nixpkgs";
+      inputs.nixpkgs.follows = "nixpkgs";
     };
 
     nixos-hardware.url = "github:NixOS/nixos-hardware";
@@ -52,26 +52,28 @@
                home-manager, nix-writers, vscode-server, ...}@inputs: 
   let
     inherit (nixpkgs) lib pkgs;
-    #pkgsForSystem = system: (import nixpkgs {
-    #  inherit system;
-    #  config.allowUnfree = true;
-    #  config.packageOverrides = lib.mkForce (pkgs: { tinc = pkgs.tinc_pre; });
-    #  config.allowUnfreePredicate = pkg: lib.packageName pkg == "unrar";
-    #  config.android_sdk.accept_license = true;
-    #  config.oraclejdk.accept_license = true;
-    #  overlays = [
-    #    self.overlays.default
-    #    inputs.nix-writers.overlays.default
-    #    (import (inputs.stockholm.inputs.nix-writers + "/pkgs"))
-    #    (this: super: {
-    #      inherit (this.writers) writeDash writeDashBin;
-    #      stockholm.lib = inputs.stockholm.lib;
-    #      ha-ara-menu = inputs.ha-ara-menu.packages.${system}.default;
-    #      inventory4ce = inputs.inventory4ce.packages.${system}.default;
-    #    })
-    #    inputs.stockholm.overlays.default
-    #  ];
-    #});
+    pkgsForSystem = system: (import nixpkgs {
+      inherit system;
+      config = {
+        allowUnfree = true;
+        packageOverrides = lib.mkForce (pkgs: { tinc = pkgs.tinc_pre; });
+        allowUnfreePredicate = pkg: lib.packageName pkg == "unrar";
+        android_sdk.accept_license = true;
+        oraclejdk.accept_license = true;
+      };
+      overlays = [
+        self.overlays.default
+        inputs.nix-writers.overlays.default
+        (import (inputs.stockholm.inputs.nix-writers + "/pkgs"))
+        (this: super: {
+          inherit (this.writers) writeDash writeDashBin;
+          stockholm.lib = inputs.stockholm.lib;
+          ha-ara-menu = inputs.ha-ara-menu.packages.${system}.default;
+          inventory4ce = inputs.inventory4ce.packages.${system}.default;
+        })
+        inputs.stockholm.overlays.default
+      ];
+    });
     #pkgsForSystem = system: nixpkgs.legacyPackages.${system};
     clan = clan-core.lib.buildClan {
       clanName = "makefu";
@@ -83,7 +85,7 @@
       machines = lib.genAttrs [ "filepimp" "mrdavid" "x" "cake" "tsp" "wbob" "omo" "gum" "savarcast" ] (host: rec {
         # TODO inject the system somewhere else
         nixpkgs.hostPlatform = if host == "cake" then  "aarch64-linux" else "x86_64-linux";
-        #nixpkgs.pkgs = if host == "cake" then pkgsForSystem "aarch64-linux" else pkgsForSystem "x86_64-linux";
+        # nixpkgs.pkgs = if host == "cake" then pkgsForSystem "aarch64-linux" else pkgsForSystem "x86_64-linux";
         imports = [
           ./2configs/nixpkgs-config.nix
           disko.nixosModules.disko

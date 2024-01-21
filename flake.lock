@@ -5,16 +5,18 @@
         "disko": "disko",
         "flake-parts": "flake-parts",
         "nixos-generators": "nixos-generators",
-        "nixpkgs": "nixpkgs",
+        "nixpkgs": [
+          "nixpkgs"
+        ],
         "sops-nix": "sops-nix",
         "treefmt-nix": "treefmt-nix"
       },
       "locked": {
-        "lastModified": 1705080849,
-        "narHash": "sha256-GdBbhCgscYWF2uK0kbU8w30V7GlOQXVm/eXgLye3gR8=",
+        "lastModified": 1705502446,
+        "narHash": "sha256-9116clrL8J5s0SCZH0E+docb54SfaZzPLLa9TvQPROY=",
         "ref": "refs/heads/main",
-        "rev": "07a0e1db0981c0db3ca6f7cbd8a68d86b2245eff",
-        "revCount": 1779,
+        "rev": "26259341d42bb9f84d1bf808bbd421c1b30d17ef",
+        "revCount": 1801,
         "type": "git",
         "url": "https://git.clan.lol/clan/clan-core"
       },
@@ -507,16 +509,16 @@
     },
     "nixpkgs": {
       "locked": {
-        "lastModified": 1705293701,
-        "narHash": "sha256-yJs738MxB+RsxGETqESof15lRJ5za6s3NmhjbXt8Kt4=",
+        "lastModified": 1705677747,
+        "narHash": "sha256-eyM3okYtMgYDgmYukoUzrmuoY4xl4FUujnsv/P6I/zI=",
         "owner": "NixOS",
         "repo": "nixpkgs",
-        "rev": "715fac4e39626ca0d24481f3d1fdd54dbeeaced8",
+        "rev": "bbe7d8f876fbbe7c959c90ba2ae2852220573261",
         "type": "github"
       },
       "original": {
         "owner": "NixOS",
-        "ref": "nixos-unstable-small",
+        "ref": "nixos-unstable",
         "repo": "nixpkgs",
         "type": "github"
       }
@@ -533,22 +535,6 @@
       "original": {
         "owner": "NixOS",
         "ref": "nixos-22.11",
-        "repo": "nixpkgs",
-        "type": "github"
-      }
-    },
-    "nixpkgs_2": {
-      "locked": {
-        "lastModified": 1705133751,
-        "narHash": "sha256-rCIsyE80jgiOU78gCWN3A0wE0tR2GI5nH6MlS+HaaSQ=",
-        "owner": "NixOS",
-        "repo": "nixpkgs",
-        "rev": "9b19f5e77dd906cb52dade0b7bd280339d2a1f3d",
-        "type": "github"
-      },
-      "original": {
-        "owner": "NixOS",
-        "ref": "nixos-unstable",
         "repo": "nixpkgs",
         "type": "github"
       }
@@ -640,7 +626,7 @@
         "nix-ld": "nix-ld",
         "nix-writers": "nix-writers",
         "nixos-hardware": "nixos-hardware",
-        "nixpkgs": "nixpkgs_2",
+        "nixpkgs": "nixpkgs",
         "stockholm": "stockholm",
         "vscode-server": "vscode-server"
       }
