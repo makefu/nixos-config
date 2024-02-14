@@ -7,6 +7,8 @@ let
   allDisks = [ "/dev/sda" "/dev/sdb" ];
 in {
   imports = [
+      
+      ../../2configs/networking/zerotier.nix
       ./hetznercloud
       {
         # wait for mount

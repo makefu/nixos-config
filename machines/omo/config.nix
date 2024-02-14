@@ -39,7 +39,7 @@ in {
       ../../2configs/editor/neovim
       # ../../2configs/storj/client.nix
 
-
+      ../../2configs/networking/zerotier.nix
       ../../2configs/backup/state.nix
 
       { makefu.backup.server.repo = "/media/cryptX/backup/borg"; }
@@ -156,7 +156,7 @@ in {
 
       # Temporary:
       # ../../2configs/temp/rst-issue.nix
-      ../../2configs/bgt/social-to-irc.nix
+      # ../../2configs/bgt/social-to-irc.nix
 
     ];
   makefu.full-populate =  true;

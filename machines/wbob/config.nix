@@ -11,6 +11,7 @@ in {
       ./nuc
 
 
+      ../../2configs/networking/zerotier.nix
       ../../2configs/home-manager
       ../../2configs/support-nixos.nix
       ../../2configs/zsh-user.nix
@@ -59,7 +60,8 @@ in {
       { environment.systemPackages = [ pkgs.vlc ]; }
 
       ../../2configs/bam # new hass entry point
-      ../../2configs/bam/led-fader.nix
+      # disable
+      # ../../2configs/bam/led-fader.nix
       ../../2configs/bam/printer.nix
       # ../../2configs/bam/kalauerbot.nix now runs in thales
       # ../../2configs/bam/visitor-photostore.nix

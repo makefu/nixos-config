@@ -6,6 +6,7 @@
       # ./x230
       ./x13
 
+      ../../2configs/networking/zerotier.nix
       ../../2configs/default.nix
       ## Common Hardware Components
       # (self + "/makefu/2configs/hw/mceusb.nix")
