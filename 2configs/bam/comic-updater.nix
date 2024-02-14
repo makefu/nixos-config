@@ -1,13 +1,13 @@
-{ config, lib, pkgs, buildPythonPackage, ... }:
+{ config, lib, pkgs, inputs, buildPythonPackage, ... }:
 
 let
   mq = "192.168.8.11";
-  pkg = pkgs.ampel;
 in {
   systemd.services.comic-updater = {
     startAt = "daily";
     description = "update our comics";
     after = [ "network-online.target"  ] ++ (lib.optional config.services.mosquitto.enable "mosquitto.service");
+    wants = [ "network-online.target" ];
     path = with pkgs; [ wget xmlstarlet ];
     wantedBy = [ "multi-user.target"  ];
     serviceConfig = {

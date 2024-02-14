@@ -1,6 +1,6 @@
- {pkgs, config, ... }:
+ {pkgs, config, inputs, ... }:
 let
-  pkg = pkgs.inventory4ce;
+  pkg = inputs.inventory4ce.packages.${pkgs.system}.default;
 in 
 { 
   users.groups.inventory-secrets = {};
