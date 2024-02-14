@@ -5,7 +5,6 @@
     #"${nixpkgs}/nixos/modules/installer/sd-card/sd-image-aarch64.nix"
   ];
   boot.kernelPackages = lib.mkForce pkgs.linuxPackages_rpi4;
-  #nixpkgs.pkgs = nixpkgs.legacyPackages.aarch64-linux;
   fileSystems = {
     "/" = {
       device = "/dev/disk/by-label/NIXOS_SD";
@@ -17,16 +16,14 @@
   hardware = {
     raspberry-pi."4" = {
       apply-overlays-dtmerge.enable = true;
-      audio.enable = true;  
+      #audio.enable = true;  
       fkms-3d.enable = true; 
     };
-    #deviceTree = {
-    #  enable = true;
-    #  filter = lib.mkForce "*rpi-4-*.dtb";
-    #};
+    deviceTree = {
+      enable = true;
+      filter = lib.mkForce "*rpi-4-*.dtb";
+    };
   };
-
-  nixpkgs.localSystem.system = "aarch64-linux";
 
   environment.systemPackages = [ pkgs.libraspberrypi pkgs.raspberrypi-eeprom ];
 }

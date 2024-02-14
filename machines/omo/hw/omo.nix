@@ -41,6 +41,7 @@ in {
     [ # TODO: unlock home partition via ssh
       ./vaapi.nix
       ../../../2configs/fs/sda-crypto-root.nix
+      ./nvme-extra.nix
     ];
     
   makefu.server.primary-itf = primaryInterface;
