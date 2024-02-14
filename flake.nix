@@ -7,6 +7,7 @@
       url = "git+https://git.clan.lol/clan/clan-core";
       # Don't do this if your machines are on nixpkgs stable.
       inputs.nixpkgs.follows = "nixpkgs";
+      inputs.flake-parts.follows = "flake-parts";
     };
 
     nixos-hardware.url = "github:NixOS/nixos-hardware";
@@ -14,9 +15,6 @@
     #home-manager.url = "github:nix-community/home-manager/release-23.11";
     home-manager.url = "github:nix-community/home-manager";
     home-manager.inputs.nixpkgs.follows = "nixpkgs";
-
-    disko.url = "github:nix-community/disko";
-    disko.inputs.nixpkgs.follows = "nixpkgs";
 
     flake-parts.url = "github:hercules-ci/flake-parts";
     flake-parts.inputs.nixpkgs-lib.follows = "nixpkgs";
@@ -31,24 +29,38 @@
 
     nix-writers.url = "git+https://cgit.krebsco.de/nix-writers";
     nix-writers.inputs.nixpkgs.follows = "nixpkgs";
+    poetry2nix = {
+      url = "github:nix-community/poetry2nix";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+
 
     # bam inputs
     ha-ara-menu.url = "github:kalauerclub/ha_ara_menu";
     ha-ara-menu.inputs.nixpkgs.follows = "nixpkgs";
+    ha-ara-menu.inputs.poetry2nix.follows = "poetry2nix";
 
     inventory4ce.url = "github:kalauerclub/inventory4ce";
     inventory4ce.inputs.nixpkgs.follows = "nixpkgs";
+    inventory4ce.inputs.poetry2nix.follows = "poetry2nix";
 
     lanzaboote.url = "github:nix-community/lanzaboote/v0.3.0";
     lanzaboote.inputs.nixpkgs.follows = "nixpkgs";
+    lanzaboote.inputs.flake-parts.follows = "flake-parts";
 
     vscode-server.url = "github:nix-community/nixos-vscode-server";
     vscode-server.inputs.nixpkgs.follows = "nixpkgs";
 
+    nether = {
+      url = "github:lassulus/nether";
+      inputs.nixpkgs.follows = "nixpkgs";
+      inputs.clan-core.follows = "clan-core";
+    };
   };
+
   description = "Flake of makefu";
 
-  outputs = { self, nixpkgs, lanzaboote, disko, nixos-hardware, nix-ld, clan-core,
+  outputs = { self, nixpkgs, lanzaboote, nixos-hardware, nix-ld, clan-core,
                home-manager, nix-writers, vscode-server, ...}@inputs: 
   let
     inherit (nixpkgs) lib pkgs;
@@ -65,8 +77,8 @@
         self.overlays.default
         inputs.nix-writers.overlays.default
         (import (inputs.stockholm.inputs.nix-writers + "/pkgs"))
-        (this: super: {
-          inherit (this.writers) writeDash writeDashBin;
+        (self: super: {
+          inherit (self.writers) writeDash writeDashBin;
           stockholm.lib = inputs.stockholm.lib;
           ha-ara-menu = inputs.ha-ara-menu.packages.${system}.default;
           inventory4ce = inputs.inventory4ce.packages.${system}.default;
@@ -88,7 +100,7 @@
         # nixpkgs.pkgs = if host == "cake" then pkgsForSystem "aarch64-linux" else pkgsForSystem "x86_64-linux";
         imports = [
           ./2configs/nixpkgs-config.nix
-          disko.nixosModules.disko
+          clan-core.inputs.disko.nixosModules.disko
           nix-ld.nixosModules.nix-ld
           home-manager.nixosModules.default
           lanzaboote.nixosModules.lanzaboote
@@ -108,6 +120,8 @@
           inputs.stockholm.nixosModules.systemd
           inputs.stockholm.nixosModules.setuid
           inputs.stockholm.nixosModules.urlwatch
+
+          inputs.nether.nixosModules.hosts
 
           self.nixosModules.default
           vscode-server.nixosModules.default
