@@ -10,6 +10,7 @@ in {
 
     ./zigbee2mqtt
     ./rhasspy.nix
+    ./esphome.nix
     ./jellyfin.nix
     ./ha-ara-menu.nix
     ./inventory4ce.nix
@@ -68,6 +69,7 @@ in {
     volumes = [
       "${confdir}:/config"
       "/data/music:/config/media"
+      "/run/dbus:/run/dbus:ro"
       #"${confdir}/docker-run:/etc/services.d/home-assistant/run:"
     ];
   };
