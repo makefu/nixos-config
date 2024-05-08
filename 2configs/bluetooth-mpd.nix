@@ -11,16 +11,16 @@ in {
 
   config = {
     # pipewire workaround for mpd to play music on kiosk user
-    services.mpd.user = "kiosk";
     systemd.services.mpd.environment = {
       # https://gitlab.freedesktop.org/pipewire/pipewire/-/issues/609
       XDG_RUNTIME_DIR = "/run/user/${toString config.users.users.kiosk.uid}";
     };
-
     services.mpd = {
       enable = true;
       inherit (cfg) musicDirectory;
-      network.listenAddress = "0.0.0.0";
+      network.listenAddress = "any";
+      user = "kiosk"; # run mpd under pipewire user
+      startWhenNeeded = true;
       extraConfig = ''
         audio_output {
           type "pipewire"
@@ -38,11 +38,11 @@ in {
     };
 
     sound.enable = true;
-    # connect via https://nixos.wiki/wiki/Bluetooth#Using_Bluetooth_headsets_with_PulseAudio
+    # connect via https://wiki.nixos.org/wiki/Bluetooth#Using_Bluetooth_headsets_with_PulseAudio
     hardware.bluetooth.enable = true;
-    # environment.etc."bluetooth/audio.conf".text = ''
-    #   [General]
-    #   Enable = Source,Sink,Media,Socket
-    # '';
+    environment.etc."bluetooth/audio.conf".text = ''
+      [General]
+      Enable = Source,Sink,Media,Socket
+    '';
   };
 }
