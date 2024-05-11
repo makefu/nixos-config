@@ -27,12 +27,12 @@ in {
           data_format = "influx";
           file_tag = "name";
           files = [ "/var/log/telegraf/*" ];
-        }] ++ lib.optional (lib.any (fs: fs == "ext4") config.boot.supportedFilesystems) {
+        }] ++ lib.optional (config.boot.supportedFilesystems ? "ext4") {
           name_override = "ext4_errors";
           files = [ "/sys/fs/ext4/*/errors_count" ];
           data_format = "value";
         };
-        exec = lib.optionalAttrs (lib.any (fs: fs == "zfs") config.boot.supportedFilesystems) {
+        exec = lib.optionalAttrs (config.boot.supportedFilesystems ? "zfs") {
           ## Commands array
           commands = [
             (pkgs.writeScript "zpool-health" ''
