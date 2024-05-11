@@ -123,8 +123,9 @@ in {
       { nixpkgs.config.allowUnfree = true; }
       #../../2configs/retroshare.nix
       ## ../../2configs/ipfs.nix
-      #../../2configs/syncthing.nix
-      # ../../2configs/sync
+      ../../2configs/sync
+      ../../2configs/sync/relay.nix
+      ../../2configs/sync/share/gum.nix
       # ../../2configs/opentracker.nix
 
 
@@ -151,7 +152,8 @@ in {
       ../../2configs/deployment/rss/ratt.nix
 
       ../../2configs/deployment/ntfysh.nix
-      ../../2configs/deployment/owncloud.nix #postgres backend
+      ../../2configs/deployment/nextcloud #postgres backend
+      ../../2configs/deployment/nextcloud/screeenly.nix
       ### Moving owncloud data dir to /media/cloud/nextcloud-data
       {
         users.users.nextcloud.extraGroups = [ "download" ];
