@@ -25,7 +25,7 @@ in {
       }
       # x11 forwarding
       {
-        services.openssh.forwardX11 = true;
+        services.openssh.settings.X11Forwarding = true;
         users.users.makefu.packages = [
           pkgs.tinymediamanager
         ];
@@ -62,9 +62,14 @@ in {
       ../../2configs/share
       ../../2configs/share/omo.nix
       ../../2configs/share/gum-client.nix
-      # ../../2configs/sync
+      ../../2configs/sync
+      ../../2configs/sync/share/omo.nix
 
       ../../2configs/wireguard/wiregrill-client.nix
+
+      #  Community services
+      ../../2configs/nix-community/legacy-mediawiki-matrix-bot.nix
+
       #../../2configs/dcpp/airdcpp.nix
       #{ krebs.airdcpp.dcpp.shares = let
       #    d = path: "/media/cryptX/${path}";
@@ -118,6 +123,7 @@ in {
       ../../2configs/home/ham/docker.nix
       ../../2configs/home/zigbee2mqtt
       ../../2configs/home/streams.nix
+      ../../2configs/home/esphome.nix
       {
         makefu.ps3netsrv = {
           enable = true;
