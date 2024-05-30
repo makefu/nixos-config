@@ -42,7 +42,6 @@ in {
   };
   boot.kernelParams = [ ];
   boot.loader.grub.enable = true;
-  boot.loader.grub.version = 2;
   boot.loader.grub.devices = [ main-disk ];
   boot.initrd.kernelModules = [  "dm-raid" "dm_cache" "dm-thin-pool" ];
   boot.initrd.availableKernelModules = [
