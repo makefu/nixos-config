@@ -49,7 +49,7 @@ in
     after = [
       "home-assistant.service"
       "mosquitto.service"
-      "network-online.target"
+      # "network-online.target"
     ];
   };
 }
