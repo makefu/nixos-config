@@ -1,4 +1,4 @@
-{lib, self, inputs, config, ... }:{
+{lib, pkgs, self, inputs, config, ... }:{
     nixpkgs = {
       config.allowUnfree = true;
       config.packageOverrides = lib.mkForce (pkgs: { tinc = pkgs.tinc_pre; });
@@ -12,8 +12,8 @@
         (this: super: {
           inherit (this.writers) writeDash writeDashBin;
           stockholm.lib = inputs.stockholm.lib;
-          ha-ara-menu = inputs.ha-ara-menu.packages.${config.nixpkgs.hostPlatform}.default;
-          inventory4ce = inputs.inventory4ce.packages.${config.nixpkgs.hostPlatform}.default;
+          ha-ara-menu = inputs.ha-ara-menu.packages.${pkgs.stdenv.hostPlatform}.default;
+          inventory4ce = inputs.inventory4ce.packages.${pkgs.stdenv.hostPlatform}.default;
         })
         inputs.stockholm.overlays.default
       ];
