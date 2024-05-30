@@ -47,9 +47,13 @@
     lanzaboote.url = "github:nix-community/lanzaboote/v0.3.0";
     lanzaboote.inputs.nixpkgs.follows = "nixpkgs";
     lanzaboote.inputs.flake-parts.follows = "flake-parts";
+    #lanzaboote.inputs.pre-commit-hooks-nix.follows = "";
 
     vscode-server.url = "github:nix-community/nixos-vscode-server";
     vscode-server.inputs.nixpkgs.follows = "nixpkgs";
+
+    audio-scripts.url = "github:makefu/audio-scripts";
+    audio-scripts.inputs.nixpkgs.follows = "nixpkgs";
 
     nether = {
       url = "github:lassulus/nether";
