@@ -40,7 +40,6 @@
   boot.supportedFilesystems = [ "zfs" ];
 
   boot.loader.grub.enable = true;
-  boot.loader.grub.version = 2;
   boot.loader.grub.copyKernels = true;
   boot.zfs.devNodes = "/dev"; # fixes some virtualmachine issues
   boot.kernelParams = [

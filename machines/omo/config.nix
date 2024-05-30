@@ -124,6 +124,7 @@ in {
       ../../2configs/home/zigbee2mqtt
       ../../2configs/home/streams.nix
       ../../2configs/home/esphome.nix
+      ../../2configs/home/audio-dl.nix
       {
         makefu.ps3netsrv = {
           enable = true;
