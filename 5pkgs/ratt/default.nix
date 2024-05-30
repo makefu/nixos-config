@@ -11,7 +11,7 @@ buildGoModule rec {
   };
 
   proxyVendor = true;
-  vendorSha256 = "sha256-8iB1+ufoN65n5FnCkLfoVoBXaL3LkNtzgYBF2rPWtGg=";
+  vendorHash = "sha256-8iB1+ufoN65n5FnCkLfoVoBXaL3LkNtzgYBF2rPWtGg=";
 
   # tests try to access the internet to scrape websites
   doCheck = false;
