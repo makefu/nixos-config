@@ -10,7 +10,7 @@
     sha256 = "1q6byb87cyvm4prildfcr8qc283ikvz5zazm92jk19qhav6ywj65";
   };
 
-  vendorSha256 = "0lhxc855lr0mzq35i0s2xkcd4qa74yks6ypi80ij9ia0x1hdf1dq";
+  vendorHash = "0lhxc855lr0mzq35i0s2xkcd4qa74yks6ypi80ij9ia0x1hdf1dq";
 
   runVend = false;
 
