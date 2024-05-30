@@ -6,6 +6,9 @@
       # ./x230
       ./x13
 
+      # do not build in tmpfs
+      { systemd.services.nix-daemon.environment.TMPDIR = "/var/tmp";}
+
       ../../2configs/networking/zerotier.nix
       ../../2configs/default.nix
       ## Common Hardware Components
@@ -153,8 +156,8 @@
       # ../../2configs/exim-retiolum.nix
       ../../2configs/mail-client.nix
       ../../2configs/printer.nix
-      # ../../2configs/syncthing.nix
-      # ../../2configs/sync
+      ../../2configs/sync
+      ../../2configs/sync/share/x.nix
 
       # Virtualization
       # ../../2configs/virtualisation/libvirt.nix
