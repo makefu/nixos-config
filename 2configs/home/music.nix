@@ -6,16 +6,16 @@ in
 {
   services.navidrome.enable = true;
   services.navidrome.settings = {
-    MusicFolder = "/media/cryptX/music/kinder";
+    #MusicFolder = "/media/cryptX/music/kinder";
+    MusicFolder = "/media/silent/music/kinder";
     Address = "0.0.0.0";
   };
   systemd.services.navidrome = {
     serviceConfig = {
       Restart = "always";
-      
       RestartSec = "15";
     };
-    unitConfig.RequiresMountsFor = [ "/media/cryptX" ];
+    unitConfig.RequiresMountsFor = [ "/media/silent" ];
   };
 
   state = [ "/var/lib/navidrome" ];
@@ -39,6 +39,6 @@ in
   services.minidlna.settings = {
     inotify = "yes";
     friendly_name = "omo";
-    media_dir = [ "A,/media/cryptX/music" ];
+    media_dir = [ "A,/media/silent/music" ];
   };
 }
