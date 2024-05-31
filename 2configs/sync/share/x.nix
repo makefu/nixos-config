@@ -4,7 +4,7 @@
     manga = {
       path = "/home/makefu/manga/live";
       id = "makefu-manga";
-      devices = [ "gum" "makefu-ebook" ];
+      devices = [ "omo" "gum" "makefu-ebook" "makefu-phone" "x" ];
     };
   };
 }
