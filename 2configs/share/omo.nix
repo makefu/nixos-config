@@ -28,7 +28,7 @@ in {
         "guest ok" = "yes";
       };
       music = {
-        path = "/media/cryptX/music";
+        path = "/media/silent/music";
         "read only" = "yes";
         browseable = "yes";
         "guest ok" = "yes";
