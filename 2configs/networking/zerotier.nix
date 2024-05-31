@@ -1,6 +1,9 @@
 { lib, config, ... }:
 {
   # lassulus network
-  clan.networking.zerotier.networkId = "7c31a21e86f9a75c";
+  clan.networking.zerotier = {
+    networkId = "ccc5da5295c853d4";
+    name = "nether";
+  };
   services.zerotierone.localConf.settings.interfacePrefixBlacklist = [ "ygg" "mesh" "retiolum" "wiregrill" ];
 }
