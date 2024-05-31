@@ -60,6 +60,11 @@
       inputs.nixpkgs.follows = "nixpkgs";
       inputs.clan-core.follows = "clan-core";
     };
+
+    buildbot-nix.url = "github:Mic92/buildbot-nix";
+    buildbot-nix.inputs.nixpkgs.follows = "nixpkgs";
+    buildbot-nix.inputs.flake-parts.follows = "flake-parts";
+    # buildbot-nix.inputs.treefmt-nix.follows = "treefmt-nix";
   };
 
   description = "Flake of makefu";
@@ -98,7 +103,7 @@
         inherit (inputs) nixos-hardware self stockholm nixpkgs;
         inherit inputs;
       };
-      machines = lib.genAttrs [ "filepimp" "mrdavid" "x" "cake" "tsp" "wbob" "omo" "gum" "savarcast" ] (host: rec {
+      machines = lib.genAttrs [ "filepimp" "x" "cake" "tsp" "wbob" "omo" "gum" "savarcast" ] (host: rec {
         # TODO inject the system somewhere else
         nixpkgs.hostPlatform = if host == "cake" then  "aarch64-linux" else "x86_64-linux";
         # nixpkgs.pkgs = if host == "cake" then pkgsForSystem "aarch64-linux" else pkgsForSystem "x86_64-linux";
@@ -131,12 +136,23 @@
           vscode-server.nixosModules.default
           #self.nixosModules.krebs
           (./machines + "/${host}/config.nix")
+
+          inputs.buildbot-nix.nixosModules.buildbot-master
+          inputs.buildbot-nix.nixosModules.buildbot-worker
+
         ];
 
       });
     };
   in {
     inherit (clan) nixosConfigurations clanInternals;
+    checks = let
+      a64 = "aarch64-linux";
+      x86 = "x86_64-linux";
+    in {
+      "${a64}" = lib.mapAttrs' (name: config: lib.nameValuePair "nixos-${a64}-${name}" config.config.system.build.toplevel) ((lib.filterAttrs (_: config: config.pkgs.system == a64)) self.nixosConfigurations);
+      "${x86}" = lib.mapAttrs' (name: config: lib.nameValuePair "nixos-${x86}-${name}" config.config.system.build.toplevel) ((lib.filterAttrs (_: config: config.pkgs.system == x86)) self.nixosConfigurations);
+    };
     nixosModules =
     builtins.listToAttrs
       (map
