@@ -8,7 +8,7 @@
   };
 
   users.users = {
-    makefu.passwordFile = config.sops.secrets."passwd-makefu".path;
-    root.passwordFile = config.sops.secrets."passwd-root".path;
+    makefu.hashedPasswordFile = config.sops.secrets."passwd-makefu".path;
+    root.hashedPasswordFile = config.sops.secrets."passwd-root".path;
   };
 }
