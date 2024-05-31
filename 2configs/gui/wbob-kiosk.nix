@@ -35,11 +35,11 @@
   services.dbus.packages = with pkgs; [ gnome2.GConf gnome3.gnome-settings-daemon ];
 
   services.pipewire.systemWide = lib.mkForce false;
-  environment.etc."pipewire/pipewire.conf.d/pulse-server.conf".text = ''
-    pulse.properties = {
-      server.address = [ "unix:native" "tcp:4713" ]
-    }
-  '';
+  services.pipewire.extraConfig.pipewire."91-pulse-server" = {
+    "pulse.properties" = {
+      "server.address" = [ "unix:native" "tcp:4713" ];
+    };
+  };
   # disable sleep
   systemd.targets.sleep.enable = false;
   systemd.targets.suspend.enable = false;

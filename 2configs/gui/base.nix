@@ -25,9 +25,9 @@ in
   # services.redshift.enable = true;
   services.xserver = {
     enable = true;
-    layout = "us";
-    xkbVariant = "altgr-intl";
-    xkbOptions = "ctrl:nocaps, eurosign:e";
+    xkb.layout = "us";
+    xkb.variant = "altgr-intl";
+    xkb.options = "ctrl:nocaps, eurosign:e";
 
 #    windowManager = {
 #      awesome.enable = true;

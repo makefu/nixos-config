@@ -68,8 +68,7 @@ in {
     package = pkgs.mariadb;
     ensureDatabases = [ "romprdb" ];
     ensureUsers = [
-      { ensurePermissions = { "romprdb.*" = "ALL PRIVILEGES"; };
-        name = user; }
+      { name = "romprdb"; ensureDBOwnership = true; } 
     ];
   };
 }

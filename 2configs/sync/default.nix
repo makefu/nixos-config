@@ -9,15 +9,21 @@ in {
   services.syncthing = {
     enable = true;
     configDir = "/var/lib/syncthing";
-    devices = mk_peers used_peers;
-    key = config.sops.secrets."${config.clanCore.machineName}-syncthing.key".path;
-    cert = config.sops.secrets."${config.clanCore.machineName}-syncthing.cert".path;
+    overrideDevices = true;
+    overrideFolders = true;
+    openDefaultPorts  = true;
+    settings =  {
+      devices = (mk_peers used_peers) //  {
+        makefu-phone.id = "YP57S7C-4U7PTEV-7PNVREJ-574YUTC-XMZ6TH5-P7UL5IJ-VYGW7GV-Z6QYOQR";
+        makefu-ebook.id = "RRNPQ7N-BUGZUKX-EU7VSDJ-Z5BTW33-55DOSF4-RJXWV7W-BL7TUHT-TV7EJQN";
+        gum.id = "463N4HM-LFU3ARM-M7YU6O5-7FAVRIZ-WUOX5FN-C6A3XLZ-UCDUXQ5-2MVXDA6";
+        x.id = "ETMOWBT-XOYB7LJ-J4OKD7U-WHBEAP5-MPAHKXM-O4GGRKM-WERF7R4-MRS7EAU"; # override config for x
+        omo.id = "Y5OTK3S-JOJLAUU-KTBXKUW-M7S5UEQ-MMQPUK2-7CXO5V6-NOUDLKP-PRGAFAK";
+      };
+      key = config.sops.secrets."${config.clanCore.machineName}-syncthing.key".path;
+      cert = config.sops.secrets."${config.clanCore.machineName}-syncthing.cert".path;
+    };
   };
-  services.syncthing.folders.the_playlist = {
-    path = "/home/lass/tmp/the_playlist";
-    devices = [ "mors" "prism" ];
-  };
-
 
   boot.kernel.sysctl."fs.inotify.max_user_watches" = 524288;
 }
