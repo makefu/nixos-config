@@ -13,7 +13,7 @@ in {
       forceSSL = true;
       enableACME = true;
       locations."/" =  {
-        proxyPass = "http://omo:4533/";
+        proxyPass = "http://omo.w:4533/";
         proxyWebsockets = true;
         extraConfig = ''
           proxy_set_header   Host $host;
