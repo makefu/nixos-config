@@ -33,4 +33,5 @@
     ];
 
   nixpkgs.config.allowUnfree = true;
+  krebs.build.host = config.krebs.hosts.tsp;
 }

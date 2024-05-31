@@ -154,6 +154,9 @@ in {
       ../../2configs/deployment/ntfysh.nix
       ../../2configs/deployment/nextcloud #postgres backend
       ../../2configs/deployment/nextcloud/screeenly.nix
+
+      ../../2configs/deployment/buildbot/master.nix
+      ../../2configs/deployment/buildbot/worker.nix
       ### Moving owncloud data dir to /media/cloud/nextcloud-data
       {
         users.users.nextcloud.extraGroups = [ "download" ];
