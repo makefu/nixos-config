@@ -1,4 +1,4 @@
-{ pkgs, ... }:
+{ pkgs, lib, ... }:
 let
   port = 8812;
 in {
@@ -17,17 +17,20 @@ in {
 
   services.postgresql = {
     enable = true;
-    ensureDatabases = [ "bitwarden" ];
+    ensureDatabases = [ "bitwarden" "vaultwarden" ];
     ensureUsers = [
-      { name = "bitwarden_rs"; ensurePermissions."DATABASE bitwarden" = "ALL PRIVILEGES"; } 
-      { name = "vaultwarden"; ensurePermissions."DATABASE bitwarden" = "ALL PRIVILEGES"; } 
+      { name = "vaultwarden"; ensureDBOwnership = true; } 
     ];
   };
+  systemd.services.postgresql.postStart = lib.mkAfter ''
+     $PSQL -tAc 'GRANT ALL ON DATABASE bitwarden to vaultwarden' || true
+  '';
   services.postgresqlBackup = {
     enable = true;
-    databases = [ "bitwarden" ];
+    databases = [ "bitwarden" "vaultwarden" ];
   };
   systemd.services.postgresqlBackup-bitwarden.serviceConfig.SupplementaryGroups = [ "download" ];
+  systemd.services.postgresqlBackup-vaultwarden.serviceConfig.SupplementaryGroups = [ "download" ];
 
 
   services.nginx.virtualHosts."bw.euer.krebsco.de" ={
