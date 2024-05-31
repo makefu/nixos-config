@@ -13,7 +13,6 @@
 {
   boot = {
     loader.grub.enable = true;
-    loader.grub.version = 2;
     loader.grub.device = lib.mkDefault "/dev/sda";
 
     #initrd.luks.cryptoModules = ["aes" "sha512" "sha1" "xts" ];
