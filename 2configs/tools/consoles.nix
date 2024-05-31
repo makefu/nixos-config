@@ -8,6 +8,9 @@
     bin2iso
     cue2pops
 
+    # PS3
+    ps3dec
+
     # PS4
     pkgrename
 
