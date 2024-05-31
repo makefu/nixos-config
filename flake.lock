@@ -45,6 +45,29 @@
         "type": "github"
       }
     },
+    "buildbot-nix_2": {
+      "inputs": {
+        "flake-parts": "flake-parts_2",
+        "nixpkgs": [
+          "stockholm",
+          "nixpkgs"
+        ],
+        "treefmt-nix": "treefmt-nix_4"
+      },
+      "locked": {
+        "lastModified": 1717033539,
+        "narHash": "sha256-vWQLnmZSipvaosXnGze8aSqlEzaAF9PhA5sh2QYNvTc=",
+        "owner": "Mic92",
+        "repo": "buildbot-nix",
+        "rev": "ad165ae64f877adc6156b8f21c31fc74144dc8e4",
+        "type": "github"
+      },
+      "original": {
+        "owner": "Mic92",
+        "repo": "buildbot-nix",
+        "type": "github"
+      }
+    },
     "clan-core": {
       "inputs": {
         "disko": "disko",
@@ -154,6 +177,28 @@
         "owner": "hercules-ci",
         "repo": "flake-parts",
         "rev": "71fb97f0d875fd4de4994dfb849f2c75e17eb6c3",
+        "type": "github"
+      },
+      "original": {
+        "owner": "hercules-ci",
+        "repo": "flake-parts",
+        "type": "github"
+      }
+    },
+    "flake-parts_2": {
+      "inputs": {
+        "nixpkgs-lib": [
+          "stockholm",
+          "buildbot-nix",
+          "nixpkgs"
+        ]
+      },
+      "locked": {
+        "lastModified": 1715865404,
+        "narHash": "sha256-/GJvTdTpuDjNn84j82cU6bXztE0MSkdnTWClUCRub78=",
+        "owner": "hercules-ci",
+        "repo": "flake-parts",
+        "rev": "8dc45382d5206bd292f9c2768b8058a8fd8311d9",
         "type": "github"
       },
       "original": {
@@ -682,6 +727,7 @@
     },
     "stockholm": {
       "inputs": {
+        "buildbot-nix": "buildbot-nix_2",
         "nix-writers": [
           "nix-writers"
         ],
@@ -690,11 +736,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1713996783,
-        "narHash": "sha256-TLSvr8n7pcwroZS0aWcn0AytL+CzNV02MIhuvKVuUYc=",
+        "lastModified": 1717171203,
+        "narHash": "sha256-anMC/Av+rEZTb4g2H6ObWts9uzyqKD+qdMKW85cq5fo=",
         "ref": "refs/heads/master",
-        "rev": "406b9022555ba8f1f3babb3333340b8c74518a0c",
-        "revCount": 11979,
+        "rev": "b5ed6effc88c20eb1044edab103630099a7d1411",
+        "revCount": 11997,
         "type": "git",
         "url": "https://cgit.euer.krebsco.de/stockholm"
       },
@@ -862,6 +908,28 @@
         "owner": "numtide",
         "repo": "treefmt-nix",
         "rev": "c6aaf729f34a36c445618580a9f95a48f5e4e03f",
+        "type": "github"
+      },
+      "original": {
+        "owner": "numtide",
+        "repo": "treefmt-nix",
+        "type": "github"
+      }
+    },
+    "treefmt-nix_4": {
+      "inputs": {
+        "nixpkgs": [
+          "stockholm",
+          "buildbot-nix",
+          "nixpkgs"
+        ]
+      },
+      "locked": {
+        "lastModified": 1715940852,
+        "narHash": "sha256-wJqHMg/K6X3JGAE9YLM0LsuKrKb4XiBeVaoeMNlReZg=",
+        "owner": "numtide",
+        "repo": "treefmt-nix",
+        "rev": "2fba33a182602b9d49f0b2440513e5ee091d838b",
         "type": "github"
       },
       "original": {
