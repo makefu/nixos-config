@@ -54,7 +54,7 @@ direnv allow
     programs.fzf.enable = false; # alt-c
     programs.zsh = {
       enable = true;
-      enableAutosuggestions = false;
+      autosuggestion.enable = false;
       enableCompletion = true;
       oh-my-zsh.enable = false;
       history = {
