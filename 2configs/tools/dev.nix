@@ -42,7 +42,7 @@
     #krebszones
     cyberlocker-tools
     ovh-zone
-    gen-oath-safe
+    # gen-oath-safe
     cdrtools
     unrar
     ffmpeg
