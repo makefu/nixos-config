@@ -1,6 +1,6 @@
-{...}@inputs:
+{inputs,config, ...}:
 let
-  domain = "buildbot.euer.krebsco.de";
+  domain = "build.euer.krebsco.de";
 in {
 
   imports = [

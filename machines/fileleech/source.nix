@@ -1,4 +1,0 @@
-{
-  name = "fileleech";
-  torrent = true;
-}

@@ -1,4 +1,0 @@
-{
-  name="drop";
-  torrent = true;
-}

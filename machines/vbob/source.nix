@@ -1,4 +1,0 @@
-{
-  name="vbob";
-  # musnix = true;
-}

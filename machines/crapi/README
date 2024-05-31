@@ -1,4 +1,0 @@
-1. flash arm6 image from https://www.cs.helsinki.fi/u/tmtynkky/nixos-arm/installer/ to sdcard
-2. passwd; systemctl start sshd; mkdir /var/src ; touch /var/src/.populate
-3. "environment.systemPackages = [ pkgs.rsync pkgs.git ];" in /etc/nixos/configuration.nix
-5. nixos-rebuild switch --fast --option binary-caches http://nixos-arm.dezgeg.me/channel --option binary-cache-public-keys nixos-arm.dezgeg.me-1:xBaUKS3n17BZPKeyxL4JfbTqECsT+ysbDJz29kLFRW0=%
