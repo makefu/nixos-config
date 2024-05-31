@@ -13,31 +13,27 @@
         type = "disk";
         device = disk;
         content = {
-          type = "table";
-          format = "gpt";
-          partitions = [
-            {
-              name = "ESP";
-              start = "0";
-              end = "512MiB";
-              fs-type = "fat32";
-              bootable = true;
+          type = "gpt";
+          partitions = {
+            ESP = {
+              size = "512MiB";
+              type = "EF00";
+              priority = 1;
+              # instead of "start" the priority is used, otherwise the partitions are created alphabetically (ESP before zfs)
               content = {
                 type = "filesystem";
                 format = "vfat";
                 mountpoint = "/boot";
               };
-            }
-            {
-              name = "zfs";
-              start = "512MiB";
-              end = "100%";
+            };
+            zfs = {
+              size = "100%";
               content = {
                 type = "zfs";
                 pool = "tank";
               };
-            }
-          ];
+            };
+          };
         };
       };
     };
