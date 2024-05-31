@@ -19,7 +19,7 @@ let
   adminpw = "/run/secret/nextcloud-admin-pw";
   dbpw = "/run/secret/nextcloud-db-pw";
 in {
-
+  
   fileSystems."/var/lib/nextcloud/data" = {
     device = "/media/cloud/nextcloud-data";
     options = [ "bind" ];
@@ -57,7 +57,9 @@ in {
   users.users.nextcloud.extraGroups = [ "download" ];
   services.nextcloud = {
     enable = true;
-    package = pkgs.nextcloud26;
+    configureRedis = true;
+
+    package = pkgs.nextcloud29;
     hostName = "o.euer.krebsco.de";
     # Use HTTPS for links
     https = true;
@@ -88,8 +90,9 @@ in {
   services.postgresql = {
     enable = true;
     # Ensure the database, user, and permissions always exist
+
     ensureDatabases = [ "nextcloud" ];
-    ensureUsers = [ { name = "nextcloud"; ensurePermissions."DATABASE nextcloud" = "ALL PRIVILEGES"; } ];
+    ensureUsers = [ { name = "nextcloud"; ensureDBOwnership = true; } ];
   };
 
   systemd.services."nextcloud-setup" = {
@@ -102,5 +105,6 @@ in {
     "/media/cloud"
     "/var/lib/nextcloud/data"
   ];
+  environment.systemPackages = [ pkgs.pageres-cli ];
 
 }
