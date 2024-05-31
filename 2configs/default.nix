@@ -31,8 +31,6 @@ with lib;
 
   # boot.kernelPackages = lib.mkDefault pkgs.linuxPackages;
 
-  # nixpkgs.config.allowUnfreePredicate = pkg: packageName pkg == "unrar";
-
   krebs = {
     enable = true;
   #   dns.providers.lan  = "hosts";
@@ -62,12 +60,6 @@ with lib;
     nmap = "nmap -oN $HOME/loot/scan-`date +\%s`.nmap -oX $HOME/loot/scan-`date +%s`.xml";
     grep = "grep --color=auto";
   };
-
-  # nixpkgs.config.packageOverrides = pkgs: {
-    #nano = pkgs.runCommand "empty" {} "mkdir -p $out";
-  #  tinc = pkgs.tinc_pre;
-  #};
-
 
   nix.extraOptions = ''
     auto-optimise-store = true

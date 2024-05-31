@@ -11,7 +11,7 @@ let
   logging-interface = config.makefu.server.primary-itf;
 in {
   services.grafana.enable = true;
-  services.grafana.addr = "0.0.0.0";
+  services.grafana.settings.server.http_addr = "0.0.0.0";
 
   services.influxdb.enable = true;
   systemd.services.influxdb.serviceConfig.LimitNOFILE = 8192;

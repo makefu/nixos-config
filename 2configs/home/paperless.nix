@@ -9,7 +9,7 @@ in
     passwordFile = config.sops.secrets."paperless-admin-pw".path;
     address = "0";
     # consumptionDir = "/media/cloud/nextcloud-data/makefu/files/SwiftScan";
-    extraConfig = {
+    settings = {
       PAPERLESS_DBHOST = "/run/postgresql";
       #PAPERLESS_REDIS = "redis://127.0.0.1:6379";
       PAPERLESS_TIKA_ENABLED = "1";
