@@ -18,7 +18,8 @@ in
   imports = [
     ./urxvtd.nix
     ./pipewire.nix
-    ./gnome.nix
+    # ./gnome.nix
+    ./kde.nix
   ];
 
 
