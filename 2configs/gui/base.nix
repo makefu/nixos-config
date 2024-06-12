@@ -19,7 +19,8 @@ in
     ./urxvtd.nix
     ./pipewire.nix
     # ./gnome.nix
-    ./kde.nix
+    # ./kde.nix
+    ./hyprland.nix
   ];
 
 
