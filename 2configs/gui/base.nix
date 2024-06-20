@@ -20,13 +20,12 @@ in
     ./pipewire.nix
     # ./gnome.nix
     # ./kde.nix
-    ./hyprland.nix
+    ./hyprland
   ];
 
 
   # services.redshift.enable = true;
   services.xserver = {
-    enable = true;
     xkb.layout = "us";
     xkb.variant = "altgr-intl";
     xkb.options = "ctrl:nocaps, eurosign:e";
