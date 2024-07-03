@@ -51,7 +51,7 @@ in {
       # ../../2configs/stats/collectd-client.nix
       ../../2configs/stats/telegraf
       ../../2configs/stats/telegraf/airsensor.nix
-      ../../2configs/stats/telegraf/europastats.nix
+      # ../../2configs/stats/telegraf/europastats.nix
       # ../../2configs/stats/external/aralast.nix
       # ../../2configs/stats/arafetch.nix
       # ../../2configs/hw/mceusb.nix
