@@ -3,6 +3,7 @@ let
   mainUser = config.krebs.build.user.name;
 in {
   imports = [
+    ../base.nix
     ./kitty.nix
     ./passwords.nix
     ./autostart.nix
@@ -16,6 +17,9 @@ in {
     home.packages = with pkgs; [
       dolphin
       wofi
+      hyprland
+      hypridle
+      hyprlock
       grimblast # screenshot
     ];
 
@@ -66,11 +70,11 @@ in {
 
           listener = [
             {
-              timeout = 900;
+              timeout = 10;
               on-timeout = "hyprlock";
             }
             {
-              timeout = 1200;
+              timeout = 20;
               on-timeout = "hyprctl dispatch dpms off";
               on-resume = "hyprctl dispatch dpms on";
             }
