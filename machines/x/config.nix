@@ -22,7 +22,7 @@
       ../../2configs/hw/switch.nix
       # ../../2configs/hw/rad1o.nix
       ../../2configs/hw/cc2531.nix
-      ../../2configs/hw/droidcam.nix
+      # ../../2configs/hw/droidcam.nix
       ../../2configs/hw/smartcard.nix
       ../../2configs/hw/upower.nix
       #../../2configs/hw/ps4-compat.nix

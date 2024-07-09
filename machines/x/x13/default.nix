@@ -1,10 +1,10 @@
-{ pkgs, lib, nixos-hardware, self, ... }:
+{ pkgs, config, lib, nixos-hardware, self, ... }:
 # new zfs deployment
 {
   imports = [
     ./input.nix
     
-    ((import  ../../../2configs/fs/disko/single-disk-encrypted-zfs.nix ) { disks ="/dev/nvme0n1"; hostId = "f8b8e0a3"; })
+    ((import  ../../../2configs/fs/disko/single-disk-encrypted-zfs.nix ) { disks ="/dev/nvme0n1"; hostId = "f8b8e0a3"; inherit config; })
     ./battery.nix
     ./amdgpu.nix
     ../../../2configs/hw/bluetooth.nix
@@ -26,7 +26,7 @@
   ];
 
 
-  boot.kernelPackages = lib.mkForce pkgs.linuxPackages;
+  # boot.kernelPackages = lib.mkForce pkgs.linuxPackagesLatest;
 
   services.fwupd.enable = true;
   programs.light.enable = true;
