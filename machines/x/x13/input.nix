@@ -13,7 +13,7 @@
   #    xinput disable 'ETPS/2 Elantech Touchpad'
   #'';
 
-  services.xserver.libinput.enable = true;
+  services.libinput.enable = true;
   boot.kernelParams = [
     #"psmouse.proto=imps"
     #"psmouse.proto=bare"
