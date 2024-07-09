@@ -8,4 +8,4 @@ in {
     enable = true;
     user = mainUser;
   };
-};
+}
