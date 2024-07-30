@@ -3,6 +3,7 @@
 
   imports = [
     ./base.nix
+    ./gnome.nix
   ];
 
   users.users.kiosk = {

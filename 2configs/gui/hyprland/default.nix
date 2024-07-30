@@ -7,7 +7,6 @@ in {
     ./kitty.nix
     ./passwords.nix
     ./autostart.nix
-    ./tools.nix
   ];
   # autostart 
   programs.hyprland.enable = true;
