@@ -10,7 +10,6 @@
   imports = [
     { 
       home-manager.users.makefu.home.packages = [
-        (pkgs.writers.writeDashBin "privatefox" "exec firefox -P Privatefox")
       ];
     }
     { # bat

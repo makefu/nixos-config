@@ -40,16 +40,14 @@ in {
       ../../2configs/share/hetzner-client.nix
       # ../../2configs/stats/netdata-server.nix
 
-      ../../2configs/headless.nix
-
       # Security
       ../../2configs/sshd-totp.nix
 
       # Tools
       ../../2configs/tools/core.nix
-      ../../2configs/tools/dev.nix
-      ../../2configs/tools/sec.nix
-      #../../2configs/tools/desktop.nix
+      # ../../2configs/tools/dev.nix
+      # ../../2configs/tools/sec.nix
+      # ../../2configs/tools/desktop.nix
 
       ../../2configs/zsh-user.nix
       ../../2configs/mosh.nix
@@ -156,7 +154,7 @@ in {
       ../../2configs/deployment/nextcloud/screeenly.nix
 
       ../../2configs/deployment/buildbot/master.nix
-      ../../2configs/deployment/buildbot/worker.nix
+      # ../../2configs/deployment/buildbot/worker.nix
       ### Moving owncloud data dir to /media/cloud/nextcloud-data
       {
         users.users.nextcloud.extraGroups = [ "download" ];
@@ -179,7 +177,6 @@ in {
       ../../2configs/nginx/dl.euer.krebsco.de.nix
       #../../2configs/nginx/euer.test.nix
       ../../2configs/nginx/euer.mon.nix
-      ../../2configs/nginx/euer.wiki.nix
       ../../2configs/nginx/euer.blog.nix
       ../../2configs/nginx/music.euer.nix
       ## ../../2configs/nginx/gum.krebsco.de.nix
@@ -200,6 +197,8 @@ in {
       ../../2configs/deployment/mediengewitter.de.nix
       ../../2configs/bgt/etherpad.euer.krebsco.de.nix
       # ../../2configs/deployment/systemdultras-rss.nix
+
+      ../../2configs/deployment/wiki.euer.nix
 
       ../../2configs/shiori.nix
       #../../2configs/workadventure

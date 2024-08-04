@@ -11,7 +11,7 @@
     # quodlibet # exfalso
     tinymediamanager
 
-    plowshare
+    # plowshare
     streamripper
     yt-dlp
 

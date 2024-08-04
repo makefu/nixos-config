@@ -7,6 +7,7 @@
     feh
     clipit
     # firefox
+    (pkgs.writers.writeDashBin "privatefox" "exec firefox -P Privatefox")
     pcmanfm
     evince
     # replacement for mirage:

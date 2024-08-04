@@ -11,7 +11,6 @@ in {
       ./hw/omo.nix
       #./hw/tsp.nix
       ../../2configs/default.nix
-      ../../2configs/headless.nix
       ../../2configs/support-nixos.nix
       ../../2configs/nur.nix
       {
@@ -30,7 +29,7 @@ in {
           pkgs.tinymediamanager
         ];
       }
-      { environment.systemPackages = [ pkgs.youtube-dl2kodi pkgs.youtube-dl]; }
+      { environment.systemPackages = [ pkgs.youtube-dl2kodi pkgs.yt-dlp]; }
 
 
       ../../2configs/zsh-user.nix
@@ -110,7 +109,7 @@ in {
       # ../../2configs/syncthing.nix
       ../../2configs/remote-build/slave.nix
       # TODO:
-      ../../2configs/virtualisation/docker.nix
+      ../../2configs/virtualisation/podman.nix
       # ../../2configs/bluetooth-mpd.nix
 
       ../../2configs/home/jellyfin.nix
@@ -118,7 +117,7 @@ in {
       ../../2configs/home/photoprism.nix
       # ../../2configs/home/tonie.nix
       ../../2configs/home/ps4srv.nix
-      # ../../2configs/home/metube.nix
+      ../../2configs/home/metube.nix
       # ../../2configs/home/ham
       ../../2configs/home/ham/docker.nix
       ../../2configs/home/zigbee2mqtt

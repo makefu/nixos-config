@@ -1,37 +1,36 @@
-{ pkgs, lib, ...}:
-# docker run -d -p 8081:8081 -v /path/to/downloads:/downloads --user 1001:1001 alexta69/metube
-with pkgs.stockholm.lib;
+{ config, pkgs, lib, ...}:
 let
   port = "2348";
-  dl-dir = "/media/cryptX/youtube/music";
+  music-dir = "/media/silent/music/youtube";
+  dl-dir = "/media/cryptX/youtube";
   uid = 20421;
   internal-ip = "192.168.111.11";
 in
   {
-  systemd.tmpfiles.rules = [
-    "d ${dl-dir} metube nogroup - -"
-  ];
 
   services.nginx.virtualHosts."tube" = {
-    serverAliases = [ "tube.lan" ];
-    locations."/".proxyPass = "http://localhost:${port}";
+    serverAliases = [ "tube.lan" "mtube.lan" ];
+    locations."/" = {
+      proxyPass = "http://localhost:${port}";
+      proxyWebsockets = true;
+    };
   };
 
   virtualisation.oci-containers.containers.metube = {
     image = "alexta69/metube:latest";
     ports = [ "${port}:8081" ];
     volumes = [
+      "${music-dir}:/music"
       "${dl-dir}:/downloads"
     ];
-    user = "metube";
-  };
-  users.users.metube = {
-    uid = uid;
-    isSystemUser = true;
-  };
-
-  systemd.services.docker-metube.serviceConfig = {
-    StandardOutput = lib.mkForce "journal";
-    StandardError = lib.mkForce "journal";
+    environment = {
+      UID = toString config.users.users.download.uid;
+      GID = toString config.users.groups.download.gid;
+      DOWNLOAD_DIR = "/downloads";
+      AUDIO_DOWNLOAD_DIR = "/music";
+      #PUBLIC_HOST_URL = "tube.lan";
+      #PUBLIC_HOST_AUDIO_URL = "mtube.lan";
+    };
+    #user = "metube";
   };
 }

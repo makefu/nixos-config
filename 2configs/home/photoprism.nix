@@ -21,8 +21,6 @@ let
   internal-ip = "192.168.111.11";
 in
 {
-  virtualisation.oci-containers.backend = "docker";
-
   services.nginx.virtualHosts."photos" = {
     serverAliases = [
               "photos.lan"

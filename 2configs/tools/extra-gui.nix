@@ -25,6 +25,6 @@
 
     # 3d Modelling
     chitubox
-    freecad
+    # freecad
   ];
 }

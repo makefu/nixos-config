@@ -3,23 +3,24 @@ let
   port = 8096;
 in
 {
-        services.jellyfin.enable = true;
-        # services.jellyfin.openFirewall = true;
-        networking.firewall.interfaces.wiregrill = {
-          allowedTCPPorts = [ 80 port 8920 ];
-          allowedUDPPorts = [ 1900 7359 ];
-        };
-        state = [ "/var/lib/jellyfin" ];
-        users.users.${config.services.jellyfin.user}.extraGroups = [ "download" "video" "render" ];
+  services.jellyfin.enable = true;
+  services.jellyfin.group = "download";
+  # services.jellyfin.openFirewall = true;
+  networking.firewall.interfaces.wiregrill = {
+    allowedTCPPorts = [ 80 port 8920 ];
+    allowedUDPPorts = [ 1900 7359 ];
+  };
+  state = [ "/var/lib/jellyfin" ];
+  users.users.${config.services.jellyfin.user}.extraGroups = [ "download" "video" "render" ];
 
-        systemd.services.jellyfin = {
-        after = [ "media-cloud.mount" ];
-        serviceConfig = rec {
-          RequiresMountsFor = [ "/media/cloud" ];
-          SupplementaryGroups = lib.mkForce [ "video" "render" "download" ];
-          UMask = lib.mkForce "0077";
-      };
+  systemd.services.jellyfin = {
+    after = [ "media-cloud.mount" ];
+    serviceConfig = rec {
+      RequiresMountsFor = [ "/media/cloud" ];
+      SupplementaryGroups = lib.mkForce [ "video" "render" "download" ];
+      UMask = lib.mkForce "0007";
     };
+  };
   services.nginx.virtualHosts."jelly" = {
     serverAliases = [
       "jelly.lan" "movies.lan"
