@@ -43,7 +43,6 @@
 
       # misc
       ../../2configs/support-nixos.nix
-      ../../2configs/headless.nix
     ];
     # TODO: ingo:
     # "ssh-rsa AAAAB3NzaC1yc2EAAAABIwAAAIEA5G4SzPWZAJHrxpN2hQ0TzfPz5KO4eZISZxL3j/pkPs+6/YLXwB22AuU5qvNBi5uVIIZNqJBoaAcj/NePkiu6i2iAVzntAVWhBQlCLIlN0YXwXZ7E19fVUxvG65XV8D86YXSKrKkeDqk6SmQhReeWexMxTIKtj9Ipa7i9lPHBsls="

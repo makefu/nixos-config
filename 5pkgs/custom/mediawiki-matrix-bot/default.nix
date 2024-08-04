@@ -8,7 +8,7 @@ buildPythonApplication rec {
     owner = "nix-community";
     repo = "mediawiki-matrix-bot";
     rev = "refs/heads/custom_api_path";
-    hash = "sha256-KhXXG9h1GgZfrivtSYa1GL6xpfCuPwreffkhWSw6Kzg";
+    hash = "sha256-hL03E2afftdccnB72cKKgVvvzNuLY3P33oiXWbvowus=";
   };
   propagatedBuildInputs = [
     feedparser matrix-nio docopt aiohttp aiofiles

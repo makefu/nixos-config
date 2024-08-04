@@ -50,8 +50,8 @@
         ReplaceWithRegister # For better copying/replacing
         polyglot # Language pack
         vim-indent-guides # for displaying indent levels
-        deoplete-nvim # general autocompletion
-        deoplete-go
+        #deoplete-nvim # general autocompletion
+        #deoplete-go
         ale
         molokai # color scheme
       ];

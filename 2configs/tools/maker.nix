@@ -12,7 +12,8 @@
     # slicing
     #cura
     chitubox
-    cura
+    # cura
+    bambu-studio
   ];
   xdg.portal.enable = true;
   #xdg.portal.extraPortals = [ pkgs.xdg-desktop-portal-gtk ];

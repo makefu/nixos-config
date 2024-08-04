@@ -4,7 +4,7 @@
 , xorg
 , libpng12
 , gtk3
-, gnome
+, adwaita-icon-theme
 }:
 stdenv.mkDerivation rec {
   name = "ns-atmosphere-programmer-${version}";
@@ -22,7 +22,7 @@ stdenv.mkDerivation rec {
   installPhase = ''
     install -D -m755 NS-Atmosphere $out/bin/NS-Atmosphere
     wrapProgram $out/bin/NS-Atmosphere --prefix XDG_DATA_DIRS : "$GSETTINGS_SCHEMAS_PATH" \
---suffix XDG_DATA_DIRS : '${gnome.adwaita-icon-theme}/share'
+--suffix XDG_DATA_DIRS : '${adwaita-icon-theme}/share'
   '';
 
   dontStrip = true;

@@ -7,7 +7,7 @@ in
     pkg
   ];
   systemd.services.mausdownload = {
-    startAt = "daily";
+    startAt = "6:15:00";
     path = [ pkg ];
     script = "mausdownload.sh /media/silent/music/kinder/hoerbucher";
     serviceConfig= {

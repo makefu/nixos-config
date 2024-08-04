@@ -34,9 +34,9 @@
   state = [
     "/etc/NetworkManager/system-connections"  #NM stateful config files
   ];
-  networking.networkmanager.dispatcherScripts = [
-    { source = "${pkgs.prison-break}/bin/prison-break"; }
-  ];
+  #networking.networkmanager.dispatcherScripts = [
+  #  { source = "${pkgs.prison-break}/bin/prison-break"; }
+  #];
 
   # TODO: not sure if this actually works
   systemd.services.NetworkManager-dispatcher.environment = {

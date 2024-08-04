@@ -6,9 +6,14 @@
       devices = [ "mors" "prism" ];
     };
     manga = {
-      path = "/media/crypt1/download/manga/live";
+      path = "/media/crypt1/sync/manga";
       id = "makefu-manga";
       devices = [ "gum" "makefu-ebook" "makefu-phone" "x" ];
+    };
+    audiobooks = {
+      path = "/media/crypt1/sync/audiobooks";
+      id = "makefu-audiobooks";
+      devices = [ "omo" "gum" "makefu-phone" "x" ];
     };
     download = {
       path = "/media/crypt1/download";

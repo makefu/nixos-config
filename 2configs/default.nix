@@ -49,7 +49,7 @@ with lib;
       nix-output-monitor
   ];
 
-  programs.bash.enableCompletion = true;
+  #programs.bash.completion.enable = true;
 
   environment.shellAliases = {
     # TODO: see .aliases

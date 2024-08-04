@@ -1,4 +1,4 @@
-{ disk ? "/dev/nvme0n1", hostId, ... }: 
+{ config,disk ? "/dev/nvme0n1", hostId, ... }: 
 {
   services.zfs.autoScrub.enable = true;
   boot.zfs.requestEncryptionCredentials = true;
@@ -6,6 +6,10 @@
   boot.loader.efi.canTouchEfiVariables = true;
   boot.loader.systemd-boot.enable = true;
   networking.hostId = hostId;
+  boot.kernelPackages = config.boot.zfs.package.latestCompatibleLinuxPackages;
+
+  # reduce ARC to 2GB
+  boot.kernelParams = [ "zfs.zfs_arc_max=2884901888" ];
 
   disko.devices = {
     disk = {

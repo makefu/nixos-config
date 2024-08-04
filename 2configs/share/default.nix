@@ -16,6 +16,8 @@ in {
     };
   };
 
+  systemd.services.syncthing = lib.mkIf config.services.syncthing.enable { serviceConfig.Group = lib.mkForce "download";};
+
   users.groups = {
     download = {
       gid = lib.mkDefault (genid "download");

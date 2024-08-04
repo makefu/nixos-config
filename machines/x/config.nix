@@ -25,6 +25,7 @@
       # ../../2configs/hw/droidcam.nix
       ../../2configs/hw/smartcard.nix
       ../../2configs/hw/upower.nix
+      # ../../2configs/audio/raop-discover.nix
       #../../2configs/hw/ps4-compat.nix
 
       # base
@@ -41,6 +42,10 @@
       ../../2configs/editor/neovim
       ../../2configs/tools/all.nix
       { programs.adb.enable = true; }
+
+      # gui
+      ../../2configs/gui/base.nix
+      ../../2configs/gui/hyprland
 
       # secrets: now deployed once at host provisioning
       { state = [ "/etc/ssh/ssh_host_rsa_key" ]; }

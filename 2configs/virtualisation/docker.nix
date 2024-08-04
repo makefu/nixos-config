@@ -2,7 +2,8 @@
 {
   virtualisation.docker = {
     enable = true;
-    storageDriver = "devicemapper";
+    # storageDriver = "devicemapper";
+    storageDriver = "overlay2";
   };
   environment.systemPackages = with pkgs;[
     docker
