@@ -25,7 +25,7 @@
     "amd_pstate=active"
   ];
 
-
+  boot.tmp.useTmpfs = true;
   # boot.kernelPackages = lib.mkForce pkgs.linuxPackagesLatest;
 
   services.fwupd.enable = true;

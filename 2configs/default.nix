@@ -38,8 +38,6 @@ with lib;
   };
 
 
-  boot.tmp.useTmpfs = true;
-
   environment.systemPackages = with pkgs; [
       jq
       git
