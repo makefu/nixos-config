@@ -12,8 +12,8 @@
         LocalDiscovery = no
       ''}
     '';
-    privkey = config.sops.secrets."${config.clanCore.machineName}-retiolum.rsa_key.priv".path;
-    privkey_ed25519 = config.sops.secrets."${config.clanCore.machineName}-retiolum.ed25519_key.priv".path;
+    privkey = config.sops.secrets."${config.clan.core.machineName}-retiolum.rsa_key.priv".path;
+    privkey_ed25519 = config.sops.secrets."${config.clan.core.machineName}-retiolum.ed25519_key.priv".path;
   };
   environment.systemPackages = [ pkgs.tinc ];
   networking.firewall.allowedTCPPorts = [ config.krebs.build.host.nets.retiolum.tinc.port ];
