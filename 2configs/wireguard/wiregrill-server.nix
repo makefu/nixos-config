@@ -85,7 +85,7 @@ in mkIf (hasAttr "wiregrill" config.krebs.build.host.nets) {
       (optional (!isNull self.ip4) self.ip4.addr) ++
       (optional (!isNull self.ip6) self.ip6.addr);
     listenPort = self.wireguard.port;
-    privateKeyFile = config.sops.secrets."${config.clanCore.machineName}-wiregrill.key".path;
+    privateKeyFile = config.sops.secrets."${config.clan.core.machineName}-wiregrill.key".path;
     allowedIPsAsRoutes = true;
     peers = mapAttrsToList
       (_: host: {
