@@ -1,6 +1,6 @@
 {
   inputs = {
-    #nixpkgs.url = "github:NixOS/nixpkgs/nixos-23.11";
+    # nixpkgs.url = "github:NixOS/nixpkgs/nixos-24.05";
     nixpkgs.url = "github:NixOS/nixpkgs/nixos-unstable";
 
     clan-core = {
@@ -97,7 +97,7 @@
     });
     #pkgsForSystem = system: nixpkgs.legacyPackages.${system};
     clan = clan-core.lib.buildClan {
-      clanName = "makefu";
+      meta.name = "makefu";
       directory = self;
       specialArgs = {
         inherit (inputs) nixos-hardware self stockholm nixpkgs;
