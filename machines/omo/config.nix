@@ -31,6 +31,8 @@ in {
       }
       { environment.systemPackages = [ pkgs.youtube-dl2kodi pkgs.yt-dlp]; }
 
+      ### systemdUltras ###
+      ../../2configs/systemdultras/ircbot.nix
 
       ../../2configs/zsh-user.nix
       ../../2configs/home-manager
@@ -47,6 +49,7 @@ in {
       # ../../2configs/smart-monitor.nix
       ../../2configs/mail-client.nix
       ../../2configs/mosh.nix
+      ../../2configs/nix-ld.nix
       ../../2configs/tools/core.nix
       ../../2configs/tools/dev.nix
       ../../2configs/tools/desktop.nix
@@ -206,6 +209,6 @@ in {
   #    sed-plugin
   #    random-emoji ];
   #};
-
+  nixpkgs.config.permittedInsecurePackages = [ "olm-3.2.16" ];
   krebs.build.host = config.krebs.hosts.omo;
 }
