@@ -3,12 +3,12 @@ mypy }:
 
 buildPythonApplication rec {
   pname = "mediawiki-matrix-bot";
-  version = "1.0.0";
+  version = "1.1.0";
   src = fetchFromGitHub {
     owner = "nix-community";
     repo = "mediawiki-matrix-bot";
-    rev = "refs/heads/custom_api_path";
-    hash = "sha256-hL03E2afftdccnB72cKKgVvvzNuLY3P33oiXWbvowus=";
+    rev = "v${version}";
+    hash = "sha256-TLSoEskzS5xEu6DEFoztaHSWVm0UO7oYCNSxVY0I4cQ=";
   };
   propagatedBuildInputs = [
     feedparser matrix-nio docopt aiohttp aiofiles
