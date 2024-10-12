@@ -63,6 +63,7 @@ in
       "--security-opt" "apparmor=unconfined"
       #"--network=photoprism"
       "--network=host"
+      "--device=/dev/dri" # hardware encoding
     ];
     environment = {
       PHOTOPRISM_HTTP_PORT = port;                     # Built-in Web server port
@@ -95,6 +96,11 @@ in
       PHOTOPRISM_SITE_DESCRIPTION = "Unsere Fotos";
       PHOTOPRISM_SITE_AUTHOR = "FeMi";
       PHOTOPRISM_SPONSOR = "true";
+
+      # Hardware encoding
+      PHOTOPRISM_FFMPEG_ENCODER = "intel";
+      PHOTOPRISM_INIT = "intel";
+
 
     };
     environmentFiles = [
