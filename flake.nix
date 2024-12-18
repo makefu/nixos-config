@@ -2,6 +2,10 @@
   inputs = {
     # nixpkgs.url = "github:NixOS/nixpkgs/nixos-24.05";
     nixpkgs.url = "github:NixOS/nixpkgs/nixos-unstable";
+    brockman = {
+      url = "github:kmein/brockman";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
 
     clan-core = {
       url = "git+https://git.clan.lol/clan/clan-core";
@@ -22,10 +26,13 @@
     nix-ld.url = "github:Mic92/nix-ld";
     nix-ld.inputs.nixpkgs.follows = "nixpkgs";
 
-    stockholm.url = "git+https://cgit.euer.krebsco.de/stockholm";
-    #stockholm.url = "path:///home/makefu/stockholm-flakes";
+    stockholm.url = "git+https://cgit.euer.krebsco.de/makefu/stockholm.git";
+    #stockholm.url = "path:///home/makefu/r/stockholm";
     stockholm.inputs.nixpkgs.follows = "nixpkgs";
     stockholm.inputs.nix-writers.follows = "nix-writers";
+
+    brother_ql_web.url = "github:makefu/brother_ql_web";
+    brother_ql_web.inputs.nixpkgs.follows = "nixpkgs";
 
     nix-writers.url = "git+https://cgit.krebsco.de/nix-writers";
     nix-writers.inputs.nixpkgs.follows = "nixpkgs";
@@ -103,7 +110,7 @@
         inherit (inputs) nixos-hardware self stockholm nixpkgs;
         inherit inputs;
       };
-      machines = lib.genAttrs [ "filepimp" "x" "cake" "tsp" "wbob" "omo" "gum" "savarcast" ] (host: rec {
+      machines = lib.genAttrs [ "liveiso" "filepimp" "x" "cake" "tsp" "wbob" "omo" "gum" "savarcast" ] (host: rec {
         # TODO inject the system somewhere else
         nixpkgs.hostPlatform = if host == "cake" then  "aarch64-linux" else "x86_64-linux";
         # nixpkgs.pkgs = if host == "cake" then pkgsForSystem "aarch64-linux" else pkgsForSystem "x86_64-linux";
@@ -114,7 +121,8 @@
           home-manager.nixosModules.default
           lanzaboote.nixosModules.lanzaboote
 
-          inputs.stockholm.nixosModules.brockman
+          #inputs.stockholm.nixosModules.brockman
+          inputs.brockman.nixosModule
           inputs.stockholm.nixosModules.exim-retiolum
           inputs.stockholm.nixosModules.exim
           inputs.stockholm.nixosModules.krebs
@@ -161,7 +169,9 @@
           (name: !lib.hasPrefix "." name)
           (lib.attrNames (builtins.readDir ./3modules))));
 
-    overlays.default = import ./5pkgs/default.nix;
+          overlays.default = import ./5pkgs/default.nix;
+    packages.x86_64-linux.liveiso = self.nixosConfigurations.liveiso.config.system.build.isoImage;
+    packages.x86_64-linux.default = self.packages.x86_64-linux.liveiso;
     devShells.x86_64-linux.default = let
       pkgs = nixpkgs.legacyPackages.x86_64-linux;
     in pkgs.mkShell {

@@ -1,6 +1,6 @@
- {pkgs, ... }:
+ {pkgs, inputs, ... }:
  let
-   pkg = pkgs.brother_ql_web;
+  pkg = inputs.brother_ql_web.packages.${pkgs.system}.default;
  in { 
   systemd.services.brother-ql-web = {
     after = [ "network.target" ];
