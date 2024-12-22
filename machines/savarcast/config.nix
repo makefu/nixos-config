@@ -24,7 +24,7 @@
 
       # Tools
       ../../2configs/tools/core.nix
-      ../../2configs/zsh-user.nix
+      ../../2configs/zsh
       ../../2configs/mosh.nix
       # Networking
       ../../2configs/tinc/retiolum.nix

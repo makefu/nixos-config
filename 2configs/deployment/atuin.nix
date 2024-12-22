@@ -1,12 +1,14 @@
-{
+{ config, ... }:{
   services.atuin = {
     enable = true;
-    maxHistory = 900001;
+    maxHistoryLength = 900001;
+    database.createLocally = true;
+    # openRegistration = true;
   };
   services.postgresql.enable = true;
   services.nginx.virtualHosts."atuin.euer.krebsco.de" = {
     enableACME = true;
     forceSSL = true;
-    locations."/".proxyPass = "http://localhost:${config.services.atuin.port}";
+    locations."/".proxyPass = "http://localhost:${toString config.services.atuin.port}";
   };
 }

@@ -4,7 +4,7 @@
     extraGroups = [ "networkmanager" ];
     packages = with pkgs;[
       networkmanagerapplet
-      gnome3.gnome-keyring dconf
+      gnome-keyring dconf
     ];
   };
   networking.wireless.enable = lib.mkForce false;

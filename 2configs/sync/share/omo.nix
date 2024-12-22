@@ -15,10 +15,15 @@
       id = "makefu-audiobooks";
       devices = [ "omo" "gum" "makefu-phone" "x" ];
     };
-    download = {
-      path = "/media/crypt1/download";
-      id = "makefu-download";
-      devices = [ "gum" ];
+    sync-photos = {
+      path = "/media/cryptX/photos/photoframe";
+      id = "makefu-photoframe";
+      devices = [ "makefu-tablet-medion" ];
     };
+    #download = {
+    #  path = "/media/crypt1/download";
+    #  id = "makefu-download";
+    #  devices = [ "gum" ];
+    #};
   };
 }

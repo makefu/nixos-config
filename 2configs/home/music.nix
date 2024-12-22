@@ -1,4 +1,4 @@
-{ config,lib, ... }:
+{ pkgs,config,lib, ... }:
 let
   internal-ip = "192.168.111.11";
   port = 4533;
@@ -12,10 +12,13 @@ in
     PlaylistsPath = "/media/silent/playlists";
     Address = "0.0.0.0";
   };
+  sops.secrets.navidrome-secrets.owner = "navidrome";
   systemd.services.navidrome = {
     serviceConfig = {
       Restart = "always";
       RestartSec = "15";
+      EnvironmentFile = config.sops.secrets.navidrome-secrets.path;
+      ExecStartPre = pkgs.writers.writeDash "lol" "echo LND_LASTFM_APIKEY $ND_LASTFM_APIKEY";
       BindReadOnlyPaths =
         [
           # navidrome uses online services to download additional album metadata / covers
@@ -32,6 +35,7 @@ in
         ];
     };
     unitConfig.RequiresMountsFor = [ "/media/silent" ];
+
   };
 
   state = [ "/var/lib/navidrome" ];

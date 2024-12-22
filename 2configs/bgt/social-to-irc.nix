@@ -1,7 +1,7 @@
 { pkgs, ... }:
 {
-  systemd.services.brockman.environment."BROCKMAN_LOG_LEVEL" = "DEBUG";
-  krebs.brockman = {
+  #systemd.services.brockman.environment."BROCKMAN_LOG_LEVEL" = "DEBUG";
+  services.brockman = {
     enable = true;
     config = {
       channel = "#binaergewitter";

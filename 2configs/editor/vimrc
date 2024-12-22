@@ -12,7 +12,7 @@ set background=dark
 
 set number
 set relativenumber
-set mouse=a
+set mouse=
 set ignorecase
 set incsearch
 set wildignore=*.o,*.obj,*.bak,*.exe,*.os

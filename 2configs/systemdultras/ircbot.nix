@@ -1,5 +1,5 @@
 { pkgs, ... }: {
-  systemd.services.brockman.environment."BROCKMAN_LOG_LEVEL" = "DEBUG";
+  #systemd.services.brockman.environment."BROCKMAN_LOG_LEVEL" = "DEBUG";
 
   services.rss-bridge = {
     enable = true;
@@ -7,7 +7,7 @@
     virtualHost = "rss.makefu.r";
   };
 
-  krebs.brockman = {
+  services.brockman = {
     enable = true;
     config = {
       channel = "#systemdultras";

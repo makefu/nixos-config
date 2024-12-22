@@ -2,10 +2,14 @@
 {
 
   imports =
-    [ ./network.nix
+    [ 
+      ./network.nix
       (modulesPath + "/profiles/qemu-guest.nix")
+      ./single-disk-ext4.nix
+
     ];
-  
+  zramSwap.enable = true;  
+  zramSwap.memoryPercent = 75;
   # Disk
   boot.initrd.availableKernelModules = [ "ahci" "xhci_pci" "virtio_pci" "sd_mod" "sr_mod" ];
   boot.uki.tries = 3;
@@ -13,39 +17,7 @@
   boot.kernelModules = [ ];
   boot.extraModulePackages = [ ];
 
-  fileSystems."/" =
-    { device = "rpool/root";
-      fsType = "zfs";
-    };
-
-  fileSystems."/home" =
-    { device = "rpool/home";
-      fsType = "zfs";
-    };
-
-  fileSystems."/nix" =
-    { device = "rpool/nix";
-      fsType = "zfs";
-    };
-
-  fileSystems."/boot" =
-    { device = "/dev/sda1";
-      fsType = "vfat";
-    };
-
-  swapDevices = [ ];
-  zramSwap.enable = true;
-  boot.loader.grub.device = "/dev/sda";
-
-  networking.hostId = "3150697b"; # required for zfs use
-  boot.tmp.useTmpfs = true;
-  boot.supportedFilesystems = [ "zfs" ];
-
-  boot.loader.grub.enable = true;
-  boot.loader.grub.copyKernels = true;
-  boot.zfs.devNodes = "/dev"; # fixes some virtualmachine issues
   boot.kernelParams = [
-    "zfs.zfs_arc_max=1073741824" 
     "boot.shell_on_fail"
     "panic=30" "boot.panic_on_fail" # reboot the machine upon fatal boot issues
   ];

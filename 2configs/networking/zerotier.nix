@@ -1,7 +1,7 @@
 { lib, config, ... }:
 {
   # lassulus network
-  clan.networking.zerotier = {
+  clan.core.networking.zerotier = {
     networkId = "ccc5da5295c853d4";
     name = "nether";
   };

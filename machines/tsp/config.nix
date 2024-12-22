@@ -22,7 +22,7 @@
 
       # ../../2configs/rad1o.nix
 
-      ../../2configs/zsh-user.nix
+      ../../2configs/zsh
       ../../2configs/home-manager
       ../../2configs/home-manager/desktop.nix
       ../../2configs/home-manager/cli.nix

@@ -35,7 +35,7 @@
       "hyprland/window"
     ],
     "modules-right": [
-      "mpd",
+    //  "mpd",
       "idle_inhibitor",
       "pulseaudio",
       "network",
@@ -45,12 +45,12 @@
       "temperature",
       "backlight",
       "keyboard-state",
-      "hyprland/language",
+     // "hyprland/language",
       "battery",
-      "battery#bat2",
+      // "battery#bat2",
       "clock",
-      "tray",
-      "custom/power"
+      "tray"
+    //  "custom/power"
     ],
     "keyboard-state": {
       "numlock": true,
@@ -130,8 +130,9 @@
     },
     "backlight": {
         // "device": "acpi_video1",
-        "format": "{percent}% {icon}",
-        "format-icons": ["", "", "", "", "", "", "", "", ""]
+        //"format": "{percent}% {icon}",
+        "format": "{percent}% ☼"
+        // "format-icons": ["", "", "", "", "", "", "", "", ""]
     },
     "battery": {
       "states": {

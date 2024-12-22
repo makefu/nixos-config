@@ -35,10 +35,10 @@ in mkIf (hasAttr "wiregrill" config.krebs.build.host.nets) {
   services.dnsmasq = {
     enable = true;
     resolveLocalQueries = false;
-    extraConfig = /* dnsmasq */ ''
-      bind-interfaces
-      interface=retiolum,wiregrill
-    '';
+    settings = {
+      bind-interfaces = true;
+      interface = "retiolum,wiregrill";
+    };
     servers = [ "1.1.1.1" ];
   };
 

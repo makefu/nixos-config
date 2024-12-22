@@ -22,8 +22,8 @@ in mkIf (hasAttr "wiregrill" config.krebs.build.host.nets) {
     ip6 = "${pkgs.iptables}/bin/ip6tables";
   in {
     ips =
-      (optional (!isNull self.ip4) self.ip4.addr) ++
-      (optional (!isNull self.ip6) self.ip6.addr);
+      (optional (!isNull self.ip4) (self.ip4.addr + "/32")) ++
+      (optional (!isNull self.ip6) (self.ip6.addr + "/128"));
     listenPort = self.wireguard.port;
     privateKeyFile = config.sops.secrets."${config.clan.core.machineName}-wiregrill.key".path;
     allowedIPsAsRoutes = true;

@@ -5,7 +5,7 @@
 , xorg
 , gst_all_1
 , krb5
-, alsaLib
+, alsa-lib
 }:
 # via https://raw.githubusercontent.com/simon-the-sourcerer-ab/chitubox/main/default.nix
 stdenv.mkDerivation rec {
@@ -21,7 +21,7 @@ stdenv.mkDerivation rec {
   nativeBuildInputs = [ autoPatchelfHook ];
 
   buildInputs = with xorg; [ stdenv.cc.cc.lib libglvnd libgcrypt zlib glib fontconfig freetype libdrm 
-  libxkbcommon libpulseaudio alsaLib
+  libxkbcommon libpulseaudio alsa-lib
   xcbutilwm xcbutilimage xcbutilrenderutil xcbutilkeysyms
   gst_all_1.gst-plugins-base gst_all_1.gstreamer krb5
 ];

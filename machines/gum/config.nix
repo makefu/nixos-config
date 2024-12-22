@@ -16,18 +16,18 @@ in {
         # systemd.services.phpfpm-nextcloud.wantedBy = lib.mkForce [];
         systemd.services.samba-smbd.wantedBy = lib.mkForce [];
       }
-      {
-        users.users.lass = {
-          uid = 19002;
-          isNormalUser = true;
-          createHome = true;
-          useDefaultShell = true;
-          openssh.authorizedKeys.keys = with config.krebs.users; [
-            lass.pubkey
-            makefu.pubkey
-          ];
-        };
-      }
+      #{
+      #  users.users.lass = {
+      #    uid = 19002;
+      #    isNormalUser = true;
+      #    createHome = true;
+      #    useDefaultShell = true;
+      #    openssh.authorizedKeys.keys = with config.krebs.users; [
+      #      lass.pubkey
+      #      makefu.pubkey
+      #    ];
+      #  };
+      #}
       ../../2configs
 
       ../../2configs/nur.nix
@@ -49,10 +49,10 @@ in {
       # ../../2configs/tools/sec.nix
       # ../../2configs/tools/desktop.nix
 
-      ../../2configs/zsh-user.nix
+      ../../2configs/zsh
       ../../2configs/mosh.nix
       # ../../2configs/disable_v6.nix
-      ../../2configs/storj/forward-port.nix
+      # ../../2configs/storj/forward-port.nix
       # ../../2configs/gui/xpra.nix
 
       # networking
@@ -92,17 +92,19 @@ in {
 
       # ci
       # ../../2configs/exim-retiolum.nix
-      ../../2configs/git/cgit-retiolum.nix
+      # ../../2configs/git/cgit-retiolum.nix
+      ../../2configs/git/forgejo.nix
 
-      ### systemdUltras ###
-      ../../2configs/systemdultras/ircbot.nix
 
       ###### Shack #####
       # ../../2configs/shack/events-publisher
       # ../../2configs/shack/gitlab-runner
 
 
-      ../../2configs/remote-build/slave.nix
+      # ../../2configs/deployment/buildbot/master.nix
+      ../../2configs/deployment/atuin.nix
+
+      # ../../2configs/remote-build/slave.nix
       # ../../2configs/remote-build/aarch64-community.nix
       ../../2configs/taskd.nix
 
@@ -130,7 +132,7 @@ in {
       ## network
       # ../../2configs/vpn/openvpn-server.nix
       # ../../2configs/vpn/vpnws/server.nix
-      ../../2configs/binary-cache/server.nix
+      # ../../2configs/binary-cache/server.nix
       { makefu.backup.server.repo = "/var/backup/borg"; }
       ../../2configs/backup/server.nix
       ../../2configs/backup/state.nix
@@ -149,11 +151,10 @@ in {
       ../../2configs/deployment/rss/rss.euer.krebsco.de.nix # postgres backend
       ../../2configs/deployment/rss/ratt.nix
 
-      ../../2configs/deployment/ntfysh.nix
+      # ../../2configs/deployment/ntfysh.nix
       ../../2configs/deployment/nextcloud #postgres backend
-      ../../2configs/deployment/nextcloud/screeenly.nix
+      # ../../2configs/deployment/nextcloud/screeenly.nix
 
-      ../../2configs/deployment/buildbot/master.nix
       # ../../2configs/deployment/buildbot/worker.nix
       ### Moving owncloud data dir to /media/cloud/nextcloud-data
       {
@@ -191,7 +192,7 @@ in {
       #../../2configs/deployment/owncloud.nix
       # ../../2configs/deployment/board.euer.krebsco.de.nix
       #../../2configs/deployment/feed.euer.krebsco.de
-      ../../2configs/deployment/boot-euer.nix
+      # ../../2configs/deployment/boot-euer.nix
       ../../2configs/deployment/gecloudpad
       #../../2configs/deployment/docker/archiveteam-warrior.nix
       ../../2configs/deployment/mediengewitter.de.nix
@@ -200,7 +201,7 @@ in {
 
       ../../2configs/deployment/wiki.euer.nix
 
-      ../../2configs/shiori.nix
+      # ../../2configs/shiori.nix
       #../../2configs/workadventure
 
       ../../2configs/bgt/download.binaergewitter.de.nix
@@ -227,25 +228,11 @@ in {
       # krebs infrastructure services
       # ../../2configs/stats/server.nix
     ];
-
+  nixpkgs.config.permittedInsecurePackages = [ "olm-3.2.16" ];
   # makefu.dl-dir = "/var/download";
   makefu.dl-dir = "/media/cloud/download/finished";
 
   ###### stable
-  security.acme.certs."cgit.euer.krebsco.de" = {
-    email = "letsencrypt@syntax-fehler.de";
-    webroot = "/var/lib/acme/acme-challenge";
-    group = "nginx";
-  };
-  services.nginx.virtualHosts."cgit" = {
-    serverAliases = [ "cgit.euer.krebsco.de" ];
-    addSSL = true;
-    sslCertificate = "/var/lib/acme/cgit.euer.krebsco.de/fullchain.pem";
-    sslCertificateKey = "/var/lib/acme/cgit.euer.krebsco.de/key.pem";
-    locations."/.well-known/acme-challenge".extraConfig = ''
-      root /var/lib/acme/acme-challenge;
-    '';
-  };
 
   krebs.build.host = config.krebs.hosts.gum;
 
@@ -254,7 +241,7 @@ in {
     firewall = {
         allowedTCPPorts = [
           80 443
-          28967  # storj
+          # 28967  # storj
         ];
         allowPing = true;
         logRefusedConnections = false;
@@ -263,4 +250,5 @@ in {
   };
   users.users.makefu.extraGroups = [ "download" "nginx" ];
   state = [ "/home/makefu/.weechat" ];
+  clan.networking.targetHost = "root@gum.i";
 }

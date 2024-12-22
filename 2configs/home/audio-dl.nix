@@ -9,7 +9,7 @@ in
   systemd.services.mausdownload = {
     startAt = "6:15:00";
     path = [ pkg ];
-    script = "mausdownload.sh /media/silent/music/kinder/hoerbucher";
+    script = "alldownload.sh /media/silent/music/kinder/podcasts";
     serviceConfig= {
       User = "makefu"; # TODO unprivileged user
     };

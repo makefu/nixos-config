@@ -1,7 +1,7 @@
 { stdenv
 , lib
 , fetchurl
-, alsaLib
+, alsa-lib
 , unzip
 , openssl
 , zlib
@@ -24,7 +24,7 @@ stdenv.mkDerivation rec {
   ];
   sourceRoot = ".";
   buildInputs = [
-    alsaLib
+    alsa-lib
     openssl
     zlib
     pulseaudio
