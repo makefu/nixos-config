@@ -1,17 +1,19 @@
 { pkgs, ... }:
-let
-  vaapi = pkgs.vaapiIntel.override { enableHybridCodec = true; };
-in
 {
-  hardware.opengl = {
+  # 2024-08-18: https://wiki.nixos.org/wiki/Jellyfin
+  nixpkgs.config.packageOverrides = pkgs: {
+    vaapiIntel = pkgs.vaapiIntel.override { enableHybridCodec = true; };
+  };
+  hardware.graphics = { # hardware.opengl in 24.05
     enable = true;
     extraPackages = with pkgs; [
-      intel-media-driver # LIBVA_DRIVER_NAME=iHD
-      vaapi              # LIBVA_DRIVER_NAME=i965 (older but works better for Firefox/Chromium)
+      intel-media-driver
+      intel-vaapi-driver # previously vaapiIntel
       vaapiVdpau
-      libvdpau-va-gl
+      intel-compute-runtime # OpenCL filter support (hardware tonemapping and subtitle burn-in)
+      vpl-gpu-rt # QSV on 11th gen or newer
+      intel-media-sdk # QSV up to 11th gen
     ];
   };
-  hardware.opengl.extraPackages32 = with pkgs.pkgsi686Linux; [ vaapi ];
-  environment.systemPackages = [ pkgs.libva-utils ];
+
 }

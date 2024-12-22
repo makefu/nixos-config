@@ -50,7 +50,7 @@ ${gnused}/bin/sed -i "''${1}d" ~/.ssh/known_hosts
     parallel
     proot
 
-    rxvt_unicode.terminfo
+    rxvt-unicode-unwrapped.terminfo
 
     # TODO: missing stockholm overlay
     # kpaste

@@ -13,6 +13,12 @@ in {
       ../../2configs/default.nix
       ../../2configs/support-nixos.nix
       ../../2configs/nur.nix
+      {     
+        systemd.coredump.extraConfig = ''
+          Storage=none
+          ProcessSizeMax=0
+        '';
+      }
       {
         services.xserver.enable = true;
         services.xserver.displayManager.sddm.enable = true;
@@ -34,7 +40,7 @@ in {
       ### systemdUltras ###
       ../../2configs/systemdultras/ircbot.nix
 
-      ../../2configs/zsh-user.nix
+      ../../2configs/zsh
       ../../2configs/home-manager
       ../../2configs/home-manager/cli.nix
       ../../2configs/editor/neovim
@@ -49,7 +55,7 @@ in {
       # ../../2configs/smart-monitor.nix
       ../../2configs/mail-client.nix
       ../../2configs/mosh.nix
-      ../../2configs/nix-ld.nix
+      #../../2configs/nix-ld.nix
       ../../2configs/tools/core.nix
       ../../2configs/tools/dev.nix
       ../../2configs/tools/desktop.nix
@@ -63,8 +69,10 @@ in {
 
       ../../2configs/share
       ../../2configs/share/omo.nix
-      ../../2configs/share/gum-client.nix
+      ../../2configs/share/hetzner-client.nix
+      #../../2configs/share/gum-client.nix
       ../../2configs/sync
+      ../../2configs/sync/omo-download-sync.nix
       ../../2configs/sync/share/omo.nix
 
       ../../2configs/wireguard/wiregrill-client.nix
@@ -123,7 +131,7 @@ in {
       ../../2configs/home/metube.nix
       # ../../2configs/home/ham
       ../../2configs/home/ham/docker.nix
-      ../../2configs/home/zigbee2mqtt
+      ../../2configs/home/zigbee/omo.nix
       ../../2configs/home/streams.nix
       ../../2configs/home/esphome.nix
       ../../2configs/home/audio-dl.nix

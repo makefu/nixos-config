@@ -1,25 +1,33 @@
-{ disk ? "/dev/sda", ... }: {
-  boot.loader.efi.canTouchEfiVariables = true;
-  boot.loader.systemd-boot.enable = true;
+{ ... }: {
+  #boot.loader.efi.canTouchEfiVariables = true;
+  #boot.loader.systemd-boot.enable = true;
+  #boot.loader.grub.device = "/dev/sda";
+  boot.loader.grub.enable = true;
+  boot.loader.grub.copyKernels = true;
+  boot.loader.grub.efiSupport = true;
+  boot.loader.grub.efiInstallAsRemovable = true;
+
   disko.devices = {
     disk = {
-      disk1 = {
-        device = disk;
+      main = {
         type = "disk";
+        # device = disk;
+        device = "/dev/sda";
         content = {
-          type = "table";
-          format = "gpt";
-          partitions ={
-            boot = {
+          type = "gpt";
+          partitions = {
+            boot = { # required for embedding grub
               size = "1M";
               type = "EF02";
+              priority = 1;
             };
             ESP = {
               name = "ESP";
-              start = "1MiB";
+              #start = "1M";
               type = "EF00";
-              end = "1G";
-              bootable = true;
+              priority = 2;
+              size = "1G";
+              # bootable = true;
               content = {
                 type = "filesystem";
                 format = "vfat";
@@ -27,22 +35,26 @@
                 mountOptions = [ "umask=0077" ];
               };
             };
+            swap = {
+              size = "4G";
+              #size = "100%";
+              #end = "-4G";
+              priority = 3;
+              content = {
+                type = "swap";
+                priority = 1; # lowest prio
+              };
+            };
             root = {
               name = "root";
-              start = "500MiB";
-              end = "-4G";
-              part-type = "primary";
+              priority = 4;
+              #start = "1G";
+              #end = "-4G";
+              size = "100%";
               content = {
                 type = "filesystem";
                 format = "ext4";
                 mountpoint = "/";
-              };
-            };
-            swap = {
-              size = "4G";
-              content = {
-                type = "swap";
-                priority = 1; # lowest prio
               };
             };
           };

@@ -59,7 +59,7 @@ in {
     enable = true;
     configureRedis = true;
 
-    package = pkgs.nextcloud29;
+    package = pkgs.nextcloud30;
     hostName = "o.euer.krebsco.de";
     # Use HTTPS for links
     https = true;

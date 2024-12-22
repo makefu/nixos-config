@@ -4,7 +4,7 @@
   users.users.makefu.packages = with pkgs; [
     aria2
     # mitmproxy
-    python3Packages.binwalk-full
+    binwalk
     dnsmasq
     iodine
     mtr

@@ -51,7 +51,7 @@
     inventory4ce.inputs.nixpkgs.follows = "nixpkgs";
     inventory4ce.inputs.poetry2nix.follows = "poetry2nix";
 
-    lanzaboote.url = "github:nix-community/lanzaboote/v0.3.0";
+    lanzaboote.url = "github:nix-community/lanzaboote";
     lanzaboote.inputs.nixpkgs.follows = "nixpkgs";
     lanzaboote.inputs.flake-parts.follows = "flake-parts";
     #lanzaboote.inputs.pre-commit-hooks-nix.follows = "";

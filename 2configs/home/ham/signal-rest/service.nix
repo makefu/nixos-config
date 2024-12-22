@@ -10,7 +10,7 @@ in {
   state = [ config ];
   virtualisation.oci-containers.containers.signal-rest = {
     image = image;
-    #ports = [ "127.0.0.1:${toString port}:${toString port}" ];
+    ports = [ "127.0.0.1:${toString port}:${toString port}" ];
     extraOptions = [ "--network=host"];
     volumes = [
       "${config}:/home/.local/share/signal-cli"

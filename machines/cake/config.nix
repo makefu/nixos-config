@@ -1,12 +1,12 @@
 { config, lib, pkgs, ... }:
 let
-  primaryInterface = "eth0";
+  primaryInterface = "end0";
 in {
   imports = [
     ./hardware-config.nix
     ../../2configs
     ../../2configs/home-manager
-    ../../2configs/home/3dprint
+    ../../2configs/home/zigbee/cake.nix
     #./hardware-config.nix
     { environment.systemPackages = with pkgs;[ rsync screen curl git tmux picocom mosh ];}
     # ../../2configs/tools/core.nix
@@ -14,7 +14,7 @@ in {
     #../../2configs/support-nixos.nix
     # ../../2configs/homeautomation/default.nix
     # ../../2configs/homeautomation/google-muell.nix
-    ../../2configs/hw/pseyecam.nix
+    #../../2configs/hw/pseyecam.nix
     # configure your hw:
     # ../../2configs/save-diskspace.nix
 

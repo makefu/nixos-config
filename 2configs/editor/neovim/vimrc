@@ -298,7 +298,7 @@ noremap <leader>p "+gP<CR>
 noremap XX "+x<CR>
 
 " Enable mouse for vim
-set mouse=a
+set mouse=
 
 " Buffer nav
 noremap <leader>z :bp<CR>

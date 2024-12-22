@@ -21,15 +21,12 @@ in {
         "valid users" = "download";
       };
     };
-    extraConfig = ''
-      # guest account = smbguest
-      # map to guest = bad user
-      # disable printing
-      load printers = no
-      printing = bsd
-      printcap name = /dev/null
-      disable spoolss = yes
-    '';
+    settings.global = {
+      "load printers" = "no";
+      "printing" = "bsd";
+      "printcap name" = "/dev/null";
+      "disable spoolss" = "yes";
+    };
   };
   networking.firewall.interfaces.retiolum.allowedTCPPorts = [ 445 ];
   networking.firewall.interfaces.wiregrill.allowedTCPPorts =  [ 445 ];

@@ -38,7 +38,7 @@ in
 #    };
 #    displayManager.defaultSession = lib.mkDefault "none+awesome";
   };
-  environment.systemPackages = [ pkgs.gnome.adwaita-icon-theme ];
+  environment.systemPackages = [ pkgs.adwaita-icon-theme ];
   # lid switch is handled via button presses
   # services.logind.lidSwitch = lib.mkDefault "ignore";
   #makefu.awesome.enable = true;
@@ -55,7 +55,7 @@ in
     packages = with pkgs;[
       pavucontrol
       xlockmore
-      rxvt_unicode-with-plugins
+      rxvt-unicode-unwrapped
     ];
   };
 

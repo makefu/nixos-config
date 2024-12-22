@@ -11,7 +11,7 @@ in
   security.rtkit.enable = true;
 
   environment.systemPackages = with pkgs; [
-    alsaUtils
+    alsa-utils
     i2c-tools
     ponymix
   ];

@@ -5,7 +5,7 @@
   hardware.pulseaudio.enable = lib.mkForce false;
 
   environment.systemPackages = with pkgs; [
-    alsaUtils
+    alsa-utils
     pulseaudio
     ponymix
   ];

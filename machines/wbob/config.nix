@@ -14,7 +14,7 @@ in {
       ../../2configs/networking/zerotier.nix
       ../../2configs/home-manager
       ../../2configs/support-nixos.nix
-      ../../2configs/zsh-user.nix
+      ../../2configs/zsh
       ../../2configs/tools/core.nix
       # ../../2configs/disable_v6.nix
       ../../2configs/tools/core-gui.nix

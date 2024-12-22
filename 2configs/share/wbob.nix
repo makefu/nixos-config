@@ -34,14 +34,14 @@
         "guest ok" = "no";
       };
     };
-    extraConfig = ''
-      guest account = smbguest
-      map to guest = bad user
+    settings.global = {
+      "guest account" = "smbguest";
+      "map to guest" = "bad user";
       # disable printing
-      load printers = no
-      printing = bsd
-      printcap name = /dev/null
-      disable spoolss = yes
-    '';
+      "load printers" = "no";
+      "printing" = "bsd";
+      "printcap name" = "/dev/null";
+      "disable spoolss" = "yes" ;
+    };
   };
 }

@@ -17,11 +17,16 @@ in {
 
   users.users."${mainUser}".extraGroups = [ "scanner" "lp" ];
 
+services.udev.packages = [ pkgs.utsushi ];
   # scanners are printers just in reverse anyway
   services.saned.enable = true;
+
+  # network scan
+  services.avahi.enable = true;
+  services.avahi.nssmdns4 = true;
   hardware.sane = {
     enable = true;
-    extraBackends = [ ];
+    extraBackends = [ pkgs.epkowa pkgs.utsushi ];
     extraConfig.xerox_mfp = ''
       usb 0x04e8 0x3441
     '';

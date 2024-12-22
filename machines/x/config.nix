@@ -2,10 +2,14 @@
 {
   imports =
     [
-
-      # ./x230
+      # ./x230 
       ./x13
+      {
 
+        nixpkgs.config.permittedInsecurePackages = [
+            "jitsi-meet-1.0.8043"
+          ];
+      }
       # do not build in tmpfs
       { systemd.services.nix-daemon.environment.TMPDIR = "/var/tmp";}
 
@@ -37,6 +41,7 @@
       ../../2configs/home-manager/taskwarrior.nix
 
       ../../2configs/main-laptop.nix
+      ../../2configs/zsh/atuin.nix
       ../../2configs/kdeconnect.nix
       ../../2configs/extra-fonts.nix
       ../../2configs/editor/neovim
@@ -263,6 +268,7 @@
   boot.binfmt.emulatedSystems = [
     "aarch64-linux"
   ];
+
 
   # services.syncthing.user = lib.mkForce "makefu";
   # services.syncthing.dataDir = lib.mkForce "/home/makefu/.config/syncthing/";

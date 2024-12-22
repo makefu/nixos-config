@@ -31,6 +31,7 @@
     hydra-check
     # git-related
     git-preview
+    jujutsu
     tig
     # (pkgs.callPackage ./init-host {})
     # used more than once

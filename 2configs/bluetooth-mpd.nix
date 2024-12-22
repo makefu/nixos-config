@@ -37,7 +37,6 @@ in {
       "guest ok" = "yes";
     };
 
-    sound.enable = true;
     # connect via https://wiki.nixos.org/wiki/Bluetooth#Using_Bluetooth_headsets_with_PulseAudio
     hardware.bluetooth.enable = true;
     environment.etc."bluetooth/audio.conf".text = ''

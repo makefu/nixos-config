@@ -13,7 +13,7 @@ in {
     ./gui/base.nix
     # ./gui/look-up.nix
     ./fetchWallpaper.nix
-    ./zsh-user.nix
+    ./zsh
     ./tools/core.nix
     ./tools/core-gui.nix
     ./gui/automatic-diskmount.nix

@@ -35,7 +35,7 @@ in {
     {
       general = {
         disable_loading_bar = false;
-        grace = 10;
+        # grace = 10;
         hide_cursor = true;
         no_fade_in = false;
       };
@@ -70,16 +70,16 @@ in {
       settings = {
         general = {
           ignore_dbus_inhibit = false;
-          before_sleep_cmd = "loginctl lock-session";
+          # before_sleep_cmd = "hyprlock";
           after_sleep_cmd = "hyprctl dispatch dpms on";
           # what to do when `loginctl lock-session` sends dbus lock event
-          lock_cmd = "pidof hyprlock || hyprlock";
+          lock_cmd = "hyprlock";
         };
 
         listener = [
           {
             timeout = 600;
-            on-timeout = "loginctl lock-session";
+            on-timeout = "hyprlock";
           }
           {
             timeout = 630;
@@ -159,10 +159,10 @@ in {
           active_opacity = 1.0;
           inactive_opacity = 1.0;
 
-          drop_shadow = false;
-          shadow_range = 4;
-          shadow_render_power = 3;
-          "col.shadow" = "rgba(1a1a1aee)";
+          #drop_shadow = false;
+          #shadow_range = 4;
+          #shadow_render_power = 3;
+          #"col.shadow" = "rgba(1a1a1aee)";
 
           blur = {
               enabled = true;
@@ -220,7 +220,7 @@ in {
           "$mainMod, R, exec, $menu"
           "$mainMod, P, pseudo, # dwindle"
           "$mainMod, J, togglesplit, # dwindle"
-          "$mainMod, L, exec, hyprlock"
+          "$mainMod, L, exec, loginctl lock-session"
 
           # Move focus with mainMod + arrow keys
           "$mainMod, left, movefocus, l"
@@ -249,9 +249,8 @@ in {
           "$mainMod SHIFT, 6, movetoworkspace, 6"
           "$mainMod SHIFT, 7, movetoworkspace, 7"
           "$mainMod SHIFT, 8, movetoworkspace, 8"
-          "$mainMod SHIFT, 8, movetoworkspace, 8"
           "$mainMod SHIFT, 9, movetoworkspace, 9"
-          "$mainMod SHIFT, 10, movetoworkspace, 10"
+          "$mainMod SHIFT, 0, movetoworkspace, 10"
           # screenshot
           "$mainMod, Print, exec, grimblast --notify --cursor save area ~/shots/$(date +'%Y-%m-%d-At-%Ih%Mm%Ss').png"
           ",Print, exec, grimblast --notify --cursor  copy area"
@@ -261,7 +260,7 @@ in {
           "$mainMod, mouse:273, resizewindow"
         ];
         bindel= [
-          ", XF86AudioLowerVolume, exec, wpctl set-volume @DEFAULT_AUDIO_SINK@5%-"
+          ", XF86AudioLowerVolume, exec, wpctl set-volume @DEFAULT_AUDIO_SINK@ 5%-"
           ", XF86AudioRaiseVolume, exec, wpctl set-volume @DEFAULT_AUDIO_SINK@ 5%+"
         ];
         bindl= ", XF86AudioMute, exec, wpctl set-mute @DEFAULT_AUDIO_SINK@ toggle";

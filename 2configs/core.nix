@@ -1,4 +1,4 @@
-{
+{pkgs, lib, config, ... }:{
   # users are super important
   users.users = {
     root.openssh.authorizedKeys.keys = [ config.krebs.users.makefu.pubkey ];
@@ -52,8 +52,6 @@
     defaults.email = "letsencrypt@syntax-fehler.de";
     acceptTerms = true;
   };
-  system.stateVersion = lib.mkDefault "23.05";
-  services.postgresql.package = pkgs.postgresql_14;
 
   boot.kernel.sysctl."kernel.dmesg_restrict" = 0;
 }
