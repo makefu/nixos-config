@@ -4,9 +4,7 @@ let
   port = 3011;
 in
 {
-
-  networking.firewall.allowedTCPPorts = [ port ];
-  # TODO: nginx
+  # nginx proxy config is stored under deployment/hoarder-proxy
   sops.secrets.hoarder-app = {};
   # Runtime
   virtualisation.podman = {
@@ -54,7 +52,7 @@ in
   };
   virtualisation.oci-containers.containers."hoarder-meilisearch" = {
     image = "getmeili/meilisearch:v1.11.1";
-    environmentFile = config.sops.secrets.hoarder-app.path;
+    environmentFiles = [ config.sops.secrets.hoarder-app.path ];
     environment = {
       "HOARDER_VERSION" = "release";
       "MEILI_NO_ANALYTICS" = "true";
@@ -90,7 +88,7 @@ in
   };
   virtualisation.oci-containers.containers."hoarder-web" = {
     image = "ghcr.io/hoarder-app/hoarder:release";
-    environmentFile = config.sops.secrets.hoarder-app.path;
+    environmentFiles = [ config.sops.secrets.hoarder-app.path ];
     environment = {
       "BROWSER_WEB_URL" = "http://chrome:9222";
       "DATA_DIR" = "/data";
@@ -102,7 +100,7 @@ in
       "hoarder_data:/data:rw"
     ];
     ports = [
-      "${port}:3000/tcp"
+      "${toString port}:3000/tcp"
     ];
     log-driver = "journald";
     extraOptions = [
