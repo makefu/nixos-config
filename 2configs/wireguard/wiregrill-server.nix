@@ -46,44 +46,44 @@ in mkIf (hasAttr "wiregrill" config.krebs.build.host.nets) {
     ipt = "${pkgs.iptables}/bin/iptables";
     ip6 = "${pkgs.iptables}/bin/ip6tables";
   in {
-    postSetup = ''
-        ${ipt} -A FORWARD -i wiregrill -o retiolum -j ACCEPT
-        ${ipt} -A FORWARD -i wiregrill -o wiregrill -j ACCEPT
-        ${ipt} -A FORWARD -o wiregrill -m conntrack --ctstate RELATED,ESTABLISHED -j ACCEPT
-        ${ip6} -A FORWARD -i wiregrill -o retiolum -j ACCEPT
-        ${ip6} -A FORWARD -i retiolum -o wiregrill -j ACCEPT
-        ${ip6} -A FORWARD -i wiregrill -o wiregrill -j ACCEPT
-        ${ip6} -A FORWARD -o wiregrill -m conntrack --ctstate RELATED,ESTABLISHED -j ACCEPT
+    #postSetup = ''
+    #    ${ipt} -A FORWARD -i wiregrill -o retiolum -j ACCEPT
+    #    ${ipt} -A FORWARD -i wiregrill -o wiregrill -j ACCEPT
+    #    ${ipt} -A FORWARD -o wiregrill -m conntrack --ctstate RELATED,ESTABLISHED -j ACCEPT
+    #    ${ip6} -A FORWARD -i wiregrill -o retiolum -j ACCEPT
+    #    ${ip6} -A FORWARD -i retiolum -o wiregrill -j ACCEPT
+    #    ${ip6} -A FORWARD -i wiregrill -o wiregrill -j ACCEPT
+    #    ${ip6} -A FORWARD -o wiregrill -m conntrack --ctstate RELATED,ESTABLISHED -j ACCEPT
 
-        #${ipt} -t nat -A PREROUTING -s 10.244.245.0/24 -j ACCEPT
-        #${ipt} -t nat -A POSTROUTING -s 10.244.245.0/24 ! -d 10.244.245.0/24 -j MASQUERADE
+    #    #${ipt} -t nat -A PREROUTING -s 10.244.245.0/24 -j ACCEPT
+    #    #${ipt} -t nat -A POSTROUTING -s 10.244.245.0/24 ! -d 10.244.245.0/24 -j MASQUERADE
 
-        #${ip6} -t nat -A PREROUTING -s 42:1::/32 -j ACCEPT
-        #${ip6} -t nat -A POSTROUTING -s 42:1::/32 ! -d 42:1::/48 -j MASQUERADE
-    '';
+    #    #${ip6} -t nat -A PREROUTING -s 42:1::/32 -j ACCEPT
+    #    #${ip6} -t nat -A POSTROUTING -s 42:1::/32 ! -d 42:1::/48 -j MASQUERADE
+    #'';
 
-      # This undoes the above command
-      postShutdown = ''
-        ${ipt} -D FORWARD -i wiregrill -o retiolum -j ACCEPT
-        ${ipt} -D FORWARD -i retiolum -o wiregrill -j ACCEPT
-        ${ipt} -D FORWARD -i wiregrill -o wiregrill -j ACCEPT
-        ${ipt} -D FORWARD -i wiregrill -o wiregrill -j ACCEPT
-        ${ipt} -D FORWARD -o wiregrill -m conntrack --ctstate RELATED,ESTABLISHED -j ACCEPT
+    #  # This undoes the above command
+    #  postShutdown = ''
+    #    ${ipt} -D FORWARD -i wiregrill -o retiolum -j ACCEPT
+    #    ${ipt} -D FORWARD -i retiolum -o wiregrill -j ACCEPT
+    #    ${ipt} -D FORWARD -i wiregrill -o wiregrill -j ACCEPT
+    #    ${ipt} -D FORWARD -i wiregrill -o wiregrill -j ACCEPT
+    #    ${ipt} -D FORWARD -o wiregrill -m conntrack --ctstate RELATED,ESTABLISHED -j ACCEPT
 
-        ${ip6} -D FORWARD -i wiregrill -o retiolum -j ACCEPT
-        ${ip6} -D FORWARD -i retiolum -o wiregrill -j ACCEPT
-        ${ip6} -D FORWARD -i wiregrill -o wiregrill -j ACCEPT
-        ${ip6} -D FORWARD -o wiregrill -m conntrack --ctstate RELATED,ESTABLISHED -j ACCEPT
+    #    ${ip6} -D FORWARD -i wiregrill -o retiolum -j ACCEPT
+    #    ${ip6} -D FORWARD -i retiolum -o wiregrill -j ACCEPT
+    #    ${ip6} -D FORWARD -i wiregrill -o wiregrill -j ACCEPT
+    #    ${ip6} -D FORWARD -o wiregrill -m conntrack --ctstate RELATED,ESTABLISHED -j ACCEPT
 
-        ${ipt} -t nat -D PREROUTING -s 10.244.245.0/24 -j ACCEPT
-        ${ipt} -t nat -D POSTROUTING -s 10.244.245.0/24 -j MASQUERADE
+    #    ${ipt} -t nat -D PREROUTING -s 10.244.245.0/24 -j ACCEPT
+    #    ${ipt} -t nat -D POSTROUTING -s 10.244.245.0/24 -j MASQUERADE
 
-        #${ip6} -t nat -D PREROUTING -s 42:1::/32 -j ACCEPT
-        #${ip6} -t nat -D POSTROUTING -s 42:1::/32 ! -d 42:1::/48 -j MASQUERADE
-    '';
+    #    #${ip6} -t nat -D PREROUTING -s 42:1::/32 -j ACCEPT
+    #    #${ip6} -t nat -D POSTROUTING -s 42:1::/32 ! -d 42:1::/48 -j MASQUERADE
+    #'';
     ips =
-      (optional (!isNull self.ip4) self.ip4.addr) ++
-      (optional (!isNull self.ip6) self.ip6.addr);
+      (optional (!isNull self.ip4) (self.ip4.addr + "/32")) ++
+      (optional (!isNull self.ip6) (self.ip6.addr + "/128"));
     listenPort = self.wireguard.port;
     privateKeyFile = config.sops.secrets."${config.clan.core.machineName}-wiregrill.key".path;
     allowedIPsAsRoutes = true;

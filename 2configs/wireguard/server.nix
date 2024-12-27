@@ -24,14 +24,14 @@ in { # wireguard server
     listenPort = 51820;
     privateKeyFile = config.sops.secrets."${config.clan.core.machineName}-wireguard.key".path;
     # allowedIPsAsRoutes = true;
-    postSetup = ''
-        ${pkgs.iptables}/bin/iptables -t nat -A POSTROUTING -s 10.244.0.0/24 -o ${ext-if} -j MASQUERADE
-    '';
+    #postSetup = ''
+    #    ${pkgs.iptables}/bin/iptables -t nat -A POSTROUTING -s 10.244.0.0/24 -o ${ext-if} -j MASQUERADE
+    #'';
 
-      # This undoes the above command
-    postShutdown = ''
-        ${pkgs.iptables}/bin/iptables -t nat -D POSTROUTING -s 10.244.0.0/24 -o ${ext-if} -j MASQUERADE
-    '';
+    #  # This undoes the above command
+    #postShutdown = ''
+    #    ${pkgs.iptables}/bin/iptables -t nat -D POSTROUTING -s 10.244.0.0/24 -o ${ext-if} -j MASQUERADE
+    #'';
     peers = [
       {
         # x
