@@ -201,7 +201,7 @@ in {
 
       ../../2configs/deployment/wiki.euer.nix
 
-      # ../../2configs/shiori.nix
+      ../../2configs/deployment/hoarder-proxy.nix
       #../../2configs/workadventure
 
       ../../2configs/bgt/download.binaergewitter.de.nix

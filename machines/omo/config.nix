@@ -135,6 +135,7 @@ in {
       ../../2configs/home/streams.nix
       ../../2configs/home/esphome.nix
       ../../2configs/home/audio-dl.nix
+      ../../2configs/home/hoarder
       {
         makefu.ps3netsrv = {
           enable = true;
