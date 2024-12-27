@@ -210,6 +210,7 @@ in {
           workspace_swipe = true;
         };
         "$mainMod" = "SUPER";
+        # just make it behave like awesomewm again
         bind = [
           "$mainMod, Return, exec, $terminal"
           "$mainMod SHIFT, C, killactive,"
@@ -221,6 +222,11 @@ in {
           "$mainMod, P, pseudo, # dwindle"
           "$mainMod, J, togglesplit, # dwindle"
           "$mainMod, L, exec, loginctl lock-session"
+
+          # move window to scratchpad
+
+          "$mainMod, n, movetoworkspace, special"
+          "$mainMod SHIFT, N, togglespecialworkspace"
 
           # Move focus with mainMod + arrow keys
           "$mainMod, left, movefocus, l"
