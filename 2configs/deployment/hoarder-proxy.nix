@@ -1,13 +1,13 @@
 {config, ... }:
 let
   port = 3011;
+  domain = "bookmark.euer.krebsco.de";
 in
-{
+  {
+  security.acme.certs."euer.krebsco.de".extraDomainNames = [domain];
   services.nginx = {
-    enable = lib.mkDefault true;
-    virtualHosts."bookmark.euer.krebsco.de" = {
+    virtualHosts."${domain}" = {
       useACMEHost = "euer.krebsco.de";
-      # enableACME = true;
       forceSSL = true;
       locations."/" = {
         proxyPass = "http://omo.w:${toString port}";
