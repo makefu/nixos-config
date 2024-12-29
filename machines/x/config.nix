@@ -4,6 +4,9 @@
     [
       # ./x230 
       ./x13
+      { # congress
+        nix.settings.substituters = lib.mkForce [ "https://cache.nixos.sh" ];
+      }
       {
 
         nixpkgs.config.permittedInsecurePackages = [
