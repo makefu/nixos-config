@@ -10,6 +10,7 @@ let
 
   # TODO: only when the data is stored somewhere else
 in {
+  # 
   state = [ bgtaccess bgterror ];
 
   services.openssh = {
@@ -58,12 +59,19 @@ in {
     recommendedGzipSettings = true;
     recommendedOptimisation = true;
 
+    # Define log format in the http context
+    commonHttpConfig = ''
+      log_format goaccess '$http_x_forwarded_for - $remote_user [$time_local] '
+                         '"$request" $status $body_bytes_sent '
+                         '"$http_referer" "$http_user_agent"';
+    '';
+
     # using letsencrypt certificate without cloudflare
     virtualHosts."podcast.savar.de" = {
       serverAliases = [ "download.binaergewitter.de" "dl.binaergewitter.de" "dl1.binaergewitter.de" "dl2.binaergewitter.de" "binaergewitter.jit.computer" ];
       root = "/var/www/binaergewitter";
       extraConfig = ''
-        access_log ${bgtaccess} combined;
+        access_log ${bgtaccess} goaccess;
         error_log ${bgterror} error;
         autoindex on;
       '';
