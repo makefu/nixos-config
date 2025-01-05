@@ -5,7 +5,7 @@
     opl-utils
     #opl-pc-tools
     hdl-dump
-    bin2iso
+    # bin2iso
     cue2pops
 
     # PS3
