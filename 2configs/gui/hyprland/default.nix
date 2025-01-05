@@ -70,7 +70,7 @@ in {
       settings = {
         general = {
           ignore_dbus_inhibit = false;
-          # before_sleep_cmd = "hyprlock";
+          before_sleep_cmd = "hyprlock";
           after_sleep_cmd = "hyprctl dispatch dpms on";
           # what to do when `loginctl lock-session` sends dbus lock event
           lock_cmd = "hyprlock";
@@ -221,11 +221,11 @@ in {
           "$mainMod, R, exec, $menu"
           "$mainMod, P, pseudo, # dwindle"
           "$mainMod, J, togglesplit, # dwindle"
-          "$mainMod, L, exec, loginctl lock-session"
+          "$mainMod, L, exec, hyprlock"
 
           # move window to scratchpad
 
-          "$mainMod, n, movetoworkspace, special"
+          "$mainMod, n, movetoworkspacesilent, special"
           "$mainMod SHIFT, N, togglespecialworkspace"
 
           # Move focus with mainMod + arrow keys
