@@ -3,14 +3,18 @@ let
   port = 8096;
 in
 {
-  services.jellyfin.enable = true;
-  services.jellyfin.group = "download";
-  # services.jellyfin.openFirewall = true;
+  services.jellyfin = {
+    enable = true;
+    group = "download";
+    dataDir = "/media/silent/db/jellyfin";
+    cacheDir = "/media/silent/cache/jellyfin";
+    #openFirewall = true;
+  };
   networking.firewall.interfaces.wiregrill = {
     allowedTCPPorts = [ 80 port 8920 ];
     allowedUDPPorts = [ 1900 7359 ];
   };
-  state = [ "/var/lib/jellyfin" ];
+  state = [ config.services.jellyfin.dataDir ];
   users.users.${config.services.jellyfin.user}.extraGroups = [ "download" "video" "render" ];
 
   systemd.services.jellyfin = {
