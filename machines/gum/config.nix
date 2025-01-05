@@ -250,5 +250,5 @@ in {
   };
   users.users.makefu.extraGroups = [ "download" "nginx" ];
   state = [ "/home/makefu/.weechat" ];
-  clan.networking.targetHost = "root@gum.i";
+  clan.core.networking.targetHost = "root@gum.i";
 }
