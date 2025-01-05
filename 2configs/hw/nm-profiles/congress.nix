@@ -1,4 +1,5 @@
 {
+  # for 802-1x to work, iwd cannot be used and must be disabled
   networking.networkmanager.ensureProfiles.profiles = {
     "38C3" = {
       connection = {
