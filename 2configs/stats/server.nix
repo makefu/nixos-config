@@ -20,6 +20,7 @@ in {
   services.nginx.enable = true;
   services.nginx.virtualHosts."stats.makefu.r".locations."/".proxyPass = "http://localhost:3000";
   # forward these via nginx
+  services.influxdb.dataDir = "/media/silent/db/influxdb";
   services.influxdb.extraConfig = {
     meta.hostname = config.krebs.build.host.name;
     # meta.logging-enabled = true;
@@ -61,5 +62,5 @@ in {
     #ip6tables -A INPUT -i ${logging-interface} -p tcp --dport ${toString influx-port} -j ACCEPT
     #ip6tables -A INPUT -i ${logging-interface} -p tcp --dport ${toString grafana-port} -j ACCEPT
   '';
-  state = [ "/var/lib/grafana/data/grafana.db" ];
+  state = [ config.services.influxdb.dataDir ];
 }
