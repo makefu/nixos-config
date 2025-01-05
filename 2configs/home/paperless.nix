@@ -4,7 +4,9 @@ let
 in
 {
   sops.secrets."paperless-admin-pw".owner = "paperless";
+  state = [ config.services.paperless.dataDir ];
   services.paperless = {
+    dataDir = "/media/silent/db/paperless";
     enable = true;
     passwordFile = config.sops.secrets."paperless-admin-pw".path;
     address = "0";

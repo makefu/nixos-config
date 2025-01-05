@@ -2,9 +2,44 @@
 { pkgs, lib, config, ... }:
 let
   port = 3011;
-in
-{
+  hoarder_state_dir = "/media/silent/db/hoarder";
+  meili_data_dir = "${hoarder_state_dir}/meili_data";
+  hoarder_data_dir = "${hoarder_state_dir}/hoarder_data";
+in {
+  state = [ hoarder_state_dir ];
+  systemd.tmpfiles.settings = {
+    "10-hoarder-state-dir" = {
+      "${hoarder_state_dir}" = {
+        d = {
+          group = "root";
+          mode = "0700";
+          user = "root";
+        };
+      };
+    };
+    "10-hoarder-data-dir" = {
+      "${hoarder_data_dir}" = {
+        d = {
+          group = "root";
+          mode = "0777";
+          user = "root";
+        };
+      };
+    };
+    "10-meili-data-dir" = {
+      "${meili_data_dir}" = {
+        d = {
+          group = "root";
+          mode = "0777";
+          user = "root";
+        };
+      };
+    };
+  };
+
   # nginx proxy config is stored under deployment/hoarder-proxy
+  networking.firewall.allowedTCPPorts = [ port ];
+
   sops.secrets.hoarder-app = {};
   # Runtime
   virtualisation.podman = {
@@ -59,7 +94,7 @@ in
       "NEXTAUTH_URL" = "http://localhost:3000";
     };
     volumes = [
-      "hoarder_meilisearch:/meili_data:rw"
+      "${meili_data_dir}:/meili_data:rw"
     ];
     log-driver = "journald";
     extraOptions = [
@@ -73,11 +108,9 @@ in
     };
     after = [
       "podman-network-hoarder_default.service"
-      "podman-volume-hoarder_meilisearch.service"
     ];
     requires = [
       "podman-network-hoarder_default.service"
-      "podman-volume-hoarder_meilisearch.service"
     ];
     partOf = [
       "podman-compose-hoarder-root.target"
@@ -97,7 +130,7 @@ in
       "NEXTAUTH_URL" = "http://localhost:3000";
     };
     volumes = [
-      "hoarder_data:/data:rw"
+      "${hoarder_data_dir}:/data:rw"
     ];
     ports = [
       "${toString port}:3000/tcp"
@@ -114,11 +147,9 @@ in
     };
     after = [
       "podman-network-hoarder_default.service"
-      "podman-volume-hoarder_data.service"
     ];
     requires = [
       "podman-network-hoarder_default.service"
-      "podman-volume-hoarder_data.service"
     ];
     partOf = [
       "podman-compose-hoarder-root.target"
@@ -143,31 +174,6 @@ in
     wantedBy = [ "podman-compose-hoarder-root.target" ];
   };
 
-  # Volumes
-  systemd.services."podman-volume-hoarder_data" = {
-    path = [ pkgs.podman ];
-    serviceConfig = {
-      Type = "oneshot";
-      RemainAfterExit = true;
-    };
-    script = ''
-      podman volume inspect hoarder_data || podman volume create hoarder_data
-    '';
-    partOf = [ "podman-compose-hoarder-root.target" ];
-    wantedBy = [ "podman-compose-hoarder-root.target" ];
-  };
-  systemd.services."podman-volume-hoarder_meilisearch" = {
-    path = [ pkgs.podman ];
-    serviceConfig = {
-      Type = "oneshot";
-      RemainAfterExit = true;
-    };
-    script = ''
-      podman volume inspect hoarder_meilisearch || podman volume create hoarder_meilisearch
-    '';
-    partOf = [ "podman-compose-hoarder-root.target" ];
-    wantedBy = [ "podman-compose-hoarder-root.target" ];
-  };
 
   # Root service
   # When started, this will automatically create all resources and start

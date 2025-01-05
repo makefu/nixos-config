@@ -38,7 +38,7 @@ in
     SupplementaryGroups =  [ "download" "video" "render" ];
     PrivateDevices = lib.mkForce false;
   };
-  state = [ "/var/lib/photoprism" ];
+  state = [ config.services.photoprism.storagePath ];
   sops.secrets."omo-photoprism-pw" = {
     group = "video";
     mode = "0750";
@@ -47,7 +47,7 @@ in
     enable = true;
     inherit port originalsPath;
     passwordFile = config.sops.secrets."omo-photoprism-pw".path;
-    storagePath = "/var/lib/photoprism";
+    storagePath = "/media/silent/db/photoprism";
     settings = {
       PHOTOPRISM_SITE_TITLE = "PhotoPrism";
       PHOTOPRISM_SITE_CAPTION = "FeMi Fotos";

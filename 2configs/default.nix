@@ -26,5 +26,5 @@ with lib;
     ];
 
   system.stateVersion = lib.mkDefault "23.05";
-  services.postgresql.package = pkgs.postgresql_14;
+  services.postgresql.package = pkgs.postgresql_15;
 }
