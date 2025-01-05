@@ -1,5 +1,8 @@
 { pkgs, lib, ... }:
 {
+  imports = [
+    ./nm-profiles/congress.nix
+  ];
   users.users.makefu = {
     extraGroups = [ "networkmanager" ];
     packages = with pkgs;[
