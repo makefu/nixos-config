@@ -10,6 +10,7 @@ in {
     enable = true;
     user = "rtorrent";
     port = peer-port;
+    package = pkgs.jesec-rtorrent;
     openFirewall = true;
     group = "download";
     downloadDir = dldir;
@@ -17,16 +18,13 @@ in {
       schedule2 = watch_start, 10, 10, ((load.start, (cat, (cfg.watch), "/media/cloud/watch/*.torrent")))
     '';
   };
-
-  systemd.services.flood = {
-    wantedBy = [ "multi-user.target" ];
-    wants = [ "rtorrent.service" ];
-    after = [ "rtorrent.service" ];
-    serviceConfig = {
-      User = "rtorrent";
-      ExecStart = "${pkgs.nodePackages.flood}/bin/flood --noauth --port ${toString web-port} --rtsocket ${config.services.rtorrent.rpcSocket}";
-    };
+  services.flood = {
+    enable = true;
+    port = web-port;
+    extraArgs = ["--auth=none" "--rtsocket=${config.services.rtorrent.rpcSocket}"];
   };
+  # allow access to the socket
+  systemd.services.flood.serviceConfig.SupplementaryGroups = [ "download" ];
 
   #security.acme.certs."torrent.${config.krebs.build.host.name}.r".server = config.krebs.ssl.acmeURL;
   sops.secrets."torrent-auth" = {
