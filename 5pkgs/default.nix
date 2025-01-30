@@ -47,6 +47,7 @@ in {
     liveproxy = prev.pkgs.python3Packages.callPackage ./custom/liveproxy {};
     mediawiki-matrix-bot = prev.pkgs.python3Packages.callPackage ./custom/mediawiki-matrix-bot {};
     hydra-check = prev.pkgs.python3Packages.callPackage ./custom/hydra-check {};
+    jesec-rtorrent = prev.pkgs.callPackage ./jesec-rtorrent {};
     pwqgen-ger = prev.pkgs.passwdqc-utils.override {
       wordset-file = prev.pkgs.fetchurl {
         urls = [
