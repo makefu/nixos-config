@@ -6,6 +6,7 @@
       url = "github:kmein/brockman";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+    hyprland.url = "github:hyprwm/Hyprland";
 
     clan-core = {
       url = "git+https://git.clan.lol/clan/clan-core";
@@ -32,7 +33,7 @@
     stockholm.inputs.nix-writers.follows = "nix-writers";
 
     brother_ql_web.url = "github:makefu/brother_ql_web";
-    brother_ql_web.inputs.nixpkgs.follows = "nixpkgs";
+    #brother_ql_web.inputs.nixpkgs.follows = "nixpkgs";
 
     nix-writers.url = "git+https://cgit.krebsco.de/nix-writers";
     nix-writers.inputs.nixpkgs.follows = "nixpkgs";
