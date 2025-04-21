@@ -33,8 +33,6 @@
     # prevent screen from turning off, disable dpms
   };
 
-  services.dbus.packages = with pkgs; [ gnome2.GConf gnome3.gnome-settings-daemon ];
-
   services.pipewire.systemWide = lib.mkForce false;
   services.pipewire.extraConfig.pipewire."91-pulse-server" = {
     "pulse.properties" = {
