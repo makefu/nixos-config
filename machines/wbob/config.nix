@@ -11,6 +11,7 @@ in {
       ./nuc
 
 
+      ../../2configs/llm/ollama.nix
       ../../2configs/networking/zerotier.nix
       ../../2configs/home-manager
       ../../2configs/support-nixos.nix
@@ -32,49 +33,46 @@ in {
       ]; }
       { services.vscode-server.enable = true; }
 
-      # ../../2configs/gui/studio-virtual.nix
-      # ../../2configs/audio/jack-on-pulse.nix
-      # ../../2configs/audio/realtime-audio.nix
-      # ../../2configs/vncserver.nix
-      ## no need for dns logs anymore
-      # ../../2configs/logging/server.nix
+      ## ../../2configs/gui/studio-virtual.nix
+      ## ../../2configs/audio/jack-on-pulse.nix
+      ## ../../2configs/audio/realtime-audio.nix
+      ## ../../2configs/vncserver.nix
+      ### no need for dns logs anymore
+      ## ../../2configs/logging/server.nix
 
-      # Services
-      # ../../2configs/hydra/stockholm.nix
+      ## Services
+      ## ../../2configs/hydra/stockholm.nix
 
       ../../2configs/share/wbob.nix
       ../../2configs/wireguard/thierry.nix
       ../../2configs/bluetooth-mpd.nix
 
-      # Sensors
-      # ../../2configs/stats/client.nix
-      # ../../2configs/stats/collectd-client.nix
+      ### Sensors
+      ### ../../2configs/stats/client.nix
+      ### ../../2configs/stats/collectd-client.nix
       ../../2configs/stats/telegraf
       ../../2configs/stats/telegraf/airsensor.nix
-      # ../../2configs/stats/telegraf/europastats.nix
-      # ../../2configs/stats/external/aralast.nix
-      # ../../2configs/stats/arafetch.nix
-      # ../../2configs/hw/mceusb.nix
+      ### ../../2configs/stats/telegraf/europastats.nix
+      ### ../../2configs/stats/external/aralast.nix
+      ### ../../2configs/stats/arafetch.nix
+      ### ../../2configs/hw/mceusb.nix
       ../../2configs/hw/slaesh.nix
-      # ../../2configs/stats/telegraf/bamstats.nix
+      ### ../../2configs/stats/telegraf/bamstats.nix
       { environment.systemPackages = [ pkgs.vlc ]; }
 
       ../../2configs/bam # new hass entry point
-      # disable
-      # ../../2configs/bam/led-fader.nix
+      ### disable
+      ### ../../2configs/bam/led-fader.nix
       ../../2configs/bam/printer.nix
-      # ../../2configs/bam/kalauerbot.nix now runs in thales
-      # ../../2configs/bam/visitor-photostore.nix
-      # ../../2configs/bam/mpd.nix #mpd is only used for TTS, this is the web interface
+      ### ../../2configs/bam/kalauerbot.nix now runs in thales
+      ### ../../2configs/bam/visitor-photostore.nix
+      ### ../../2configs/bam/mpd.nix #mpd is only used for TTS, this is the web interface
       ../../2configs/mqtt.nix
       ../../2configs/bam/cam.nix
       ../../2configs/bam/influx.nix
       ../../2configs/backup/state.nix
-      # temporary
-      # ../../2configs/temp/rst-issue.nix
-      {
-        services.jellyfin.enable = true;
-      }
+      ## temporary
+      ## ../../2configs/temp/rst-issue.nix
   ];
 
   krebs = {
