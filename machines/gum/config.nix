@@ -9,6 +9,7 @@ in {
   imports = [
       
       ../../2configs/networking/zerotier.nix
+      ../../2configs/bam/grocy
       ./hetznercloud
       {
         # wait for mount
@@ -202,6 +203,7 @@ in {
       ../../2configs/deployment/wiki.euer.nix
 
       ../../2configs/deployment/hoarder-proxy.nix
+      ../../2configs/deployment/mdrss-proxy.nix
       #../../2configs/workadventure
 
       ../../2configs/bgt/download.binaergewitter.de.nix
