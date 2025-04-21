@@ -2,6 +2,9 @@ let
   rootdisk = "/dev/disk/by-id/ata-TS256GMTS800_C613840115";
   datadisk = "/dev/disk/by-id/ata-HGST_HTS721010A9E630_JR10006PH3A02F";
 in {
+  imports = [
+    ../../../2configs/bam/usb-resetter.nix
+  ];
   boot.loader.grub.device = rootdisk;
   hardware.cpu.intel.updateMicrocode = true;
   boot.initrd.availableKernelModules = [ "xhci_pci" "ehci_pci" "ahci" "usbhid" "usb_storage" "sd_mod" ];
