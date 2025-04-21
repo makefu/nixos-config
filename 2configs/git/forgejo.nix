@@ -23,12 +23,16 @@ in
       locations."/".proxyPass = "http://localhost:${toString HTTP_PORT}";
     };
   };
+
+  services.postgresql.settings.max_connections = 100;
   
   services.forgejo = {
     enable = true;
     database.type = "postgres";
     lfs.enable = true;
     settings = {
+      # https://codeberg.org/forgejo/forgejo/issues/781
+      repository.DISABLE_DOWNLOAD_SURCE_ARCHIVES = true;
       server = {
         # You need to specify this to remove the port from URLs in the web UI.
         ROOT_URL = "https://${DOMAIN}/"; 
