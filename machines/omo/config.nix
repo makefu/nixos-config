@@ -123,6 +123,7 @@ in {
       ../../2configs/virtualisation/podman.nix
       # ../../2configs/bluetooth-mpd.nix
 
+      ../../2configs/home/mdrss.nix
       ../../2configs/home/jellyfin.nix
       ../../2configs/home/music.nix
       ../../2configs/home/photoprism.nix
@@ -175,6 +176,7 @@ in {
       # Temporary:
       # ../../2configs/temp/rst-issue.nix
       # ../../2configs/bgt/social-to-irc.nix
+      ../../2configs/bgt/nextcloud-chaptermark-hook.nix
 
     ];
   makefu.full-populate =  true;
@@ -220,4 +222,5 @@ in {
   #};
   nixpkgs.config.permittedInsecurePackages = [ "olm-3.2.16" ];
   krebs.build.host = config.krebs.hosts.omo;
+  services.postgresql.package = pkgs.postgresql_15;
 }
