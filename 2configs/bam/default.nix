@@ -13,7 +13,7 @@ in {
     ./esphome.nix
     ./jellyfin.nix
     ./ha-ara-menu.nix
-    #./inventory4ce.nix
+    ./inventory4ce.nix
 
     # hass config
     ## complex configs

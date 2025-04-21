@@ -49,8 +49,8 @@
     ha-ara-menu.inputs.poetry2nix.follows = "poetry2nix";
 
     inventory4ce.url = "github:kalauerclub/inventory4ce";
-    inventory4ce.inputs.nixpkgs.follows = "nixpkgs";
-    inventory4ce.inputs.poetry2nix.follows = "poetry2nix";
+    #inventory4ce.inputs.nixpkgs.follows = "nixpkgs";
+    #inventory4ce.inputs.poetry2nix.follows = "poetry2nix";
 
     lanzaboote.url = "github:nix-community/lanzaboote";
     lanzaboote.inputs.nixpkgs.follows = "nixpkgs";
