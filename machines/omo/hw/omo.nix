@@ -122,6 +122,7 @@ in {
   environment.systemPackages = with pkgs;[
     mergerfs # hard requirement for mount
   ];
+  boot.kernelParams = [ "fsck.mode=force"  "fsck.repair=yes" ];
   hardware.enableRedistributableFirmware = true;
   hardware.cpu.intel.updateMicrocode = true;
 }
