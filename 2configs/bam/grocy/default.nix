@@ -4,7 +4,7 @@
     hostName = "shop.euer.krebsco.de";
     nginx.enableSSL = true;
     settings = {
-      curreny = "EUR";
+      currency = "EUR";
       culture = "de";
       calendar.showWeekNumber = true;
       calendar.firstDayOfWeek = 1;
