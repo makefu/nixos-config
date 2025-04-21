@@ -14,7 +14,7 @@
     gi
     flashrom
     mosquitto
-    pwqgen-ger
+    # pwqgen-ger
     sops
     kpaste
     cyberlocker-tools
