@@ -12,9 +12,9 @@
     tinymediamanager
 
     # plowshare
-    streamripper
+    # streamripper
     yt-dlp
 
-    pulseeffects-legacy # for pulse
+    # pulseeffects-legacy # for pulse # broken since 2025-01-11
   ];
 }
