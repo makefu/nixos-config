@@ -16,7 +16,7 @@
       # do not build in tmpfs
       { systemd.services.nix-daemon.environment.TMPDIR = "/var/tmp";}
 
-      ../../2configs/networking/zerotier.nix
+      # ../../2configs/networking/zerotier.nix
       ../../2configs/default.nix
       ## Common Hardware Components
       # (self + "/makefu/2configs/hw/mceusb.nix")
@@ -160,7 +160,7 @@
       ../../2configs/tinc/retiolum.nix
       # ../../2configs/share/anon-ftp.nix
       # ../../2configs/share/anon-sftp.nix
-      ../../2configs/share/gum-client.nix
+      ../../2configs/share/hetzner-client.nix
       ../../2configs/share
       # ../../2configs/share/temp-share-samba.nix
 

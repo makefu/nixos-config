@@ -3,7 +3,9 @@
   services.xserver.videoDrivers = [ "amdgpu" ];
   #boot.initrd.kernelModules = [ "amdgpu" ];
   #hardware.opengl.driSupport = true;
-  hardware.graphics.extraPackages = with pkgs; [ amdvlk rocmPackages.clr.icd rocmPackages.clr ];
+  hardware.graphics.extraPackages = with pkgs; [ amdvlk 
+    # rocmPackages.clr.icd rocmPackages.clr # does not build (2025-01-11)
+  ];
   # For 32 bit applications
   hardware.graphics.enable32Bit = true; 
   hardware.graphics.extraPackages32 = with pkgs; [ driversi686Linux.amdvlk ];
