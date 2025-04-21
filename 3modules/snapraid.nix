@@ -111,6 +111,7 @@ let
     systemd.services.snapraid-sync = {
       description = "Snapraid sync service";
       after = [ "network.target" "local-fs.target" ];
+      path = with pkgs; [ snapraid binutils ];
 
       serviceConfig = {
         Type = "simple";
