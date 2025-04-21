@@ -19,6 +19,11 @@ let
   internal-ip = "192.168.111.11";
 in
 {
+  systemd.services.photoprism.serviceConfig.DynamicUser = lib.mkForce false;
+  users.users.photoprism = {
+    isSystemUser = true;
+    group = "download";
+  };
   services.nginx.virtualHosts."photos" = {
     serverAliases = [
               "photos.lan"
@@ -26,7 +31,7 @@ in
       "fotos" "fotos.lan"
     ];
 
-    locations."/".proxyPass = "http://localhost:${toString port}";
+    locations."/".proxyPass = "http://${internal-ip}:${toString port}";
     locations."/".proxyWebsockets = true;
     extraConfig = ''
       if ( $server_addr != "${internal-ip}" ) {
@@ -35,17 +40,21 @@ in
     '';
   };
   systemd.services.photoprism.serviceConfig = {
-    SupplementaryGroups =  [ "download" "video" "render" ];
+    SupplementaryGroups =  [ "video" "render" ];
+    Group = lib.mkForce "download";
+    UMask = lib.mkForce "0006";
     PrivateDevices = lib.mkForce false;
   };
   state = [ config.services.photoprism.storagePath ];
   sops.secrets."omo-photoprism-pw" = {
+    owner = "photoprism";
     group = "video";
     mode = "0750";
   };
   services.photoprism = {
     enable = true;
     inherit port originalsPath;
+    address = internal-ip;
     passwordFile = config.sops.secrets."omo-photoprism-pw".path;
     storagePath = "/media/silent/db/photoprism";
     settings = {
@@ -70,6 +79,7 @@ in
       PHOTOPRISM_UPLOAD_NSFW = "true";
       PHOTOPRISM_AUTH_MODE = "password";
       PHOTOPRISM_ADMIN_USER = "admin";
+      PHOTOPRISM_CACHE_PATH = "/media/silent/cache/photoprism";
       PHOTOPRISM_SITE_URL = "http://192.168.111.11:2342/";  # Public PhotoPrism URL
     };
   };
