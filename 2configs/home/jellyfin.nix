@@ -20,7 +20,7 @@ in
   systemd.services.jellyfin = {
     after = [ "media-cloud.mount" ];
     serviceConfig = rec {
-      RequiresMountsFor = [ "/media/cloud" ];
+      # RequiresMountsFor = [ "/media/cloud" ];
       SupplementaryGroups = lib.mkForce [ "video" "render" "download" ];
       UMask = lib.mkForce "0007";
     };

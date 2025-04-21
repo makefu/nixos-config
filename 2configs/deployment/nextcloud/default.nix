@@ -22,8 +22,13 @@ in {
   
   fileSystems."/var/lib/nextcloud/data" = {
     device = "/media/cloud/nextcloud-data";
-    options = [ "bind" ];
+    options = [ "bind" 
+      "x-systemd.automount" "nofail"
+    "x-systemd.idle-timeout=300"
+    "x-systemd.mount-timeout=60s"
+  ];
     depends = [ "/media/cloud" ];
+
   };
 
 
@@ -59,7 +64,7 @@ in {
     enable = true;
     configureRedis = true;
 
-    package = pkgs.nextcloud30;
+    package = pkgs.nextcloud31;
     hostName = "o.euer.krebsco.de";
     # Use HTTPS for links
     https = true;
@@ -98,12 +103,12 @@ in {
   systemd.services."nextcloud-setup" = {
     requires = ["postgresql.service"];
     after = ["postgresql.service"];
-    unitConfig.RequiresMountsFor = [ "/media/cloud" ];
+    # unitConfig.RequiresMountsFor = [ "/media/cloud" ];
   };
 
   systemd.services."phpfpm-nextcloud".unitConfig.RequiresMountsFor = [
-    "/media/cloud"
-    "/var/lib/nextcloud/data"
+    # "/media/cloud"
+    # "/var/lib/nextcloud/data"
   ];
   environment.systemPackages = [ pkgs.pageres-cli ];
 
