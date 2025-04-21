@@ -26,7 +26,7 @@ services.udev.packages = [ pkgs.utsushi ];
   services.avahi.nssmdns4 = true;
   hardware.sane = {
     enable = true;
-    extraBackends = [ pkgs.epkowa pkgs.utsushi ];
+    # extraBackends = [ pkgs.epkowa pkgs.utsushi ];
     extraConfig.xerox_mfp = ''
       usb 0x04e8 0x3441
     '';
