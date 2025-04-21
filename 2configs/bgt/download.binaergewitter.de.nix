@@ -16,7 +16,11 @@ in {
 
   fileSystems."${wwwdir}" = {
     device = storedir;
-    options = [ "bind" ];
+    options = [ "bind" 
+      "x-systemd.automount" "nofail"
+    "x-systemd.idle-timeout=300"
+    "x-systemd.mount-timeout=60s"
+  ];
     depends = [ "/media/cloud" ];
   };
 
