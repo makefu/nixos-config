@@ -1,4 +1,4 @@
-{ pkgs, config, ... }:
+{ pkgs, config, inputs, ... }:
 let
   mainUser = config.krebs.build.user.name;
 in {
@@ -7,11 +7,17 @@ in {
     ./kitty.nix
     ./passwords.nix
     ./autostart.nix
+    #./autolock.nix
   ];
   # autostart 
-  programs.hyprland.enable = true;
+  programs.hyprland = {
+    enable = true;
+    xwayland.enable = true;
+    withUWSM = true;
+    #package = inputs.hyprland.packages.${pkgs.stdenv.hostPlatform.system}.hyprland;
+    #portalPackage = inputs.hyprland.packages.${pkgs.stdenv.hostPlatform.system}.xdg-desktop-portal-hyprland;
+  };
 
-  programs.hyprland.xwayland.enable = true;
   # hyprlock and hypridle should be started by home-manager
   # programs.hyprlock.enable = true;
 
@@ -25,7 +31,7 @@ in {
     xdg.configFile."waybar/config.jsonc".source = ./waybar.jsonc;
     home.sessionVariables.NIXOS_OZONE_WL = "1";
     home.packages = with pkgs; [
-      dolphin
+      kdePackages.dolphin
       wofi
       grimblast # screenshot
     ];
@@ -35,7 +41,7 @@ in {
     {
       general = {
         disable_loading_bar = false;
-        # grace = 10;
+        grace = 10;
         hide_cursor = true;
         no_fade_in = false;
       };
@@ -65,34 +71,6 @@ in {
       ];
     };
 
-    services.hypridle = {
-      enable = true;
-      settings = {
-        general = {
-          ignore_dbus_inhibit = false;
-          before_sleep_cmd = "hyprlock";
-          after_sleep_cmd = "hyprctl dispatch dpms on";
-          # what to do when `loginctl lock-session` sends dbus lock event
-          lock_cmd = "hyprlock";
-        };
-
-        listener = [
-          {
-            timeout = 600;
-            on-timeout = "hyprlock";
-          }
-          {
-            timeout = 630;
-            on-timeout = "hyprctl dispatch dpms off";
-            on-resume = "hyprctl dispatch dpms on";
-          }
-          {
-            timeout = 1800;
-            on-timeout = "systemctl suspend";
-          }
-        ];
-      };
-    };
     # waybar
     programs.waybar.enable = true;
     programs.waybar.package = pkgs.waybar.overrideAttrs (oldAttrs: {
@@ -115,10 +93,13 @@ in {
 
     wayland.windowManager.hyprland = {
       enable = true;
-      # extraConfig = builtins.readFile ./hyprland.conf;
+
+      package = null; # use programs.hyprland.package
+      portalPackage = null;
+
      xwayland.enable = true;
-     systemd.enable = true;
-     systemd.variables = ["--all"];
+     # systemd.enable = true; # disabled in favour of uwsm ( https://wiki.hyprland.org/Useful-Utilities/Systemd-start/#uwsm )
+     # systemd.variables = ["--all"];
      settings = {
        monitor = [
          "eDP-1,1920x1080,0x0,1.0"
@@ -135,7 +116,7 @@ in {
         exec-once = [
           #"nm-applet"
           # "waybar"
-          #"blueman-applet"
+          # "blueman-applet"
           #"copyq --start-server"
         ];
         env = [

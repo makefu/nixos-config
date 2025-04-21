@@ -8,7 +8,6 @@ in
     tactile
     thinkpad-thermal
   ];
-  services.udev.packages = [ pkgs.gnome.gnome-settings-daemon ];
   programs.gnome-terminal.enable = true;
   services.xserver = {
     enable = true;
@@ -112,5 +111,4 @@ in
 
     };
   };
-  services.dbus.packages = with pkgs; [ gnome2.GConf gnome3.gnome-settings-daemon ];
 }
