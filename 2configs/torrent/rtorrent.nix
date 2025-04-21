@@ -10,7 +10,7 @@ in {
     enable = true;
     user = "rtorrent";
     port = peer-port;
-    package = pkgs.jesec-rtorrent;
+    # package = pkgs.jesec-rtorrent;
     openFirewall = true;
     group = "download";
     downloadDir = dldir;
