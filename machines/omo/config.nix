@@ -127,6 +127,7 @@ in {
       ../../2configs/home/jellyfin.nix
       ../../2configs/home/music.nix
       ../../2configs/home/photoprism.nix
+      ../../2configs/home/audiobookshelf.nix
       # ../../2configs/home/tonie.nix
       ../../2configs/home/ps4srv.nix
       ../../2configs/home/metube.nix
