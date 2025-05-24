@@ -4,6 +4,9 @@ let
   HTTP_PORT = 3002;
 in
   {
+    imports = [
+      ./anubis.nix
+    ];
   services.nginx = {
     virtualHosts."cgit.euer" = {
       serverAliases = [
@@ -20,7 +23,18 @@ in
       extraConfig = ''
         client_max_body_size 512M;
       '';
-      locations."/".proxyPass = "http://localhost:${toString HTTP_PORT}";
+      # locations."/".proxyPass = "http://localhost:${toString HTTP_PORT}";
+      locations = {
+        "/" = {
+          proxyPass = "http://unix:${config.services.anubis.instances."anubis".settings.BIND}";
+          extraConfig = ''
+            proxy_set_header Host $host;
+            proxy_set_header X-Real-IP $remote_addr;
+          '';
+        };
+        "/metrics".proxyPass = "http://unix:${config.services.anubis.instances."anubis".settings.METRICS_BIND}";
+      };
+
     };
   };
 
@@ -32,7 +46,10 @@ in
     lfs.enable = true;
     settings = {
       # https://codeberg.org/forgejo/forgejo/issues/781
-      repository.DISABLE_DOWNLOAD_SURCE_ARCHIVES = true;
+      repository = {
+        DISABLE_DOWNLOAD_SOURCE_ARCHIVES = true;
+        ENABLE_ARCHIVE = false;
+      };
       server = {
         # You need to specify this to remove the port from URLs in the web UI.
         ROOT_URL = "https://${DOMAIN}/"; 
