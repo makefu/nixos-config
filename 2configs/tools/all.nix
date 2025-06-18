@@ -11,7 +11,7 @@
     ./maker.nix
     ./media.nix
     ./mobility.nix
-    ./pcmanfm-extra.nix
+    ./filemanager-extra.nix
     ./scanner-tools.nix
     ./sec-gui.nix
     ./sec.nix

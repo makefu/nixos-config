@@ -1,7 +1,8 @@
 { pkgs, ... }:
 {
   users.users.makefu.packages = with pkgs; [
-    pcmanfm
+    # pcmanfm
+    kdePackages.dolphin
     lxqt.lxqt-policykit
     shared-mime-info
     lxmenu-data
