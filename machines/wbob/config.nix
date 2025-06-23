@@ -64,6 +64,7 @@ in {
       ### disable
       ### ../../2configs/bam/led-fader.nix
       ../../2configs/bam/printer.nix
+      ../../2configs/bam/picsender.nix
       ### ../../2configs/bam/kalauerbot.nix now runs in thales
       ### ../../2configs/bam/visitor-photostore.nix
       ### ../../2configs/bam/mpd.nix #mpd is only used for TTS, this is the web interface
