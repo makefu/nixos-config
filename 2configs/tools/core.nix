@@ -4,6 +4,9 @@
 # package version will now be maintained by nix-rebuild
 #
 {
+  imports = [
+    ./htop.nix
+  ];
   environment.systemPackages = with pkgs; [
     ( pkgs.writeScriptBin "unknow" ''#!/bin/sh
 ${gnused}/bin/sed -i "''${1}d" ~/.ssh/known_hosts
