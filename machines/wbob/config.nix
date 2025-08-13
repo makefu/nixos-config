@@ -12,7 +12,7 @@ in {
 
 
       ../../2configs/llm/ollama.nix
-      ../../2configs/networking/zerotier.nix
+      #../../2configs/networking/zerotier.nix
       ../../2configs/home-manager
       ../../2configs/support-nixos.nix
       ../../2configs/zsh
@@ -69,7 +69,7 @@ in {
       ### ../../2configs/bam/visitor-photostore.nix
       ### ../../2configs/bam/mpd.nix #mpd is only used for TTS, this is the web interface
       ../../2configs/mqtt.nix
-      ../../2configs/bam/cam.nix
+      # ../../2configs/bam/cam.nix
       ../../2configs/bam/influx.nix
       ../../2configs/backup/state.nix
       ## temporary

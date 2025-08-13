@@ -22,7 +22,7 @@ in { # wireguard server
   networking.wireguard.interfaces.wg0 = {
     ips = [ "10.244.0.1/24" ];
     listenPort = 51820;
-    privateKeyFile = config.sops.secrets."${config.clan.core.machineName}-wireguard.key".path;
+    privateKeyFile = config.sops.secrets."${config.clan.core.settings.machine.name}-wireguard.key".path;
     # allowedIPsAsRoutes = true;
     postSetup = ''
         ${pkgs.iptables}/bin/iptables -t nat -A POSTROUTING -s 10.244.0.0/24 -o ${ext-if} -j MASQUERADE

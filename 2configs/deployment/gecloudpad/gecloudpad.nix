@@ -3,6 +3,8 @@
 with pkgs.python3Packages;buildPythonPackage rec {
   name = "gecloudpad-${version}";
   version = "0.2.3";
+  pyproject = true;
+  build-system = [ setuptools ];
 
   propagatedBuildInputs = [
     flask requests

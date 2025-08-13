@@ -1,12 +1,13 @@
 {
   inputs = {
-    #nixpkgs_stable.url = "github:NixOS/nixpkgs/nixos-24.05";
+    #nixpkgs.url = "github:NixOS/nixpkgs/nixos-25.05";
     nixpkgs.url = "github:NixOS/nixpkgs/nixos-unstable";
     brockman = {
-      url = "github:kmein/brockman";
-      inputs.nixpkgs.follows = "nixpkgs";
+      url = "github:brockman-news/brockman";
+      #inputs.nixpkgs.follows = "nixpkgs";
     };
     hyprland.url = "github:hyprwm/Hyprland";
+
 
     clan-core = {
       url = "git+https://git.clan.lol/clan/clan-core";
@@ -31,6 +32,8 @@
     #stockholm.url = "path:///home/makefu/r/stockholm";
     stockholm.inputs.nixpkgs.follows = "nixpkgs";
     stockholm.inputs.nix-writers.follows = "nix-writers";
+
+    picsender.url = "git+https://cgit.euer.krebsco.de/makefu/citadel_picsender.git";
 
     brother_ql_web.url = "github:makefu/brother_ql_web";
     #brother_ql_web.inputs.nixpkgs.follows = "nixpkgs";
@@ -73,6 +76,9 @@
     buildbot-nix.inputs.nixpkgs.follows = "nixpkgs";
     buildbot-nix.inputs.flake-parts.follows = "flake-parts";
     # buildbot-nix.inputs.treefmt-nix.follows = "treefmt-nix";
+
+    nixvim.url = "github:nix-community/nixvim";
+    nixvim.inputs.nixpkgs.follows = "nixpkgs";
   };
 
   description = "Flake of makefu";
@@ -85,12 +91,17 @@
       inherit system;
       config = {
         allowUnfree = true;
-        packageOverrides = lib.mkForce (pkgs: { tinc = pkgs.tinc_pre; });
+        #packageOverrides = (pkgs: { 
+        #  tinc = pkgs.tinc_pre; 
+        #  vaapiIntel = pkgs.vaapiIntel.override { enableHybridCodec = true; };
+        #});
         allowUnfreePredicate = pkg: lib.packageName pkg == "unrar";
         android_sdk.accept_license = true;
         oraclejdk.accept_license = true;
+        permittedInsecurePackages = [ "intel-media-sdk-23.2.2" "libsoup-2.74.3" "olm-3.2.16"];
       };
       overlays = [
+        inputs.brockman.overlays.default
         self.overlays.default
         inputs.nix-writers.overlays.default
         (import (inputs.stockholm.inputs.nix-writers + "/pkgs"))
@@ -99,14 +110,15 @@
           stockholm.lib = inputs.stockholm.lib;
           ha-ara-menu = inputs.ha-ara-menu.packages.${system}.default;
           inventory4ce = inputs.inventory4ce.packages.${system}.default;
+          brockman = inputs.brockman.packages.${system}.default;
         })
         inputs.stockholm.overlays.default
       ];
     });
     #pkgsForSystem = system: nixpkgs.legacyPackages.${system};
-    clan = clan-core.lib.buildClan {
+    clan = clan-core.lib.clan {
       meta.name = "makefu";
-      directory = self;
+      self = self;
       specialArgs = {
         inherit (inputs) nixos-hardware self stockholm nixpkgs;
         inherit inputs;
@@ -122,10 +134,9 @@
           home-manager.nixosModules.default
           lanzaboote.nixosModules.lanzaboote
 
-          #inputs.stockholm.nixosModules.brockman
-          inputs.brockman.nixosModule
-          inputs.stockholm.nixosModules.exim-retiolum
-          inputs.stockholm.nixosModules.exim
+          inputs.brockman.nixosModules.default
+          #inputs.stockholm.nixosModules.exim-retiolum
+          #inputs.stockholm.nixosModules.exim
           inputs.stockholm.nixosModules.krebs
           inputs.stockholm.nixosModules.hosts
           inputs.stockholm.nixosModules.users
@@ -154,7 +165,8 @@
       });
     };
   in {
-    inherit (clan) nixosConfigurations clanInternals;
+    inherit (clan.config) nixosConfigurations clanInternals;
+    clan = clan.config;
     checks = let
       a64 = "aarch64-linux";
       x86 = "x86_64-linux";
@@ -172,6 +184,7 @@
 
           overlays.default = import ./5pkgs/default.nix;
     packages.x86_64-linux.liveiso = self.nixosConfigurations.liveiso.config.system.build.isoImage;
+    packages.x86_64-linux.nvim = import ./2configs/editor/neovim/package.nix;
     packages.x86_64-linux.default = self.packages.x86_64-linux.liveiso;
     devShells.x86_64-linux.default = let
       pkgs = nixpkgs.legacyPackages.x86_64-linux;

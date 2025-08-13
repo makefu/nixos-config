@@ -26,7 +26,6 @@
     nixpkgs-review
     # brain
     whatsupnix
-    nixpkgs-pytools
     nixpkgs-fmt
     hydra-check
     # git-related
@@ -38,11 +37,8 @@
     imagemagick
     qrencode
     exiftool
-    cac-api
-    cac-panel
     #krebszones
     cyberlocker-tools
-    ovh-zone
     # gen-oath-safe
     cdrtools
     unrar

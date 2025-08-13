@@ -19,6 +19,7 @@ let
   internal-ip = "192.168.111.11";
 in
 {
+
   systemd.services.photoprism.serviceConfig.DynamicUser = lib.mkForce false;
   users.users.photoprism = {
     isSystemUser = true;

@@ -6,7 +6,7 @@
     startAt = "*:0/30"; # 30 minutes
     path = [ pkgs.rsync ];
     script = ''
-      rsync -a --omit-dir-times --no-perms --no-owner --progress --stats /media/cloud/download/. /media/crypt1/download/.
+      rsync -a --omit-dir-times --chmod=Du=rwx,Dg=rwx,Do=rx,Fu=rw,Fg=rw,Fo=r --no-perms --no-owner --progress --stats /media/cloud/download/. /media/crypt1/download/.
     '';
     serviceConfig = {
       User = "download";

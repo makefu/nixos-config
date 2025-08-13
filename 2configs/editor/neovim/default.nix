@@ -1,4 +1,12 @@
 {pkgs, config,  ...}:
+let
+  nvim-treesitter-with-plugins = pkgs.vimPlugins.nvim-treesitter.withPlugins (treesitter-plugins:
+      with treesitter-plugins; [
+        bash
+        nix
+        python
+      ]);
+in
 {
   fonts.packages = [ pkgs.font-awesome_5 ];
   # Neovim dependencies
@@ -27,6 +35,9 @@
     '';
     programs.neovim = {
       enable = true;
+      defaultEditor = true;
+      viAlias = true;
+      vimAlias = true;
       withPython3 = true;
       # withNodeJs = true;
       extraPython3Packages = (ps: with ps; [
@@ -37,7 +48,11 @@
       extraConfig = builtins.readFile ./vimrc;
       plugins = with pkgs.vimPlugins;[
         undotree
-        vim-addon-nix
+        #vim-addon-nix
+        nvim-lspconfig
+        vim-nix
+        #nvim-treesitter.withAllGrammars
+        nvim-treesitter-with-plugins
 
         nerdtree # file manager
         commentary # comment stuff out based on language

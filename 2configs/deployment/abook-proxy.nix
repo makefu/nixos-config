@@ -11,7 +11,7 @@ in
       forceSSL = true;
       locations."/" = {
         proxyPass = "http://omo.w:${toString port}";
-        # proxyWebsockets = true;
+        proxyWebsockets = true;
       };
     };
   };

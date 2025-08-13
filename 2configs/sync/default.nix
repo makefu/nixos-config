@@ -21,8 +21,8 @@ in {
         x.id = "ETMOWBT-XOYB7LJ-J4OKD7U-WHBEAP5-MPAHKXM-O4GGRKM-WERF7R4-MRS7EAU"; # override config for x
         omo.id = "Y5OTK3S-JOJLAUU-KTBXKUW-M7S5UEQ-MMQPUK2-7CXO5V6-NOUDLKP-PRGAFAK";
       };
-      key = config.sops.secrets."${config.clan.core.machineName}-syncthing.key".path;
-      cert = config.sops.secrets."${config.clan.core.machineName}-syncthing.cert".path;
+      key = config.sops.secrets."${config.clan.core.settings.machine.name}-syncthing.key".path;
+      cert = config.sops.secrets."${config.clan.core.settings.machine.name}-syncthing.cert".path;
     };
   };
   boot.kernel.sysctl."fs.inotify.max_user_watches" = 524288;

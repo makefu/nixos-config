@@ -21,9 +21,12 @@ in {
       schedule2 = watch_start, 10, 10, ((load.start, (cat, (cfg.watch), "/media/cloud/watch/*.torrent")))
       pieces.memory.max.set = 1800M
       network.xmlrpc.size_limit.set = 16M
+      method.redirect=load.throw,load.normal
+      method.redirect=load.start_throw,load.start
+      method.insert=d.down.sequential,value|const,0
+      method.insert=d.down.sequential.set,value|const,0
     '';
   };
   # allow access to the socket
 
-  #security.acme.certs."torrent.${config.krebs.build.host.name}.r".server = config.krebs.ssl.acmeURL;
 }

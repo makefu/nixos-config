@@ -1,8 +1,8 @@
 { config, ... }:
 # back up all state
 let
-  sshkey = config.sops.secrets."${config.clan.core.machineName}-borg.priv".path;
-  phrase = config.sops.secrets."${config.clan.core.machineName}-borg.pw".path;
+  sshkey = config.sops.secrets."${config.clan.core.settings.machine.name}-borg.priv".path;
+  phrase = config.sops.secrets."${config.clan.core.settings.machine.name}-borg.pw".path;
 in
 {
   services.borgbackup.jobs.state = {

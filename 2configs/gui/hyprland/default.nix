@@ -23,11 +23,14 @@ in {
 
   # automatically enabled by programs.hyprlock
   #services.hypridle.enable = true;
-  security.pam.services.hyprlock = {}; 
+  security.pam.services.hyprlock = {};
 
   environment.systemPackages = [ pkgs.brightnessctl ];
 
   home-manager.users.${mainUser} = {
+    # notification
+    #services.swaync.enable = true;
+    services.dunst.enable = true;
     xdg.configFile."waybar/config.jsonc".source = ./waybar.jsonc;
     home.sessionVariables.NIXOS_OZONE_WL = "1";
     home.packages = with pkgs; [
@@ -111,7 +114,7 @@ in {
           force_zero_scaling = true;
         };
         "$terminal" = "kitty";
-        "$fileManager" = "pcmanfm";
+        "$fileManager" = "dolphin";
         "$menu" = "wofi --show drun";
         exec-once = [
           #"nm-applet"
@@ -123,7 +126,7 @@ in {
           "XCURSOR_SIZE,18"
           "HYPRCURSOR_SIZE,18"
         ];
-        general = {                                                                          
+        general = {
           gaps_in = 1;
           gaps_out = 1;
           border_size = 1;
@@ -239,7 +242,7 @@ in {
           "$mainMod SHIFT, 9, movetoworkspace, 9"
           "$mainMod SHIFT, 0, movetoworkspace, 10"
           # screenshot
-          "$mainMod, Print, exec, grimblast --notify --cursor save area ~/shots/$(date +'%Y-%m-%d-At-%Ih%Mm%Ss').png"
+          "$mainMod, Print, exec, ${pkgs.gscreenshot}/bin/gscreenshot -s "
           ",Print, exec, grimblast --notify --cursor  copy area"
         ];
         bindm = [
