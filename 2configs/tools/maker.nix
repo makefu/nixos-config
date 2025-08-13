@@ -1,13 +1,13 @@
 { pkgs, config, ... }:
 {
-  home-manager.users.${config.krebs.build.user.name}.xdg.desktopEntries = {
-    bambu-studio-large = {
-      name = "BambuStudioLarge";
-      exec = toString (pkgs.writers.writeDash "bambu-studio-large" ''
-        GDK_SCALE=2 XCURSOR_SIZE=32 exec ${pkgs.bambu-studio}/bin/bambu-studio
-      '');
-    };
-  };
+  #home-manager.users.${config.krebs.build.user.name}.xdg.desktopEntries = {
+  #  bambu-studio-large = {
+  #    name = "BambuStudioLarge";
+  #    exec = toString (pkgs.writers.writeDash "bambu-studio-large" ''
+  #      GDK_SCALE=2 XCURSOR_SIZE=32 exec ${pkgs.bambu-studio}/bin/bambu-studio
+  #    '');
+  #  };
+  #};
   users.users.makefu.packages = with pkgs; [
     # media
     picard
@@ -21,7 +21,7 @@
     #cura
     chitubox
     # cura
-    bambu-studio
+    #bambu-studio
   ];
   networking.firewall.allowedUDPPorts = [
     1990 2021 # bambu-studio ssdp

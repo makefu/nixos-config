@@ -124,9 +124,9 @@ in {
       { nixpkgs.config.allowUnfree = true; }
       #../../2configs/retroshare.nix
       ## ../../2configs/ipfs.nix
-      ../../2configs/sync
-      ../../2configs/sync/relay.nix
-      ../../2configs/sync/share/gum.nix
+      #../../2configs/sync
+      #../../2configs/sync/relay.nix
+      #../../2configs/sync/share/gum.nix
       # ../../2configs/opentracker.nix
 
 

@@ -1,9 +1,11 @@
-{ buildPythonApplication,  fetchFromGitHub, feedparser, matrix-nio, docopt, aiohttp, aiofiles,
+{ buildPythonApplication,  fetchFromGitHub, feedparser, matrix-nio, docopt, aiohttp, aiofiles, setuptools,
 mypy }:
 
 buildPythonApplication rec {
   pname = "mediawiki-matrix-bot";
   version = "1.1.0";
+  pyproject = true;
+  build-system = [ setuptools ];
   src = fetchFromGitHub {
     owner = "nix-community";
     repo = "mediawiki-matrix-bot";

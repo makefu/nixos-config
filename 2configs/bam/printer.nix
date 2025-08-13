@@ -12,17 +12,20 @@ in {
       cups-ptouch
     ];
   };
-  users.users.kiosk.extraGroups = [ "scanner" "lp" ];
+  users.users.${mainUser} = {
+      extraGroups = [ "scanner" "lp" ];
+      packages = with pkgs;[
+        python312Packages.brother-ql
+        libreoffice
+        qrencode
+        imagemagick
+    ];
+  };
   state = [ "/var/lib/cups"];
-  users.users.kiosk.packages = with pkgs;[
-    python3Packages.brother-ql
-    libreoffice
-    qrencode
-    imagemagick
-  ];
 
   services.udev.extraRules = ''
     SUBSYSTEMS=="usb", ATTRS{idVendor}=="04f9", ATTRS{idProduct}=="209b", ATTRS{serial}=="000F1Z401759", MODE="0664", GROUP="lp", SYMLINK+="usb/lp0"
+    SUBSYSTEMS=="usb", ATTRS{idVendor}=="04f9", ATTRS{idProduct}=="209d", ATTRS{serial}=="000F1Z401759", MODE="0664", GROUP="lp", SYMLINK+="usb/lp0"
   '';
 
 }

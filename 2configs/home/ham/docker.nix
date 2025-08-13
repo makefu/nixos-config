@@ -1,6 +1,6 @@
 { config, pkgs, lib, ... }:
 let
-  confdir = "/var/lib/homeassistant-docker";
+  confdir = "/media/silent/db/hass";
 in {
   imports = [ 
     ./nginx.nix

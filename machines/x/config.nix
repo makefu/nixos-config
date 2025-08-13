@@ -7,12 +7,6 @@
       #{ # congress
       #  nix.settings.substituters = lib.mkForce [ "https://cache.nixos.sh" ];
       #}
-      {
-
-        nixpkgs.config.permittedInsecurePackages = [
-            "jitsi-meet-1.0.8043"
-          ];
-      }
       # do not build in tmpfs
       { systemd.services.nix-daemon.environment.TMPDIR = "/var/tmp";}
 
@@ -42,6 +36,8 @@
       ../../2configs/home-manager/cli.nix
       ../../2configs/home-manager/mail.nix
       ../../2configs/home-manager/taskwarrior.nix
+
+      ../../2configs/bam/printer.nix
 
       ../../2configs/main-laptop.nix
       ../../2configs/zsh/atuin.nix
@@ -173,9 +169,10 @@
       ../../2configs/sync/share/x.nix
 
       # Virtualization
-      # ../../2configs/virtualisation/libvirt.nix
+       ../../2configs/virtualisation/libvirt.nix
       ../../2configs/virtualisation/docker.nix
-      ../../2configs/virtualisation/virtualbox.nix
+      ../../2configs/virtualisation/waydroid.nix
+      #../../2configs/virtualisation/virtualbox.nix
       #{
       #  networking.firewall.allowedTCPPorts = [ 8080 ];
       #  networking.nat = {
@@ -272,7 +269,19 @@
     "aarch64-linux"
   ];
 
-
+  security.tpm2 = {
+    enable = true;
+    pkcs11.enable = true;
+    tctiEnvironment.enable = true;
+    abrmd.enable = true;
+  };
+  users.users.makefu.extraGroups = [ "${config.security.tpm2.tssGroup}" ];
+  environment.systemPackages = with pkgs;[
+    openssl
+    tpm2-tss
+    tpm2-tools
+    tpm2-pkcs11
+  ];
   # services.syncthing.user = lib.mkForce "makefu";
   # services.syncthing.dataDir = lib.mkForce "/home/makefu/.config/syncthing/";
 }

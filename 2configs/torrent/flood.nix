@@ -1,3 +1,4 @@
+{lib,config, ... }:
 let
   web-port = 8112;
 in {
@@ -8,7 +9,7 @@ in {
   services.flood = {
     enable = true;
     port = web-port;
-    extraArgs = ["--auth=none" "--rtsocket=${config.services.rtorrent.rpcSocket}"];
+    extraArgs = ["--rtsocket=${config.services.rtorrent.rpcSocket}"];
   };
   systemd.services.flood.serviceConfig = {
     SupplementaryGroups = [ "download" ];
@@ -26,7 +27,7 @@ in {
       #locations."/".extraConfig = ''
       #  try_files $uri /index.html;
       #'';
-      locations."/".proxyPass = "http://localhost:${toString config.flood.port}";
+      locations."/".proxyPass = "http://localhost:${toString config.services.flood.port}";
     };
   };
 }

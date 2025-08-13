@@ -14,7 +14,6 @@ in {
       keybindings = {
         "shift+insert" = "paste_from_clipboard";
         #"ctrl+c" = "copy_or_interrupt";
-        "ctrl+shift+r" = "clear_terminal reset active 🍎";
       };
       settings = {
         update_check_interval = 0;

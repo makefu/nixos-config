@@ -8,7 +8,7 @@
     clipit
     # firefox
     (pkgs.writers.writeDashBin "privatefox" "exec firefox -P Privatefox")
-    pcmanfm
+    kdePackages.dolphin
     evince
     # replacement for mirage:
     sxiv

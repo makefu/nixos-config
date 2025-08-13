@@ -10,7 +10,7 @@ with stockholm.lib; #genid
     members = [ "makefu" ];
   };
   users.users.makefu.packages = with pkgs;[
-    gvfs pcmanfm lxmenu-data
+    gvfs kdePackages.dolphin lxmenu-data
   ];
 
 ## allow users in group "storage" to mount disk

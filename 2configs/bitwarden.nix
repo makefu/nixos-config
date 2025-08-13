@@ -11,6 +11,7 @@ in {
     #config.databaseUrl = "postgresql://bitwardenuser:${dbPassword}@localhost/bitwarden";
     config.databaseUrl = "postgresql:///bitwarden";
     config.websocket_enabled = true;
+    config.ADMIN_TOKEN = "$argon2id$v=19$m=65540,t=3,p=4$koyvOUYkgaDu0ZT5sr6FJCp6r0t9s52qg+md0a8yrYg$xmCXfwcsc+0vynL94nT5YM3qMvhXZYr3w0fQDcMe3C0";
   };
 
   systemd.services.vaultwarden.after = [ "postgresql.service" ];

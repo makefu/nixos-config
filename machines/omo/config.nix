@@ -46,12 +46,12 @@ in {
       ../../2configs/editor/neovim
       # ../../2configs/storj/client.nix
 
-      ../../2configs/networking/zerotier.nix
+      #../../2configs/networking/zerotier.nix
       ../../2configs/backup/state.nix
 
       { makefu.backup.server.repo = "/media/cryptX/backup/borg"; }
       ../../2configs/backup/server.nix
-      ../../2configs/exim-retiolum.nix
+      # ../../2configs/exim-retiolum.nix
       # ../../2configs/smart-monitor.nix
       ../../2configs/mail-client.nix
       ../../2configs/mosh.nix
@@ -107,9 +107,9 @@ in {
       # ../../2configs/stats/nodisk-client.nix
       # logs to influx
       ../../2configs/stats/external/aralast.nix
-      ../../2configs/stats/telegraf
+      # ../../2configs/stats/telegraf
       # ../../2configs/stats/telegraf/europastats.nix
-      ../../2configs/stats/telegraf/hamstats.nix
+      # ../../2configs/stats/telegraf/hamstats.nix
       ../../2configs/hw/cdrip.nix
 
       # services
@@ -128,6 +128,7 @@ in {
       ../../2configs/home/music.nix
       ../../2configs/home/photoprism.nix
       ../../2configs/home/audiobookshelf.nix
+      ../../2configs/home/komga.nix
       # ../../2configs/home/tonie.nix
       ../../2configs/home/ps4srv.nix
       ../../2configs/home/metube.nix
@@ -181,7 +182,6 @@ in {
 
     ];
   makefu.full-populate =  true;
-  nixpkgs.config.allowUnfree = true;
   users.users.share.isNormalUser = true;
   users.groups.share = {
     gid = pkgs.stockholm.lib.genid "share";
@@ -221,7 +221,6 @@ in {
   #    sed-plugin
   #    random-emoji ];
   #};
-  nixpkgs.config.permittedInsecurePackages = [ "olm-3.2.16" ];
   krebs.build.host = config.krebs.hosts.omo;
   services.postgresql.package = pkgs.postgresql_15;
 }

@@ -1,4 +1,4 @@
-{ pkgs, ... }: {
+{ pkgs,config,inputs, ... }: {
   #systemd.services.brockman.environment."BROCKMAN_LOG_LEVEL" = "DEBUG";
 
   services.rss-bridge = {
@@ -9,6 +9,7 @@
 
   services.brockman = {
     enable = true;
+    package = inputs.brockman.packages.${pkgs.stdenv.hostPlatform.system}.default;
     config = {
       channel = "#systemdultras";
       irc = {

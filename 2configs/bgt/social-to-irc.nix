@@ -1,8 +1,9 @@
-{ pkgs, ... }:
+{ pkgs, inputs, ... }:
 {
   #systemd.services.brockman.environment."BROCKMAN_LOG_LEVEL" = "DEBUG";
   services.brockman = {
     enable = true;
+    package = inputs.brockman.packages.default;
     config = {
       channel = "#binaergewitter";
       notifyErrors = false;

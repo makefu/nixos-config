@@ -1,6 +1,7 @@
-{ pkgs, config, ... }:
+{ pkgs, lib, config, ... }:
 let
   dataDir = "/media/silent/db/audiobookshelf";
+  port = 3009;
 in
 {
   services.audiobookshelf = {
@@ -8,8 +9,10 @@ in
     host = "0.0.0.0"; # for forwarding from gum
     group = "download";
     openFirewall = true;
-    inherit dataDir;
+    inherit port dataDir;
   };
+
+  systemd.services.audiobookshelf.serviceConfig.WorkingDirectory= lib.mkForce dataDir;
 
   # move datadir to silent
   systemd.tmpfiles.rules = [
