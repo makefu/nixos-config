@@ -110,7 +110,8 @@
       # borg list "$BORG_REPO"
       # mount newroot somewhere && cd somewhere
       # borg extract  "$BORG_REPO::x-state-2019-04-17T01:41:51"  --progress # < extract to cwd
-      ../../2configs/backup/state.nix
+      #../../2configs/backup/borg/state.nix
+      ../../2configs/backup/restic/state.nix
 
       # ../../2configs/dnscrypt/client.nix
       ../../2configs/avahi.nix
@@ -264,24 +265,27 @@
     "/home/makefu/.config/syncthing"
     "/home/makefu/.config/sops"
     "/home/makefu/.gitconfig"
+    # repos
+    "/home/makefu/r/bgt/"
+    "/home/makefu/studio-link/doit.sh"
   ];
   boot.binfmt.emulatedSystems = [
     "aarch64-linux"
   ];
 
-  security.tpm2 = {
-    enable = true;
-    pkcs11.enable = true;
-    tctiEnvironment.enable = true;
-    abrmd.enable = true;
-  };
-  users.users.makefu.extraGroups = [ "${config.security.tpm2.tssGroup}" ];
-  environment.systemPackages = with pkgs;[
-    openssl
-    tpm2-tss
-    tpm2-tools
-    tpm2-pkcs11
-  ];
+  #security.tpm2 = {
+  #  enable = true;
+  #  pkcs11.enable = true;
+  #  tctiEnvironment.enable = true;
+  #  abrmd.enable = true;
+  #};
+  #users.users.makefu.extraGroups = [ "${config.security.tpm2.tssGroup}" ];
+  #environment.systemPackages = with pkgs;[
+  #  openssl
+  #  tpm2-tss
+  #  tpm2-tools
+  #  tpm2-pkcs11
+  #];
   # services.syncthing.user = lib.mkForce "makefu";
   # services.syncthing.dataDir = lib.mkForce "/home/makefu/.config/syncthing/";
 }

@@ -47,10 +47,11 @@ in {
       # ../../2configs/storj/client.nix
 
       #../../2configs/networking/zerotier.nix
-      ../../2configs/backup/state.nix
+      ../../2configs/backup/borg/state.nix
 
       { makefu.backup.server.repo = "/media/cryptX/backup/borg"; }
-      ../../2configs/backup/server.nix
+      ../../2configs/backup/borg/server.nix
+      ../../2configs/backup/restic/server.nix
       # ../../2configs/exim-retiolum.nix
       # ../../2configs/smart-monitor.nix
       ../../2configs/mail-client.nix

@@ -1,6 +1,11 @@
 { pkgs, ... }:
 
 {
+    state = [
+        "/home/makefu/.mozilla"
+        "/home/makefu/.thunderbird"
+
+    ];
   users.users.makefu.packages = with pkgs; [
     at-spi2-core
     chromium
