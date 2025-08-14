@@ -48,7 +48,7 @@
     CPU_MIN_PERF_ON_BAT = 0;
     CPU_MAX_PERF_ON_BAT = 30;
   };
-
+  # disable bluetooth on restore
   powerManagement.resumeCommands = ''
     ${pkgs.utillinux}/bin/rfkill unblock all
   '';
