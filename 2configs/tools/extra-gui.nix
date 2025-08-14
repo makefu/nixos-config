@@ -24,7 +24,7 @@
     vscode
 
     # 3d Modelling
-    chitubox
+    # chitubox
     # freecad
   ];
 }

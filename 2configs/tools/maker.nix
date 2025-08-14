@@ -19,7 +19,7 @@
     openscad
     # slicing
     #cura
-    chitubox
+    # chitubox
     # cura
     #bambu-studio
   ];
