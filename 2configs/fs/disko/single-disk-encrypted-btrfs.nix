@@ -2,7 +2,7 @@
   disko.devices = {
     disk = {
       main = {
-        device = "/dev/disk/by-diskseq/1";
+        device = "/dev/disk/by-id/ata-SATA_SSD_8E3107640E0804179000";
         type = "disk";
         content = {
           type = "gpt";
@@ -13,7 +13,6 @@
               start = "1MiB";
               end = "1G";
               type = "EF00";
-              bootable = true;
               content = {
                 type = "filesystem";
                 format = "vfat";

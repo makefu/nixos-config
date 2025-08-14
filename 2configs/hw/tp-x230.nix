@@ -1,8 +1,10 @@
-{ config, lib, pkgs, ... }:
+{ config,nixos-hardware, lib, pkgs, ... }:
 
 {
 
-  imports = [ ./tp-x2x0.nix  <nixos-hardware/lenovo/thinkpad/x230> ];
+  imports = [ ./tp-x2x0.nix
+    nixos-hardware.nixosModules.lenovo-thinkpad-l14-amd
+];
 
   # configured media keys inside awesomerc
   # sound.mediaKeys.enable = true;
@@ -24,10 +26,6 @@
     # xinput set-int-prop "TPPS/2 IBM TrackPoint" "Evdev Wheel Emulation Timeout" 8 200
   '';
 
-  # enable HDMI output switching with pulseaudio
-  hardware.pulseaudio.extraConfig = ''
-    load-module module-alsa-sink device=hw:0,3 sink_properties=device.description="HDMIOutput" sink_name="HDMI"
-  '';
   # load graphical equalizer module
   # load-module module-equalizer-sink
 

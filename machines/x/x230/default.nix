@@ -1,19 +1,15 @@
 {
-  imports = [
-     <stockholm/makefu/2configs/hw/tp-x230.nix> # + bluetooth
-     <stockholm/makefu/2configs/fs/sda-crypto-root-home.nix>
+    imports = [
+        ../../../2configs/hw/tp-x230.nix
+    ../../../2configs/fs/disko/single-disk-encrypted-btrfs.nix
 
-    <stockholm/makefu/2configs/hw/tpm.nix>
-    <stockholm/makefu/2configs/hw/ssd.nix>
+    # ../x13/secureboot.nix
 
      # hard dependency because otherwise the device will not be unlocked
-     {
-      boot.initrd.luks.devices.luksroot =
-      {
-          device = "/dev/sda2";
-          allowDiscards = true;
-      };
-     }
      { makefu.server.primary-itf = "wlp3s0"; }
   ];
+  boot.loader.systemd-boot.enable = true;
+  boot.tmp.useTmpfs = true;
+  services.fwupd.enable = true;
+  programs.light.enable = true;
 }
