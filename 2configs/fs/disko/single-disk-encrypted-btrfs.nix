@@ -38,10 +38,10 @@
                     "/nix" = {
                       mountpoint = "/nix";
                     };
-                    "/swap" = {
-                      mountpoint = "/swapvol";
-                      swap.swapfile.size = "17G";
-                    };
+                    #"/swap" = {
+                    #  mountpoint = "/swapvol";
+                    #  swap.swapfile.size = "17G";
+                    #};
                   };
                 };
               };
