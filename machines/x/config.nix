@@ -165,8 +165,8 @@
       # ../../2configs/exim-retiolum.nix
       ../../2configs/mail-client.nix
       ../../2configs/printer.nix
-      ../../2configs/sync
-      ../../2configs/sync/share/x.nix
+      #../../2configs/sync
+      #../../2configs/sync/share/x.nix
 
       # Virtualization
        ../../2configs/virtualisation/libvirt.nix
@@ -252,18 +252,18 @@
   # environment.variables = { GOROOT = [ "${pkgs.go.out}/share/go" ]; };
   state = [
     "/home/makefu/stockholm"
+    "/home/makefu/nixos-config"
     "/home/makefu/.ssh/"
     "/home/makefu/.zsh_history"
     "/home/makefu/.bash_history"
-    "/home/makefu/bin"
     "/home/makefu/.gnupg"
-    "/home/makefu/.imapfilter"
-    "/home/makefu/.mutt"
     "/home/makefu/docs"
     "/home/makefu/notes"
     "/home/makefu/.password-store"
     "/home/makefu/.secrets-pass"
     "/home/makefu/.config/syncthing"
+    "/home/makefu/.config/sops"
+    "/home/makefu/.gitconfig"
   ];
   boot.binfmt.emulatedSystems = [
     "aarch64-linux"
