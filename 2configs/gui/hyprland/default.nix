@@ -243,7 +243,7 @@ in {
           "$mainMod SHIFT, 0, movetoworkspace, 10"
           # screenshot
           "$mainMod, Print, exec, ${pkgs.gscreenshot}/bin/gscreenshot -s "
-          ",Print, exec, grimblast --notify --cursor  copy area"
+          ",Print, exec, grimblast --notify copy area"
         ];
         bindm = [
           "$mainMod, mouse:272, movewindow"
