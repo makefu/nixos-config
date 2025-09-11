@@ -1,6 +1,7 @@
 { pkgs, config, ... }: 
 let
-  mainUser = config.krebs.build.user.name;
+    mainUser = config.krebs.build.user.name;
+    share = "/home/makefu/.local/share";
 in {
   # Terminal
   home-manager.users.${mainUser} = {
@@ -11,6 +12,15 @@ in {
       settings.email = "makefu@x";
     };
   };
+
+  state = map (x: "${share}/${x}" ) [
+    "keyrings"
+    "atuin"
+    "gvfs-metadata"
+    "dolphin"
+    "user-places.xbel"
+    "recently-used.xbel"
+  ];
   services.gnome.gnome-keyring.enable = true;
   # must be set to the greeter in use
   security.pam.services.sddm.enableGnomeKeyring = true;
