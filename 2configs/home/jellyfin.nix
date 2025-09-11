@@ -1,4 +1,4 @@
-{ lib, config, ... }:
+{ lib, pkgs, config, ... }:
 let
   port = 8096;
 in
@@ -25,6 +25,11 @@ in
       UMask = lib.mkForce "0007";
     };
   };
+  environment.systemPackages = [
+    pkgs.jellyfin
+    pkgs.jellyfin-web
+    pkgs.jellyfin-ffmpeg
+  ];
   services.nginx.virtualHosts."jelly" = {
     serverAliases = [
       "jelly.lan" "movies.lan"
