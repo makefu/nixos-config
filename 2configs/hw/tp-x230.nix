@@ -3,7 +3,7 @@
 {
 
   imports = [ ./tp-x2x0.nix
-    nixos-hardware.nixosModules.lenovo-thinkpad-l14-amd
+    nixos-hardware.nixosModules.lenovo-thinkpad-x230
 ];
 
   # configured media keys inside awesomerc
