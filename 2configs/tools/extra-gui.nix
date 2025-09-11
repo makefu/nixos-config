@@ -1,6 +1,9 @@
 { pkgs, ... }:
 
 {
+  state = [
+      "/home/makefu/.config/Element"
+  ];
   users.users.makefu.packages = with pkgs;[
     # media
     gimp

@@ -12,5 +12,9 @@ in {
     };
   };
   services.gnome.gnome-keyring.enable = true;
-  security.pam.services.hyprland.enableGnomeKeyring = true;
+  # must be set to the greeter in use
+  security.pam.services.sddm.enableGnomeKeyring = true;
+  # according to https://old.reddit.com/r/NixOS/comments/1bbjqcn/how_to_enable_gnomekeyring_in_hyprland/
+  environment.systemPackages = [pkgs.libsecret];
+  environment.variables.XDG_RUNTIME_DIR = "/run/user/$UID";
 }
