@@ -40,8 +40,11 @@ set undolevels=1000000
 "maximum number lines to save for undo on a buffer reload
 set undoreload=10000000
 
-nnoremap <F2> :set invpaste paste?<CR>
-set pastetoggle=<F2>
+" nnoremap <F2> :set invpaste paste?<CR>
+" pastetoggle does not exist in neovim
+" set pastetoggle=<F2>
+nnoremap <silent> <f5> :set paste!<cr>
+inoremap <silent> <f5> <esc>:set paste!<cr>i
 set showmode
 
 set showmatch
