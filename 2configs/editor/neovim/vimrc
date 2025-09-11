@@ -353,8 +353,11 @@ nnoremap <F5> :UndotreeToggle<CR>
 " Reindent whole file with F6
 map <F6> mzgg=G`z
 
-nnoremap <F9> :set invpaste paste?<CR>
-set pastetoggle=<F2>
+" nnoremap <F9> :set invpaste paste?<CR>
+" set pastetoggle=<F2>
+" according to https://stackoverflow.com/questions/76687544/emulate-pastetoggle-in-neovim
+nnoremap <silent> <f2> :set paste!<cr>
+inoremap <silent> <f2> <esc>:set paste!<cr>i
 set showmode
 
 " save on focus lost
