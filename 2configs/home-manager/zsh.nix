@@ -85,7 +85,7 @@ direnv allow
       #    { name = "zsh-users/zsh-autosuggestions" ; }
       #  ];
       #};
-      initExtra = ''
+      initContent = ''
         bindkey -e
         zle -N edit-command-line
         # ctrl-x ctrl-e
