@@ -8,8 +8,11 @@
   networking.hostId = hostId;
   boot.kernelPackages = config.boot.zfs.package.latestCompatibleLinuxPackages;
 
-  # reduce ARC to 2GB
-  boot.kernelParams = [ "zfs.zfs_arc_max=2884901888" ];
+  # reduce ARC to 4GB
+  # rule of thumb:
+  # 2GB Base + 1GB per TB Storage
+  # https://pve.proxmox.com/pve-docs/pve-admin-guide.html#_limit_zfs_memory_usage
+  boot.kernelParams = [ "zfs.zfs_arc_max=4294967296" ];
 
   disko.devices = {
     disk = {
