@@ -7,6 +7,7 @@ in {
     ./kitty.nix
     ./passwords.nix
     ./autostart.nix
+    ./sunset.nix
     #./autolock.nix
   ];
   # autostart 
