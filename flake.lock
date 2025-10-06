@@ -41,11 +41,11 @@
         "utils": "utils"
       },
       "locked": {
-        "lastModified": 1740866005,
-        "narHash": "sha256-s+eCsogQUmFhygEqHYOhyDkhIA02bNRSBZB93X0fGEI=",
+        "lastModified": 1757706620,
+        "narHash": "sha256-+CKUFrTiWBr5vbilSLDfaaTU5512dbayoNO7vUW/CmU=",
         "owner": "makefu",
         "repo": "audio-scripts",
-        "rev": "5385e4de9cd9de8ac1344a6bd1afac55b4fefadb",
+        "rev": "8d956955654d00af6674bde087c1f5ea15035cc9",
         "type": "github"
       },
       "original": {
@@ -653,11 +653,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1754527677,
-        "narHash": "sha256-qAzCtmKkMz40xFgP9KN+TCKjVieK4u04EWwl2KvVk0E=",
+        "lastModified": 1758653055,
+        "narHash": "sha256-v2Pue/Xa9cDbKcrsOmhD8fiYR4No65z+ReAUBBvvE7g=",
         "owner": "nix-community",
         "repo": "home-manager",
-        "rev": "475d35797d9537354d825260cf583114537affc2",
+        "rev": "131f4e22c30c114378dcf6191cb75c97eba673d0",
         "type": "github"
       },
       "original": {
@@ -1198,15 +1198,15 @@
     },
     "nixos-hardware": {
       "locked": {
-        "lastModified": 1734352517,
-        "narHash": "sha256-mfv+J/vO4nqmIOlq8Y1rRW8hVsGH3M+I2ESMjhuebDs=",
-        "owner": "NixOS",
+        "lastModified": 1758611161,
+        "narHash": "sha256-TMIXW6xRmoi+eZ76bkMm+FlZYW0upxdpAox8b73JukU=",
+        "owner": "makefu",
         "repo": "nixos-hardware",
-        "rev": "b12e314726a4226298fe82776b4baeaa7bcf3dcd",
+        "rev": "166c6104624da94b7e07bf7fcc2de26f370892b4",
         "type": "github"
       },
       "original": {
-        "owner": "NixOS",
+        "owner": "makefu",
         "repo": "nixos-hardware",
         "type": "github"
       }
@@ -1277,11 +1277,11 @@
     },
     "nixpkgs_5": {
       "locked": {
-        "lastModified": 1754214453,
-        "narHash": "sha256-Q/I2xJn/j1wpkGhWkQnm20nShYnG7TI99foDBpXm1SY=",
+        "lastModified": 1758427187,
+        "narHash": "sha256-pHpxZ/IyCwoTQPtFIAG2QaxuSm8jWzrzBGjwQZIttJc=",
         "owner": "NixOS",
         "repo": "nixpkgs",
-        "rev": "5b09dc45f24cf32316283e62aec81ffee3c3e376",
+        "rev": "554be6495561ff07b6c724047bdd7e0716aa7b46",
         "type": "github"
       },
       "original": {
