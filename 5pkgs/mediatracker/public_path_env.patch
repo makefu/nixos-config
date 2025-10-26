@@ -1,0 +1,15 @@
+
+diff --git a/server/src/config.ts b/server/src/config.ts
+index a6863d1..7ac7053 100644
+--- a/server/src/config.ts
++++ b/server/src/config.ts
+@@ -30,7 +30,8 @@ export class Config {
+     | 'production'
+     | 'test';
+ 
+-  static readonly PUBLIC_PATH = join(__dirname, '../public');
++  static readonly PUBLIC_PATH =
++    process.env.PUBLIC_PATH || join(__dirname, '../public');
+ 
+   static readonly ASSETS_PATH =
+     process.env.ASSETS_PATH || join(this.configDirectory, 'img');
