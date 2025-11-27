@@ -1,0 +1,14 @@
+diff --git a/next.config.js b/next.config.js
+index c2d7236..0733ac5 100644
+--- a/next.config.js
++++ b/next.config.js
+@@ -9,7 +9,8 @@ const withMDX = require('@next/mdx')({
+ 
+ /** @type {import('next').NextConfig} */
+ const nextConfig = {
+-  reactStrictMode: true
++  reactStrictMode: true,
++  output: "standalone"
+ }
+ 
+ module.exports = withMDX(withNextIntl(nextConfig))
