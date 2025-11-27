@@ -1,0 +1,22 @@
+diff --git a/src/app/[locale]/layout.tsx b/src/app/[locale]/layout.tsx
+index b631673..5f99e9f 100644
+--- a/src/app/[locale]/layout.tsx
++++ b/src/app/[locale]/layout.tsx
+@@ -1,6 +1,6 @@
+ import React from 'react'
+ import type { Metadata } from 'next'
+-import { Alata } from 'next/font/google'
++import localFont from 'next/font/local'
+ import { NextIntlClientProvider } from 'next-intl'
+ import { getMessages, getTranslations } from 'next-intl/server'
+ import QueryProvider from 'queries/QueryProvider'
+@@ -14,8 +14,7 @@ import { GoogleAnalytics } from '@next/third-parties/google'
+ import '@fortawesome/fontawesome-svg-core/styles.css'
+ import '../../../styles/globals.css'
+ 
+-const atlata = Alata({ weight: '400', subsets: ['latin'] })
+-
++const atlata = localFont({ src: '../alata.ttf' })
+ type LayoutProps = PagePropsWithLocaleParams
+ 
+ export async function generateMetadata({
