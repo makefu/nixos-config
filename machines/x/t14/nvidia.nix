@@ -1,5 +1,13 @@
-{ lib, ... }:
+{ lib, nixos-hardware, ... }:
 {
-    hardware.nvidia.open = false;
+    imports = [
+        nixos-hardware.nixosModules.lenovo-thinkpad-t14-intel-gen1-nvidia
+    ];
     services.xserver.videoDrivers = lib.mkDefault [ "nvidia" ];
+
+    services = {
+        xserver = {
+            
+        }
+    }
 }
