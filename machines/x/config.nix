@@ -3,13 +3,15 @@
   imports =
     [
       #./x230 
-      ./x13
+      ./t14
       #{ # congress
       #  nix.settings.substituters = lib.mkForce [ "https://cache.nixos.sh" ];
       #}
       # do not build in tmpfs
       { systemd.services.nix-daemon.environment.TMPDIR = "/var/tmp";}
+        { virtualisation.docker.enableNvidia = true; }
 
+      ../../2configs/performance/nix-performance.nix
       # ../../2configs/networking/zerotier.nix
       ../../2configs/default.nix
       ## Common Hardware Components
@@ -35,13 +37,13 @@
       ../../2configs/home-manager/desktop.nix
       ../../2configs/home-manager/cli.nix
       ../../2configs/home-manager/mail.nix
-      ../../2configs/home-manager/taskwarrior.nix
+      # ../../2configs/home-manager/taskwarrior.nix
 
       ../../2configs/bam/printer.nix
 
       ../../2configs/main-laptop.nix
       ../../2configs/zsh/atuin.nix
-      ../../2configs/kdeconnect.nix
+      # ../../2configs/kdeconnect.nix
       ../../2configs/extra-fonts.nix
       ../../2configs/editor/neovim
       ../../2configs/tools/all.nix
@@ -187,7 +189,7 @@
       ../../2configs/tor.nix
       # ../../2configs/vpn/vpngate.nix
       # ../../2configs/buildbot-standalone.nix
-      ../../2configs/remote-build/aarch64-community.nix
+      #../../2configs/remote-build/aarch64-community.nix
       # ../../2configs/remote-build/gum.nix
       # { nixpkgs.overlays = [ (self: super: super.prefer-remote-fetch self super) ]; }
 
@@ -213,6 +215,7 @@
       # ../../2configs/lanparty/samba.nix
       # ../../2configs/lanparty/mumble-server.nix
       ../../2configs/wireguard/wiregrill-client.nix
+      ../../2configs/networking/tailscale.nix
 
 #      {
 #        networking.wireguard.interfaces.wg0 = {
@@ -252,7 +255,6 @@
 
   # environment.variables = { GOROOT = [ "${pkgs.go.out}/share/go" ]; };
   state = [
-    "/home/makefu/stockholm"
     "/home/makefu/nixos-config"
     "/home/makefu/.ssh/"
     "/home/makefu/.zsh_history"
@@ -260,18 +262,20 @@
     "/home/makefu/.gnupg"
     "/home/makefu/docs"
     "/home/makefu/notes"
+    "/home/makefu/TODO"
     "/home/makefu/.password-store"
     "/home/makefu/.secrets-pass"
     "/home/makefu/.config/syncthing"
     "/home/makefu/.config/sops"
     "/home/makefu/.gitconfig"
-    # repos
-    "/home/makefu/r/bgt/"
-    "/home/makefu/studio-link/doit.sh"
   ];
   boot.binfmt.emulatedSystems = [
     "aarch64-linux"
-  ];
+];
+    nix.settings = {
+        cores = 2;
+        max-jobs = 4;
+    };
 
   #security.tpm2 = {
   #  enable = true;

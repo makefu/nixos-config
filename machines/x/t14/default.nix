@@ -10,11 +10,11 @@
     ../../../2configs/hw/ssd.nix
     ./secureboot.nix
     # ../../../2configs/hw/xmm7360.nix
-    nixos-hardware.nixosModules.lenovo-thinkpad-t14-gen1-nvidia
+    ./nvidia.nix
   ];
 
   swapDevices = [ ];
-  zramSwap.enable = true;
+  #zramSwap.enable = true;
   boot.initrd.availableKernelModules = [ "rtsx_pci_sdmmc" "nvme" "ehci_pci" "xhci_pci" "usb_storage" "sd_mod" ];
   boot.initrd.kernelModules = [ ];
   boot.kernelModules = [ "kvm-intel" ];
