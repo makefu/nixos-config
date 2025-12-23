@@ -1,9 +1,32 @@
 {
+    systemd.services.podman.after = [ "
   disko.devices = {
     disk = {
+      varnvme = {
+        type = "disk";
+        device ="/dev/disk/by-id/nvme-SAMSUNG_MZVLB256HBHQ-000L7_S4ELNX4N666803";
+        content = {
+          type = "table";
+          format = "gpt";
+          partitions = [
+            # mkfs.xfs -L varnvme /dev/nvme1n1p1
+            {
+              name = "varnvme";
+              start = "0";
+              end = "100%";
+              content = {
+                type ="filesystem";
+                format = "xfs";
+                mountpoint = "/var";
+                mountOptions = [ "nofail" ];
+              };
+            }
+          ];
+        };
+      };
       datanvme = {
         type = "disk";
-        device ="/dev/nvme0n1";
+        device ="/dev/disk/by-id/nvme-SKHynix_HFS512GD9TNI-L2B0B_CS06N57461130743R";
         content = {
           type = "table";
           format = "gpt";
