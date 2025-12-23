@@ -1,5 +1,5 @@
 {
-    systemd.services.podman.after = [ "
+    systemd.services.podman.after = [ "var-lib.mount" "media-silent.mount" ];
   disko.devices = {
     disk = {
       varnvme = {
@@ -17,8 +17,7 @@
               content = {
                 type ="filesystem";
                 format = "xfs";
-                mountpoint = "/var";
-                mountOptions = [ "nofail" ];
+                mountpoint = "/var/lib";
               };
             }
           ];
@@ -39,7 +38,6 @@
                 type ="filesystem";
                 format = "xfs";
                 mountpoint = "/media/silent";
-                mountOptions = [ "nofail" ];
               };
             }
           ];

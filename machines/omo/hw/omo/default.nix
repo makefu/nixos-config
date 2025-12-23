@@ -5,7 +5,6 @@ let
   keyFile = byid "usb-Verbatim_STORE_N_GO_070B3CEE0B223954-0:0";
   rootDisk = byid "ata-SanDisk_SD8SNAT128G1122_162099420904";
   rootPartition = byid "ata-SanDisk_SD8SNAT128G1122_162099420904-part2";
-  primaryInterface = "enp2s0";
   # cryptsetup luksFormat $dev --cipher aes-xts-plain64 -s 512 -h sha512
   # cryptsetup luksAddKey $dev tmpkey
   # cryptsetup luksOpen $dev crypt0 --key-file tmpkey --keyfile-size=4096
@@ -42,9 +41,9 @@ in {
       ./vaapi.nix
       ./nvme-extra.nix
       ./rootdisk.nix
+      ./network.nix
     ];
 
-  makefu.server.primary-itf = primaryInterface;
   system.activationScripts.createCryptFolders = ''
     ${lib.concatMapStringsSep "\n"
       (d: "install -m 755 -d " + (toMapper d) )
