@@ -40,10 +40,10 @@ in {
   imports =
     [ # TODO: unlock home partition via ssh
       ./vaapi.nix
-      ../../../2configs/fs/sda-crypto-root.nix
       ./nvme-extra.nix
+      ./rootdisk.nix
     ];
-    
+
   makefu.server.primary-itf = primaryInterface;
   system.activationScripts.createCryptFolders = ''
     ${lib.concatMapStringsSep "\n"
