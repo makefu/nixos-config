@@ -34,6 +34,8 @@
       ../../2configs/bgt/savarcast/download.nix
       ../../2configs/bgt/savarcast/comments.nix
       ../../2configs/bgt/savarcast/search.nix
+      ../../2configs/bgt/gecloudpad/default.nix
+      ../../2configs/bgt/etherpad.binaergewitter.de.nix
 
       # backup
       #../../2configs/backup/state.nix

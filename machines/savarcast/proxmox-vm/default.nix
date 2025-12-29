@@ -13,6 +13,6 @@
   boot.kernelModules = [ ];
   boot.extraModulePackages = [ ];
   boot.kernelPackages = lib.mkForce pkgs.linuxPackages;
-  virtualisation.qemu.guestAgent.enable = true;
+  services.qemuGuest.enable = true;
 }
 
