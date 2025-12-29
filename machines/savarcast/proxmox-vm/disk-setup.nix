@@ -3,6 +3,9 @@
     efiSupport = true;
     efiInstallAsRemovable = true;
   };
+  swapDevices = [
+    { device = "/dev/disk/by-uuid/5459dd33-a420-472f-b873-8a02d315b9ca"; }
+  ];
   disko.devices = {
     disk = {
       main = {
