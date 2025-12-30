@@ -13,6 +13,7 @@ in {
 
   # sops.secrets.etherpad_htpasswd.owner = "nginx";
 
+  networking.firewall.allowedTCPPorts = [ realport ];
   services.nginx.virtualHosts."etherpad.binaergewitter.de" = {
     extraConfig = ''
       ssl_session_timeout  30m;

@@ -7,7 +7,8 @@ let
 in {
   imports = [
     ./flood.nix
-  ];
+];
+  systemd.services.rtorrent.serviceConfig.LimitNOFILE = 16000;
   services.rtorrent = {
     enable = true;
     #user = "download";

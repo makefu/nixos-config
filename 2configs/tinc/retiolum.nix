@@ -1,7 +1,7 @@
 { pkgs, lib, config, ... }:
 {
   imports = [
-    ../binary-cache/lass.nix
+    # ../binary-cache/lass.nix
   ];
 
   krebs.tinc.retiolum = {

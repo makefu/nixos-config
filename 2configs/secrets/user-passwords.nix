@@ -1,4 +1,4 @@
-{ config, ... }:
+{ config, lib, ... }:
 {
   imports = [ ./default.nix ];
 
@@ -8,7 +8,7 @@
   };
 
   users.users = {
-    makefu.hashedPasswordFile = config.sops.secrets."passwd-makefu".path;
-    root.hashedPasswordFile = config.sops.secrets."passwd-root".path;
+    makefu.hashedPasswordFile = lib.mkDefault config.sops.secrets."passwd-makefu".path;
+    root.hashedPasswordFile = lib.mkDefault config.sops.secrets."passwd-root".path;
   };
 }

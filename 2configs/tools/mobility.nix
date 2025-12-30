@@ -11,7 +11,7 @@
 
     # (pkgs.callPackage ./secrets.nix {})
 
-    opensc pcsctools libu2f-host
+    opensc pcsc-tools libu2f-host
   ];
   boot.supportedFilesystems = [ "exfat" ];
 }

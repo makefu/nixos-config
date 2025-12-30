@@ -3,7 +3,7 @@
 {
 
   environment.systemPackages = [
-    ((pkgs.vim_configurable).customize {
+    ((pkgs.vim-full).customize {
       name = "vim";
       vimrcConfig.customRC = builtins.readFile ./vimrc;
       vimrcConfig.packages.myVimPackage = with pkgs.vimPlugins; { start = [

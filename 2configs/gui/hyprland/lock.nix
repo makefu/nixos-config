@@ -1,3 +1,4 @@
+{ config, ... }:
 let
     mainUser = config.krebs.build.user.name;
 in {

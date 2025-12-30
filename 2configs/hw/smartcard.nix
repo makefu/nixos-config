@@ -12,7 +12,7 @@
     # need to run ifdnfc-activate before usage
     # ifdnfc
     # pcsc_scan
-    pcsctools
+    pcsc-tools
   ];
   boot.blacklistedKernelModules = [
     "pn533" "pn533_usb"

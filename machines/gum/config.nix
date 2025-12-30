@@ -10,6 +10,7 @@ in {
       
       #../../2configs/networking/zerotier.nix
       ../../2configs/bam/grocy
+      ../../2configs/bam/matrix/frontend.nix
       ./hetznercloud
       {
         # wait for mount
@@ -134,9 +135,9 @@ in {
       # ../../2configs/vpn/openvpn-server.nix
       # ../../2configs/vpn/vpnws/server.nix
       # ../../2configs/binary-cache/server.nix
-      { makefu.backup.server.repo = "/var/backup/borg"; }
-      ../../2configs/backup/server.nix
-      ../../2configs/backup/state.nix
+      #{ makefu.backup.server.repo = "/var/backup/borg"; }
+      #../../2configs/backup/server.nix
+      # ../../2configs/backup/restic/server.nix
       # ../../2configs/wireguard/server.nix
       ../../2configs/wireguard/wiregrill-server.nix
 
@@ -202,7 +203,7 @@ in {
 
       ../../2configs/deployment/wiki.euer.nix
 
-      ../../2configs/deployment/hoarder-proxy.nix
+      # ../../2configs/deployment/hoarder-proxy.nix
       ../../2configs/deployment/mdrss-proxy.nix
       ../../2configs/deployment/abook-proxy.nix
       ../../2configs/deployment/book-proxy.nix

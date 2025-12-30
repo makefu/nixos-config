@@ -3,9 +3,10 @@ let
     db-dir = "/media/silent/db/continuwuity";
     user = config.services.matrix-continuwuity.user;
     statedir = config.services.matrix-continuwuity.settings.global.database_path;
-
 in
-{
+    {
+        # open firewall
+    networking.firewall.allowedTCPPorts = config.services.matrix-continuwuity.settings.global.port;
     # create matrix db-dir
     systemd.tmpfiles.settings."01-matrix-db-dir"."${db-dir}".d = {
         inherit user;

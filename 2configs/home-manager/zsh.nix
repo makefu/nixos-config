@@ -48,8 +48,6 @@ echo "use nix" >> .envrc
 direnv allow
 '')
     ];
-    #home.packages = [ pkgs.direnv pkgs.nix-direnv ];
-
     programs.fzf.enable = false; # alt-c
     programs.zsh = {
       enable = true;

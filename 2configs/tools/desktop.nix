@@ -2,7 +2,7 @@
 
 {
   users.users.makefu.packages = with pkgs; [
-    taskwarrior
+    # taskwarrior
     (pass.withExtensions (ext: [ ext.pass-otp ]))
     gopass
     mutt

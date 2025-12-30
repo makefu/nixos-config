@@ -3,6 +3,8 @@ with pkgs.python3Packages;
 buildPythonApplication rec {
     name = "airsensor-py-${version}";
     version = "1.0.0";
+    build-system = [ setuptools ];
+    pyproject = true;
     propagatedBuildInputs = [
       pyusb
       click

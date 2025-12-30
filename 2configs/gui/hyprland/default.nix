@@ -75,8 +75,11 @@ in {
        monitor = [
          "eDP-1,1920x1080,0x0,1.0"
          ",preferred,auto,1.0"
-         "desc:LG Electronics LG HDR 4K 0x00016601,preferred,auto,2"
-         "desc:LG Electronics LG HDR 4K 0x0009DD88,preferred,auto,2"
+         # monitors support much more than 1920
+         "desc:LG Electronics LG HDR 4K 0x0009DD88,preferred,auto,1.5"
+         # HP docking station
+         #"desc:LG Electronics LG HDR 4K 0x00016601,1920x1080@60,auto,1"
+         #"desc:LG Electronics LG HDR 4K 0x0009DD88,1920x1068@60,preferred,auto,1"
         ];
         xwayland = {
           force_zero_scaling = true;
@@ -158,9 +161,9 @@ in {
             natural_scroll = false;
           };
         };
-        gestures = {
-          workspace_swipe = true;
-        };
+        #gestures = {
+        #  workspace_swipe = true;
+        #};
         "$mainMod" = "SUPER";
         # just make it behave like awesomewm again
         bind = [

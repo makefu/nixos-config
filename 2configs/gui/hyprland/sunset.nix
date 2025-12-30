@@ -1,7 +1,10 @@
-{
-    services.wlsunset = {
+{ config, ... }:
+let
+    mainUser = config.krebs.build.user.name;
+in {
+    home-manager.users.${mainUser}.services.wlsunset = {
         enable = true;
-        latitude = "48.77";
-        longitude = "9.18";
+        latitude = "49";
+        longitude = "9";
     };
 }

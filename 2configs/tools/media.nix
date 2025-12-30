@@ -6,8 +6,8 @@
     calibre
     vlc
     mumble
-    mplayer
-    mpv
+    #mplayer
+    #mpv
     # quodlibet # exfalso
     tinymediamanager
 

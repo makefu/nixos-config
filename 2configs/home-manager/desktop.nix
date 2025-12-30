@@ -19,8 +19,8 @@
         # "liloimnbhkghhdhlamdjipkmadhpcjmn" # krebsgold
         "fpnmgdkabkmnadcjpehmlllkndpkmiak" # wayback machine
         "gcknhkkoolaabfmlnjonogaaifnjlfnp" # foxyproxy
-        "abkfbakhjpmblaafnpgjppbmioombali" # memex
-        "kjacjjdnoddnpbbcjilcajfhhbdhkpgk" # forest
+        # "abkfbakhjpmblaafnpgjppbmioombali" # memex
+        # "kjacjjdnoddnpbbcjilcajfhhbdhkpgk" # forest
       ];
     };
   };
