@@ -12,7 +12,7 @@
   # rule of thumb:
   # 2GB Base + 1GB per TB Storage
   # https://pve.proxmox.com/pve-docs/pve-admin-guide.html#_limit_zfs_memory_usage
-  boot.kernelParams = [ "zfs.zfs_arc_max=4294967296" ];
+  boot.kernelParams = [ "zfs.zfs_arc_max=8589934592" ];
 
   disko.devices = {
     disk = {

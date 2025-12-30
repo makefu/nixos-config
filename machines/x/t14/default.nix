@@ -12,7 +12,7 @@
     # ../../../2configs/hw/xmm7360.nix
     ./nvidia.nix
   ];
-  hardware.facter.reportPath = ./facter.json ;
+  #hardware.facter.reportPath = ./facter.json ;
   swapDevices = [ ];
   #zramSwap.enable = true;
   boot.initrd.availableKernelModules = [ "rtsx_pci_sdmmc" "nvme" "ehci_pci" "xhci_pci" "usb_storage" "sd_mod" ];

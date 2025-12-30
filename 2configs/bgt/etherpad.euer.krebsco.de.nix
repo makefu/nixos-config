@@ -12,6 +12,8 @@ in {
   #};
 
   # sops.secrets.etherpad_htpasswd.owner = "nginx";
+  networking.firewall.allowedTCPPorts = [ realport ];
+  networking.firewall.interfaces.ens18.allowedTCPPorts = [ realport ];
 
   services.nginx.virtualHosts."etherpad.euer.krebsco.de" = {
     # useACMEHost = "euer.krebsco.de";

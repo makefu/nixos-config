@@ -14,6 +14,8 @@ in {
             address = "0.0.0.0:${toString port}";
           };
           dns = {
+              use_private_ptr_resolvers = true;
+              local_ptr_upstreams = [ "192.168.111.1" ];
               bind_hosts = [ host ];
             upstream_dns = [
               # Example config with quad9
@@ -23,8 +25,8 @@ in {
               #"149.112.112.112"
               #"9.9.9.9"
 
-              #"1.1.1.1"
-              "192.168.111.5" # to resolve .lan domains, configured in openwrt to use 9.9.9.9
+              "1.1.1.1"
+              #"192.168.111.1" # to resolve .lan domains, configured in openwrt to use 9.9.9.9
             ];
           };
           filtering = {

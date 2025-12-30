@@ -64,6 +64,7 @@ in {
       ### disable
       ### ../../2configs/bam/led-fader.nix
       ../../2configs/bam/printer.nix
+      ../../2configs/networking/tailscale.nix
       ../../2configs/bam/picsender.nix
       ### ../../2configs/bam/kalauerbot.nix now runs in thales
       ### ../../2configs/bam/visitor-photostore.nix
@@ -71,7 +72,7 @@ in {
       ../../2configs/mqtt.nix
       # ../../2configs/bam/cam.nix
       ../../2configs/bam/influx.nix
-      ../../2configs/backup/state.nix
+      # ../../2configs/backup/state.nix
       ## temporary
       ## ../../2configs/temp/rst-issue.nix
   ];

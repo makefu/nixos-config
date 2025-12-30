@@ -14,12 +14,12 @@
     # skype
     # teams
     synergy
-    tdesktop
+    telegram-desktop
     virt-manager
-    jellyfin-media-player
+    #jellyfin-media-player
     # Dev
     saleae-logic
-    gitAndTools.gitFull
+    git
     signal-desktop
     element-desktop
     # rambox

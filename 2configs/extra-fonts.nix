@@ -5,7 +5,7 @@
      enableGhostscriptFonts = true;
      packages = with pkgs; [
        inconsolata  # monospaced
-       ubuntu_font_family  # Ubuntu fonts
+       ubuntu-classic # Ubuntu fonts
        unifont # some international languages
        dejavu_fonts
        terminus_font

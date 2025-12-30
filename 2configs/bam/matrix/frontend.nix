@@ -11,7 +11,7 @@
     };
   };
  # für die tls terminierung und weiterleitung nach wozzy
-    services.nginx.virtualHosts."matrix.4ce.de.gts" = {
+    services.nginx.virtualHosts."matrix.euer.krebsco.de" = {
     forceSSL = true;
         enableACME = true;
 

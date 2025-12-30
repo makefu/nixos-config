@@ -8,7 +8,7 @@ let
 in {
   imports =
     [
-      ./hw/omo.nix
+      ./hw/omo
       #./hw/tsp.nix
       ../../2configs/default.nix
       ../../2configs/support-nixos.nix
@@ -22,7 +22,7 @@ in {
       {
         services.xserver.enable = true;
         services.xserver.displayManager.sddm.enable = true;
-        services.xserver.desktopManager.plasma5.enable = true;
+        services.xserver.desktopManager.plasma6.enable = true;
 
         services.xrdp.enable = true;
         services.xrdp.defaultWindowManager = "startplasma-x11";
@@ -132,7 +132,7 @@ in {
       ../../2configs/home/audiobookshelf.nix
       ../../2configs/home/komga.nix
       # ../../2configs/home/tonie.nix
-      ../../2configs/home/ps4srv.nix
+      #../../2configs/home/ps4srv.nix
       ../../2configs/home/metube.nix
       # ../../2configs/home/ham
       ../../2configs/home/ham/docker.nix
@@ -140,7 +140,10 @@ in {
       ../../2configs/home/streams.nix
       ../../2configs/home/esphome.nix
       ../../2configs/home/audio-dl.nix
-      ../../2configs/home/hoarder
+      ../../2configs/home/karakeep
+      ../../2configs/home/yamtrack.nix
+      # büroautomatisierung
+      # ../../2configs/bam/matrix/server.nix
       {
         makefu.ps3netsrv = {
           enable = true;

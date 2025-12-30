@@ -12,6 +12,7 @@
         { virtualisation.docker.enableNvidia = true; }
 
       ../../2configs/performance/nix-performance.nix
+      ../../2configs/networking/nm-profiles/congress.nix
       # ../../2configs/networking/zerotier.nix
       ../../2configs/default.nix
       ## Common Hardware Components
@@ -39,7 +40,7 @@
       ../../2configs/home-manager/mail.nix
       # ../../2configs/home-manager/taskwarrior.nix
 
-      ../../2configs/bam/printer.nix
+      # ../../2configs/llm/ollama.nix
 
       ../../2configs/main-laptop.nix
       ../../2configs/zsh/atuin.nix
@@ -194,7 +195,7 @@
       # { nixpkgs.overlays = [ (self: super: super.prefer-remote-fetch self super) ]; }
 
       # ../../2configs/binary-cache/gum.nix
-      ../../2configs/binary-cache/lass.nix
+      # ../../2configs/binary-cache/lass.nix
 
 
 

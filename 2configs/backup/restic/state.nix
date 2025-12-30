@@ -1,4 +1,4 @@
-{config,...}:
+{ config, lib, ...}:
 {
     sops.secrets.restic-password = {};
     sops.secrets.restic-omo-repo = {};
@@ -23,4 +23,10 @@
         # ensure the run folder exists
         "d /run/restic-backups-state 0770 root root - -"
     ];
+    # run smoothly in background
+    systemd.services.restic-backup-state.serviceConfig = {
+      Nice = lib.mkForce 15;
+      IOSchedulingClass = lib.mkForce "idle";
+      IOSchedulingPriority = lib.mkForce 7;
+    };
 }

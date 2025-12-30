@@ -1,3 +1,4 @@
+{pkgs, ... }:
 let
   uiport = 11435;
   port = 11434;
@@ -5,8 +6,9 @@ let
 in {
   services.ollama = {
     enable = true;
-    acceleration = false; # CPU
+    #acceleration = false; # CPU
     host = "0.0.0.0";
+    package = pkgs.ollama-cpu;
     inherit port home;
   };
   services.nextjs-ollama-llm-ui = {

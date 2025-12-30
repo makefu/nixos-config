@@ -15,7 +15,7 @@ in
     settings = {
       permit_join = true;
       serial.port = "/dev/zigbee";
-      homeassistant = true;
+      homeassistant = lib.mkForce true;
       frontend.port = port;
       frontend.host = "";
     };

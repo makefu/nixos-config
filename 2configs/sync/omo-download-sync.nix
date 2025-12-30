@@ -1,6 +1,9 @@
 { pkgs, ... }:
 {
-  services.cachefilesd.enable = true;
+    services.cachefilesd = {
+        enable = true;
+        cacheDir = "/var/lib/cache/fscache";
+    };
   systemd.services.download-sync = {
     # startAt = "hourly";
     startAt = "*:0/30"; # 30 minutes

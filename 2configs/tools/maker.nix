@@ -1,4 +1,4 @@
-{ pkgs, config, ... }:
+{ pkgs, config, lib, ... }:
 {
   #home-manager.users.${config.krebs.build.user.name}.xdg.desktopEntries = {
   #  bambu-studio-large = {
@@ -8,6 +8,14 @@
   #    '');
   #  };
   #};
+  #i18n.extraLocales = [ "en_GB.UTF-8/UTF-8" ];
+  #i18n.defaultLocale = "en_US.UTF-8" ;
+  i18n.defaultLocale = lib.mkForce "en_GB.UTF-8";
+
+i18n.supportedLocales = [
+  "en_GB.UTF-8/UTF-8"
+  "en_US.UTF-8/UTF-8"
+];
   users.users.makefu.packages = with pkgs; [
     # media
     picard
@@ -21,7 +29,7 @@
     #cura
     # chitubox
     # cura
-    #bambu-studio
+    bambu-studio
   ];
   networking.firewall.allowedUDPPorts = [
     1990 2021 # bambu-studio ssdp

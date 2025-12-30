@@ -3,25 +3,21 @@ let
   fqdn = "rss.euer.krebsco.de";
   ratt-path = "/var/lib/ratt/";
 in {
-  systemd.tmpfiles.rules = ["d ${ratt-path} 0750 nginx nginx - -" ];
-  services.tt-rss = {
-    enable = true;
-    virtualHost = fqdn;
-    selfUrlPath = "https://${fqdn}";
-  };
+    systemd.tmpfiles.rules = ["d ${ratt-path} 0750 nginx nginx - -" ];
+    services.freshrss = {
+        enable = true;
+        defaultUser = "makefu";
+        passwordFile = config.sops.secrets.rss-password.path;
+        virtualHost = fqdn;
+        baseUrl = "https://${fqdn}";
+    };
+  #services.tt-rss = {
+  #  enable = true;
+  #  virtualHost = fqdn;
+  #  selfUrlPath = "https://${fqdn}";
+  #};
 
-  state = [ config.services.postgresqlBackup.location ];
-
-  services.postgresqlBackup = {
-    enable = true;
-    databases = [ config.services.tt-rss.database.name ];
-  };
-  systemd.services.tt-rss.serviceConfig =  {
-    Restart = lib.mkForce "always";
-  };
-
-  systemd.services.postgresqlBackup-tt_rss.serviceConfig.SupplementaryGroups = [ "download" ];
-
+  sops.secrets.rss-password.owner = "freshrss";
   services.nginx.virtualHosts."${fqdn}" = {
     enableACME = true;
     forceSSL = true;

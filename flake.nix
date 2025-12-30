@@ -16,7 +16,7 @@
       inputs.flake-parts.follows = "flake-parts";
     };
 
-    nixos-hardware.url = "github:makefu/nixos-hardware";
+    nixos-hardware.url = "github:nixos/nixos-hardware";
 
     #home-manager.url = "github:nix-community/home-manager/release-23.11";
     home-manager.url = "github:nix-community/home-manager";
@@ -56,7 +56,7 @@
     #inventory4ce.inputs.poetry2nix.follows = "poetry2nix";
 
     lanzaboote.url = "github:nix-community/lanzaboote";
-    lanzaboote.inputs.nixpkgs.follows = "nixpkgs";
+    # lanzaboote.inputs.nixpkgs.follows = "nixpkgs";
     lanzaboote.inputs.flake-parts.follows = "flake-parts";
     #lanzaboote.inputs.pre-commit-hooks-nix.follows = "";
 
@@ -84,15 +84,15 @@
   description = "Flake of makefu";
 
   outputs = { self, nixpkgs, lanzaboote, nixos-hardware, nix-ld, clan-core,
-               home-manager, nix-writers, vscode-server, ...}@inputs: 
+               home-manager, nix-writers, vscode-server, ...}@inputs:
   let
     inherit (nixpkgs) lib pkgs;
     pkgsForSystem = system: (import nixpkgs {
       inherit system;
       config = {
         allowUnfree = true;
-        #packageOverrides = (pkgs: { 
-        #  tinc = pkgs.tinc_pre; 
+        #packageOverrides = (pkgs: {
+        #  tinc = pkgs.tinc_pre;
         #  vaapiIntel = pkgs.vaapiIntel.override { enableHybridCodec = true; };
         #});
         allowUnfreePredicate = pkg: lib.packageName pkg == "unrar";
