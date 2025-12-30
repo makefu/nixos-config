@@ -190,7 +190,8 @@
       pkgs = nixpkgs.legacyPackages.x86_64-linux;
     in pkgs.mkShell {
           packages = [
-            inputs.clan-core.packages.x86_64-linux.clan-cli
+              inputs.clan-core.packages.x86_64-linux.clan-cli
+              pkgs.nixos-rebuild-ng
             pkgs.age
           ];
     };
