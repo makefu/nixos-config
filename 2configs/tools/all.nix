@@ -7,6 +7,7 @@
     ./desktop.nix
     ./dev.nix
     ./extra-gui.nix
+    ./extra-cli.nix
     ./games.nix
     ./maker.nix
     ./media.nix
