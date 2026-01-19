@@ -36,6 +36,7 @@
     picsender.url = "git+https://cgit.euer.krebsco.de/makefu/citadel_picsender.git";
 
     brother_ql_web.url = "github:makefu/brother_ql_web";
+
     #brother_ql_web.inputs.nixpkgs.follows = "nixpkgs";
 
     nix-writers.url = "git+https://cgit.krebsco.de/nix-writers";
@@ -57,7 +58,7 @@
 
     lanzaboote.url = "github:nix-community/lanzaboote";
     # lanzaboote.inputs.nixpkgs.follows = "nixpkgs";
-    lanzaboote.inputs.flake-parts.follows = "flake-parts";
+    #lanzaboote.inputs.flake-parts.follows = "flake-parts";
     #lanzaboote.inputs.pre-commit-hooks-nix.follows = "";
 
     vscode-server.url = "github:nix-community/nixos-vscode-server";
@@ -79,6 +80,9 @@
 
     nixvim.url = "github:nix-community/nixvim";
     nixvim.inputs.nixpkgs.follows = "nixpkgs";
+
+    mediawiki-matrix-bot.url = "github:makefu/mediawiki-matrix-bot";
+    mediawiki-matrix-bot.inputs.nixpkgs.follows = "nixpkgs";
   };
 
   description = "Flake of makefu";
@@ -113,6 +117,7 @@
           brockman = inputs.brockman.packages.${system}.default;
         })
         inputs.stockholm.overlays.default
+        inputs.mediawiki-matrix-bot.overlays.default
       ];
     });
     #pkgsForSystem = system: nixpkgs.legacyPackages.${system};

@@ -1,4 +1,4 @@
-{ pkgs, lib, ... }:
+{ config, pkgs, lib, ... }:
 let
     port = 3011;
     asset_dir = "/media/silent/db/karakeep/assets";
@@ -35,26 +35,28 @@ in
         dump_dir = meili_dump_dir;
         snapshot_dir = meili_snapshot_dir;
     };
-
+    sops.secrets.karakeep-env.owner = "meilisearch";
     services.karakeep = {
         enable = true;
+        environmentFile = config.sops.secrets.karakeep-env.path;
         extraEnvironment = {
             # TODO: change DATA_DIR but this seems to be tricky
             PORT = toString port;
             ASSET_DIR = asset_dir;
-            OLLAMA_BASE_URL = "http://x.r:11434";
-            INFERENCE_JOB_TIMEOUT_SEC = "120";
-            INFERENCE_TEXT_MODEL = "olm-3:7b";
+            #OLLAMA_BASE_URL = "http://x.r:11434";
+            #INFERENCE_JOB_TIMEOUT_SEC = "120";
+            #INFERENCE_TEXT_MODEL = "olm-3:7b";
             #INFERENCE_TEXT_MODEL = "olm-3:7b";
             #INFERENCE_TEXT_MODEL = "olmo-3:7b-instruct";
             #INFERENCE_TEXT_MODEL = "gemma3:4b";
             #INFERENCE_IMAGE_MODEL = "gemma3:4b";
-            INFERENCE_IMAGE_MODEL = "qwen3-vl:8b";
+            #INFERENCE_IMAGE_MODEL = "qwen3-vl:8b";
             # INFERENCE_IMAGE_MODEL = "ministral-3:8b";
             #INFERENCE_IMAGE_MODEL = "ministral-3:3b";
-            EMBEDDING_TEXT_MODEL = "qwen3-embedding:0.6b";
-            #INFERENCE_ENABLE_AUTO_SUMMARIZATION = "true";
-            INFERENCE_ENABLE_AUTO_SUMMARIZATION = "false";
+            #EMBEDDING_TEXT_MODEL = "qwen3-embedding:0.6b";
+            INFERENCE_ENABLE_AUTO_SUMMARIZATION = "true";
+            #INFERENCE_ENABLE_AUTO_SUMMARIZATION = "false";
+
         };
     };
     # not sure which of the three actually needs access to asset_dir
