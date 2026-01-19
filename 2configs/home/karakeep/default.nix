@@ -34,8 +34,14 @@ in
         db_path = meili_data_dir;
         dump_dir = meili_dump_dir;
         snapshot_dir = meili_snapshot_dir;
+        max_indexing_memory = "1Gb";
+        experimental_reduce_indexing_memory_usage = true;
+        max_indexing_threads = 2;
     };
-    sops.secrets.karakeep-env.owner = "meilisearch";
+    sops.secrets.karakeep-env = {
+        owner = "karakeep";
+        restartUnits = [ "karakeep-web.service" "karakeep-workers.service" ];
+    };
     services.karakeep = {
         enable = true;
         environmentFile = config.sops.secrets.karakeep-env.path;
@@ -43,6 +49,9 @@ in
             # TODO: change DATA_DIR but this seems to be tricky
             PORT = toString port;
             ASSET_DIR = asset_dir;
+
+            # self-hosted
+
             #OLLAMA_BASE_URL = "http://x.r:11434";
             #INFERENCE_JOB_TIMEOUT_SEC = "120";
             #INFERENCE_TEXT_MODEL = "olm-3:7b";
@@ -54,6 +63,8 @@ in
             # INFERENCE_IMAGE_MODEL = "ministral-3:8b";
             #INFERENCE_IMAGE_MODEL = "ministral-3:3b";
             #EMBEDDING_TEXT_MODEL = "qwen3-embedding:0.6b";
+
+
             INFERENCE_ENABLE_AUTO_SUMMARIZATION = "true";
             #INFERENCE_ENABLE_AUTO_SUMMARIZATION = "false";
 
