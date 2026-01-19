@@ -18,7 +18,7 @@ with pkgs.python3Packages;buildPythonPackage rec {
   };
 
   meta = {
-    homepage = https://github.com/binaergeiwtter/gecloudpad;
+    homepage = https://github.com/binaergewitter/gecloudpad;
     description = "server side for gecloudpad";
     license = lib.licenses.wtfpl;
   };
