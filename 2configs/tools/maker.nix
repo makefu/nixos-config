@@ -1,13 +1,13 @@
 { pkgs, config, lib, ... }:
 {
-  #home-manager.users.${config.krebs.build.user.name}.xdg.desktopEntries = {
-  #  bambu-studio-large = {
-  #    name = "BambuStudioLarge";
-  #    exec = toString (pkgs.writers.writeDash "bambu-studio-large" ''
-  #      GDK_SCALE=2 XCURSOR_SIZE=32 exec ${pkgs.bambu-studio}/bin/bambu-studio
-  #    '');
-  #  };
-  #};
+# the overwritten bambu-studio from 5pkgs does not come with a desktop entry
+# it is easier to define it here
+  home-manager.users.makefu.xdg.desktopEntries = {
+    bambu-studio = {
+      name = "Bambu Studio";
+      exec = "${pkgs.bambu-studio}/bin/bambu-studio";
+    };
+  };
   #i18n.extraLocales = [ "en_GB.UTF-8/UTF-8" ];
   #i18n.defaultLocale = "en_US.UTF-8" ;
   i18n.defaultLocale = lib.mkForce "en_GB.UTF-8";
