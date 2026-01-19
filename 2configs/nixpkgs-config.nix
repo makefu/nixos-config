@@ -1,10 +1,10 @@
 {lib, pkgs, self, inputs, config, ... }:{
     nixpkgs = {
       config.allowUnfree = true;
-      config.packageOverrides = lib.mkForce (pkgs: {
+      config.packageOverrides = pkgs: {
         tinc = pkgs.tinc_pre;
         vaapiIntel = pkgs.vaapiIntel.override { enableHybridCodec = true; };
-      });
+      };
       config.allowUnfreePredicate = pkg: lib.packageName pkg == "unrar";
       config.android_sdk.accept_license = true;
       config.oraclejdk.accept_license = true;
@@ -20,6 +20,7 @@
           inventory4ce = inputs.inventory4ce.packages.${pkgs.stdenv.hostPlatform}.default;
         })
         inputs.stockholm.overlays.default
+        inputs.mediawiki-matrix-bot.overlays.default
       ];
     };
 }
