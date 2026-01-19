@@ -44,8 +44,14 @@ in {
     };
     # from https://github.com/ether/etherpad-lite/wiki/How-to-put-Etherpad-Lite-behind-a-reverse-Proxy
   };
-  sops.secrets.etherpad-apikey.mode = "0440";
-  sops.secrets.etherpad-config.mode = "0440";
+  sops.secrets.etherpad-apikey = {
+        mode = "0440";
+        restartUnits = [ "podman-etherpad-lite.service" ];
+    };
+  sops.secrets.etherpad-config = {
+    mode = "0440";
+    restartUnits = [ "podman-etherpad-lite.service" ];
+  };
   state = [ "/var/lib/containers/storage/volumes/etherpad_data/_data/rusty.db" ];
   virtualisation.oci-containers.containers."etherpad-lite" = {
     #image = "makefoo/bgt-etherpad:2021-04-16.3"; # --build-arg ETHERPAD_PLUGINS="ep_markdown"
@@ -73,14 +79,9 @@ in {
       TRUST_PROXY =  "true";
       SHOW_SETTINGS_IN_ADMIN_PAGE = "true";
       TITLE = "Binärgewitter Etherpad";
-      SKIN_NAME = "no-skin";
+      # SKIN_NAME = "no-skin";
       DEFAULT_PAD_TEXT = builtins.readFile ./template.md;
-      PAD_OPTIONS_USE_MONOSPACE_FONT = "true";
-      PAD_OPTIONS_USER_NAME = "true";
-      PAD_OPTIONS_USER_COLOR = "true";
-      PAD_OPTIONS_CHAT_AND_USERS = "true";
-      PAD_OPTIONS_LANG = "en-US";
-      ETHERPAD_PLUGINS = "ep_openid_connect ep_markdown";
+      ETHERPAD_PLUGINS = "ep_openid_connect ep_user_displayname ep_markdown";
     };
   };
 }
