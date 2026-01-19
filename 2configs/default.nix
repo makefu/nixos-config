@@ -25,5 +25,5 @@ with lib;
       nix-output-monitor
     ];
 
-  system.stateVersion = lib.mkDefault "23.05";
+  system.stateVersion = lib.mkForce "23.05";
 }
