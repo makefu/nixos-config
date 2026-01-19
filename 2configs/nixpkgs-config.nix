@@ -18,6 +18,7 @@
           stockholm.lib = inputs.stockholm.lib;
           ha-ara-menu = inputs.ha-ara-menu.packages.${pkgs.stdenv.hostPlatform}.default;
           inventory4ce = inputs.inventory4ce.packages.${pkgs.stdenv.hostPlatform}.default;
+          datefinder = inputs.datefinder.packages.${pkgs.stdenv.system}.default;
         })
         inputs.stockholm.overlays.default
         inputs.mediawiki-matrix-bot.overlays.default
