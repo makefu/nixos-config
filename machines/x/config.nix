@@ -48,7 +48,6 @@
       ../../2configs/extra-fonts.nix
       ../../2configs/editor/neovim
       ../../2configs/tools/all.nix
-      { programs.adb.enable = true; }
 
       # gui
       ../../2configs/gui/base.nix
