@@ -142,6 +142,7 @@ in {
       ../../2configs/home/audio-dl.nix
       ../../2configs/home/karakeep
       ../../2configs/home/yamtrack.nix
+      ../../2configs/home/changedetection.nix
       # büroautomatisierung
       # ../../2configs/bam/matrix/server.nix
       {
@@ -183,7 +184,9 @@ in {
       # Temporary:
       # ../../2configs/temp/rst-issue.nix
       # ../../2configs/bgt/social-to-irc.nix
-      ../../2configs/bgt/nextcloud-chaptermark-hook.nix
+      # ../../2configs/bgt/nextcloud-chaptermark-hook.nix
+
+      ../../2configs/cybahn/wiki-signal-bot.nix
 
     ];
   makefu.full-populate =  true;
