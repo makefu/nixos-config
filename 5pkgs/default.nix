@@ -45,7 +45,6 @@ in {
     inherit (callPackage ./devpi {}) devpi-web ;
     nodemcu-uploader = prev.pkgs.callPackage ./nodemcu-uploader {};
     liveproxy = prev.pkgs.python3Packages.callPackage ./custom/liveproxy {};
-    mediawiki-matrix-bot = prev.pkgs.python3Packages.callPackage ./custom/mediawiki-matrix-bot {};
     pwqgen-ger = prev.pkgs.passwdqc-utils.override {
       wordset-file = prev.pkgs.fetchurl {
         urls = [
