@@ -67,6 +67,9 @@
     audio-scripts.url = "github:makefu/audio-scripts";
     audio-scripts.inputs.nixpkgs.follows = "nixpkgs";
 
+    datefinder.url = "github:Binaergewitter/datefinder";
+    datefinder.inputs.nixpkgs.follows = "nixpkgs";
+
     nether = {
       url = "github:lassulus/nether";
       inputs.nixpkgs.follows = "nixpkgs";
@@ -93,32 +96,6 @@
     inherit (nixpkgs) lib pkgs;
     pkgsForSystem = system: (import nixpkgs {
       inherit system;
-      config = {
-        allowUnfree = true;
-        #packageOverrides = (pkgs: {
-        #  tinc = pkgs.tinc_pre;
-        #  vaapiIntel = pkgs.vaapiIntel.override { enableHybridCodec = true; };
-        #});
-        allowUnfreePredicate = pkg: lib.packageName pkg == "unrar";
-        android_sdk.accept_license = true;
-        oraclejdk.accept_license = true;
-        permittedInsecurePackages = [ "intel-media-sdk-23.2.2" "libsoup-2.74.3" "olm-3.2.16"];
-      };
-      overlays = [
-        inputs.brockman.overlays.default
-        self.overlays.default
-        inputs.nix-writers.overlays.default
-        (import (inputs.stockholm.inputs.nix-writers + "/pkgs"))
-        (self: super: {
-          inherit (self.writers) writeDash writeDashBin;
-          stockholm.lib = inputs.stockholm.lib;
-          ha-ara-menu = inputs.ha-ara-menu.packages.${system}.default;
-          inventory4ce = inputs.inventory4ce.packages.${system}.default;
-          brockman = inputs.brockman.packages.${system}.default;
-        })
-        inputs.stockholm.overlays.default
-        inputs.mediawiki-matrix-bot.overlays.default
-      ];
     });
     #pkgsForSystem = system: nixpkgs.legacyPackages.${system};
     clan = clan-core.lib.clan {
