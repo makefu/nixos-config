@@ -4,7 +4,7 @@ in {
     services.changedetection-io = {
         enable = true;
         webDriverSupport = true;
-        playwrightSupport = true;
+        #playwrightSupport = true;
         listenAddress = "0.0.0.0";
         inherit port;
         baseURL = "http://change.lan:${ toString port }";
