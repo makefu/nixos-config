@@ -19,4 +19,5 @@ in {
     environment.MODE ="json-rpc";
     #environment.MODE ="native"; # only required for registration
   };
+  networking.firewall.interfaces.wiregrill.allowedTCPPorts = [ port ];
 }
