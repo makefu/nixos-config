@@ -26,7 +26,8 @@ in {
   };
 
   systemd.services.${name} = {
-    description = "Datefinder Server (bgt)";
+      description = "Datefinder Server (bgt)";
+        wantedBy = [ "multi-user.target" ];
     after = [ "network-online.target" ];
     environment = {
         #REDIS_URL = "redis://localhost:6379/0";
