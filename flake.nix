@@ -67,6 +67,9 @@
     audio-scripts.url = "github:makefu/audio-scripts";
     audio-scripts.inputs.nixpkgs.follows = "nixpkgs";
 
+    bibchecker.url = "git+https://cgit.euer.krebsco.de/makefu/bibchecker.git";
+    bibchecker.inputs.nixpkgs.follows = "nixpkgs";
+
     datefinder.url = "github:Binaergewitter/datefinder";
     datefinder.inputs.nixpkgs.follows = "nixpkgs";
 
