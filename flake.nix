@@ -110,7 +110,18 @@
       specialArgs = {
         inherit (inputs) nixos-hardware self stockholm nixpkgs;
         inherit inputs;
-      };
+    };
+    inventory.machines = {
+        gum = {};
+        omo = {};
+        x = {};
+    };
+    inventory.instances = {
+        zerotier = {
+            roles.controller.machines."gum" = {};
+            roles.peer.tags."all" = {};
+        };
+    };
       machines = lib.genAttrs [ "liveiso" "filepimp" "x" "cake" "tsp" "wbob" "omo" "gum" "savarcast" ] (host: rec {
         # TODO inject the system somewhere else
         nixpkgs.hostPlatform = if host == "cake" then  "aarch64-linux" else "x86_64-linux";

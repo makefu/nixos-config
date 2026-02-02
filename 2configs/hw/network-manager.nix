@@ -10,19 +10,20 @@
       gnome-keyring dconf
     ];
   };
-  networking.wireless.enable = lib.mkForce false;
+  # networking.wireless.enable = lib.mkForce false;
+  networking.wireless.enable = true; # nixos-26.04 requires wireless.enable for networkmanager
 
-  systemd.services.modemmanager = {
-    description = "ModemManager";
-    bindsTo = [ "NetworkManager.service" ];
-    wantedBy = [ "NetworkManager.service" "multi-user.target" ];
-    serviceConfig = {
-      ExecStart = "${pkgs.modemmanager}/bin/ModemManager";
-      PrivateTmp = true;
-      Restart = "always";
-      RestartSec = "5";
-    };
-  };
+  #systemd.services.modemmanager = {
+  #  description = "ModemManager";
+  #  bindsTo = [ "NetworkManager.service" ];
+  #  wantedBy = [ "NetworkManager.service" "multi-user.target" ];
+  #  serviceConfig = {
+  #    ExecStart = "${pkgs.modemmanager}/bin/ModemManager";
+  #    PrivateTmp = true;
+  #    Restart = "always";
+  #    RestartSec = "5";
+  #  };
+  #};
 
 # nixOSUnstable
   networking.networkmanager.enable = true;
@@ -41,10 +42,10 @@
   #  { source = "${pkgs.prison-break}/bin/prison-break"; }
   #];
 
-  # TODO: not sure if this actually works
-  systemd.services.NetworkManager-dispatcher.environment = {
-    DISPLAY= ":0";
-    DBUS_SESSION_BUS_ADDRESS = "unix:path=/run/user/9001/bus";
-  };
+  ## TODO: not sure if this actually works
+  #systemd.services.NetworkManager-dispatcher.environment = {
+  #  DISPLAY= ":0";
+  #  DBUS_SESSION_BUS_ADDRESS = "unix:path=/run/user/9001/bus";
+  #};
 
 }
