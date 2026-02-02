@@ -40,7 +40,7 @@ let
         Start snapraid service
       '';
       default = {
-        OnCalendar = "daily";
+        OnCalendar = "03:42";
       };
     };
     disks = mkOption {
