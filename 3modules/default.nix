@@ -2,7 +2,7 @@ _:
 
 {
   imports = [
-    ./bump-distrowatch.nix
+    # ./bump-distrowatch.nix
     ./fetchWallpaper.nix
     ./deluge.nix
     ./etherpad.nix
