@@ -13,8 +13,8 @@ with pkgs.python3Packages;buildPythonPackage rec {
   src = fetchFromGitHub {
     owner = "binaergewitter";
     repo = "gecloudpad";
-    rev = "1399ede4e609f63fbf1c4560979a6b22b924e0c5";
-    sha256 = "1w74j5ks7naalzrib87r0adq20ik5x3x5l520apagb7baszn17lb";
+    rev = "73e3947889169407048582423999d689a6d0e3b7";
+    sha256 = "sha256-B9KnE/DzRSSpw4WmGiITZ3wHWnbEnqtGqDYT11LgTLE=";
   };
 
   meta = {

@@ -1,6 +1,6 @@
 { pkgs, inputs, ... }:
 let
-    outdir = "/var/lib/bibchecker";
+    outdir = "/var/lib/rate-everything";
     port = 3002;
     # sslport = 3102;
     pkg = inputs.rate-everything.packages.${pkgs.system}.default;
@@ -11,6 +11,9 @@ in {
     environment = {
       RATE_EVERYTHING_PORT = toString port;
       RATE_EVERYTHING_DATA_DIR = outdir;
+      RATE_EVERYTHING_TIMEOUT = "300";
+      DB_PATH = "${outdir}/db.sqlite3";
+      MEDIA_ROOT = "${outdir}/media";
       WITH_SSL = "true"; # testing only
       ALLOWED_HOSTS = "*"; # testing only
     };
@@ -24,6 +27,7 @@ in {
     };
 };
 
+  networking.firewall.allowedTCPPorts = [ port ];
   services.nginx.virtualHosts."rate-everything" = {
       serverAliases = [ "rate.lan" ];
       #addSSL = true;

@@ -13,7 +13,7 @@
     guake
     # skype
     # teams
-    synergy
+    # synergy
     telegram-desktop
     virt-manager
     #jellyfin-media-player

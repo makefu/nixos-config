@@ -17,10 +17,12 @@
     # pwqgen-ger
     sops
     kpaste
+    nh
     cyberlocker-tools
     android-tools # replacement for program.adb
     inputs.clan-core.packages.x86_64-linux.clan-cli
     # esphome # broken
+    esptool
 
     # nix related
     nix-index

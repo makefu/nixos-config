@@ -9,8 +9,10 @@ in {
   imports = [
       
       #../../2configs/networking/zerotier.nix
+      ../../2configs/networking/netbird/client.nix
       ../../2configs/bam/grocy
-      ../../2configs/bam/matrix/frontend.nix
+      ../../2configs/backup/restic/state.nix
+      #../../2configs/bam/matrix/frontend.nix
       ./hetznercloud
       {
         # wait for mount
@@ -33,7 +35,7 @@ in {
       ../../2configs
 
       ../../2configs/nur.nix
-      ../../2configs/support-nixos.nix
+      # ../../2configs/support-nixos.nix
       ../../2configs/nix-community/supervision.nix
       ../../2configs/home-manager
       ../../2configs/home-manager/cli.nix
@@ -195,7 +197,6 @@ in {
       # ../../2configs/deployment/board.euer.krebsco.de.nix
       #../../2configs/deployment/feed.euer.krebsco.de
       # ../../2configs/deployment/boot-euer.nix
-      ../../2configs/deployment/gecloudpad
       #../../2configs/deployment/docker/archiveteam-warrior.nix
       ../../2configs/deployment/mediengewitter.de.nix
       ../../2configs/bgt/etherpad.euer.krebsco.de.nix

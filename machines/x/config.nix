@@ -9,7 +9,6 @@
       #}
       # do not build in tmpfs
       { systemd.services.nix-daemon.environment.TMPDIR = "/var/tmp";}
-        { virtualisation.docker.enableNvidia = true; }
 
       ../../2configs/performance/nix-performance.nix
       ../../2configs/networking/nm-profiles/congress.nix
@@ -29,6 +28,7 @@
       # ../../2configs/hw/droidcam.nix
       ../../2configs/hw/smartcard.nix
       ../../2configs/hw/upower.nix
+      ../../2configs/hw/cdrip.nix
       # ../../2configs/audio/raop-discover.nix
       #../../2configs/hw/ps4-compat.nix
 
@@ -117,7 +117,7 @@
 
       # ../../2configs/dnscrypt/client.nix
       ../../2configs/avahi.nix
-      ../../2configs/support-nixos.nix
+      # ../../2configs/support-nixos.nix
 
       # Debugging
       # ../../2configs/disable_v6.nix
@@ -173,7 +173,7 @@
 
       # Virtualization
        ../../2configs/virtualisation/libvirt.nix
-      ../../2configs/virtualisation/docker.nix
+      #../../2configs/virtualisation/docker.nix
       ../../2configs/virtualisation/waydroid.nix
       #../../2configs/virtualisation/virtualbox.nix
       #{
@@ -215,7 +215,9 @@
       # ../../2configs/lanparty/samba.nix
       # ../../2configs/lanparty/mumble-server.nix
       ../../2configs/wireguard/wiregrill-client.nix
-      ../../2configs/networking/tailscale.nix
+      # ../../2configs/networking/tailscale.nix
+      ../../2configs/networking/netbird/client.nix
+      ../../2configs/cybahn/docker-compose.nix
 
 #      {
 #        networking.wireguard.interfaces.wg0 = {

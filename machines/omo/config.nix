@@ -11,7 +11,7 @@ in {
       ./hw/omo
       #./hw/tsp.nix
       ../../2configs/default.nix
-      ../../2configs/support-nixos.nix
+      # ../../2configs/support-nixos.nix
       ../../2configs/nur.nix
       {     
         systemd.coredump.extraConfig = ''
@@ -47,10 +47,11 @@ in {
       # ../../2configs/storj/client.nix
 
       #../../2configs/networking/zerotier.nix
-      ../../2configs/backup/borg/state.nix
+      ../../2configs/networking/netbird/client.nix
+      ../../2configs/backup/restic/state.nix
 
-      { makefu.backup.server.repo = "/media/cryptX/backup/borg"; }
-      ../../2configs/backup/borg/server.nix
+      #{ makefu.backup.server.repo = "/media/cryptX/backup/borg"; }
+      #../../2configs/backup/borg/server.nix
       ../../2configs/backup/restic/server.nix
       # ../../2configs/exim-retiolum.nix
       # ../../2configs/smart-monitor.nix

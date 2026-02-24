@@ -110,6 +110,7 @@ in {
     # "/media/cloud"
     # "/var/lib/nextcloud/data"
   ];
-  environment.systemPackages = [ pkgs.pageres-cli ];
+
+  # environment.systemPackages = [ pkgs.pageres-cli ];
 
 }

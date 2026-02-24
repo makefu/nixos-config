@@ -225,7 +225,7 @@ in {
           ", XF86AudioRaiseVolume, exec, wpctl set-volume @DEFAULT_AUDIO_SINK@ 5%+"
         ];
         bindl= ", XF86AudioMute, exec, wpctl set-mute @DEFAULT_AUDIO_SINK@ toggle";
-        windowrulev2 = "suppressevent maximize, class:.*";
+        #windowrule = "suppressevent:maximize=1, class:.*";
         debug = {
           disable_logs = false;
         };

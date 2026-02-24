@@ -1,14 +1,14 @@
 { config, lib, ...}:
 {
-    sops.secrets.restic-password = {};
-    sops.secrets.restic-omo-repo = {};
+    sops.secrets.restic-auth-environment = {};
     services.restic.backups.state = {
         timerConfig = {
             OnCalendar = "daily";
             Persistent = true;
         };
         checkOpts = [ "--with-cache" ];
-        repositoryFile = config.sops.secrets.restic-omo-repo.path;
+        repository = "rest:http://omo.w:8641/${config.networking.hostName}";
+        environmentFile = config.sops.secrets.restic-auth-environment.path;
         pruneOpts = [
             "--keep-daily 7"
             "--keep-weekly 5"

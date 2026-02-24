@@ -10,7 +10,7 @@
     at-spi2-core
     chromium
     feh
-    clipit
+    # clipit
     # firefox
     (pkgs.writers.writeDashBin "privatefox" "exec firefox -P Privatefox")
     kdePackages.dolphin

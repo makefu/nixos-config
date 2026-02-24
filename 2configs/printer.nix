@@ -10,7 +10,7 @@ in {
       splix # scx 3200
       cups-dymo # dymo labelwriter
       foo2zjs # magicolor 1690mf
-      cups-zj-58
+      # cups-zj-58
       cups-ptouch
     ];
   };
