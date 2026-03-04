@@ -1,0 +1,12 @@
+diff --git a/drivers/mmc/host/rtsx_pci_sdmmc.c b/drivers/mmc/host/rtsx_pci_sdmmc.c
+index 4db3328f4..b0e03cbc0 100644
+--- a/drivers/mmc/host/rtsx_pci_sdmmc.c
++++ b/drivers/mmc/host/rtsx_pci_sdmmc.c
+@@ -1520,6 +1520,7 @@ static void rtsx_pci_sdmmc_card_event(struct platform_device *pdev)
+ 
+        host->cookie = -1;
+        mmc_detect_change(host->mmc, 0);
++       dev_dbg(&(pdev->dev), ": Realtek PCI-E SDMMC card event\n");
+ }
+ 
+ static int rtsx_pci_sdmmc_drv_probe(struct platform_device *pdev)
