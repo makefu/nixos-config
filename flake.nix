@@ -2,6 +2,7 @@
   inputs = {
     #nixpkgs.url = "github:NixOS/nixpkgs/nixos-25.05";
     nixpkgs.url = "github:NixOS/nixpkgs/nixos-unstable";
+    nixpkgs-stable.url = "github:NixOS/nixpkgs/nixos-25.11";
     brockman = {
       url = "github:brockman-news/brockman";
       #inputs.nixpkgs.follows = "nixpkgs";
@@ -92,12 +93,37 @@
 
     mediawiki-matrix-bot.url = "github:makefu/mediawiki-matrix-bot";
     mediawiki-matrix-bot.inputs.nixpkgs.follows = "nixpkgs";
+
+    systems.url = "github:nix-systems/default";
+
+    treefmt-nix.url = "github:numtide/treefmt-nix";
+    treefmt-nix.inputs.nixpkgs.follows = "nixpkgs";
+
+    blueprint = {
+      url = "github:numtide/blueprint";
+      inputs.nixpkgs.follows = "nixpkgs";
+      inputs.systems.follows = "systems";
+    };
+
+    llm-agents = {
+      url = "github:numtide/llm-agents.nix";
+      inputs.nixpkgs.follows = "nixpkgs";
+      inputs.treefmt-nix.follows = "treefmt-nix";
+      inputs.blueprint.follows = "blueprint";
+    };
+    mics-skills = {
+      url = "github:Mic92/mics-skills";
+      inputs.nixpkgs.follows = "nixpkgs";
+      inputs.treefmt-nix.follows = "treefmt-nix";
+      inputs.flake-parts.follows = "flake-parts";
+    };
   };
 
   description = "Flake of makefu";
 
   outputs = { self, nixpkgs, lanzaboote, nixos-hardware, nix-ld, clan-core,
-               home-manager, nix-writers, vscode-server, ...}@inputs:
+              home-manager, nix-writers, vscode-server, llm-agents,
+              ...}@inputs:
   let
     inherit (nixpkgs) lib pkgs;
     pkgsForSystem = system: (import nixpkgs {
