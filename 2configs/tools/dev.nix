@@ -53,6 +53,12 @@
     pciutils
     navi
     platformio
+
+    # python
+
+    ruff
+    ty
+    github-cli
   ];
   services.udev.packages = [ pkgs.platformio ];
 
