@@ -10,7 +10,7 @@
   networking.hostName = lib.mkIf (lib.hasAttr "host" config.krebs.build) config.krebs.build.host.name;
 
   # we use gpg if necessary (or nothing at all)
-  programs.ssh.startAgent = false;
+  # programs.ssh.startAgent = true;
 
   # all boxes look the same
   nix.settings.sandbox = true;

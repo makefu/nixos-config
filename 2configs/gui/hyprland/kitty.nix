@@ -22,6 +22,22 @@ in {
         scollback_lines = 100000;
         confirm_os_window_close = 0;
         copy_on_select = "yes";
+        
+
+        # workmux config
+        # REQUIRED: Enable remote control
+        allow_remote_control  = "yes";
+
+        # REQUIRED: Set up socket for remote control
+        # The socket path can be customized, but using kitty_pid ensures uniqueness
+        "listen_on" = "unix:/home/makefu/kitty-{kitty_pid}.sock";
+
+        # RECOMMENDED: Enable splits layout for pane splitting
+        enabled_layouts = "splits,stack";
+
+        # status view
+        tab_title_template = "{title}{custom}";
+        watcher = "workmux_watcher.py"; # TODO: living in ~/.config/kitty/workmux_watcher.py
       };
     };
   };
