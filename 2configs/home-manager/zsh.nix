@@ -1,14 +1,19 @@
 { pkgs, ... }:
 {
   programs = {
-    ssh.startAgent = false;
-    gnupg.agent = {
-      enable = true;
-      enableSSHSupport = true;
-    };
+    #ssh = {
+    #  startAgent = true;
+    #  enableAskPassword = true;
+    #};
+
+    #gnupg.agent = {
+    #  enable = true;
+    #  enableSSHSupport = true;
+    #};
   };
+  environment.variables.SSSH_ASKPASS_REQUIRE = "prefer";
   imports = [
-    { 
+    {
       home-manager.users.makefu.home.packages = [
       ];
     }
@@ -31,26 +36,16 @@
     keep-derivations = true
   '';
 
-  home-manager.users.makefu = {
+  home-manager.users.makefu = { config, ... }: {
 
     programs.direnv.enable = true;
     programs.direnv.nix-direnv.enable = true;
     programs.direnv.enableZshIntegration = true;
-    home.packages = [ (pkgs.writers.writeDashBin "nixify" ''
-test ! -e shell.nix && cat > shell.nix <<EOF
-{ pkgs ? import <nixpkgs> {}}:
-
-pkgs.mkShell {
-  nativeBuildInputs = [ pkgs.hello ];
-}
-EOF
-echo "use nix" >> .envrc
-direnv allow
-'')
-    ];
+    home.packages = [  ];
     programs.fzf.enable = false; # alt-c
     programs.zsh = {
       enable = true;
+      dotDir = "${config.xdg.configHome}/zsh";
       autosuggestion.enable = false;
       enableCompletion = true;
       oh-my-zsh.enable = false;
