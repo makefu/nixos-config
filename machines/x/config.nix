@@ -217,7 +217,7 @@
       ../../2configs/wireguard/wiregrill-client.nix
       # ../../2configs/networking/tailscale.nix
       ../../2configs/networking/netbird/client.nix
-      ../../2configs/cybahn/docker-compose.nix
+      # ../../2configs/cybahn/docker-compose.nix
 
 #      {
 #        networking.wireguard.interfaces.wg0 = {

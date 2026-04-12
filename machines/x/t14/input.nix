@@ -20,13 +20,13 @@
     #"psmouse.resetafter=0"
     "psmouse.synaptics_intertouch=1" # echo 1 > /sys/devices/platform/i8042/serio1/reg_07
   ];
-
-  programs.light.enable = true;
+  # deprecated since 2026-04-09
+  #programs.light.enable = true;
   services.actkbd = {
     enable = true;
     bindings = [
-      { keys = [ 225 ]; events = [ "key" ]; command = "${pkgs.light}/bin/light -A 10"; } # fn - F5
-      { keys = [ 224 ]; events = [ "key" ]; command = "${pkgs.light}/bin/light -U 10"; } # fn - F6
+      { keys = [ 225 ]; events = [ "key" ]; command = "${pkgs.brightnessctl}/bin/light s +10%"; } # fn - F5
+      { keys = [ 224 ]; events = [ "key" ]; command = "${pkgs.brightnessctl}/bin/brightnessctl s -10%"; } # fn - F6
       # fn - 4 => suspend
       # fn - d => lcdshadow
       #{ keys = [ 227 ]; events = [ "key" ]; command = builtins.toString ( # fn - F7

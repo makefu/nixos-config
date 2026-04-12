@@ -24,7 +24,6 @@
   # boot.kernelPackages = lib.mkForce pkgs.linuxPackagesLatest;
 
   services.fwupd.enable = true;
-  programs.light.enable = true;
 
   boot.extraModprobeConfig = ''
     options thinkpad_acpi fan_control=1
