@@ -10,7 +10,7 @@
     # mirage - last time available in 19.09
     inkscape
     libreoffice
-    guake
+    # guake
     # skype
     # teams
     # synergy

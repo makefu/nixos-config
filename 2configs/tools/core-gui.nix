@@ -19,7 +19,7 @@
     sxiv
     dconf
     xdotool
-    xorg.xbacklight
+    xbacklight
     scrot
     libnotify
     thunderbird

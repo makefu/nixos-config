@@ -24,7 +24,7 @@ i18n.supportedLocales = [
     lame
     # creation
     blender
-    openscad
+    openscad-unstable
     # slicing
     #cura
     # chitubox

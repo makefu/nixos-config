@@ -1,5 +1,6 @@
+nerdfont: true
 agent: claude --dangerously-skip-permissions
-mode: session
+#mode: session
 sandbox:
   enabled: false
 panes:

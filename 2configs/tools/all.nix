@@ -17,5 +17,6 @@
     ./sec-gui.nix
     ./sec.nix
     ./studio.nix
+    ./ai.nix
   ];
 }

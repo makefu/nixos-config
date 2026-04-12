@@ -59,6 +59,9 @@
     ruff
     ty
     github-cli
+    ripgrep
+    fd
+    fzf
   ];
   services.udev.packages = [ pkgs.platformio ];
 

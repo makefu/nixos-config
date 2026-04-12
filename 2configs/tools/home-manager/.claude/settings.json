@@ -7,6 +7,23 @@
   },
   "enabledPlugins": {},
   "alwaysThinkingEnabled": true,
+  "permissions": {
+    "allow": [
+      "Bash(workmux add:*)",
+      "Bash(workmux wait:*)",
+      "Bash(workmux status:*)",
+      "Bash(workmux capture:*)",
+      "Bash(workmux run:*)",
+      "Bash(workmux send:*)",
+      "Bash(workmux remove:*)",
+      "Bash(pueue add:*)",
+      "Bash(pueue status:*)",
+      "Bash(pueue log:*)",
+      "Bash(pueue follow:*)",
+      "Bash(gh push:*)",
+      "Bash(gh release:*)"
+    ]
+  },
   "hooks": {
       "Notification": [
         {
