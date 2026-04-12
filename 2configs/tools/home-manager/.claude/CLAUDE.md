@@ -6,16 +6,17 @@ Available Tools
 General Guidelines
 
     Follow XDG desktop standards when writing code
-    Use $HOME/.claude/outputs as a scratch directory.
+    Use $HOME/.claude/outputs/{project_name} as a scratch directory for prompts and temporary files.
 
 Nix-specific
 
+    When creating new projects, ensure to always create a `flake.nix`
     Use nix log /nix/store/xxxx | grep <key-word> to inspect failed nix builds
-    Add new untracked files in Nix flakes with git add.
+    Always track new untracked files in Nix flakes with `git add -AN`
     To get a rebuild of a nix package change the nix expression instead of --rebuild
     Prefer nix to fetch python dependencies
+    prefer python dependencies directly from nixpkgs, avoid sideloaded packages
     When looking for build dependencies in a nix-shell/nix develop, check environment variables for store paths to find the correct dependency versions.
-    My nix.conf has remote builders for aarch64-linux/aarch64-darwin/x86_64-linux by default, for NixOS tests. Therefore, use x86_64-linux on macOS machines
     Use nix-locate to find packages by path. i.e. nix-locate bin/ip
     Use nix run to execute applications that are not installed.
     Use nix eval instead of nix flake show to look up attributes in a flake.
@@ -28,7 +29,6 @@ Nix-specific
 Code Quality & Testing
 
     practice TDD
-    In flakes: format code with flake-fmt
     Write shell scripts that pass shellcheck.
     Write Python code for 3.13 that conforms to ruff format, ruff check and mypy
     Add debug output or unit tests when troubleshooting i.e. dbg!() in Rust

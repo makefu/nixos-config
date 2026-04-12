@@ -9,6 +9,8 @@ in {
   imports =
     [
       ./hw/omo
+      ./hw/early-ssh.nix
+      ./hw/force-fsck.nix
       #./hw/tsp.nix
       ../../2configs/default.nix
       # ../../2configs/support-nixos.nix

@@ -1,0 +1,54 @@
+{
+  "includeCoAuthoredBy": false,
+  "statusLine": {
+    "type": "command",
+    "command": "ccstatusline",
+    "padding": 0
+  },
+  "enabledPlugins": {},
+  "alwaysThinkingEnabled": true,
+  "hooks": {
+      "Notification": [
+        {
+          "matcher": "permission_prompt|elicitation_dialog",
+          "hooks": [
+            {
+              "type": "command",
+              "command": "workmux set-window-status waiting"
+            }
+          ]
+        }
+      ],
+      "PostToolUse": [
+        {
+          "hooks": [
+            {
+              "type": "command",
+              "command": "workmux set-window-status working"
+            }
+          ]
+        }
+      ],
+      "Stop": [
+        {
+          "hooks": [
+            {
+              "type": "command",
+              "command": "workmux set-window-status done"
+            }
+          ]
+        }
+      ],
+      "UserPromptSubmit": [
+        {
+          "hooks": [
+            {
+              "type": "command",
+              "command": "workmux set-window-status working"
+            }
+          ]
+        }
+      ]
+    },
+  "skipDangerousModePermissionPrompt": true
+}

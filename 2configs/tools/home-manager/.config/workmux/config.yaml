@@ -1,0 +1,9 @@
+agent: claude --dangerously-skip-permissions
+mode: session
+sandbox:
+  enabled: false
+panes:
+  - command: <agent>
+    focus: true
+  - split: horizontal
+    size: 5
