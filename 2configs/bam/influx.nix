@@ -11,6 +11,7 @@ in {
 
   services.grafana.enable = true;
   services.grafana.settings.server.http_addr = "0.0.0.0";
+  services.grafana.settings.security.secret_key = "herpderp";
   services.influxdb.enable = true;
   systemd.services.influxdb.serviceConfig.LimitNOFILE = 8192;
 

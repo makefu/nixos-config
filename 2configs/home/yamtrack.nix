@@ -21,7 +21,7 @@ in
   };
   sops.secrets.yamtrack = {};
   virtualisation.oci-containers.containers.yamtrack = {
-    image = "ghcr.io/fuzzygrim/yamtrack:latest";
+    image = "ghcr.io/fuzzygrim/yamtrack:0.25.0";
     ports = [ "${port}:8000" ];
     volumes = [
       "${db-dir}:/yamtrack/db"
@@ -32,10 +32,9 @@ in
     environment = {
         TZ=config.time.timeZone;
         REDIS_URL = "redis://redis:6379";
-        # DEBUG= "True";
+        DEBUG= "True";
+        ENV_DEBUG= "True";
         REGISTRATION = "False";
-      #PUBLIC_HOST_URL = "tube.lan";
-      #PUBLIC_HOST_AUDIO_URL = "mtube.lan";
   };
   dependsOn = [
       "yamtrack-redis"
