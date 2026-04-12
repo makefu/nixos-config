@@ -52,18 +52,18 @@ in
         nvim-lspconfig
         vim-nix
         #nvim-treesitter.withAllGrammars
-        nvim-treesitter-with-plugins
+        #nvim-treesitter-with-plugins
 
         nerdtree # file manager
-        commentary # comment stuff out based on language
-        fugitive # full git integration
+        vim-commentary # comment stuff out based on language
+        vim-fugitive # full git integration
         vim-airline-themes # lean & mean status/tabline
         vim-airline # status bar
-        gitgutter # git diff in the gutter (sign column)
+        vim-gitgutter # git diff in the gutter (sign column)
         vim-trailing-whitespace # trailing whitspaces in red
         tagbar # F3 function overview
         ReplaceWithRegister # For better copying/replacing
-        polyglot # Language pack
+        vim-polyglot # Language pack
         vim-indent-guides # for displaying indent levels
         #deoplete-nvim # general autocompletion
         #deoplete-go
