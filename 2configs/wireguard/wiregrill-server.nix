@@ -7,10 +7,6 @@ let
   ext-if = config.makefu.server.primary-itf;
 
 in mkIf (hasAttr "wiregrill" config.krebs.build.host.nets) {
-  #hack for modprobe inside containers
-  systemd.services."wireguard-wiregrill".path = mkIf config.boot.isContainer (mkBefore [
-    (pkgs.writeDashBin "modprobe" ":")
-  ]);
 
   boot.kernel.sysctl = {
     "net.ipv6.conf.all.forwarding" = 1;

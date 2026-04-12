@@ -106,23 +106,24 @@ in {
     }
 
     # --- server mode ---
-    (mkIf isServer {
+    (mkIf isServer (let
+      ext-if = cfg.server.external-interface;
+
+      # all peer IPs that may be forwarded through the tunnel
+      peerForwardIPs = concatLists (mapAttrsToList (_: p:
+        [ "${p.ula}/128" ]
+        ++ optional (p.publicV6 != null) "${p.publicV6}/128"
+      ) otherPeers);
+    in {
       boot.kernel.sysctl = {
-        "net.ipv6.conf.all.forwarding" = 1;
-        "net.ipv6.conf.all.proxy_ndp" = 1;
+        "net.ipv6.conf.all.forwarding" = lib.mkDefault 1;
+        # scope proxy_ndp to only the relevant interfaces
+        "net.ipv6.conf.all.proxy_ndp" = lib.mkDefault 0;
+        "net.ipv6.conf.euer.proxy_ndp" = lib.mkDefault 1;
+        "net.ipv6.conf.${ext-if}.proxy_ndp" = lib.mkDefault 1;
       };
 
-      networking.wireguard.interfaces.euer = let
-        ext-if = cfg.server.external-interface;
-      in {
-        postSetup = concatStringsSep "\n" (map (addr:
-          "${pkgs.iproute2}/bin/ip -6 neigh add proxy ${addr} dev ${ext-if}"
-        ) ndpProxyAddrs);
-
-        postShutdown = concatStringsSep "\n" (map (addr:
-          "${pkgs.iproute2}/bin/ip -6 neigh del proxy ${addr} dev ${ext-if}"
-        ) ndpProxyAddrs);
-
+      networking.wireguard.interfaces.euer = {
         peers = mapAttrsToList (_: p: {
           publicKey = p.publicKey;
           allowedIPs =
@@ -130,7 +131,67 @@ in {
             ++ optional (p.publicV6 != null) "${p.publicV6}/128";
         }) otherPeers;
       };
-    })
+
+      # restrict IPv6 FORWARD chain: only allow traffic to/from known peer IPs
+      # via the euer tunnel interface; drop everything else being forwarded
+      networking.firewall.extraCommands = let
+        ip6 = "${pkgs.iptables}/bin/ip6tables";
+      in ''
+        # flush old euer rules to make this idempotent on rebuild
+        ${ip6} -D FORWARD -i euer -j euer-fwd 2>/dev/null || true
+        ${ip6} -D FORWARD -o euer -j euer-fwd 2>/dev/null || true
+        ${ip6} -F euer-fwd 2>/dev/null || true
+        ${ip6} -X euer-fwd 2>/dev/null || true
+
+        ${ip6} -N euer-fwd
+        # allow established/related (return traffic)
+        ${ip6} -A euer-fwd -m conntrack --ctstate ESTABLISHED,RELATED -j ACCEPT
+        # allow forwarding only for known peer addresses
+        ${concatStringsSep "\n" (map (addr:
+          "${ip6} -A euer-fwd -s ${addr} -j ACCEPT\n${ip6} -A euer-fwd -d ${addr} -j ACCEPT"
+        ) peerForwardIPs)}
+        # drop anything else transiting the tunnel
+        ${ip6} -A euer-fwd -j DROP
+
+        ${ip6} -A FORWARD -i euer -j euer-fwd
+        ${ip6} -A FORWARD -o euer -j euer-fwd
+      '';
+
+      networking.firewall.extraStopCommands = let
+        ip6 = "${pkgs.iptables}/bin/ip6tables";
+      in ''
+        ${ip6} -D FORWARD -i euer -j euer-fwd 2>/dev/null || true
+        ${ip6} -D FORWARD -o euer -j euer-fwd 2>/dev/null || true
+        ${ip6} -F euer-fwd 2>/dev/null || true
+        ${ip6} -X euer-fwd 2>/dev/null || true
+      '';
+
+      # NDP proxy setup as a separate service (postSetup/postShutdown
+      # are not supported with networkd)
+      systemd.services.euer-ndp-proxy = let
+        setupScript = pkgs.writeShellScript "euer-ndp-proxy-setup" (
+          concatStringsSep "\n" (map (addr:
+            "${pkgs.iproute2}/bin/ip -6 neigh add proxy ${addr} dev ${ext-if}"
+          ) ndpProxyAddrs)
+        );
+        teardownScript = pkgs.writeShellScript "euer-ndp-proxy-teardown" (
+          concatStringsSep "\n" (map (addr:
+            "${pkgs.iproute2}/bin/ip -6 neigh del proxy ${addr} dev ${ext-if}"
+          ) ndpProxyAddrs)
+        );
+      in mkIf (ndpProxyAddrs != []) {
+        description = "NDP Proxy for euer WireGuard peers";
+        after = [ "network-online.target" ];
+        wants = [ "network-online.target" ];
+        wantedBy = [ "multi-user.target" ];
+        serviceConfig = {
+          Type = "oneshot";
+          RemainAfterExit = true;
+          ExecStart = setupScript;
+          ExecStop = teardownScript;
+        };
+      };
+    }))
 
     # --- client mode ---
     (mkIf isClient (let
