@@ -80,6 +80,7 @@ in {
       ../../2configs/sync/share/omo.nix
 
       ../../2configs/wireguard/wiregrill-client.nix
+      ../../2configs/wireguard/euer-client.nix
 
       #  Community services
       ../../2configs/nix-community/legacy-mediawiki-matrix-bot.nix

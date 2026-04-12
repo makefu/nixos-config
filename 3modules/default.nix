@@ -18,6 +18,7 @@ _:
     ./state.nix
     ./torrent.nix
     ./udpt.nix
+    ./euer-wg.nix
   ];
 }
 
