@@ -8,7 +8,10 @@ in {
   imports = [
     ./flood.nix
 ];
-  systemd.services.rtorrent.serviceConfig.LimitNOFILE = 16000;
+systemd.services.rtorrent.serviceConfig = {
+  LimitNOFILE = 16000;
+  RestartSec = 5;
+};
   services.rtorrent = {
     enable = true;
     #user = "download";
@@ -21,6 +24,8 @@ in {
     configText = ''
       schedule2 = watch_start, 10, 10, ((load.start, (cat, (cfg.watch), "/media/cloud/watch/*.torrent")))
       pieces.memory.max.set = 1800M
+      network.http.max_open.set = 16
+      dht.mode.set = disable
       network.xmlrpc.size_limit.set = 16M
       method.redirect=load.throw,load.normal
       method.redirect=load.start_throw,load.start
