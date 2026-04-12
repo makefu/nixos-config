@@ -8,8 +8,8 @@
       ./single-disk-ext4.nix
 
     ];
-  zramSwap.enable = true;  
-  zramSwap.memoryPercent = 75;
+  #zramSwap.enable = true;  
+  #zramSwap.memoryPercent = 75;
   # Disk
   boot.initrd.availableKernelModules = [ "ahci" "xhci_pci" "virtio_pci" "sd_mod" "sr_mod" ];
   boot.uki.tries = 3;

@@ -17,7 +17,8 @@ in {
 
   users.users."${mainUser}".extraGroups = [ "scanner" "lp" ];
 
-services.udev.packages = [ pkgs.utsushi ];
+# utsushi (imagescan) is currently broken in nixpkgs unstable
+# services.udev.packages = [ pkgs.utsushi ];
   # scanners are printers just in reverse anyway
   services.saned.enable = true;
 

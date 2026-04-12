@@ -1,4 +1,4 @@
-{ config,disk ? "/dev/nvme0n1", hostId, ... }: 
+{ config, disk ? "/dev/nvme0n1", hostId, ... }: 
 {
   services.zfs.autoScrub.enable = true;
   boot.zfs.requestEncryptionCredentials = true;
@@ -6,7 +6,8 @@
   boot.loader.efi.canTouchEfiVariables = true;
   boot.loader.systemd-boot.enable = true;
   networking.hostId = hostId;
-  boot.kernelPackages = config.boot.zfs.package.latestCompatibleLinuxPackages;
+  # disable to fix zfs warning
+  # boot.kernelPackages: using default linuxPackages (latestCompatibleLinuxPackages was deprecated)
 
   # reduce ARC to 4GB
   # rule of thumb:

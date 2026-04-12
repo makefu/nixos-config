@@ -22,6 +22,11 @@
         })
         inputs.stockholm.overlays.default
         inputs.mediawiki-matrix-bot.overlays.default
+        (this: super: {
+          # overlay definitions for using packages from stable channel
+          calibre = inputs.nixpkgs-stable.legacyPackages.${pkgs.stdenv.system}.calibre;
+        })
       ];
+
     };
 }
