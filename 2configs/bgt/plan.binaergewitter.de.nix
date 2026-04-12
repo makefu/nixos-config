@@ -26,8 +26,8 @@ in {
   };
 
   systemd.services.${name} = {
-      description = "Datefinder Server (bgt)";
-        wantedBy = [ "multi-user.target" ];
+    description = "Datefinder Server (bgt)";
+    wantedBy = [ "multi-user.target" ];
     after = [ "network-online.target" ];
     environment = {
         #REDIS_URL = "redis://localhost:6379/0";
@@ -46,7 +46,7 @@ in {
         set -x
         . "$CREDENTIALS_DIRECTORY/config"
         export KEYCLOAK_SERVER_URL KEYCLOAK_REALM KEYCLOAK_CLIENT_ID KEYCLOAK_CLIENT_SECRET SECRET_KEY DEBUG APPRISE_URLS
-        "${pkgs.datefinder}/bin/datefinder-server" migrate
+        "${pkgs.datefinder}/bin/datefinder-manage" migrate
         "${pkgs.datefinder}/bin/datefinder-server"
     '';
     serviceConfig = {

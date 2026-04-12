@@ -1,6 +1,7 @@
-{ config, pkgs, lib, ... }:
+{ config, pkgs, inputs, lib, ... }:
 let
   configFile = config.sops.secrets."bgt-isso.conf".path;
+  pkg = inputs.nixpkgs-stable.legacyPackages.${pkgs.system}.isso;
 in {
 
   sops.secrets."bgt-isso.conf" = {
@@ -23,7 +24,7 @@ in {
   # host = https://blog.binaergewitter.de
   # listen = http://localhost:9292
   # public-endpoint = https://comments.binaergewitter.de
-  systemd.services.isso.serviceConfig.ExecStart = lib.mkForce "${pkgs.isso}/bin/isso -c ${configFile}" ;
+  systemd.services.isso.serviceConfig.ExecStart = lib.mkForce "${pkg}/bin/isso -c ${configFile}" ;
   systemd.services.isso.serviceConfig.DynamicUser = lib.mkForce false;
 
   # savarcast is behind traefik, do not configure tls

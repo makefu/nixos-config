@@ -62,7 +62,7 @@ in {
     ports = [ "127.0.0.1:${toString port}:${toString realport}" ];
     volumes = [
       "${ config.sops.secrets.etherpad-apikey.path }:/opt/etherpad-lite/APIKEY.txt"
-      "${ config.sops.secrets.etherpad-config.path }:/opt/etherpad-lite/settings.json:ro"
+      # "${ config.sops.secrets.etherpad-config.path }:/opt/etherpad-lite/settings.json:ro"
       "etherpad_data:/opt/etherpad-lite/var" # persistent dirtydb
     ];
   # for postgres
