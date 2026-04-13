@@ -199,6 +199,19 @@
           overlays.default = import ./5pkgs/default.nix;
     packages.x86_64-linux.liveiso = self.nixosConfigurations.liveiso.config.system.build.isoImage;
     packages.x86_64-linux.nvim = import ./2configs/editor/neovim/package.nix;
+    packages.x86_64-linux.euer-add-device = let
+      pkgs = nixpkgs.legacyPackages.x86_64-linux;
+    in pkgs.writeShellApplication {
+      name = "euer-add-device";
+      runtimeInputs = [
+        inputs.clan-core.packages.x86_64-linux.clan-cli
+        pkgs.wireguard-tools
+        pkgs.qrencode
+        pkgs.gnused
+        pkgs.gnugrep
+      ];
+      text = builtins.readFile ./2configs/wireguard/euer/add-device.sh;
+    };
     packages.x86_64-linux.default = self.packages.x86_64-linux.liveiso;
     devShells.x86_64-linux.default = let
       pkgs = nixpkgs.legacyPackages.x86_64-linux;
@@ -207,6 +220,7 @@
               inputs.clan-core.packages.x86_64-linux.clan-cli
               pkgs.nixos-rebuild-ng
             pkgs.age
+            self.packages.x86_64-linux.euer-add-device
           ];
     };
   };

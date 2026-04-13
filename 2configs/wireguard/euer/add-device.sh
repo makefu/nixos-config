@@ -1,18 +1,11 @@
 #!/usr/bin/env bash
-# Add an external (non-NixOS) device to the euer WireGuard network.
+# Manage external (non-NixOS) devices in the euer WireGuard network.
 # Intended for smartphones, webcams, tablets, and similar devices that
 # cannot run NixOS but need a WireGuard tunnel into the euer network.
-#
-# Usage: ./add-device.sh <device-name>
-# Examples:
-#   ./add-device.sh mobilex
-#   ./add-device.sh webcam-garden
 
 set -euo pipefail
-
-SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
-REPO_DIR="$(cd "$SCRIPT_DIR/../../.." && pwd)"
-COMMON_NIX="$SCRIPT_DIR/common.nix"
+FLAKE_DIR=$(nix flake metadata --json | grep makefu  | jq -r .resolvedUrl | sed 's#git+file://##')
+COMMON_NIX="$FLAKE_DIR/2configs/wireguard/euer/common.nix"
 
 SERVER_PUBKEY="nGVKBqslGPW+H/t+FG6L5JGUVS2DwPOM/UP3b7BRtTM="
 SERVER_ENDPOINT="142.132.189.140"
@@ -22,68 +15,119 @@ V6_PREFIX="2a01:4f8:1c17:5cdf"
 
 die() { echo "error: $*" >&2; exit 1; }
 
+usage() {
+  cat <<EOF
+Usage: $0 <command> [args]
+
+Manage external (non-NixOS) devices in the euer WireGuard network.
+
+Commands:
+  new  <device-name>   Add a new device to the network
+  get  <device-name>   Print the WireGuard config to stdout
+  qr   <device-name>   Show the WireGuard config as a QR code
+  list                 List devices that have a stored wireguard config
+  help                 Show this help message
+
+Examples:
+  $0 new mobilex
+  $0 get mobilex
+  $0 qr mobilex
+  $0 list
+EOF
+}
+
 max_hex() {
   local max=0 dec
   while read -r h; do
     dec=$((16#$h))
     (( dec > max )) && max=$dec
   done
-  echo $max
+  echo "$max"
 }
 
-[[ $# -eq 1 ]] || die "usage: $0 <device-name>"
-DEVICE="$1"
-[[ "$DEVICE" =~ ^[a-z][a-z0-9_-]*$ ]] || die "device name must be lowercase alphanumeric (may contain - or _)"
-grep -qP "^\s+${DEVICE}\s*=" "$COMMON_NIX" && die "peer '$DEVICE' already exists in common.nix"
+secret_name() { echo "${1}-euer-wireguard-config"; }
 
-# allocate next free addresses (IPv6 hex)
-next_ula=$(printf '%x' $(( $(grep -oP 'ula\s*=\s*"fd42:e1e0::\K[0-9a-f]+' "$COMMON_NIX" | max_hex) + 1 )))
-next_v6=$(printf '%x' $(( $(grep -oP 'publicV6\s*=\s*"\$\{prefix\}::\K[0-9a-f]+' "$COMMON_NIX" | max_hex) + 1 )))
+cmd_get() {
+  [[ $# -eq 1 ]] || die "usage: $0 get <device-name>"
+  clan secrets get "$(secret_name "$1")"
+}
 
-DEVICE_ULA="${ULA_PREFIX}::${next_ula}"
-DEVICE_V6="${V6_PREFIX}::${next_v6}"
+cmd_qr() {
+  [[ $# -eq 1 ]] || die "usage: $0 qr <device-name>"
+  cmd_get "$1" | qrencode -t ansiutf8
+}
 
-# generate keypair
-PRIVKEY="$(wg genkey)"
-PUBKEY="$(echo "$PRIVKEY" | wg pubkey)"
+cmd_new() {
+  [[ $# -eq 1 ]] || die "usage: $0 new <device-name>"
+  local device="$1"
+  [[ "$device" =~ ^[a-z][a-z0-9_-]*$ ]] || die "device name must be lowercase alphanumeric (may contain - or _)"
+  grep -qP "^\s+${device}\s*=" "$COMMON_NIX" && die "peer '$device' already exists in common.nix"
 
-# add peer to common.nix
-PEER_LINE="    ${DEVICE} = { ula = \"${DEVICE_ULA}\"; publicKey = \"${PUBKEY}\"; publicV6 = \"\${prefix}::${next_v6}\"; };"
-sed -i "/^  };$/i\\${PEER_LINE}" "$COMMON_NIX"
+  # allocate next free addresses (IPv6 hex)
+  local next_ula next_v6 device_ula device_v6 privkey pubkey peer_line client_conf
+  next_ula=$(printf '%x' $(( $(grep -oP 'ula\s*=\s*"fd42:e1e0::\K[0-9a-f]+' "$COMMON_NIX" | max_hex) + 1 )))
+  next_v6=$(printf '%x' $(( $(grep -oP 'publicV6\s*=\s*"\$\{prefix\}::\K[0-9a-f]+' "$COMMON_NIX" | max_hex) + 1 )))
 
-# build client config
-CLIENT_CONF=$(cat <<EOF
-[Interface]
-PrivateKey = ${PRIVKEY}
-Address = ${DEVICE_ULA}/64, ${DEVICE_V6}/128
+  device_ula="${ULA_PREFIX}::${next_ula}"
+  device_v6="${V6_PREFIX}::${next_v6}"
+
+  # generate keypair
+  privkey="$(wg genkey)"
+  pubkey="$(echo "$privkey" | wg pubkey)"
+
+  # add peer to common.nix
+  peer_line="    ${device} = { ula = \"${device_ula}\"; publicKey = \"${pubkey}\"; publicV6 = \"\${prefix}::${next_v6}\"; };"
+  sed -i "/^  };$/i\\${peer_line}" "$COMMON_NIX"
+
+  # build client config
+  client_conf="[Interface]
+PrivateKey = ${privkey}
+Address = ${device_ula}/64, ${device_v6}/128
 DNS = fd42:e1e0::1
 
 [Peer]
 PublicKey = ${SERVER_PUBKEY}
 Endpoint = ${SERVER_ENDPOINT}:${SERVER_PORT}
 AllowedIPs = fd42:e1e0::/64, ::/0
-PersistentKeepalive = 25
-EOF
-)
+PersistentKeepalive = 25"
 
-# store secrets
-echo "$PRIVKEY"     | clan secrets set "${DEVICE}-euer-wg.key" --flake "$REPO_DIR"
-echo "$PUBKEY"      | clan secrets set "${DEVICE}-euer-wg.pub" --flake "$REPO_DIR"
-SECRET_NAME="${DEVICE}-euer-wireguard-config"
-echo "$CLIENT_CONF" | clan secrets set "$SECRET_NAME" --flake "$REPO_DIR"
+  # store secrets
+  echo "$privkey"      | clan secrets set "${device}-euer-wg.key"
+  echo "$pubkey"       | clan secrets set "${device}-euer-wg.pub"
+  echo "$client_conf"  | clan secrets set "$(secret_name "$device")"
 
-cat <<EOF
+  cat <<EOF
 
-  Added '${DEVICE}' to euer network
+  Added '${device}' to euer network
   ──────────────────────────────────
-  ULA address   ${DEVICE_ULA}
-  Public IPv6   ${DEVICE_V6}
-  Public key    ${PUBKEY}
-  Config secret ${SECRET_NAME}
+  ULA address   ${device_ula}
+  Public IPv6   ${device_v6}
+  Public key    ${pubkey}
 
-  Retrieve config:  clan secrets get ${SECRET_NAME}
-  QR code:          clan secrets get ${SECRET_NAME} | qrencode -t ansiutf8
+  Retrieve config:  $0 get ${device}
+  QR code:          $0 qr ${device}
 
   Remember to rebuild gum so it picks up the new peer.
 
 EOF
+}
+
+cmd_list() {
+  clan secrets list | grep -- '-euer-wireguard-config$' | sed 's/-euer-wireguard-config$//' | while read -r device; do
+    echo "$device"
+  done
+}
+
+if ! test -e "$COMMON_NIX" ;then
+  usage
+  die "cannot find $COMMON_NIX, running within the nixos-config repository?"
+fi
+
+case "${1:-help}" in
+  new)   shift; cmd_new "$@" ;;
+  get)   shift; cmd_get "$@" ;;
+  qr)    shift; cmd_qr "$@" ;;
+  list)  cmd_list ;;
+  help)  usage ;;
+  *)     die "unknown command '$1' (see '$0 help')" ;;
+esac
