@@ -212,7 +212,7 @@
       ];
       text = builtins.readFile ./2configs/wireguard/euer/add-device.sh;
     };
-    packages.x86_64-linux.default = self.packages.x86_64-linux.liveiso;
+    # packages.x86_64-linux.default = self.packages.x86_64-linux.liveiso;
     devShells.x86_64-linux.default = let
       pkgs = nixpkgs.legacyPackages.x86_64-linux;
     in pkgs.mkShell {

@@ -321,11 +321,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1774051984,
-        "narHash": "sha256-+zbq7fL3IcE9GhtlFgOYfnFNQoHh3UVjSF5J3zu2gUk=",
+        "lastModified": 1776114503,
+        "narHash": "sha256-jJQKH98cc39TvuFJzYT+x5KZvAD7dw6iRFzCy97BgrE=",
         "owner": "Binaergewitter",
         "repo": "datefinder",
-        "rev": "697d828178f4b24f4300408cec79bb9ff1a71b05",
+        "rev": "1930089c599ba54d944b4a3c8e8a1d49445c76e8",
         "type": "github"
       },
       "original": {

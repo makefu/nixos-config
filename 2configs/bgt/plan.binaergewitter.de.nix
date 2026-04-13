@@ -1,64 +1,39 @@
-{ config, lib, pkgs, ... }:
+{ config, lib, pkgs, inputs, ... }:
 # more than just nginx config but not enough to become a module
 let
 	port = 8000;
-    domain = "plan.binaergewitter.de";
-    calendar-path = "${statedir}/calendar.ics";
-    name = "datefinder";
-    statedir = "/var/lib/${name}";
+  domain = "plan.binaergewitter.de";
+  calendar-path = "${config.services.datefinder.stateDir}/calendar.ics";
+  name = "datefinder";
+  statedir = "/var/lib/${name}";
 in {
-    sops.secrets.bgt-datefinder-env.restartUnits = [ "datefinder.service" ];
-  #services.redis.enable = true;
-
-  # prepare user and access to calendar
-  users.users.${name} = {
-      isSystemUser = true;
-      group = name;
-      home = statedir;
-      createHome = false;
-  };
-  users.groups.${name} = {};
-  users.users.nginx.extraGroups = [ name ];
-  systemd.tmpfiles.settings."01-${name}-dirs"."${statedir}".d = {
-    user = name;
-    mode = "0750";
-    group = name;
-  };
-
-  systemd.services.${name} = {
-    description = "Datefinder Server (bgt)";
-    wantedBy = [ "multi-user.target" ];
-    after = [ "network-online.target" ];
-    environment = {
-        #REDIS_URL = "redis://localhost:6379/0";
-		SITE_URL=   "https://${domain}";
-		ALLOWED_HOSTS = domain;
-		USE_X_FORWARDED_HOST="true";
-        TRUST_PROXY_HEADERS="true";
-        LOCAL_LOGIN_ENABLED = "false";
-        APPRISE_UNCONFIRM_TEMPLATE="Podcast {{ date_formatted }} wurde abgesagt";
-        APPRISE_CONFIRM_TEMPLATE="{{ description }}";
-        STATEDIR = statedir;
-        ICAL_EXPORT_PATH = calendar-path;
-        #REGISTRATION_ENABLED = "false";
+  imports = [
+      inputs.datefinder.nixosModules.datefinder
+    ];
+  sops.secrets.bgt-datefinder-env.restartUnits = [ "datefinder.service" ];
+  services.datefinder = {
+    enable = true;
+    group = "nginx"; # allow nginx to read calendar.ics
+    settings = {
+      allowedHosts = [ "plan.binaergewitter.de" "localhost" ];
+      registrationEnabled = false;
+      localLoginEnabled = false;
+      useXForwardedHost = true;
+      trustProxyHeaders = true;
+      siteUrl = "https://plan.binaergewitter.de";
+      redisUrl = "redis://localhost:6379";
+      icalTimezone = "Europe/Berlin";
+      csrfTrustedOrigins = [ "https://plan.binaergewitter.de" ];
     };
-    script = ''
-        set -x
-        . "$CREDENTIALS_DIRECTORY/config"
-        export KEYCLOAK_SERVER_URL KEYCLOAK_REALM KEYCLOAK_CLIENT_ID KEYCLOAK_CLIENT_SECRET SECRET_KEY DEBUG APPRISE_URLS
-        "${pkgs.datefinder}/bin/datefinder-manage" migrate
-        "${pkgs.datefinder}/bin/datefinder-server"
-    '';
-    serviceConfig = {
-      LoadCredential = [
-          "config:${config.sops.secrets.bgt-datefinder-env.path}"
-      ];
-      Restart = "always";
-      RestartSec = "60s";
-      User = name;
-      WorkingDirectory = statedir;
-      PrivateTmp = true;
-    };
+    #database = {
+    #  type = "postgres";
+    #  createLocally = true;
+    #};
+    environmentFile = config.sops.secrets.bgt-datefinder-env.path;
+  };
+  services.redis.servers.datefinder = {
+    enable = true;
+    port = 6379;
   };
   services.nginx.virtualHosts."${domain}" = {
     # useACMEHost = "euer.krebsco.de";
