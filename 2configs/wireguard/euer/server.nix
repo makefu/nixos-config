@@ -1,4 +1,4 @@
 {
-  imports = [ ./euer-common.nix ];
+  imports = [ ./common.nix ];
   makefu.euer-wg.server.enable = true;
 }

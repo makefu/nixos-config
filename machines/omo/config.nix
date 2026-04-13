@@ -9,7 +9,6 @@ in {
   imports =
     [
       ./hw/omo
-      ./hw/early-ssh.nix
       ./hw/force-fsck.nix
       #./hw/tsp.nix
       ../../2configs/default.nix
@@ -80,7 +79,7 @@ in {
       ../../2configs/sync/share/omo.nix
 
       ../../2configs/wireguard/wiregrill-client.nix
-      ../../2configs/wireguard/euer-client.nix
+      ../../2configs/wireguard/euer/client.nix
 
       #  Community services
       ../../2configs/nix-community/legacy-mediawiki-matrix-bot.nix

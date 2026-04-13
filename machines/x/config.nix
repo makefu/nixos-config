@@ -215,7 +215,7 @@
       # ../../2configs/lanparty/samba.nix
       # ../../2configs/lanparty/mumble-server.nix
       ../../2configs/wireguard/wiregrill-client.nix
-      ../../2configs/wireguard/euer-client.nix
+      ../../2configs/wireguard/euer/client.nix
       # ../../2configs/networking/tailscale.nix
       ../../2configs/networking/netbird/client.nix
       # ../../2configs/cybahn/docker-compose.nix
