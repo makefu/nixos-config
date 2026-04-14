@@ -33,7 +33,7 @@ in mkIf (hasAttr "wiregrill" config.krebs.build.host.nets) {
     resolveLocalQueries = false;
     settings = {
       bind-interfaces = true;
-      interface = "retiolum,wiregrill";
+      interface = "retiolum,wiregrill,euer"; #TODO: make this configurable somehow, do not forget it in 3modules/euer-wg.nix
     };
     servers = [ "1.1.1.1" ];
   };

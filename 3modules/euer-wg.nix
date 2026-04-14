@@ -18,6 +18,10 @@ let
         type = types.str;
         description = "ULA address of the peer";
       };
+      ipv4 = mkOption {
+        type = types.str;
+        description = "IPv4 address of the peer in 172.27.70.0/24";
+      };
       publicKey = mkOption {
         type = types.str;
         description = "WireGuard public key of the peer";
@@ -79,10 +83,24 @@ in {
         description = "Name of the server peer to connect to";
       };
 
+      keepalive = mkOption {
+        type = types.nullOr types.int;
+        default = null;
+        description = "Persistent keepalive (defaults to no keepalive)";
+      };
+
       endpoint = mkOption {
         type = types.str;
         default = "";
         description = "Server endpoint IP or hostname (port is derived from euer-wg.port)";
+      };
+
+      ipv4DefaultRoute = mkEnableOption "route all IPv4 traffic through the tunnel (NAT via server)";
+
+      ipv6DefaultRoute = mkOption {
+        type = types.bool;
+        default = true;
+        description = "Route all IPv6 traffic through the tunnel via server";
       };
     };
   };
@@ -92,13 +110,16 @@ in {
     {
       networking.hosts = mapAttrs'
         (name: peer: nameValuePair peer.ula [ "${name}.${cfg.tld}" ])
+        cfg.peers
+      // mapAttrs'
+        (name: peer: nameValuePair peer.ipv4 [ "${name}.${cfg.tld}" ])
         cfg.peers;
 
       networking.firewall.allowedUDPPorts = [ cfg.port ];
 
       networking.wireguard.interfaces.euer = {
         ips =
-          [ "${self.ula}/64" ]
+          [ "${self.ula}/64" "${self.ipv4}/24" ]
           ++ optional (self.publicV6 != null) "${self.publicV6}/128";
         listenPort = cfg.port;
         privateKeyFile = config.sops.secrets."${machineName}-euer-wg.key".path;
@@ -109,7 +130,7 @@ in {
     (mkIf isServer (let
       ext-if = cfg.server.external-interface;
 
-      # all peer IPs that may be forwarded through the tunnel
+      # all peer IPv6 addresses that may be forwarded through the tunnel
       peerForwardIPs = concatLists (mapAttrsToList (_: p:
         [ "${p.ula}/128" ]
         ++ optional (p.publicV6 != null) "${p.publicV6}/128"
@@ -117,17 +138,25 @@ in {
     in {
       boot.kernel.sysctl = {
         "net.ipv6.conf.all.forwarding" = lib.mkDefault 1;
+        "net.ipv4.ip_forward" = lib.mkDefault 1;
         # scope proxy_ndp to only the relevant interfaces
         "net.ipv6.conf.all.proxy_ndp" = lib.mkDefault 0;
         "net.ipv6.conf.euer.proxy_ndp" = lib.mkDefault 1;
         "net.ipv6.conf.${ext-if}.proxy_ndp" = lib.mkDefault 1;
       };
 
+      # NAT masquerade for IPv4 tunnel traffic (clients have no routed IPv4)
+      networking.nat = {
+        enable = true;
+        internalInterfaces = [ "euer" ];
+        externalInterface = ext-if;
+      };
+
       networking.wireguard.interfaces.euer = {
         peers = mapAttrsToList (_: p: {
           publicKey = p.publicKey;
           allowedIPs =
-            [ "${p.ula}/128" ]
+            [ "${p.ula}/128" "${p.ipv4}/32" ]
             ++ optional (p.publicV6 != null) "${p.publicV6}/128";
         }) otherPeers;
       };
@@ -203,9 +232,12 @@ in {
           endpoint = "${cfg.client.endpoint}:${toString cfg.port}";
           allowedIPs = [
             "fd42:euer::/64"  # ULA range for internal traffic
+            "172.27.70.0/24"  # IPv4 internal range (NATed via server)
+          ] ++ optional cfg.client.ipv6DefaultRoute
             "::/0"            # default route for IPv6 internet via server
-          ];
-          persistentKeepalive = 25;
+          ++ optional cfg.client.ipv4DefaultRoute
+            "0.0.0.0/0";      # default route for IPv4 internet via server
+          persistentKeepalive = cfg.client.keepalive;
         }
       ];
     }))

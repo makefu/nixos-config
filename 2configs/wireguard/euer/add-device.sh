@@ -12,6 +12,7 @@ SERVER_ENDPOINT="142.132.189.140"
 SERVER_PORT=51826
 ULA_PREFIX="fd42:e1e0"
 V6_PREFIX="2a01:4f8:1c17:5cdf"
+V4_PREFIX="172.27.70"
 
 die() { echo "error: $*" >&2; exit 1; }
 
@@ -63,33 +64,34 @@ cmd_new() {
   [[ "$device" =~ ^[a-z][a-z0-9_-]*$ ]] || die "device name must be lowercase alphanumeric (may contain - or _)"
   grep -qP "^\s+${device}\s*=" "$COMMON_NIX" && die "peer '$device' already exists in common.nix"
 
-  # allocate next free addresses (IPv6 hex)
-  local next_ula next_v6 device_ula device_v6 privkey pubkey peer_line client_conf
+  # allocate next free addresses (IPv6 hex, IPv4 decimal)
+  local next_ula next_v6 next_v4 device_ula device_v6 device_v4 privkey pubkey peer_line client_conf
   next_ula=$(printf '%x' $(( $(grep -oP 'ula\s*=\s*"fd42:e1e0::\K[0-9a-f]+' "$COMMON_NIX" | max_hex) + 1 )))
   next_v6=$(printf '%x' $(( $(grep -oP 'publicV6\s*=\s*"\$\{prefix\}::\K[0-9a-f]+' "$COMMON_NIX" | max_hex) + 1 )))
+  next_v4=$(( $(grep -oP 'ipv4\s*=\s*"172\.27\.70\.\K[0-9]+' "$COMMON_NIX" | sort -n | tail -1) + 1 ))
 
   device_ula="${ULA_PREFIX}::${next_ula}"
   device_v6="${V6_PREFIX}::${next_v6}"
+  device_v4="${V4_PREFIX}.${next_v4}"
 
   # generate keypair
   privkey="$(wg genkey)"
   pubkey="$(echo "$privkey" | wg pubkey)"
 
   # add peer to common.nix
-  peer_line="    ${device} = { ula = \"${device_ula}\"; publicKey = \"${pubkey}\"; publicV6 = \"\${prefix}::${next_v6}\"; };"
+  peer_line="    ${device} = { ula = \"${device_ula}\"; ipv4 = \"${device_v4}\"; publicKey = \"${pubkey}\"; publicV6 = \"\${prefix}::${next_v6}\"; };"
   sed -i "/^  };$/i\\${peer_line}" "$COMMON_NIX"
 
   # build client config
   client_conf="[Interface]
 PrivateKey = ${privkey}
-Address = ${device_ula}/64, ${device_v6}/128
-DNS = fd42:e1e0::1
+Address = ${device_ula}/64, ${device_v6}/128, ${device_v4}/24
+DNS = fd42:e1e0::1, 172.27.70.1
 
 [Peer]
 PublicKey = ${SERVER_PUBKEY}
 Endpoint = ${SERVER_ENDPOINT}:${SERVER_PORT}
-AllowedIPs = fd42:e1e0::/64, ::/0
-PersistentKeepalive = 25"
+AllowedIPs = fd42:e1e0::/64, ::/0, 172.27.70.0/24, 0.0.0.0/0"
 
   # store secrets
   echo "$privkey"      | clan secrets set "${device}-euer-wg.key"
@@ -101,6 +103,7 @@ PersistentKeepalive = 25"
   Added '${device}' to euer network
   ──────────────────────────────────
   ULA address   ${device_ula}
+  IPv4 address  ${device_v4}
   Public IPv6   ${device_v6}
   Public key    ${pubkey}
 
