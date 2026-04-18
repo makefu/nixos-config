@@ -31,6 +31,11 @@ let
         default = null;
         description = "Public IPv6 from gum's /64 assigned to this peer on the tunnel";
       };
+      openTCPPorts = mkOption {
+        type = types.listOf types.port;
+        default = [];
+        description = "TCP ports to allow through the server firewall to this peer's public IPv6";
+      };
     };
   };
 
@@ -162,19 +167,45 @@ in {
       };
 
       # restrict IPv6 FORWARD chain: only allow traffic to/from known peer IPs
-      # via the euer tunnel interface; drop everything else being forwarded
+      # via the euer tunnel interface; drop everything else being forwarded.
+      # additionally, block incoming TCP to peer public IPv6 addresses by
+      # default — only explicitly opened ports are allowed through.
       networking.firewall.extraCommands = let
         ip6 = "${pkgs.iptables}/bin/ip6tables";
+
+        # per-peer TCP port opening rules for public IPv6 addresses
+        peerTCPRules = concatStringsSep "\n" (concatLists (mapAttrsToList (_: p:
+          optionals (p.publicV6 != null) (
+            map (port:
+              "${ip6} -A euer-tcp -d ${p.publicV6} -p tcp --dport ${toString port} -j ACCEPT"
+            ) p.openTCPPorts
+          )
+        ) otherPeers));
       in ''
         # flush old euer rules to make this idempotent on rebuild
         ${ip6} -D FORWARD -i euer -j euer-fwd 2>/dev/null || true
         ${ip6} -D FORWARD -o euer -j euer-fwd 2>/dev/null || true
         ${ip6} -F euer-fwd 2>/dev/null || true
         ${ip6} -X euer-fwd 2>/dev/null || true
+        ${ip6} -F euer-tcp 2>/dev/null || true
+        ${ip6} -X euer-tcp 2>/dev/null || true
+
+        # chain: filter incoming TCP to peer public IPv6 addresses
+        ${ip6} -N euer-tcp
+        ${ip6} -A euer-tcp -m conntrack --ctstate ESTABLISHED,RELATED -j ACCEPT
+        ${peerTCPRules}
+        # drop all other incoming TCP to peer public IPv6
+        ${ip6} -A euer-tcp -p tcp -j DROP
 
         ${ip6} -N euer-fwd
         # allow established/related (return traffic)
         ${ip6} -A euer-fwd -m conntrack --ctstate ESTABLISHED,RELATED -j ACCEPT
+        # filter incoming TCP destined for peer public IPv6 addresses
+        ${concatStringsSep "\n" (filter (a: a != null) (mapAttrsToList (_: p:
+          if p.publicV6 != null
+          then "${ip6} -A euer-fwd -d ${p.publicV6} -p tcp -j euer-tcp"
+          else null
+        ) otherPeers))}
         # allow forwarding only for known peer addresses
         ${concatStringsSep "\n" (map (addr:
           "${ip6} -A euer-fwd -s ${addr} -j ACCEPT\n${ip6} -A euer-fwd -d ${addr} -j ACCEPT"
@@ -193,6 +224,8 @@ in {
         ${ip6} -D FORWARD -o euer -j euer-fwd 2>/dev/null || true
         ${ip6} -F euer-fwd 2>/dev/null || true
         ${ip6} -X euer-fwd 2>/dev/null || true
+        ${ip6} -F euer-tcp 2>/dev/null || true
+        ${ip6} -X euer-tcp 2>/dev/null || true
       '';
 
       # NDP proxy setup as a separate service (postSetup/postShutdown
