@@ -9,6 +9,7 @@ in
   sops.secrets."cake-zigbee2mqtt" = {
     owner = "zigbee2mqtt";
     path = "/var/lib/zigbee2mqtt/configuration.yaml";
+    restartUnits = [ "zigbee2mqtt.service" ];
   };
   services.udev.extraRules = ''
     SUBSYSTEM=="tty", ATTRS{idVendor}=="10c4", ATTRS{idProduct}=="ea60", SYMLINK+="cc2531", MODE="0660", GROUP="dialout"

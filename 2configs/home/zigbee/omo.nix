@@ -9,6 +9,7 @@ in
   sops.secrets."omo-zigbee2mqtt" = {
     owner = "zigbee2mqtt";
     path = "/var/lib/zigbee2mqtt/configuration.yaml";
+    restartUnits = [ "zigbee2mqtt.service" ];
   };
   # symlink the zigbee controller
   #services.udev.extraRules = ''
