@@ -1,29 +1,17 @@
 { pkgs
-, lib
-, alsaUtils
+, alsa-utils
 , xbacklight
-, networkmanagerapplet
-, blueman
-, clipit
 , flameshot
-, chapter-marker ? false
 , modkey ? "Mod4"
-, locker? "${pkgs.xlock}/bin/xlock -mode blank"
+, locker ? "${pkgs.xlockmore}/bin/xlock -mode blank"
 , ... }:
 
 {
-  # replace: @alsaUtils@ @xlockmore@ @xbacklight@ @modkey@ @chapter-marker@
-  full = lib.makeOverridable pkgs.substituteAll {
-    name = "awesome_full_config";
-    inherit alsaUtils locker xbacklight modkey networkmanagerapplet blueman clipit flameshot ;
-    isExecutable = false;
-    src = ./full.cfg;
+  full = pkgs.replaceVars ./full.cfg {
+    inherit alsa-utils locker xbacklight modkey flameshot;
   };
 
-  kiosk = lib.makeOverridable pkgs.substituteAll {
-    name = "awesome_kiosk_config";
-    inherit alsaUtils locker xbacklight modkey;
-    isExecutable = false;
-    src = ./kiosk.lua;
+  kiosk = pkgs.replaceVars ./kiosk.lua {
+    inherit modkey locker;
   };
 }
