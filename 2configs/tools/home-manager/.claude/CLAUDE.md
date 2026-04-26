@@ -55,6 +55,7 @@ Running programs
 
     pueue add -- 'command arg1 "arg with spaces"'
     pueue follow <task-id> | tail -n 10 # waits for the command to finish
+    pueue status | grep '^ *<task-id> ' # get the status of a given task
 
 Search
 
