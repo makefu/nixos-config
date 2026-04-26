@@ -8,10 +8,14 @@ in {
   imports = [
     ./flood.nix
 ];
-systemd.services.rtorrent.serviceConfig = {
-  LimitNOFILE = 16000;
-  RestartSec = 5;
-};
+systemd.services.rtorrent = {
+    after = [ "media-cloud.mount" "network-online.target" ];
+    requires = [ "media-cloud.mount" ];
+    serviceConfig = {
+      LimitNOFILE = 16000;
+      RestartSec = 5;
+    };
+  };
   services.rtorrent = {
     enable = true;
     #user = "download";
