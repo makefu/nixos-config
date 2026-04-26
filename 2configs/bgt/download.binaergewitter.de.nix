@@ -16,7 +16,8 @@ in {
 
   fileSystems."${wwwdir}" = {
     device = storedir;
-    options = [ "bind" 
+    fsType = "bind";
+    options = [ "bind"
       "x-systemd.automount" "nofail"
     "x-systemd.idle-timeout=300"
     "x-systemd.mount-timeout=60s"
@@ -69,7 +70,7 @@ in {
   sops.secrets."lego-binaergewitter" = {};
   security.acme.certs."download.binaergewitter.de" = {
     dnsProvider = "cloudflare";
-    credentialsFile = config.sops.secrets."lego-binaergewitter".path;
+    environmentFile = config.sops.secrets."lego-binaergewitter".path;
     webroot = lib.mkForce null;
   };
 
