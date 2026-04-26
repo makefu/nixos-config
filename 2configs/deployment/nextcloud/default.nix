@@ -21,8 +21,9 @@ let
 in {
   
   fileSystems."/var/lib/nextcloud/data" = {
+    fsType = "bind";
     device = "/media/cloud/nextcloud-data";
-    options = [ "bind" 
+    options = [ "bind"
       "x-systemd.automount" "nofail"
     "x-systemd.idle-timeout=300"
     "x-systemd.mount-timeout=60s"
@@ -30,7 +31,10 @@ in {
     depends = [ "/media/cloud" ];
 
   };
-
+systemd.services.nextcloud-setup = {
+    after = [ "media-cloud.mount" "network-online.target" ];
+    requires = [ "media-cloud.mount" ];
+  };
 
   sops.secrets."nextcloud-db-pw" = {
     path = dbpw;
