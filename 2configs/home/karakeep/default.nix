@@ -6,7 +6,13 @@ let
     meili_snapshot_dir = "/media/silent/db/meili/snapshot";
     meili_dump_dir = "/media/silent/db/meili/dump";
 in
-    {
+{
+  services.nginx.virtualHosts."keep.euer" = {
+    locations."/" = {
+      proxyPass = "http://localhost:${port}";
+      proxyWebsockets = true;
+    };
+  };
     networking.firewall.allowedTCPPorts = [ port ];
     systemd.tmpfiles.settings = {
         "10-hoarder-state-dir"."${asset_dir}".d = {
