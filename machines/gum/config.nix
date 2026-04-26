@@ -18,7 +18,7 @@ in {
         # wait for mount
         systemd.services.rtorrent.wantedBy = lib.mkForce [];
         # systemd.services.phpfpm-nextcloud.wantedBy = lib.mkForce [];
-        systemd.services.samba-smbd.wantedBy = lib.mkForce [];
+        # systemd.services.samba-smbd.wantedBy = lib.mkForce [];
       }
       #{
       #  users.users.lass = {
@@ -63,6 +63,7 @@ in {
       # ../../2configs/vpn/vpnws/server.nix
       #../../2configs/dnscrypt/server.nix
       ../../2configs/iodined.nix
+      ../../2configs/ipfs/serve.nix
       # ../../2configs/backup.nix
       ../../2configs/tinc/retiolum.nix
       { # bonus retiolum config for connecting more hosts
@@ -120,7 +121,7 @@ in {
       ../../2configs/nix-community/mediawiki-matrix-bot.nix
 
       # sharing
-      ../../2configs/share/gum.nix # samba sahre
+      # ../../2configs/share/gum.nix # samba sahre
       ../../2configs/torrent/rtorrent.nix
       # ../../2configs/sickbeard
 
@@ -199,7 +200,7 @@ in {
       #../../2configs/deployment/feed.euer.krebsco.de
       # ../../2configs/deployment/boot-euer.nix
       #../../2configs/deployment/docker/archiveteam-warrior.nix
-      ../../2configs/deployment/mediengewitter.de.nix
+      # ../../2configs/deployment/mediengewitter.de.nix
       ../../2configs/bgt/etherpad.euer.krebsco.de.nix
       # ../../2configs/deployment/systemdultras-rss.nix
 
