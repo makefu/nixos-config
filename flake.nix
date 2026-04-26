@@ -13,8 +13,8 @@
     clan-core = {
       url = "git+https://git.clan.lol/clan/clan-core";
       # Don't do this if your machines are on nixpkgs stable.
-      inputs.nixpkgs.follows = "nixpkgs";
-      inputs.flake-parts.follows = "flake-parts";
+      #inputs.nixpkgs.follows = "nixpkgs";
+      #inputs.flake-parts.follows = "flake-parts";
     };
 
     nixos-hardware.url = "github:nixos/nixos-hardware";
@@ -117,6 +117,8 @@
       inputs.treefmt-nix.follows = "treefmt-nix";
       inputs.flake-parts.follows = "flake-parts";
     };
+
+    yamtrack.url = "github:makefu/yamtrack/feature/migration";
   };
 
   description = "Flake of makefu";
