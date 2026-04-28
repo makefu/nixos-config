@@ -4,10 +4,8 @@ let
 in {
   imports = [
     ../base.nix
-    ./kitty.nix
+    ../wayland-common
     ./passwords.nix
-    ./autostart.nix
-    ./sunset.nix
     ./lock.nix
     ./wallpaper.nix
   ];
@@ -33,7 +31,44 @@ in {
     # notification
     #services.swaync.enable = true;
     services.dunst.enable = true;
-    xdg.configFile."waybar/config.jsonc".source = ./waybar.jsonc;
+    programs.waybar.settings.mainBar = {
+      modules-left = [
+        "hyprland/workspaces"
+        "hyprland/mode"
+        "hyprland/scratchpad"
+      ];
+      modules-center = [
+        "hyprland/window"
+      ];
+      "hyprland/workspaces" = {
+        on-scroll-up = "hyprctl dispatch workspace e+1";
+        on-scroll-down = "hyprctl dispatch workspace e-1";
+        disable-scroll = true;
+        all-outputs = true;
+        warp-on-scroll = false;
+        format = "{name}: {icon}";
+        format-icons = {
+          "1" = "";
+          "2" = "";
+          "3" = "";
+          "4" = "";
+          "5" = "";
+          urgent = "";
+          focused = "";
+          default = "";
+        };
+      };
+      "hyprland/mode" = {
+        format = "<span style=\"italic\">{}</span>";
+      };
+      "hyprland/scratchpad" = {
+        format = "{icon} {count}";
+        show-empty = false;
+        format-icons = [ "" "" ];
+        tooltip = true;
+        tooltip-format = "{app}: {title}";
+      };
+    };
     home.sessionVariables.NIXOS_OZONE_WL = "1";
     home.packages = with pkgs; [
       kdePackages.dolphin
@@ -42,24 +77,8 @@ in {
     ];
 
 
-    # waybar
-    programs.waybar.enable = true;
-    programs.waybar.package = pkgs.waybar.overrideAttrs (oldAttrs: {
-        mesonFlags = oldAttrs.mesonFlags ++ [ "-Dexperimental=true" ];
-      });
-    programs.waybar.systemd.enable = true;
-    # network-manager applet
-    services.network-manager-applet.enable = true;
-    services.blueman-applet.enable = true;
-    services.copyq.enable = true;
-
-    home.pointerCursor = {
-      gtk.enable = true;
-      # x11.enable = true;
-      package = pkgs.bibata-cursors;
-      name = "Bibata-Modern-Classic";
-      size = 16;
-    };
+    # waybar, network-manager-applet, blueman-applet, copyq
+    # are enabled via wayland-common/waybar.nix
 
 
     wayland.windowManager.hyprland = {

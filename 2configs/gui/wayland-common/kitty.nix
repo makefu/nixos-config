@@ -1,4 +1,4 @@
-{ pkgs, config, ... }: 
+{ pkgs, config, ... }:
 let
   mainUser = config.krebs.build.user.name;
 in {
@@ -22,7 +22,7 @@ in {
         scollback_lines = 100000;
         confirm_os_window_close = 0;
         copy_on_select = "yes";
-        
+
 
         # workmux config
         # REQUIRED: Enable remote control
