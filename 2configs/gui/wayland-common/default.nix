@@ -5,6 +5,6 @@
     ./kitty.nix
     ./passwords.nix
     ./sunset.nix
-    ./waybar
+    # ./waybar
   ];
 }

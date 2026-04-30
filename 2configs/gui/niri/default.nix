@@ -6,6 +6,7 @@ in {
   imports = [
     ../base.nix
     ../wayland-common
+    ./noctalia.nix
   ];
 
   programs.niri.enable = true;
@@ -16,7 +17,7 @@ in {
   environment.systemPackages = [ pkgs.brightnessctl ];
 
   home-manager.users.${mainUser} = {
-    services.dunst.enable = true;
+    #services.dunst.enable = true;
     programs.waybar.settings.mainBar = {
       modules-left = [
         "niri/workspaces"
@@ -104,10 +105,9 @@ in {
       screenshot-path "~/Pictures/Screenshots/Screenshot from %Y-%m-%d %H-%M-%S.png"
 
       // spawn processes at startup
-      //spawn-at-startup "waybar"
       spawn-at-startup "${pkgs.swaybg}/bin/swaybg" "-i" "${wallpaper}" "-m" "fill"
-      // spawn-at-startup "${pkgs.gnome-keyring}/bin/gnome-keyring-daemon" "--start" "--components=pkcs11,secrets,ssh"
-      // spawn-at-startup "${pkgs.gnome-keyring}/bin/gnome-keyring-daemon" "--start" "--components=pkcs11,secrets"
+      spawn-at-startup "${pkgs.gnome-keyring}/bin/gnome-keyring-daemon" "--start" "--components=pkcs11,secrets,ssh"
+      spawn-at-startup "${pkgs.gnome-keyring}/bin/gnome-keyring-daemon" "--start" "--components=pkcs11,secrets"
 
       environment {
           XCURSOR_SIZE "18"
@@ -121,6 +121,11 @@ in {
 
       animations {
           // keep default animations
+      }
+
+      // Force rendering on the Intel iGPU, not the Nvidia dGPU
+      debug {
+          render-drm-device "/dev/dri/by-path/pci-0000:00:02.0-render"
       }
 
       // Firefox PiP as floating
