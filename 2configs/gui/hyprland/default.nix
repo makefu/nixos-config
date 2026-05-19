@@ -6,10 +6,8 @@ in {
     ../base.nix
     ../wayland-common
     ./passwords.nix
-    ./lock.nix
-    ./wallpaper.nix
   ];
-  # autostart 
+  # autostart
   programs.hyprland = {
     enable = true;
     xwayland.enable = true;
@@ -23,7 +21,6 @@ in {
 
   # automatically enabled by programs.hyprlock
   #services.hypridle.enable = true;
-  security.pam.services.hyprlock = {};
 
   environment.systemPackages = [ pkgs.brightnessctl ];
 
@@ -162,7 +159,7 @@ in {
           pseudotile = true; # Master switch for pseudotiling. Enabling is bound to mainMod + P in the keybinds section below
           preserve_split = true; # You probably want this
         };
-        misc = { 
+        misc = {
           force_default_wallpaper = -1;
           disable_hyprland_logo = true;
         };
