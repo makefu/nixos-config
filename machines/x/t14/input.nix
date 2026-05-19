@@ -25,7 +25,7 @@
   services.actkbd = {
     enable = true;
     bindings = [
-      { keys = [ 225 ]; events = [ "key" ]; command = "${pkgs.brightnessctl}/bin/light s +10%"; } # fn - F5
+      { keys = [ 225 ]; events = [ "key" ]; command = "${pkgs.brightnessctl}/bin/brightnessctl s +10%"; } # fn - F5
       { keys = [ 224 ]; events = [ "key" ]; command = "${pkgs.brightnessctl}/bin/brightnessctl s -10%"; } # fn - F6
       # fn - 4 => suspend
       # fn - d => lcdshadow
