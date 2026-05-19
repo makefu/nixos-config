@@ -1,10 +1,9 @@
 nerdfont: true
 agent: claude --dangerously-skip-permissions
+merge_strategy: rebase
 #mode: session
 sandbox:
   enabled: false
 panes:
   - command: <agent>
     focus: true
-  - split: horizontal
-    size: 5

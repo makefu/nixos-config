@@ -6,12 +6,21 @@ in
 {
 
     imports = [
-      inputs.mics-skills.homeManagerModules.default
+      inputs.mics-skills.homeModules.default
     ];
+    services.pueue.enable = true;
     home.file.".claude/CLAUDE.md".source = ./.claude/CLAUDE.md;
     home.file.".claude/settings.json".source = ./.claude/settings.json;
     home.file.".claude/skills/coordinator".source =
       "${aiTools.workmux}/share/workmux/skills/coordinator";
+    home.file.".claude/skills/merge".source =
+      "${aiTools.workmux}/share/workmux/skills/merge";
+    home.file.".claude/skills/rebase".source =
+      "${aiTools.workmux}/share/workmux/skills/rebase";
+    home.file.".claude/skills/worktree".source =
+      "${aiTools.workmux}/share/workmux/skills/worktree";
+    home.file.".claude/skills/workmux".source =
+      "${aiTools.workmux}/share/workmux/skills/workmux";
 
     home.file.".config/workmux/config.yaml".source = ./.config/workmux/config.yaml;
     programs.mics-skills = {

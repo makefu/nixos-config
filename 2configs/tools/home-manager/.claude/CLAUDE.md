@@ -6,7 +6,8 @@ Available Tools
 General Guidelines
 
     Follow XDG desktop standards when writing code
-    Use $HOME/.claude/outputs/{project_name} as a scratch directory for prompts and temporary files.
+    Use $PWD/.claude/outputs as a scratch directory for prompts.
+    Use $PWD/tmp for temporary files instead of /tmp
 
 Nix-specific
 
@@ -53,6 +54,7 @@ Running programs
 
     To run and wait (note: quote the entire command to preserve argument quoting):
 
+    pueued -d # start daemon if not yet running
     pueue add -- 'command arg1 "arg with spaces"'
     pueue follow <task-id> | tail -n 10 # waits for the command to finish
     pueue status | grep '^ *<task-id> ' # get the status of a given task
