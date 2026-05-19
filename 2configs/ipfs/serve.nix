@@ -1,12 +1,8 @@
 {
-  imports =[
-    ./hetzner-share.nix
-  ];
   networking.firewall.allowedTCPPorts = [ 4001 ];
   networking.firewall.allowedUDPPorts = [ 4001 ]; # QUIC
   services.kubo = {
     enable = true;
-    dataDir = "/media/ipfs";
     settings = {
       Experimental.FilestoreEnabled = true;
       Datastore.StorageMax = "100GB";

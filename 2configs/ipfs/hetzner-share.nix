@@ -1,12 +1,17 @@
-{config, ... }:
+{config, lib, ... }:
 let
   dir = config.services.kubo.dataDir;
   uid = config.users.users.ipfs.uid;
   gid = config.users.groups.download.gid;
   # Prevents boot from hanging if the share is unavailable
-  automount_opts = [ "x-systemd.automount" "noauto" "x-systemd.idle-timeout=60" "x-systemd.device-timeout=5s" "x-systemd.mount-timeout=5s"];
+  automount_opts = [ "x-systemd.automount" "noauto" "x-systemd.idle-timeout=60" "x-systemd.mount-timeout=5s"];
 in
   {
+    users.users.ipfs.group = lib.mkForce "download";
+    systemd.services.ipfs = {
+      after = [ "media-cloud.mount" "media-ipfs.mount" "network-online.target" ];
+      requires = [ "media-cloud.mount" "media-ipfs.mount" ];
+    };
   sops.secrets."ipfs.smb" = {};
   fileSystems."${dir}" = {
     device = "//u288834-sub2.your-storagebox.de/u288834-sub2";
