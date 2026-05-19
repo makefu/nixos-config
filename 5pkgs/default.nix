@@ -35,9 +35,6 @@ in {
     #    '';
     #});
 
-    # Hotfix for https://github.com/NixOS/nixpkgs/issues/157543
-    collectd = prev.collectd.override { xen = null; };
-
     alsa-hdspconf = callPackage ./custom/alsa-tools { alsaToolTarget="hdspconf";};
     alsa-hdspmixer = callPackage ./custom/alsa-tools { alsaToolTarget="hdspmixer";};
     alsa-hdsploader = callPackage ./custom/alsa-tools { alsaToolTarget="hdsploader";};
