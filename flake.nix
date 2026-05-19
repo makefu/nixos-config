@@ -77,15 +77,14 @@
     datefinder.url = "github:Binaergewitter/datefinder";
     datefinder.inputs.nixpkgs.follows = "nixpkgs";
 
-    nether = {
-      url = "github:lassulus/nether";
-      inputs.nixpkgs.follows = "nixpkgs";
-      inputs.clan-core.follows = "clan-core";
-    };
+    #nether = {
+    #  url = "github:lassulus/nether";
+    #  inputs.nixpkgs.follows = "nixpkgs";
+    #  inputs.clan-core.follows = "clan-core";
+    #};
 
     buildbot-nix.url = "github:Mic92/buildbot-nix";
     buildbot-nix.inputs.nixpkgs.follows = "nixpkgs";
-    buildbot-nix.inputs.flake-parts.follows = "flake-parts";
     # buildbot-nix.inputs.treefmt-nix.follows = "treefmt-nix";
 
     nixvim.url = "github:nix-community/nixvim";
@@ -115,10 +114,12 @@
       url = "github:Mic92/mics-skills";
       inputs.nixpkgs.follows = "nixpkgs";
       inputs.treefmt-nix.follows = "treefmt-nix";
-      inputs.flake-parts.follows = "flake-parts";
     };
 
     yamtrack.url = "github:makefu/yamtrack/feature/migration";
+
+    noctalia-shell.url = "github:noctalia-dev/noctalia-shell";
+    noctalia-shell.inputs.nixpkgs.follows = "nixpkgs";
   };
 
   description = "Flake of makefu";
@@ -166,7 +167,7 @@
           inputs.stockholm.nixosModules.setuid
           inputs.stockholm.nixosModules.urlwatch
 
-          inputs.nether.nixosModules.hosts
+          #inputs.nether.nixosModules.hosts
 
           self.nixosModules.default
           vscode-server.nixosModules.default
