@@ -32,8 +32,8 @@ in {
 
   };
 systemd.services.nextcloud-setup = {
-    after = [ "media-cloud.mount" "network-online.target" ];
-    requires = [ "media-cloud.mount" ];
+    after = [ "media-cloud.mount" "network-online.target" "postgresql.service" ];
+    requires = [ "media-cloud.mount" "postgresql.service"];
   };
 
   sops.secrets."nextcloud-db-pw" = {
@@ -104,11 +104,6 @@ systemd.services.nextcloud-setup = {
     ensureUsers = [ { name = "nextcloud"; ensureDBOwnership = true; } ];
   };
 
-  systemd.services."nextcloud-setup" = {
-    requires = ["postgresql.service"];
-    after = ["postgresql.service"];
-    # unitConfig.RequiresMountsFor = [ "/media/cloud" ];
-  };
 
   systemd.services."phpfpm-nextcloud".unitConfig.RequiresMountsFor = [
     # "/media/cloud"
