@@ -13,6 +13,7 @@ in {
       };
       keybindings = {
         "shift+insert" = "paste_from_clipboard";
+        "ctrl+shift+insert" = "paste_from_selection";
         #"ctrl+c" = "copy_or_interrupt";
         "ctrl+shift+r" = "clear_terminal reset active 🍎";
       };
