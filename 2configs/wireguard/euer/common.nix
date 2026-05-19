@@ -11,6 +11,6 @@ in {
     mobilecam = { ula = "fd42:e1e0::5"; ipv4 = "172.27.70.5"; publicKey = "aLNirEv5HBnPO+jG/Zuf/b8JXcX+gnFsVOtBlOATpV0="; publicV6 = "${prefix}::15"; };
   };
   networking.hosts = {
-    "${omo}" = [ "track.euer" ];
+    "${omo}" = [ "track.euer" "keep.euer" ];
   };
 }

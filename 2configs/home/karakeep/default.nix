@@ -9,7 +9,7 @@ in
 {
   services.nginx.virtualHosts."keep.euer" = {
     locations."/" = {
-      proxyPass = "http://localhost:${port}";
+      proxyPass = "http://localhost:${toString port}";
       proxyWebsockets = true;
     };
   };
