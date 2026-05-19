@@ -51,7 +51,9 @@
 
       # gui
       ../../2configs/gui/base.nix
-      ../../2configs/gui/hyprland
+       ../../2configs/gui/hyprland
+       ../../2configs/gui/wayland-common/noctalia
+      # ../../2configs/gui/niri
 
       # secrets: now deployed once at host provisioning
       { state = [ "/etc/ssh/ssh_host_rsa_key" ]; }
@@ -216,8 +218,10 @@
       # ../../2configs/lanparty/mumble-server.nix
       ../../2configs/wireguard/wiregrill-client.nix
       ../../2configs/wireguard/euer/client.nix
+      { users.users.makefu.extraGroups = [ "ipfs" ]; }
+      ../../2configs/ipfs/serve.nix
       # ../../2configs/networking/tailscale.nix
-      ../../2configs/networking/netbird/client.nix
+      # ../../2configs/networking/netbird/client.nix
       # ../../2configs/cybahn/docker-compose.nix
 
 #      {
