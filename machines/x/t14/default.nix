@@ -31,5 +31,12 @@
 
   hardware.enableRedistributableFirmware = true;
   hardware.cpu.intel.updateMicrocode = lib.mkDefault config.hardware.enableRedistributableFirmware;
+  hardware.nvidia.package = lib.mkDefault config.boot.kernelPackages.nvidiaPackages.legacy_580;
+  systemd.tmpfiles.settings."10-fan-control-for-makefu" = {
+    "/proc/acpi/ibm/fan".f = {
+      user = "makefu";
+      group = "root";
+    };
+  };
 }
 
