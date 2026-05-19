@@ -14,11 +14,11 @@ in {
       ../../2configs/default.nix
       # ../../2configs/support-nixos.nix
       ../../2configs/nur.nix
-      {     
-        systemd.coredump.extraConfig = ''
-          Storage=none
-          ProcessSizeMax=0
-        '';
+      {
+        systemd.coredump.settings.Coredump= {
+          Storage="none";
+          ProcessSizeMax=0;
+        };
       }
       {
         services.xserver.enable = true;
@@ -48,7 +48,7 @@ in {
       # ../../2configs/storj/client.nix
 
       #../../2configs/networking/zerotier.nix
-      ../../2configs/networking/netbird/client.nix
+      # ../../2configs/networking/netbird/client.nix
       ../../2configs/backup/restic/state.nix
 
       #{ makefu.backup.server.repo = "/media/cryptX/backup/borg"; }
