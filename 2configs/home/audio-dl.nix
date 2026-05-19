@@ -11,7 +11,7 @@ in
     path = [ pkg ];
     script = "alldownload.sh /media/silent/music/kinder/podcasts";
     serviceConfig= {
-      User = "makefu"; # TODO unprivileged user
+      User = "download"; # TODO unprivileged user
     };
   };
 }
