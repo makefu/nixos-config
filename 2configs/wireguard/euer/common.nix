@@ -9,6 +9,11 @@ in {
     x   = { ula = "fd42:e1e0::3"; ipv4 = "172.27.70.3"; publicKey = "FRowaSBIxz3caOyND8HQOXhnvpKkvGbN4Ok0239w9As="; publicV6 = "${prefix}::13"; };
     mobilex = { ula = "fd42:e1e0::4"; ipv4 = "172.27.70.4"; publicKey = "400DDEJkFlFsnxAWSSpWVyFyI3El1ICQMCfYsFYRnnw="; publicV6 = "${prefix}::14"; };
     mobilecam = { ula = "fd42:e1e0::5"; ipv4 = "172.27.70.5"; publicKey = "aLNirEv5HBnPO+jG/Zuf/b8JXcX+gnFsVOtBlOATpV0="; publicV6 = "${prefix}::15"; };
+    # virtual peer living inside the `ipfs` netns on omo; see
+    # 2configs/ipfs/omo-container.nix. publicV6 is announced by gum via NDP
+    # proxy on its external interface, so the container has a fully routed
+    # IPv6 address even though the host has none of its own.
+    "omo-ipfs" = { ula = "fd42:e1e0::6"; ipv4 = "172.27.70.6"; publicKey = "IOb06La58Ia5fThELp0Fsd2YGEDbWZK+8/nF9O8X414="; publicV6 = "${prefix}::16"; };
   };
   networking.hosts = {
     "${omo}" = [ "track.euer" "keep.euer" ];
