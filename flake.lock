@@ -1763,11 +1763,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1773533323,
-        "narHash": "sha256-O0D3uDEnPuwzAsSkG6CKPXkZieOXR8ct169NxtpOVvw=",
+        "lastModified": 1779191693,
+        "narHash": "sha256-zOzNHE69oOJdokwactnV+8U7gbamcRwCxXNlQJBvNcQ=",
         "ref": "refs/heads/main",
-        "rev": "4935efdd5aac5ec06dad90015507e93919baee2c",
-        "revCount": 38,
+        "rev": "ce08a7060a52a33ec29058c022409f14404a7003",
+        "revCount": 40,
         "type": "git",
         "url": "https://cgit.euer.krebsco.de/makefu/rate-everything.git"
       },
