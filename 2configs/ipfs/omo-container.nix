@@ -1,43 +1,47 @@
 { config, pkgs, lib, ... }:
 
-# Rootless-ish IPFS (kubo) on omo:
-#   * podman container; the kubo process inside runs as a non-root uid
-#     (not the host root user).
-#   * confined to a dedicated network namespace whose ONLY interface is a
-#     dedicated wireguard tunnel to the euer server (gum). The container
-#     therefore can reach the network only via that tunnel — if the tunnel
-#     is down the container has no connectivity at all. There is no veth,
-#     no bridge and no published port, so it cannot bypass the tunnel.
+# Declarative IPFS (kubo) on omo, running inside a NixOS systemd-nspawn
+# container that joins a pre-existing network namespace whose only
+# interface is a dedicated wireguard tunnel to the euer server (gum).
+#
+# Design / leak model
+# -------------------
+#   * The container has no host network access of any kind: no veth, no
+#     bridge, no published port. systemd-nspawn is told via
+#     `--network-namespace-path=/run/netns/ipfs` to share the netns we
+#     create ourselves. Inside that netns there is exactly one non-loopback
+#     interface — the `ipfs-wg` wireguard tunnel.
 #   * IPv4 reaches the internet via gum's masquerade. IPv6 is routed
 #     end-to-end: the container's publicV6 is announced by gum via NDP
-#     proxy on the external interface, so the container has a real,
-#     globally-routed IPv6 address.
-#   * data lives at /media/cryptX/ipfs (decrypted at boot). The container
-#     only starts after that mount is up.
+#     proxy on its external interface.
+#   * The ONLY traffic from the container that ever leaves the wg tunnel is
+#     the *encrypted* UDP between the wg interface and gum's IPv4 endpoint
+#     (142.132.189.140:51826). That socket lives in the host's main netns,
+#     not in the ipfs netns, and is unreachable from inside the container.
+#     Pinning the endpoint to IPv4 also keeps the encrypted side off omo's
+#     main `euer` interface (which has ipv6DefaultRoute=true) and avoids a
+#     wg-over-wg loop.
+#   * Data lives at /media/cryptX/ipfs (decrypted at boot). The container
+#     only starts once that mount is up.
 #
-# Leak model — the ONLY traffic from the container that ever leaves the
-# wireguard tunnel is the *encrypted* UDP between the wg interface and
-# gum's IPv4 endpoint (142.132.189.140:51826). That socket lives in the
-# host's main netns, NOT in the ipfs netns; it is unreachable from inside
-# the container. Everything else (IPv4, IPv6, DNS, ICMP, NDP) is sealed
-# inside the ipfs netns and can only egress through ipfs-wg.
-#
-# The host's existing `euer` wireguard interface is left alone — it is
-# managed by systemd-networkd and that backend does not support
-# interfaceNamespace. We set the netns interface up directly with `wg(8)`
-# / `ip(8)` instead.
+# Why a NixOS container and not the official ipfs/kubo image
+# ----------------------------------------------------------
+# `services.kubo` from nixpkgs gives us a fully declarative repo config,
+# integrates with systemd journaling, and uses the kubo binary from the
+# pinned nixpkgs revision rather than whatever upstream Docker Hub tag
+# happens to point at today.
 
 let
   netns = "ipfs";
   ifname = "ipfs-wg";
   dataDir = "/media/cryptX/ipfs";
 
-  # uid/gid used both for the in-container kubo process and the host-side
-  # owner of the bind-mounted data directory. With rootful podman (the
-  # virtualisation.oci-containers default) and `--user=UID:GID` these map
-  # 1:1 to the host so /media/cryptX/ipfs is owned by this uid on disk.
-  kuboUid = 5001;
-  kuboGid = 5001;
+  # uid 261 is the NixOS-reserved id for the ipfs user
+  # (lib/nixos/misc/ids.nix). With systemd-nspawn and no user-namespace
+  # remapping, the in-container ipfs uid maps 1:1 to the host so the
+  # bind-mounted dataDir is owned by the same uid on both sides.
+  ipfsUid = config.ids.uids.ipfs;
+  ipfsGid = config.ids.gids.ipfs;
 
   selfPeer = config.makefu.euer-wg.peers."omo-ipfs";
   serverPeer = config.makefu.euer-wg.peers.gum;
@@ -50,18 +54,20 @@ in {
 
   sops.secrets."omo-ipfs-euer-wg.key" = {};
 
-  users.users.kubo = {
+  # Host-side `ipfs` user/group: only purpose is to give the bind-mounted
+  # data directory a stable owner that matches the in-container ipfs user.
+  users.users.ipfs = {
     isSystemUser = true;
-    group = "kubo";
-    uid = kuboUid;
-    description = "ipfs/kubo container process";
+    group = "ipfs";
+    uid = ipfsUid;
+    description = "ipfs/kubo data owner (host side)";
   };
-  users.groups.kubo.gid = kuboGid;
+  users.groups.ipfs.gid = ipfsGid;
 
-  systemd.tmpfiles.settings."10-kubo-data" = {
+  systemd.tmpfiles.settings."10-ipfs-data" = {
     "${dataDir}".d = {
-      user = "kubo";
-      group = "kubo";
+      user = "ipfs";
+      group = "ipfs";
       mode = "0750";
     };
   };
@@ -72,7 +78,7 @@ in {
     wantedBy = [ "multi-user.target" ];
     before = [
       "wireguard-${ifname}.service"
-      "podman-kubo.service"
+      "container@kubo.service"
     ];
     path = with pkgs; [ iproute2 gnugrep ];
     serviceConfig = {
@@ -89,19 +95,18 @@ in {
     };
   };
 
-  # `ip netns exec` bind-mounts /etc/netns/<ns>/resolv.conf over
-  # /etc/resolv.conf for processes started inside the namespace.
+  # systemd-nspawn does NOT bind /etc/netns/<ns>/resolv.conf into the
+  # container the way `ip netns exec` does, so we additionally bind-mount
+  # this same file at /etc/resolv.conf via `containers.kubo.bindMounts`.
   environment.etc."netns/${netns}/resolv.conf".text = ''
-    nameserver fd42:e1e0::1
-    nameserver 172.27.70.1
+    nameserver 1.1.1.1
+    nameserver 9.9.9.9
   '';
 
   # 2) wireguard tunnel inside the netns -------------------------------------
-  # We avoid networking.wireguard.interfaces here because omo runs the
-  # networkd-backed wireguard module and that backend does not support
-  # interfaceNamespace. A small one-shot service is enough: the wg
-  # interface is short-lived state, the key material lives in sops, and
-  # the routing only needs to be set up once at start.
+  # Custom service rather than networking.wireguard.interfaces — that module
+  # is networkd-backed on omo and networkd does not support
+  # interfaceNamespace. Hand-rolling lets us keep everything else untouched.
   systemd.services."wireguard-${ifname}" = {
     description = "WireGuard tunnel ${ifname} (lives in ${netns} netns)";
     wantedBy = [ "multi-user.target" ];
@@ -112,15 +117,13 @@ in {
     ];
     requires = [ "netns-${netns}.service" ];
     partOf = [ "netns-${netns}.service" ];
-    before = [ "podman-kubo.service" ];
+    before = [ "container@kubo.service" ];
 
     path = with pkgs; [ iproute2 wireguard-tools ];
     serviceConfig = {
       Type = "oneshot";
       RemainAfterExit = true;
     };
-    # allowed-ips covers all of v4 and v6 — anything the container tries
-    # to send goes through gum, anything gum sends us is accepted.
     script = ''
       set -eu
 
@@ -167,31 +170,68 @@ in {
     '';
   };
 
-  # 3) kubo container --------------------------------------------------------
-  virtualisation.oci-containers.containers.kubo = {
-    image = "ipfs/kubo:release";
-    user = "${toString kuboUid}:${toString kuboGid}";
-    volumes = [
-      "${dataDir}:/data/ipfs:rw"
+  # 3) NixOS container running services.kubo ---------------------------------
+  containers.kubo = {
+    autoStart = true;
+    # We supply the netns ourselves; tell NixOS not to set up its own
+    # private network (veth pair, host-side routing, ...) for this
+    # container.
+    privateNetwork = false;
+    extraFlags = [
+      "--network-namespace-path=/run/netns/${netns}"
+      # do not let nspawn manage /etc/resolv.conf; we bind-mount our own
+      "--resolv-conf=off"
     ];
-    environment = {
-      IPFS_PATH = "/data/ipfs";
+    bindMounts = {
+      "/var/lib/ipfs" = {
+        hostPath = dataDir;
+        isReadOnly = false;
+      };
+      "/etc/resolv.conf" = {
+        hostPath = "/etc/netns/${netns}/resolv.conf";
+        isReadOnly = true;
+      };
     };
-    extraOptions = [
-      # Join the pre-created namespace. The container has no other network
-      # access of any kind (no host networking, no CNI, no published ports).
-      "--network=ns:/run/netns/${netns}"
-      # Drop capabilities the kubo process should never need; this also
-      # prevents the container from reconfiguring routing inside the netns.
-      "--cap-drop=NET_ADMIN"
-      "--cap-drop=NET_RAW"
-      "--cap-drop=SYS_ADMIN"
-      "--security-opt=no-new-privileges"
-    ];
+    config = { config, pkgs, lib, ... }: {
+      system.stateVersion = "26.05";
+
+      # Tell the container's NixOS not to try to manage networking — the
+      # netns is fully set up from the outside and the only interface
+      # (ipfs-wg) is already configured.
+      networking.useDHCP = false;
+      networking.useHostResolvConf = false;
+      networking.firewall.enable = false;
+      systemd.network.enable = false;
+
+      services.kubo = {
+        enable = true;
+        dataDir = "/var/lib/ipfs";
+        settings = {
+          Experimental.FilestoreEnabled = true;
+          Datastore.StorageMax = "100GB";
+          Swarm = {
+            ConnMgr = {
+              LowWater = 100;
+              HighWater = 400;
+              GracePeriod = "20s";
+            };
+            Transports.Network.TCP = true;
+            Transports.Network.QUIC = true;
+            ResourceMgr.Enabled = true;
+            ResourceMgr.MaxMemory = "2GB";
+            RelayClient.Enabled = false;
+            RelayService.Enabled = false;
+          };
+          # dhtclient: announces our provider records (so peers can find us
+          # by CID) but does not serve DHT routing queries for others.
+          Routing.Type = "dhtclient";
+        };
+      };
+    };
   };
 
-  # 4) ordering: wait for storage, netns and wg before kubo comes up ---------
-  systemd.services."podman-kubo" = {
+  # 4) ordering: wait for storage, netns and wg before the container comes up
+  systemd.services."container@kubo" = {
     after = [
       "media-cryptX.mount"
       "netns-${netns}.service"
