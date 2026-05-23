@@ -5,6 +5,7 @@ in {
   imports = [
     ../base.nix
     ../wayland-common
+    ../wayland-common/hyprlock.nix
     ./passwords.nix
   ];
   # autostart
