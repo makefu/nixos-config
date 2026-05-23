@@ -239,6 +239,8 @@ in {
         bindel= [
           ", XF86AudioLowerVolume, exec, wpctl set-volume @DEFAULT_AUDIO_SINK@ 5%-"
           ", XF86AudioRaiseVolume, exec, wpctl set-volume @DEFAULT_AUDIO_SINK@ 5%+"
+          ", XF86MonBrightnessUp, exec, ${pkgs.brightnessctl}/bin/brightnessctl --class=backlight set +10%"
+          ", XF86MonBrightnessDown, exec, ${pkgs.brightnessctl}/bin/brightnessctl --class=backlight set 10%-"
         ];
         bindl= ", XF86AudioMute, exec, wpctl set-mute @DEFAULT_AUDIO_SINK@ toggle";
         #windowrule = "suppressevent:maximize=1, class:.*";
