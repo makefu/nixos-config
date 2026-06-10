@@ -1,6 +1,6 @@
 # <SENDUNGSNUMMER>
 
-0. in signal "Die letzte sendung ist 10 tage her, wann wollen wir senden?" in 10 Tagen planen
+0. darüber nachdenken ob uns ein neuer punkt 0 einfällt
 1.  Sendung twittern und mastodieren (eine Woche + eine Stunde vorher) von Ingo/l33tname (wichtig)
 2.  `eine` Person anrufen (den Host):
    - markus      madmas@studio.link
