@@ -29,7 +29,7 @@ in {
       "paste.r" = {
         nginx = {
           serverAliases = [
-            "paste.${config.krebs.build.host.name}"
+            "paste.${config.clan.core.settings.machine.name}"
             "paste.r"
           ];
           extraConfig = ''

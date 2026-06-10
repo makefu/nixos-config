@@ -4,7 +4,7 @@ with pkgs.stockholm.lib;
 let
   external-ip = config.krebs.build.host.nets.internet.ip4.addr;
   internal-ip = config.krebs.build.host.nets.retiolum.ip4.addr;
-  hn = config.krebs.build.host.name;
+  hn = config.clan.core.settings.machine.name;
 in {
   krebs.tinc_graphs = {
     enable = true;

@@ -22,7 +22,7 @@ in {
       src = { host = config.krebs.build.host; inherit path; };
       dst = {
         host = backup-host;
-        path = backup-path ++ config.krebs.build.host.name
+        path = backup-path ++ config.clan.core.settings.machine.name
                            ++ builtins.replaceStrings ["/"] ["-"] path;
       };
     });

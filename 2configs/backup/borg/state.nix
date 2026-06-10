@@ -6,7 +6,7 @@ let
 in
 {
   services.borgbackup.jobs.state = {
-    repo = "borg-${config.krebs.build.host.name}@backup.makefu.r:.";
+    repo = "borg-${config.clan.core.settings.machine.name}@backup.makefu.r:.";
     paths = config.state;
     encryption = {
       mode = "repokey";

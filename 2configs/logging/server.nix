@@ -3,7 +3,7 @@
 let
   es-port = 9200;
   kibana-port = 5601;
-  primaryName = "log.${config.krebs.build.host.name}";
+  primaryName = "log.${config.clan.core.settings.machine.name}";
   serverAliases = [ "${primaryName}.r" "${primaryName}.lan" ];
 in {
 

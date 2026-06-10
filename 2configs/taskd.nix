@@ -2,7 +2,7 @@
 {
   state = [ config.services.taskserver.dataDir ];
   services.taskserver.enable = true;
-  services.taskserver.fqdn = config.krebs.build.host.name;
+  services.taskserver.fqdn = config.clan.core.settings.machine.name;
   services.taskserver.listenHost = "::";
   services.taskserver.organisations.home.users = [ "makefu" ];
   networking.firewall.extraCommands = ''

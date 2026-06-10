@@ -8,7 +8,7 @@ in {
     # TODO: filter for certain journal fields, not all
     extraConfig = ''
       journalbeat:
-        name: logs-${config.krebs.build.host.name}
+        name: logs-${config.clan.core.settings.machine.name}
         seek_position: cursor
         cursor_seek_fallback: tail
         write_cursor_state: true

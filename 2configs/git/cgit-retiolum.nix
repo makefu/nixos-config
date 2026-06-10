@@ -81,7 +81,7 @@ let
     hooks = {
       post-receive = pkgs.git-hooks.irc-announce {
         nick = config.networking.hostName;
-        verbose = config.krebs.build.host.name == "gum";
+        verbose = config.clan.core.settings.machine.name == "gum";
         channel = "#xxx";
         # TODO remove the hardcoded hostname
         server = "irc.r";

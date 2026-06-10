@@ -5,7 +5,7 @@
     enable = true;
     autoLoadPlugin = true;
     extraConfig = ''
-      Hostname ${config.krebs.build.host.name}
+      Hostname ${config.clan.core.settings.machine.name}
       LoadPlugin load
       LoadPlugin disk
       LoadPlugin memory

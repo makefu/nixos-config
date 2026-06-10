@@ -6,7 +6,7 @@
     web.port = 5600;
     web.users.makefu.password = builtins.readFile <secrets/airdcpp-makefu.pw>; # watch out for newline!
     hubs."krebshub" =
-    { Nick = "makefu-${config.krebs.build.host.name}";
+    { Nick = "makefu-${config.clan.core.settings.machine.name}";
       Password = builtins.readFile <secrets/krebshub.pw>;
       Server = "adcs://hub.nsupdate.info:1511";
       AutoConnect = true;
@@ -28,7 +28,7 @@
   ];
   networking.firewall.allowedUDPPorts = [ config.krebs.airdcpp.dcpp.UDPPort ];
 
-  services.nginx.virtualHosts."dcpp.${config.krebs.build.host.name}.r".locations."/" =
+  services.nginx.virtualHosts."dcpp.${config.clan.core.settings.machine.name}.r".locations."/" =
   { proxyPass = "http://localhost:${toString config.krebs.airdcpp.web.port}/";
 
     extraConfig = ''

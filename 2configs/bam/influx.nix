@@ -16,7 +16,7 @@ in {
   systemd.services.influxdb.serviceConfig.LimitNOFILE = 8192;
 
   services.influxdb.extraConfig = {
-    meta.hostname = config.krebs.build.host.name;
+    meta.hostname = config.clan.core.settings.machine.name;
     # meta.logging-enabled = true;
     http.bind-address = ":${toString influx-port}";
     admin.bind-address = ":${toString admin-port}";

@@ -18,7 +18,7 @@ in {
   };
   services.nginx = {
     enable = true;
-    virtualHosts."torrent.${config.krebs.build.host.name}.r" = {
+    virtualHosts."torrent.${config.clan.core.settings.machine.name}.r" = {
       basicAuthFile = config.sops.secrets."torrent-auth".path;
       #root = "${pkgs.nodePackages.flood}/lib/node_modules/flood/dist/assets";
       #locations."/api".extraConfig = ''

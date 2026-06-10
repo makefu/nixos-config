@@ -1,7 +1,7 @@
 { config, lib, pkgs, ... }:
 
 let
-  hostname = config.krebs.build.host.name;
+  hostname = config.clan.core.settings.machine.name;
   user = config.services.nginx.user;
   group = config.services.nginx.group;
   external-ip = config.krebs.build.host.nets.internet.ip4.addr;

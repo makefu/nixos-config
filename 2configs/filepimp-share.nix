@@ -2,7 +2,7 @@
 
 with pkgs.stockholm.lib;
 let
-  hostname = config.krebs.build.host.name;
+  hostname = config.clan.core.settings.machine.name;
 in {
   users.users.smbguest = {
     name = "smbguest";

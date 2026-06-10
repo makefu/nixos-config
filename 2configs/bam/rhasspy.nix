@@ -10,7 +10,7 @@ in
     environment = {
       TZ = "Europe/Berlin";
       #PULSE_SERVER = "unix:/run/user/0/pulse/native";
-      PULSE_SERVER = "tcp:${ config.krebs.build.host.name }:4713";
+      PULSE_SERVER = "tcp:${ config.clan.core.settings.machine.name }:4713";
 
     };
 

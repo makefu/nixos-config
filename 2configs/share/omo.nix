@@ -2,7 +2,7 @@
 
 with pkgs.stockholm.lib;
 let
-  hostname = config.krebs.build.host.name;
+  hostname = config.clan.core.settings.machine.name;
   # TODO local-ip from the nets config
   internal-ip = "192.168.111.11";
   # local-ip = config.krebs.build.host.nets.retiolum.ip4.addr;

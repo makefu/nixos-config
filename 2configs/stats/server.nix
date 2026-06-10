@@ -23,7 +23,7 @@ in {
   # forward these via nginx
   services.influxdb.dataDir = "/media/silent/db/influxdb";
   services.influxdb.extraConfig = {
-    meta.hostname = config.krebs.build.host.name;
+    meta.hostname = config.clan.core.settings.machine.name;
     # meta.logging-enabled = true;
     logging.level = "info";
     http.log-enabled = true;

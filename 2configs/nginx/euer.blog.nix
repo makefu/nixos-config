@@ -3,7 +3,7 @@
 with pkgs.stockholm.lib;
 let
   sec = toString <secrets>;
-  hostname = config.krebs.build.host.name;
+  hostname = config.clan.core.settings.machine.name;
   user = config.services.nginx.user;
   group = config.services.nginx.group;
   base-dir = "/var/www/blog.euer";

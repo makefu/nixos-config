@@ -37,6 +37,6 @@ in {
   #  install -odeluge "$secfile" "$authfile"
   #'';
   services.nginx.enable = true;
-  services.nginx.virtualHosts."torrent.${config.krebs.build.host.name}.r".locations."/" = { proxyPass = "http://localhost:${toString web-port}/"; };
+  services.nginx.virtualHosts."torrent.${config.clan.core.settings.machine.name}.r".locations."/" = { proxyPass = "http://localhost:${toString web-port}/"; };
   state = [ "/var/lib/deluge/.config/deluge" ];
 }

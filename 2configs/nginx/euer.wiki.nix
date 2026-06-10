@@ -7,7 +7,7 @@ let
   user = config.services.nginx.user;
   group = config.services.nginx.group;
   fpm-socket = "/var/run/php5-fpm.sock";
-  hostname = config.krebs.build.host.name;
+  hostname = config.clan.core.settings.machine.name;
   tw-upload = pkgs.tw-upload-plugin;
   base-dir = "/var/www/wiki.euer";
   base-cfg = "${base-dir}/twconf.ini";

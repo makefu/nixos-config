@@ -1,7 +1,7 @@
 { config, lib, pkgs, ... }:
 # more than just nginx config but not enough to become a module
 let
-  hostname = config.krebs.build.host.name;
+  hostname = config.clan.core.settings.machine.name;
   external-ip = config.krebs.build.host.nets.internet.ip4.addr;
   wsgi-sock = "${config.services.uwsgi.runDir}/uwsgi.sock";
 in {

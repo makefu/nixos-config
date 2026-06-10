@@ -2,7 +2,7 @@
 # more than just nginx config but not enough to become a module
 with pkgs.stockholm.lib;
 let
-  hostname = config.krebs.build.host.name;
+  hostname = config.clan.core.settings.machine.name;
   bootscript = pkgs.writeTextDir "runit" ''
     set -euf
     cd /root
