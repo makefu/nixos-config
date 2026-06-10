@@ -1,7 +1,7 @@
 {
   imports =[
     ./hetzner-share.nix
-    ./local-serve.nix
+    ./serve.nix
   ];
   services.kubo = {
     dataDir = "/media/ipfs";
