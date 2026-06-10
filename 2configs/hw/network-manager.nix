@@ -10,9 +10,6 @@
       gnome-keyring dconf
     ];
   };
-  # networking.wireless.enable = lib.mkForce false;
-  networking.wireless.enable = true; # nixos-26.04 requires wireless.enable for networkmanager
-
   #systemd.services.modemmanager = {
   #  description = "ModemManager";
   #  bindsTo = [ "NetworkManager.service" ];
@@ -30,10 +27,10 @@
   networking.networkmanager.wifi = {
     powersave = true;
     scanRandMacAddress = true;
-    backend = "iwd";
+    # backend = "iwd";
   };
   services.gnome.gnome-keyring.enable = true;
-  networking.wireless.iwd.enable = true;
+  # networking.wireless.iwd.enable = true;
 
   state = [
     "/etc/NetworkManager/system-connections"  #NM stateful config files
