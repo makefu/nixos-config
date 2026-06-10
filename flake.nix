@@ -120,6 +120,11 @@
 
     noctalia-shell.url = "github:noctalia-dev/noctalia-shell";
     noctalia-shell.inputs.nixpkgs.follows = "nixpkgs";
+
+    caveman = {
+      url = "github:JuliusBrussee/caveman";
+      flake = false;
+    };
   };
 
   description = "Flake of makefu";
@@ -215,6 +220,24 @@
       ];
       text = builtins.readFile ./2configs/wireguard/euer/add-device.sh;
     };
+    # Standalone home-manager configuration exposing the ai.nix module.
+    # Lets us build just the ai bits without rebuilding a full machine, e.g.
+    # `nix build .#homeConfigurations.ai-makefu.activationPackage` and then
+    # inspect result/home-files/.config/opencode/ to confirm the caveman
+    # plugin files landed.
+    homeConfigurations.ai-makefu = home-manager.lib.homeManagerConfiguration {
+      pkgs = pkgsForSystem "x86_64-linux";
+      extraSpecialArgs = { inherit inputs; };
+      modules = [
+        ./2configs/tools/home-manager/ai.nix
+        {
+          home.username = "makefu";
+          home.homeDirectory = "/home/makefu";
+          home.stateVersion = "25.05";
+        }
+      ];
+    };
+    packages.x86_64-linux.ai-makefu = self.homeConfigurations.ai-makefu.activationPackage;
     # packages.x86_64-linux.default = self.packages.x86_64-linux.liveiso;
     devShells.x86_64-linux.default = let
       pkgs = nixpkgs.legacyPackages.x86_64-linux;
