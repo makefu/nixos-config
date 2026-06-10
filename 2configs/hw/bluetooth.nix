@@ -31,7 +31,7 @@
 # connect via https://wiki.nixos.org/wiki/Bluetooth#Using_Bluetooth_headsets_with_PulseAudio
   hardware.bluetooth = {
     enable = true;
-    powerOnBoot = false;
+    powerOnBoot = true;
     settings.general.Enable = "Source,Sink,Media,Socket";
   };
   services.dbus.packages = [ pkgs.blueman ];
