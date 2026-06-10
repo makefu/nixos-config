@@ -201,7 +201,7 @@ in {
       # ../../2configs/deployment/boot-euer.nix
       #../../2configs/deployment/docker/archiveteam-warrior.nix
       # ../../2configs/deployment/mediengewitter.de.nix
-      ../../2configs/bgt/etherpad.euer.krebsco.de.nix
+      # ../../2configs/bgt/etherpad.euer.krebsco.de.nix
       # ../../2configs/deployment/systemdultras-rss.nix
 
       ../../2configs/deployment/wiki.euer.nix
