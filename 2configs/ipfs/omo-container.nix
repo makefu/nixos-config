@@ -156,7 +156,7 @@ in {
       ip -n '${netns}' link set dev '${ifname}' up
 
       # IPv4: default route through the tunnel (NATed by gum).
-      ip -n '${netns}' route add 172.27.70.0/24 dev '${ifname}'
+      ip -n '${netns}' route add 172.27.70.0/24 dev '${ifname}' 2>/dev/null || echo "route to 172.27.70.0 already exists"
       ip -n '${netns}' route add default        dev '${ifname}'
       # IPv6: default route through the tunnel. gum has us in its NDP
       # proxy list for ${selfPeer.publicV6}, so packets back to us are
