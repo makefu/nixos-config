@@ -157,7 +157,7 @@ in {
         };
           # See https://wiki.hyprland.org/Configuring/Dwindle-Layout/ for more
         dwindle = {
-          pseudotile = true; # Master switch for pseudotiling. Enabling is bound to mainMod + P in the keybinds section below
+          # pseudotile = true; # Master switch for pseudotiling. Enabling is bound to mainMod + P in the keybinds section below
           preserve_split = true; # You probably want this
         };
         misc = {
@@ -192,7 +192,7 @@ in {
           "$mainMod, V, togglefloating,"
           "$mainMod, R, exec, $menu"
           "$mainMod, P, pseudo, # dwindle"
-          "$mainMod, J, togglesplit, # dwindle"
+          # "$mainMod, J, togglesplit, # dwindle"
           "$mainMod, L, exec, hyprlock"
 
           # move window to scratchpad
