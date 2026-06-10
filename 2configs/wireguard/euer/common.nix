@@ -14,6 +14,7 @@ in {
     # proxy on its external interface, so the container has a fully routed
     # IPv6 address even though the host has none of its own.
     "omo-ipfs" = { ula = "fd42:e1e0::6"; ipv4 = "172.27.70.6"; publicKey = "IOb06La58Ia5fThELp0Fsd2YGEDbWZK+8/nF9O8X414="; publicV6 = "${prefix}::16"; };
+    x2 = { ula = "fd42:e1e0::7"; ipv4 = "172.27.70.7"; publicKey = "OLdzPl6U2dozwyxP5YGBJSao/nJrTRaHiVDqFBrUMFs="; publicV6 = "${prefix}::17"; };
   };
   networking.hosts = {
     "${omo}" = [ "track.euer" "keep.euer" ];

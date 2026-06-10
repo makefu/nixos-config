@@ -8,6 +8,7 @@ keys:
   - &cake_host age12xhv7z8w3zaq2c0mf940a8afnardplye9fd6p2m5ynnck3k7vd7q00sqjy
   - &savarcast_host age1x98njnqerw9nw9pzud4h6tjqqtxdmw0ugqry8uehnflk24d023tqrsuf0f
   - &filepimp_host age1evnvl9r8x7dxpm8u5uea6jxhyhhr3j3l4nlypvy5sjpcrrp3rdsq4ytkk0
+  - &x2_host age165k7tdheuth8teu2a9evmmk97enxuwqgqjjwgq34vuckpcg43drstvh5mz
 creation_rules:
   - path_regex: secrets/common.yaml$
     key_groups:
@@ -77,3 +78,9 @@ creation_rules:
       - *makefu
       age:
       - *cake_host
+  - path_regex: secrets/x2.yaml$
+    key_groups:
+    - pgp:
+      - *makefu
+      age:
+      - *x2_host
