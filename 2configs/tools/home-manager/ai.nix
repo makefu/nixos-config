@@ -75,5 +75,6 @@ in
       pi
       pkgs.pueue
       pkgs.opencode
+      pkgs.ha-mcp
     ];
 }
