@@ -17,8 +17,7 @@
 
 
       # secrets: now deployed once at host provisioning
-      { state = [ "/etc/ssh/ssh_host_rsa_key" ]; }
-      ../../2configs/backup/restic/state.nix
+      # ../../2configs/backup/restic/state.nix
 
       ../../2configs/avahi.nix
        ../../2configs/virtualisation/libvirt.nix

@@ -12,5 +12,5 @@
   boot.loader.systemd-boot.enable = true;
   boot.tmp.useTmpfs = true;
   services.fwupd.enable = true;
-  programs.light.enable = true;
+  hardware.acpilight.enable = true;
 }
