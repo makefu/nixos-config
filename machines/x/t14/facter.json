@@ -2398,7 +2398,7 @@
         "sysfs_bus_id": "0000:00:14.3",
         "sysfs_iommu_group_id": 6,
         "unix_device_names": [
-          "wlan0"
+          "wlp0s20f3"
         ],
         "resources": [
           {
@@ -2606,10 +2606,10 @@
           "value": 10
         },
         "model": "WLAN network interface",
-        "sysfs_id": "/class/net/wlan0",
+        "sysfs_id": "/class/net/wlp0s20f3",
         "sysfs_device_link": "/devices/pci0000:00/0000:00:14.3",
         "unix_device_names": [
-          "wlan0"
+          "wlp0s20f3"
         ],
         "resources": [
           {
