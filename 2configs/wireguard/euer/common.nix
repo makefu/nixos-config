@@ -17,6 +17,6 @@ in {
     x2 = { ula = "fd42:e1e0::7"; ipv4 = "172.27.70.7"; publicKey = "OLdzPl6U2dozwyxP5YGBJSao/nJrTRaHiVDqFBrUMFs="; publicV6 = "${prefix}::17"; };
   };
   networking.hosts = {
-    "${omo}" = [ "track.euer" "keep.euer" "ntfy.euer" "hass.euer" ];
+    "${omo}" = [ "track.euer" "keep.euer" "hass.euer" ];
   };
 }

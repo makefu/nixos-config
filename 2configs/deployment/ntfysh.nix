@@ -24,7 +24,7 @@ in
     StateDirectory = "ntfy-sh";
     SupplementaryGroups = [ "download" ];
   };
-  
+
   services.nginx = {
     enable = lib.mkDefault true;
     virtualHosts."${hostn}" = {
