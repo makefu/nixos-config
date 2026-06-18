@@ -9,6 +9,7 @@
 
       ps.virtualenv ps.pyserial ps.virtualenv
     ]))
+    nixfmt-rfc-style
     # embedded
     picocom
     gi
