@@ -128,7 +128,6 @@ in {
       ../../2configs/virtualisation/podman.nix
       # ../../2configs/bluetooth-mpd.nix
 
-      ../../2configs/home/adguard.nix
       ../../2configs/home/mdrss.nix
       ../../2configs/home/jellyfin.nix
       ../../2configs/home/music.nix
@@ -137,7 +136,6 @@ in {
       ../../2configs/home/komga.nix
       # ../../2configs/home/tonie.nix
       #../../2configs/home/ps4srv.nix
-      ../../2configs/home/metube.nix
       # ../../2configs/home/ham
       ../../2configs/home/ham/docker.nix
       ../../2configs/home/zigbee/omo.nix
@@ -148,15 +146,13 @@ in {
       #../../2configs/home/yamtrack.nix
       ../../2configs/home/yamtrack-module.nix
       ../../2configs/home/changedetection.nix
+
+      # clevis/tang setup
+      ../../2configs/home/tang.nix
+
+      ../../2configs/home/ntfysh.nix
       # büroautomatisierung
       # ../../2configs/bam/matrix/server.nix
-      {
-        makefu.ps3netsrv = {
-          enable = true;
-          servedir = "/media/cryptX/emu/ps3";
-        };
-        users.users.makefu.packages = [ pkgs.pkgrename ];
-      }
 
       ../../2configs/home/paperless.nix
 
