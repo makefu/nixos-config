@@ -71,6 +71,9 @@
           "root/home" = {
             type = "zfs_fs";
             mountpoint = "/home";
+            options = {
+              "com.sun:auto-snapshot" = "true";
+            };
           };
         };
       };

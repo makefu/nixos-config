@@ -20,32 +20,6 @@
                 mountOptions = [ "umask=0077" ];
               };
             };
-            luks = {
-              size = "100%";
-              content = {
-                type = "luks";
-                name = "crypted";
-                content = {
-                  type = "btrfs";
-                  extraArgs = [ "-f" ];
-                  subvolumes = {
-                    "/root" = {
-                      mountpoint = "/";
-                    };
-                    "/home" = {
-                      mountpoint = "/home";
-                    };
-                    "/nix" = {
-                      mountpoint = "/nix";
-                    };
-                    #"/swap" = {
-                    #  mountpoint = "/swapvol";
-                    #  swap.swapfile.size = "17G";
-                    #};
-                  };
-                };
-              };
-            };
           };
         };
       };
