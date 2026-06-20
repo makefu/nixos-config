@@ -36,6 +36,14 @@ let
   ifname = "ipfs-wg";
   dataDir = "/media/cryptX/ipfs";
 
+  # Host-side wrapper: proxies any `ipfs ...` invocation into the kubo
+  # container. stdin/stdout/exit code pass through, so the usual recipes
+  # (`ipfs add -Q < /path/to/file`, `ipfs pin add <cid>`, `ipfs cat <cid>`)
+  # work unchanged. See ./README.md for the full operator playbook.
+  ipfsHost = pkgs.writeShellScriptBin "ipfs" ''
+    exec ${pkgs.nixos-container}/bin/nixos-container run kubo -- ipfs "$@"
+  '';
+
   # uid 261 is the NixOS-reserved id for the ipfs user
   # (lib/nixos/misc/ids.nix). With systemd-nspawn and no user-namespace
   # remapping, the in-container ipfs uid maps 1:1 to the host so the
@@ -53,6 +61,11 @@ let
 in {
 
   sops.secrets."omo-ipfs-euer-wg.key" = {};
+
+  # `ipfs` on PATH for root: thin wrapper into the kubo container so
+  # operating the daemon does not require remembering the
+  # `nixos-container run kubo -- ipfs ...` prefix.
+  users.users.root.packages = [ ipfsHost ];
 
   # Host-side `ipfs` user/group: only purpose is to give the bind-mounted
   # data directory a stable owner that matches the in-container ipfs user.
