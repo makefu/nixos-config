@@ -24,12 +24,12 @@ in
     StateDirectory = "ntfy-sh";
     SupplementaryGroups = [ "download" ];
   };
-
+  security.acme.certs."euer.krebsco.de".extraDomainNames = [hostn];
   services.nginx = {
     enable = lib.mkDefault true;
     virtualHosts."${hostn}" = {
       forceSSL = true;
-      enableACME = true;
+      useACMEHost = "euer.krebsco.de";
 
       locations."/" = {
         proxyPass  = "http://localhost:${toString web-port}/";
