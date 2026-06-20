@@ -63,7 +63,8 @@ in {
       # ../../2configs/vpn/vpnws/server.nix
       #../../2configs/dnscrypt/server.nix
       ../../2configs/iodined.nix
-      ../../2configs/ipfs/hetzner-serve.nix
+
+      # ../../2configs/ipfs/hetzner-serve.nix
       # ../../2configs/backup.nix
       ../../2configs/tinc/retiolum.nix
       { # bonus retiolum config for connecting more hosts
@@ -157,7 +158,7 @@ in {
       ../../2configs/deployment/rss/rss.euer.krebsco.de.nix # postgres backend
       ../../2configs/deployment/rss/ratt.nix
 
-      # ../../2configs/deployment/ntfysh.nix
+      ../../2configs/deployment/ntfysh.nix
       ../../2configs/deployment/nextcloud #postgres backend
       # ../../2configs/deployment/nextcloud/screeenly.nix
 
