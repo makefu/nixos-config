@@ -3,12 +3,7 @@
   imports =
     [
       ./x230
-      #./t14
-      #{ # congress
-      #  nix.settings.substituters = lib.mkForce [ "https://cache.nixos.sh" ];
-      #}
       # do not build in tmpfs
-      { systemd.services.nix-daemon.environment.TMPDIR = "/var/tmp";}
 
       ../../2configs/performance/nix-performance.nix
       ../../2configs/default.nix

@@ -75,8 +75,10 @@ in
           mountpoint = "/";
           options = {
             encryption = "aes-256-gcm";
-            keyformat = "raw";
-            keylocation = "file:///etc/zfs/zroot.key";
+            keyformat = "passphrase";
+            "com.sun:auto-snapshot" = "true";
+            #keyformat = "raw";
+            #keylocation = "file:///etc/zfs/zroot.key";
           };
         };
 

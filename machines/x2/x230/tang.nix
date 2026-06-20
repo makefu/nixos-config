@@ -7,7 +7,7 @@
     enable = true;
     useTang = true;
 
-    devices."rpool/root".secretFile = ./zroot.key.jwe;
+    devices."rpool/root".secretFile = "/etc/clevis/zfs-root.jwe";
   };
   boot.initrd.availableKernelModules = [
     "virtio_net"
