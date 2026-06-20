@@ -70,7 +70,6 @@ in {
     home.sessionVariables.NIXOS_OZONE_WL = "1";
     home.packages = with pkgs; [
       kdePackages.dolphin
-      wofi
       grimblast # screenshot
     ];
 
@@ -103,7 +102,7 @@ in {
         };
         "$terminal" = "kitty";
         "$fileManager" = "dolphin";
-        "$menu" = "wofi --show drun";
+        "$menu" = "noctalia-shell ipc call launcher toggle";
         exec-once = [
           #"nm-applet"
           # "waybar"
