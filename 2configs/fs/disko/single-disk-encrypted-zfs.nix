@@ -2,6 +2,8 @@
 {
   services.zfs.autoScrub.enable = true;
   boot.zfs.requestEncryptionCredentials = true;
+  # new default from 26.11; avoids forcibly importing a pool last used elsewhere
+  boot.zfs.forceImportRoot = false;
   boot.supportedFilesystems = [ "zfs" ];
   boot.loader.efi.canTouchEfiVariables = true;
   boot.loader.systemd-boot.enable = true;

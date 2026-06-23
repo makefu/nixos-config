@@ -7,6 +7,8 @@
     #programs.beets.enable = true;
     programs.firefox = {
       enable = true;
+      # keep legacy profile path; stateVersion < 26.05 still uses ~/.mozilla
+      configPath = ".mozilla/firefox";
     };
     programs.obs-studio.enable = true;
     xdg.enable = true;

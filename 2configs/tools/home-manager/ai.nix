@@ -113,7 +113,6 @@ in
     programs.mics-skills = {
       enable = true;
       package = micsSkillsPkgs;
-      skillsSrc = inputs.mics-skills;
       skills = [
         #"browser-cli"
         #"calendar-cli"
