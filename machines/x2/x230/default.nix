@@ -4,6 +4,7 @@
         ../../../2configs/hw/tp-x230.nix
         ./encrypted-zfs.nix
         ./tang.nix
+        ./wifi.nix
         ./secureboot.nix
 
   ];
