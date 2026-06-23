@@ -1,4 +1,4 @@
-{ pkgs, lib, config, ... }:
+{ pkgs, lib, config, inputs, ... }:
 {
   imports = [
     # ../binary-cache/lass.nix
@@ -6,6 +6,7 @@
 
   krebs.tinc.retiolum = {
     enable = true;
+    tincPackage = inputs.tincr.packages.${pkgs.stdenv.hostPlatform.system}.tincd;
     extraConfig = ''
       StrictSubnets = yes
       ${lib.optionalString (config.krebs.build.host.nets.retiolum.via != null) ''
