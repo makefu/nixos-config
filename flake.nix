@@ -62,8 +62,8 @@
     #lanzaboote.inputs.flake-parts.follows = "flake-parts";
     #lanzaboote.inputs.pre-commit-hooks-nix.follows = "";
 
-    vscode-server.url = "github:nix-community/nixos-vscode-server";
-    vscode-server.inputs.nixpkgs.follows = "nixpkgs";
+    #vscode-server.url = "github:nix-community/nixos-vscode-server";
+    #vscode-server.inputs.nixpkgs.follows = "nixpkgs";
 
     audio-scripts.url = "github:makefu/audio-scripts";
     audio-scripts.inputs.nixpkgs.follows = "nixpkgs";
@@ -136,7 +136,7 @@
   description = "Flake of makefu";
 
   outputs = { self, nixpkgs, lanzaboote, nixos-hardware, nix-ld, clan-core,
-              home-manager, nix-writers, vscode-server, llm-agents,
+              home-manager, nix-writers, llm-agents,
               ...}@inputs:
   let
     inherit (nixpkgs) lib pkgs;
@@ -181,7 +181,12 @@
           #inputs.nether.nixosModules.hosts
 
           self.nixosModules.default
-          vscode-server.nixosModules.default
+          # Disabled: pulling this module forces flake-utils.eachSystem over
+          # defaultSystems (incl. x86_64-darwin) in vscode-server's outputs,
+          # which instantiates an Intel-darwin nixpkgs and spams the
+          # x86_64-darwin deprecation warning on every eval. Re-enable once
+          # upstream drops x86_64-darwin from its systems list.
+          #vscode-server.nixosModules.default
           #self.nixosModules.krebs
           (./machines + "/${host}/config.nix")
 
