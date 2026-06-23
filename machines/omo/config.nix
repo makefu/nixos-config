@@ -81,6 +81,7 @@ in {
       ../../2configs/wireguard/wiregrill-client.nix
       ../../2configs/wireguard/euer/client.nix
       ../../2configs/ipfs/omo-container.nix
+      ../../2configs/radicle/omo-container.nix
 
       #  Community services
       ../../2configs/nix-community/legacy-mediawiki-matrix-bot.nix
