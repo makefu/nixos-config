@@ -19,6 +19,6 @@
     homepage = "https://github.com/dim13/otpauth";
     license = licenses.isc;
     maintainers = with maintainers; [ makefu ];
-    platforms = platforms.linux ++ platforms.darwin;
+    platforms = platforms.linux;
   };
 }
