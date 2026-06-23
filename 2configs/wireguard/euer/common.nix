@@ -16,7 +16,7 @@ in {
     # omo-ipfs netns hosts both kubo (no TCP exposure — uses QUIC) and
     # radicle-node (TCP 8776); see 2configs/{ipfs,radicle}/omo-container.nix.
     "omo-ipfs" = { ula = "fd42:e1e0::6"; ipv4 = "172.27.70.6"; publicKey = "IOb06La58Ia5fThELp0Fsd2YGEDbWZK+8/nF9O8X414="; publicV6 = "${prefix}::16"; openTCPPorts = [ 8776 ]; };
-    x2 = { ula = "fd42:e1e0::7"; ipv4 = "172.27.70.7"; publicKey = "OLdzPl6U2dozwyxP5YGBJSao/nJrTRaHiVDqFBrUMFs="; publicV6 = "${prefix}::17"; };
+    x2 = { ula = "fd42:e1e0::7"; ipv4 = "172.27.70.7"; publicKey = "Wkzb7YSw8Yz0hosSBg63JWopsrqR6vZtkvWkvbzerw4="; publicV6 = "${prefix}::17"; };
   };
   networking.hosts = {
     "${omo}" = [ "track.euer" "keep.euer" "hass.euer" ];

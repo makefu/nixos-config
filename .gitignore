@@ -1,3 +1,6 @@
 result
 nixos.qcow2
 .direnv
+tmp/
+secrets/x2/
+secrets/x/

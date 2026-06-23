@@ -78,9 +78,3 @@ creation_rules:
       - *makefu
       age:
       - *cake_host
-  - path_regex: secrets/x2.yaml$
-    key_groups:
-    - pgp:
-      - *makefu
-      age:
-      - *x2_host

@@ -93,6 +93,10 @@ in mkIf (hasAttr "wiregrill" config.krebs.build.host.nets) {
         persistentKeepalive = mkIf (!isNull host.nets.wiregrill.via) 61;
         publicKey = (replaceStrings ["\n"] [""] host.nets.wiregrill.wireguard.pubkey);
       })
-      (filterAttrs (_: h: hasAttr "wiregrill" h.nets && h.nets.wiregrill.wireguard != null) config.krebs.hosts);
+      (filterAttrs (_: h:
+        hasAttr "wiregrill" h.nets
+        && h.nets.wiregrill.wireguard != null
+        && (let r = builtins.tryEval h.nets.wiregrill.wireguard.pubkey; in r.success && r.value != null)
+      ) config.krebs.hosts);
   };
 }
