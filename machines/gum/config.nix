@@ -259,5 +259,6 @@ in {
   };
   users.users.makefu.extraGroups = [ "download" "nginx" ];
   state = [ "/home/makefu/.weechat" ];
-  clan.core.networking.targetHost = "root@gum.i";
+  # gum is the euer hub itself — deploy over public internet, not via overlay.
+  clan.core.networking.targetHost = "root@gum.krebsco.de";
 }
