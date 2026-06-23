@@ -17,7 +17,15 @@ in {
       TZ = "Europe/Berlin";
       UMASK = "007";
     };
-    extraOptions = ["--net=host" ];
+    extraOptions = [
+      "--net=host"
+      # Required for habluetooth adapter recovery and aiodhcpwatcher
+      # passive DHCP discovery; without these, the integrations log
+      # "Missing NET_ADMIN/NET_RAW capabilities" / "Operation not
+      # permitted" on every restart.
+      "--cap-add=NET_ADMIN"
+      "--cap-add=NET_RAW"
+    ];
     volumes = [
       "${confdir}:/config"
       #"/data/music:/config/media"
