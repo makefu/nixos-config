@@ -39,6 +39,7 @@ in
       viAlias = true;
       vimAlias = true;
       withPython3 = true;
+      withRuby = false;
       # withNodeJs = true;
       extraPython3Packages = (ps: with ps; [
         # python-language-server

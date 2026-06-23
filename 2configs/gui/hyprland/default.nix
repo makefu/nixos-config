@@ -80,7 +80,7 @@ in {
 
     wayland.windowManager.hyprland = {
       enable = true;
-
+      configType = "hyprlang";
       package = null; # use programs.hyprland.package
       portalPackage = null;
 

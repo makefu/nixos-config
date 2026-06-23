@@ -68,7 +68,7 @@ systemd.services.nextcloud-setup = {
     enable = true;
     configureRedis = true;
 
-    package = pkgs.nextcloud32;
+    package = pkgs.nextcloud33;
     hostName = "o.euer.krebsco.de";
     # Use HTTPS for links
     https = true;

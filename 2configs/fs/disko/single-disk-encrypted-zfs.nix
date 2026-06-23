@@ -1,4 +1,4 @@
-{ config, disk ? "/dev/nvme0n1", hostId, ... }: 
+{ disk ? "/dev/nvme0n1", hostId, ... }:
 {
   services.zfs.autoScrub.enable = true;
   boot.zfs.requestEncryptionCredentials = true;
