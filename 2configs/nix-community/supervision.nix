@@ -32,7 +32,7 @@ in {
           files = [ "/sys/fs/ext4/*/errors_count" ];
           data_format = "value";
         };
-        exec = lib.optionalAttrs (config.boot.supportedFilesystems ? "zfs") {
+        exec = lib.mkIf (config.boot.supportedFilesystems ? "zfs") {
           ## Commands array
           commands = [
             (pkgs.writeScript "zpool-health" ''
