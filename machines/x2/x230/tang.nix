@@ -1,5 +1,9 @@
 { lib, ... }:
 {
+
+  # only one-off required, encrypted via tang
+  boot.initrd.secrets."/etc/clevis/zfs-root.jwe" = "/etc/clevis/zfs-root.jwe";
+
   boot.initrd.systemd.tpm2.enable = lib.mkForce false;
   boot.initrd.clevisLuksAskpass.enable = true;
   boot.initrd.clevisLuksAskpass.useTang = true;
