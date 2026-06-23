@@ -216,6 +216,25 @@ in {
       networking.firewall.enable = false;
       systemd.network.enable = false;
 
+      # mergerfs lazy-enumeration on the host can briefly make the
+      # bind-mounted /var/lib/ipfs look empty or partial inside the container.
+      # That has bitten us twice:
+      #   - kubo's nixpkgs pre-start runs `ipfs init` when `config` is absent,
+      #     which would regenerate the peer identity.
+      #   - subsequent restarts then trip "missing SHARDING file" and the
+      #     default StartLimit (5 in 10s) latches the daemon dead until manual
+      #     `systemctl reset-failed ipfs; systemctl restart ipfs`.
+      # The host-side ExecStartPre on container@kubo now waits for the repo
+      # to be visible, but keep these bumps as belt-and-braces so a transient
+      # hiccup retries for minutes instead of seconds.
+      systemd.services.ipfs = {
+        unitConfig = {
+          StartLimitBurst = 30;
+          StartLimitIntervalSec = 600;
+        };
+        serviceConfig.RestartSec = "10s";
+      };
+
       services.kubo = {
         enable = true;
         dataDir = "/var/lib/ipfs";
@@ -244,6 +263,16 @@ in {
   };
 
   # 4) ordering: wait for storage, netns and wg before the container comes up
+  #
+  # media-cryptX.mount activates as soon as the mergerfs FUSE process is up
+  # — *before* its branches (media-crypt{0..3}.mount) are mounted. On a real
+  # boot we have measured >80s between cryptX becoming active and crypt3 (the
+  # branch that holds the kubo `config`/`blocks/SHARDING`) finishing fsck and
+  # mounting. Just depending on `media-cryptX.mount` therefore lets the
+  # container start with an empty bind source, which made kubo's pre-start
+  # run a destructive `ipfs init` and then latched the daemon dead via
+  # StartLimit on retries. Require every branch explicitly so mergerfs is
+  # fully populated before the container starts.
   systemd.services."container@kubo" = {
     after = [
       "media-cryptX.mount"
@@ -255,6 +284,12 @@ in {
       "netns-${netns}.service"
       "wireguard-${ifname}.service"
     ];
-    unitConfig.RequiresMountsFor = [ dataDir ];
+    unitConfig.RequiresMountsFor = [
+      dataDir
+      "/media/crypt0"
+      "/media/crypt1"
+      "/media/crypt2"
+      "/media/crypt3"
+    ];
   };
 }
