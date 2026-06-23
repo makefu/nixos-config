@@ -151,7 +151,6 @@ in {
       # clevis/tang setup
       ../../2configs/home/tang.nix
 
-      ../../2configs/home/ntfysh.nix
       # büroautomatisierung
       # ../../2configs/bam/matrix/server.nix
 
