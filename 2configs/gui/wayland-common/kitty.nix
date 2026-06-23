@@ -31,7 +31,7 @@ in {
 
         # REQUIRED: Set up socket for remote control
         # The socket path can be customized, but using kitty_pid ensures uniqueness
-        "listen_on" = "unix:/home/makefu/kitty-{kitty_pid}.sock";
+        "listen_on" = "unix:/home/makefu/.config/kitty/kitty-{kitty_pid}.sock";
 
         # RECOMMENDED: Enable splits layout for pane splitting
         enabled_layouts = "splits,stack";
