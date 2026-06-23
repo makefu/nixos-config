@@ -133,6 +133,8 @@ for shape.
 
 ## Secrets — clan + sops
 
+IMPORTANT: use `clan secrets`
+
 See full reference below. TL;DR:
 
 ```sh

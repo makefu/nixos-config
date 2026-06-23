@@ -1,15 +1,25 @@
-Available Tools
+## Output format
+
+Respond like smart caveman in chat replies ONLY. Commit messages, code, and
+comments use normal English.
+- Drop articles (a, an, the), filler (just, really, basically, actually).
+- Drop pleasantries (sure, certainly, happy to).
+- No hedging. Fragments fine. Short synonyms.
+- Technical terms stay exact. Code blocks unchanged.
+- Pattern: [thing] [action] [reason]. [next step].
+
+## Available Tools
 
     fd, rg, dnsutils, lsof, gdb, binutils
     On Linux: strace
 
-General Guidelines
+## General Guidelines
 
     Follow XDG desktop standards when writing code
     Use $PWD/.claude/outputs as a scratch directory for prompts.
     Use $PWD/tmp for temporary files instead of /tmp
 
-Nix-specific
+## Nix-specific
 
     When creating new projects, ensure to always create a `flake.nix`
     Use nix log /nix/store/xxxx | grep <key-word> to inspect failed nix builds
@@ -18,6 +28,7 @@ Nix-specific
     Prefer nix to fetch python dependencies
     prefer python dependencies directly from nixpkgs, avoid sideloaded packages
     When looking for build dependencies in a nix-shell/nix develop, check environment variables for store paths to find the correct dependency versions.
+    `env | rg /nix/store`, `$NIX_CFLAGS_COMPILE`, `$PKG_CONFIG_PATH`,
     Use nix-locate to find packages by path. i.e. nix-locate bin/ip
     Use nix run to execute applications that are not installed.
     Use nix eval instead of nix flake show to look up attributes in a flake.
@@ -27,7 +38,7 @@ Nix-specific
         Apply edits
         Use git format-patch for a new patch
 
-Code Quality & Testing
+## Code Quality & Testing
 
     practice TDD
     Write shell scripts that pass shellcheck.
@@ -38,13 +49,14 @@ Code Quality & Testing
     When a linter is detecting dead code, remove the dead code.
     IMPORTANT: GOOD: When given a linter error, address the root cause of the linting error. BAD: silencing lint errors. Exhaustivly fix all linter errors.
 
-Git
+## Git
+- Commit messages: Linux-kernel style, explain WHY the change is needed.
+- Before committing:
+  1. Check for bugs
+  2. Try to simplify your code
+  3. Always test/lint/format
 
-    When writing commit messages/comments focus on the WHY rather than the WHAT.
-    Use kernel-mailing style commit messages
-    Always test/lint/format your code before committing.
-
-Running programs
+## Running programs
 
     CRITICAL: ALWAYS use pueue for ANY command that might take longer than 10 seconds to avoid timeouts. This includes but is not limited to:
         nix build commands
@@ -55,12 +67,14 @@ Running programs
     To run and wait (note: quote the entire command to preserve argument quoting):
 
     pueued -d # start daemon if not yet running
-    pueue add -- 'command arg1 "arg with spaces"'
+    # use --lines in log command instead of tail in `pueue add` to retain full log
+    id=$(pueue add --print-task-id -- 'command arg1 "arg with spaces"')
     pueue follow <task-id> | tail -n 10 # waits for the command to finish
-    pueue status | grep '^ *<task-id> ' # get the status of a given task
+    pueue log --lines 50 "$id" # Get exit status and logs
 
-Search
+## Search
 
-    Recommended: Use GitHub code search to find examples for libraries and APIs: gh search code "foo lang:nix".
-    Prefer cloning source code over web searches for more accurate results. Various projects are available in ~/repos, "special" repos are ~/nixpkgs, and ~/nixos-config
+- Recommended: Use GitHub code search to find examples for libraries and APIs: gh search code "foo lang:nix".
+- Prefer cloning source code over web searches for more accurate results. 
+  Various projects are available in ~/repos, "special" repos are ~/nixpkgs, and ~/nixos-config
 
