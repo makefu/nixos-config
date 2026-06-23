@@ -4,11 +4,10 @@ in {
   services.tang = {
     enable = true;
     listenStream = [
-      (toString port)
+      "192.168.111.11:${toString port}"
     ];
     ipAddressAllow = [
-      "0.0.0.0"
-      "::/0"
+      "192.168.111.0/24"
     ];
   };
 

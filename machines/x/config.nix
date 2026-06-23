@@ -218,7 +218,7 @@
       # ../../2configs/lanparty/mumble-server.nix
       ../../2configs/wireguard/wiregrill-client.nix
       ../../2configs/wireguard/euer/client.nix
-      ../../2configs/home/tang.nix
+      #../../2configs/home/tang.nix
       #{ users.users.makefu.extraGroups = [ "ipfs" ]; }
       #../../2configs/ipfs/serve.nix
       # ../../2configs/networking/tailscale.nix
