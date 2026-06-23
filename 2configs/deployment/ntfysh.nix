@@ -37,7 +37,7 @@ in
       useACMEHost = "euer.krebsco.de";
 
       locations."/" = {
-        proxyPass  = "http://localhost:${toString web-port}/";
+        proxyPass  = "http://127.0.0.1:${toString web-port}/";
         proxyWebsockets = true;
         recommendedProxySettings = true;
       };
