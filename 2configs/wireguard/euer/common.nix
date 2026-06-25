@@ -4,21 +4,28 @@ let
 in {
 
   makefu.euer-wg.peers = {
-    gum = { ula = "fd42:e1e0::1"; ipv4 = "172.27.70.1"; publicKey = "nGVKBqslGPW+H/t+FG6L5JGUVS2DwPOM/UP3b7BRtTM="; };
-    omo = { ula = omo; ipv4 = "172.27.70.2"; publicKey = "uo8r+EyDtF6YcVgtrDsyX9vnewMclnrEPjNS4w6fsTM="; publicV6 = "${prefix}::12"; };
-    x   = { ula = "fd42:e1e0::3"; ipv4 = "172.27.70.3"; publicKey = "FRowaSBIxz3caOyND8HQOXhnvpKkvGbN4Ok0239w9As="; publicV6 = "${prefix}::13"; };
-    mobilex = { ula = "fd42:e1e0::4"; ipv4 = "172.27.70.4"; publicKey = "400DDEJkFlFsnxAWSSpWVyFyI3El1ICQMCfYsFYRnnw="; publicV6 = "${prefix}::14"; };
-    mobilecam = { ula = "fd42:e1e0::5"; ipv4 = "172.27.70.5"; publicKey = "aLNirEv5HBnPO+jG/Zuf/b8JXcX+gnFsVOtBlOATpV0="; publicV6 = "${prefix}::15"; };
+    gum =        { ula = "fd42:e1e0::1"; ipv4 = "172.27.70.1"; publicKey = "nGVKBqslGPW+H/t+FG6L5JGUVS2DwPOM/UP3b7BRtTM="; };
+    omo =        { ula = "fd42:e1e0::2"; ipv4 = "172.27.70.2"; publicKey = "uo8r+EyDtF6YcVgtrDsyX9vnewMclnrEPjNS4w6fsTM="; publicV6 = "${prefix}::12"; };
+    x   =        { ula = "fd42:e1e0::3"; ipv4 = "172.27.70.3"; publicKey = "FRowaSBIxz3caOyND8HQOXhnvpKkvGbN4Ok0239w9As="; publicV6 = "${prefix}::13"; };
+    mobilex =    { ula = "fd42:e1e0::4"; ipv4 = "172.27.70.4"; publicKey = "400DDEJkFlFsnxAWSSpWVyFyI3El1ICQMCfYsFYRnnw="; publicV6 = "${prefix}::14"; };
+    mobilecam =  { ula = "fd42:e1e0::5"; ipv4 = "172.27.70.5"; publicKey = "aLNirEv5HBnPO+jG/Zuf/b8JXcX+gnFsVOtBlOATpV0="; publicV6 = "${prefix}::15"; };
     # virtual peer living inside the `ipfs` netns on omo; see
     # 2configs/ipfs/omo-container.nix. publicV6 is announced by gum via NDP
     # proxy on its external interface, so the container has a fully routed
     # IPv6 address even though the host has none of its own.
     # omo-ipfs netns hosts both kubo (no TCP exposure — uses QUIC) and
-    # radicle-node (TCP 8776); see 2configs/{ipfs,radicle}/omo-container.nix.
-    "omo-ipfs" = { ula = "fd42:e1e0::6"; ipv4 = "172.27.70.6"; publicKey = "IOb06La58Ia5fThELp0Fsd2YGEDbWZK+8/nF9O8X414="; publicV6 = "${prefix}::16"; openTCPPorts = [ 8776 ]; };
-    x2 = { ula = "fd42:e1e0::7"; ipv4 = "172.27.70.7"; publicKey = "Wkzb7YSw8Yz0hosSBg63JWopsrqR6vZtkvWkvbzerw4="; publicV6 = "${prefix}::17"; };
+    # radicle-node p2p (TCP 8776) + nginx serving radicle-explorer / seed
+    # HTTP API (TCP 80; httpd itself stays on loopback 8081, 8080 is kubo's
+    # IPFS gateway); see 2configs/{ipfs,radicle}/omo-container.nix.
+    "omo-ipfs" = { ula = "fd42:e1e0::6"; ipv4 = "172.27.70.6"; publicKey = "IOb06La58Ia5fThELp0Fsd2YGEDbWZK+8/nF9O8X414="; publicV6 = "${prefix}::16"; openTCPPorts = [ 8776 80 443 ]; };
+    x2 =         { ula = "fd42:e1e0::7"; ipv4 = "172.27.70.7"; publicKey = "Wkzb7YSw8Yz0hosSBg63JWopsrqR6vZtkvWkvbzerw4="; publicV6 = "${prefix}::17"; };
   };
   networking.hosts = {
-    "${omo}" = [ "track.euer" "keep.euer" "hass.euer" ];
+    "${omo}" = [
+      "track.euer"
+      "keep.euer"
+      "hass.euer"
+      "graph.euer"
+    ];
   };
 }

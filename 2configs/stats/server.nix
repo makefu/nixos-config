@@ -19,7 +19,11 @@ in {
 
   # redirect grafana to stats.makefu.r
   services.nginx.enable = true;
-  services.nginx.virtualHosts."stats.makefu.r".locations."/".proxyPass = "http://localhost:3000";
+  services.nginx.virtualHosts."stats.makefu.r" = {
+    serverAliases = [ "graph.euer" ];
+    locations."/".proxyPass = "http://localhost:3000";
+  };
+  networking.firewall.interfaces.euer.allowedTCPPorts = [ influx-port grafana-port collectd-port ];
   # forward these via nginx
   services.influxdb.dataDir = "/media/silent/db/influxdb";
   services.influxdb.extraConfig = {

@@ -207,7 +207,6 @@ in {
 
       ../../2configs/deployment/wiki.euer.nix
 
-      # ../../2configs/deployment/hoarder-proxy.nix
       ../../2configs/deployment/mdrss-proxy.nix
       ../../2configs/deployment/abook-proxy.nix
       ../../2configs/deployment/book-proxy.nix

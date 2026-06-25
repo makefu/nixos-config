@@ -32,7 +32,7 @@ in
   services.nginx = {
     enable = lib.mkDefault true;
     virtualHosts."paper.omo.r" = {
-      serverAliases = [ "work.euer.krebsco.de" "paper.euer.krebsco.de" "paper.makefu.r" ];
+      serverAliases = [ "paper.euer" "work.euer.krebsco.de" "paper.euer.krebsco.de" "paper.makefu.r" ];
       locations."/" = {
         proxyPass = "http://localhost:28981";
       };
