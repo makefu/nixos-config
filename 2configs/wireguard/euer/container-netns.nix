@@ -42,9 +42,11 @@ let
 in {
   sops.secrets."${peerName}-euer-wg.key" = {};
 
+  # Resolve via the wireguard-internal DNS on gum's ULA so name lookups stay
+  # inside the mesh (fd42:e1e0::/64 is the only v6 route in this netns, routed
+  # through wg) rather than leaking to public resolvers.
   environment.etc."netns/${netns}/resolv.conf".text = ''
-    nameserver 1.1.1.1
-    nameserver 9.9.9.9
+    nameserver fd42:e1e0::1
   '';
 
   systemd.services."netns-${netns}" = {
