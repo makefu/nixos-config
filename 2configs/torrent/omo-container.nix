@@ -28,11 +28,14 @@ let
   # only reachable inside the euer mesh; omo's nginx proxies to it.
   floodHost = config.makefu.euer-wg.peers."omo-ipfs".ula;
 
-  # Stable uid/gid so the bind-mounted dataDir is owned by the same id on
-  # host and inside the container (systemd-nspawn maps uids 1:1 here).
-  # rtorrent has no nixpkgs-reserved id; 392 is unused on omo (391 = radicle).
-  rtorrentUid = 392;
-  rtorrentGid = 392;
+  # Run rtorrent/flood as the host's `download` user/group so finished
+  # downloads land in the shared media tree with the same ownership as every
+  # other download service (see 2configs/share/default.nix). systemd-nspawn
+  # maps uids 1:1 here, so the in-container `download` user must reuse the
+  # host uid/gid for the bind-mounted dataDir to be writable and for the
+  # files to be shareable.
+  downloadUid = config.users.users.download.uid;
+  downloadGid = config.users.groups.download.gid;
 in {
   imports = [
     ../wireguard/euer/omo-ipfs-netns.nix
@@ -43,20 +46,13 @@ in {
     sopsFile = ../../secrets/torrent.yaml;
   };
 
-  # Host-side rtorrent user/group: only purpose is to give the bind-mounted
-  # download directory a stable owner matching the in-container rtorrent user.
-  users.users.rtorrent = {
-    isSystemUser = true;
-    group = "rtorrent";
-    uid = rtorrentUid;
-    description = "rtorrent data owner (host side)";
-  };
-  users.groups.rtorrent.gid = rtorrentGid;
-
+  # The host `download` user/group (2configs/share/default.nix, imported on
+  # omo) already owns the shared media tree; just make sure the finished
+  # directory exists with that owner so the container can write into it.
   systemd.tmpfiles.settings."10-torrent-data" = {
     "${dataDir}".d = {
-      user = "rtorrent";
-      group = "rtorrent";
+      user = "download";
+      group = "download";
       mode = "0775";
     };
   };
@@ -86,14 +82,24 @@ in {
       networking.firewall.enable = false;
       systemd.network.enable = false;
 
-      # Pin uid/gid to match the host bind-mount owner.
-      users.users.rtorrent.uid = lib.mkForce rtorrentUid;
-      users.groups.rtorrent.gid = lib.mkForce rtorrentGid;
+      # Recreate the host `download` user/group inside the container with the
+      # exact same uid/gid (nspawn maps uids 1:1), so the bind-mounted dataDir
+      # is writable and finished files carry the shared download ownership.
+      # services.rtorrent only auto-creates its user when user == "rtorrent",
+      # so for user == "download" we must define it ourselves.
+      users.groups.download.gid = downloadGid;
+      users.users.download = {
+        uid = downloadUid;
+        group = "download";
+        isSystemUser = true;
+        description = "shared download owner";
+      };
 
       services.rtorrent = {
         enable = true;
         port = peer-port;
-        group = "rtorrent";
+        user = "download";
+        group = "download";
         dataPermissions = "0775";
         # rtorrent state (session/log/watch) lives in the container rootfs,
         # which persists across restarts; only finished downloads go to the
@@ -115,14 +121,14 @@ in {
       };
 
       # flood reaches rtorrent over its rpc socket, which the rtorrent rc
-      # chowns to the rtorrent group with g+w — so flood must run as the
-      # rtorrent user/group rather than its default DynamicUser.
+      # chowns to the download group with g+w — so flood must run as the
+      # download user/group rather than its default DynamicUser.
       systemd.services.flood = {
         after = [ "rtorrent.service" ];
         serviceConfig = {
           DynamicUser = lib.mkForce false;
-          User = "rtorrent";
-          Group = "rtorrent";
+          User = "download";
+          Group = "download";
         };
       };
     };
