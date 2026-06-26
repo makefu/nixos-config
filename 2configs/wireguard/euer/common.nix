@@ -13,11 +13,13 @@ in {
     # 2configs/ipfs/omo-container.nix. publicV6 is announced by gum via NDP
     # proxy on its external interface, so the container has a fully routed
     # IPv6 address even though the host has none of its own.
-    # omo-ipfs netns hosts both kubo (no TCP exposure — uses QUIC) and
-    # radicle-node p2p (TCP 8776) + nginx serving radicle-explorer / seed
-    # HTTP API (TCP 80; httpd itself stays on loopback 8081, 8080 is kubo's
-    # IPFS gateway); see 2configs/{ipfs,radicle}/omo-container.nix.
-    "omo-ipfs" = { ula = "fd42:e1e0::6"; ipv4 = "172.27.70.6"; publicKey = "IOb06La58Ia5fThELp0Fsd2YGEDbWZK+8/nF9O8X414="; publicV6 = "${prefix}::16"; openTCPPorts = [ 8776 80 443 ]; };
+    # omo-ipfs netns hosts kubo (no TCP exposure — uses QUIC), radicle-node
+    # p2p (TCP 8776) + nginx serving radicle-explorer / seed HTTP API (TCP 80;
+    # httpd itself stays on loopback 8081, 8080 is kubo's IPFS gateway) and
+    # rtorrent (BitTorrent peer port 51412). flood's web UI is intentionally
+    # NOT listed here — it stays internal-only on the ULA. See
+    # 2configs/{ipfs,radicle,torrent}/omo-container.nix.
+    "omo-ipfs" = { ula = "fd42:e1e0::6"; ipv4 = "172.27.70.6"; publicKey = "IOb06La58Ia5fThELp0Fsd2YGEDbWZK+8/nF9O8X414="; publicV6 = "${prefix}::16"; openTCPPorts = [ 8776 80 443 51412 ]; };
     x2 =         { ula = "fd42:e1e0::7"; ipv4 = "172.27.70.7"; publicKey = "Wkzb7YSw8Yz0hosSBg63JWopsrqR6vZtkvWkvbzerw4="; publicV6 = "${prefix}::17"; };
   };
   networking.hosts = {
@@ -26,6 +28,7 @@ in {
       "keep.euer"
       "hass.euer"
       "graph.euer"
+      "torrent.omo.euer"
     ];
   };
 }
