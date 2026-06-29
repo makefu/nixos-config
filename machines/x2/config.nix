@@ -18,9 +18,17 @@
        ../../2configs/virtualisation/libvirt.nix
       #../../2configs/virtualisation/docker.nix
       #../../2configs/virtualisation/virtualbox.nix
-
+      { makefu.euer-wg.client.keepalive = 25; }
       ../../2configs/wireguard/euer/client.nix
     ];
 
+  # headless: keep running when lid closed
+  services.logind.settings.Login = {
+    HandleLidSwitch = "ignore";
+    HandleLidSwitchDocked = "ignore";
+    HandleLidSwitchExternalPower = "ignore";
+  };
 
+  # CLI-only: blank/power off console display after 10 minutes idle
+  boot.kernelParams = [ "consoleblank=600" ];
 }
