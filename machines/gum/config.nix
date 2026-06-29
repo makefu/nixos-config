@@ -115,7 +115,6 @@ in {
       ../../2configs/taskd.nix
 
       # services
-      ../../2configs/bitlbee.nix # postgres backend
       # ../../2configs/sabnzbd.nix
       # ../../2configs/mail/mail.euer.nix
       # { krebs.exim.enable = mkDefault true; }
