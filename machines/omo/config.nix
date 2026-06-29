@@ -130,6 +130,8 @@ in {
       ../../2configs/virtualisation/podman.nix
       # ../../2configs/bluetooth-mpd.nix
 
+      ../../2configs/home/llm/agent.nix
+
       ../../2configs/home/mdrss.nix
       ../../2configs/home/jellyfin.nix
       ../../2configs/home/music.nix
