@@ -126,6 +126,9 @@
       flake = false;
     };
 
+    opencrow.url = "github:pinpox/opencrow";
+    opencrow.inputs.nixpkgs.follows = "nixpkgs";
+
     tincr = {
       url = "github:Mic92/tincr";
       inputs.nixpkgs.follows = "nixpkgs";
