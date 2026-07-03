@@ -133,5 +133,6 @@ in
       pkgs.pueue
       pkgs.opencode
       pkgs.ha-mcp
+      pkgs.claude-monitor
     ];
 }

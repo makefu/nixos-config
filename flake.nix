@@ -34,6 +34,11 @@
     stockholm.inputs.nixpkgs.follows = "nixpkgs";
     stockholm.inputs.nix-writers.follows = "nix-writers";
 
+    # kartei was split out of stockholm (krebs/stockholm#13); consume it as a
+    # non-flake source and hand it to stockholm's kartei module via specialArgs.
+    kartei.url = "github:krebs/kartei";
+    kartei.flake = false;
+
     picsender.url = "git+https://cgit.euer.krebsco.de/makefu/citadel_picsender.git";
 
     brother_ql_web.url = "github:makefu/brother_ql_web";
@@ -126,6 +131,11 @@
       flake = false;
     };
 
+    openclaw-nextcloud = {
+      url = "github:keithvassallomt/openclaw-nextcloud";
+      flake = false;
+    };
+
     opencrow.url = "github:pinpox/opencrow";
     opencrow.inputs.nixpkgs.follows = "nixpkgs";
 
@@ -151,7 +161,7 @@
       meta.name = "makefu";
       self = self;
       specialArgs = {
-        inherit (inputs) nixos-hardware self stockholm nixpkgs;
+        inherit (inputs) nixos-hardware self stockholm nixpkgs kartei;
         inherit inputs;
     };
       machines = lib.genAttrs [ "liveiso" "filepimp" "x" "x2" "cake" "tsp" "omo" "gum" "savarcast" ] (host: rec {

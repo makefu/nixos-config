@@ -224,6 +224,22 @@ in {
           locations."/api/" = {
             proxyPass = "http://127.0.0.1:${toString port}";
           };
+          # Raw blob content (`/raw/:rid/:sha/*path`) is its own top-level
+          # router in radicle-httpd, NOT under /api. Without this proxy the
+          # request falls through to the SPA `/` location and tryFiles returns
+          # the explorer's index.html instead of the file. Proxy it to httpd.
+          locations."/raw/" = {
+            proxyPass = "http://127.0.0.1:${toString port}";
+          };
+          # Git smart-http (`rad clone` / `git clone https://.../<rid>`).
+          # radicle-httpd merges this at the root as `/{rid}/{*request}`, which
+          # overlaps the SPA's own `/<rid>/...` UI routes — so we cannot blanket
+          # proxy it. git only ever requests these fixed suffixes, so match them
+          # with a regex location (higher priority than the `/` prefix) and send
+          # only those to httpd; everything else stays on the explorer SPA.
+          locations."~ ^/[^/]+/(info/refs|git-upload-pack|git-receive-pack)$" = {
+            proxyPass = "http://127.0.0.1:${toString port}";
+          };
         };
       };
     };

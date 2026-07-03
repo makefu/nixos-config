@@ -1119,6 +1119,38 @@
         "type": "github"
       }
     },
+    "kartei": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1783021157,
+        "narHash": "sha256-xuZWc6ZafjcU8Wo1f8XZtUGS9hQP1+BR4eWzH6c9qeE=",
+        "owner": "krebs",
+        "repo": "kartei",
+        "rev": "8711debcc05b7202be43fc233a93287e14c764e3",
+        "type": "github"
+      },
+      "original": {
+        "owner": "krebs",
+        "repo": "kartei",
+        "type": "github"
+      }
+    },
+    "kartei_2": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1783021157,
+        "narHash": "sha256-xuZWc6ZafjcU8Wo1f8XZtUGS9hQP1+BR4eWzH6c9qeE=",
+        "owner": "krebs",
+        "repo": "kartei",
+        "rev": "8711debcc05b7202be43fc233a93287e14c764e3",
+        "type": "github"
+      },
+      "original": {
+        "owner": "krebs",
+        "repo": "kartei",
+        "type": "github"
+      }
+    },
     "lanzaboote": {
       "inputs": {
         "crane": "crane",
@@ -1621,6 +1653,22 @@
         "type": "github"
       }
     },
+    "openclaw-nextcloud": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1779047638,
+        "narHash": "sha256-TSwLM5Ls9DdlaEB+ltjJqKlSGUvAz5xEW473xnImKh0=",
+        "owner": "keithvassallomt",
+        "repo": "openclaw-nextcloud",
+        "rev": "93edf38689fbb180a61503a4989c70007368f4f6",
+        "type": "github"
+      },
+      "original": {
+        "owner": "keithvassallomt",
+        "repo": "openclaw-nextcloud",
+        "type": "github"
+      }
+    },
     "opencrow": {
       "inputs": {
         "nixpkgs": [
@@ -1836,6 +1884,7 @@
         "home-manager": "home-manager",
         "hyprland": "hyprland",
         "inventory4ce": "inventory4ce",
+        "kartei": "kartei",
         "lanzaboote": "lanzaboote",
         "llm-agents": "llm-agents",
         "mediawiki-matrix-bot": "mediawiki-matrix-bot",
@@ -1847,6 +1896,7 @@
         "nixpkgs-stable": "nixpkgs-stable",
         "nixvim": "nixvim",
         "noctalia-shell": "noctalia-shell",
+        "openclaw-nextcloud": "openclaw-nextcloud",
         "opencrow": "opencrow",
         "picsender": "picsender",
         "poetry2nix": "poetry2nix_3",
@@ -1903,6 +1953,7 @@
     "stockholm": {
       "inputs": {
         "buildbot-nix": "buildbot-nix_2",
+        "kartei": "kartei_2",
         "nix-writers": [
           "nix-writers"
         ],
@@ -1911,11 +1962,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1782244467,
-        "narHash": "sha256-BBcOHNZAhWDNHMDIJgsbUQWygH4FK14AsKbPKk/ea20=",
+        "lastModified": 1783023732,
+        "narHash": "sha256-COw/v57LWKBUTWOUZ9TNNhJovxvzK1h8gX0EEEU0muw=",
         "ref": "refs/heads/master",
-        "rev": "74b9bf4e5026a7729f6c1a39fdb6f032a0cbe5b8",
-        "revCount": 12217,
+        "rev": "c05b34f1f4c905895758b9e6d995c7fe5b6a2a73",
+        "revCount": 12223,
         "type": "git",
         "url": "https://cgit.euer.krebsco.de/makefu/stockholm.git"
       },

@@ -1,17 +1,18 @@
-{ self, pkgs, inputs, config, ... }:
+{ self, pkgs, config, ... }:
 {
   imports = [
     self.inputs.opencrow.nixosModules.default
+    ./kagi.nix
   ];
   sops.secrets.opencrow-env = {};
   services.opencrow = {
     enable = true;
     piPackage = self.inputs.llm-agents.packages.${pkgs.stdenv.hostPlatform.system}.omp;
-
+    skills = {
+      nextcloud = "${self.inputs.openclaw-nextcloud}/";
+      kagi-search = "${self.inputs.mics-skills}/skills/kagi-search";
+    };
     environment = {
-      #OPENCROW_PI_PROVIDER = "anthropic";
-      #OPENCROW_PI_MODEL = "claude-sonnet-4-6";
-
       OPENCROW_SOUL_FILE = "${./soul.md}";
       OPENCROW_MATRIX_HOMESERVER = "https://matrix.cybahn.de";
     };
