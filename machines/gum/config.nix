@@ -234,6 +234,10 @@ in {
 
       # krebs infrastructure services
       # ../../2configs/stats/server.nix
+      {
+        users.users.makefu.packages = [ pkgs.weechat pkgs.tmux ];
+        state = [ "/home/makefu/.weechat" ];
+      }
     ];
   nixpkgs.config.permittedInsecurePackages = [ "olm-3.2.16" ];
   # makefu.dl-dir = "/var/download";
@@ -256,7 +260,6 @@ in {
     nameservers = [ "8.8.8.8" ];
   };
   users.users.makefu.extraGroups = [ "download" "nginx" ];
-  state = [ "/home/makefu/.weechat" ];
   # gum is the euer hub itself — deploy over public internet, not via overlay.
   clan.core.networking.targetHost = "root@gum.krebsco.de";
 }
