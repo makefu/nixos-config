@@ -8,7 +8,9 @@
       config.allowUnfreePredicate = pkg: lib.packageName pkg == "unrar";
       config.android_sdk.accept_license = true;
       config.oraclejdk.accept_license = true;
-      config.permittedInsecurePackages = [ "intel-media-sdk-23.2.2" "libsoup-2.74.3" "olm-3.2.16"];
+      # pnpm-9.15.9: build-time-only tool for karakeep (runtime is node), so the
+      # CVEs flagged by nixpkgs do not reach the deployed closure.
+      config.permittedInsecurePackages = [ "intel-media-sdk-23.2.2" "libsoup-2.74.3" "olm-3.2.16" "pnpm-9.15.9" ];
       overlays = [
         self.overlays.default
         inputs.nix-writers.overlays.default
