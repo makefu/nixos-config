@@ -11,6 +11,7 @@
     ( pkgs.writeScriptBin "unknow" ''#!/bin/sh
 ${gnused}/bin/sed -i "''${1}d" ~/.ssh/known_hosts
     '')
+    tmux
     acpi
     bc
     rsync

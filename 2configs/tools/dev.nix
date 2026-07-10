@@ -9,6 +9,7 @@
 
       ps.virtualenv ps.pyserial ps.virtualenv
     ]))
+    pinentry-curses
     nixfmt
     # embedded
     picocom
