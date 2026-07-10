@@ -1656,15 +1656,15 @@
     "openclaw-nextcloud": {
       "flake": false,
       "locked": {
-        "lastModified": 1779047638,
-        "narHash": "sha256-TSwLM5Ls9DdlaEB+ltjJqKlSGUvAz5xEW473xnImKh0=",
-        "owner": "keithvassallomt",
+        "lastModified": 1783235326,
+        "narHash": "sha256-0aAWg/888d/iPFL5hvirRpjrSt8SZZYBcJdR9fdslYU=",
+        "owner": "makefu",
         "repo": "openclaw-nextcloud",
-        "rev": "93edf38689fbb180a61503a4989c70007368f4f6",
+        "rev": "9ed06020fc1050c05bc25bb6898ffa6e7a4be055",
         "type": "github"
       },
       "original": {
-        "owner": "keithvassallomt",
+        "owner": "makefu",
         "repo": "openclaw-nextcloud",
         "type": "github"
       }

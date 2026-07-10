@@ -132,7 +132,7 @@
     };
 
     openclaw-nextcloud = {
-      url = "github:keithvassallomt/openclaw-nextcloud";
+      url = "github:makefu/openclaw-nextcloud";
       flake = false;
     };
 
