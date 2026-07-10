@@ -1,6 +1,6 @@
  {pkgs, config, inputs, ... }:
 let
-  pkg = inputs.ha-ara-menu.packages.${pkgs.system}.default;
+  pkg = inputs.ha-ara-menu.packages.${pkgs.stdenv.hostPlatform.system}.default;
 in 
   { 
   sops.secrets.aramarkconfig = {

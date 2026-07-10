@@ -1,7 +1,7 @@
 { config, lib, pkgs, inputs, ... }:
 # sends the diorama into the citadel channel
 let
-  pkg = inputs.picsender.packages.${pkgs.system}.default;
+  pkg = inputs.picsender.packages.${pkgs.stdenv.hostPlatform.system}.default;
   # the url to send
   #url = "http://localhost:18088/?action=snapshot";
   url = "http://192.168.8.182:8080/photo.jpg";

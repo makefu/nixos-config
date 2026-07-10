@@ -1,7 +1,7 @@
 { pkgs, inputs, ... }:
 let
     outdir = "/var/lib/bibchecker";
-    pkg = inputs.bibchecker.packages.${pkgs.system}.default;
+    pkg = inputs.bibchecker.packages.${pkgs.stdenv.hostPlatform.system}.default;
 in {
   systemd.services.bibchecker = {
     description = "bibchecker-web";

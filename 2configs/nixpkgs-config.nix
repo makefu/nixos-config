@@ -20,13 +20,13 @@
           stockholm.lib = inputs.stockholm.lib;
           ha-ara-menu = inputs.ha-ara-menu.packages.${pkgs.stdenv.hostPlatform}.default;
           inventory4ce = inputs.inventory4ce.packages.${pkgs.stdenv.hostPlatform}.default;
-          datefinder = inputs.datefinder.packages.${pkgs.stdenv.system}.default;
+          datefinder = inputs.datefinder.packages.${pkgs.stdenv.hostPlatform.system}.default;
         })
         inputs.stockholm.overlays.default
         inputs.mediawiki-matrix-bot.overlays.default
         (this: super: {
           # overlay definitions for using packages from stable channel
-          #calibre = inputs.nixpkgs-stable.legacyPackages.${pkgs.stdenv.system}.calibre;
+          #calibre = inputs.nixpkgs-stable.legacyPackages.${pkgs.stdenv.hostPlatform.system}.calibre;
         })
       ];
 

@@ -1,6 +1,6 @@
 { inputs, pkgs, ... }:
 let
-  pkg = inputs.audio-scripts.packages.${pkgs.system}.default;
+  pkg = inputs.audio-scripts.packages.${pkgs.stdenv.hostPlatform.system}.default;
 in
 {
   users.users.makefu.packages = [

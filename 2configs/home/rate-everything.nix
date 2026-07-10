@@ -3,7 +3,7 @@ let
     outdir = "/var/lib/rate-everything";
     port = 3002;
     # sslport = 3102;
-    pkg = inputs.rate-everything.packages.${pkgs.system}.default;
+    pkg = inputs.rate-everything.packages.${pkgs.stdenv.hostPlatform.system}.default;
 in {
   sops.secrets."rate-everything_secrets" = {};
   systemd.services.rate-everything = {
