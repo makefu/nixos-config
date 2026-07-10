@@ -20,6 +20,11 @@ with prev.lib; with builtins; let
               (filterAttrs (_: eq "directory") (readDir path));
 
 in {
+    # NeuTTS German TTS python modules missing from nixpkgs (see file header).
+    pythonPackagesExtensions = prev.pythonPackagesExtensions ++ [
+      (import ./neutts/python-packages.nix final)
+    ];
+
     quodlibet = verrideDerivation prev.quodlibet (old: {
       doCheck = false; # 1 error because of warnings (possibly upstream)
       patches = [ ./custom/quodlibet/single-digit-discnumber.patch

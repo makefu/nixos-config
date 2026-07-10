@@ -20,6 +20,9 @@
       #../../2configs/virtualisation/virtualbox.nix
       { makefu.euer-wg.client.keepalive = 25; }
       ../../2configs/wireguard/euer/client.nix
+
+      # German TTS server (Wyoming protocol) for Home Assistant
+      ../../2configs/tts/neutts.nix
     ];
 
   # headless: keep running when lid closed

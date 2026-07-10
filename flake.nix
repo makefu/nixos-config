@@ -218,7 +218,13 @@
       x86 = "x86_64-linux";
     in {
       "${a64}" = lib.mapAttrs' (name: config: lib.nameValuePair "nixos-${a64}-${name}" config.config.system.build.toplevel) ((lib.filterAttrs (_: config: config.pkgs.system == a64)) self.nixosConfigurations);
-      "${x86}" = lib.mapAttrs' (name: config: lib.nameValuePair "nixos-${x86}-${name}" config.config.system.build.toplevel) ((lib.filterAttrs (_: config: config.pkgs.system == x86)) self.nixosConfigurations);
+      "${x86}" = (lib.mapAttrs' (name: config: lib.nameValuePair "nixos-${x86}-${name}" config.config.system.build.toplevel) ((lib.filterAttrs (_: config: config.pkgs.system == x86)) self.nixosConfigurations)) // {
+        # NeuTTS German Wyoming TTS end-to-end VM test (heavy: ~3.5 GB models).
+        neutts-tts = import ./0tests/neutts {
+          pkgs = nixpkgs.legacyPackages.${x86};
+          inherit self;
+        };
+      };
     };
     nixosModules =
     builtins.listToAttrs
