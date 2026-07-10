@@ -29,6 +29,9 @@ in {
     enable = true;
     build.host = config.krebs.hosts.cake;
   };
+  # cake.euer (the clan default target) does not resolve; reach it over the
+  # tinc retiolum name instead. ICMP is filtered but ssh works.
+  clan.core.networking.targetHost = "root@cake.r";
   # ensure disk usage is limited
   services.journald.extraConfig = "Storage=volatile";
   networking.firewall.trustedInterfaces = [ primaryInterface ];
