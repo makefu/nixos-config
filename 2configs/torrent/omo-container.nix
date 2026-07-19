@@ -106,9 +106,9 @@ in {
         # bind-mounted media tree.
         dataDir = "/var/lib/rtorrent";
         downloadDir = dataDir;
+          # network.http.max_open.set = 16
         configText = ''
-          schedule2 = watch_start, 10, 10, ((load.start, (cat, (cfg.watch), "*.torrent")))
-          network.http.max_open.set = 16
+          schedule = watch_start, 10, 10, ((load.start, (cat, (cfg.watch), "*.torrent")))
           network.xmlrpc.size_limit.set = 16M
         '';
       };
