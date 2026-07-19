@@ -2,7 +2,7 @@
 
 {
   users.users.makefu.packages = with pkgs; [
-    kodi
+    # kodi
     calibre
     vlc
     mumble
