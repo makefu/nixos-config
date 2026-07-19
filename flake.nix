@@ -1,7 +1,7 @@
 {
   inputs = {
     #nixpkgs.url = "github:NixOS/nixpkgs/nixos-25.05";
-    nixpkgs.url = "github:NixOS/nixpkgs/nixos-unstable";
+    nixpkgs.url = "github:NixOS/nixpkgs/master";
     nixpkgs-stable.url = "github:NixOS/nixpkgs/nixos-26.05";
     brockman = {
       url = "github:brockman-news/brockman";
@@ -141,7 +141,7 @@
 
     tincr = {
       url = "github:Mic92/tincr";
-      inputs.nixpkgs.follows = "nixpkgs";
+      #inputs.nixpkgs.follows = "nixpkgs";
       inputs.treefmt-nix.follows = "treefmt-nix";
     };
 
