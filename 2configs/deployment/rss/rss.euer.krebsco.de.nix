@@ -1,4 +1,4 @@
-{ pkgs, lib, config, ... }:
+{ pkgs, lib, config, inputs, ... }:
 let
   fqdn = "rss.euer.krebsco.de";
   ratt-path = "/var/lib/ratt/";
@@ -22,6 +22,7 @@ in {
              hash = "sha256-h0XnCSoH2djxNyo363CMz7+ZeHAhaA4G3naea2M5Pw8=";
            };
           })
+          inputs.freshrss-extensions.packages.${pkgs.system}.mark-duplicate-as-read
 
         ];
     };

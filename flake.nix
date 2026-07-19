@@ -144,6 +144,11 @@
       inputs.nixpkgs.follows = "nixpkgs";
       inputs.treefmt-nix.follows = "treefmt-nix";
     };
+
+    freshrss-extensions = {
+      url = "github:makefu/freshrss-extensions";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
   };
 
   description = "Flake of makefu";

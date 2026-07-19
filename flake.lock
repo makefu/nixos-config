@@ -669,6 +669,26 @@
         "type": "github"
       }
     },
+    "freshrss-extensions": {
+      "inputs": {
+        "nixpkgs": [
+          "nixpkgs"
+        ]
+      },
+      "locked": {
+        "lastModified": 1783665030,
+        "narHash": "sha256-cyrEPjQe4UcYxn3IS0NqFSEO6kRVA3xWdEXv3gJDRDA=",
+        "owner": "makefu",
+        "repo": "freshrss-extensions",
+        "rev": "3ad789fc7eeae70a695ff6812c7787f188b5e1bb",
+        "type": "github"
+      },
+      "original": {
+        "owner": "makefu",
+        "repo": "freshrss-extensions",
+        "type": "github"
+      }
+    },
     "gitignore": {
       "inputs": {
         "nixpkgs": [
@@ -1880,6 +1900,7 @@
         "clan-core": "clan-core",
         "datefinder": "datefinder",
         "flake-parts": "flake-parts_2",
+        "freshrss-extensions": "freshrss-extensions",
         "ha-ara-menu": "ha-ara-menu",
         "home-manager": "home-manager",
         "hyprland": "hyprland",
