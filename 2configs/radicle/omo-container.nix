@@ -31,6 +31,7 @@ let
   # applies these as seeding policies after the node starts.
   pinnedRepos = [
     "rad:zaCSBVa8UbKNEWBcmRTW1m9fZXhu"
+    "rad:zvMyurgGknFbesRLXoqvYwmTxLDw"
   ];
 
   # Upstream seed the node connects to on startup (and maintains), used as the
