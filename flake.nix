@@ -149,6 +149,14 @@
       url = "github:makefu/freshrss-extensions";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+
+    # OpenClaw plugin for kleinanzeigen.de; no flake upstream. We consume its
+    # embedded miniclaw CLI + helper skill for opencrow (the plugin itself
+    # targets the OpenClaw plugin SDK, which opencrow cannot load).
+    kleinclaw = {
+      url = "github:ilyaZar/kleinclaw";
+      flake = false;
+    };
   };
 
   description = "Flake of makefu";

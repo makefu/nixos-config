@@ -1171,6 +1171,22 @@
         "type": "github"
       }
     },
+    "kleinclaw": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1783891562,
+        "narHash": "sha256-RZGqlTuwfBj5BQd1y4ENVHPU8NKO1klV/xCAhaQBafI=",
+        "owner": "ilyaZar",
+        "repo": "kleinclaw",
+        "rev": "375d754ca622c581527c73f3e841918619e5558f",
+        "type": "github"
+      },
+      "original": {
+        "owner": "ilyaZar",
+        "repo": "kleinclaw",
+        "type": "github"
+      }
+    },
     "lanzaboote": {
       "inputs": {
         "crane": "crane",
@@ -1922,6 +1938,7 @@
         "hyprland": "hyprland",
         "inventory4ce": "inventory4ce",
         "kartei": "kartei",
+        "kleinclaw": "kleinclaw",
         "lanzaboote": "lanzaboote",
         "llm-agents": "llm-agents",
         "mediawiki-matrix-bot": "mediawiki-matrix-bot",

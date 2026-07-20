@@ -3,6 +3,7 @@
   imports = [
     self.inputs.opencrow.nixosModules.default
     ./kagi.nix
+    ./kleinclaw.nix
   ];
   sops.secrets.opencrow-env = {};
   # openclaw-nextcloud skill token. The skill reads NEXTCLOUD_TOKEN from the
