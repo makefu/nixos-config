@@ -29,6 +29,10 @@ in
   # directly. The raw token is used verbatim (no "token=" prefix), so the
   # script takes the whole output as the token.
   containers.opencrow.config.systemd.tmpfiles.rules = [
+    # .config itself must be opencrow-owned, otherwise systemd-tmpfiles aborts
+    # with "unsafe path transition" when descending from the opencrow-owned
+    # state dir into a root-owned .config and never creates config.json.
+    "d /var/lib/opencrow/.config 0750 opencrow opencrow -"
     "d /var/lib/opencrow/.config/kagi 0750 opencrow opencrow -"
     ''f /var/lib/opencrow/.config/kagi/config.json 0640 opencrow opencrow - {"password_command":"cat ${tokenFile}","timeout":30,"max_retries":5}''
   ];
