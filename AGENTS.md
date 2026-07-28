@@ -72,6 +72,8 @@ nixos-rebuild switch --flake .#<host> --target-host root@<host>   # alt
 `clan.core.networking.targetHost` per machine sets the default ssh
 target; override with `--target-host` when reachability changes.
 
+ATTENTION: never deploy hosts until explicitly requested to. Explicitly ask for permission if blocked from continuing. building hosts is ok.
+
 ## Service / config snippet pattern (`2configs/`)
 
 Every `.nix` under `2configs/` is a self-contained NixOS module that
@@ -334,3 +336,5 @@ nix flake check
   `3modules/` and register the file in `3modules/default.nix`.
 - Comment the **why** (incidents, constraints, non-obvious
   invariants), not the **what** (variable names should be enough).
+- Never search under `/nix/store` (no `find`/`rg`/`grep`/`ls`).
+  Investigate the shell environment variables and find the paths available
