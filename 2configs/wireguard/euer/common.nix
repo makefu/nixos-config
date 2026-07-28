@@ -29,6 +29,9 @@ in {
       "hass.euer"
       "graph.euer"
       "torrent.omo.euer"
+      "alert.euer"
+      "karma.euer"
+      "prometheus.euer"
     ];
   };
 }
