@@ -16,7 +16,6 @@
     piPackage = self.inputs.llm-agents.packages.${pkgs.stdenv.hostPlatform.system}.omp;
     skills = {
       nextcloud = "${self.inputs.openclaw-nextcloud}/";
-      kagi-search = "${self.inputs.mics-skills}/skills/kagi-search";
     };
     environment = {
       OPENCROW_SOUL_FILE = "${./soul.md}";
