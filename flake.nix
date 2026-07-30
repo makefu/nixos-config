@@ -103,17 +103,11 @@
     treefmt-nix.url = "github:numtide/treefmt-nix";
     treefmt-nix.inputs.nixpkgs.follows = "nixpkgs";
 
-    blueprint = {
-      url = "github:numtide/blueprint";
-      inputs.nixpkgs.follows = "nixpkgs";
-      inputs.systems.follows = "systems";
-    };
 
     llm-agents = {
       url = "github:numtide/llm-agents.nix";
       inputs.nixpkgs.follows = "nixpkgs";
       inputs.treefmt-nix.follows = "treefmt-nix";
-      inputs.blueprint.follows = "blueprint";
     };
     mics-skills = {
       url = "github:Mic92/mics-skills";
@@ -122,6 +116,9 @@
     };
 
     yamtrack.url = "github:makefu/yamtrack/feature/migration";
+
+    diyhue.url = "github:makefu/diyHue";
+    diyhue.inputs.nixpkgs.follows = "nixpkgs";
 
     noctalia-shell.url = "github:noctalia-dev/noctalia-shell";
     noctalia-shell.inputs.nixpkgs.follows = "nixpkgs";

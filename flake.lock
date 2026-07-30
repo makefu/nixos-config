@@ -75,29 +75,6 @@
         "url": "https://cgit.euer.krebsco.de/makefu/bibchecker.git"
       }
     },
-    "blueprint": {
-      "inputs": {
-        "nixpkgs": [
-          "nixpkgs"
-        ],
-        "systems": [
-          "systems"
-        ]
-      },
-      "locked": {
-        "lastModified": 1776249299,
-        "narHash": "sha256-Dt9t1TGRmJFc0xVYhttNBD6QsAgHOHCArqGa0AyjrJY=",
-        "owner": "numtide",
-        "repo": "blueprint",
-        "rev": "56131e8628f173d24a27f6d27c0215eff57e40dd",
-        "type": "github"
-      },
-      "original": {
-        "owner": "numtide",
-        "repo": "blueprint",
-        "type": "github"
-      }
-    },
     "brockman": {
       "inputs": {
         "nixos-generators": "nixos-generators",
@@ -201,11 +178,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1778446047,
-        "narHash": "sha256-oQvcadh2BCkrog+SGrG6YffKJrveYpjj3TdQJWaKhaM=",
+        "lastModified": 1784665499,
+        "narHash": "sha256-9BMxlTxCCDAeoNLtb1a/st7udtTIJep+wpUzquA29VU=",
         "owner": "nix-community",
         "repo": "bun2nix",
-        "rev": "f2bc12af1a6369648aac41041ceeaa0b866599c6",
+        "rev": "0f2a1f0b6f42cebe3b149bf62d38754c5e0e9729",
         "type": "github"
       },
       "original": {
@@ -355,6 +332,26 @@
         "type": "github"
       }
     },
+    "diyhue": {
+      "inputs": {
+        "nixpkgs": [
+          "nixpkgs"
+        ]
+      },
+      "locked": {
+        "lastModified": 1785443026,
+        "narHash": "sha256-qQLR2fHjNUUd2Z8zVZxOobfexrsPXbXqKtOYowR/BMg=",
+        "owner": "makefu",
+        "repo": "diyHue",
+        "rev": "29b5112f8f5f9a47efe6da9dd634a857f75eb12c",
+        "type": "github"
+      },
+      "original": {
+        "owner": "makefu",
+        "repo": "diyHue",
+        "type": "github"
+      }
+    },
     "flake-compat": {
       "flake": false,
       "locked": {
@@ -436,11 +433,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1778716662,
-        "narHash": "sha256-m1Yf0wZ8j1OHjTc2UwHwyQRSnNeSgLJOd7q5Y45hzi4=",
+        "lastModified": 1782949081,
+        "narHash": "sha256-vp6Y/Grm98ESt6ceOkWiHWyZRDV3J1RID4w+6NWK9yA=",
         "owner": "hercules-ci",
         "repo": "flake-parts",
-        "rev": "f7c1a2d347e4c52d5fb8d10cb4d94b5884e546fb",
+        "rev": "17c9d6cdfc60c64f4ee8d306f9bc0b4ccb51481e",
         "type": "github"
       },
       "original": {
@@ -1210,9 +1207,6 @@
     },
     "llm-agents": {
       "inputs": {
-        "blueprint": [
-          "blueprint"
-        ],
         "bun2nix": "bun2nix",
         "flake-parts": "flake-parts_3",
         "nixpkgs": [
@@ -1224,11 +1218,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1782243238,
-        "narHash": "sha256-wTlSeXo/CmbZvdO2sla7JRO/WpYCEHawEDko/FJHeMQ=",
+        "lastModified": 1785268777,
+        "narHash": "sha256-QjWsmSC47pcaPUDXPoDOpdiaAXo32PWXx52V+d6nVe4=",
         "owner": "numtide",
         "repo": "llm-agents.nix",
-        "rev": "437521e14715e95a167faf1c5b8fbb4382c5ac3d",
+        "rev": "d906ee4e42f7b9889d90e43eb2e1d46e8423d831",
         "type": "github"
       },
       "original": {
@@ -1924,13 +1918,13 @@
       "inputs": {
         "audio-scripts": "audio-scripts",
         "bibchecker": "bibchecker",
-        "blueprint": "blueprint",
         "brockman": "brockman",
         "brother_ql_web": "brother_ql_web",
         "buildbot-nix": "buildbot-nix",
         "caveman": "caveman",
         "clan-core": "clan-core",
         "datefinder": "datefinder",
+        "diyhue": "diyhue",
         "flake-parts": "flake-parts_2",
         "freshrss-extensions": "freshrss-extensions",
         "ha-ara-menu": "ha-ara-menu",
