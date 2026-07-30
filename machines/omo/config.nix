@@ -3,12 +3,11 @@
 # and in the NixOS manual (accessible by running ‘nixos-help’).
 
 { config, pkgs, lib, ... }:
-let
-  primaryInterface = config.makefu.server.primary-itf;
-in {
+{
   imports =
     [
       ./hw/omo
+      ./networking.nix
       ./hw/force-fsck.nix
       #./hw/tsp.nix
       ../../2configs/default.nix
@@ -20,22 +19,23 @@ in {
           ProcessSizeMax=0;
         };
       }
-      {
-        services.xserver.enable = true;
-        services.xserver.displayManager.sddm.enable = true;
-        services.xserver.desktopManager.plasma6.enable = true;
+      # {
+      #   services.xserver.enable = true;
+      #   services.xserver.displayManager.sddm.enable = true;
+      #   services.xserver.desktopManager.plasma6.enable = true;
 
-        services.xrdp.enable = true;
-        services.xrdp.defaultWindowManager = "startplasma-x11";
-        services.xrdp.openFirewall = true;
-      }
+      #   services.xrdp.enable = true;
+      #   services.xrdp.defaultWindowManager = "startplasma-x11";
+      #   services.xrdp.openFirewall = true;
+      # }
+
       # x11 forwarding
-      {
-        services.openssh.settings.X11Forwarding = true;
-        users.users.makefu.packages = [
-          pkgs.tinymediamanager
-        ];
-      }
+      # {
+      #   services.openssh.settings.X11Forwarding = true;
+      #   users.users.makefu.packages = [
+      #     pkgs.tinymediamanager
+      #   ];
+      # }
       { environment.systemPackages = [ pkgs.youtube-dl2kodi pkgs.yt-dlp]; }
 
       ### systemdUltras ###
@@ -121,8 +121,9 @@ in {
 
       # services
       {
+        # firewall ports for nginx (80) + Home Assistant (8123) live in
+        # ./networking.nix alongside the rest of the host networking.
         services.nginx.enable = true;
-        networking.firewall.allowedTCPPorts = [ 80 8123 ];
       }
       # ../../2configs/syncthing.nix
       ../../2configs/remote-build/slave.nix
@@ -150,6 +151,7 @@ in {
       #../../2configs/home/yamtrack.nix
       ../../2configs/home/yamtrack-module.nix
       ../../2configs/home/changedetection.nix
+      ../../2configs/home/hue.nix
 
       # clevis/tang setup
       ../../2configs/home/tang.nix
@@ -194,6 +196,9 @@ in {
       ../../2configs/home/bibchecker.nix
       ../../2configs/home/rate-everything.nix
 
+      # prometheus/alertmanager/karma/alertmanager-ntfy alerting stack
+      ../../2configs/home/alerting
+
     ];
   makefu.full-populate =  true;
   users.users.share.isNormalUser = true;
@@ -201,7 +206,6 @@ in {
     gid = pkgs.stockholm.lib.genid "share";
     members = [ "makefu" "misa" ];
   };
-  networking.firewall.trustedInterfaces = [ primaryInterface "docker0" ];
 
 
 
