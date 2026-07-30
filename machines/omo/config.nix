@@ -142,7 +142,7 @@
       # ../../2configs/home/tonie.nix
       #../../2configs/home/ps4srv.nix
       # ../../2configs/home/ham
-      ../../2configs/home/ham/docker.nix
+      ../../2configs/home/ham/container.nix
       ../../2configs/home/zigbee/omo.nix
       ../../2configs/home/streams.nix
       ../../2configs/home/esphome.nix

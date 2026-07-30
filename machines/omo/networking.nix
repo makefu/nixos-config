@@ -56,7 +56,8 @@ in
 
   networking.firewall = {
     trustedInterfaces = [ "br0" "docker0" ];
-    # 80 -> nginx, 8123 -> Home Assistant (ham/docker.nix).
-    allowedTCPPorts = [ 80 8123 ];
+    # 80 -> nginx. Home Assistant moved into its own br0 container
+    # (2configs/home/ham/container.nix) and serves :80/:8123 on its own LAN IP.
+    allowedTCPPorts = [ 80 ];
   };
 }

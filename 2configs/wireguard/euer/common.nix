@@ -21,12 +21,18 @@ in {
     # 2configs/{ipfs,radicle,torrent}/omo-container.nix.
     "omo-ipfs" = { ula = "fd42:e1e0::6"; ipv4 = "172.27.70.6"; publicKey = "IOb06La58Ia5fThELp0Fsd2YGEDbWZK+8/nF9O8X414="; publicV6 = "${prefix}::16"; openTCPPorts = [ 8776 80 443 51412 ]; };
     x2 =         { ula = "fd42:e1e0::7"; ipv4 = "172.27.70.7"; publicKey = "Wkzb7YSw8Yz0hosSBg63JWopsrqR6vZtkvWkvbzerw4="; publicV6 = "${prefix}::17"; };
+    # Home Assistant runs in its own br0 NixOS container on omo
+    # (2configs/home/ham/container.nix) and joins euer as a first-class peer so
+    # hass.euer resolves to the container itself instead of omo's host. Internal
+    # only: no publicV6 (not exposed to the internet), reached over the ULA.
+    # The module auto-maps hass.euer -> this ula for every euer member, which is
+    # why the manual hass.euer entry was dropped from networking.hosts below.
+    hass =       { ula = "fd42:e1e0::8"; ipv4 = "172.27.70.8"; publicKey = "U6QSYt95mAvb9CNxVYBHFBj5LOPdpoaK9nSbDOZ2hQw="; };
   };
   networking.hosts = {
     "${omo}" = [
       "track.euer"
       "keep.euer"
-      "hass.euer"
       "graph.euer"
       "torrent.omo.euer"
       "alert.euer"
