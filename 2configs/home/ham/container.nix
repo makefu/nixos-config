@@ -43,6 +43,27 @@ in {
   # (the container has no sops-nix) and bind-mounted into the container below.
   sops.secrets."hass-euer-wg.key" = {};
 
+  # nixos-containers only tears the host-side veth down when the container's
+  # init exits. Here that teardown can hang (podman + fuse-overlayfs unmount),
+  # leaving vb-hass behind: every subsequent start then dies with
+  #   Failed to add new veth interfaces (vb-hass:host0): File exists
+  # and after 5 retries systemd gives up with start-limit-hit, so a plain
+  # `clan machines update omo` takes Home Assistant down until the link is
+  # removed by hand.
+  # The module's own preStart does clean up `vb-$INSTANCE`, but only inside
+  # `if [[ -n "$HOST_ADDRESS" ]] || [[ -n "$LOCAL_ADDRESS" ]] || …` — a
+  # hostBridge container that gets its address via DHCP sets none of those, so
+  # that branch never runs. Repeat the delete unconditionally: while the
+  # container runs the veth belongs to it and this unit is not starting, so
+  # the only time a link is found here is after a failed cleanup.
+  # Note: the same hung init also squats /run/systemd/machines/hass, which
+  # breaks `nixos-container run/login` ("reassociate to namespaces failed")
+  # until machined is restarted. That is not fixed here — restarting machined
+  # from this unit's preStart would deadlock against machined tracking it.
+  systemd.services."container@hass".preStart = ''
+    ${pkgs.iproute2}/bin/ip link del vb-hass 2>/dev/null || true
+  '';
+
   containers.hass = {
     autoStart = true;
     privateNetwork = true;
