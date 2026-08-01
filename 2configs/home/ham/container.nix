@@ -170,7 +170,28 @@ in {
         };
 
         # Container owns its LAN IP outright: serve nginx (:80) and HA (:8123).
+        # These stay explicit because they must also be reachable over the euer
+        # wireguard interface (hass.euer), which is deliberately NOT trusted.
         networking.firewall.allowedTCPPorts = [ 80 8123 ];
+
+        # Trust the LAN side wholesale, mirroring omo's own
+        # `trustedInterfaces = [ "br0" ]` (machines/omo/networking.nix). While HA
+        # ran as podman --network=host on omo it inherited that trust; moving it
+        # into this container put it behind a default-deny firewall and silently
+        # broke every discovery/push protocol — Sonos most visibly:
+        #   - SSDP NOTIFY  (multicast 239.255.255.250:1900) -> dropped
+        #   - mDNS         (multicast 224.0.0.251:5353, _sonos._tcp) -> dropped
+        #   - UPnP event callbacks the speakers POST back to HA on tcp/1400
+        #     -> dropped, so subscriptions die and the players go unavailable
+        # Verified with tcpdump on eth0: the bridge *does* deliver the multicast,
+        # it is the container's nixos-fw INPUT chain that discards it.
+        # Opening the individual ports is not sufficient: M-SEARCH replies are
+        # unicast from the speaker's :1900 to an ephemeral port, and conntrack
+        # cannot match them to the request because that request was sent to a
+        # multicast destination — they arrive as NEW and get dropped. The same
+        # applies to the other LAN-discovered integrations here (esphome, wled,
+        # ipp, dlna, aiodhcpwatcher).
+        networking.firewall.trustedInterfaces = [ "eth0" ];
 
         system.stateVersion = "24.05";
       };
