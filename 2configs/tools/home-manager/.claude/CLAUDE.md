@@ -77,4 +77,4 @@ comments use normal English.
 - Recommended: Use GitHub code search to find examples for libraries and APIs: gh search code "foo lang:nix".
 - Prefer cloning source code over web searches for more accurate results. 
   Various projects are available in ~/repos, "special" repos are ~/nixpkgs, and ~/nixos-config
-
+- Start every reply with my name: makefu
