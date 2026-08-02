@@ -1,4 +1,9 @@
-{ disk ? "/dev/nvme0n1", hostId, ... }:
+{
+  disk ? "/dev/nvme0n1",
+  hostId,
+  arcMax ? 8589934592, # 8G
+  ...
+}:
 {
   services.zfs.autoScrub.enable = true;
   boot.zfs.requestEncryptionCredentials = true;
@@ -11,11 +16,10 @@
   # disable to fix zfs warning
   # boot.kernelPackages: using default linuxPackages (latestCompatibleLinuxPackages was deprecated)
 
-  # reduce ARC to 4GB
-  # rule of thumb:
-  # 2GB Base + 1GB per TB Storage
+  # Server rule of thumb: 2GB base + 1GB per TB storage. Workstations want more
+  # via `arcMax` — a pegged ARC re-reads the nix store from SSD on every build.
   # https://pve.proxmox.com/pve-docs/pve-admin-guide.html#_limit_zfs_memory_usage
-  boot.kernelParams = [ "zfs.zfs_arc_max=8589934592" ];
+  boot.kernelParams = [ "zfs.zfs_arc_max=${toString arcMax}" ];
 
   disko.devices = {
     disk = {

@@ -3,8 +3,11 @@
   imports = [
     ./input.nix
     
-    ((import  ../../../2configs/fs/disko/single-disk-encrypted-zfs.nix ) { disks ="/dev/nvme0n1"; hostId = "f8b8e0a3"; inherit config; })
+    # arcMax over the 8G default: 8G sat pegged full on this 30G box.
+    ((import  ../../../2configs/fs/disko/single-disk-encrypted-zfs.nix ) { disks ="/dev/nvme0n1"; hostId = "f8b8e0a3"; arcMax = 12884901888; inherit config; })
     ./battery.nix
+    ./memory.nix
+    ./power-limits.nix
     ../../../2configs/hw/bluetooth.nix
     ../../../2configs/hw/tpm.nix
     ../../../2configs/hw/ssd.nix

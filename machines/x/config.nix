@@ -11,6 +11,7 @@
       { systemd.services.nix-daemon.environment.TMPDIR = "/var/tmp";}
 
       ../../2configs/performance/nix-performance.nix
+      ../../2configs/performance/scx.nix
       ../../2configs/networking/nm-profiles/congress.nix
       # ../../2configs/networking/zerotier.nix
       ../../2configs/default.nix
@@ -280,10 +281,17 @@
   boot.binfmt.emulatedSystems = [
     "aarch64-linux"
 ];
-    nix.settings = {
-        cores = 2;
-        max-jobs = 4;
-    };
+  # i7-10610U has 4 cores / 8 threads and a power budget exhausted well before
+  # all are busy. cores * max-jobs was 8 — pure heat and latency, no throughput.
+  nix.settings = {
+    cores = 2;
+    max-jobs = 2;
+  };
+
+  # go/cargo read nproc, not NIX_BUILD_CORES, so nix.settings alone cannot hold
+  # them. Kernel-enforced cpuset survives scx_lavd, which ignores cpu.weight.
+  # Leaves physical core 0 (cpu0 + SMT sibling cpu4) for the session.
+  systemd.slices.nix-build.sliceConfig.AllowedCPUs = "1-3,5-7";
 
   #security.tpm2 = {
   #  enable = true;
