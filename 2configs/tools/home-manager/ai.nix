@@ -74,18 +74,18 @@ in
     home.file.".claude/skills/cavecrew".source =
       "${caveman}/skills/cavecrew";
 
-    home.file.".claude/skills/coordinator".source =
-      "${aiTools.workmux}/share/workmux/skills/coordinator";
-    home.file.".claude/skills/merge".source =
-      "${aiTools.workmux}/share/workmux/skills/merge";
-    home.file.".claude/skills/rebase".source =
-      "${aiTools.workmux}/share/workmux/skills/rebase";
-    home.file.".claude/skills/worktree".source =
-      "${aiTools.workmux}/share/workmux/skills/worktree";
-    home.file.".claude/skills/workmux".source =
-      "${aiTools.workmux}/share/workmux/skills/workmux";
+    #home.file.".claude/skills/coordinator".source =
+    #  "${aiTools.workmux}/share/workmux/skills/coordinator";
+    #home.file.".claude/skills/merge".source =
+    #  "${aiTools.workmux}/share/workmux/skills/merge";
+    #home.file.".claude/skills/rebase".source =
+    #  "${aiTools.workmux}/share/workmux/skills/rebase";
+    #home.file.".claude/skills/worktree".source =
+    #  "${aiTools.workmux}/share/workmux/skills/worktree";
+    #home.file.".claude/skills/workmux".source =
+    #  "${aiTools.workmux}/share/workmux/skills/workmux";
 
-    home.file.".config/workmux/config.yaml".source = ./.config/workmux/config.yaml;
+    #home.file.".config/workmux/config.yaml".source = ./.config/workmux/config.yaml;
 
     # opencode + caveman plugin. Mirrors the layout produced by
     # `node bin/install.js --only opencode` from the caveman repo.
