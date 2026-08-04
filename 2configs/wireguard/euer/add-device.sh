@@ -78,9 +78,17 @@ cmd_new() {
   privkey="$(wg genkey)"
   pubkey="$(echo "$privkey" | wg pubkey)"
 
-  # add peer to common.nix
+  # Add peer to common.nix. Insert before the closing brace of the
+  # `makefu.euer-wg.peers` block only — `networking.hosts` below it ends on an
+  # identical `  };` line, and a plain address match appended the peer to both.
   peer_line="    ${device} = { ula = \"${device_ula}\"; ipv4 = \"${device_v4}\"; publicKey = \"${pubkey}\"; publicV6 = \"\${prefix}::${next_v6}\"; };"
-  sed -i "/^  };$/i\\${peer_line}" "$COMMON_NIX"
+  PEER_LINE="$peer_line" awk '
+    /^  makefu\.euer-wg\.peers = \{/ { inpeers = 1 }
+    inpeers && /^  \};$/ { print ENVIRON["PEER_LINE"]; inpeers = 0; inserted = 1 }
+    { print }
+    END { if (!inserted) exit 1 }
+  ' "$COMMON_NIX" > "$COMMON_NIX.tmp" || { rm -f "$COMMON_NIX.tmp"; die "could not locate the makefu.euer-wg.peers block in $COMMON_NIX"; }
+  mv "$COMMON_NIX.tmp" "$COMMON_NIX"
 
   # build client config
   client_conf="[Interface]
