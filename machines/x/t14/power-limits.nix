@@ -15,20 +15,20 @@ let
 in
 {
   # Firmware reprograms the limits across suspend, so re-apply on resume too.
-  systemd.services.intel-rapl-limits = {
-    description = "Cap Intel package power limits (PL1/PL2)";
-    wantedBy = [ "multi-user.target" ];
-    unitConfig.ConditionPathExists = "${rapl}/constraint_0_power_limit_uw";
-    serviceConfig = {
-      Type = "oneshot";
-      RemainAfterExit = true;
-      ExecStart = apply;
-    };
-  };
+  #systemd.services.intel-rapl-limits = {
+  #  description = "Cap Intel package power limits (PL1/PL2)";
+  #  wantedBy = [ "multi-user.target" ];
+  #  unitConfig.ConditionPathExists = "${rapl}/constraint_0_power_limit_uw";
+  #  serviceConfig = {
+  #    Type = "oneshot";
+  #    RemainAfterExit = true;
+  #    ExecStart = apply;
+  #  };
+  #};
 
-  powerManagement.resumeCommands = "${apply}";
+  #powerManagement.resumeCommands = "${apply}";
 
-  # nixos-hardware enables thermald, but it exits 30 ms after start and never
-  # managed anything. If it did run it would fight this module over PL1/PL2.
-  services.thermald.enable = lib.mkForce false;
+  ## nixos-hardware enables thermald, but it exits 30 ms after start and never
+  ## managed anything. If it did run it would fight this module over PL1/PL2.
+  #services.thermald.enable = lib.mkForce false;
 }
