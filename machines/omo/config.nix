@@ -192,7 +192,7 @@
       # ../../2configs/bgt/social-to-irc.nix
       # ../../2configs/bgt/nextcloud-chaptermark-hook.nix
 
-      ../../2configs/cybahn/wiki-signal-bot.nix
+      #../../2configs/cybahn/wiki-signal-bot.nix
       ../../2configs/home/bibchecker.nix
       ../../2configs/home/rate-everything.nix
 

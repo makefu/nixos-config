@@ -11,7 +11,7 @@ in {
   imports = [
     ./nginx.nix
     ./mqtt.nix
-    ./signal-rest
+    # ./signal-rest
 
     # hass config
     ./zigbee2mqtt.nix

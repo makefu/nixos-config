@@ -30,8 +30,8 @@ let
 in {
   imports = [
     ./mqtt.nix                 # mosquitto broker stays on the omo host
-    ./signal-rest              # signal-cli-rest stays on the omo host
-    ./signal-rest/service.nix
+    #./signal-rest              # signal-cli-rest stays on the omo host
+    #./signal-rest/service.nix
   ];
 
   # Config/state tree lives on omo's storage pool; bind it into the container.
