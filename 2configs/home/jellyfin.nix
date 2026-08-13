@@ -34,6 +34,7 @@ in
     serverAliases = [
       "jelly.lan" "movies.lan"
       "jelly.makefu.w"  "makefu.omo.w"
+      "movies.euer" "jelly.euer"
     ];
 
     locations."/" = {

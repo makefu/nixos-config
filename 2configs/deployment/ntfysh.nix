@@ -12,7 +12,7 @@ in
       auth-file = "/var/lib/ntfy-sh/user.db";
       auth-default-access = "deny-all";
       behind-proxy = true;
-      attachment-cache-dir = "/media/cloud/ntfy-sh/attachments";
+      #attachment-cache-dir = "/media/cloud/ntfy-sh/attachments";
       attachment-file-size-limit = "500m";
       attachment-total-size-limit = "100g";
       base-url = "https://ntfy.euer.krebsco.de";
@@ -27,7 +27,7 @@ in
 
   systemd.services.ntfy-sh.serviceConfig = {
     StateDirectory = "ntfy-sh";
-    SupplementaryGroups = [ "download" ];
+    # SupplementaryGroups = [ "download" ];
   };
   security.acme.certs."euer.krebsco.de".extraDomainNames = [hostn];
   services.nginx = {
