@@ -219,6 +219,8 @@
       # ../../2configs/lanparty/mumble-server.nix
       ../../2configs/wireguard/wiregrill-client.nix
       ../../2configs/wireguard/euer/client.nix
+      # socks5 on 127.0.0.1:23456 for foxyproxy, tunnelled to gum on demand
+      ../../2configs/socks-proxy/client.nix
       #../../2configs/home/tang.nix
       #{ users.users.makefu.extraGroups = [ "ipfs" ]; }
       #../../2configs/ipfs/serve.nix

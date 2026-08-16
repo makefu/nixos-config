@@ -146,6 +146,8 @@ in {
       # ../../2configs/wireguard/server.nix
       ../../2configs/wireguard/wiregrill-server.nix
       ../../2configs/wireguard/euer/server.nix
+      # forwarding-only account for x's on-demand socks5 tunnel
+      ../../2configs/socks-proxy/server.nix
 
       { # recent changes mediawiki bot
         networking.firewall.allowedUDPPorts = [ 5005 5006 ];
