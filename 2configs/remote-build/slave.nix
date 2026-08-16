@@ -4,9 +4,8 @@
     name = "nixBuild";
     isNormalUser = true;
     useDefaultShell = true;
-    openssh.authorizedKeys.keys = [
-      config.krebs.users.buildbotSlave.pubkey
-      config.krebs.users.makefu-remote-builder.pubkey
-    ];
+    openssh.authorizedKeys.keys =
+      config.krebs.users.buildbotSlave.pubkeys
+      ++ config.krebs.users.makefu-remote-builder.pubkeys;
   };
 }

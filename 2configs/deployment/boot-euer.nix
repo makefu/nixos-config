@@ -7,7 +7,7 @@ let
     set -euf
     cd /root
     mkdir -p .ssh
-    echo "${config.krebs.users.makefu.pubkey}" > .ssh/authorized_keys
+    echo "${concatStringsSep "\n" config.krebs.users.makefu.pubkeys}" > .ssh/authorized_keys
     chmod 700 -R .ssh
     systemctl restart sshd
   '';

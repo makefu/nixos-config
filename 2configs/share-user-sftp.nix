@@ -6,7 +6,7 @@
       uid = 9002;
       home = "/var/empty";
       isNormalUser = true;
-      openssh.authorizedKeys.keys = [ config.krebs.users.makefu.pubkey ];
+      openssh.authorizedKeys.keys = config.krebs.users.makefu.pubkeys;
     };
   };
   # we will use internal-sftp to make uncomplicated Chroot work

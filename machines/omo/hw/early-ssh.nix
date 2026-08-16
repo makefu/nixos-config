@@ -28,11 +28,9 @@ in
         enable = true;
         port = 22;
         # Only allow running the unlock service when connecting via SSH
-        authorizedKeys = [
-          config.krebs.users.makefu.pubkey
-        ];
+        authorizedKeys = config.krebs.users.makefu.pubkeys;
         # Location of the SSH host key
-        hostKeys = [ 
+        hostKeys = [
           hostKey
         ];
       };

@@ -1,7 +1,7 @@
 {pkgs, lib, config, ... }:{
   # users are super important
   users.users = {
-    root.openssh.authorizedKeys.keys = [ config.krebs.users.makefu.pubkey ];
+    root.openssh.authorizedKeys.keys = config.krebs.users.makefu.pubkeys;
     makefu = {
       uid = 9001;
       group = "users";
@@ -10,7 +10,7 @@
       isNormalUser = true;
       useDefaultShell = true;
       extraGroups = [ "wheel" ];
-      openssh.authorizedKeys.keys = [ config.krebs.users.makefu.pubkey ];
+      openssh.authorizedKeys.keys = config.krebs.users.makefu.pubkeys;
     };
   };
   # nix.settings.trusted-users = [ config.krebs.build.user.name ];

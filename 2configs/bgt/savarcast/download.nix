@@ -37,7 +37,7 @@ in {
     extraGroups = [ "download" ];
     useDefaultShell = true;
     isSystemUser = true;
-    openssh.authorizedKeys.keys = [ ident config.krebs.users.makefu.pubkey ];
+    openssh.authorizedKeys.keys = [ ident ] ++ config.krebs.users.makefu.pubkeys;
   };
 
   # services.logrotate is configured by nginx, increase log rotation to 1 year
