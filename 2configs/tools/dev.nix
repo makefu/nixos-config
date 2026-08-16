@@ -13,7 +13,6 @@
     nixfmt
     # embedded
     picocom
-    gi
     flashrom
     mosquitto
     # pwqgen-ger
@@ -30,14 +29,12 @@
     nix-index
     nixpkgs-review
     # brain
-    whatsupnix
     nixpkgs-fmt
     hydra-check
     # git-related
     git-preview
     jujutsu
     tig
-    # (pkgs.callPackage ./init-host {})
     # used more than once
     imagemagick
     qrencode

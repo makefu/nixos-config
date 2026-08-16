@@ -47,7 +47,6 @@ ${gnused}/bin/sed -i "''${1}d" ~/.ssh/known_hosts
     wol
     iftop
 
-    # stockholm
     git
     gnumake
     jq
@@ -56,8 +55,6 @@ ${gnused}/bin/sed -i "''${1}d" ~/.ssh/known_hosts
 
     rxvt-unicode-unwrapped.terminfo
 
-    # TODO: missing stockholm overlay
-    # kpaste
-
+    kpaste
   ];
 }
