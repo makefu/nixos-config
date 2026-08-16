@@ -14,7 +14,16 @@ in {
   users.groups.share = {};
   services.samba = {
     enable = true;
-    shares = {
+    settings = {
+      global = {
+        "guest account" = "smbguest";
+        "map to guest" = "bad user";
+        # no printer sharing on a file server
+        "load printers" = "no";
+        "printing" = "bsd";
+        "printcap name" = "/dev/null";
+        "disable spoolss" = "yes";
+      };
       media = {
         path = "/media/";
         "read only" = "no";
@@ -22,14 +31,5 @@ in {
         "guest ok" = "yes";
       };
     };
-    extraConfig = ''
-      guest account = smbguest
-      map to guest = bad user
-      # disable printing
-      load printers = no
-      printing = bsd
-      printcap name = /dev/null
-      disable spoolss = yes
-    '';
   };
 }

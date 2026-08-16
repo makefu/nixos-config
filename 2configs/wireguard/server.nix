@@ -1,4 +1,4 @@
-h{ config,pkgs, ... }:
+{ config, pkgs, ... }:
 let
   ext-if = config.makefu.server.primary-itf;
 in { # wireguard server
