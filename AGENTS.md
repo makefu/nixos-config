@@ -14,7 +14,7 @@ machines/<host>/       per-host top-level config
   hw/                  hardware bits (network ifname, disk, gpu, …)
 2configs/              shared, opt-in NixOS snippets (the "config library")
 3modules/              custom option-providing NixOS modules (auto-loaded)
-4lib/                  helper functions
+4lib/genid.nix         stable uid/gid generator (krebs genid)
 5pkgs/                 custom packages + overlays (5pkgs/default.nix is the overlay)
 sops/secrets/<name>/   clan-managed sops-encrypted secrets
 0tests/                experimental / scratch
@@ -31,10 +31,11 @@ secrets/<host>/        per-host plaintext state checked in (e.g. ssh hostkeys)
 2. Create `machines/<host>/config.nix` and `machines/<host>/hw/…`.
 3. The `nixosConfigurations.<host>` then exists; build via
    `nix build .#nixosConfigurations.<host>.config.system.build.toplevel`.
-4. Wire host into the krebs hostmap (`krebs.build.host =
-   config.krebs.hosts.<host>;` at the bottom of `config.nix`) — this
-   plumbs the host's tinc/retiolum/wiregrill/internet addresses
-   coming from `stockholm.nixosModules.hosts`.
+4. Register the host in kartei (`nix run github:krebs/kartei#add-host`)
+   so it gets its retiolum/wiregrill/internet addresses and key
+   material. `config.krebs.self` then resolves by itself — it is looked
+   up in `krebs.hosts` by `clan.core.settings.machine.name`, there is
+   nothing to wire up per host.
 5. For non-`x86_64-linux` hosts, set the platform in the genAttrs
    block (see `cake` → `aarch64-linux`).
 
@@ -50,7 +51,6 @@ secrets/<host>/        per-host plaintext state checked in (e.g. ssh hostkeys)
     ../../2configs/wireguard/euer/client.nix   # or server.nix on gum
     # ... pick service snippets from 2configs/ here
   ];
-  krebs.build.host = config.krebs.hosts.<host>;
   # clan deploy target (ssh user@host used by `clan machines update`)
   clan.core.networking.targetHost = "root@<host>.i";
 }
@@ -98,8 +98,8 @@ can be `imports = [ … ]`-ed from any machine. Conventions:
 Just append the snippet path to the `imports` list. Pulling a service
 out is the inverse — comment / delete the line. Service snippets
 should never assume they are imported by every host; gate
-host-specific behavior with `lib.mkIf` on `krebs.build.host.name`
-when needed.
+host-specific behavior with `lib.mkIf` on
+`config.clan.core.settings.machine.name` when needed.
 
 ### `2configs/default.nix`
 
@@ -124,6 +124,25 @@ makefu.euer-wg.{peers,client,server,...}   # internal wireguard overlay
 To add a new option-providing module: drop the file into `3modules/`
 and add it to the `imports` list in `3modules/default.nix` (no
 auto-imports under sub-attrs — `default.nix` is the registry).
+
+### `3modules/krebs.nix` — the mesh registry
+
+Turns the `kartei` flake input into the `krebs.*` option tree the
+snippets read:
+
+```
+krebs.hosts.<host>.nets.<net>.{ip4,ip6,addrs,aliases,via,tinc,wireguard}
+krebs.users.<user>.{mail,pubkey,pubkeys,pgp}
+krebs.self                       # this machine's own krebs.hosts entry
+```
+
+Local policy that kartei does not carry lives in that file: `via` is
+resolved from a net *name* to the net record, `pubkeys` splits a
+multi-key `pubkey` into one authorized-keys entry each, and the
+`routes` attrset adds the handful of missing `via` links.
+
+`genid` (stable uid/gid, sha1-derived) is passed to every module as a
+specialArg from `4lib/genid.nix`; use it as `genid "name"`.
 
 ## Custom packages / overlays (`5pkgs/`)
 
@@ -164,18 +183,19 @@ This repo runs several overlapping networks. Choose by intent:
 
 ### retiolum (tinc)
 
-Provided by `stockholm.nixosModules.tinc`. The repo wraps it in
-`2configs/tinc/retiolum.nix`:
+Provided by `kartei.nixosModules.retiolum`, wrapped in
+`2configs/tinc/retiolum.nix`, which only supplies the machine's private
+key from the clan secret `<host>-retiolum.ed25519_key.priv`.
 
-- enables `krebs.tinc.retiolum`
-- packages `inputs.tincr.packages.<system>.tincd` (Rust tincd)
-- pulls the RSA + ed25519 private keys from sops secrets
-  `<host>-retiolum.rsa_key.priv` / `<host>-retiolum.ed25519_key.priv`
-- opens the tinc port from `config.krebs.build.host.nets.retiolum.tinc.port`
+The kartei module is SPTPS-only (Rust `tincr`, no RSA), so it derives
+everything else from the kartei registry: peer host files, own
+addresses, firewall port, and the `<host>.r` / `<host>.i` entries in
+`networking.extraHosts`. It also runs a DNS stub for `.r` via
+resolved. The interface is named **`tinc.retiolum`**, not `retiolum`
+— watch out in firewall rules and dnsmasq interface lists.
 
-Hosts in the mesh are defined in `stockholm` (`krebs.hosts.<name>`).
-`<host>.r` (IPv4) and `<host>.i` (mixed v4/v6) names work everywhere
-in the mesh.
+Per-machine knobs go straight to the upstream option, e.g. gum's extra
+peers: `services.tincr.networks.retiolum.connectTo = [ … ];`
 
 ### wiregrill
 
@@ -184,7 +204,7 @@ Server file also runs `dnsmasq` bound to the tunnel interface and
 forwards `1.1.1.1`.
 
 Add a new client: import `wiregrill-client.nix`, ensure the host has
-a `wiregrill` net entry in stockholm's `krebs.hosts`, and store the
+a `wiregrill` net entry in kartei, and store the
 private key as clan secret `<host>-wiregrill.key`.
 
 ### euer (wireguard hub at gum)
