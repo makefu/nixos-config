@@ -1,8 +1,7 @@
-{ config, lib, pkgs, ... }:
+{ config, lib, pkgs, genid, ... }:
 
 
 let
-  stockholm = pkgs.stockholm;
   ident = (builtins.readFile ../auphonic.pub);
   nginxlogs = "/var/log/nginx";
   bgtaccess = "${nginxlogs}/binaergewitter.access.log";
@@ -31,7 +30,7 @@ in {
   };
 
   users.users.auphonic = {
-    uid = stockholm.lib.genid "auphonic";
+    uid = genid "auphonic";
     group = "nginx";
     # for storedir
     extraGroups = [ "download" ];

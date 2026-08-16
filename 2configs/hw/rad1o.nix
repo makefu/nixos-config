@@ -8,7 +8,7 @@
     gqrx
     ];
 
-  users.extraUsers.${config.krebs.build.user.name}.extraGroups = [ "dialout" ];
+  users.extraUsers.makefu.extraGroups = [ "dialout" ];
 
   services.udev.extraRules = ''
     ATTR{idVendor}=="1d50", ATTR{idProduct}=="604b", SYMLINK+="hackrf-jawbreaker-%k", MODE="0666", GROUP="dialout"

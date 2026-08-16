@@ -2,7 +2,7 @@
 # more than just nginx config but not enough to become a module
 let
   hostname = config.clan.core.settings.machine.name;
-  external-ip = config.krebs.build.host.nets.internet.ip4.addr;
+  external-ip = config.krebs.self.nets.internet.ip4.addr;
   wsgi-sock = "${config.services.uwsgi.runDir}/uwsgi.sock";
 in {
   services.redis = { enable = true; };

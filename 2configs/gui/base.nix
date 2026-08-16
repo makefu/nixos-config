@@ -12,7 +12,7 @@
 
 
 let
-  mainUser = config.krebs.build.user.name;
+  mainUser = "makefu";
 in
 {
   imports = [

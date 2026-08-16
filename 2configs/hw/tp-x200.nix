@@ -1,6 +1,6 @@
 { config, lib, pkgs, ... }:
 
-with pkgs.stockholm.lib;
+with lib;
 {
 
   imports = [ ./tp-x2x0.nix ];

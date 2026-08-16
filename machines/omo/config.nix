@@ -2,7 +2,7 @@
 # your system.  Help is available in the configuration.nix(5) man page
 # and in the NixOS manual (accessible by running ‘nixos-help’).
 
-{ config, pkgs, lib, ... }:
+{ config, pkgs, lib, genid, ... }:
 {
   imports =
     [
@@ -54,7 +54,6 @@
       #{ makefu.backup.server.repo = "/media/cryptX/backup/borg"; }
       #../../2configs/backup/borg/server.nix
       ../../2configs/backup/restic/server.nix
-      # ../../2configs/exim-retiolum.nix
       # ../../2configs/smart-monitor.nix
       ../../2configs/mail-client.nix
       ../../2configs/mosh.nix
@@ -86,7 +85,6 @@
       #  Community services
       ../../2configs/nix-community/legacy-mediawiki-matrix-bot.nix
 
-      #../../2configs/dcpp/airdcpp.nix
       #{ krebs.airdcpp.dcpp.shares = let
       #    d = path: "/media/cryptX/${path}";
       #  in {
@@ -202,7 +200,7 @@
   makefu.full-populate =  true;
   users.users.share.isNormalUser = true;
   users.groups.share = {
-    gid = pkgs.stockholm.lib.genid "share";
+    gid = genid "share";
     members = [ "makefu" "misa" ];
   };
 
@@ -216,28 +214,5 @@
 
   zramSwap.enable = true;
 
-  #krebs.Reaktor.reaktor-shack = {
-  #  nickname = "Reaktor|shack";
-  #  workdir = "/var/lib/Reaktor/shack";
-  #  channels = [ "#shackspace" ];
-  #  plugins = with pkgs.ReaktorPlugins;
-  #  [ shack-correct
-  #    # stockholm-issue
-  #    sed-plugin
-  #    random-emoji ];
-  #};
-  #krebs.Reaktor.reaktor-bgt = {
-  #  nickname = "Reaktor|bgt";
-  #  workdir = "/var/lib/Reaktor/bgt";
-  #  channels = [ "#binaergewitter" ];
-  #  plugins = with pkgs.ReaktorPlugins;
-  #  [ titlebot
-  #    # stockholm-issue
-  #    nixos-version
-  #    shack-correct
-  #    sed-plugin
-  #    random-emoji ];
-  #};
-  krebs.build.host = config.krebs.hosts.omo;
   services.postgresql.package = pkgs.postgresql_15;
 }

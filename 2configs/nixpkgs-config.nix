@@ -14,15 +14,13 @@
       overlays = [
         self.overlays.default
         inputs.nix-writers.overlays.default
-        (import (inputs.stockholm.inputs.nix-writers + "/pkgs"))
+        (import (inputs.nix-writers + "/pkgs"))
         (this: super: {
           inherit (this.writers) writeDash writeDashBin;
-          stockholm.lib = inputs.stockholm.lib;
           ha-ara-menu = inputs.ha-ara-menu.packages.${pkgs.stdenv.hostPlatform}.default;
           inventory4ce = inputs.inventory4ce.packages.${pkgs.stdenv.hostPlatform}.default;
           datefinder = inputs.datefinder.packages.${pkgs.stdenv.hostPlatform.system}.default;
         })
-        inputs.stockholm.overlays.default
         inputs.mediawiki-matrix-bot.overlays.default
         (this: super: {
           # overlay definitions for using packages from stable channel

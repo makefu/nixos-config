@@ -28,6 +28,6 @@ in {
       "disable spoolss" = "yes";
     };
   };
-  networking.firewall.interfaces.retiolum.allowedTCPPorts = [ 445 ];
+  networking.firewall.interfaces."tinc.retiolum".allowedTCPPorts = [ 445 ];
   networking.firewall.interfaces.wiregrill.allowedTCPPorts =  [ 445 ];
 }

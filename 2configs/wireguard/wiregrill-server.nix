@@ -2,11 +2,11 @@
 { config, pkgs, lib, ... }: with lib; 
 let
 
-  self = config.krebs.build.host.nets.wiregrill;
+  self = config.krebs.self.nets.wiregrill;
   isRouter = !isNull self.via; # via "internet" is not set
   ext-if = config.makefu.server.primary-itf;
 
-in mkIf (hasAttr "wiregrill" config.krebs.build.host.nets) {
+in mkIf (hasAttr "wiregrill" config.krebs.self.nets) {
 
   boot.kernel.sysctl = {
     "net.ipv6.conf.all.forwarding" = 1;
@@ -33,7 +33,7 @@ in mkIf (hasAttr "wiregrill" config.krebs.build.host.nets) {
     resolveLocalQueries = false;
     settings = {
       bind-interfaces = true;
-      interface = "retiolum,wiregrill,euer"; #TODO: make this configurable somehow, do not forget it in 3modules/euer-wg.nix
+      interface = "tinc.retiolum,wiregrill,euer"; #TODO: make this configurable somehow, do not forget it in 3modules/euer-wg.nix
     };
     servers = [ "1.1.1.1" ];
   };

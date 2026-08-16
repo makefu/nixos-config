@@ -1,6 +1,6 @@
 { pkgs, config, inputs, ... }:
 let
-  mainUser = config.krebs.build.user.name;
+  mainUser = "makefu";
 in {
   imports = [
     ../base.nix

@@ -1,6 +1,6 @@
 {pkgs, config, ... }:
 let
-  user = config.krebs.build.user.name;
+  user = "makefu";
   window-manager = "awesome";
 in
   {

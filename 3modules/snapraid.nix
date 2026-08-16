@@ -1,6 +1,6 @@
-{ config, lib, pkgs, stockholm, ... }:
+{ config, lib, pkgs, ... }:
 
-with stockholm.lib;
+with lib;
 
 let
   # returns dirname without / , used as disk name

@@ -7,7 +7,7 @@ let
   external-gw6 = "fe80::1";
   external-netmask = 32;
   external-netmask6 = 64;
-  internal-ip = config.krebs.build.host.nets.retiolum.ip4.addr;
+  internal-ip = config.krebs.self.nets.retiolum.ip4.addr;
   ext-if = "et0"; # gets renamed on the fly
 in
 {

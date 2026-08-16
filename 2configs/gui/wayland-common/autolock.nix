@@ -1,6 +1,6 @@
 {config, ... }:
 let
-  mainUser = config.krebs.build.user.name;
+  mainUser = "makefu";
 in {
   home-manager.users.${mainUser}.services.hypridle = {
       enable = true;

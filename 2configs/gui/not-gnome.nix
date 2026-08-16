@@ -21,7 +21,7 @@
       filenamePattern=%F_%T_shot
     '';
 
-    users.users.${config.krebs.build.user.name}.packages = [ pkgs.clipit ];
+    users.users.makefu.packages = [ pkgs.clipit ];
     systemd.user.services.clipit = {
       Unit = {
         Description = "clipboard manager";

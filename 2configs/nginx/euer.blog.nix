@@ -1,6 +1,6 @@
 { config, lib, pkgs, ... }:
 
-with pkgs.stockholm.lib;
+with lib;
 let
   sec = toString <secrets>;
   hostname = config.clan.core.settings.machine.name;

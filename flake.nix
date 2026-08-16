@@ -29,15 +29,11 @@
     nix-ld.url = "github:Mic92/nix-ld";
     nix-ld.inputs.nixpkgs.follows = "nixpkgs";
 
-    stockholm.url = "git+https://cgit.euer.krebsco.de/makefu/stockholm.git";
-    #stockholm.url = "path:///home/makefu/r/stockholm";
-    stockholm.inputs.nixpkgs.follows = "nixpkgs";
-    stockholm.inputs.nix-writers.follows = "nix-writers";
-
-    # kartei was split out of stockholm (krebs/stockholm#13); consume it as a
-    # non-flake source and hand it to stockholm's kartei module via specialArgs.
-    kartei.url = "github:krebs/kartei";
-    kartei.flake = false;
+    # Host/user registry of the krebs mesh, plus the retiolum (tinc) module.
+    # Consumed directly: 3modules/krebs.nix turns kartei.hosts/users into the
+    # krebs.* option tree this repo reads, 2configs/tinc/retiolum.nix pulls in
+    # kartei.nixosModules.retiolum.
+    kartei.url = "github:krebs/kartei/sptps-makefu";
 
     picsender.url = "git+https://cgit.euer.krebsco.de/makefu/citadel_picsender.git";
 
@@ -136,12 +132,6 @@
     opencrow.url = "github:pinpox/opencrow";
     opencrow.inputs.nixpkgs.follows = "nixpkgs";
 
-    tincr = {
-      url = "github:Mic92/tincr";
-      #inputs.nixpkgs.follows = "nixpkgs";
-      inputs.treefmt-nix.follows = "treefmt-nix";
-    };
-
     freshrss-extensions = {
       url = "github:makefu/freshrss-extensions";
       inputs.nixpkgs.follows = "nixpkgs";
@@ -171,8 +161,10 @@
       meta.name = "makefu";
       self = self;
       specialArgs = {
-        inherit (inputs) nixos-hardware self stockholm nixpkgs kartei;
+        inherit (inputs) nixos-hardware self nixpkgs kartei;
         inherit inputs;
+        # stable uid/gid generator, used all over 2configs/ and 3modules/
+        genid = import ./4lib/genid.nix { inherit lib; };
     };
       machines = lib.genAttrs [ "liveiso" "filepimp" "x" "x2" "cake" "tsp" "omo" "gum" "savarcast" ] (host: rec {
         # TODO inject the system somewhere else
@@ -186,22 +178,6 @@
           lanzaboote.nixosModules.lanzaboote
 
           inputs.brockman.nixosModules.default
-          #inputs.stockholm.nixosModules.exim-retiolum
-          #inputs.stockholm.nixosModules.exim
-          inputs.stockholm.nixosModules.krebs
-          inputs.stockholm.nixosModules.hosts
-          inputs.stockholm.nixosModules.users
-          inputs.stockholm.nixosModules.build
-          inputs.stockholm.nixosModules.dns
-          inputs.stockholm.nixosModules.kartei
-          inputs.stockholm.nixosModules.sitemap
-          inputs.stockholm.nixosModules.git
-          inputs.stockholm.nixosModules.tinc
-          inputs.stockholm.nixosModules.systemd
-          inputs.stockholm.nixosModules.setuid
-          inputs.stockholm.nixosModules.urlwatch
-
-          #inputs.nether.nixosModules.hosts
 
           self.nixosModules.default
           # Disabled: pulling this module forces flake-utils.eachSystem over

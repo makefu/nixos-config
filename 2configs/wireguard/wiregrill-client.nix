@@ -2,10 +2,10 @@
 { config, pkgs, lib, ... }: with lib; 
 let
 
-  self = config.krebs.build.host.nets.wiregrill;
+  self = config.krebs.self.nets.wiregrill;
   ext-if = config.makefu.server.primary-itf;
 
-in mkIf (hasAttr "wiregrill" config.krebs.build.host.nets) {
+in mkIf (hasAttr "wiregrill" config.krebs.self.nets) {
   #hack for modprobe inside containers
   systemd.services."wireguard-wiregrill".path = mkIf config.boot.isContainer (mkBefore [
     (pkgs.writeDashBin "modprobe" ":")

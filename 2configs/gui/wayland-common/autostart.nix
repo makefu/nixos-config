@@ -1,6 +1,6 @@
 { config, ... }:
 let
-  mainUser = config.krebs.build.user.name;
+  mainUser = "makefu";
 in {
   services.displayManager.sddm.enable = true;
   services.displayManager.sddm.wayland.enable = true;

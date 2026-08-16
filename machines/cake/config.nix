@@ -25,10 +25,6 @@ in {
     #../../2configs/home/rhasspy/default.nix
     #../../2configs/home/rhasspy/led-control.nix
   ];
-  krebs = {
-    enable = true;
-    build.host = config.krebs.hosts.cake;
-  };
   # cake.euer (the clan default target) does not resolve; reach it over the
   # tinc retiolum name instead. ICMP is filtered but ssh works.
   clan.core.networking.targetHost = "root@cake.r";

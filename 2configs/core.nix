@@ -13,7 +13,7 @@
       openssh.authorizedKeys.keys = config.krebs.users.makefu.pubkeys;
     };
   };
-  # nix.settings.trusted-users = [ config.krebs.build.user.name ];
+  # nix.settings.trusted-users = [ "makefu" ];
   nix.settings.experimental-features = [ "flakes" "nix-command" ];
   environment.systemPackages = with pkgs; [
       jq

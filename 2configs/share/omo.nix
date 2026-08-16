@@ -1,11 +1,11 @@
 { config, lib, pkgs, ... }:
 
-with pkgs.stockholm.lib;
+with lib;
 let
   hostname = config.clan.core.settings.machine.name;
   # TODO local-ip from the nets config
   internal-ip = "192.168.111.11";
-  # local-ip = config.krebs.build.host.nets.retiolum.ip4.addr;
+  # local-ip = config.krebs.self.nets.retiolum.ip4.addr;
 in {
 
   # samba share /media/crypt1/share

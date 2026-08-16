@@ -17,12 +17,6 @@ with lib;
 
   # boot.kernelPackages = lib.mkDefault pkgs.linuxPackages;
 
-  krebs = {
-    enable = true;
-  #   dns.providers.lan  = "hosts";
-    build.user = config.krebs.users.makefu;
-  };
-
   # default `clan machines update` target. `<host>.euer` resolves over the
   # euer wireguard overlay (hub at gum). Hosts reachable only over public
   # internet override this (see machines/gum/config.nix).

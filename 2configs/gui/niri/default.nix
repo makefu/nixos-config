@@ -1,6 +1,6 @@
 { pkgs, config, ... }:
 let
-  mainUser = config.krebs.build.user.name;
+  mainUser = "makefu";
   wallpaper = "/home/makefu/pics/nixos/nixos-logo-gruvbox-wallpaper/png/gruvbox-dark-blue.png";
 in {
   imports = [

@@ -1,6 +1,6 @@
 { pkgs, config, ... }: 
 let
-  mainUser = config.krebs.build.user.name;
+  mainUser = "makefu";
 in {
   # Terminal
   home-manager.users.${mainUser} = {

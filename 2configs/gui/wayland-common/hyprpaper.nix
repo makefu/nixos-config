@@ -1,6 +1,6 @@
 {config, lib, pkgs, ... }:
 let
-    mainUser = config.krebs.build.user.name;
+    mainUser = "makefu";
     stateDir = "/home/makefu/pics/wallpaper";
     url = "http://prism.r/realwallpaper-krebs.png";
 

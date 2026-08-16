@@ -1,8 +1,8 @@
-{ config, lib, pkgs, ... }:
+{ config, lib, pkgs, genid, ... }:
 
 # search also generates ddclient entries for all other logs
 
-with pkgs.stockholm.lib;
+with lib;
 let
   #primary-itf = "eth0";
   #primary-itf = "wlp2s0";

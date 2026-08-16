@@ -14,7 +14,6 @@ in {
       ../../2configs/filepimp-share.nix
     ];
 
-  krebs.build.host = config.krebs.hosts.filepimp;
 
   networking.firewall.trustedInterfaces = [ itf ];
   networking.interfaces.${itf}.wakeOnLan.enable = true;

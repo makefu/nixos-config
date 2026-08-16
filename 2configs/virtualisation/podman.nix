@@ -20,5 +20,5 @@
     podman-compose
   ];
 
-  users.users.${config.krebs.build.user.name}.extraGroups = [ "podman" ];
+  users.users.makefu.extraGroups = [ "podman" ];
 }

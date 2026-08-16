@@ -1,7 +1,7 @@
 { config, lib, pkgs, ... }:
 
 let
-  mainUser = config.krebs.build.user.name;
+  mainUser = "makefu";
 in
 {
   environment.systemPackages = with pkgs.gnomeExtensions; [

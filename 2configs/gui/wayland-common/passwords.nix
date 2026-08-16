@@ -1,6 +1,6 @@
 { pkgs, config, ... }:
 let
-    mainUser = config.krebs.build.user.name;
+    mainUser = "makefu";
     share = "/home/makefu/.local/share";
 in {
   home-manager.users.${mainUser} = {

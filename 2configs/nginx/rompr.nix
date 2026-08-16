@@ -1,6 +1,6 @@
 { config, lib, pkgs, ... }:
 
-with pkgs.stockholm.lib;
+with lib;
 let
   user = config.services.nginx.user;
   group = config.services.nginx.group;

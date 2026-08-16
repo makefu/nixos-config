@@ -1,5 +1,5 @@
 { pkgs, lib, config, ... }:
-with pkgs.stockholm.lib;
+with lib;
 let
   upstream-server = "8.8.8.8";
   # make sure the router pins the ip address to the deployed host

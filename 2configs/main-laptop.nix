@@ -1,4 +1,4 @@
-{ config, lib, pkgs, stockholm, ... }:
+{ config, lib, pkgs, ... }:
 
 # stuff for the main laptop
 # this is pretty much nice-to-have and does
@@ -7,7 +7,7 @@
 
 let
   window-manager = "awesome";
-  user = config.krebs.build.user.name;
+  user = "makefu";
 in {
   imports = [
     ./gui/base.nix
@@ -19,7 +19,7 @@ in {
     ./gui/automatic-diskmount.nix
   ];
 
-  users.users.${config.krebs.build.user.name}.extraGroups = [ "dialout" ];
+  users.users.makefu.extraGroups = [ "dialout" ];
 
   location.latitude = 48.7;
   location.longitude = 9.1;

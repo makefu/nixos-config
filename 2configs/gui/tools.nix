@@ -1,6 +1,6 @@
 { config, pkgs, ... }:
 {
-  home-manager.users.${config.krebs.build.user.name}.xdg.desktopEntries = {
+  home-manager.users.makefu.xdg.desktopEntries = {
     privatefox = {
       name = "Privatefox";
       exec = "${pkgs.firefox}/bin/firefox -P Privatefox";

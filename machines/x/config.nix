@@ -168,7 +168,6 @@
 
 
       # applications
-      # ../../2configs/exim-retiolum.nix
       ../../2configs/mail-client.nix
       ../../2configs/printer.nix
       #../../2configs/sync
@@ -188,7 +187,6 @@
       #  };
       #}
       # Services
-      ../../2configs/git/brain-retiolum.nix
       ../../2configs/tor.nix
       # ../../2configs/vpn/vpngate.nix
       # ../../2configs/buildbot-standalone.nix
@@ -211,7 +209,6 @@
       # { services.elasticsearch.enable = true; }
       # ../../2configs/deployment/nixos.wiki
       # ../../2configs/home/photoprism.nix
-      # ../../2configs/dcpp/airdcpp.nix
       # ../../2configs/nginx/rompr.nix
       # ../../2configs/lanparty/lancache.nix
       # ../../2configs/lanparty/lancache-dns.nix
@@ -259,7 +256,6 @@
   networking.firewall.allowedUDPPorts = [ 665 26061 1514 ];
   networking.firewall.trustedInterfaces = [ "vboxnet0" "enp0s25" ];
 
-  krebs.build.host = config.krebs.hosts.x;
 
   #krebs.tinc.retiolum.connectTo = lib.mkForce [ "gum" ];
   #krebs.tinc.retiolum.extraConfig = "AutoConnect = no";

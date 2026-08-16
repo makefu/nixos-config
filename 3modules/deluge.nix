@@ -1,6 +1,6 @@
-{ config, lib, pkgs, stockholm, ... }:
+{ config, lib, pkgs, ... }:
 
-with stockholm.lib;
+with lib;
 
 let
   cfg_daemon = config.makefu.deluge;
@@ -149,7 +149,7 @@ let
         ExecStartPre =  let
         in  pkgs.writeDash "deluged-init" ''
           mkdir -p ${delugedir}
-          echo ${shell.escape cfg_daemon.auth} > ${delugedir}/auth
+          echo ${escapeShellArg cfg_daemon.auth} > ${delugedir}/auth
           cp -f ${core_conf} ${delugedir}/core.conf
         '';
         Restart = "on-success";

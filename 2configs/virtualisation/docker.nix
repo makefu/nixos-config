@@ -9,5 +9,5 @@
     docker
     docker-compose
   ];
-  users.users.${config.krebs.build.user.name}.extraGroups = [ "docker" ];
+  users.users.makefu.extraGroups = [ "docker" ];
 }

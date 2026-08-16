@@ -1,6 +1,6 @@
-{ config, ... }:
+{ config, lib, genid, ... }:
 
-with pkgs.stockholm.lib; {
+with lib; {
   services.syncthing = {
     enable = true;
     openDefaultPorts = true;

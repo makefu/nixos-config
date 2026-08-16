@@ -1,6 +1,6 @@
 { config, pkgs, lib, ... }:
 
-with pkgs.stockholm.lib;
+with lib;
 
 let
   icecult = pkgs.fetchFromGitHub {

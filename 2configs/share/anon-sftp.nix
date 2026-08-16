@@ -1,6 +1,6 @@
-{ config, lib, pkgs, ... }:
+{ config, lib, pkgs, genid, ... }:
 
-with pkgs.stockholm.lib;
+with lib;
 {
   services.openssh = {
     allowSFTP = true;

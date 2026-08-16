@@ -1,7 +1,6 @@
-{ config, lib, pkgs, stockholm,... }:
+{ config, lib, pkgs, genid, ... }:
 
 with lib;
-with stockholm.lib;
 let
   cfg = config.makefu.udpt;
 
@@ -41,7 +40,7 @@ let
       restartIfChanged = true;
       serviceConfig = {
         Type = "simple";
-        ExecStart = "${cfg.package}/bin/udpt -i -c ${shell.escape cfg.cfgfile}";
+        ExecStart = "${cfg.package}/bin/udpt -i -c ${escapeShellArg cfg.cfgfile}";
         PrivateTmp = true;
         WorkingDirectory = "/tmp";
         User = "${cfg.user}";

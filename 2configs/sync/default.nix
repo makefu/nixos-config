@@ -1,4 +1,4 @@
-{ config, pkgs, ... }: with pkgs.stockholm.lib; let
+{ config, lib, pkgs, ... }: with lib; let
   mk_peers = mapAttrs (n: v: { id = v.syncthing.id; });
 
   all_peers = filterAttrs (n: v: v.syncthing.id != null) config.krebs.hosts;

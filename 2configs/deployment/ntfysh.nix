@@ -2,7 +2,7 @@
 let
   web-port = 19455;
   hostn = "ntfy.euer.krebsco.de";
-  internal-ip = config.krebs.build.host.nets.retiolum.ip4.addr;
+  internal-ip = config.krebs.self.nets.retiolum.ip4.addr;
 in 
 {
   services.ntfy-sh = {

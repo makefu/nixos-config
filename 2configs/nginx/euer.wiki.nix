@@ -1,6 +1,6 @@
 { config, lib, pkgs, ... }:
 
-with pkgs.stockholm.lib;
+with lib;
 let
   ext-dom = "wiki.euer.krebsco.de";
 

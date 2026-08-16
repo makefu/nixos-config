@@ -2,7 +2,7 @@
 let
   web-port = 19453;
   hostn = "gitlab.makefu.r";
-  internal-ip = config.krebs.build.host.nets.retiolum.ip4.addr;
+  internal-ip = config.krebs.self.nets.retiolum.ip4.addr;
 in {
 
   services.gitlab = {

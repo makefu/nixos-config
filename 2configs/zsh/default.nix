@@ -1,6 +1,6 @@
 { config, lib, pkgs, ... }:
 let
-  mainUser = config.krebs.build.user.name;
+  mainUser = "makefu";
 in
 {
   programs.zsh= {

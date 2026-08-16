@@ -1,6 +1,6 @@
 { config, lib, pkgs, ... }:
 
-with pkgs.stockholm.lib;
+with lib;
 let
   pkg = pkgs.stdenv.mkDerivation {
     name = "aralast-master";

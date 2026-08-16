@@ -1,6 +1,6 @@
-{ pkgs, config, ... }:
+{ pkgs, config, lib, ... }:
 
-with pkgs.stockholm.lib;
+with lib;
 let
   web-port = 8080;
 in {

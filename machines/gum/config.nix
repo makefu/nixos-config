@@ -1,11 +1,5 @@
 { config, lib, pkgs, ... }:
-
-with pkgs.stockholm.lib;
-let
-  external-ip = config.krebs.build.host.nets.internet.ip4.addr;
-  ext-if = config.makefu.server.primary-itf;
-  allDisks = [ "/dev/sda" "/dev/sdb" ];
-in {
+{
   imports = [
       
       #../../2configs/networking/zerotier.nix
@@ -20,18 +14,6 @@ in {
         # systemd.services.phpfpm-nextcloud.wantedBy = lib.mkForce [];
         # systemd.services.samba-smbd.wantedBy = lib.mkForce [];
       }
-      #{
-      #  users.users.lass = {
-      #    uid = 19002;
-      #    isNormalUser = true;
-      #    createHome = true;
-      #    useDefaultShell = true;
-      #    openssh.authorizedKeys.keys = with config.krebs.users; [
-      #      lass.pubkey
-      #      makefu.pubkey
-      #    ];
-      #  };
-      #}
       ../../2configs
 
       ../../2configs/nur.nix
@@ -69,19 +51,13 @@ in {
 
       # ../../2configs/backup.nix
       ../../2configs/tinc/retiolum.nix
-      { # bonus retiolum config for connecting more hosts
-        krebs.tinc.retiolum = {
-          #extraConfig = lib.mkForce ''
-          #  ListenAddress = ${external-ip} 53
-          #  ListenAddress = ${external-ip} 655
-          #  ListenAddress = ${external-ip} 21031
-          #  StrictSubnets = yes
-          #  LocalDiscovery = no
-          #'';
-          connectTo = [
-            "prism" "ni" "enklave" "eve" "dishfire"
-          ];
-        };
+      { # gum has a public address, so it connects out to more of the mesh
+        # than the default peer set does.
+        services.tincr.networks.retiolum.connectTo = [
+          "prism" "ni" "enklave" "eve" "dishfire"
+        ];
+        # tincd additionally listens on 53 and 21031 for peers stuck behind
+        # firewalls that only let those ports out.
         networking.firewall = {
           allowedTCPPorts =
             [
@@ -99,8 +75,6 @@ in {
       }
 
       # ci
-      # ../../2configs/exim-retiolum.nix
-      # ../../2configs/git/cgit-retiolum.nix
       ../../2configs/git/forgejo.nix
 
 
@@ -198,10 +172,8 @@ in {
       # ../../2configs/nginx/iso.euer.nix
 
       # ../../2configs/deployment/photostore.krebsco.de.nix
-      # ../../2configs/deployment/graphs.nix
       #../../2configs/deployment/owncloud.nix
       # ../../2configs/deployment/board.euer.krebsco.de.nix
-      #../../2configs/deployment/feed.euer.krebsco.de
       # ../../2configs/deployment/boot-euer.nix
       #../../2configs/deployment/docker/archiveteam-warrior.nix
       # ../../2configs/deployment/mediengewitter.de.nix
@@ -223,13 +195,11 @@ in {
       # ../../2configs/logging/client.nix
 
       # sharing
-      # ../../2configs/dcpp/airdcpp.nix
       #{ krebs.airdcpp.dcpp.shares = {
       #    download.path = config.makefu.dl-dir + "/finished";
       #    sorted.path = config.makefu.dl-dir + "/sorted";
       #  };
       #}
-      # ../../2configs/dcpp/hub.nix
 
       ## Temporary:
       # ../../2configs/temp/rst-issue.nix
@@ -249,7 +219,6 @@ in {
 
   ###### stable
 
-  krebs.build.host = config.krebs.hosts.gum;
 
   # Network
   networking = {

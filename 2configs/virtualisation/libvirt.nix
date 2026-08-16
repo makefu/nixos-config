@@ -1,7 +1,7 @@
 { config, lib, pkgs, ... }:
 
 let
-  mainUser = config.krebs.build.user;
+  mainUser = config.krebs.users.makefu;
 in {
   virtualisation.libvirtd.enable = true;
   users.extraUsers.${mainUser.name}.extraGroups = [ "libvirtd" ];

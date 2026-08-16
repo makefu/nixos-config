@@ -4,8 +4,8 @@ let
   hostname = config.clan.core.settings.machine.name;
   user = config.services.nginx.user;
   group = config.services.nginx.group;
-  external-ip = config.krebs.build.host.nets.internet.ip4.addr;
-  internal-ip = config.krebs.build.host.nets.retiolum.ip4.addr;
+  external-ip = config.krebs.self.nets.internet.ip4.addr;
+  internal-ip = config.krebs.self.nets.retiolum.ip4.addr;
 in {
   services.nginx = {
     enable = lib.mkDefault true;

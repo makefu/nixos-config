@@ -1,8 +1,8 @@
-{ config, lib, pkgs, ... }:
+{ config, lib, pkgs, genid, ... }:
 
 # graphite-web on port 8080
 # carbon cache on port 2003 (tcp/udp)
-with pkgs.stockholm.lib;
+with lib;
 let
   solrHome = "/var/db/solr";
 in {

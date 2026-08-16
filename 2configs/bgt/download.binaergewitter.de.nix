@@ -1,7 +1,7 @@
-{ config, lib, pkgs, ... }:
+{ config, lib, pkgs, genid, ... }:
 
 
-with pkgs.stockholm.lib;
+with lib;
 let
   ident = (builtins.readFile ./auphonic.pub);
   nginxlogs = "/var/log/nginx";

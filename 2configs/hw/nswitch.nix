@@ -2,7 +2,7 @@
 
 {
 
-  users.extraUsers.${config.krebs.build.user.name}.extraGroups = [ "dialout" ];
+  users.extraUsers.makefu.extraGroups = [ "dialout" ];
 
   # 1: USB
   # 2: RCM

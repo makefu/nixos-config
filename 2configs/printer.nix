@@ -1,7 +1,7 @@
 { config, pkgs, ... }:
 
 let
-  mainUser = config.krebs.build.user.name;
+  mainUser = "makefu";
 in {
   services.printing = {
     enable = true;

@@ -1,6 +1,6 @@
-{ config, lib, pkgs, stockholm, ... }:
+{ config, lib, pkgs, ... }:
 
-with stockholm.lib;
+with lib;
 {
   options.makefu.stats-server = lib.mkOption {
     type = types.str;

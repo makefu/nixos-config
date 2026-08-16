@@ -1,7 +1,7 @@
 { pkgs, config, ... }:
 let
   pkg = pkgs.callPackage ./sickgear.nix {};
-  external-ip = config.krebs.build.host.nets.internet.ip4.addr;
+  external-ip = config.krebs.self.nets.internet.ip4.addr;
 in {
   services.sickbeard =
     {

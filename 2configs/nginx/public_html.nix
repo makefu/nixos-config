@@ -1,6 +1,6 @@
 { config, lib, ... }:
 
-with pkgs.stockholm.lib;
+with lib;
 
 {
   services.nginx = {

@@ -8,7 +8,7 @@ with lib;{
   options.makefu.gui.user = lib.mkOption {
     type = types.str;
     description = "GUI user";
-    default = config.krebs.build.user.name;
+    default = "makefu";
   };
 }
 

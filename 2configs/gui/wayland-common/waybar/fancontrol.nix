@@ -1,6 +1,6 @@
 { pkgs, config, ... }:
 let
-  mainUser = config.krebs.build.user.name;
+  mainUser = "makefu";
   fanFile = "/proc/acpi/ibm/fan";
   fanRead = pkgs.writeShellScript "waybar-fan-read" ''
     if [ ! -r "${fanFile}" ]; then

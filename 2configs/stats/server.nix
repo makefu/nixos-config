@@ -1,6 +1,6 @@
-{pkgs, config, ...}:
+{ config, lib, pkgs, ... }:
 
-with pkgs.stockholm.lib;
+with lib;
 let
   irc-server = "irc.r";
   irc-nick = "m-alarm";

@@ -1,6 +1,6 @@
 { config, lib, pkgs, ... }:
 # more than just nginx config but not enough to become a module
-with pkgs.stockholm.lib;
+with lib;
 let
   hostname = config.clan.core.settings.machine.name;
   bootscript = pkgs.writeTextDir "runit" ''

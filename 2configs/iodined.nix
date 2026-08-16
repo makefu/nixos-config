@@ -12,7 +12,7 @@
       domain = "io.krebsco.de";
       ip = "172.16.10.1/24";
       passwordFile = config.sops.secrets."iodinepw".path;
-      extraConfig = "-c -l ${config.krebs.build.host.nets.internet.ip4.addr}";
+      extraConfig = "-c -l ${config.krebs.self.nets.internet.ip4.addr}";
     };
   };
 

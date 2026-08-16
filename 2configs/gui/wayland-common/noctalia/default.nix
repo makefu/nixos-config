@@ -1,6 +1,6 @@
 { pkgs, config, inputs, ... }:
 let
-  mainUser = config.krebs.build.user.name;
+  mainUser = "makefu";
   #noctalia-shell = inputs.noctalia-shell.packages.${pkgs.stdenv.hostPlatform.system}.default;
   pkg = pkgs.noctalia-shell;
 in {

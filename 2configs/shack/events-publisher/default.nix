@@ -1,5 +1,5 @@
-{ pkgs, ... }:
-with pkgs.stockholm.lib;
+{ pkgs, lib, genid, ... }:
+with lib;
 let
   shack-announce = pkgs.callPackage (builtins.fetchTarball {
     url = "https://github.com/makefu/events-publisher/archive/419afdfe16ebf7f2360d2ba64b67ca88948832bd.tar.gz";

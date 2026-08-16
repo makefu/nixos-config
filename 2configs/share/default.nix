@@ -1,5 +1,5 @@
-{ config, lib, stockholm, ... }:
-with stockholm.lib;
+{ config, lib, genid, ... }:
+with lib;
 let
   base-dir = config.services.rtorrent.downloadDir;
 in {
@@ -22,7 +22,7 @@ in {
     download = {
       gid = lib.mkDefault (genid "download");
       members = [
-        config.krebs.build.user.name
+        "makefu"
         "download"
       ];
     };

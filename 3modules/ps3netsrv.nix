@@ -1,6 +1,6 @@
-{ config, lib, pkgs, stockholm, ... }:
+{ config, lib, pkgs, genid, ... }:
 
-with stockholm.lib;
+with lib;
 let
   cfg = config.makefu.ps3netsrv;
 
@@ -41,7 +41,7 @@ let
       };
       serviceConfig = {
         Type = "simple";
-        ExecStart = "${cfg.package}/bin/ps3netsrv ${shell.escape cfg.servedir}";
+        ExecStart = "${cfg.package}/bin/ps3netsrv ${escapeShellArg cfg.servedir}";
         PrivateTmp = true;
         User = "${cfg.user}";
       };
