@@ -67,7 +67,6 @@
       #../../2configs/graphite-standalone.nix
       #../../2configs/share-user-sftp.nix
 
-      ../../2configs/urlwatch
       # ../../2configs/legacy_only.nix
 
       ../../2configs/share
