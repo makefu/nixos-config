@@ -1,6 +1,6 @@
 # Python packages for the NeuTTS German TTS stack that are not (yet) in
 # nixpkgs. Everything else (torch, transformers, llama-cpp-python, phonemizer,
-# librosa, soundfile, torchao, torchtune, local-attention, einx, ...) is reused
+# librosa, soundfile, torchao, local-attention, einx, ...) is reused
 # straight from nixpkgs — only these three thin wrappers are missing upstream.
 #
 # Consumed from 5pkgs/default.nix as a pythonPackagesExtensions entry:
@@ -29,6 +29,10 @@ pyfinal: pyprev: {
   };
 
   # Neural audio codec used by NeuTTS to decode LM tokens -> 24 kHz waveform.
+  #
+  # nixpkgs dropped torchtune ("unmaintained upstream") and neucodec only ever
+  # used a single class from it, so vendor that one class instead of packaging
+  # the whole training library. See ./rotary-positional-embeddings.py.
   neucodec = pyfinal.buildPythonPackage rec {
     pname = "neucodec";
     version = "0.0.6";
@@ -37,15 +41,23 @@ pyfinal: pyprev: {
       inherit pname version;
       sha256 = "9a19f107bf224a1c858967ccaace38fe1efbc328ca78c8f792b8dfca9cd993e6";
     };
+    postPatch = ''
+      install -Dm644 ${./rotary-positional-embeddings.py} neucodec/_rope.py
+      substituteInPlace neucodec/bs_roformer5.py neucodec/codec_decoder_vocos.py \
+        --replace-fail \
+          'from torchtune.modules import RotaryPositionalEmbeddings' \
+          'from neucodec._rope import RotaryPositionalEmbeddings'
+    '';
     build-system = [ pyfinal.poetry-core ];
     dependencies = with pyfinal; [
-      torch torchaudio torchao torchtune
+      torch torchaudio torchao
       vector-quantize-pytorch
       transformers local-attention numpy huggingface-hub safetensors
     ];
+    pythonRemoveDeps = [ "torchtune" ];
     # nixpkgs ships newer torch/transformers/numpy than the conservative pins.
     pythonRelaxDeps = [
-      "transformers" "numpy" "torch" "torchao" "torchtune" "torchaudio"
+      "transformers" "numpy" "torch" "torchao" "torchaudio"
       "vector-quantize-pytorch"
     ];
     doCheck = false;
@@ -55,7 +67,11 @@ pyfinal: pyprev: {
   # NeuTTS itself. Only ships platform wheels (the sdist builds espeak-ng via
   # CMake). The cp313 manylinux wheel is pure-python plus a bundled
   # libespeak-ng.so + espeak-ng-data, so it is self-contained for phonemization
-  # once autopatchelf fixes the bundled .so. x2 is x86_64 / py3.13.
+  # once autopatchelf fixes the bundled .so.
+  #
+  # cp313 is the newest interpreter upstream builds for (still true in 1.4.1),
+  # which is why 5pkgs/wyoming-neutts pins python313 rather than following
+  # pkgs.python3.
   #
   # resemble-perth (audio watermarker) is intentionally dropped: NeuTTS wraps
   # its import in try/except and degrades to unwatermarked audio, and packaging

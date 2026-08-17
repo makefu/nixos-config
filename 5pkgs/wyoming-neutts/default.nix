@@ -3,17 +3,21 @@
 # overlay) plus everything else from nixpkgs. A German reference clip + its
 # transcript are baked in as the default voice for NeuTTS' voice cloning.
 { lib
-, python3
+, python313
 , fetchurl
 , makeWrapper
 , runCommand
 }:
 let
+  # Pinned, not pkgs.python3: upstream neutts publishes platform wheels only
+  # up to cp313, so the default interpreter (3.14) has nothing to install.
+  python = python313;
+
   # ignoreCollisions: einx and phonemizer both (wrongly) install a
   # docs/source/conf.py into site-packages, whose .pyc collides in buildEnv.
   # The clash is only stale documentation artifacts, harmless to the runtime.
-  pythonEnv = python3.buildEnv.override {
-    extraLibs = with python3.pkgs; [
+  pythonEnv = python.buildEnv.override {
+    extraLibs = with python.pkgs; [
       neutts
       wyoming
       llama-cpp-python
