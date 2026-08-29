@@ -34,7 +34,13 @@
     # Consumed directly: 3modules/krebs.nix turns kartei.hosts/users into the
     # krebs.* option tree this repo reads, 2configs/tinc/retiolum.nix pulls in
     # kartei.nixosModules.retiolum.
-    kartei.url = "github:krebs/kartei/sptps-makefu";
+    # NOT the sptps-makefu branch: it puts SPTPSCipher/SPTPSKex into
+    # hosts/gum, and tincr resolves a peer's kex from *that peer's* host
+    # file. Only gum advertising the PQ kex therefore makes every tincr
+    # peer offer it to gum while gum offers classic back — see
+    # 2configs/tinc/retiolum.nix. Re-enable it only together with the
+    # same lines on every host we peer with.
+    kartei.url = "github:krebs/kartei";
 
     picsender.url = "git+https://cgit.euer.krebsco.de/makefu/citadel_picsender.git";
 

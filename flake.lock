@@ -410,11 +410,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1782949081,
-        "narHash": "sha256-vp6Y/Grm98ESt6ceOkWiHWyZRDV3J1RID4w+6NWK9yA=",
+        "lastModified": 1787559586,
+        "narHash": "sha256-onL0VLf9vPllmT0H/OlURIU5r5t5WIEl7t4tVNKT0Nw=",
         "owner": "hercules-ci",
         "repo": "flake-parts",
-        "rev": "17c9d6cdfc60c64f4ee8d306f9bc0b4ccb51481e",
+        "rev": "9d0d87172c374f89da73c1cfe6d81ae62feac1f1",
         "type": "github"
       },
       "original": {
@@ -1074,16 +1074,15 @@
         "tincr": "tincr"
       },
       "locked": {
-        "lastModified": 1786894737,
-        "narHash": "sha256-zNPCqPzrfGFGz+KjAZZzYA4pSpHPlN/Rp+0tUlBhKnE=",
+        "lastModified": 1786963921,
+        "narHash": "sha256-fZZ3G606jPKrQkCxVpnX8lJtao1HLydR6racnPX+2RU=",
         "owner": "krebs",
         "repo": "kartei",
-        "rev": "acad31ff4f3290497d3da18c04a14f346564d463",
+        "rev": "7f2b5c5d0ee94e306e9530392e3b3a67c028a248",
         "type": "github"
       },
       "original": {
         "owner": "krebs",
-        "ref": "sptps-makefu",
         "repo": "kartei",
         "type": "github"
       }
@@ -2194,11 +2193,11 @@
         "treefmt-nix": "treefmt-nix_4"
       },
       "locked": {
-        "lastModified": 1784891761,
-        "narHash": "sha256-RxOmu+01Hc6YFjcvyQ8DRpX48s+CZIp6VPxyWSIo7HU=",
+        "lastModified": 1786953226,
+        "narHash": "sha256-Us4O3IXk6gw/4VZFH43Enew0umXhhpPO1/oKueqvQKk=",
         "owner": "Mic92",
         "repo": "tincr",
-        "rev": "bf6bcf30e0990fe0c0afc7dec1b3767a73cd9aa9",
+        "rev": "46290b12ad1db1e4cfbc234ad037080dbe045487",
         "type": "github"
       },
       "original": {
