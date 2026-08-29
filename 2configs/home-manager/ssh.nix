@@ -1,10 +1,6 @@
 { ... }:
 {
-  home-manager.users.makefu = { lib, ... }: let
-    dag = lib.hm.dag;
-
-    # ssh(1) takes the *first* value found for each keyword, so a catch-all
-    # block has to be emitted last or its "User root" would win everywhere.
+  home-manager.users.makefu = { ... }: let
     torProxy = "/run/current-system/sw/bin/nc -X 5 -x 127.0.0.1:9050 %h %p";
     jump = host: "ssh ${host} -W %h:%p";
   in {
@@ -14,282 +10,280 @@
       # opinionated defaults into ~/.ssh/config
       enableDefaultConfig = false;
 
-      matchBlocks = {
+      # attribute names are the Host pattern, attribute keys are ssh_config(5)
+      # directive names. ssh(1) takes the *first* value found for each keyword;
+      # the catch-all block is the "*" entry, which the module always emits
+      # last, after every other block.
+      settings = {
         # --- wbob and friends -------------------------------------------
         wbob = {
-          hostname = "wbob";
-          proxyCommand = jump "gum.i";
+          HostName = "wbob";
+          ProxyCommand = jump "gum.i";
         };
         # wbob has no route from the outside; it is only reachable from
         # cybahn.de inside the euer wireguard net.
-        "wbob.euer" = {
-          host = "wbob.euer wbob.cybahn";
-          hostname = "172.27.61.2";
-          user = "root";
-          proxyJump = "root@cybahn.de";
+        "wbob.euer wbob.cybahn" = {
+          HostName = "172.27.61.2";
+          User = "root";
+          ProxyJump = "root@cybahn.de";
         };
         wbob-localhost = {
-          hostname = "127.0.0.1";
-          port = 2222;
-          user = "kiosk";
+          HostName = "127.0.0.1";
+          Port = 2222;
+          User = "kiosk";
         };
         wbob-chatgts = {
-          hostname = "192.168.8.243";
-          user = "chatgts";
-          proxyCommand = jump "wbob";
+          HostName = "192.168.8.243";
+          User = "chatgts";
+          ProxyCommand = jump "wbob";
         };
         wbob-proxy = {
-          hostname = "192.168.8.1";
-          proxyCommand = jump "wbob";
+          HostName = "192.168.8.1";
+          ProxyCommand = jump "wbob";
         };
         wbobbuild = {
-          user = "nixBuild";
-          hostname = "wbob.r";
-          identityFile = "/home/makefu/secrets/x/id_nixBuild";
+          User = "nixBuild";
+          HostName = "wbob.r";
+          IdentityFile = "/home/makefu/secrets/x/id_nixBuild";
         };
         vbob-remote = {
-          hostname = "192.168.8.225";
-          proxyCommand = jump "wbob-proxy";
+          HostName = "192.168.8.225";
+          ProxyCommand = jump "wbob-proxy";
         };
 
         # --- own machines -----------------------------------------------
-        gum.user = "makefu";
+        gum.User = "makefu";
         nextgum = {
-          hostname = "nextgum.i";
-          user = "makefu";
+          HostName = "nextgum.i";
+          User = "makefu";
         };
         omo = {
-          hostname = "omo";
-          user = "makefu";
-          identityFile = "/home/makefu/.ssh/id_rsa";
-          proxyCommand = jump "gum";
-          extraOptions.StrictHostKeyChecking = "no";
+          HostName = "omo";
+          User = "makefu";
+          IdentityFile = "/home/makefu/.ssh/id_rsa";
+          ProxyCommand = jump "gum";
+          StrictHostKeyChecking = "no";
         };
-        filepimp.user = "root";
-        darth.user = "makefu";
-        euer.user = "makefu";
-        cband.user = "makefu";
-        chinaman.user = "root";
-        vault.user = "root";
-        kremium.user = "root";
-        pigstarter.user = "makefu";
-        "pigstarter.krebsco.de".user = "makefu";
+        filepimp.User = "root";
+        darth.User = "makefu";
+        euer.User = "makefu";
+        cband.User = "makefu";
+        chinaman.User = "root";
+        vault.User = "root";
+        kremium.User = "root";
+        pigstarter.User = "makefu";
+        "pigstarter.krebsco.de".User = "makefu";
         savarcast = {
-          hostname = "home.savar.de";
-          port = 2299;
-          user = "root";
+          HostName = "home.savar.de";
+          Port = 2299;
+          User = "root";
         };
         savarcast-test = {
-          hostname = "192.168.56.10";
-          user = "root";
+          HostName = "192.168.56.10";
+          User = "root";
         };
         vbox = {
-          hostname = "127.0.0.1";
-          port = 2222;
-          user = "root";
+          HostName = "127.0.0.1";
+          Port = 2222;
+          User = "root";
         };
         servarch = {
-          hostname = "192.168.1.11";
-          user = "makefu";
-          compression = false;
-          controlMaster = "no";
-          forwardX11 = false;
+          HostName = "192.168.1.11";
+          User = "makefu";
+          Compression = false;
+          ControlMaster = "no";
         };
         leechi = {
-          hostname = "leechi.kicks-ass.org";
-          user = "makefu";
-          port = 443;
+          HostName = "leechi.kicks-ass.org";
+          User = "makefu";
+          Port = 443;
         };
         warchall = {
-          hostname = "warchall.net";
-          user = "makefu";
-          port = 19198;
+          HostName = "warchall.net";
+          User = "makefu";
+          Port = 19198;
         };
         asterisk = {
-          hostname = "213.239.205.246";
-          port = 10022;
-          user = "root";
+          HostName = "213.239.205.246";
+          Port = 10022;
+          User = "root";
         };
         "cgit.euer.krebsco.de" = {
-          hostname = "cgit.euer.krebsco.de";
-          user = "forgejo";
-          identityFile = "~/.ssh/keys/forgejo";
+          HostName = "cgit.euer.krebsco.de";
+          User = "forgejo";
+          IdentityFile = "~/.ssh/keys/forgejo";
         };
         "aarch64.nixos.community" = {
-          hostname = "aarch64.nixos.community";
-          user = "makefu";
-          identityFile = "/home/makefu/.ssh/keys/nix-community";
+          HostName = "aarch64.nixos.community";
+          User = "makefu";
+          IdentityFile = "/home/makefu/.ssh/keys/nix-community";
         };
 
         # --- shackspace --------------------------------------------------
-        "alphapi.shack".identityFile = "~/.ssh/gitlab-ci-deploy";
-        "ssh.git.shackspace.de".proxyCommand = jump "gum";
+        "alphapi.shack".IdentityFile = "~/.ssh/gitlab-ci-deploy";
+        "ssh.git.shackspace.de".ProxyCommand = jump "gum";
         inter_ibu = {
           # contains wolf
-          hostname = "ibuprofen.shack";
-          compression = false;
-          proxyCommand = jump "puyak";
+          HostName = "ibuprofen.shack";
+          Compression = false;
+          ProxyCommand = jump "puyak";
         };
         "openhab.shack" = {
-          hostname = "openhab.shack";
-          proxyCommand = jump "wolf";
+          HostName = "openhab.shack";
+          ProxyCommand = jump "wolf";
         };
         phenyl = {
           # contains nukular
-          hostname = "10.42.2.3";
-          compression = false;
-          proxyCommand = jump "wolf";
+          HostName = "10.42.2.3";
+          Compression = false;
+          ProxyCommand = jump "wolf";
         };
         inter_rzgit = {
-          hostname = "rzgit.shack";
-          proxyCommand = jump "wolf";
+          HostName = "rzgit.shack";
+          ProxyCommand = jump "wolf";
         };
         inter_openwisp = {
-          hostname = "openwisp.shack";
-          user = "shack";
-          proxyJump = "wolf";
+          HostName = "openwisp.shack";
+          User = "shack";
+          ProxyJump = "wolf";
         };
         inter_wolf = {
-          hostname = "10.42.14.120";
-          user = "root";
-          proxyCommand = jump "wolf";
+          HostName = "10.42.14.120";
+          User = "root";
+          ProxyCommand = jump "wolf";
         };
         inter_migraine = {
-          hostname = "migraine.shack";
-          user = "root";
+          HostName = "migraine.shack";
+          User = "root";
         };
         inter_asperine = {
-          hostname = "asperine.shack";
-          user = "root";
-          proxyCommand = jump "heidi";
+          HostName = "asperine.shack";
+          User = "root";
+          ProxyCommand = jump "heidi";
         };
         heidi = {
-          hostname = "heidi.shack";
-          user = "root";
-          proxyCommand = jump "wolf";
+          HostName = "heidi.shack";
+          User = "root";
+          ProxyCommand = jump "wolf";
         };
         "filebitch.shack" = {
-          hostname = "10.42.14.43";
-          user = "root";
-          compression = false;
-          proxyCommand = jump "wolf";
+          HostName = "10.42.14.43";
+          User = "root";
+          Compression = false;
+          ProxyCommand = jump "wolf";
         };
-        "monitoring.shack".user = "root";
-        "krebs.shack".user = "krebs";
+        "monitoring.shack".User = "root";
+        "krebs.shack".User = "krebs";
         ibu_v6 = {
-          hostname = "2001:4dd0:ae02:fefe:da9d:67ff:fe25:a520";
-          user = "root";
+          HostName = "2001:4dd0:ae02:fefe:da9d:67ff:fe25:a520";
+          User = "root";
         };
         "coreswitch.shack" = {
-          hostname = "10.0.0.3";
-          port = 22;
-          user = "napalm";
-          identityFile = "/dev/null";
-          identitiesOnly = true;
-          forwardAgent = false;
-          extraOptions = {
-            KexAlgorithms = "+curve25519-sha256@libssh.org,diffie-hellman-group-exchange-sha256,diffie-hellman-group1-sha1";
-            Ciphers = "+aes192-cbc";
-          };
+          HostName = "10.0.0.3";
+          Port = 22;
+          User = "napalm";
+          IdentityFile = "/dev/null";
+          IdentitiesOnly = true;
+          ForwardAgent = false;
+          KexAlgorithms = "+curve25519-sha256@libssh.org,diffie-hellman-group-exchange-sha256,diffie-hellman-group1-sha1";
+          Ciphers = "+aes192-cbc";
         };
         portal = {
-          hostname = "192.168.1.1";
-          user = "open";
-          identityFile = "/home/makefu/.ssh/shackspace";
+          HostName = "192.168.1.1";
+          User = "open";
+          IdentityFile = "/home/makefu/.ssh/shackspace";
         };
 
         # --- siem lab ----------------------------------------------------
         "ossim.siem" = {
-          hostname = "10.8.10.6";
-          user = "root";
+          HostName = "10.8.10.6";
+          User = "root";
         };
         honeydrive = {
-          hostname = "10.8.8.8";
-          port = 22222;
-          user = "root";
-          proxyCommand = jump "ossim.siem";
+          HostName = "10.8.8.8";
+          Port = 22222;
+          User = "root";
+          ProxyCommand = jump "ossim.siem";
         };
 
         # --- misc third party --------------------------------------------
         "manga.madokami.al" = {
-          port = 38460;
-          user = "homura";
-          extraOptions.KexAlgorithms = "diffie-hellman-group-exchange-sha1";
+          Port = 38460;
+          User = "homura";
+          KexAlgorithms = "diffie-hellman-group-exchange-sha1";
         };
-        prism.user = "download";
-        krebs.user = "krebs";
-        fuerkrebs.user = "krebs";
-        krebsplug.user = "root";
-        shepherd.user = "user";
-        alphalabs.user = "guest";
-        raspafari.user = "pi";
-        soundflower.user = "pi";
-        bitchctl.user = "ciko";
-        pa-sharepoint.user = "default";
+        prism.User = "download";
+        krebs.User = "krebs";
+        fuerkrebs.User = "krebs";
+        krebsplug.User = "root";
+        shepherd.User = "user";
+        alphalabs.User = "guest";
+        raspafari.User = "pi";
+        soundflower.User = "pi";
+        bitchctl.User = "ciko";
+        pa-sharepoint.User = "default";
         chris = {
-          hostname = "176.9.48.239";
-          user = "felix";
+          HostName = "176.9.48.239";
+          User = "felix";
         };
-        archive.hostname = "192.249.58.106";
+        archive.HostName = "192.249.58.106";
         autosync = {
-          hostname = "pnp";
-          user = "git";
+          HostName = "pnp";
+          User = "git";
         };
         pandora = {
-          hostname = "192.168.1.1";
-          user = "root";
+          HostName = "192.168.1.1";
+          User = "root";
         };
         tempsdev = {
-          hostname = "127.0.0.2";
-          port = 2222;
+          HostName = "127.0.0.2";
+          Port = 2222;
         };
         pki = {
-          hostname = "localhost";
-          port = 2222;
+          HostName = "localhost";
+          Port = 2222;
         };
         "10.42.23.68" = {
-          hostname = "10.42.23.68";
-          identityFile = "~/.ssh/sdev";
-          proxyCommand = jump "fileleech";
+          HostName = "10.42.23.68";
+          IdentityFile = "~/.ssh/sdev";
+          ProxyCommand = jump "fileleech";
         };
         "192.168.8.1" = {
-          hostname = "192.168.8.1";
-          compression = true;
-          extraOptions = {
-            StrictHostKeyChecking = "no";
-            UserKnownHostsFile = "/dev/null";
-            HostKeyAlgorithms = "+ssh-rsa";
-          };
+          HostName = "192.168.8.1";
+          Compression = true;
+          StrictHostKeyChecking = "no";
+          UserKnownHostsFile = "/dev/null";
+          HostKeyAlgorithms = "+ssh-rsa";
         };
         "192.168.111.5" = {
-          compression = true;
-          extraOptions.HostKeyAlgorithms = "+ssh-rsa";
+          Compression = true;
+          HostKeyAlgorithms = "+ssh-rsa";
         };
-        "direct.labs.play-with-docker.com".controlPath = "~/.ssh/%r@docker";
-        "*.labs.overthewire.org".sendEnv = [
+        "direct.labs.play-with-docker.com".ControlPath = "~/.ssh/%r@docker";
+        "*.labs.overthewire.org".SendEnv = [
           "WECHALLTOKEN"
           "WECHALLUSER"
         ];
 
         # --- reached through tor -----------------------------------------
         edu = {
-          hostname = "23.92.64.72";
-          user = "root";
-          proxyCommand = torProxy;
+          HostName = "23.92.64.72";
+          User = "root";
+          ProxyCommand = torProxy;
         };
         candy = {
-          hostname = "162.248.11.162";
-          user = "root";
-          proxyCommand = torProxy;
+          HostName = "162.248.11.162";
+          User = "root";
+          ProxyCommand = torProxy;
         };
-        "*.onion".proxyCommand = torProxy;
+        "*.onion".ProxyCommand = torProxy;
 
-        # --- catch-all, must stay last -----------------------------------
-        "*" = dag.entryAfter [ "*.onion" "*.labs.overthewire.org" ] {
-          user = "root";
-          compression = true;
-          controlMaster = "auto";
-          controlPath = "~/.ssh/ssh-%C.sock";
+        # --- catch-all, emitted last by the module ------------------------
+        "*" = {
+          User = "root";
+          Compression = true;
+          ControlMaster = "auto";
+          ControlPath = "~/.ssh/ssh-%C.sock";
         };
       };
     };
