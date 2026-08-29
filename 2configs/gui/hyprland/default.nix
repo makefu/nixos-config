@@ -1,6 +1,35 @@
-{ pkgs, config, inputs, ... }:
+{ pkgs, lib, ... }:
 let
   mainUser = "makefu";
+
+  inherit (lib.generators) mkLuaInline;
+
+  mainMod = "SUPER";
+  terminal = "kitty";
+  fileManager = "dolphin";
+  menu = "noctalia-shell ipc call launcher toggle";
+
+  # hl.bind(key, dispatcher, opts?). The dispatcher is a Lua *expression*
+  # (hl.dsp.*), not a string, so it has to go through mkLuaInline; the
+  # hyprlang bind/bindm/bindel/bindl prefixes are plain opts now.
+  bindWith = opts: key: dispatcher: {
+    _args = [ key (mkLuaInline dispatcher) ] ++ lib.optional (opts != { }) opts;
+  };
+  bind = bindWith { };
+  bindMouse = bindWith { mouse = true; };
+  bindLocked = bindWith { locked = true; };
+  bindLockedRepeat = bindWith {
+    locked = true;
+    repeating = true;
+  };
+
+  exec = cmd: ''hl.dsp.exec_cmd("${cmd}")'';
+
+  # workspace 10 lives on key 0, as it did with the hyprlang binds
+  workspaces = lib.genList (n: {
+    index = n + 1;
+    key = toString (lib.mod (n + 1) 10);
+  }) 10;
 in {
   imports = [
     ../base.nix
@@ -46,14 +75,14 @@ in {
         warp-on-scroll = false;
         format = "{name}: {icon}";
         format-icons = {
-          "1" = "";
-          "2" = "";
-          "3" = "";
-          "4" = "";
-          "5" = "";
-          urgent = "";
-          focused = "";
-          default = "";
+          "1" = "";
+          "2" = "";
+          "3" = "";
+          "4" = "";
+          "5" = "";
+          urgent = "";
+          focused = "";
+          default = "";
         };
       };
       "hyprland/mode" = {
@@ -62,7 +91,7 @@ in {
       "hyprland/scratchpad" = {
         format = "{icon} {count}";
         show-empty = false;
-        format-icons = [ "" "" ];
+        format-icons = [ "" "" ];
         tooltip = true;
         tooltip-format = "{app}: {title}";
       };
@@ -80,7 +109,10 @@ in {
 
     wayland.windowManager.hyprland = {
       enable = true;
-      configType = "hyprlang";
+      # hyprland.conf / hyprlang is deprecated upstream, hyprland.lua is the
+      # current format. Every attribute below renders as one hl.<name>(...)
+      # call, see https://wiki.hypr.land/Configuring/Start/
+      configType = "lua";
       package = null; # use programs.hyprland.package
       portalPackage = null;
 
@@ -89,164 +121,169 @@ in {
      # systemd.variables = ["--all"];
      settings = {
        monitor = [
-         "eDP-1,1920x1080,0x0,1.0"
-         ",preferred,auto,1.0"
-         # monitors support much more than 1920
-         "desc:LG Electronics LG HDR 4K 0x0009DD88,preferred,auto,1.5"
-         # HP docking station
-         #"desc:LG Electronics LG HDR 4K 0x00016601,1920x1080@60,auto,1"
-         #"desc:LG Electronics LG HDR 4K 0x0009DD88,1920x1068@60,preferred,auto,1"
+         {
+           output = "eDP-1";
+           mode = "1920x1080";
+           position = "0x0";
+           scale = 1;
+         }
+         {
+           # catch-all for everything not listed above
+           output = "";
+           mode = "preferred";
+           position = "auto";
+           scale = 1;
+         }
+         {
+           # monitors support much more than 1920
+           output = "desc:LG Electronics LG HDR 4K 0x0009DD88";
+           mode = "preferred";
+           position = "auto";
+           scale = 1.5;
+         }
         ];
-        xwayland = {
-          force_zero_scaling = true;
-        };
-        "$terminal" = "kitty";
-        "$fileManager" = "dolphin";
-        "$menu" = "noctalia-shell ipc call launcher toggle";
-        exec-once = [
-          #"nm-applet"
-          # "waybar"
-          # "blueman-applet"
-          #"copyq --start-server"
-        ];
+
         env = [
-          "XCURSOR_SIZE,18"
-          "HYPRCURSOR_SIZE,18"
+          { _args = [ "XCURSOR_SIZE" "18" ]; }
+          { _args = [ "HYPRCURSOR_SIZE" "18" ]; }
         ];
-        general = {
-          gaps_in = 1;
-          gaps_out = 1;
-          border_size = 1;
-          "col.active_border" = "rgba(33ccffee) rgba(00ff99ee) 45deg";
-          "col.inactive_border" = "rgba(595959aa)";
-          resize_on_border = false;
-          allow_tearing = false;
-          layout = "dwindle";
-        };
-        decoration = {
-          rounding = 0;
 
-          # Change transparency of focused and unfocused windows
-          active_opacity = 1.0;
-          inactive_opacity = 1.0;
+        config = {
+          xwayland = {
+            force_zero_scaling = true;
+          };
+          general = {
+            gaps_in = 1;
+            gaps_out = 1;
+            border_size = 1;
+            col = {
+              active_border = {
+                colors = [ "rgba(33ccffee)" "rgba(00ff99ee)" ];
+                angle = 45;
+              };
+              inactive_border = "rgba(595959aa)";
+            };
+            resize_on_border = false;
+            allow_tearing = false;
+            layout = "dwindle";
+          };
+          decoration = {
+            rounding = 0;
 
-          #drop_shadow = false;
-          #shadow_range = 4;
-          #shadow_render_power = 3;
-          #"col.shadow" = "rgba(1a1a1aee)";
+            # Change transparency of focused and unfocused windows
+            active_opacity = 1.0;
+            inactive_opacity = 1.0;
 
-          blur = {
-              enabled = true;
-              size = 3;
-              passes = 1;
-              vibrancy = 0.1696;
+            blur = {
+                enabled = true;
+                size = 3;
+                passes = 1;
+                vibrancy = 0.1696;
+            };
+          };
+          animations = {
+            enabled = true;
+          };
+          # See https://wiki.hypr.land/Configuring/Layouts/Dwindle-Layout/ for more
+          dwindle = {
+            # pseudotile is bound to mainMod + P in the binds below
+            preserve_split = true; # You probably want this
+          };
+          misc = {
+            force_default_wallpaper = -1;
+            disable_hyprland_logo = true;
+          };
+          input = {
+            kb_layout = "us";
+            kb_variant = "altgr-intl";
+            kb_model = "";
+            kb_options = "";
+            kb_rules = "";
+            follow_mouse = 1;
+
+            sensitivity = 0; # -1.0 - 1.0, 0 means no modification.
+
+            touchpad = {
+              natural_scroll = false;
+            };
+          };
+          debug = {
+            disable_logs = false;
           };
         };
-        animations = {
-          enabled = true;
-          bezier = "myBezier, 0.05, 0.05, 0.05, 1.05";
-          animation = [
-            "windows, 1, 1.1, myBezier"
-            "windowsOut, 1, 1.1, default, popin 80%"
-            "border, 1, 1.0, default"
-            "borderangle, 1, 1, default"
-            "fade, 1, 1, default"
-            "workspaces, 1, 1, default"
+
+        #gesture = {
+        #  fingers = 3;
+        #  direction = "horizontal";
+        #  action = "workspace";
+        #};
+
+        curve = {
+          _args = [
+            "myBezier"
+            {
+              type = "bezier";
+              points = [ [ 0.05 0.05 ] [ 0.05 1.05 ] ];
+            }
           ];
         };
-          # See https://wiki.hyprland.org/Configuring/Dwindle-Layout/ for more
-        dwindle = {
-          # pseudotile = true; # Master switch for pseudotiling. Enabling is bound to mainMod + P in the keybinds section below
-          preserve_split = true; # You probably want this
-        };
-        misc = {
-          force_default_wallpaper = -1;
-          disable_hyprland_logo = true;
-        };
-        input = {
-          kb_layout = "us";
-          kb_variant = "altgr-intl";
-          kb_model = "";
-          kb_options = "";
-          kb_rules = "";
-          follow_mouse = 1;
+        animation = [
+          { leaf = "windows"; enabled = true; speed = 1.1; bezier = "myBezier"; }
+          { leaf = "windowsOut"; enabled = true; speed = 1.1; bezier = "default"; style = "popin 80%"; }
+          { leaf = "border"; enabled = true; speed = 1.0; bezier = "default"; }
+          { leaf = "borderangle"; enabled = true; speed = 1; bezier = "default"; }
+          { leaf = "fade"; enabled = true; speed = 1; bezier = "default"; }
+          { leaf = "workspaces"; enabled = true; speed = 1; bezier = "default"; }
+        ];
 
-          sensitivity = 0; # -1.0 - 1.0, 0 means no modification.
-
-          touchpad = {
-            natural_scroll = false;
-          };
-        };
-        #gestures = {
-        #  workspace_swipe = true;
-        #};
-        "$mainMod" = "SUPER";
         # just make it behave like awesomewm again
         bind = [
-          "$mainMod, Return, exec, $terminal"
-          "$mainMod SHIFT, C, killactive,"
-          "$mainMod ,F, fullscreen,0"
-          "$mainMod, M, exit,"
-          "$mainMod, E, exec, $fileManager"
-          "$mainMod, V, togglefloating,"
-          "$mainMod, R, exec, $menu"
-          "$mainMod, P, pseudo, # dwindle"
-          # "$mainMod, J, togglesplit, # dwindle"
-          "$mainMod, L, exec, hyprlock"
+          (bind "${mainMod} + Return" (exec terminal))
+          (bind "${mainMod} + SHIFT + C" "hl.dsp.window.close()")
+          (bind "${mainMod} + F" ''hl.dsp.window.fullscreen({ mode = "fullscreen" })'')
+          (bind "${mainMod} + M" "hl.dsp.exit()")
+          (bind "${mainMod} + E" (exec fileManager))
+          (bind "${mainMod} + V" ''hl.dsp.window.float({ action = "toggle" })'')
+          (bind "${mainMod} + R" (exec menu))
+          (bind "${mainMod} + P" "hl.dsp.window.pseudo()") # dwindle
+          # (bind "${mainMod} + J" ''hl.dsp.layout("togglesplit")'') # dwindle
+          (bind "${mainMod} + L" (exec "hyprlock"))
 
           # move window to scratchpad
-
-          "$mainMod, n, movetoworkspacesilent, special"
-          "$mainMod SHIFT, N, togglespecialworkspace"
+          (bind "${mainMod} + N" ''hl.dsp.window.move({ workspace = "special", follow = false })'')
+          (bind "${mainMod} + SHIFT + N" "hl.dsp.workspace.toggle_special()")
 
           # Move focus with mainMod + arrow keys
-          "$mainMod, left, movefocus, l"
-          "$mainMod, right, movefocus, r"
-          "$mainMod, up, movefocus, u"
-          "$mainMod, down, movefocus, d"
+          (bind "${mainMod} + left" ''hl.dsp.focus({ direction = "left" })'')
+          (bind "${mainMod} + right" ''hl.dsp.focus({ direction = "right" })'')
+          (bind "${mainMod} + up" ''hl.dsp.focus({ direction = "up" })'')
+          (bind "${mainMod} + down" ''hl.dsp.focus({ direction = "down" })'')
 
-          # Switch workspaces with mainMod + [0-9]
-          "$mainMod, 1, workspace, 1"
-          "$mainMod, 2, workspace, 2"
-          "$mainMod, 3, workspace, 3"
-          "$mainMod, 4, workspace, 4"
-          "$mainMod, 5, workspace, 5"
-          "$mainMod, 6, workspace, 6"
-          "$mainMod, 7, workspace, 7"
-          "$mainMod, 8, workspace, 8"
-          "$mainMod, 9, workspace, 9"
-          "$mainMod, 0, workspace, 10"
-
-          # Move active window to a workspace with mainMod + SHIFT + [0-9]
-          "$mainMod SHIFT, 1, movetoworkspace, 1"
-          "$mainMod SHIFT, 2, movetoworkspace, 2"
-          "$mainMod SHIFT, 3, movetoworkspace, 3"
-          "$mainMod SHIFT, 4, movetoworkspace, 4"
-          "$mainMod SHIFT, 5, movetoworkspace, 5"
-          "$mainMod SHIFT, 6, movetoworkspace, 6"
-          "$mainMod SHIFT, 7, movetoworkspace, 7"
-          "$mainMod SHIFT, 8, movetoworkspace, 8"
-          "$mainMod SHIFT, 9, movetoworkspace, 9"
-          "$mainMod SHIFT, 0, movetoworkspace, 10"
           # screenshot
-          "$mainMod, Print, exec, ${pkgs.gscreenshot}/bin/gscreenshot -s "
-          ",Print, exec, grimblast --notify copy area"
-        ];
-        bindm = [
-          "$mainMod, mouse:272, movewindow"
-          "$mainMod, mouse:273, resizewindow"
-        ];
-        bindel= [
-          ", XF86AudioLowerVolume, exec, wpctl set-volume @DEFAULT_AUDIO_SINK@ 5%-"
-          ", XF86AudioRaiseVolume, exec, wpctl set-volume @DEFAULT_AUDIO_SINK@ 5%+"
-          ", XF86MonBrightnessUp, exec, ${pkgs.brightnessctl}/bin/brightnessctl --class=backlight set +10%"
-          ", XF86MonBrightnessDown, exec, ${pkgs.brightnessctl}/bin/brightnessctl --class=backlight set 10%-"
-        ];
-        bindl= ", XF86AudioMute, exec, wpctl set-mute @DEFAULT_AUDIO_SINK@ toggle";
-        #windowrule = "suppressevent:maximize=1, class:.*";
-        debug = {
-          disable_logs = false;
-        };
+          (bind "${mainMod} + Print" (exec "${pkgs.gscreenshot}/bin/gscreenshot -s"))
+          (bind "Print" (exec "grimblast --notify copy area"))
+
+          # Move/resize windows with mainMod + LMB/RMB and dragging
+          (bindMouse "${mainMod} + mouse:272" "hl.dsp.window.drag()")
+          (bindMouse "${mainMod} + mouse:273" "hl.dsp.window.resize()")
+
+          (bindLockedRepeat "XF86AudioLowerVolume" (exec "wpctl set-volume @DEFAULT_AUDIO_SINK@ 5%-"))
+          (bindLockedRepeat "XF86AudioRaiseVolume" (exec "wpctl set-volume @DEFAULT_AUDIO_SINK@ 5%+"))
+          (bindLockedRepeat "XF86MonBrightnessUp" (exec "${pkgs.brightnessctl}/bin/brightnessctl --class=backlight set +10%"))
+          (bindLockedRepeat "XF86MonBrightnessDown" (exec "${pkgs.brightnessctl}/bin/brightnessctl --class=backlight set 10%-"))
+          (bindLocked "XF86AudioMute" (exec "wpctl set-mute @DEFAULT_AUDIO_SINK@ toggle"))
+        ]
+        # Switch workspaces with mainMod + [0-9], move the active window there
+        # with mainMod + SHIFT + [0-9]
+        ++ lib.concatMap (ws: [
+          (bind "${mainMod} + ${ws.key}" "hl.dsp.focus({ workspace = ${toString ws.index} })")
+          (bind "${mainMod} + SHIFT + ${ws.key}" "hl.dsp.window.move({ workspace = ${toString ws.index} })")
+        ]) workspaces;
+
+        #window_rule = {
+        #  match.class = ".*";
+        #  suppress_event = "maximize";
+        #};
       };
    };
  };
