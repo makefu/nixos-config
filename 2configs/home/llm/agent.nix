@@ -20,6 +20,7 @@
     environment = {
       OPENCROW_SOUL_FILE = "${./soul.md}";
       OPENCROW_MATRIX_HOMESERVER = "https://matrix.cybahn.de";
+      LLAMA_CPP_BASE_URL = "http://jack.r:8000/";
       # openclaw-nextcloud: non-sensitive config. Token comes via env-file secret.
       NEXTCLOUD_URL = "https://o.euer.krebsco.de";
       NEXTCLOUD_USER = "makefu";
