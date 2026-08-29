@@ -4,7 +4,8 @@
         nixos-hardware.nixosModules.lenovo-thinkpad-t14-intel-gen1-nvidia
     ];
     services.xserver.videoDrivers = lib.mkDefault [ "nvidia" ];
-    hardware.nvidia-container-toolkit.enable = true;
+
+    # hardware.nvidia-container-toolkit.enable = true;
     # test this
     # nixpkgs.config.cudaSupport = true;
 

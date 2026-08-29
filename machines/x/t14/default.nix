@@ -24,7 +24,7 @@
   boot.extraModulePackages = [ ];
 
   boot.tmp.useTmpfs = true;
-  # boot.kernelPackages = lib.mkForce pkgs.linuxPackagesLatest;
+  boot.kernelPackages = pkgs.linuxPackages_latest;
 
   services.fwupd.enable = true;
 
