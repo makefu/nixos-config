@@ -1,7 +1,8 @@
 {
   inputs = {
     #nixpkgs.url = "github:NixOS/nixpkgs/nixos-25.05";
-    nixpkgs.url = "github:NixOS/nixpkgs/master";
+    #nixpkgs.url = "github:NixOS/nixpkgs/master";
+    nixpkgs.url = "https://channels.nixos.org/nixos-unstable/nixexprs.tar.xz";
     nixpkgs-stable.url = "github:NixOS/nixpkgs/nixos-26.05";
     brockman = {
       url = "github:brockman-news/brockman";
