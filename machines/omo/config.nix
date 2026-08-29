@@ -106,6 +106,7 @@
       # statistics
       # ../../2configs/stats/client.nix
       # Logging
+      ../../2configs/logging/volatile-journal.nix
       #influx + grafana
       ../../2configs/stats/server.nix
       # ../../2configs/stats/nodisk-client.nix
