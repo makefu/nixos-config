@@ -83,7 +83,7 @@
       ../../2configs/torrent/omo-container.nix
 
       #  Community services
-      ../../2configs/nix-community/legacy-mediawiki-matrix-bot.nix
+      # ../../2configs/nix-community/legacy-mediawiki-matrix-bot.nix
 
       #{ krebs.airdcpp.dcpp.shares = let
       #    d = path: "/media/cryptX/${path}";
