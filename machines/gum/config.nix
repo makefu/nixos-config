@@ -187,8 +187,8 @@
       ../../2configs/deployment/wiki.euer.nix
 
       ../../2configs/deployment/mdrss-proxy.nix
-      ../../2configs/deployment/abook-proxy.nix
-      ../../2configs/deployment/book-proxy.nix
+      # ../../2configs/deployment/abook-proxy.nix
+      # ../../2configs/deployment/book-proxy.nix
       #../../2configs/workadventure
 
       ../../2configs/bgt/download.binaergewitter.de.nix

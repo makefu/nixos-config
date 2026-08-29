@@ -41,6 +41,8 @@ in {
       "prometheus.euer"
       "movies.euer"
       "jelly.euer"
+      "abook.euer"
+      "book.euer"
     ];
   };
 }
