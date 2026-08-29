@@ -20,5 +20,6 @@
     ./nginx.nix
     ./checks/web.nix
     ./checks/smb.nix
+    ./checks/systemd.nix
   ];
 }
