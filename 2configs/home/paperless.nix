@@ -9,7 +9,10 @@ in
     dataDir = "/media/silent/db/paperless";
     enable = true;
     passwordFile = config.sops.secrets."paperless-admin-pw".path;
-    address = "0";
+    # granian (the web server since paperless 2.18) parses this as an IP
+    # literal and rejects the old gunicorn shorthand "0" with
+    # "ValueError: invalid IP address syntax", crashlooping paperless-web
+    address = "0.0.0.0";
     # consumptionDir = "/media/cloud/nextcloud-data/makefu/files/SwiftScan";
     settings = {
       PAPERLESS_DBHOST = "/run/postgresql";
@@ -50,6 +53,10 @@ in
   };
 
   # services.redis.enable = true;
+
+  # the paperless module brings its own redis; it logs every RDB snapshot
+  # (one every 5 minutes) at notice level
+  services.redis.servers.paperless.settings.loglevel = lib.mkForce "warning";
 
   virtualisation.oci-containers.containers = {
     gotenberg = {

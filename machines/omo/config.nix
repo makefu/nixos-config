@@ -157,7 +157,7 @@
       # büroautomatisierung
       # ../../2configs/bam/matrix/server.nix
 
-      ../../2configs/home/paperless.nix
+      # ../../2configs/home/paperless.nix
 
       #{
       #  hardware.pulseaudio.systemWide = true;
