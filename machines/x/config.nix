@@ -38,6 +38,7 @@
       ../../2configs/home-manager
       ../../2configs/home-manager/desktop.nix
       ../../2configs/home-manager/cli.nix
+      ../../2configs/home-manager/ssh.nix
       ../../2configs/home-manager/mail.nix
       # ../../2configs/home-manager/taskwarrior.nix
 
