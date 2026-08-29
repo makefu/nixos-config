@@ -12,6 +12,11 @@ in
     script = "alldownload.sh /media/silent/music/kinder/podcasts";
     serviceConfig= {
       User = "download"; # TODO unprivileged user
+      # yt-dlp narrates every extraction step of every podcast episode
+      # ("[generic] feed: Downloading webpage", download progress, …), ~12k
+      # journal lines per daily run. Its own diagnostics are prefixed
+      # WARNING:/ERROR: instead of a [tag] and still get through.
+      LogFilterPatterns = [ "~^\\[[A-Za-z][A-Za-z:_+-]*\\] " ];
     };
   };
 }

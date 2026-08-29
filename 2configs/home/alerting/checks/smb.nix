@@ -37,6 +37,11 @@ in {
     serviceConfig = {
       Type = "oneshot";
       ExecStart = smbCheck;
+      # runs every 2min and each run logs start/stop/resource-usage at info,
+      # which alone accounted for a third of PID 1's journal traffic. Failures
+      # are logged above notice and still get through — and the actual alerting
+      # signal is the metric, not the log line.
+      LogLevelMax = "notice";
     };
   };
   systemd.timers.smb-check = {

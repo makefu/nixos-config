@@ -10,6 +10,9 @@ in {
         baseURL = "http://change.euer";
     };
 
+  # ships with loguru at DEBUG: every worker/queue tick is logged
+  systemd.services.changedetection-io.environment.LOGGER_LEVEL = "WARNING";
+
   services.nginx.virtualHosts."change" = {
     serverAliases = [
       "change.euer"

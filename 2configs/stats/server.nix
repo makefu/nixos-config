@@ -13,6 +13,16 @@ in {
   services.grafana.enable = true;
   services.grafana.settings.server.http_addr = "0.0.0.0";
   services.grafana.settings.security.secret_key = "herpderp";
+  # the influxdb datasource logs every single dashboard query at debug level
+  services.grafana.settings.log.level = "warn";
+  # ... and the datasource backends do not honour that: they log through the
+  # plugin SDK's hclog, which keeps emitting {"@level":"debug",...} lines
+  # (verified by restarting grafana with level=warn in grafana.ini). Drop them
+  # at the journal instead; warnings and errors use the same format but a
+  # different @level and still get through.
+  systemd.services.grafana.serviceConfig.LogFilterPatterns = [
+    "~\"@level\":\"debug\""
+  ];
 
   services.influxdb.enable = true;
   systemd.services.influxdb.serviceConfig.LimitNOFILE = 8192;
@@ -30,7 +40,8 @@ in {
     meta.hostname = config.clan.core.settings.machine.name;
     # meta.logging-enabled = true;
     logging.level = "info";
-    http.log-enabled = true;
+    # one apache-style line per grafana query, ~6k journal lines a day
+    http.log-enabled = false;
     http.flux-enabled = true;
     http.write-tracing = false;
     http.suppress-write-log = true;
