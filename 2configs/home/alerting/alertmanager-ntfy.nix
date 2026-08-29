@@ -16,6 +16,17 @@ let
       notification:
         topic: "alerts"
         priority: "default"
+        # Not optional: alertmanager-ntfy dereferences the templates without a
+        # nil check (server.go:138), so leaving this out makes it panic on
+        # every incoming webhook, answer 500, and spam the journal with a Go
+        # stack trace while alertmanager retries forever.
+        # Our rules only set `summary`, so description renders empty and the
+        # tool falls back to sending the title as the message body.
+        templates:
+          title: |
+            {{ if eq .Status "resolved" }}Resolved: {{ end }}{{ index .Annotations "summary" }}
+          description: |
+            {{ index .Annotations "description" }}
       auth:
         basic:
           username: "@USER@"
