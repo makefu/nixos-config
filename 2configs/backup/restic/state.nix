@@ -7,7 +7,7 @@
             Persistent = true;
         };
         checkOpts = [ "--with-cache" ];
-        repository = "rest:http://omo.w:8641/${config.networking.hostName}";
+        repository = "rest:http://omo.euer:8641/${config.networking.hostName}";
         environmentFile = config.sops.secrets.restic-auth-environment.path;
         pruneOpts = [
             "--keep-daily 7"

@@ -10,7 +10,7 @@ in
       useACMEHost = "euer.krebsco.de";
       forceSSL = true;
       locations."/" = {
-        proxyPass = "http://omo.w:${toString port}";
+        proxyPass = "http://omo.euer:${toString port}";
         proxyWebsockets = true;
       };
     };

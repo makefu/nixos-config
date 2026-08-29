@@ -17,7 +17,7 @@
 
 
     locations."/" = {
-      proxyPass = "http://omo.w:6167";
+      proxyPass = "http://omo.euer:6167";
       proxyWebsockets = true;
     };
 };
