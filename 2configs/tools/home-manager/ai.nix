@@ -1,4 +1,4 @@
-{ pkgs, inputs, ... }:
+{ pkgs, inputs, lib, osConfig ? null, ... }:
 let
   aiTools = inputs.llm-agents.packages.${pkgs.stdenv.hostPlatform.system};
   micsSkillsPkgs = inputs.mics-skills.packages.${pkgs.stdenv.hostPlatform.system};
@@ -22,6 +22,19 @@ let
       statusMessage = "caveman: ${name}";
     }];
   };
+
+  # OpenAI-compatible vLLM endpoint used by both pi and opencode. Neither tool
+  # gets the bearer token from the nix store: pi shells out (`!cat`), opencode
+  # substitutes `{file:...}` at config load, so only the sops-provisioned file
+  # holds it. The secret is declared in 2configs/tools/ai.nix; the standalone
+  # homeConfigurations.ai-makefu build has no NixOS config to read the path
+  # from, hence the fallback.
+  p0BaseUrl = "https://inference.p0.contact/v1";
+  p0Model = "Qwen3.8-27B-FP8";
+  p0KeyFile =
+    if osConfig != null
+    then osConfig.sops.secrets.x-p0-inference-api-key.path
+    else "/run/secrets/x-p0-inference-api-key";
 
   baseSettings = builtins.fromJSON (builtins.readFile ./.claude/settings.json);
   mergedSettings = baseSettings // {
@@ -108,6 +121,45 @@ in
     home.file.".config/opencode/opencode.json".text = builtins.toJSON {
       "$schema" = "https://opencode.ai/config.json";
       plugin = [ "./plugins/caveman/plugin.js" ];
+      # Custom provider: opencode pulls @ai-sdk/openai-compatible from npm at
+      # first use, so the model list is declared here instead of discovered.
+      provider.p0 = {
+        npm = "@ai-sdk/openai-compatible";
+        name = "p0 inference";
+        options = {
+          baseURL = p0BaseUrl;
+          apiKey = "{file:${p0KeyFile}}";
+        };
+        models.${p0Model}.name = "Qwen 3.8 (27B, p0)";
+      };
+      model = "p0/${p0Model}";
+    };
+
+    # pi reads ~/.pi/agent/models.json and never writes it, so a nix store
+    # symlink is safe here (settings.json below is not — pi rewrites it).
+    home.file.".pi/agent/models.json".text = builtins.toJSON {
+      providers.p0 = {
+        baseUrl = p0BaseUrl;
+        api = "openai-completions";
+        apiKey = "!cat ${p0KeyFile}";
+        models = [{
+          id = p0Model;
+          name = "Qwen 3.8 (27B, p0)";
+          reasoning = true;
+          # vLLM's /v1/models advertises no modality; declare image input by
+          # hand or pi refuses to attach images.
+          input = [ "text" "image" ];
+          compat = {
+            supportsDeveloperRole = false;
+            thinkingFormat = "qwen-chat-template";
+            reasoningEffortMap = { 
+              "minimal" = "low";
+              "medium" = "medium";
+              "xhigh"   = "high";
+            };
+          };
+        }];
+      };
     };
 
     programs.mics-skills = {
