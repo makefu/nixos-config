@@ -1205,11 +1205,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1777376325,
-        "narHash": "sha256-RPd2P5WKW2ffhLufFRaP6M7MSXGsQLxxbIPnOSp0pfM=",
+        "lastModified": 1787490196,
+        "narHash": "sha256-SMa5L/D9lfLd/FypIZ7guYzfqzpZKJwSRcrZ3RSpGkE=",
         "owner": "Mic92",
         "repo": "mics-skills",
-        "rev": "c70c79317587ba1962e6cdca84bc665fe73918e4",
+        "rev": "1fc9eba4a7b6c71971a223cba27148410525a2ce",
         "type": "github"
       },
       "original": {
@@ -1677,6 +1677,23 @@
         "type": "github"
       }
     },
+    "pi-agent-extensions": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1787681583,
+        "narHash": "sha256-DHNzz+n6vmxjSHbBWlguU7U2AAjnSIXwKD/Zt6FOt0M=",
+        "owner": "Mic92",
+        "repo": "pi-agent-extensions",
+        "rev": "89560ba87c8bcab773d9f5cbc36f145fb7a7bede",
+        "type": "github"
+      },
+      "original": {
+        "owner": "Mic92",
+        "repo": "pi-agent-extensions",
+        "rev": "89560ba87c8bcab773d9f5cbc36f145fb7a7bede",
+        "type": "github"
+      }
+    },
     "picsender": {
       "inputs": {
         "nixpkgs": "nixpkgs_10",
@@ -1887,6 +1904,7 @@
         "noctalia-shell": "noctalia-shell",
         "openclaw-nextcloud": "openclaw-nextcloud",
         "opencrow": "opencrow",
+        "pi-agent-extensions": "pi-agent-extensions",
         "picsender": "picsender",
         "poetry2nix": "poetry2nix_3",
         "rate-everything": "rate-everything",

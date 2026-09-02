@@ -1,0 +1,20 @@
+{
+  "lastChangelogVersion": "0.84.3",
+  "defaultProvider": "p0",
+  "defaultModel": "Qwen3.8-27B-FP8",
+  "defaultThinkingLevel": "high",
+  "theme": "dark",
+  "compaction": {
+    "enabled": true
+  },
+  "enableInstallTelemetry": false,
+  "packages": [
+    {
+      "source": "~/.local/share/pi-agent-extensions",
+      "extensions": [
+        "!*",
+        "+nushell/index.ts"
+      ]
+    }
+  ]
+}

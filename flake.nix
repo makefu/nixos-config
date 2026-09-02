@@ -131,6 +131,13 @@
       flake = false;
     };
 
+    # Pi agent extensions (Mic92/dotfiles keeps this as a submodule pinned to
+    # 89560ba87c8b; we fetch it with nix instead).
+    pi-agent-extensions = {
+      url = "github:Mic92/pi-agent-extensions/89560ba87c8bcab773d9f5cbc36f145fb7a7bede";
+      flake = false;
+    };
+
     openclaw-nextcloud = {
       url = "github:makefu/openclaw-nextcloud";
       flake = false;

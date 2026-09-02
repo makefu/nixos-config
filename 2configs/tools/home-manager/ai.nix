@@ -175,11 +175,37 @@ in
           };
         }];
       };
+      providers.jack = {
+        baseUrl = "http://jack.r/v1";
+        api = "openai-completions";
+        apiKey = "dummy";
+        models = [{
+          id = "qwen3.8-27b";
+          contextWindow = 262144;
+          name = "Qwen 3.8 (27B, jack)";
+          reasoning = true;
+          input = [ "text" "image" ];
+          compat = {
+            supportsDeveloperRole = false;
+            thinkingFormat = "qwen-chat-template";
+            reasoningEffortMap = {
+              "minimal" = "low";
+              "medium" = "medium";
+              "xhigh"   = "high";
+            };
+          };
+        }];
+      };
     };
 
     programs.mics-skills = {
       enable = true;
       package = micsSkillsPkgs;
+      skillDirs = [
+        ".claude/skills"
+        ".opencode/skills"
+        ".pi/agent/skills"
+      ];
       skills = [
         #"browser-cli"
         #"calendar-cli"
@@ -190,16 +216,17 @@ in
         #"n8n-cli"
         "pexpect-cli"
         "screenshot-cli"
+        "queue"
       ];
     };
     home.packages= with aiTools;[
       workmux
-      claude-code
-      ccstatusline
+      #claude-code
+      #ccstatusline
       pi
       pkgs.pueue
       pkgs.opencode
       pkgs.ha-mcp
-      pkgs.claude-monitor
+      #pkgs.claude-monitor
     ];
 }

@@ -1,7 +1,8 @@
 { ... }:
 {
-  home-manager.users.makefu.imports = [ ./home-manager/ai.nix ];
-  state = [ "/home/makefu/.claude.json" ];
+  home-manager.users.makefu.imports = [ 
+    ./home-manager/ai.nix
+    ./home-manager/pi-extensions.nix ];
 
   # Bearer token for the p0 vLLM endpoint that pi and opencode default to.
   # Host-prefixed because only x has the age key for it; a second host
