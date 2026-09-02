@@ -59,6 +59,13 @@
       providers.vllm = {
         baseUrl = "https://inference.p0.contact/v1";
         apiKey = "!cat /run/secrets/opencrow-vllm-api-key";
+        # The endpoint happily takes image_url parts, but vLLM's /v1/models
+        # advertises no modality, so discovery stamps the model text-only and
+        # omp refuses to attach images. Declare the capability by hand.
+        modelOverrides."Qwen3.8-27B-FP8".input = [
+          "text"
+          "image"
+        ];
       };
     };
 
@@ -71,6 +78,7 @@
     # interactive wrapper) does not fall back to the anthropic default.
     piSettings = {
       modelRoles.default = "vllm/Qwen3.8-27B-FP8";
+      modelRoles.vision = "vllm/Qwen3.8-27B-FP8";
       # Nothing local runs inside the container; without this every omp spawn
       # waits on three discovery probes to 127.0.0.1 before it can answer.
       disabledProviders = [
