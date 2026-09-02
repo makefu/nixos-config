@@ -20,7 +20,10 @@
     environment = {
       OPENCROW_SOUL_FILE = "${./soul.md}";
       OPENCROW_MATRIX_HOMESERVER = "https://matrix.cybahn.de";
-      LLAMA_CPP_BASE_URL = "http://jack.r:8000/";
+      # Inference runs on jack's vLLM server (see piModels below), not on a
+      # cloud provider; opencrow always passes --provider/--model to omp.
+      OPENCROW_PI_PROVIDER = "vllm";
+      OPENCROW_PI_MODEL = "vllm/qwen3.8-27b";
       # openclaw-nextcloud: non-sensitive config. Token comes via env-file secret.
       NEXTCLOUD_URL = "https://o.euer.krebsco.de";
       NEXTCLOUD_USER = "makefu";
@@ -38,6 +41,33 @@
       # openclaw-nextcloud token (NEXTCLOUD_TOKEN=...)
       config.sops.secrets.opencrow-nextcloud-token.path
     ];
+    # jack.r serves an OpenAI-compatible vLLM endpoint. omp's built-in vllm
+    # provider defaults to http://127.0.0.1:8000/v1, so only the base URL needs
+    # overriding; auth = none because the server is unauthenticated.
+    # models.yml is read by both the service and the `opencrow-pi` wrapper,
+    # which does not inherit the service environment.
+    piModels = {
+      providers.vllm = {
+        baseUrl = "http://jack.r:8000/v1";
+        auth = "none";
+      };
+    };
+
+    # Pin the default model role so an omp invocation without --model (e.g. the
+    # interactive wrapper) does not fall back to the anthropic default.
+    piSettings = {
+      modelRoles.default = "vllm/qwen3.8-27b";
+      # Nothing local runs inside the container; without this every omp spawn
+      # waits on three discovery probes to 127.0.0.1 before it can answer.
+      disabledProviders = [
+        "ollama"
+        "llama.cpp"
+        "lm-studio"
+      ];
+      # Suppress omp's first-run setup wizard in the non-interactive service.
+      setupVersion = 2;
+    };
+
     extensions = {
       memory = true;
       reminders = true;
