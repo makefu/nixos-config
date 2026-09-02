@@ -57,6 +57,20 @@ in
     home.file.".claude/CLAUDE.md".source = ./.claude/CLAUDE.md;
     home.file.".claude/settings.json".text = builtins.toJSON mergedSettings;
 
+    # Default prompt: mirror the Claude Code CLAUDE.md ruleset into pi and
+    # opencode via each tool's official global-instructions file, so all
+    # three agents share one prompt. Neither tool writes these files, so
+    # store symlinks are safe.
+    # - pi: ~/.pi/agent/AGENTS.md is the global context file; SYSTEM.md /
+    #   APPEND_SYSTEM.md would replace/append the system prompt itself.
+    #   Keep AGENTS.md so pi's own default prompt stays intact.
+    # - opencode: ~/.config/opencode/AGENTS.md is auto-loaded for every
+    #   session (global rules). The alternative knobs — `instructions` in
+    #   opencode.json (extra files) and agent.build.prompt (full replace) —
+    #   are deliberately unused to avoid double-loading the ruleset.
+    home.file.".pi/agent/AGENTS.md".source = ./.claude/CLAUDE.md;
+    home.file.".config/opencode/AGENTS.md".source = ./.claude/CLAUDE.md;
+
     # caveman for Claude Code: slash commands, cavecrew subagents, skills.
     home.file.".claude/commands/caveman.toml".source =
       "${caveman}/commands/caveman.toml";
@@ -144,6 +158,7 @@ in
         apiKey = "!cat ${p0KeyFile}";
         models = [{
           id = p0Model;
+          contextWindow = 262144;
           name = "Qwen 3.8 (27B, p0)";
           reasoning = true;
           # vLLM's /v1/models advertises no modality; declare image input by
@@ -152,7 +167,7 @@ in
           compat = {
             supportsDeveloperRole = false;
             thinkingFormat = "qwen-chat-template";
-            reasoningEffortMap = { 
+            reasoningEffortMap = {
               "minimal" = "low";
               "medium" = "medium";
               "xhigh"   = "high";
