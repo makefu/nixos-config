@@ -40,8 +40,28 @@ in
     # defaultProvider/defaultModel/defaultThinkingLevel.
     settings = {
       modelRoles.default = "p0/${p0Model}:high";
-      compaction.enabled = true;
-      startup.quiet = true;
+      startup = {
+        quiet = true;
+        checkUpdate = false;
+      };
+      memory.backend = "mnemopi";
+      mnemopi.scoping = "per-project";
+      symbolPreset = "unicode";
+      composer.shape = "box";
+      theme.dark = "titanium";
+      theme.light = "light";
+      setupVersion = 2;
+      compaction = {
+        enabled = true; # default
+        idleEnabled = true;
+      };
+      dev.autoqa = false;
+      error.notify = "on";
+      display = {
+        showTurnTime = true;
+        showTokenUsage = true;
+        cacheMissMarker = true;
+      };
     };
   };
 
@@ -86,8 +106,6 @@ in
   # that carry an index.ts, so the multi-file extensions link as directories;
   # the single-file ones link as plain .ts entries. Their
   # @mariozechner/pi-coding-agent imports go through omp's legacy pi shim.
-  home.file.".omp/agent/extensions/statusline".source = "${extSrc}/statusline";
   home.file.".omp/agent/extensions/permission-gate".source = "${extSrc}/permission-gate";
-  home.file.".omp/agent/extensions/notify.ts".source = "${extSrc}/notify/index.ts";
   home.file.".omp/agent/extensions/questionnaire.ts".source = "${extSrc}/questionnaire/index.ts";
 }

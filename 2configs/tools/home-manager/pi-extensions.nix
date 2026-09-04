@@ -29,7 +29,7 @@ in
   };
 
   # The nushell extension parses tool input with the `nu` binary.
-  home.packages = [ pkgs.nushell ];
+  #home.packages = [ pkgs.nushell ];
 
   xdg.configFile."pi-statusline/settings.json".source =
     (pkgs.formats.json { }).generate "pi-statusline-settings.json" {

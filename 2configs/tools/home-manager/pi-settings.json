@@ -7,14 +7,5 @@
   "compaction": {
     "enabled": true
   },
-  "enableInstallTelemetry": false,
-  "packages": [
-    {
-      "source": "~/.local/share/pi-agent-extensions",
-      "extensions": [
-        "!*",
-        "+nushell/index.ts"
-      ]
-    }
-  ]
+  "enableInstallTelemetry": false
 }

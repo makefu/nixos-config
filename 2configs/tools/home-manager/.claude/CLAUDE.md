@@ -8,14 +8,11 @@ Commit messages, code, and comments use normal English.
 - Technical terms stay exact. Code blocks unchanged.
 - Pattern: [thing] [action] [reason]. [next step].
 
-## Available Tools
-
-    fd, rg, dnsutils, lsof, gdb, binutils, strace
-
 ## General Guidelines
 
 -  Follow XDG desktop standards when writing code
--  Use `$PWD/.llm/outputs` as a scratch directory.
+-  IMPORTANT: NEVER search or grep files in global dirs ( e.g. DO NOT `find / -name file` or `grep -r value "$HOME"` or `fd /nix/store` ).
+   Use `nix eval` or similar techniques instead to find the explicit paths and files.
 
 ## Nix-specific
 
@@ -50,6 +47,7 @@ Commit messages, code, and comments use normal English.
 - Code comments: Keep them minimal, Explain WHY, not WHAT. Describe current state, not what was removed.
 
 ## Git
+
 - Commit messages: Linux-kernel style, explain WHY the change is needed.
 - Before committing:
   1. Check for bugs
