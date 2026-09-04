@@ -52,6 +52,7 @@ in
 
     imports = [
       inputs.mics-skills.homeModules.default
+      ./omp.nix
     ];
     services.pueue.enable = true;
     home.file.".claude/CLAUDE.md".source = ./.claude/CLAUDE.md;
@@ -176,7 +177,8 @@ in
         }];
       };
       providers.jack = {
-        baseUrl = "http://jack.r/v1";
+        # vLLM serves on :8000; the bare host (port 80) has nothing bound.
+        baseUrl = "http://jack.r:8000/v1";
         api = "openai-completions";
         apiKey = "dummy";
         models = [{
@@ -205,6 +207,7 @@ in
         ".claude/skills"
         ".opencode/skills"
         ".pi/agent/skills"
+        ".omp/agent/skills"
       ];
       skills = [
         #"browser-cli"

@@ -118,6 +118,16 @@
       inputs.treefmt-nix.follows = "treefmt-nix";
     };
 
+    # OMP (can1357/oh-my-pi): pi fork with its own native config tree
+    # (~/.omp/agent). Ships a home-manager module (programs.omp) that writes a
+    # writable config.yml; we keep the rest of the pi config tree mirrored next
+    # to it in 2configs/tools/home-manager/omp.nix. Follows our nixpkgs so the
+    # bun2nix + rust-overlay build shares this repo's package set.
+    omp = {
+      url = "github:can1357/oh-my-pi";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+
     yamtrack.url = "github:makefu/yamtrack/feature/migration";
 
     diyhue.url = "github:makefu/diyHue";
