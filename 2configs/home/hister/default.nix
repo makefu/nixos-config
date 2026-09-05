@@ -15,6 +15,11 @@ in
     settings = {
       app.log_level = "info";
       server.address = "127.0.0.1:${toString port}";
+      # Public URL behind the nginx vhost. wsUrl and hister's CSRF same-host
+      # check are derived from it; with the loopback default, token-login
+      # POSTs (Origin: http://search.euer) get 403 and the search WebSocket
+      # never authenticates.
+      server.base_url = "http://search.euer";
       semantic_search = {
         enable = true;
         # Same embedding engine karakeep uses (karakeep-embeddings llama.cpp
@@ -28,7 +33,10 @@ in
   };
 
   services.nginx.virtualHosts."search.euer" = {
-    locations."/" = { proxyPass = "http://127.0.0.1:${toString port}"; };
+    locations."/" = {
+      proxyPass = "http://127.0.0.1:${toString port}";
+      proxyWebsockets = true;
+    };
   };
 
   # Incremental karakeep seeding (import is idempotent via --skip-existing;
