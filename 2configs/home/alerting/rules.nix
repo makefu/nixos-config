@@ -31,6 +31,8 @@ let
     "redis-paperless.service"
     "karakeep-web.service"
     "karakeep-workers.service"
+    "karakeep-embeddings.service"
+    "hister.service"
     "meilisearch.service"
     "changedetection-io.service"
     "podman-mdrss.service"

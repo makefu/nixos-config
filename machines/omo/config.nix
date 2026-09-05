@@ -148,6 +148,7 @@
       ../../2configs/home/esphome.nix
       ../../2configs/home/audio-dl.nix
       ../../2configs/home/karakeep
+      ../../2configs/home/hister
       #../../2configs/home/yamtrack.nix
       ../../2configs/home/yamtrack-module.nix
       ../../2configs/home/changedetection.nix

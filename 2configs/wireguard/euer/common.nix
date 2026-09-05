@@ -43,6 +43,7 @@ in {
       "jelly.euer"
       "abook.euer"
       "book.euer"
+      "search.euer"
     ];
   };
 }
