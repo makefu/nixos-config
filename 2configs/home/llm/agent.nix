@@ -21,7 +21,9 @@
   };
   services.opencrow = {
     enable = true;
-    piPackage = self.inputs.llm-agents.packages.${pkgs.stdenv.hostPlatform.system}.omp;
+    # Same package the CLI client gets (home-manager programs.omp defaults to
+    # inputs.omp packages.default), so agent and interactive shell run one omp.
+    piPackage = self.inputs.omp.packages.${pkgs.stdenv.hostPlatform.system}.default;
     skills = {
       nextcloud = "${self.inputs.openclaw-nextcloud}/";
     };
@@ -86,12 +88,18 @@
         "llama.cpp"
         "lm-studio"
       ];
+      # omp's builtin memory backend, same as the CLI config
+      # (2configs/tools/home-manager/omp.nix), instead of the bundled sediment
+      # extension. DB lands in the writable PI_CODING_AGENT_DIR/memories.
+      memory.backend = "mnemopi";
+      mnemopi.scoping = "per-project";
       # Suppress omp's first-run setup wizard in the non-interactive service.
       setupVersion = 2;
     };
 
     extensions = {
-      memory = true;
+      # Bundled sediment memory replaced by omp's mnemopi backend above.
+      memory = false;
       reminders = true;
     };
   };
