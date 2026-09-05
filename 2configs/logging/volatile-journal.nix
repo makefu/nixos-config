@@ -5,14 +5,14 @@
 # filesystem and a constant write load on the SSD. Storage=volatile puts it in
 # /run/log/journal (tmpfs), capped at 512M and 7 days, whichever comes first.
 #
-# 2configs/core.nix already sets SystemMaxUse/RuntimeMaxUse; mkAfter appends our
-# assignments after those so they win — systemd's config parser keeps the last
-# assignment of a key.
+# 2configs/core.nix sets SystemMaxUse/RuntimeMaxUse; the settings attribute set
+# needs to win over those keys, so this uses mkForce and repeats them.
 { lib, ... }:
 {
   services.journald.storage = "volatile";
-  services.journald.extraConfig = lib.mkAfter ''
-    RuntimeMaxUse=512M
-    MaxRetentionSec=7day
-  '';
+  services.journald.settings.Journal = lib.mkForce {
+    SystemMaxUse = "1G";
+    RuntimeMaxUse = "512M";
+    MaxRetentionSec = "7day";
+  };
 }

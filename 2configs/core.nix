@@ -43,10 +43,10 @@
   #  source = "${pkgs.exim}/bin/sendmail";
   #  setuid = true;
   #};
-  services.journald.extraConfig = ''
-    SystemMaxUse=1G
-    RuntimeMaxUse=128M
-    '';
+  services.journald.settings.Journal = {
+    SystemMaxUse = "1G";
+    RuntimeMaxUse = "128M";
+  };
   environment.pathsToLink = [ "/share" ];
   security.acme = {
     defaults.email = "letsencrypt@syntax-fehler.de";
