@@ -29,6 +29,14 @@ let
       xhigh = "high";
     };
   };
+
+  # Self-hosted serving cost, USD per million tokens (omp's cost unit).
+  qwenCost = {
+    input = 0.22;
+    output = 2.42;
+    cacheRead = 0;
+    cacheWrite = 0;
+  };
 in
 {
   imports = [ inputs.omp.homeManagerModules.omp ];
@@ -54,6 +62,11 @@ in
       compaction = {
         enabled = true; # default
         idleEnabled = true;
+      };
+      lsp = {
+        # someone on the internet says that this bloats the context window with lsp errors but who knows
+        enabled = false;
+        # diagnosticsOnWrite = false;
       };
       dev.autoqa = false;
       error.notify = "on";
@@ -82,6 +95,7 @@ in
         # The endpoint advertises no modality; without this omp refuses images.
         input = [ "text" "image" ];
         contextWindow = 262144;
+        cost = qwenCost;
         compat = qwenCompat;
       }];
     };
@@ -96,6 +110,7 @@ in
         reasoning = true;
         input = [ "text" "image" ];
         contextWindow = 262144;
+        cost = qwenCost;
         compat = qwenCompat;
       }];
     };
