@@ -136,11 +136,6 @@
     noctalia-shell.url = "github:noctalia-dev/noctalia-shell";
     noctalia-shell.inputs.nixpkgs.follows = "nixpkgs";
 
-    caveman = {
-      url = "github:JuliusBrussee/caveman";
-      flake = false;
-    };
-
     # Pi agent extensions (Mic92/dotfiles keeps this as a submodule pinned to
     # 89560ba87c8b; we fetch it with nix instead).
     pi-agent-extensions = {
@@ -263,8 +258,8 @@
     # Standalone home-manager configuration exposing the ai.nix module.
     # Lets us build just the ai bits without rebuilding a full machine, e.g.
     # `nix build .#homeConfigurations.ai-makefu.activationPackage` and then
-    # inspect result/home-files/.config/opencode/ to confirm the caveman
-    # plugin files landed.
+    # inspect result/home-files/.config/opencode/ to confirm the generated
+    # config landed.
     homeConfigurations.ai-makefu = home-manager.lib.homeManagerConfiguration {
       pkgs = pkgsForSystem "x86_64-linux";
       extraSpecialArgs = { inherit inputs; };
