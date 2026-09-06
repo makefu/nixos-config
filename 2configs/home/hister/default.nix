@@ -1,4 +1,9 @@
-{ config, lib, pkgs, ... }:
+{
+  config,
+  lib,
+  pkgs,
+  ...
+}:
 let
   port = 4433;
 in
@@ -22,10 +27,10 @@ in
       server.base_url = "http://search.euer";
       semantic_search = {
         enable = true;
-        # Same embedding engine karakeep uses (karakeep-embeddings llama.cpp
-        # unit). p0/jack vLLM expose no /v1/embeddings (verified 404), so
-        # embeddings stay local.
-        embedding_endpoint = "http://127.0.0.1:8091/v1/embeddings";
+        # Embedding engine shared with karakeep: llama.cpp unit on x2
+        # (2configs/home/embeddings.nix). p0/jack vLLM expose no
+        # /v1/embeddings (verified 404), so embeddings stay self-hosted.
+        embedding_endpoint = "http://x2.euer:8091/v1/embeddings";
         embedding_model = "Qwen3-Embedding-0.6B";
         dimensions = 1024;
       };
@@ -61,6 +66,9 @@ in
   };
   systemd.timers.hister-karakeep-import = {
     wantedBy = [ "timers.target" ];
-    timerConfig = { OnBootSec = "5m"; OnUnitActiveSec = "1d"; };
+    timerConfig = {
+      OnBootSec = "5m";
+      OnUnitActiveSec = "1d";
+    };
   };
 }

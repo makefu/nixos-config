@@ -9,8 +9,7 @@
 #   ];
 # `pkgs` is threaded in so we can reach autoPatchelfHook / stdenv for the
 # prebuilt neutts wheel (it bundles libespeak-ng.so).
-pkgs:
-pyfinal: pyprev: {
+pkgs: pyfinal: pyprev: {
 
   # Pure-python (torch + einops + einx). neucodec pins this exact version.
   vector-quantize-pytorch = pyfinal.buildPythonPackage rec {
@@ -23,7 +22,11 @@ pyfinal: pyprev: {
       sha256 = "3b9b9514dcdce7af122b7e8abae1a01b4050c3446b78b4b8a07da74f0008d3ea";
     };
     build-system = [ pyfinal.hatchling ];
-    dependencies = with pyfinal; [ torch einops einx ];
+    dependencies = with pyfinal; [
+      torch
+      einops
+      einx
+    ];
     doCheck = false;
     pythonImportsCheck = [ "vector_quantize_pytorch" ];
   };
@@ -50,14 +53,24 @@ pyfinal: pyprev: {
     '';
     build-system = [ pyfinal.poetry-core ];
     dependencies = with pyfinal; [
-      torch torchaudio torchao
+      torch
+      torchaudio
+      torchao
       vector-quantize-pytorch
-      transformers local-attention numpy huggingface-hub safetensors
+      transformers
+      local-attention
+      numpy
+      huggingface-hub
+      safetensors
     ];
     pythonRemoveDeps = [ "torchtune" ];
     # nixpkgs ships newer torch/transformers/numpy than the conservative pins.
     pythonRelaxDeps = [
-      "transformers" "numpy" "torch" "torchao" "torchaudio"
+      "transformers"
+      "numpy"
+      "torch"
+      "torchao"
+      "torchaudio"
       "vector-quantize-pytorch"
     ];
     doCheck = false;
@@ -91,13 +104,28 @@ pyfinal: pyprev: {
     nativeBuildInputs = [ pkgs.autoPatchelfHook ];
     buildInputs = [ pkgs.stdenv.cc.cc.lib ];
     dependencies = with pyfinal; [
-      librosa neucodec numpy phonemizer soundfile torch transformers
+      librosa
+      neucodec
+      numpy
+      phonemizer
+      soundfile
+      torch
+      transformers
       llama-cpp-python
     ];
     pythonRemoveDeps = [ "resemble-perth" ];
-    pythonRelaxDeps = [ "numpy" "transformers" ];
+    # nixpkgs ships newer numpy/transformers/librosa than the wheel's pins
+    # (librosa went 0.11 → 1.0 in 2026-09; API compatible for neutts' usage).
+    pythonRelaxDeps = [
+      "numpy"
+      "transformers"
+      "librosa"
+    ];
     dontStrip = true;
-    pythonImportsCheck = [ "neutts" "neuttsair" ];
+    pythonImportsCheck = [
+      "neutts"
+      "neuttsair"
+    ];
   };
 
 }

@@ -31,7 +31,6 @@ let
     "redis-paperless.service"
     "karakeep-web.service"
     "karakeep-workers.service"
-    "karakeep-embeddings.service"
     "hister.service"
     "meilisearch.service"
     "changedetection-io.service"
@@ -64,8 +63,9 @@ let
   # "nginx.service" would also match e.g. "nginxXservice". The backslash is
   # doubled because the regex sits inside a PromQL string literal, where a lone
   # \. is rejected as an unknown escape sequence.
-  criticalUnitsRe = lib.concatStringsSep "|"
-    (map (lib.replaceStrings [ "." ] [ "\\\\." ]) criticalUnits);
+  criticalUnitsRe = lib.concatStringsSep "|" (
+    map (lib.replaceStrings [ "." ] [ "\\\\." ]) criticalUnits
+  );
 in
 {
   services.prometheus.rules = [
@@ -73,23 +73,27 @@ in
       groups = [
         {
           name = "web";
-          rules = [{
-            alert = "WebServiceDown";
-            expr = "probe_success == 0";
-            for = "3m";
-            labels.severity = "critical";
-            annotations.summary = "{{ $labels.instance }} unreachable";
-          }];
+          rules = [
+            {
+              alert = "WebServiceDown";
+              expr = "probe_success == 0";
+              for = "3m";
+              labels.severity = "critical";
+              annotations.summary = "{{ $labels.instance }} unreachable";
+            }
+          ];
         }
         {
           name = "smb";
-          rules = [{
-            alert = "SmbShareDown";
-            expr = "smb_share_available == 0";
-            for = "5m";
-            labels.severity = "warning";
-            annotations.summary = "SMB share //omo.lan/music/kinder unavailable";
-          }];
+          rules = [
+            {
+              alert = "SmbShareDown";
+              expr = "smb_share_available == 0";
+              for = "5m";
+              labels.severity = "warning";
+              annotations.summary = "SMB share //omo.lan/music/kinder unavailable";
+            }
+          ];
         }
         {
           name = "systemd";
@@ -121,15 +125,17 @@ in
         }
         {
           name = "monitoring";
-          rules = [{
-            # without this the whole stack can go blind silently: no scrape, no
-            # metric, no alert from any of the rules above
-            alert = "PrometheusTargetDown";
-            expr = "up == 0";
-            for = "5m";
-            labels.severity = "critical";
-            annotations.summary = "scrape target {{ $labels.job }}/{{ $labels.instance }} down";
-          }];
+          rules = [
+            {
+              # without this the whole stack can go blind silently: no scrape, no
+              # metric, no alert from any of the rules above
+              alert = "PrometheusTargetDown";
+              expr = "up == 0";
+              for = "5m";
+              labels.severity = "critical";
+              annotations.summary = "scrape target {{ $labels.job }}/{{ $labels.instance }} down";
+            }
+          ];
         }
       ];
     })
