@@ -31,8 +31,16 @@ in
         # (2configs/home/embeddings.nix). p0/jack vLLM expose no
         # /v1/embeddings (verified 404), so embeddings stay self-hosted.
         embedding_endpoint = "http://x2.euer:8091/v1/embeddings";
-        embedding_model = "Qwen3-Embedding-0.6B";
-        dimensions = 1024;
+        embedding_model = "bge-small-en-v1.5";
+        dimensions = 384;
+        # Server window is 512 tokens and rejects longer inputs outright.
+        # Hister chunks by whitespace-word estimate, but bge's BPE tokenizer
+        # hits ~2.5 "tokens/word" on URL/code-heavy text plus hister prepends
+        # a metadata header per chunk — a 224-word budget still produced
+        # 530-token requests. Budget a quarter of the window; chunks that
+        # still overflow are skipped by hister (WARN), not fatal.
+        max_context_length = 160;
+        chunk_overlap = 32;
       };
     };
   };

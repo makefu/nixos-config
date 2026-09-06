@@ -103,9 +103,13 @@ in
       # stored in the existing meilisearch (needs >= 1.13 for the stable
       # embeddings API; fleet pins 1.53). Auto-indexing is off by default
       # once OPENAI_BASE_URL is set, so switch it on.
+      # bge-small-en-v1.5: 384 dims, 512-token window. The server rejects
+      # over-window inputs outright, so budget karakeep's embedding text to
+      # the window (env default is 8192).
       EMBEDDING_OPENAI_BASE_URL = "http://x2.euer:8091/v1";
-      EMBEDDING_TEXT_MODEL = "Qwen3-Embedding-0.6B";
-      EMBEDDING_DIMENSIONS = "1024";
+      EMBEDDING_TEXT_MODEL = "bge-small-en-v1.5";
+      EMBEDDING_DIMENSIONS = "384";
+      EMBEDDING_CONTEXT_LENGTH = "512";
       EMBEDDING_ENABLE_AUTO_INDEXING = "true";
       SEMANTIC_SEARCH_ENABLED = "true";
 

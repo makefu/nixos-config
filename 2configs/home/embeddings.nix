@@ -6,8 +6,12 @@
 # over the euer ULA: the server binds x2's euer address, so no LAN/internet
 # exposure regardless of the (euer-zone-only) firewall opening.
 #
-# Qwen3-Embedding-0.6B (Q8_0, 1024 dims) under CPU inference; verified against
-# llama-cpp 10408 (pinned nixpkgs).
+# bge-small-en-v1.5 (Q8_0 GGUF, 384 dims) chosen by benchmark on x2: 794
+# tok/s single-request vs 35 tok/s for the old Qwen3-0.6B @ ctx 16384.
+# Single slot, 512-token window (the model's trained length; BERT learned
+# position embeddings make larger ctx invalid). Inputs longer than the
+# window are clipped client-side: hister chunks to max_context_length,
+# karakeep char-budgets via EMBEDDING_CONTEXT_LENGTH.
 {
   config,
   pkgs,
@@ -20,8 +24,8 @@ let
   # address directly means the service only answers on the euer interface.
   bindAddr = "fd42:e1e0::7";
   embeddingModel = pkgs.fetchurl {
-    url = "https://huggingface.co/Qwen/Qwen3-Embedding-0.6B-GGUF/resolve/main/Qwen3-Embedding-0.6B-Q8_0.gguf";
-    hash = "sha256-BlB8e0JohGnE5ymLCh4W3v8GyvKRzwpbJ4wwgknD5Dk=";
+    url = "https://huggingface.co/ggml-org/bge-small-en-v1.5-Q8_0-GGUF/resolve/main/bge-small-en-v1.5-q8_0.gguf";
+    hash = "sha256-8EbbHcckz09vCgxZF+kigjtz6x0nuPmpwnl/eGaXSAQ=";
   };
 in
 {
@@ -38,7 +42,7 @@ in
         ${pkgs.llama-cpp}/bin/llama-server \
           --model ${embeddingModel} \
           --embedding --host ${bindAddr} --port ${toString port} \
-          --ctx-size 16384
+          --ctx-size 512 --parallel 1 -b 512 -ub 512
       '';
       # Stateless (model lives in the store) → throwaway uid, no user account.
       DynamicUser = true;
@@ -53,6 +57,9 @@ in
       CPUWeight = 10;
       IOWeight = 10;
       IOSchedulingClass = "idle";
+      # Model is 35 MB; the 512-token single slot leaves RSS ~100 MB. Cap
+      # bounds any pathological allocation regardless.
+      MemoryMax = "3G";
     };
   };
 
