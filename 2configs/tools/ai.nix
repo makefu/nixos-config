@@ -1,6 +1,6 @@
 { ... }:
 {
-  home-manager.users.makefu.imports = [ 
+  home-manager.users.makefu.imports = [
     ./home-manager/ai.nix
     ./home-manager/pi-extensions.nix ];
 
