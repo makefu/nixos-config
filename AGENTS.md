@@ -350,8 +350,6 @@ nix flake check
 
 - Track newly created `.nix` files before evaluating: `git add -AN
   <file>`. Untracked files are invisible to flakes.
-- Use `pueue` for any rebuild or deploy that may exceed 10s (the
-  global agent instructions require this).
 - When adding new options under `makefu.*`, declare them in
   `3modules/` and register the file in `3modules/default.nix`.
 - Comment the **why** (incidents, constraints, non-obvious
