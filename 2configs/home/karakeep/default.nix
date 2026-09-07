@@ -13,6 +13,9 @@ let
   # Embeddings moved to x2 (2configs/home/embeddings.nix) — p0's vLLM has
   # no /v1/embeddings, so semantic search needs its own llama.cpp endpoint,
   # and it no longer runs next to karakeep to keep re-index bursts off omo.
+  # Embedding geometry selector; server side lives in embeddings.nix, the
+  # option in 3modules/embedding-profile.nix (clan var meta.embedding-profile).
+  profile = config.makefu.embeddings.profile;
 in
 {
   services.nginx.virtualHosts."keep.euer" = {
@@ -103,18 +106,33 @@ in
       # stored in the existing meilisearch (needs >= 1.13 for the stable
       # embeddings API; fleet pins 1.53). Auto-indexing is off by default
       # once OPENAI_BASE_URL is set, so switch it on.
-      # bge-small-en-v1.5: 384 dims, 512-token window. The server rejects
-      # over-window inputs outright, so budget karakeep's embedding text to
-      # the window (env default is 8192).
+      # Geometry follows the profile selector (3modules/embedding-profile.nix);
+      # the server rejects over-window inputs outright, so the text budget
+      # (in CHARACTERS here) must stay under the server's real token limit.
+      # EMBEDDING_NUM_WORKERS stays default here; the qwen3 branch below
+      # serializes it (Qwen3 on x2's 2 cores only holds its roofline when
+      # one stream runs, see embeddings.nix header).
       EMBEDDING_OPENAI_BASE_URL = "http://x2.euer:8091/v1";
-      EMBEDDING_TEXT_MODEL = "bge-small-en-v1.5";
-      EMBEDDING_DIMENSIONS = "384";
-      EMBEDDING_CONTEXT_LENGTH = "512";
       EMBEDDING_ENABLE_AUTO_INDEXING = "true";
       SEMANTIC_SEARCH_ENABLED = "true";
-
       INFERENCE_ENABLE_AUTO_SUMMARIZATION = "true";
-    };
+    }
+    // (
+      if profile == "bge-small" then
+        {
+          EMBEDDING_TEXT_MODEL = "bge-small-en-v1.5";
+          EMBEDDING_DIMENSIONS = "384";
+          EMBEDDING_CONTEXT_LENGTH = "512";
+        }
+      else
+        {
+          # qwen3: budget chars <= the server's -ub/n-batch input limit (2048).
+          EMBEDDING_TEXT_MODEL = "Qwen3-Embedding-0.6B";
+          EMBEDDING_DIMENSIONS = "1024";
+          EMBEDDING_CONTEXT_LENGTH = "2048";
+          EMBEDDING_NUM_WORKERS = "1";
+        }
+    );
   };
   # not sure which of the three actually needs access to asset_dir
   systemd.services.karakeep-browser.serviceConfig = {

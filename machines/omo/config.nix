@@ -2,213 +2,225 @@
 # your system.  Help is available in the configuration.nix(5) man page
 # and in the NixOS manual (accessible by running ‘nixos-help’).
 
-{ config, pkgs, lib, genid, ... }:
 {
-  imports =
-    [
-      ./hw/omo
-      ./networking.nix
-      ./hw/force-fsck.nix
-      #./hw/tsp.nix
-      ../../2configs/default.nix
-      # ../../2configs/support-nixos.nix
-      ../../2configs/nur.nix
-      {
-        systemd.coredump.settings.Coredump= {
-          Storage="none";
-          ProcessSizeMax=0;
-        };
-      }
-      # {
-      #   services.xserver.enable = true;
-      #   services.xserver.displayManager.sddm.enable = true;
-      #   services.xserver.desktopManager.plasma6.enable = true;
+  config,
+  pkgs,
+  lib,
+  genid,
+  ...
+}:
+{
+  imports = [
+    ./hw/omo
+    ./networking.nix
+    ./hw/force-fsck.nix
+    #./hw/tsp.nix
+    ../../2configs/default.nix
+    # ../../2configs/support-nixos.nix
+    ../../2configs/nur.nix
+    {
+      systemd.coredump.settings.Coredump = {
+        Storage = "none";
+        ProcessSizeMax = 0;
+      };
+    }
+    # {
+    #   services.xserver.enable = true;
+    #   services.xserver.displayManager.sddm.enable = true;
+    #   services.xserver.desktopManager.plasma6.enable = true;
 
-      #   services.xrdp.enable = true;
-      #   services.xrdp.defaultWindowManager = "startplasma-x11";
-      #   services.xrdp.openFirewall = true;
-      # }
+    #   services.xrdp.enable = true;
+    #   services.xrdp.defaultWindowManager = "startplasma-x11";
+    #   services.xrdp.openFirewall = true;
+    # }
 
-      # x11 forwarding
-      # {
-      #   services.openssh.settings.X11Forwarding = true;
-      #   users.users.makefu.packages = [
-      #     pkgs.tinymediamanager
-      #   ];
-      # }
-      { environment.systemPackages = [ pkgs.youtube-dl2kodi pkgs.yt-dlp]; }
+    # x11 forwarding
+    # {
+    #   services.openssh.settings.X11Forwarding = true;
+    #   users.users.makefu.packages = [
+    #     pkgs.tinymediamanager
+    #   ];
+    # }
+    {
+      environment.systemPackages = [
+        pkgs.youtube-dl2kodi
+        pkgs.yt-dlp
+      ];
+    }
 
-      ### systemdUltras ###
-      ../../2configs/systemdultras/ircbot.nix
+    ### systemdUltras ###
+    ../../2configs/systemdultras/ircbot.nix
 
-      ../../2configs/zsh
-      ../../2configs/home-manager
-      ../../2configs/home-manager/cli.nix
-      ../../2configs/editor/neovim
-      # ../../2configs/storj/client.nix
+    ../../2configs/zsh
+    ../../2configs/home-manager
+    ../../2configs/home-manager/cli.nix
+    ../../2configs/editor/neovim
+    # ../../2configs/storj/client.nix
 
-      #../../2configs/networking/zerotier.nix
-      # ../../2configs/networking/netbird/client.nix
-      ../../2configs/backup/restic/state.nix
+    #../../2configs/networking/zerotier.nix
+    # ../../2configs/networking/netbird/client.nix
+    ../../2configs/backup/restic/state.nix
 
-      #{ makefu.backup.server.repo = "/media/cryptX/backup/borg"; }
-      #../../2configs/backup/borg/server.nix
-      ../../2configs/backup/restic/server.nix
-      # ../../2configs/smart-monitor.nix
-      ../../2configs/mail-client.nix
-      ../../2configs/mosh.nix
-      #../../2configs/nix-ld.nix
-      ../../2configs/tools/core.nix
-      ../../2configs/tools/dev.nix
-      ../../2configs/tools/desktop.nix
-      ../../2configs/tools/mobility.nix
-      ../../2configs/tools/consoles.nix
-      #../../2configs/graphite-standalone.nix
-      #../../2configs/share-user-sftp.nix
+    #{ makefu.backup.server.repo = "/media/cryptX/backup/borg"; }
+    #../../2configs/backup/borg/server.nix
+    ../../2configs/backup/restic/server.nix
+    # ../../2configs/smart-monitor.nix
+    ../../2configs/mail-client.nix
+    ../../2configs/mosh.nix
+    #../../2configs/nix-ld.nix
+    ../../2configs/tools/core.nix
+    ../../2configs/tools/dev.nix
+    ../../2configs/tools/desktop.nix
+    ../../2configs/tools/mobility.nix
+    ../../2configs/tools/consoles.nix
+    #../../2configs/graphite-standalone.nix
+    #../../2configs/share-user-sftp.nix
 
-      # ../../2configs/legacy_only.nix
+    # ../../2configs/legacy_only.nix
 
-      ../../2configs/share
-      ../../2configs/share/omo.nix
-      ../../2configs/share/hetzner-client.nix
-      #../../2configs/share/gum-client.nix
-      ../../2configs/sync
-      ../../2configs/sync/omo-download-sync.nix
-      ../../2configs/sync/share/omo.nix
+    ../../2configs/share
+    ../../2configs/share/omo.nix
+    ../../2configs/share/hetzner-client.nix
+    #../../2configs/share/gum-client.nix
+    ../../2configs/sync
+    ../../2configs/sync/omo-download-sync.nix
+    ../../2configs/sync/share/omo.nix
 
-      ../../2configs/wireguard/wiregrill-client.nix
-      ../../2configs/wireguard/euer/client.nix
+    ../../2configs/wireguard/wiregrill-client.nix
+    ../../2configs/wireguard/euer/client.nix
 
-      ../../2configs/ipfs/omo-container.nix
+    ../../2configs/ipfs/omo-container.nix
 
-      ../../2configs/radicle/omo-container.nix
-      ../../2configs/torrent/omo-container.nix
+    ../../2configs/radicle/omo-container.nix
+    ../../2configs/torrent/omo-container.nix
 
-      #  Community services
-      # ../../2configs/nix-community/legacy-mediawiki-matrix-bot.nix
+    #  Community services
+    # ../../2configs/nix-community/legacy-mediawiki-matrix-bot.nix
 
-      #{ krebs.airdcpp.dcpp.shares = let
-      #    d = path: "/media/cryptX/${path}";
-      #  in {
-      #    emu.path = d "emu";
-      #    audiobooks.path = lib.mkForce (d "audiobooks");
-      #    incoming.path = lib.mkForce (d "torrent");
-      #    anime.path = d "anime";
-      #  };
-      #  krebs.airdcpp.dcpp.DownloadDirectory = "/media/cryptX/torrent/dcpp";
-      #}
-      {
-        # copy config from <secrets/sabnzbd.ini> to /var/lib/sabnzbd/
-        #services.sabnzbd.enable = true;
-        #systemd.services.sabnzbd.environment.SSL_CERT_FILE = "${pkgs.cacert}/etc/ssl/certs/ca-bundle.crt";
-      }
-      # ../../2configs/share/omo-timemachine.nix
-      ../../2configs/tinc/retiolum.nix
+    #{ krebs.airdcpp.dcpp.shares = let
+    #    d = path: "/media/cryptX/${path}";
+    #  in {
+    #    emu.path = d "emu";
+    #    audiobooks.path = lib.mkForce (d "audiobooks");
+    #    incoming.path = lib.mkForce (d "torrent");
+    #    anime.path = d "anime";
+    #  };
+    #  krebs.airdcpp.dcpp.DownloadDirectory = "/media/cryptX/torrent/dcpp";
+    #}
+    {
+      # copy config from <secrets/sabnzbd.ini> to /var/lib/sabnzbd/
+      #services.sabnzbd.enable = true;
+      #systemd.services.sabnzbd.environment.SSL_CERT_FILE = "${pkgs.cacert}/etc/ssl/certs/ca-bundle.crt";
+    }
+    # ../../2configs/share/omo-timemachine.nix
+    ../../2configs/tinc/retiolum.nix
 
-      # statistics
-      # ../../2configs/stats/client.nix
-      # Logging
-      ../../2configs/logging/volatile-journal.nix
-      #influx + grafana
-      ../../2configs/stats/server.nix
-      # ../../2configs/stats/nodisk-client.nix
-      # logs to influx
-      ../../2configs/stats/external/aralast.nix
-      # ../../2configs/stats/telegraf
-      # ../../2configs/stats/telegraf/europastats.nix
-      # ../../2configs/stats/telegraf/hamstats.nix
-      ../../2configs/hw/cdrip.nix
+    # statistics
+    # ../../2configs/stats/client.nix
+    # Logging
+    ../../2configs/logging/volatile-journal.nix
+    #influx + grafana
+    ../../2configs/stats/server.nix
+    # ../../2configs/stats/nodisk-client.nix
+    # logs to influx
+    ../../2configs/stats/external/aralast.nix
+    # ../../2configs/stats/telegraf
+    # ../../2configs/stats/telegraf/europastats.nix
+    # ../../2configs/stats/telegraf/hamstats.nix
+    ../../2configs/hw/cdrip.nix
 
-      # services
-      {
-        # firewall ports for nginx (80) + Home Assistant (8123) live in
-        # ./networking.nix alongside the rest of the host networking.
-        services.nginx.enable = true;
-      }
-      # ../../2configs/syncthing.nix
-      ../../2configs/remote-build/slave.nix
-      # TODO:
-      ../../2configs/virtualisation/podman.nix
-      # ../../2configs/bluetooth-mpd.nix
+    # services
+    {
+      # firewall ports for nginx (80) + Home Assistant (8123) live in
+      # ./networking.nix alongside the rest of the host networking.
+      services.nginx.enable = true;
+    }
+    # ../../2configs/syncthing.nix
+    ../../2configs/remote-build/slave.nix
+    # TODO:
+    ../../2configs/virtualisation/podman.nix
+    # ../../2configs/bluetooth-mpd.nix
 
-      ../../2configs/home/llm/agent.nix
+    ../../2configs/home/llm/agent.nix
 
-      ../../2configs/home/mdrss.nix
-      ../../2configs/home/jellyfin.nix
-      ../../2configs/home/music.nix
-      ../../2configs/home/photoprism.nix
-      ../../2configs/home/audiobookshelf.nix
-      ../../2configs/home/komga.nix
-      # ../../2configs/home/tonie.nix
-      #../../2configs/home/ps4srv.nix
-      # ../../2configs/home/ham
-      ../../2configs/home/ham/container.nix
-      ../../2configs/home/zigbee/omo.nix
-      ../../2configs/home/streams.nix
-      ../../2configs/home/esphome.nix
-      ../../2configs/home/audio-dl.nix
-      ../../2configs/home/karakeep
-      ../../2configs/home/hister
-      #../../2configs/home/yamtrack.nix
-      ../../2configs/home/yamtrack-module.nix
-      ../../2configs/home/changedetection.nix
-      ../../2configs/home/hue.nix
+    ../../2configs/home/mdrss.nix
+    ../../2configs/home/jellyfin.nix
+    ../../2configs/home/music.nix
+    ../../2configs/home/photoprism.nix
+    ../../2configs/home/audiobookshelf.nix
+    ../../2configs/home/komga.nix
+    # ../../2configs/home/tonie.nix
+    #../../2configs/home/ps4srv.nix
+    # ../../2configs/home/ham
+    ../../2configs/home/ham/container.nix
+    ../../2configs/home/zigbee/omo.nix
+    ../../2configs/home/streams.nix
+    ../../2configs/home/esphome.nix
+    ../../2configs/home/audio-dl.nix
+    ../../2configs/home/karakeep
+    ../../2configs/home/hister
+    #../../2configs/home/yamtrack.nix
+    ../../2configs/home/yamtrack-module.nix
+    ../../2configs/home/changedetection.nix
+    ../../2configs/home/hue.nix
 
-      # clevis/tang setup
-      ../../2configs/home/tang.nix
+    # clevis/tang setup
+    ../../2configs/home/tang.nix
 
-      # büroautomatisierung
-      # ../../2configs/bam/matrix/server.nix
+    # büroautomatisierung
+    # ../../2configs/bam/matrix/server.nix
 
-      # ../../2configs/home/paperless.nix
+    # ../../2configs/home/paperless.nix
 
-      #{
-      #  hardware.pulseaudio.systemWide = true;
-      #  makefu.mpd.musicDirectory = "/media/cryptX/music";
-      #}
+    #{
+    #  hardware.pulseaudio.systemWide = true;
+    #  makefu.mpd.musicDirectory = "/media/cryptX/music";
+    #}
 
-      # security
-      ../../2configs/sshd-totp.nix
-      # ../../2configs/logging/central-logging-client.nix
+    # security
+    ../../2configs/sshd-totp.nix
+    # ../../2configs/logging/central-logging-client.nix
 
-      # ../../2configs/torrent.nix
-      {
-        #krebs.rtorrent = {
-        #  downloadDir = lib.mkForce "/media/cryptX/torrent";
-        #  extraConfig = ''
-        #    upload_rate = 500
-        #  '';
-        #};
-      }
+    # ../../2configs/torrent.nix
+    {
+      #krebs.rtorrent = {
+      #  downloadDir = lib.mkForce "/media/cryptX/torrent";
+      #  extraConfig = ''
+      #    upload_rate = 500
+      #  '';
+      #};
+    }
 
-      # ../../2configs/elchos/search.nix
-      # ../../2configs/elchos/log.nix
-      # ../../2configs/elchos/irc-token.nix
+    # ../../2configs/elchos/search.nix
+    # ../../2configs/elchos/log.nix
+    # ../../2configs/elchos/irc-token.nix
 
-      ## as long as pyload is not in nixpkgs:
-      # docker run -d -v /var/lib/pyload:/opt/pyload/pyload-config -v /media/crypt0/pyload:/opt/pyload/Downloads --name pyload --restart=always -p 8112:8000 -P writl/pyload
+    ## as long as pyload is not in nixpkgs:
+    # docker run -d -v /var/lib/pyload:/opt/pyload/pyload-config -v /media/crypt0/pyload:/opt/pyload/Downloads --name pyload --restart=always -p 8112:8000 -P writl/pyload
 
-      # Temporary:
-      # ../../2configs/temp/rst-issue.nix
-      # ../../2configs/bgt/social-to-irc.nix
-      # ../../2configs/bgt/nextcloud-chaptermark-hook.nix
+    # Temporary:
+    # ../../2configs/temp/rst-issue.nix
+    # ../../2configs/bgt/social-to-irc.nix
+    # ../../2configs/bgt/nextcloud-chaptermark-hook.nix
 
-      #../../2configs/cybahn/wiki-signal-bot.nix
-      ../../2configs/home/bibchecker.nix
-      ../../2configs/home/rate-everything.nix
+    #../../2configs/cybahn/wiki-signal-bot.nix
+    ../../2configs/home/bibchecker.nix
+    ../../2configs/home/rate-everything.nix
 
-      # prometheus/alertmanager/karma/alertmanager-ntfy alerting stack
-      ../../2configs/home/alerting
+    # prometheus/alertmanager/karma/alertmanager-ntfy alerting stack
+    ../../2configs/home/alerting
 
-    ];
-  makefu.full-populate =  true;
+  ];
+
+  makefu.full-populate = true;
   users.users.share.isNormalUser = true;
   users.groups.share = {
     gid = genid "share";
-    members = [ "makefu" "misa" ];
+    members = [
+      "makefu"
+      "misa"
+    ];
   };
-
-
 
   users.users.misa = {
     uid = 9002;

@@ -14,10 +14,11 @@
 #         (4 slots split the ~40 tok/s CPU roofline + queue delay), 3.4 GB
 #         RSS, 12.4 GB in production with warm 16k-token KV caches.
 #   V1    Qwen3-0.6B-Q8_0 --ctx-size 2048 --parallel 1 -ctk/-ctv q8_0 -fa on:
-#         29 tok/s, 1.7 GB RSS. RoPE allows ctx extension, so it was the
-#         fallback until llama-server 0.3.0 proved it does NOT clip
-#         over-window inputs (400 exceed_context_size_error, truncate:true
-#         ignored) — every client must budget inputs itself.
+#         29 tok/s, 1.7 GB RSS. Tested end-to-end as a profile (ctx 8192,
+#         serialized): a 1024-token chunk needs 34 s, over karakeep's 60 s
+#         liteque job timeout — full rebuild (≈5.5M tokens) churns retries
+#         and never converges. Keep bge-small in production; qwen3 costs
+#         days per rebuild on this CPU for a marginal retrieval gain.
 #   V2    bge-small-en-v1.5-Q8_0 (this unit): 794 tok/s, 98 MB RSS;
 #         deployed unit: 752 tok/s, MemoryCurrent 152 MB. Winner (20x BASE).
 #   V3    all-MiniLM-L6-v2-Q8_0 (not deployed): 1479 tok/s, 86 MB RSS;
@@ -60,10 +61,49 @@ let
   # x2's euer ULA (2configs/wireguard/euer/common.nix). Binding the tunnel
   # address directly means the service only answers on the euer interface.
   bindAddr = "fd42:e1e0::7";
-  embeddingModel = pkgs.fetchurl {
+  # Selector lives in 3modules/embedding-profile.nix (clan var
+  # `meta.embedding-profile`); clients read the same value.
+  profile = config.makefu.embeddings.profile;
+
+  bgeModel = pkgs.fetchurl {
     url = "https://huggingface.co/ggml-org/bge-small-en-v1.5-Q8_0-GGUF/resolve/main/bge-small-en-v1.5-q8_0.gguf";
     hash = "sha256-8EbbHcckz09vCgxZF+kigjtz6x0nuPmpwnl/eGaXSAQ=";
   };
+  qwenModel = pkgs.fetchurl {
+    url = "https://huggingface.co/Qwen/Qwen3-Embedding-0.6B-GGUF/resolve/main/Qwen3-Embedding-0.6B-Q8_0.gguf";
+    hash = "sha256-BlB8e0JohGnE5ymLCh4W3v8GyvKRzwpbJ4wwgknD5Dk=";
+  };
+
+  profiles = {
+    # Production winner: 794 tok/s, ~100 MB. Window = trained 512 (BERT).
+    bge-small = {
+      model = bgeModel;
+      # -b/-ub 512: inputs over -ub are rejected outright by llama-server.
+      flags = "--ctx-size 512 --parallel 1 -b 512 -ub 512";
+      # Model is 35 MB; the 512-token single slot leaves RSS ~100 MB. Cap
+      # bounds any pathological allocation regardless.
+      memoryMax = "3G";
+      # Fan-out is wide but each request is ms-scale; staying behind normal
+      # host traffic costs nothing visible.
+      cpuWeight = 10;
+    };
+    # "Serial" profile: Qwen3 holds ~35 tok/s only while ONE request stream
+    # owns the box (2-core AVX1 roofline; see benchmark header). Concurrency
+    # is capped at 1 on every client (karakeep EMBEDDING_NUM_WORKERS=1,
+    # hister max_embedding_concurrency=1), so a slot fan-out never splits
+    # the roofline. ctx 8192 because karakeep/hister token estimates are
+    # approximate; q8 KV keeps the 8k slot at ~2 GB. Nice=10 stays (anti-DoS
+    # toward non-embedding host traffic), but CPUWeight rises: with clients
+    # serialized, starving this unit only delays every embed, it buys
+    # nothing back.
+    qwen3 = {
+      model = qwenModel;
+      flags = "--ctx-size 8192 --parallel 1 -b 2048 -ub 512 -ctk q8_0 -ctv q8_0 -fa on";
+      memoryMax = "6G";
+      cpuWeight = 100;
+    };
+  };
+  p = profiles.${profile};
 in
 {
   systemd.services.embeddings = {
@@ -77,9 +117,9 @@ in
     serviceConfig = {
       ExecStart = ''
         ${pkgs.llama-cpp}/bin/llama-server \
-          --model ${embeddingModel} \
+          --model ${p.model} \
           --embedding --host ${bindAddr} --port ${toString port} \
-          --ctx-size 512 --parallel 1 -b 512 -ub 512
+          ${p.flags}
       '';
       # Stateless (model lives in the store) → throwaway uid, no user account.
       DynamicUser = true;
@@ -91,12 +131,10 @@ in
       # traffic and I/O to idle/low weight (idle class applies on bfq, weight
       # on mq-deadline — covered either way).
       Nice = 10;
-      CPUWeight = 10;
+      CPUWeight = p.cpuWeight;
       IOWeight = 10;
       IOSchedulingClass = "idle";
-      # Model is 35 MB; the 512-token single slot leaves RSS ~100 MB. Cap
-      # bounds any pathological allocation regardless.
-      MemoryMax = "3G";
+      MemoryMax = p.memoryMax;
     };
   };
 

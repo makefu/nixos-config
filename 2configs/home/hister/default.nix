@@ -6,6 +6,9 @@
 }:
 let
   port = 4433;
+  # Geometry selector shared with the x2 server (embeddings.nix) and
+  # karakeep; option declared in 3modules/embedding-profile.nix.
+  profile = config.makefu.embeddings.profile;
 in
 {
   sops.secrets.hister-env = {
@@ -31,17 +34,37 @@ in
         # (2configs/home/embeddings.nix). p0/jack vLLM expose no
         # /v1/embeddings (verified 404), so embeddings stay self-hosted.
         embedding_endpoint = "http://x2.euer:8091/v1/embeddings";
-        embedding_model = "bge-small-en-v1.5";
-        dimensions = 384;
-        # Server window is 512 tokens and rejects longer inputs outright.
-        # Hister chunks by whitespace-word estimate, but bge's BPE tokenizer
-        # hits ~2.5 "tokens/word" on URL/code-heavy text plus hister prepends
-        # a metadata header per chunk — a 224-word budget still produced
-        # 530-token requests. Budget a quarter of the window; chunks that
-        # still overflow are skipped by hister (WARN), not fatal.
-        max_context_length = 160;
-        chunk_overlap = 32;
-      };
+      }
+      // (
+        if profile == "bge-small" then
+          {
+            embedding_model = "bge-small-en-v1.5";
+            dimensions = 384;
+            # Server window is 512 tokens and rejects longer inputs outright.
+            # Hister chunks by whitespace-word estimate, but bge's BPE tokenizer
+            # hits ~2.5 "tokens/word" on URL/code-heavy text plus hister prepends
+            # a metadata header per chunk — a 224-word budget still produced
+            # 530-token requests. Budget a quarter of the window; chunks that
+            # still overflow are skipped by hister (WARN), not fatal.
+            max_context_length = 160;
+            chunk_overlap = 32;
+          }
+        else
+          {
+            # qwen3: RoPE model, server ctx 8192; Qwen3 BPE is ~1 token/word on
+            # prose, so a 1500-word budget stays under the server's -b 2048
+            # input limit even with hister's metadata header.
+            embedding_model = "Qwen3-Embedding-0.6B";
+            dimensions = 1024;
+            max_context_length = 1500;
+            chunk_overlap = 100;
+            # On x2's 2 cores concurrent Qwen3 requests split the roofline
+            # (35 tok/s / N + queue delay); serialize, and keep batches small
+            # so one request stays under liteque-style client timeouts.
+            max_embedding_concurrency = 1;
+            max_embedding_batch_size = 2;
+          }
+      );
     };
   };
 

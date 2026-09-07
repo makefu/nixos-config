@@ -20,6 +20,6 @@ _:
     ./torrent.nix
     ./udpt.nix
     ./euer-wg.nix
+    ./embedding-profile.nix
   ];
 }
-
