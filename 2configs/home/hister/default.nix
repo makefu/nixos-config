@@ -48,6 +48,11 @@ in
             # still overflow are skipped by hister (WARN), not fatal.
             max_context_length = 160;
             chunk_overlap = 32;
+            # One slot of ctx 512 is shared by every input in a batch
+            # request: 8 chunks x ~150 tokens overflow it (HTTP 500, chunks
+            # silently skipped). BERT cannot extend ctx (fixed 512 position
+            # rows), so batch must stay 1; a single bge request is ms-scale.
+            max_embedding_batch_size = 1;
           }
         else
           {

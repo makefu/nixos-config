@@ -123,6 +123,11 @@ in
           EMBEDDING_TEXT_MODEL = "bge-small-en-v1.5";
           EMBEDDING_DIMENSIONS = "384";
           EMBEDDING_CONTEXT_LENGTH = "512";
+          # Rebuilding a corpus of this size at the default concurrency of 1
+          # is job-latency bound, not GPU/CPU bound: a single bge request is
+          # ~10 ms, so the queue only drains as fast as asset reads + meili
+          # round-trips allow. Parallel workers scale over that.
+          EMBEDDING_NUM_WORKERS = "4";
         }
       else
         {
