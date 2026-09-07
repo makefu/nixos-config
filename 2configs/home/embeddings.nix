@@ -6,12 +6,49 @@
 # over the euer ULA: the server binds x2's euer address, so no LAN/internet
 # exposure regardless of the (euer-zone-only) firewall opening.
 #
-# bge-small-en-v1.5 (Q8_0 GGUF, 384 dims) chosen by benchmark on x2: 794
-# tok/s single-request vs 35 tok/s for the old Qwen3-0.6B @ ctx 16384.
-# Single slot, 512-token window (the model's trained length; BERT learned
-# position embeddings make larger ctx invalid). Inputs longer than the
-# window are clipped client-side: hister chunks to max_context_length,
-# karakeep char-budgets via EMBEDDING_CONTEXT_LENGTH.
+
+# Benchmarks (2026-09-07, x2 = i5-3320M 2c AVX1, 400-token probe, single
+# request, cold server; RSS = unit VmRSS):
+#   BASE  Qwen3-Embedding-0.6B-Q8_0 --ctx-size 16384 (4 slots, default):
+#         35 tok/s cold / ~0.6 tok/s effective under karakeep fan-out
+#         (4 slots split the ~40 tok/s CPU roofline + queue delay), 3.4 GB
+#         RSS, 12.4 GB in production with warm 16k-token KV caches.
+#   V1    Qwen3-0.6B-Q8_0 --ctx-size 2048 --parallel 1 -ctk/-ctv q8_0 -fa on:
+#         29 tok/s, 1.7 GB RSS. RoPE allows ctx extension, so it was the
+#         fallback until llama-server 0.3.0 proved it does NOT clip
+#         over-window inputs (400 exceed_context_size_error, truncate:true
+#         ignored) — every client must budget inputs itself.
+#   V2    bge-small-en-v1.5-Q8_0 (this unit): 794 tok/s, 98 MB RSS;
+#         deployed unit: 752 tok/s, MemoryCurrent 152 MB. Winner (20x BASE).
+#   V3    all-MiniLM-L6-v2-Q8_0 (not deployed): 1479 tok/s, 86 MB RSS;
+#         skipped — V2 already cleared the 10 tok/s target, and V2 is the
+#         newer/stronger retrieval model. BERT: same 512-window constraint.
+#
+# Integration issues found wiring karakeep/hister to this endpoint
+# (llama-server 0.3.0, nixpkgs 2026-09-04):
+#  1. Over-window input is a hard error, never clipped: 500 "input (N
+#     tokens) is too large to process" if N > -ub, 400 exceed_context_size_error
+#     if N > slot ctx. BERT position_embd is learned (fixed 512 rows):
+#     --ctx-size/-override-kv bert.context_length above 512 only moves the
+#     slot cap ("capping" warn) or fails tensor-shape load outright. Larger
+#     windows need a RoPE model (Qwen3 + YaRN), not this one.
+#  2. Client budgets are mandatory, and token-vs-word estimates are the
+#     failure mode: karakeep caps the embedding text at
+#     EMBEDDING_CONTEXT_LENGTH *characters* (default 8192! → set 512; safe
+#     since 512 chars < 512 BPE tokens). hister chunks by whitespace-word
+#     estimate; bge BPE hit ~2.5 tokens per word on URL/code-heavy text
+#     (384-word budget → 723-token request), so max_context_length=160.
+#     hister treats a rejection as WARN + skip (chunk silently loses
+#     semantic coverage), karakeep worker would fail the embedding job.
+#  3. Reindex burst stress: karakeep-workers crash-looped once during the
+#     full reindex (SqliteError: database is locked + meilisearch submit
+#     Timeout); systemd restart recovered it, queue is durable. Expect this
+#     again on full reindexes; watch, don't panic.
+#  4. Vector stores are dimension-tagged: karakeep validates width against
+#     EMBEDDING_DIMENSIONS, hister persists dims per vector — model swap
+#     always means full rebuild (karakeep admin reindexAllBookmarks; hister:
+#     rm vectors.sqlite3 + `hister reindex`; note `import --skip-existing`
+#     will NOT re-embed, only reindex does).
 {
   config,
   pkgs,
