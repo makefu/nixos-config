@@ -1,5 +1,6 @@
 let
   prefix = "2a01:4f8:1c17:5cdf"; # gum ipv6 prefixed network from hetzner
+  gum = "fd42:e1e0::1";
   omo = "fd42:e1e0::2";
 in {
 
@@ -31,6 +32,9 @@ in {
     tab8 = { ula = "fd42:e1e0::9"; ipv4 = "172.27.70.9"; publicKey = "rQJuTf5AU7/4ncfSe1AQgxzB4TlAxJX5mu1Gvp7ajyM="; publicV6 = "${prefix}::18"; };
   };
   networking.hosts = {
+    "${gum}" = [
+      "torrent.euer"
+    ];
     "${omo}" = [
       "track.euer"
       "keep.euer"

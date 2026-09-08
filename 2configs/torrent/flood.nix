@@ -19,6 +19,7 @@ in {
   services.nginx = {
     enable = true;
     virtualHosts."torrent.${config.clan.core.settings.machine.name}.r" = {
+      serverAliases = [ "torrent.euer" ];
       basicAuthFile = config.sops.secrets."torrent-auth".path;
       #root = "${pkgs.nodePackages.flood}/lib/node_modules/flood/dist/assets";
       #locations."/api".extraConfig = ''
