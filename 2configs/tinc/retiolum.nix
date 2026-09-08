@@ -16,6 +16,11 @@ in
   networking.retiolum.ed25519PrivateKeyFile =
     config.sops.secrets."${machine}-retiolum.ed25519_key.priv".path;
 
+  services.tincr.networks.retiolum.connectTo = [
+    "eva"
+    "gum"
+    "prism"
+  ];
   # tincr picks the SPTPS cipher/kex for a peer from hosts/<peer> and falls
   # back to the *server* config when the peer file says nothing. It also
   # merges hosts/<myself> into that server config (C tinc parity), so the
@@ -38,14 +43,4 @@ in
     "~\\[INFO .*(Autoconnecting to|Trying to connect to|Closing connection with)"
   ];
 
-  systemd.services."tincr-retiolum".serviceConfig.ExecStart = lib.mkForce (
-    lib.concatStringsSep " " [
-      "${config.services.tincr.networks.retiolum.package}/bin/tincd"
-      "-D"
-      "-n retiolum"
-      "--pidfile=/run/tincr/retiolum.pid"
-      "-o SPTPSKex=x25519"
-      "-o SPTPSCipher=chacha20-poly1305"
-    ]
-  );
 }

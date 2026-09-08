@@ -76,7 +76,7 @@ in
           rules = [
             {
               alert = "WebServiceDown";
-              expr = "probe_success == 0";
+              expr = "probe_success{job=\"blackbox-http\"} == 0";
               for = "3m";
               labels.severity = "critical";
               annotations.summary = "{{ $labels.instance }} unreachable";
@@ -92,6 +92,20 @@ in
               for = "5m";
               labels.severity = "warning";
               annotations.summary = "SMB share //omo.lan/music/kinder unavailable";
+            }
+          ];
+        }
+        {
+          name = "inference";
+          rules = [
+            {
+              alert = "InferenceEndpointDown";
+              expr = "probe_success{job=\"blackbox-bearer\"} == 0";
+              for = "5m";
+              labels.severity = "critical";
+              # re-alerted every 24h while down (alertmanager route override,
+              # see ./alertmanager.nix)
+              annotations.summary = "inference.p0.contact not answering";
             }
           ];
         }

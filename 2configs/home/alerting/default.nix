@@ -12,6 +12,7 @@
 { ... }:
 {
   imports = [
+    ./blackbox.nix
     ./prometheus.nix
     ./rules.nix
     ./alertmanager.nix
@@ -21,5 +22,6 @@
     ./checks/web.nix
     ./checks/smb.nix
     ./checks/systemd.nix
+    ./checks/inference.nix
   ];
 }

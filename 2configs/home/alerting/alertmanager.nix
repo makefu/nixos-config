@@ -18,6 +18,11 @@
         group_wait = "30s";
         group_interval = "5m";
         repeat_interval = "4h";
+        # inference endpoint: user wants a nudge once a day, not the 4h default
+        routes = [{
+          matchers = [ "alertname = \"InferenceEndpointDown\"" ];
+          repeat_interval = "24h";
+        }];
       };
       receivers = [{
         name = "ntfy";
