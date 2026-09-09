@@ -51,6 +51,7 @@
 
       # ../../2configs/backup.nix
       ../../2configs/tinc/retiolum.nix
+      ../../2configs/tinc/retiolum-keyexchange.nix
       { # gum has a public address, so it connects out to more of the mesh
         # than the default peer set does.
         # ful: without it the orange/hotdog/kfbox/makanek cluster is only
@@ -187,7 +188,7 @@
       ../../2configs/deployment/wiki.euer.nix
 
       ../../2configs/deployment/mdrss-proxy.nix
-      # ../../2configs/deployment/abook-proxy.nix
+      ../../2configs/deployment/abook-proxy.nix
       # ../../2configs/deployment/book-proxy.nix
       #../../2configs/workadventure
 
