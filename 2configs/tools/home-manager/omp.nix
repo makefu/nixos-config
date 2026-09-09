@@ -25,7 +25,6 @@ let
     thinkingFormat = "qwen-chat-template";
     reasoningEffortMap = {
       minimal = "low";
-      medium = "medium";
       xhigh = "high";
     };
   };
@@ -121,6 +120,6 @@ in
   # that carry an index.ts, so the multi-file extensions link as directories;
   # the single-file ones link as plain .ts entries. Their
   # @mariozechner/pi-coding-agent imports go through omp's legacy pi shim.
-  home.file.".omp/agent/extensions/permission-gate".source = "${extSrc}/permission-gate";
+  # home.file.".omp/agent/extensions/permission-gate".source = "${extSrc}/permission-gate";
   home.file.".omp/agent/extensions/questionnaire.ts".source = "${extSrc}/questionnaire/index.ts";
 }
