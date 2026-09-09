@@ -7,7 +7,7 @@ in
 {
   services.audiobookshelf = {
     enable = true;
-    host = "0.0.0.0"; # for forwarding from gum
+    host = "::"; # for forwarding from gum, ipv6 binding
     group = "download";
     openFirewall = true;
     inherit port;
@@ -30,7 +30,7 @@ in
     StateDirectory = lib.mkForce "";
     WorkingDirectory = lib.mkForce dataDir;
   };
-
+  networking.firewall.allowedTCPPorts = [ port ];
   # move datadir to silent
   systemd.tmpfiles.rules = [
     "d ${dataDir} 0750 ${config.services.audiobookshelf.user} ${config.services.audiobookshelf.group} - -"
