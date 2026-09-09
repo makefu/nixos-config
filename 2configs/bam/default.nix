@@ -9,8 +9,8 @@ in {
     # ./puppy-proxy.nix
 
     ./zigbee2mqtt
-    #./rhasspy.nix
-    ./esphome.nix
+    # ./rhasspy.nix
+    # ./esphome.nix
     ./jellyfin.nix
     ./ha-ara-menu.nix
     ./inventory4ce.nix
