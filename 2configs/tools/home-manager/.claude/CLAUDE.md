@@ -54,10 +54,11 @@ Commit messages, code, and comments use normal English.
   2. Try to simplify your code
   3. Always test/lint/format
 - Use `gh` for GitHub (CI logs, issues, PRs), e.g. `gh run view 18256703410 --log`
+  - ATTENTION: never comment or merge via `gh` unless explicitly requested. Do not communicate on my behalf unless asked
 
 ## Running programs
 
-- CRITICAL: ALWAYS use the queue skill for ANY command that might take longer than 10 seconds (nix build, merge-when-green, test runs, make, ninja, cargo) to avoid tool timeouts.
+- CRITICAL: ALWAYS use the `/queue` skill for ANY command that might take longer than 10 seconds (`nix build`, merge-when-green, test runs, `make`, `ninja`, `cargo`) to avoid tool timeouts.
 
 ## Search
 
