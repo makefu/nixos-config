@@ -1,33 +1,23 @@
 # Root disk for omo: disko GPT + LUKS (dm-crypt) + btrfs, Secure Boot via
-# lanzaboote, TPM2-unsealed unlocking.
+# lanzaboote, clevis/tang unlocking (no TPM token).
 #
-# Stage-1 crypttab passes both the keyfile and tpm2-device=auto: the keyfile
-# (copied into the initrd via boot.initrd.secrets) always works; once the TPM
-# token is enrolled, systemd-cryptsetup activates the token with the keyfile
-# as key material, so the TPM also unlocks the volume. The first enrollment
-# must happen while the volume is unlocked (auto-cryptenroll service) — see
+# The LUKS key is the host key /etc/luks-keys/cryptroot (sops: omo-cryptroot),
+# used for luksFormat initially and afterwards recovered at boot by letting
+# the tang server (router, http://192.168.111.1:9090) decrypt
+# /etc/clevis/cryptroot.jwe — see machines/omo/hw/clevis-tang.nix and
 # README-omo-fde.md.
-{ config, lib, ... }:
+{ lib, ... }:
 {
-  imports = [ ../../../2configs/security/secure-boot.nix ];
+  imports = [
+    ../../../2configs/security/secure-boot.nix
+    ./clevis-tang.nix
+  ];
 
-  # systemd stage-1 is required for crypttab-based unlocking with TPM2 tokens
-  # (the old scripted initrd path ignores crypttabExtraOpts).
+  # systemd stage-1 is required: nixpkgs implements LUKS clevis unlocking as
+  # a cryptsetup-clevis-cryptroot unit that decrypts the JWE into tmpfs before
+  # systemd-cryptsetup@cryptroot runs (and rewrites that device's crypttab
+  # keyFile to /clevis-cryptroot/decrypted).
   boot.initrd.systemd.enable = true;
-  boot.initrd.systemd.tpm2.enable = true;
-
-  # Keyfile source is the REAL file /etc/luks-keys/cryptroot on the host
-  # (a string, not a store path — the key never enters git or the nix store
-  # at eval time). `append-initrd-secrets` cp -a's it into the initrd at
-  # every bootloader update, so the file must exist at that path when
-  # nixos-install/switch first runs — see README-omo-fde.md for how
-  # nixos-anywhere places it (--disk-encryption-keys + --extra-files).
-  # It persists in /etc across switches, so later rebuilds on omo work too.
-  # No environment.etc entry: that would symlink /etc/luks-keys and clobber
-  # the real file at activation.
-  boot.initrd.secrets = {
-    "/etc/luks-keys/cryptroot" = "/etc/luks-keys/cryptroot";
-  };
 
   # AHCI/USB/NVMe + crypto modules needed in stage-1 (carried over from the
   # old GRUB/ext4 rootdisk setup).
@@ -50,27 +40,16 @@
     "xhci_hcd"
   ];
 
-  # Measured boot: lock PCR4 (boot loader / kernel command line) and PCR7
-  # (Secure Boot policy, incl. the stage-1 cryptsetup unit + keyfile via
-  # systemd-pcrlock). Once Secure Boot is on, resealed automatically at boot.
-  #
-  # auto-cryptenroll seals the LUKS TPM token with the pcrlock policy; only
-  # 4+7 are measured here, so firmware/code (PCR0/2) is excluded on purpose —
-  # a BIOS update must not brick the unlock.
-  boot.lanzaboote.measuredBoot = {
-    enable = true;
-    pcrs = [ 4 7 ];
-    autoCryptenroll = {
-      enable = true;
-      device = "/dev/disk/by-partlabel/disk-main-crypt";
-      autoReboot = false;
-    };
-  };
+  # No TPM token / measured-boot cryptenroll here: unlocking goes through
+  # clevis/tang (hw/clevis-tang.nix), not the TPM. Secure Boot stays enabled
+  # for the signed-boot chain only.
 
   # The cryptroot boot.initrd.luks.devices entry (device, keyFile,
-  # allowDiscards, tpm2-device=auto) and the `/` mount come from disko's
-  # luks/btrfs types below: disko merges `settings` into the luks device
-  # config and emits fileSystems from the filesystem content.
+  # allowDiscards) and the `/` mount come from disko's luks/btrfs types below:
+  # disko merges `settings` into the luks device config and emits fileSystems
+  # from the filesystem content. mkForce drops the settings.keyFile from the
+  # generated crypttab: at boot the key comes from the clevis unit below, not
+  # from /etc/luks-keys (which lives inside the locked volume).
   disko.devices = {
     disk.main = {
       type = "disk";
@@ -94,9 +73,10 @@
               type = "luks";
               name = "cryptroot";
               settings = {
+                # Used by disko at install time (luksFormat/luksOpen in the
+                # kexec installer). Not usable at boot: see mkForce below.
                 keyFile = "/etc/luks-keys/cryptroot";
                 allowDiscards = true;
-                crypttabExtraOpts = [ "tpm2-device=auto" ];
               };
               content = {
                 type = "filesystem";
@@ -111,24 +91,16 @@
     };
   };
 
-  # lanzaboote asserts <=8: systemd-pcrlock can only pin that many ESP
-  # generations when measured boot is on.
-  boot.lanzaboote.configurationLimit = lib.mkDefault 8;
+  # Boot-time crypttab keyfile: the clevis unit from nixpkgs' luksroot module
+  # (generated because boot.initrd.clevis.devices.cryptroot is declared) runs
+  #   clevis decrypt < /etc/clevis/cryptroot.jwe > /clevis-cryptroot/decrypted
+  # before systemd-cryptsetup@cryptroot. Naming that file explicitly in the
+  # crypttab (instead of leaving keyFile null and racing the parallel
+  # cryptsetup-clevis unit / askpass loop) gives strict ordering:
+  # systemd-cryptsetup waits for the file and never falls to an interactive
+  # prompt on an unattended box.
+  boot.initrd.luks.devices.cryptroot.keyFile = lib.mkForce "/clevis-cryptroot/decrypted";
 
-  # Upstream auto-cryptenroll unlocks with `--unlock-tpm2-device=auto`, which
-  # needs an *existing* TPM token — so it fails on the first enroll (fresh
-  # volume has no token; systemd's prepare_luks has no keyfile fallback,
-  # src/cryptenroll/cryptenroll.c prepare_luks()). Unlock with the keyfile
-  # instead: works before and after enrollment alike.
-  systemd.services.auto-cryptenroll.serviceConfig.ExecStart = lib.mkForce [
-    "${config.boot.loader.external.installHook}"
-    ''
-      systemd-cryptenroll \
-        --wipe-slot=tpm2 \
-        --tpm2-device=auto \
-        --unlock-key-file=/etc/luks-keys/cryptroot \
-        --tpm2-pcrlock=/var/lib/systemd/pcrlock.json \
-        /dev/disk/by-partlabel/disk-main-crypt
-    ''
-  ];
+  # ESP hygiene: UKIs are tens of MB on a 512M ESP.
+  boot.lanzaboote.configurationLimit = lib.mkDefault 8;
 }
