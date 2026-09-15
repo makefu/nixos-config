@@ -2,47 +2,34 @@
 let
   toMapper = id: "/media/crypt${builtins.toString id}";
   byid = dev: "/dev/disk/by-id/" + dev;
-  keyFile = byid "usb-Verbatim_STORE_N_GO_070B3CEE0B223954-0:0";
-  rootDisk = byid "ata-SanDisk_SD8SNAT128G1122_162099420904";
-  rootPartition = byid "ata-SanDisk_SD8SNAT128G1122_162099420904-part2";
-  # cryptsetup luksFormat $dev --cipher aes-xts-plain64 -s 512 -h sha512
-  # cryptsetup luksAddKey $dev tmpkey
-  # cryptsetup luksOpen $dev crypt0 --key-file tmpkey --keyfile-size=4096
-  # mkfs.xfs /dev/mapper/crypt0 -L crypt0
 
-  # omo Chassis:
-  # __FRONT_
-  # |* d0   |
-  # |       |
-  # |* d1   |
-  # |       |
-  # |* d3   |
-  # |       |
-  # |*      |
-  # |* d2   |
-  # |  *    |
-  # |  *    |
-  # |_______|
-  # cryptDisk0 = byid "ata-ST2000DM001-1CH164_Z240XTT6";
+  # mkfs.xfs -L cryptN /dev/mapper/cryptN
+  # unlocked via disko luks-disk.nix (keyfile + TPM2 token), see README-omo-fde.md
   cryptDisk0 = byid "ata-ST8000DM004-2CX188_ZCT01PLV";
   cryptDisk1 = byid "ata-WDC_WD80EZAZ-11TDBA0_7SJPVLYW";
   cryptDisk3 = byid "ata-ST8000DM004-2CX188_ZCT01SG4";
   cryptDisk2 = byid "ata-WDC_WD80EZAZ-11TDBA0_7SJPWT5W";
 
-  # cryptDisk3 = byid "ata-WDC_WD20EARS-00MVWB0_WD-WMAZA1786907";
-  # all physical disks
-
-  # TODO callPackage ../3modules/MonitorDisks { disks = allDisks }
   dataDisks = [ cryptDisk0 cryptDisk1 cryptDisk2 cryptDisk3 ];
-  allDisks = [ rootDisk ] ++ dataDisks;
 in {
   imports =
-    [ # TODO: unlock home partition via ssh
+    [
       ./vaapi.nix
-      ./nvme-extra.nix
-      ./rootdisk.nix
+      ../rootdisk.nix
       ./network.nix
+      # Data disks: create /etc/luks-keys/<name> + re-key each volume, then
+      # uncomment (see README-omo-fde.md):
+      # (import ../luks-disk.nix { device = cryptDisk0; name = "crypt0"; mountpoint = toMapper 0; })
+      # (import ../luks-disk.nix { device = cryptDisk1; name = "crypt1"; mountpoint = toMapper 1; })
+      # (import ../luks-disk.nix { device = cryptDisk2; name = "crypt2"; mountpoint = toMapper 2; })
+      # (import ../luks-disk.nix { device = cryptDisk3; name = "crypt3"; mountpoint = toMapper 3; })
+      # nvme disks move from plain xfs to LUKS the same way:
+      # (import ../luks-disk.nix { device = byid "nvme-SAMSUNG_MZVLB256HBHQ-000L7_S4ELNX4N666803"; name = "varnvme"; mountpoint = "/var/lib"; })
+      # (import ../luks-disk.nix { device = byid "nvme-SKHynix_HFS512GD9TNI-L2B0B_CS06N57461130743R"; name = "silent"; mountpoint = "/media/silent"; })
     ];
+
+  # keep podman behind the data mounts (was in nvme-extra.nix)
+  systemd.services.podman.after = [ "var-lib.mount" "media-silent.mount" ];
 
   system.activationScripts.createCryptFolders = ''
     ${lib.concatMapStringsSep "\n"
@@ -50,21 +37,29 @@ in {
       [ 0 1 2 "X" ]}
   '';
 
-  makefu.snapraid = {
+  services.snapraid = {
     enable = true;
-    disks = map toMapper [ 0 1 3 ];
-    parity = toMapper 2; # find -name PARITY_PARTITION
-    extraConfig = ''
-      exclude /lib/storj/
-      exclude /.bitcoin/blocks/
-    '';
+    dataDisks = {
+      d0 = toMapper 0 + "/";
+      d1 = toMapper 1 + "/";
+      d3 = toMapper 3 + "/";
+    };
+    parityFiles = [ (toMapper 2 + "/snapraid.parity") ]; # find -name PARITY_PARTITION
+    contentFiles = map (d: toMapper d + "/snapraid.content") [ 0 1 2 3 ]
+      ++ [ "/var/lib/snapraid/snapraid.content" ];
+    exclude = [
+      "/lib/storj/"
+      "/.bitcoin/blocks/"
+    ];
+    sync.interval = "03:42";
   };
+
   fileSystems = let
     cryptMount = name:
       { "/media/${name}" = {
-        device = "/dev/mapper/${name}"; fsType = "xfs";
-        options = [ "nofail" ];
-      };};
+          device = "/dev/mapper/${name}"; fsType = "xfs";
+          options = [ "nofail" ];
+        };};
   in   cryptMount "crypt0"
     // cryptMount "crypt1"
     // cryptMount "crypt2"
@@ -81,43 +76,11 @@ in {
       ${pkgs.hdparm}/sbin/hdparm -S 100 ${disk}
       ${pkgs.hdparm}/sbin/hdparm -B 127 ${disk}
       ${pkgs.hdparm}/sbin/hdparm -y ${disk}
-    '') allDisks);
+    '') dataDisks);
 
-  # crypto unlocking
-  boot = {
-    initrd.luks = {
-      devices = let
-        usbkey = device: {
-          inherit device keyFile;
-          keyFileSize = 4096;
-          allowDiscards = true;
-        };
-      in
-      {
-        luksroot = usbkey rootPartition;
-        crypt0 = usbkey  cryptDisk0;
-        crypt1 = usbkey  cryptDisk1;
-        crypt2 = usbkey  cryptDisk2;
-        crypt3 = usbkey  cryptDisk3;
-      };
-    };
-    loader.grub.device = lib.mkForce rootDisk;
+  boot.kernelModules = [ "kvm-intel" ];
+  boot.extraModulePackages = [ ];
 
-    initrd.availableKernelModules = [
-      "ahci"
-      "ohci_pci"
-      "ehci_pci"
-      "pata_atiixp"
-      "firewire_ohci"
-      "usb_storage"
-      "usbhid"
-      "raid456"
-      "megaraid_sas"
-    ];
-
-    kernelModules = [ "kvm-intel" ];
-    extraModulePackages = [ ];
-  };
   environment.systemPackages = with pkgs;[
     mergerfs # hard requirement for mount
   ];
@@ -125,4 +88,3 @@ in {
   hardware.enableRedistributableFirmware = true;
   hardware.cpu.intel.updateMicrocode = true;
 }
-
