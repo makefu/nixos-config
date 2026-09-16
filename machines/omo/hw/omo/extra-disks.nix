@@ -27,7 +27,7 @@ in
     ./vaapi.nix
     ../rootdisk.nix
     ./network.nix
-    ../early-ssh.nix
+    # early-ssh unlock disabled for now (module deleted from tree)
     # Data disks: create /etc/luks-keys/<name> + re-key each volume, then
     # uncomment (see README-omo-fde.md):
     # (import ../luks-disk.nix { device = cryptDisk0; name = "crypt0"; mountpoint = toMapper 0; })

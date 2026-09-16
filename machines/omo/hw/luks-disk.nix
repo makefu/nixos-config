@@ -1,21 +1,28 @@
 # LUKS data disk for omo: whole-disk dm-crypt + XFS, unlocked in stage-1
-# with clevis/tang (same scheme as the root disk, see rootdisk.nix +
+# with clevis/tang exactly like the root disk (see rootdisk.nix +
 # machines/omo/hw/clevis-tang.nix and README-omo-fde.md).
 #
 # Import via a fixed wrapper per disk (see omo/default.nix usage) so module
 # dedup keeps the disko device and clevis declaration single.
 #
-# The keyfile is a REAL file on the host, not in git/the store: it wraps
-# this disk's LUKS keyslot, lives on `/` (encrypted) at
-# /etc/luks-keys/<name>, and only its tang-JWE form goes to the ESP:
-# /etc/clevis/<name>.jwe (sops: omo-clevis-<name>.jwe). Before enabling a
-# disk, create /etc/luks-keys/<name> on omo, `cryptsetup luksAddKey` it,
-# build the JWE with clevis encrypt tang, and store it in sops.
+# All data disks share ONE keyfile, /etc/luks-keys/cryptroot (sops:
+# omo-cryptroot), and its single tang JWE /etc/clevis/cryptext.jwe (sops:
+# omo-cryptroot.jwe). The nixpkgs clevis module copies the JWE into the initrd
+# under each declared device name (/etc/clevis/<name>.jwe), so one source file
+# serves every volume; the matching cryptsetup-clevis-<name> unit decrypts it
+# to /clevis-<name>/decrypted for cryptsetup.
+#
+# `nofail` keeps a failed decrypt (tang down, disk dead, keyslot missing)
+# from breaking boot: the volume is still attempted, but cryptsetup.target
+# does not wait or fail, and `headless=1` forbids an interactive prompt that
+# would hang an unattended box. Downstream mounts (XFS, mergerfs, snapraid)
+# are nofail/weak too.
 {
   device,
   name,
   mountpoint,
   fsType ? "xfs",
+  keyName ? "cryptroot",
 }:
 { lib, ... }:
 {
@@ -26,9 +33,9 @@
       type = "luks";
       inherit name;
       settings = {
-        # Used by disko at format/open time (installer). At boot the key comes
-        # from the clevis unit (/clevis-<name>/decrypted), forced below.
-        keyFile = "/etc/luks-keys/${name}";
+        # Used by disko only at format/open time (installer). At boot the key
+        # comes from the clevis unit (/clevis-<name>/decrypted), forced below.
+        keyFile = "/etc/luks-keys/${keyName}";
         allowDiscards = true;
       };
       content = {
@@ -40,6 +47,12 @@
     };
   };
 
-  boot.initrd.clevis.devices.${name}.secretFile = "/etc/clevis/${name}.jwe";
-  boot.initrd.luks.devices.${name}.keyFile = lib.mkForce "/clevis-${name}/decrypted";
+  boot.initrd.clevis.devices.${name}.secretFile = "/etc/clevis/${keyName}.jwe";
+  boot.initrd.luks.devices.${name} = {
+    keyFile = lib.mkForce "/clevis-${name}/decrypted";
+    crypttabExtraOpts = lib.mkForce [
+      "nofail"
+      "headless=1"
+    ];
+  };
 }

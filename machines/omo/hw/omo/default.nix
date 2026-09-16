@@ -27,16 +27,33 @@ in
     ./vaapi.nix
     ../rootdisk.nix
     ./network.nix
-    ../early-ssh.nix
-    # Data disks: create /etc/luks-keys/<name> + re-key each volume, then
-    # uncomment (see README-omo-fde.md):
-    # (import ../luks-disk.nix { device = cryptDisk0; name = "crypt0"; mountpoint = toMapper 0; })
-    # (import ../luks-disk.nix { device = cryptDisk1; name = "crypt1"; mountpoint = toMapper 1; })
-    # (import ../luks-disk.nix { device = cryptDisk2; name = "crypt2"; mountpoint = toMapper 2; })
-    # (import ../luks-disk.nix { device = cryptDisk3; name = "crypt3"; mountpoint = toMapper 3; })
-    # nvme disks move from plain xfs to LUKS the same way:
-    # (import ../luks-disk.nix { device = byid "nvme-SAMSUNG_MZVLB256HBHQ-000L7_S4ELNX4N666803"; name = "varnvme"; mountpoint = "/var/lib"; })
-    # (import ../luks-disk.nix { device = byid "nvme-SKHynix_HFS512GD9TNI-L2B0B_CS06N57461130743R"; name = "silent"; mountpoint = "/media/silent"; })
+    # Data disks: shared key /etc/luks-keys/cryptroot + tang JWE
+    # /etc/clevis/cryptroot.jwe (luks-disk.nix + README-omo-fde.md). Each volume
+    # must carry cryptroot in a keyslot (luksFormat at install / luksAddKey).
+    # nofail+headless: failed decrypt never breaks boot.
+    (import ../luks-disk.nix {
+      device = cryptDisk0;
+      name = "crypt0";
+      mountpoint = toMapper 0;
+    })
+    (import ../luks-disk.nix {
+      device = cryptDisk1;
+      name = "crypt1";
+      mountpoint = toMapper 1;
+    })
+    (import ../luks-disk.nix {
+      device = cryptDisk2;
+      name = "crypt2";
+      mountpoint = toMapper 2;
+    })
+    (import ../luks-disk.nix {
+      device = cryptDisk3;
+      name = "crypt3";
+      mountpoint = toMapper 3;
+    })
+    # NVMe disks (/var/lib, /media/silent) stay plain xfs for now; encryption
+    # later via the same luks-disk.nix tang scheme.
+    ./nvme-extra.nix
   ];
 
   # keep podman behind the data mounts (was in nvme-extra.nix)

@@ -7,7 +7,7 @@ with lib;
     ./editor/vim.nix
     ./binary-cache/nixos.nix
     ./minimal.nix
-    ./secrets/ssh_server.nix
+    # ./secrets/ssh_server.nix
     ./core.nix
     ./ntfy-announce.nix
     # ./overlays/default.nix

@@ -153,11 +153,11 @@ just mounts data disks (same clevis scheme, see below) and services start.
 
 |Location|Form|Notes|
 |---|---|---|
-|sops `omo-cryptroot` (git)|age/PGP-encrypted|device key; `clan secrets get` = contract bytes|
-|sops `omo-cryptroot.jwe` (git)|age/PGP-encrypted|JWE ciphertext inside anyway|
-|`/etc/luks-keys/cryptroot` on `/`|plaintext (LUKS at rest)|re-keying + offline recovery|
-|`/etc/clevis/cryptroot.jwe` on `/` and inside UKI on ESP|tang ciphertext|only router key decrypts|
-|initrd tmpfs `/clevis-cryptroot/decrypted`|plaintext, RAM, boot only|freed at switch-root|
+|sops `omo-cryptroot` / `omo-cryptext` (git)|age/PGP-encrypted|device keys; `clan secrets get` = contract bytes|
+|sops `omo-cryptroot.jwe` / `omo-cryptext.jwe` (git)|age/PGP-encrypted|JWE ciphertext inside anyway|
+|`/etc/luks-keys/cryptroot`, `/etc/luks-keys/cryptext` on `/`|plaintext (LUKS at rest)|re-keying + offline recovery|
+|`/etc/clevis/*.jwe` on `/` and inside UKI on ESP|tang ciphertext|only router key decrypts|
+|initrd tmpfs `/clevis-*/decrypted`|plaintext, RAM, boot only|freed at switch-root|
 |LUKS token slot|absent|no TPM at all|
 
 ## Install (keys/JWE come from sops, not generated)
@@ -169,17 +169,25 @@ the JWE once (post-disko):
 
 ```sh
 umask 077; mkdir -p /tmp/omo-fde/etc/luks-keys /tmp/omo-fde/etc/clevis /tmp/omo-fde/etc/ssh
-# device key (already in sops; contract = bytes of `clan secrets get`)
+# device keys (already in sops; contract = bytes of `clan secrets get`)
 clan secrets get omo-cryptroot           > /tmp/omo-fde/etc/luks-keys/cryptroot
-# tang-sealed JWE of that same key (already in sops)
+clan secrets get omo-cryptext            > /tmp/omo-fde/etc/luks-keys/cryptext
+# tang-sealed JWEs of those same keys (already in sops)
 clan secrets get omo-cryptroot.jwe       > /tmp/omo-fde/etc/clevis/cryptroot.jwe
+clan secrets get omo-cryptext.jwe        > /tmp/omo-fde/etc/clevis/cryptext.jwe
 clan secrets get omo-ssh.id_ed25519      > /tmp/omo-fde/etc/ssh/ssh_host_ed25519_key
 clan secrets get omo-ssh.id_rsa          > /tmp/omo-fde/etc/ssh/ssh_host_rsa_key
 nix run github:nix-community/nixos-anywhere -- \
   --flake .#omo --target-host root@omo.lan \
   --disk-encryption-keys /etc/luks-keys/cryptroot /tmp/omo-fde/etc/luks-keys/cryptroot \
+  --disk-encryption-keys /etc/luks-keys/cryptext /tmp/omo-fde/etc/luks-keys/cryptext \
   --extra-files /tmp/omo-fde
 ```
+
+(`cryptext` is the shared data-disk key; disko `luksFormat`s the data volumes
+with it in the same installer pass — second `--disk-encryption-keys` line.
+Note disko formats data disks only on first install; on an existing volume
+`luksOpen`s with it instead, so the keyslot must already exist.)
 
 Why both: disko `luksFormat --key-file /etc/luks-keys/cryptroot` (installer
 env) creates slot 0 from those exact bytes; the extra-files tar then persists
@@ -199,7 +207,7 @@ Regenerating the JWE after key or tang rotation (run on the workstation):
 ```sh
 clan secrets get omo-cryptroot > /tmp/key.bin
 curl -sf http://192.168.111.1:9090/adv > /tmp/adv.json
-nix shell nixpkgs#clevis nixpkgs#jose
+nix-shell -p jose clevis
 jq -r .payload /tmp/adv.json | base64 -d | jq '.keys[0]' > /tmp/adv0.jwk
 THP=$(jose jwk thp -i /tmp/adv0.jwk)
 clevis encrypt tang "$(jq -cn --argjson adv "$(cat /tmp/adv.json)" --arg thp "$THP" \
@@ -208,29 +216,46 @@ clevis decrypt < /tmp/cryptroot.jwe | cmp - /tmp/key.bin   # must pass
 cat /tmp/cryptroot.jwe | clan secrets set --machine omo --user makefu omo-cryptroot.jwe
 ```
 
-## Data disks (prepared, not yet enabled)
+## Data disks (enabled, attached)
 
-Same scheme per disk (`machines/omo/hw/luks-disk.nix`): whole-disk LUKS + XFS,
-keyfile `/etc/luks-keys/<name>`, JWE `/etc/clevis/<name>.jwe`
-(sops: `omo-clevis-<name>.jwe`), crypttab keyfile forced to
-`/clevis-<name>/decrypted`. Currently **commented out** in
-`machines/omo/hw/omo/default.nix`; the disks are still unlocked with the old
-Verbatim USB-stick keyfile. Per disk, once attached:
+The four LUKS HDDs (`crypt0`–`crypt3` — `machines/omo/hw/luks-disk.nix`,
+enabled in `machines/omo/hw/omo/default.nix`) share **one** key, sops
+`omo-cryptext`, stored at `/etc/luks-keys/cryptext` on `/`, sealed as **one** tang JWE
+`/etc/clevis/cryptext.jwe` (sops `omo-cryptext.jwe`, same adv+thp pinning as
+root; byte contract = `clan secrets get omo-cryptext` verbatim, currently
+7372 bytes, no trailing newline). The clevis module installs that single
+source file into the initrd once per device (`/etc/clevis/<name>.jwe`), so
+each `cryptsetup-clevis-<name>` unit decrypts it to
+`/clevis-<name>/decrypted` and opens its own volume with it — one tang
+round-trip per volume, all keys the same.
+
+Failed decryption must NOT break boot: data crypttab entries carry
+`nofail,headless=1` (still attempted, but `cryptsetup.target` neither waits
+nor fails; no interactive prompt on an unattended box). A dead/absent disk or
+failed tang decrypt leaves that mapper missing; the XFS mounts and
+mergerfs/snapraid are `nofail` too, so the box boots degraded. The **root**
+disk stays strict (no `nofail`): no root, no system.
+
+Bringing a volume under this scheme (on omo, as root):
 
 ```sh
-# on omo, as root — existing USB-keyed volume: add the new keyfile
-install -d -m 700 /etc/luks-keys
-umask 077; dd if=/dev/urandom bs=4096 count=1 of=/etc/luks-keys/<name>
-cryptsetup luksAddKey /dev/disk/by-id/<disk-id> /etc/luks-keys/<name>   # USB key when prompted
-# seal it with tang (router adv), same recipe as above:
-clevis encrypt tang '{"url":"http://192.168.111.1:9090", ...}' -y < /etc/luks-keys/<name> | clan secrets set --machine omo --user makefu omo-clevis-<name>.jwe
-# deploy the JWE file itself:
-install -m 600 -d /etc/clevis && clan secrets get omo-clevis-<name>.jwe > /etc/clevis/<name>.jwe
+install -d -m 700 /etc/luks-keys /etc/clevis
+clan secrets get omo-cryptext > /etc/luks-keys/cryptext && chmod 600 /etc/luks-keys/cryptext
+clan secrets get omo-cryptext.jwe > /etc/clevis/cryptext.jwe && chmod 600 /etc/clevis/cryptext.jwe
+# existing volume: add the shared key (old USB keyfile when prompted)
+cryptsetup luksAddKey /dev/disk/by-id/<disk-id> /etc/luks-keys/cryptext
+# fresh volume: luksFormat --key-file /etc/luks-keys/cryptext (disko does this at format)
 ```
 
-then uncomment the `(import ../luks-disk.nix { ... })` line and
-`clan machines update omo`. Note: once enabled, an absent data disk fails
-stage-1 (required crypttab entry; snapraid needs them anyway).
+then `clan machines update omo`. Old USB keyslots can be dropped once verified
+(`cryptsetup luksRemoveKey`).
+
+The two NVMe disks (`/var/lib`, `/media/silent`) are **re-attached plain** —
+`machines/omo/hw/omo/nvme-extra.nix` (single GPT + xfs, `nofail`), same layout
+as pre-FDE. No keyslot, no JWE, no crypttab entry for them. Encrypting them
+later = swap the `./nvme-extra.nix` import for the two
+`(import ../luks-disk.nix { ... name = "varnvme" / "silent"; ... })` lines
+(DISKO FORMAT WIPES them at switch) and run the recipe above.
 
 ## Threat model / rotation
 
