@@ -92,7 +92,7 @@
     ../../2configs/ipfs/omo-container.nix
 
     ../../2configs/radicle/omo-container.nix
-    ../../2configs/torrent/omo-container.nix
+    # ../../2configs/torrent/omo-container.nix
 
     #  Community services
     # ../../2configs/nix-community/legacy-mediawiki-matrix-bot.nix

@@ -4,7 +4,6 @@ let
 in {
   sops.secrets."torrent-auth" = {
     owner = "nginx";
-    sopsFile = ../../secrets/torrent.yaml;
   };
   services.flood = {
     enable = true;

@@ -43,7 +43,6 @@ in {
 
   sops.secrets."torrent-auth" = {
     owner = "nginx";
-    sopsFile = ../../secrets/torrent.yaml;
   };
 
   # The host `download` user/group (2configs/share/default.nix, imported on
