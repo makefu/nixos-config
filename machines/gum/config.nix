@@ -213,6 +213,7 @@
 
       # krebs infrastructure services
       # ../../2configs/stats/server.nix
+      ../../2configs/stats/fluentbit-loki.nix
       {
         users.users.makefu.packages = [ pkgs.weechat pkgs.tmux ];
         state = [ "/home/makefu/.weechat" ];

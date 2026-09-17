@@ -117,6 +117,7 @@
 
     # statistics
     # ../../2configs/stats/client.nix
+    ../../2configs/stats/fluentbit-loki.nix
     # Logging
     ../../2configs/logging/volatile-journal.nix
     #influx + grafana

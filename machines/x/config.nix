@@ -51,6 +51,7 @@
       ../../2configs/editor/neovim
       ../../2configs/tools/all.nix
 
+      ../../2configs/stats/fluentbit-loki.nix
       # gui
       ../../2configs/gui/base.nix
        ../../2configs/gui/hyprland
