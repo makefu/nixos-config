@@ -4,11 +4,10 @@ let
     share = "/home/makefu/.local/share";
 in {
   home-manager.users.${mainUser} = {
-    home.packages = with pkgs;[ gcr gnome-keyring libsecret];
+    home.packages = with pkgs;[ gcr gnome-keyring libsecret ];
     programs.rbw = {
       enable = true;
-      settings.base_url = "bw.euer.krebsco.de";
-      settings.identity_url = "bw.euer.krebsco.de";
+      settings.base_url = "https://bw.euer.krebsco.de";
       settings.email = "makefu@syntax-fehler.de";
     };
   };
