@@ -121,10 +121,11 @@ in
       ];
     };
     home.packages= with aiTools;[
-      workmux
       #claude-code
       #ccstatusline
       pi
+      herdr
+
       pkgs.opencode
       pkgs.ha-mcp
       #pkgs.claude-monitor
