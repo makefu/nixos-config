@@ -92,7 +92,9 @@
 
     ../../2configs/ipfs/omo-container.nix
 
-    ../../2configs/radicle/omo-container.nix
+    # radicle-node 1.10.3 is marked insecure upstream (private repos are
+    # unauthenticated), which hard-fails the eval; off until updated or permitted.
+    # ../../2configs/radicle/omo-container.nix
     # ../../2configs/torrent/omo-container.nix
 
     #  Community services
@@ -159,6 +161,7 @@
     ../../2configs/home/streams.nix
     ../../2configs/home/esphome.nix
     ../../2configs/home/audio-dl.nix
+    # ../../2configs/home/podfetch.nix
     ../../2configs/home/karakeep
     ../../2configs/home/hister
     #../../2configs/home/yamtrack.nix

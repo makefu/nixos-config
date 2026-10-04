@@ -82,6 +82,9 @@
     rate-everything.url = "git+https://cgit.euer.krebsco.de/makefu/rate-everything.git";
     rate-everything.inputs.nixpkgs.follows = "nixpkgs";
 
+    podfetch.url = "git+https://cgit.euer.krebsco.de/makefu/podfetch.git";
+    podfetch.inputs.nixpkgs.follows = "nixpkgs";
+
     datefinder.url = "github:Binaergewitter/datefinder";
     datefinder.inputs.nixpkgs.follows = "nixpkgs";
 
