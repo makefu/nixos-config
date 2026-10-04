@@ -3,7 +3,7 @@
   services.syncthing.settings.folders = {
     the_playlist = {
       path = "/media/silent/music/the_playlist";
-      devices = [ "mors" "prism" ];
+      devices = [ "mors" ]; # prism removed from kartei (renamed to neoprism, no syncthing.id registered)
     };
     manga = {
       path = "/media/crypt1/sync/manga";

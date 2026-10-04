@@ -82,9 +82,10 @@
     ../../2configs/share/omo.nix
     ../../2configs/share/hetzner-client.nix
     #../../2configs/share/gum-client.nix
-    ../../2configs/sync
+    # syncthing disabled 2026-09-20
+    # ../../2configs/sync
     ../../2configs/sync/omo-download-sync.nix
-    ../../2configs/sync/share/omo.nix
+    # ../../2configs/sync/share/omo.nix
 
     ../../2configs/wireguard/wiregrill-client.nix
     ../../2configs/wireguard/euer/client.nix
