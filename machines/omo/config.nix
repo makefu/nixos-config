@@ -159,7 +159,7 @@
     ../../2configs/home/ham/container.nix
     ../../2configs/home/zigbee/omo.nix
     ../../2configs/home/streams.nix
-    ../../2configs/home/esphome.nix
+    # ../../2configs/home/esphome.nix
     ../../2configs/home/audio-dl.nix
     # ../../2configs/home/podfetch.nix
     ../../2configs/home/karakeep
@@ -170,7 +170,7 @@
     ../../2configs/home/hue.nix
 
     # clevis/tang setup
-    ../../2configs/home/tang.nix
+    # ../../2configs/home/tang.nix
 
     # büroautomatisierung
     # ../../2configs/bam/matrix/server.nix
