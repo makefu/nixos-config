@@ -63,6 +63,8 @@ in {
   systemd.services."container@hass".preStart = ''
     ${pkgs.iproute2}/bin/ip link del vb-hass 2>/dev/null || true
   '';
+  # the bind-mounted confdir lives on /media/silent
+  systemd.services."container@hass".unitConfig.RequiresMountsFor = [ confdir ];
 
   containers.hass = {
     autoStart = true;

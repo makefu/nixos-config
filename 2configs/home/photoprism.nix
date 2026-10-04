@@ -46,6 +46,12 @@ in
     UMask = lib.mkForce "0006";
     PrivateDevices = lib.mkForce false;
   };
+  # originals + storage + cache live on the disks; block start until mounted
+  systemd.services.photoprism.unitConfig.RequiresMountsFor = [
+    originalsPath
+    config.services.photoprism.storagePath
+    config.services.photoprism.settings.PHOTOPRISM_CACHE_PATH
+  ];
   state = [ config.services.photoprism.storagePath ];
   sops.secrets."omo-photoprism-pw" = {
     owner = "photoprism";

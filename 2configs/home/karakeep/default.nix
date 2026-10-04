@@ -48,6 +48,13 @@ in
     DynamicUser = lib.mkForce false;
     # ReadWritePaths is already set by nixos module to datadir,snapshotdir,
   };
+  # state dirs all live on /media/silent; hard mount dependencies so the
+  # daemons (and their tmpfiles-created data dirs) never touch the unmounted
+  # rootfs
+  systemd.services.meilisearch.unitConfig.RequiresMountsFor = [ "/media/silent" ];
+  systemd.services.karakeep-web.unitConfig.RequiresMountsFor = [ "/media/silent" ];
+  systemd.services.karakeep-workers.unitConfig.RequiresMountsFor = [ "/media/silent" ];
+  systemd.services.karakeep-browser.unitConfig.RequiresMountsFor = [ "/media/silent" ];
   services.meilisearch.settings = {
     db_path = meili_data_dir;
     dump_dir = meili_dump_dir;

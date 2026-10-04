@@ -19,4 +19,6 @@ in
       LogFilterPatterns = [ "~^\\[[A-Za-z][A-Za-z:_+-]*\\] " ];
     };
   };
+  # output dir is on /media/silent
+  systemd.services.mausdownload.unitConfig.RequiresMountsFor = [ "/media/silent" ];
 }

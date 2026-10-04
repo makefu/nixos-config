@@ -108,9 +108,20 @@ let
       wantedBy = [ "timers.target" ];
       timerConfig = cfg.timerConfig;
     };
+    # the content dirs (pool disks + /var/lib/snapraid) must be mounted before
+    # sync runs; the tmpfiles rule pre-creates the state dir so the unit is
+    # not the first writer (it would land on the rootfs otherwise)
+    systemd.tmpfiles.rules =
+      map (d: "d ${d} - root root - -") (
+        cfg.disks ++ lib.optional (cfg.parity != "") cfg.parity
+        ++ lib.optional (cfg.defaultContentFile != "") (dirOf cfg.defaultContentFile)
+      );
     systemd.services.snapraid-sync = {
       description = "Snapraid sync service";
       after = [ "network.target" "local-fs.target" ];
+      unitConfig.RequiresMountsFor =
+        cfg.disks ++ lib.optional (cfg.parity != "") cfg.parity
+        ++ lib.optionals (cfg.defaultContentFile != "") [ (dirOf cfg.defaultContentFile) ];
       path = with pkgs; [ snapraid binutils ];
 
       serviceConfig = {

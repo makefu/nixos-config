@@ -26,6 +26,9 @@ in {
 
   services.influxdb.enable = true;
   systemd.services.influxdb.serviceConfig.LimitNOFILE = 8192;
+  # dataDir lives on /media/silent; hard mount dependency so influxdb never
+  # starts (and writes) before the disk is up
+  systemd.services.influxdb.unitConfig.RequiresMountsFor = [ "/media/silent" ];
 
   # redirect grafana to stats.makefu.r
   services.nginx.enable = true;

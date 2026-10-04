@@ -55,6 +55,21 @@ in
     # later via the same luks-disk.nix tang scheme.
     ./nvme-extra.nix
   ];
+  # Lock these mountpoints (chattr +i) at boot while their disk is absent so
+  # services/tmpfiles fail with EPERM instead of writing stray trees onto the
+  # rootfs that the later mount hides (see 3modules/media-unmounted-guard.nix).
+  # /var/lib included: its nvme died once and everything under it silently
+  # landed on the rootfs.
+  makefu.mediaGuard.paths = [
+    "/media/cloud"
+    "/media/crypt0"
+    "/media/crypt1"
+    "/media/crypt2"
+    "/media/crypt3"
+    "/media/cryptX"
+    "/media/silent"
+    "/var/lib"
+  ];
 
   # keep podman behind the data mounts (was in nvme-extra.nix)
   systemd.services.podman.after = [
@@ -94,6 +109,18 @@ in
     sync.interval = "03:42";
   };
 
+  # nixpkgs services.snapraid creates no state dir and no mount ordering:
+  # sync failed with a snapraid NAMESPACE error once /var/lib/snapraid was
+  # missing (it must live on the mounted /var/lib nvme, not the rootfs).
+  systemd.tmpfiles.rules = [ "d /var/lib/snapraid 0700 root root - -" ];
+  systemd.services.snapraid-sync.unitConfig.RequiresMountsFor = [
+    "/var/lib"
+    "/media/crypt0"
+    "/media/crypt1"
+    "/media/crypt2"
+    "/media/crypt3"
+  ];
+
   fileSystems =
     let
       cryptMount = name: {
@@ -125,6 +152,14 @@ in
           "allow_other"
           "nofail"
           "nonempty"
+          # mergerfs reads its source dirs at mount time; without these the
+          # fuse mount could come up over empty crypt0-3 mountpoints (the
+          # fstab generator does not know that the colon-separated device
+          # paths are themselves mountpoints).
+          "x-systemd.requires=media-crypt0.mount"
+          "x-systemd.requires=media-crypt1.mount"
+          "x-systemd.requires=media-crypt2.mount"
+          "x-systemd.requires=media-crypt3.mount"
         ];
       };
     };

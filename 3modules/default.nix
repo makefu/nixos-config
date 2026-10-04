@@ -4,6 +4,7 @@ _:
   imports = [
     # ./bump-distrowatch.nix
     ./fetchWallpaper.nix
+    ./media-unmounted-guard.nix
     ./deluge.nix
     ./etherpad.nix
     ./forward-journal.nix

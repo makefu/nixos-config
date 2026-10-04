@@ -26,6 +26,7 @@ in
   # WorkingDirectory alone decides where the state lives. StateDirectory= only
   # accepts names below /var/lib and would be ignored with a warning, so reset
   # it (empty value clears the list) instead of letting it point elsewhere.
+  systemd.services.audiobookshelf.unitConfig.RequiresMountsFor = [ dataDir ];
   systemd.services.audiobookshelf.serviceConfig = {
     StateDirectory = lib.mkForce "";
     WorkingDirectory = lib.mkForce dataDir;
