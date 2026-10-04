@@ -6,8 +6,7 @@
     enable = true;
     port = 9093;
     listenAddress = "127.0.0.1";
-    # single node: disable the HA gossip listener, which otherwise binds
-    # 0.0.0.0:9094 and collides with karma (see ./karma.nix)
+    # single node: disable the HA gossip listener
     extraFlags = [ "--cluster.listen-address=" ];
     # used to build correct backlinks in notifications
     webExternalUrl = "http://alert.lan/";

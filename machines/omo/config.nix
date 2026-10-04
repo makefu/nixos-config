@@ -212,7 +212,7 @@
     ../../2configs/home/bibchecker.nix
     ../../2configs/home/rate-everything.nix
 
-    # prometheus/alertmanager/karma/alertmanager-ntfy alerting stack
+    # prometheus/alertmanager/alertmanager-ntfy alerting stack
     ../../2configs/home/alerting
 
   ];

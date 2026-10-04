@@ -30,17 +30,13 @@
     nix-ld.url = "github:Mic92/nix-ld";
     nix-ld.inputs.nixpkgs.follows = "nixpkgs";
 
-    # Host/user registry of the krebs mesh, plus the retiolum (tinc) module.
-    # Consumed directly: 3modules/krebs.nix turns kartei.hosts/users into the
-    # krebs.* option tree this repo reads, 2configs/tinc/retiolum.nix pulls in
-    # kartei.nixosModules.retiolum.
-    # NOT the sptps-makefu branch: it puts SPTPSCipher/SPTPSKex into
-    # hosts/gum, and tincr resolves a peer's kex from *that peer's* host
-    # file. Only gum advertising the PQ kex therefore makes every tincr
-    # peer offer it to gum while gum offers classic back — see
-    # 2configs/tinc/retiolum.nix. Re-enable it only together with the
-    # same lines on every host we peer with.
+    tincr = {
+      url = "github:Mic92/tincr";
+      inputs.nixpkgs.follows = "nixpkgs";
+      inputs.treefmt-nix.follows = "treefmt-nix";
+    };
     kartei.url = "github:krebs/kartei";
+    kartei.inputs.tincr.follows = "tincr";
 
     picsender.url = "git+https://cgit.euer.krebsco.de/makefu/citadel_picsender.git";
 
