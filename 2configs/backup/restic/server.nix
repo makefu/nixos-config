@@ -12,6 +12,8 @@ in
         htpasswd-file = config.sops.secrets.restic-server-htpasswd.path;
     };
     networking.firewall.allowedTCPPorts = [ port ];
+    # dataDir is on the mergerfs pool; refuse to start (and mkdir) before it is mounted
+    systemd.services.restic-server.unitConfig.RequiresMountsFor = [ dataDir ];
     systemd.tmpfiles.rules = [
         "d ${dataDir} 0770 restic restic - -"
     ];

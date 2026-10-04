@@ -23,10 +23,12 @@
         # ensure the run folder exists
         "d /run/restic-backups-state 0770 root root - -"
     ];
-    # run smoothly in background
-    systemd.services.restic-backup-state.serviceConfig = {
-      Nice = lib.mkForce 15;
-      IOSchedulingClass = lib.mkForce "idle";
-      IOSchedulingPriority = lib.mkForce 7;
-    };
+  # run smoothly in background (unit name is restic-backups-<name>)
+  systemd.services.restic-backups-state.serviceConfig = {
+    Nice = lib.mkForce 15;
+    CPUWeight = lib.mkForce 10;
+    IOWeight = lib.mkForce 10;
+    IOSchedulingClass = lib.mkForce "idle";
+    IOSchedulingPriority = lib.mkForce 7;
+  };
 }
