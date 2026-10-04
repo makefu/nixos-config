@@ -1,6 +1,7 @@
 {
   config,
   inputs,
+  pkgs, 
   lib,
   ...
 }:
@@ -13,14 +14,18 @@ in
 {
   imports = [ inputs.kartei.nixosModules.retiolum ];
 
+  # networking.retiolum.package = pkgs.tinc_pre;
   networking.retiolum.ed25519PrivateKeyFile =
     config.sops.secrets."${machine}-retiolum.ed25519_key.priv".path;
 
-  services.tincr.networks.retiolum.connectTo = [
+  services.tincr.networks.retiolum.connectTo = lib.mkForce [
     "eva"
     "gum"
-    "prism"
+    "neoprism"
   ];
+  networking.firewall.allowedTCPPorts = [655 ];
+  networking.firewall.allowedUDPPorts = [655 ];
+
   # tincr picks the SPTPS cipher/kex for a peer from hosts/<peer> and falls
   # back to the *server* config when the peer file says nothing. It also
   # merges hosts/<myself> into that server config (C tinc parity), so the

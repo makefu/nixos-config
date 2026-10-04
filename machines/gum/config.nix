@@ -51,34 +51,7 @@
 
       # ../../2configs/backup.nix
       ../../2configs/tinc/retiolum.nix
-      ../../2configs/tinc/retiolum-keyexchange.nix
-      { # gum has a public address, so it connects out to more of the mesh
-        # than the default peer set does.
-        # ful: without it the orange/hotdog/kfbox/makanek cluster is only
-        # reachable 5 hops away via eve and data packets die somewhere in
-        # that chain (control plane gets through, ICMP never comes back).
-        # x has an incoming connection from ful and reaches hotdog.r in 3.
-        services.tincr.networks.retiolum.connectTo = [
-          "prism" "ni" "enklave" "eve" "dishfire" "ful"
-        ];
-        # tincd additionally listens on 53 and 21031 for peers stuck behind
-        # firewalls that only let those ports out.
-        networking.firewall = {
-          allowedTCPPorts =
-            [
-            53
-            655
-            21031
-          ];
-          allowedUDPPorts =
-          [
-            53
-            655
-            21031
-          ];
-        };
-      }
-
+      # ../../2configs/tinc/retiolum-keyexchange.nix
       # ci
       ../../2configs/git/forgejo.nix
 
@@ -130,6 +103,7 @@
 
       { # recent changes mediawiki bot
         networking.firewall.allowedUDPPorts = [ 5005 5006 ];
+        networking.firewall.interfaces."tinc.retiolum".allowedTCPPorts = [ 8000 ];
       }
       # Removed until move: no extra mails
       # ../../2configs/urlwatch
