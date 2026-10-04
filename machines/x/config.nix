@@ -43,6 +43,10 @@
       # ../../2configs/home-manager/taskwarrior.nix
 
       # ../../2configs/llm/ollama.nix
+      # SmolLM3-3B chat API (llama.cpp, thinking on) on euer :8090
+      ../../2configs/llm/smollm3.nix
+      # Qwen3.5-4B chat API (llama.cpp, MTP spec-dec, thinking on) on euer :8092
+      ../../2configs/llm/qwen35.nix
 
       ../../2configs/main-laptop.nix
       ../../2configs/zsh/atuin.nix
