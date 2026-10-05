@@ -33,16 +33,6 @@ in
         doCheck = false;
       });
     })
-    # anyio 4.14.2 fails its TLS test suite on python3.12 across the whole
-    # nixpkgs channel (master included): test_tls_connectable errors with
-    # "server_hostname can only be specified in client mode" against the
-    # newer stdlib ssl. Upstream test/ssl incompatibility; import check
-    # still runs.
-    (pyfinal: pyprev: {
-      anyio = pyprev.anyio.overridePythonAttrs (_: {
-        doCheck = false;
-      });
-    })
   ];
 
   # rxvt-unicode 9.31 declares a global lerp() template; GCC 16's <math.h>
@@ -50,6 +40,16 @@ in
   # become ambiguous and the build dies. Rename rxvt's own template.
   rxvt-unicode-unwrapped = prev.rxvt-unicode-unwrapped.overrideAttrs (old: {
     patches = (old.patches or [ ]) ++ [ ./custom/rxvt-unicode/gcc16-std-lerp-ambiguity.patch ];
+  });
+
+  # GCC 16 emits the FastSourceLineResolver::Module vtable reference from the
+  # inline ctor even with no key function emitted in that TU; upstream's
+  # microdump_stackwalk/minidump_stackwalk link lines lack
+  # fast_source_line_resolver.o (it is only in the unittest lists), so the
+  # two binaries fail to link. noctalia-qs builds breakpad's full 'all'
+  # target, so this blocks it too.
+  breakpad = prev.breakpad.overrideAttrs (old: {
+    patches = (old.patches or [ ]) ++ [ ./custom/breakpad/gcc16-missing-fast-resolver-vtable.patch ];
   });
 
   quodlibet = verrideDerivation prev.quodlibet (old: {
