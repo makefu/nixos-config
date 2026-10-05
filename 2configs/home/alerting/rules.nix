@@ -92,7 +92,9 @@
               expr = ''(node_filesystem_avail_bytes{mountpoint="/"} / node_filesystem_size_bytes{mountpoint="/"}) < 0.05'';
               for = "10m";
               labels.severity = "warning";
-              annotations.summary = "root disk on {{ $labels.instance }} at {{ printf \"%.1f\" (100 * (1 - $value)) }}% full";
+              # no printf in prometheus annotation templates (that is
+              # alertmanager-only); $value renders the raw free-ratio
+              annotations.summary = "root disk on {{ $labels.instance }} above 95% full (free ratio {{ $value }})";
             }
           ];
         }
