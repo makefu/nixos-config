@@ -161,13 +161,16 @@
     ../../2configs/home/streams.nix
     # ../../2configs/home/esphome.nix
     ../../2configs/home/audio-dl.nix
-    # ../../2configs/home/podfetch.nix
+    ../../2configs/home/podfetch.nix
     ../../2configs/home/karakeep
     ../../2configs/home/hister
     #../../2configs/home/yamtrack.nix
     ../../2configs/home/yamtrack-module.nix
     ../../2configs/home/changedetection.nix
     ../../2configs/home/hue.nix
+    ../../2configs/home/bibchecker.nix
+    ../../2configs/home/rate-everything.nix
+    ../../2configs/home/bib-tracker.nix
 
     # clevis/tang setup
     # ../../2configs/home/tang.nix
@@ -209,9 +212,6 @@
     # ../../2configs/bgt/nextcloud-chaptermark-hook.nix
 
     #../../2configs/cybahn/wiki-signal-bot.nix
-    ../../2configs/home/bibchecker.nix
-    ../../2configs/home/rate-everything.nix
-    ../../2configs/home/bib-tracker.nix
 
     # prometheus/alertmanager/alertmanager-ntfy alerting stack
     ../../2configs/home/alerting

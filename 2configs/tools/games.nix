@@ -7,8 +7,8 @@
   users.users.makefu.packages = with pkgs; [
     # kaputt:
     # games-user-env
+    # pkg2zip
     wine
-    pkg2zip
     steam
     steam-run
   ];

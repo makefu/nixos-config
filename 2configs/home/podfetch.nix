@@ -1,5 +1,4 @@
 { inputs, pkgs, config, ... }:
-let
 {
   imports = [
     inputs.podfetch.nixosModules.podfetch
