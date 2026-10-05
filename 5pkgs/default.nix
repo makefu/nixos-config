@@ -33,7 +33,24 @@ in
         doCheck = false;
       });
     })
+    # anyio 4.14.2 fails its TLS test suite on python3.12 across the whole
+    # nixpkgs channel (master included): test_tls_connectable errors with
+    # "server_hostname can only be specified in client mode" against the
+    # newer stdlib ssl. Upstream test/ssl incompatibility; import check
+    # still runs.
+    (pyfinal: pyprev: {
+      anyio = pyprev.anyio.overridePythonAttrs (_: {
+        doCheck = false;
+      });
+    })
   ];
+
+  # rxvt-unicode 9.31 declares a global lerp() template; GCC 16's <math.h>
+  # pulls std::lerp (C++20 <cmath>) into the global namespace, so the calls
+  # become ambiguous and the build dies. Rename rxvt's own template.
+  rxvt-unicode-unwrapped = prev.rxvt-unicode-unwrapped.overrideAttrs (old: {
+    patches = (old.patches or [ ]) ++ [ ./custom/rxvt-unicode/gcc16-std-lerp-ambiguity.patch ];
+  });
 
   quodlibet = verrideDerivation prev.quodlibet (old: {
     doCheck = false; # 1 error because of warnings (possibly upstream)
