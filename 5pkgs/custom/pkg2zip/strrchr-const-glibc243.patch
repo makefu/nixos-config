@@ -1,0 +1,11 @@
+--- a/pkg2zip_sys.c
++++ b/pkg2zip_sys.c
+@@ -269,7 +269,7 @@
+ 
+ void sys_mkdir(const char* path)
+ {
+-    char* last = strrchr(path, '/');
++    char* last = (char*)strrchr(path, '/');
+     if (last)
+     {
+         *last = 0;

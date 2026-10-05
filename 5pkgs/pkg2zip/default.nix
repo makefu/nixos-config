@@ -10,6 +10,12 @@ stdenv.mkDerivation rec {
     sha256 = "1zz3vi12c2c4d48vvvkdl66fx5mdszcnv7lwwlgi4b8lfn1gvkr9";
   };
 
+  # glibc 2.43's type-generic strrchr returns const char* for const input;
+  # the pointer is written through (temporarily truncates path), so cast
+  # back. -Werror in the upstream makefile would otherwise fail the build
+  # on GCC 16.
+  patches = [ ../custom/pkg2zip/strrchr-const-glibc243.patch ];
+
   installPhase = ''
     install -m755 -D pkg2zip $out/bin/pkg2zip
 
