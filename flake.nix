@@ -77,11 +77,10 @@
 
     bib-tracker.url = "github:makefu/bib-tracker";
     bib-tracker.inputs.nixpkgs.follows = "nixpkgs";
-    # bib-tracker pins its scraping backend from a local checkout; follow our
-    # own input so the build never depends on a developer's filesystem.
+    # Both repos pin the same v1.4.1 tag, so no follows is needed: the
+    # package overlay resolves ha-stadtbibliothek from our own input.
     ha-stadtbibliothek.url = "github:makefu/ha_stadtbibliothek";
     ha-stadtbibliothek.inputs.nixpkgs.follows = "nixpkgs";
-    bib-tracker.inputs.ha-stadtbibliothek.follows = "ha-stadtbibliothek";
 
     rate-everything.url = "git+https://cgit.euer.krebsco.de/makefu/rate-everything.git";
     rate-everything.inputs.nixpkgs.follows = "nixpkgs";

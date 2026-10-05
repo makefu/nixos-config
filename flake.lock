@@ -56,19 +56,17 @@
     },
     "bib-tracker": {
       "inputs": {
-        "ha-stadtbibliothek": [
-          "ha-stadtbibliothek"
-        ],
+        "ha-stadtbibliothek": "ha-stadtbibliothek",
         "nixpkgs": [
           "nixpkgs"
         ]
       },
       "locked": {
-        "lastModified": 1791203716,
-        "narHash": "sha256-/jg1XkmPZ46Xe5MtQQRLLIIB/8w+BAlPd87C5Vg6Y7c=",
+        "lastModified": 1791205281,
+        "narHash": "sha256-gmIG+FlowZAm2s63OtvlFWmRcv9HvsueNKJBiA41/iQ=",
         "owner": "makefu",
         "repo": "bib-tracker",
-        "rev": "c1f446b458de28a71f291551c3e167a567af336f",
+        "rev": "0565fcb82e9002a64b3e3607a6b7f7c7355c0e7f",
         "type": "github"
       },
       "original": {
@@ -849,15 +847,37 @@
     "ha-stadtbibliothek": {
       "inputs": {
         "nixpkgs": [
+          "bib-tracker",
           "nixpkgs"
         ]
       },
       "locked": {
-        "lastModified": 1791204503,
-        "narHash": "sha256-NFMsW7oZf8WNHnq+6rQxKx2Hv6HtOmg5OYpgji52y5E=",
+        "lastModified": 1791205201,
+        "narHash": "sha256-Vrpm7tZhXeb5cdE6mvWi6xIaZrcso9GmJuEIcL4ij6k=",
         "owner": "makefu",
         "repo": "ha_stadtbibliothek",
-        "rev": "672d144cdc5334ae8e6f4b60cc007eb1d4e3b25a",
+        "rev": "b6fefff0da98ab6d0312d505c9e09aa63a2782c1",
+        "type": "github"
+      },
+      "original": {
+        "owner": "makefu",
+        "ref": "v1.4.1",
+        "repo": "ha_stadtbibliothek",
+        "type": "github"
+      }
+    },
+    "ha-stadtbibliothek_2": {
+      "inputs": {
+        "nixpkgs": [
+          "nixpkgs"
+        ]
+      },
+      "locked": {
+        "lastModified": 1791205201,
+        "narHash": "sha256-Vrpm7tZhXeb5cdE6mvWi6xIaZrcso9GmJuEIcL4ij6k=",
+        "owner": "makefu",
+        "repo": "ha_stadtbibliothek",
+        "rev": "b6fefff0da98ab6d0312d505c9e09aa63a2782c1",
         "type": "github"
       },
       "original": {
@@ -2105,7 +2125,7 @@
         "flake-parts": "flake-parts_2",
         "freshrss-extensions": "freshrss-extensions",
         "ha-ara-menu": "ha-ara-menu",
-        "ha-stadtbibliothek": "ha-stadtbibliothek",
+        "ha-stadtbibliothek": "ha-stadtbibliothek_2",
         "home-manager": "home-manager",
         "hyprland": "hyprland",
         "inventory4ce": "inventory4ce",
