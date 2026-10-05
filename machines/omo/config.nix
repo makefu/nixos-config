@@ -211,6 +211,7 @@
     #../../2configs/cybahn/wiki-signal-bot.nix
     ../../2configs/home/bibchecker.nix
     ../../2configs/home/rate-everything.nix
+    ../../2configs/home/bib-tracker.nix
 
     # prometheus/alertmanager/alertmanager-ntfy alerting stack
     ../../2configs/home/alerting

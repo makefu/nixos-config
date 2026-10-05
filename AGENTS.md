@@ -271,6 +271,15 @@ Recipients are listed in `.sops.yaml` (host age keys + user PGP key).
 
 ### Commands
 
+There is no `clan secrets add` in the pinned clan-cli: creating *and*
+updating a secret is `clan secrets set` (value on stdin). The
+`add`-style subcommands (`machines add-secret`, `users add-secret`) only
+grant an already-decrypted host/user access to an existing secret.
+`set --machine <host> --user <user>` creates the secret directory,
+encrypts to that host's age key and that user's keys, drops the
+`machines/`/`users/` markers, and auto-commits exactly those three
+files — verified with the bib-tracker secrets.
+
 ```sh
 # create / overwrite a secret (reads value from stdin)
 echo -n "<value>" | clan secrets set --machine <host> --user <user> <name>

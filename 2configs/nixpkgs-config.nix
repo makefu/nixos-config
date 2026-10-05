@@ -22,6 +22,9 @@
           datefinder = inputs.datefinder.packages.${pkgs.stdenv.hostPlatform.system}.default;
         })
         inputs.mediawiki-matrix-bot.overlays.default
+        # bib-tracker's package resolves ha-stadtbibliothek from python313Packages
+        inputs.ha-stadtbibliothek.overlays.default
+        inputs.bib-tracker.overlays.default
         (this: super: {
           # overlay definitions for using packages from stable channel
           #calibre = inputs.nixpkgs-stable.legacyPackages.${pkgs.stdenv.hostPlatform.system}.calibre;

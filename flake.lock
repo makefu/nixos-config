@@ -54,6 +54,29 @@
         "type": "github"
       }
     },
+    "bib-tracker": {
+      "inputs": {
+        "ha-stadtbibliothek": [
+          "ha-stadtbibliothek"
+        ],
+        "nixpkgs": [
+          "nixpkgs"
+        ]
+      },
+      "locked": {
+        "lastModified": 1791203716,
+        "narHash": "sha256-/jg1XkmPZ46Xe5MtQQRLLIIB/8w+BAlPd87C5Vg6Y7c=",
+        "owner": "makefu",
+        "repo": "bib-tracker",
+        "rev": "c1f446b458de28a71f291551c3e167a567af336f",
+        "type": "github"
+      },
+      "original": {
+        "owner": "makefu",
+        "repo": "bib-tracker",
+        "type": "github"
+      }
+    },
     "bibchecker": {
       "inputs": {
         "flake-utils": "flake-utils",
@@ -820,6 +843,26 @@
       "original": {
         "owner": "kalauerclub",
         "repo": "ha_ara_menu",
+        "type": "github"
+      }
+    },
+    "ha-stadtbibliothek": {
+      "inputs": {
+        "nixpkgs": [
+          "nixpkgs"
+        ]
+      },
+      "locked": {
+        "lastModified": 1791204503,
+        "narHash": "sha256-NFMsW7oZf8WNHnq+6rQxKx2Hv6HtOmg5OYpgji52y5E=",
+        "owner": "makefu",
+        "repo": "ha_stadtbibliothek",
+        "rev": "672d144cdc5334ae8e6f4b60cc007eb1d4e3b25a",
+        "type": "github"
+      },
+      "original": {
+        "owner": "makefu",
+        "repo": "ha_stadtbibliothek",
         "type": "github"
       }
     },
@@ -2051,6 +2094,7 @@
     "root": {
       "inputs": {
         "audio-scripts": "audio-scripts",
+        "bib-tracker": "bib-tracker",
         "bibchecker": "bibchecker",
         "brockman": "brockman",
         "brother_ql_web": "brother_ql_web",
@@ -2061,6 +2105,7 @@
         "flake-parts": "flake-parts_2",
         "freshrss-extensions": "freshrss-extensions",
         "ha-ara-menu": "ha-ara-menu",
+        "ha-stadtbibliothek": "ha-stadtbibliothek",
         "home-manager": "home-manager",
         "hyprland": "hyprland",
         "inventory4ce": "inventory4ce",
