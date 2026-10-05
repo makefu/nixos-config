@@ -1,0 +1,34 @@
+--- a/Makefile.in
++++ b/Makefile.in
+@@ -1036,6 +1036,7 @@
+ src_processor_microdump_stackwalk_DEPENDENCIES =  \
+ 	src/common/path_helper.o src/processor/basic_code_modules.o \
+ 	src/processor/basic_source_line_resolver.o \
++	src/processor/fast_source_line_resolver.o \
+ 	src/processor/call_stack.o \
+ 	src/processor/convert_old_arm64_context.o \
+ 	src/processor/cfi_frame_info.o \
+@@ -1113,6 +1114,7 @@
+ src_processor_minidump_stackwalk_DEPENDENCIES =  \
+ 	src/common/path_helper.o src/processor/basic_code_modules.o \
+ 	src/processor/basic_source_line_resolver.o \
++	src/processor/fast_source_line_resolver.o \
+ 	src/processor/call_stack.o src/processor/cfi_frame_info.o \
+ 	src/processor/convert_old_arm64_context.o \
+ 	src/processor/disassembler_x86.o src/processor/dump_context.o \
+@@ -3466,6 +3468,7 @@
+ src_processor_microdump_stackwalk_LDADD = src/common/path_helper.o \
+ 	src/processor/basic_code_modules.o \
+ 	src/processor/basic_source_line_resolver.o \
++	src/processor/fast_source_line_resolver.o \
+ 	src/processor/call_stack.o \
+ 	src/processor/convert_old_arm64_context.o \
+ 	src/processor/cfi_frame_info.o \
+@@ -3497,6 +3500,7 @@
+ src_processor_minidump_stackwalk_LDADD = src/common/path_helper.o \
+ 	src/processor/basic_code_modules.o \
+ 	src/processor/basic_source_line_resolver.o \
++	src/processor/fast_source_line_resolver.o \
+ 	src/processor/call_stack.o src/processor/cfi_frame_info.o \
+ 	src/processor/convert_old_arm64_context.o \
+ 	src/processor/disassembler_x86.o src/processor/dump_context.o \
