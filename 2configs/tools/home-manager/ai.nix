@@ -124,7 +124,11 @@ in
       #claude-code
       #ccstatusline
       pi
-      herdr
+      # root nixpkgs' herdr: the llm-agents pin builds against its own
+      # nixpkgs (no cache entry for this channel) and its link dies with
+      # ld.bfd 2.46 '.eh_frame_hdr refers to overlapping FDEs'. Root pkgs
+      # carries the same version and substitutes.
+      pkgs.herdr
 
       pkgs.opencode
       pkgs.ha-mcp
