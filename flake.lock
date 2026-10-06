@@ -62,11 +62,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1791236159,
-        "narHash": "sha256-DMs+5pemVEkUday+Xo4b5HgbswkXjN7s420LFtdfAP0=",
+        "lastModified": 1791268270,
+        "narHash": "sha256-Nv+9UGTMl3J/nTqD6A2+WDjgAtimGsjQvgXhX+B1US4=",
         "owner": "makefu",
         "repo": "bib-tracker",
-        "rev": "5857e6539751491b54f08c4181b5264bec650ba2",
+        "rev": "71e65c60ffe6a2cf0c05945ff6bbb33420adab21",
         "type": "github"
       },
       "original": {
