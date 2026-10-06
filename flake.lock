@@ -1940,11 +1940,11 @@
         "utils": "utils_2"
       },
       "locked": {
-        "lastModified": 1791268998,
-        "narHash": "sha256-o5yKDQ6z4jCG+lVZPGe+NZGRVM3vazEQI4cmTH6aL8w=",
+        "lastModified": 1791269917,
+        "narHash": "sha256-qh+JxbuX4RL/s3KDnkfDsgtw5ULMcVZq0UHSGkSr11I=",
         "ref": "refs/heads/main",
-        "rev": "fdf24b456ed79e902afac3042cf76c9a09340dc0",
-        "revCount": 41,
+        "rev": "a96ced8a41e75e0cb154e7999f639a615a868647",
+        "revCount": 42,
         "type": "git",
         "url": "https://cgit.euer.krebsco.de/makefu/podfetch.git"
       },
