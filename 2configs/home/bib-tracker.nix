@@ -34,7 +34,7 @@ in {
 
   # The UI has no authentication, so it stays reachable on the LAN only.
   services.nginx.virtualHosts."bib-tracker" = {
-    serverAliases = [ "bib.lan" ];
+    serverAliases = [ "bib.lan" "bibtracker.euer" "bibtracker.lan" ];
     locations."/".proxyPass = "http://localhost:${toString port}";
   };
 }
