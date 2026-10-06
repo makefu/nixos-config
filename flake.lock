@@ -385,11 +385,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1785490067,
-        "narHash": "sha256-malF6vQNv87nv8I5HziwpVQbVBxeBiw17m26ttMGpwg=",
+        "lastModified": 1791321343,
+        "narHash": "sha256-R/fbqxkPu6U7p0fXVcZAX8IodD8adaXyp4B/xyxs7hs=",
         "owner": "makefu",
         "repo": "diyHue",
-        "rev": "5524685deae8d17986dbaf01dea367bff3890ccf",
+        "rev": "1c41af7e5bc3f9993a1a45ffe1ef35638a2d2e50",
         "type": "github"
       },
       "original": {
