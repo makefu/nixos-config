@@ -827,11 +827,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1792277120,
-        "narHash": "sha256-nlmZDpzoM5SGwt2vcub1B9YnDku9tbipOsylhBLfh6E=",
+        "lastModified": 1792280035,
+        "narHash": "sha256-HUFf5ieqGbPNkYev+k8KdN6GgyArrfXCFi6sySXeYHo=",
         "ref": "refs/heads/main",
-        "rev": "36841dd791fd296f6a90f21e4cfd2d9ea0fc69a1",
-        "revCount": 6,
+        "rev": "db4d0ce34525fa54182b47880297e6270272ca15",
+        "revCount": 7,
         "type": "git",
         "url": "https://cgit.euer.krebsco.de/makefu/goprocopy.git"
       },
