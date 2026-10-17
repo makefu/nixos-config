@@ -820,6 +820,26 @@
         "type": "github"
       }
     },
+    "goprocopy": {
+      "inputs": {
+        "nixpkgs": [
+          "nixpkgs"
+        ]
+      },
+      "locked": {
+        "lastModified": 1792268568,
+        "narHash": "sha256-Y8sPu6KHCK+Qs1/Gy6YtDOJd7kPf9XrpNGyXhM23Fdw=",
+        "ref": "refs/heads/main",
+        "rev": "8dd72a918a549dc6609a20ad9031c5ead64ff456",
+        "revCount": 3,
+        "type": "git",
+        "url": "https://cgit.euer.krebsco.de/makefu/goprocopy.git"
+      },
+      "original": {
+        "type": "git",
+        "url": "https://cgit.euer.krebsco.de/makefu/goprocopy.git"
+      }
+    },
     "ha-ara-menu": {
       "inputs": {
         "flake-utils": "flake-utils_5",
@@ -1940,11 +1960,11 @@
         "utils": "utils_2"
       },
       "locked": {
-        "lastModified": 1791269917,
-        "narHash": "sha256-qh+JxbuX4RL/s3KDnkfDsgtw5ULMcVZq0UHSGkSr11I=",
+        "lastModified": 1791900791,
+        "narHash": "sha256-zkBI7NvfSaaOPip2zpxQ3WMbaDgCAFLzXmmH+bsKcow=",
         "ref": "refs/heads/main",
-        "rev": "a96ced8a41e75e0cb154e7999f639a615a868647",
-        "revCount": 42,
+        "rev": "184eab747c46c4e9f029805cc67e537f11d1bbaf",
+        "revCount": 43,
         "type": "git",
         "url": "https://cgit.euer.krebsco.de/makefu/podfetch.git"
       },
@@ -2124,6 +2144,7 @@
         "diyhue": "diyhue",
         "flake-parts": "flake-parts_2",
         "freshrss-extensions": "freshrss-extensions",
+        "goprocopy": "goprocopy",
         "ha-ara-menu": "ha-ara-menu",
         "ha-stadtbibliothek": "ha-stadtbibliothek_2",
         "home-manager": "home-manager",

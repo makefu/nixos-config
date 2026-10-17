@@ -147,7 +147,7 @@
 
     ../../2configs/home/llm/agent.nix
 
-    ../../2configs/home/mdrss.nix
+    # ../../2configs/home/mdrss.nix
     ../../2configs/home/jellyfin.nix
     ../../2configs/home/music.nix
     ../../2configs/home/photoprism.nix
@@ -171,6 +171,7 @@
     ../../2configs/home/bibchecker.nix
     ../../2configs/home/rate-everything.nix
     ../../2configs/home/bib-tracker.nix
+    ../../2configs/home/goprocopy.nix
 
     # clevis/tang setup
     # ../../2configs/home/tang.nix

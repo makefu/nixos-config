@@ -88,6 +88,9 @@
     podfetch.url = "git+https://cgit.euer.krebsco.de/makefu/podfetch.git";
     podfetch.inputs.nixpkgs.follows = "nixpkgs";
 
+    goprocopy.url = "git+https://cgit.euer.krebsco.de/makefu/goprocopy.git";
+    goprocopy.inputs.nixpkgs.follows = "nixpkgs";
+
     datefinder.url = "github:Binaergewitter/datefinder";
     datefinder.inputs.nixpkgs.follows = "nixpkgs";
 
