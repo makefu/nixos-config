@@ -1817,11 +1817,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1792395775,
-        "narHash": "sha256-wblW/IxRxy1DPbettAW/xmtP/mGZRjBWneHrW7/PAbc=",
+        "lastModified": 1792398341,
+        "narHash": "sha256-ri1ktQLHoB02DOtv5RBlXahbAFaShRT1IT4Hq+Ie2LU=",
         "owner": "makefu",
         "repo": "noctalia-plugins",
-        "rev": "54841c2bac5210d82135f55efcc4453330e9f362",
+        "rev": "043fc9dea2e743e3243ecaf5b8b15931cc276b0c",
         "type": "github"
       },
       "original": {
