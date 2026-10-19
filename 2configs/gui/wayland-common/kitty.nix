@@ -23,6 +23,13 @@ in {
         scollback_lines = 100000;
         confirm_os_window_close = 0;
         copy_on_select = "yes";
+        # kitty caches the last window state in ~/.cache/kitty/main.json and
+        # re-issues xdg_toplevel.set_maximized on every launch once a closed
+        # window happened to be maximized/fullscreen. Under a tiling WM that
+        # reads as "every new terminal opens fullscreen" (Hyprland maps it
+        # fullscreen before the dwindle layout ever applies). Tiling owns
+        # geometry here, so never restore the cached state.
+        remember_window_size = "no";
 
 
         # workmux config
