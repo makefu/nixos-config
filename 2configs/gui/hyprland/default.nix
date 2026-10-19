@@ -7,7 +7,11 @@ let
   mainMod = "SUPER";
   terminal = "kitty";
   fileManager = "dolphin";
-  menu = "noctalia-shell ipc call launcher toggle";
+  # v5 renamed the binary to `noctalia` and replaced the ipc subcommand
+  # with `msg`; the launcher is a panel now, so toggling goes through
+  # panel-toggle. (The old `noctalia-shell ipc call launcher toggle`
+  # silently no-ops: the binary no longer exists.)
+  menu = "noctalia msg panel-toggle launcher";
 
   # hl.bind(key, dispatcher, opts?). The dispatcher is a Lua *expression*
   # (hl.dsp.*), not a string, so it has to go through mkLuaInline; the
@@ -248,6 +252,8 @@ in {
           (bind "${mainMod} + P" "hl.dsp.window.pseudo()") # dwindle
           # (bind "${mainMod} + J" ''hl.dsp.layout("togglesplit")'') # dwindle
           (bind "${mainMod} + L" (exec "hyprlock"))
+          # nostr chat panel (opencrow bot)
+          (bind "${mainMod} + H" (exec "noctalia msg plugin makefu/nostr-chat:service all toggle"))
 
           # move window to scratchpad
           (bind "${mainMod} + N" ''hl.dsp.window.move({ workspace = "special", follow = false })'')
