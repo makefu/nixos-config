@@ -90,8 +90,9 @@ systemd.services.nextcloud-setup = {
       dbhost = "/run/postgresql"; # nextcloud will add /.s.PGSQL.5432 by itself
       dbname = "nextcloud";
       dbpassFile = dbpw;
-      adminpassFile = adminpw;
-      adminuser = "root";
+      # use nextcloud-occ user:add <username> and nextcloud-occ group:adduser admin <username>.
+      #adminpassFile = adminpw;
+      #adminuser = "root";
     };
   };
   services.redis.enable = true;
