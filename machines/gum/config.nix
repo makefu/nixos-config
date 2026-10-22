@@ -4,7 +4,7 @@
       
       #../../2configs/networking/zerotier.nix
       #../../2configs/networking/netbird/client.nix
-      ../../2configs/bam/grocy
+      # ../../2configs/bam/grocy
       ../../2configs/backup/restic/state.nix
       #../../2configs/bam/matrix/frontend.nix
       ./hetznercloud
@@ -161,7 +161,7 @@
 
       ../../2configs/deployment/wiki.euer.nix
 
-      ../../2configs/deployment/mdrss-proxy.nix
+      # ../../2configs/deployment/mdrss-proxy.nix
       ../../2configs/deployment/abook-proxy.nix
       # ../../2configs/deployment/book-proxy.nix
       #../../2configs/workadventure
