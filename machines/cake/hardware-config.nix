@@ -1,10 +1,9 @@
 { pkgs, lib, nixos-hardware, nixpkgs, ... }:
 {
   imports = [ 
-    nixos-hardware.nixosModules.raspberry-pi-4 
+    nixos-hardware.nixosModules.raspberry-pi-4
     #"${nixpkgs}/nixos/modules/installer/sd-card/sd-image-aarch64.nix"
   ];
-  boot.kernelPackages = lib.mkForce pkgs.linuxPackages_rpi4;
   fileSystems = {
     "/" = {
       device = "/dev/disk/by-label/NIXOS_SD";
