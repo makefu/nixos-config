@@ -145,6 +145,9 @@
     noctalia-shell.url = "github:noctalia-dev/noctalia-shell";
     noctalia-shell.inputs.nixpkgs.follows = "nixpkgs";
 
+    noctalia-plugins.url = "github:makefu/noctalia-plugins";
+    noctalia-plugins.inputs.nixpkgs.follows = "nixpkgs";
+
     # Pi agent extensions (Mic92/dotfiles keeps this as a submodule pinned to
     # 89560ba87c8b; we fetch it with nix instead).
     pi-agent-extensions = {
@@ -158,7 +161,7 @@
     };
 
     opencrow.url = "github:pinpox/opencrow";
-    opencrow.inputs.nixpkgs.follows = "nixpkgs";
+    #opencrow.inputs.nixpkgs.follows = "nixpkgs";
 
     freshrss-extensions = {
       url = "github:makefu/freshrss-extensions";

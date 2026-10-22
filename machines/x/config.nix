@@ -58,8 +58,10 @@
       ../../2configs/stats/fluentbit-loki.nix
       # gui
       ../../2configs/gui/base.nix
+      ../../2configs/gui/stl-thumbnail.nix
        ../../2configs/gui/hyprland
        ../../2configs/gui/wayland-common/noctalia
+      ../../2configs/gui/wayland-common/noctalia/nostr-chat.nix
       # ../../2configs/gui/niri
 
       # secrets: now deployed once at host provisioning

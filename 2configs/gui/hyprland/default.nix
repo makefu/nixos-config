@@ -38,7 +38,7 @@ in {
   imports = [
     ../base.nix
     ../wayland-common
-    ../wayland-common/hyprlock.nix
+    # ../wayland-common/hyprlock.nix
     ./passwords.nix
   ];
   # autostart
@@ -251,7 +251,7 @@ in {
           (bind "${mainMod} + R" (exec menu))
           (bind "${mainMod} + P" "hl.dsp.window.pseudo()") # dwindle
           # (bind "${mainMod} + J" ''hl.dsp.layout("togglesplit")'') # dwindle
-          (bind "${mainMod} + L" (exec "hyprlock"))
+          (bind "${mainMod} + L" (exec "noctalia msg session lock"))
           # nostr chat panel (opencrow bot)
           (bind "${mainMod} + H" (exec "noctalia msg plugin makefu/nostr-chat:service all toggle"))
 
