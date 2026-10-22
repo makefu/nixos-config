@@ -54,13 +54,13 @@
         { name = "Anna und die wilden Tiere"; url = "https://feeds.br.de/anna-und-die-wilden-tiere/feed.xml"; slug = "anna.und.die.wilden.tiere"; }
         { name = "Lachlabor"; url = "https://feeds.br.de/lachlabor/feed.xml"; slug = "lachlabor"; }
         { name = "Alle gegen Nico"; url = "https://feeds.br.de/alle-gegen-nico-zockt-um-die-quizkrone/feed.xml"; slug = "alle.gegen.nico"; }
-        { name = "Eric erforscht..."; url = "http://feeds.libsyn.com/299396/rss"; slug = "eric.erforscht"; }
         { name = "Mikado macht Schlau"; url = "https://www.ndr.de/nachrichten/info/sendungen/mikado/podcast4472.xml"; slug = "mikado.macht.schlau"; }
         { name = "Das Geheimnis"; url = "https://feeds.br.de/do-re-mikro-die-musiksendung-fuer-kinder/feed.xml"; slug = "das.geheimnis"; }
         { name = "Welten Entdecken"; url = "https://podcast.hr.de/hr2_erzaehlpodcast_kind_2024/podcast.xml"; slug = "welten.entdecken"; }
-        { name = "Professorin Domino"; url = "https://sr-mediathek.de/pcast/feeds/SR1_DO_P/feed.xml"; slug = "professorin.domino"; }
         { name = "Kakadu"; url = "https://www.kakadu.de/kakadu-104.xml"; slug = "kakadu"; }
         { name = "Was ist Was Podcast"; url = "https://feeds.megaphone.fm/KBBF5520541713"; slug = "was.ist.was"; cut_ads = true; }
+        # { name = "Eric erforscht..."; url = "http://feeds.libsyn.com/299396/rss"; slug = "eric.erforscht"; } #404
+        # { name = "Professorin Domino"; url = "https://sr-mediathek.de/pcast/feeds/SR1_DO_P/feed.xml"; slug = "professorin.domino"; } #404
       ];
     };
     settingsFile = config.sops.secrets.podfetch.path;
