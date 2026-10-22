@@ -200,6 +200,8 @@
         # nixpkgs.pkgs = if host == "cake" then pkgsForSystem "aarch64-linux" else pkgsForSystem "x86_64-linux";
         imports = [
           ./2configs/nixpkgs-config.nix
+          ./6hotfix/php.nix
+          ./6hotfix/influxdb.nix
           clan-core.inputs.disko.nixosModules.disko
           # nix-ld.nixosModules.nix-ld
           home-manager.nixosModules.default
