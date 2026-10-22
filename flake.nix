@@ -255,7 +255,10 @@
 
           overlays.default = import ./5pkgs/default.nix;
     packages.x86_64-linux.liveiso = self.nixosConfigurations.liveiso.config.system.build.isoImage;
-    packages.x86_64-linux.nvim = import ./2configs/editor/neovim/package.nix;
+    packages.x86_64-linux.nvim = import ./2configs/editor/neovim/package.nix {
+      system = "x86_64-linux";
+      inherit inputs;
+    };
     packages.x86_64-linux.euer-add-device = let
       pkgs = nixpkgs.legacyPackages.x86_64-linux;
     in pkgs.writeShellApplication {

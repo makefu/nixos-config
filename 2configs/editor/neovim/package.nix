@@ -1,5 +1,5 @@
-{inputs,...}:
-(inputs.nixvim.legacyPackages.${system}.makeNixvim {
+{ system, inputs, ... }:
+inputs.nixvim.legacyPackages.${system}.makeNixvim {
   vimAlias = true;
   colorscheme = "molokai";
   opts = {
@@ -15,8 +15,8 @@
     undolevels = 10000;
     undoreload = 10000;
   };
-  extraVimConfig = ''
+  extraConfigVim = ''
     nnoremap <silent> <f2> :set paste!<cr>
     inoremap <silent> <f2> <esc>:set paste!<cr>i
   '';
-})
+}
