@@ -52,6 +52,19 @@ in
     patches = (old.patches or [ ]) ++ [ ./custom/breakpad/gcc16-missing-fast-resolver-vtable.patch ];
   });
 
+  # strfry 1.0.4 vendors hoytech-cpp headers (hex.h, time.h) that use
+  # uint64_t without including <cstdint>; newer GCC no longer leaks the
+  # definition through other system headers, so the vendored sources fail
+  # to compile.
+  strfry = prev.strfry.overrideAttrs (old: {
+    postPatch = ''
+      ${old.postPatch or ""}
+      for h in hex.h time.h; do
+        sed -i '1a #include <cstdint>' "golpe/external/hoytech-cpp/hoytech/$h"
+      done
+    '';
+  });
+
   quodlibet = verrideDerivation prev.quodlibet (old: {
     doCheck = false; # 1 error because of warnings (possibly upstream)
     patches = [

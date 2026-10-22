@@ -146,6 +146,8 @@
     # ../../2configs/bluetooth-mpd.nix
 
     ../../2configs/home/llm/agent.nix
+    ../../2configs/home/nostr-relay.nix
+    ../../2configs/home/nostr-files.nix
 
     # ../../2configs/home/mdrss.nix
     ../../2configs/home/jellyfin.nix

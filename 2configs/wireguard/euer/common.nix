@@ -46,6 +46,8 @@ in {
       "jelly.euer"
       "abook.euer"
       "book.euer"
+      "nostr.euer"
+      "nostr-files.euer"
       "search.euer"
     ];
   };
