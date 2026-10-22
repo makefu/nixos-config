@@ -4,6 +4,9 @@ let
   ratt-path = "/var/lib/ratt/";
 in {
     systemd.tmpfiles.rules = ["d ${ratt-path} 0750 nginx nginx - -" ];
+  # keep FreshRSS on the patched php84 from 6hotfix/php.nix; php85 is not
+  # validated against FreshRSS upstream yet.
+  services.phpfpm.pools.freshrss.phpPackage = pkgs.php84;
     services.freshrss = {
         enable = true;
         defaultUser = "makefu";
