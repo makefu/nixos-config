@@ -108,7 +108,7 @@ let
               key=${config.sops.secrets."gum-cert-relay.key".path}
               src=/var/lib/acme/${cfg.certName}/
               for host in ${lib.escapeShellArgs cfg.server.targets}; do
-                ${pkgs.rsync}/bin/rsync -rlt --no-perms --no-o --no-g \
+                ${pkgs.rsync}/bin/rsync -rltO --no-perms --no-o --no-g \
                   --chmod=D2770,F0640 \
                   -e "${pkgs.openssh}/bin/ssh -i $key -o IdentitiesOnly=yes \
                         -o StrictHostKeyChecking=accept-new \
