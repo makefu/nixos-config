@@ -13,11 +13,12 @@
     ./clevis-tang.nix
   ];
 
-  # systemd stage-1 is required: nixpkgs implements LUKS clevis unlocking as
-  # a cryptsetup-clevis-cryptroot unit that decrypts the JWE into tmpfs before
+  # systemd stage-1 is required (and now unconditional: nixpkgs removed
+  # scripted initrd along with boot.initrd.systemd.enable). It is needed for
+  # LUKS clevis unlocking: nixpkgs implements it as a
+  # cryptsetup-clevis-cryptroot unit that decrypts the JWE into tmpfs before
   # systemd-cryptsetup@cryptroot runs (and rewrites that device's crypttab
   # keyFile to /clevis-cryptroot/decrypted).
-  boot.initrd.systemd.enable = true;
 
   # AHCI/USB/NVMe + crypto modules needed in stage-1 (carried over from the
   # old GRUB/ext4 rootdisk setup).
