@@ -211,6 +211,10 @@ let
             # nginx master runs as the nginx user; membership + the 2770
             # group dir make the rsynced 0640 key readable by nginx only.
             extraGroups = [ "nginx" ];
+            # isSystemUser defaults to nologin, which kills rsync's remote
+            # server ("This account is currently not available"). The key is
+            # restrict+from-pinned, so a real shell is safe here.
+            shell = pkgs.bash;
             # Only gum's euer endpoints may push, and only via rsync.
             openssh.authorizedKeys.keys = lib.mapAttrsToList (
               n: cfg:
