@@ -22,20 +22,45 @@ let
   # - pcntl cpuaffinity tests (assert cpus 0..1 are settable; fail on builders
   #   with a single online cpu or a restricted affinity mask — EXTENSIONS
   #   skipif only checks function availability, not topology)
-  mkPatchedSrc = prev: { version, hash }:
+  #
+  # The filter tests must keep existing: pkgs/top-level/php-packages.nix
+  # postConfigure rewrite (substituteInPlace --replace-fail "'-n',") of
+  # ext/filter/tests would abort on missing files. A --SKIPIF-- section that
+  # prints unconditionally makes run-tests skip them while the rewrite still
+  # applies; the '-n', token must stay in the body for --replace-fail.
+  filterSkipStub =
+    prev: title:
+    prev.writeText "stub.phpt" ''
+      --TEST--
+      ${title}
+      --SKIPIF--
+      <?php echo "skip: nondeterministic under the nix sandbox"; ?>
+      --FILE--
+      <?php
+      $r = filter_var(str_repeat('a', 8192), FILTER_CALLBACK, ['-n',], 'strrev');
+      var_dump(strlen($r) > 0);
+      ?>
+      --EXPECT--
+      bool(true)
+    '';
+
+  mkPatchedSrc =
+    prev:
+    { version, hash }:
     let
       src = prev.fetchurl {
         url = "https://www.php.net/distributions/php-${version}.tar.bz2";
         inherit hash;
       };
+      stub = filterSkipStub prev;
     in
     prev.runCommand "php-${version}-src" { } ''
       mkdir -p "$out"
       tar -xf ${src} -C "$out" --strip-components=1
-      rm -f "$out"/ext/filter/tests/oom_filter_input.phpt \
-            "$out"/ext/filter/tests/oom_filter_input_array.phpt \
-            "$out"/ext/filter/tests/oom_filter_default_encoded.phpt \
-            "$out"/ext/pcntl/tests/pcntl_cpuaffinity.phpt \
+      cp ${stub "oom filter input"} "$out"/ext/filter/tests/oom_filter_input.phpt
+      cp ${stub "oom filter input array"} "$out"/ext/filter/tests/oom_filter_input_array.phpt
+      cp ${stub "oom filter default encoded"} "$out"/ext/filter/tests/oom_filter_default_encoded.phpt
+      rm -f "$out"/ext/pcntl/tests/pcntl_cpuaffinity.phpt \
             "$out"/ext/pcntl/tests/pcntl_cpuaffinity_bound.phpt
     '';
 
@@ -48,5 +73,7 @@ let
 in
 {
   # mkAfter keeps this overlay last so it wins over any other PHP override.
-  nixpkgs.overlays = lib.mkAfter (map (name: mkPhpOverride name patched.${name}) (builtins.attrNames patched));
+  nixpkgs.overlays = lib.mkAfter (
+    map (name: mkPhpOverride name patched.${name}) (builtins.attrNames patched)
+  );
 }
