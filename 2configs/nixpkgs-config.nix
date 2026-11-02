@@ -8,6 +8,10 @@
       config.allowUnfreePredicate = pkg: lib.packageName pkg == "unrar";
       config.android_sdk.accept_license = true;
       config.oraclejdk.accept_license = true;
+      # saleae-logic (tools/extra-gui) still links gtk2; nixpkgs refuses to
+      # evaluate it since the 26.11 gtk2 deprecation (NixOS/nixpkgs#410814).
+      # Downgrade the error to a warning until the package is removed or migrated.
+      config.problems.handlers = { "gtk+".broken = "warn"; };
       # pnpm-9.15.9: build-time-only tool for karakeep (runtime is node), so the
       # CVEs flagged by nixpkgs do not reach the deployed closure.
       config.permittedInsecurePackages = [ "intel-media-sdk-23.2.2" "libsoup-2.74.3" "olm-3.2.16" "pnpm-9.15.9" ];
