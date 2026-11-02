@@ -21,6 +21,7 @@ _:
     ./torrent.nix
     ./udpt.nix
     ./euer-wg.nix
+    ./cert-relay.nix
     ./embedding-profile.nix
   ];
 }

@@ -98,6 +98,7 @@
       # ../../2configs/wireguard/server.nix
       ../../2configs/wireguard/wiregrill-server.nix
       ../../2configs/wireguard/euer/server.nix
+      ../../2configs/cert-relay/server-euer.nix
       # forwarding-only account for x's on-demand socks5 tunnel
       ../../2configs/socks-proxy/server.nix
 
