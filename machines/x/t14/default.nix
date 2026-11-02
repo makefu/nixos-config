@@ -24,7 +24,10 @@
   boot.extraModulePackages = [ ];
 
   boot.tmp.useTmpfs = true;
-  boot.kernelPackages = pkgs.linuxPackages_latest;
+  # zfs 2.4.4 supports kernels up to 7.2; linuxPackages_latest is 7.3.1 and
+  # zfs configure fails on the iops->create() change (openzfs/zfs#19032).
+  # Bump back to latest once openzfs supports 7.3.
+  boot.kernelPackages = pkgs.linuxPackages_7_2;
 
   services.fwupd.enable = true;
 
