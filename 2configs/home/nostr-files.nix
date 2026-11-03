@@ -8,7 +8,9 @@
 # *.euer has no public DNS for ACME, wireguard encrypts the transport; *.lan
 # is the router wildcard. Test: curl http://nostr-files.euer/.well-known/health
 {
+  config,
   pkgs,
+  lib,
   ...
 }:
 let
@@ -29,6 +31,11 @@ let
   '';
 in
 {
+  imports = [
+    ../cert-relay/client-euer.nix
+    ../cert-relay/client-lan.nix
+  ];
+
   services.mysql = {
     enable = true;
     package = pkgs.mariadb;
@@ -85,20 +92,57 @@ in
   };
   users.groups.route96 = { };
 
-  services.nginx.virtualHosts."nostr-files.euer" = {
-    serverAliases = [ "nostr-files.lan" ];
-    locations."/" = {
-      proxyPass = "http://127.0.0.1:${toString port}";
-      extraConfig = ''
-        proxy_set_header Host $host;
-        proxy_set_header X-Real-IP $remote_addr;
-        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
-        proxy_set_header X-Forwarded-Proto $scheme;
-        proxy_http_version 1.1;
-        proxy_set_header Upgrade $http_upgrade;
-        proxy_set_header Connection $connection_upgrade;
-        client_max_body_size 100m;
-      '';
+  services.nginx.virtualHosts = {
+    "nostr-files.euer" = {
+      serverAliases = [ "nostr-files.lan" ];
+      locations."/" = {
+        proxyPass = "http://127.0.0.1:${toString port}";
+        extraConfig = ''
+          proxy_set_header Host $host;
+          proxy_set_header X-Real-IP $remote_addr;
+          proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+          proxy_set_header X-Forwarded-Proto $scheme;
+          proxy_http_version 1.1;
+          proxy_set_header Upgrade $http_upgrade;
+          proxy_set_header Connection $connection_upgrade;
+          client_max_body_size 100m;
+        '';
+      };
     };
-  };
+  }
+  # Public HTTPS: real LE wildcard certs (*.euer.syntax-fehler.de,
+  # *.lan.syntax-fehler.de) relayed from gum via 3modules/cert-relay.nix;
+  # path units reload nginx on change. Plain HTTP vhost above stays for the
+  # bot's internal uploads. NIP-96/Blossom URLs keep pointing at
+  # nostr-files.euer (http) — clients upgrade by resolving the public names.
+  //
+    lib.genAttrs
+      [
+        "nostr-files.${config.makefu.cert-relay.euer.domain}"
+        "nostr-files.${config.makefu.cert-relay.lan.domain}"
+      ]
+      (
+        name:
+        let
+          domain = lib.removePrefix "nostr-files." name;
+        in
+        {
+          onlySSL = true;
+          sslCertificate = "/var/lib/cert-relay/${domain}/fullchain.pem";
+          sslCertificateKey = "/var/lib/cert-relay/${domain}/key.pem";
+          locations."/" = {
+            proxyPass = "http://127.0.0.1:${toString port}";
+            extraConfig = ''
+              proxy_set_header Host $host;
+              proxy_set_header X-Real-IP $remote_addr;
+              proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+              proxy_set_header X-Forwarded-Proto $scheme;
+              proxy_http_version 1.1;
+              proxy_set_header Upgrade $http_upgrade;
+              proxy_set_header Connection $connection_upgrade;
+              client_max_body_size 100m;
+            '';
+          };
+        }
+      );
 }

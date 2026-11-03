@@ -1,6 +1,5 @@
 {
   config,
-  pkgs,
   lib,
   ...
 }:
@@ -8,6 +7,8 @@
   imports = [
     ../cert-relay/euer.nix
     ../cert-relay/client-euer.nix
+    ../cert-relay/lan.nix
+    ../cert-relay/client-lan.nix
   ];
   services.strfry = {
     enable = true;
@@ -23,43 +24,46 @@
   };
   services.nginx = {
     enable = true;
-    # Plain HTTP on purpose: the bot connects with ws:// (plain websocket),
-    # and the name is wireguard/LAN-only — no public DNS, no ACME. euer
-    # members reach it via the hosts entries in
-    # 2configs/wireguard/euer/common.nix; the LAN via *.lan resolution from
-    # the router. Mirrors the alert.euer/alert.lan pattern
-    # (2configs/home/alerting/nginx.nix).
-    virtualHosts."nostr.euer" = {
-      serverAliases = [ "nostr.lan" ];
-      locations."/" = {
-        proxyPass = "http://127.0.0.1:${toString config.services.strfry.settings.relay.port}";
-        proxyWebsockets = true; # nostr is websocket; nixos nginx provides $connection_upgrade
+    virtualHosts = {
+      # Plain HTTP on purpose: the bot connects with ws:// (plain websocket),
+      # and the name is wireguard/LAN-only — no public DNS, no ACME. euer
+      # members reach it via the hosts entries in
+      # 2configs/wireguard/euer/common.nix; the LAN via *.lan resolution from
+      # the router. Mirrors the alert.euer/alert.lan pattern
+      # (2configs/home/alerting/nginx.nix).
+      "nostr.euer" = {
+        serverAliases = [ "nostr.lan" ];
+        locations."/" = {
+          proxyPass = "http://127.0.0.1:${toString config.services.strfry.settings.relay.port}";
+          proxyWebsockets = true; # nostr is websocket; nixos nginx provides $connection_upgrade
+        };
       };
-    };
+    }
+    # Public HTTPS: the real LE wildcard certs are relayed from gum over the
+    # euer tunnel (3modules/cert-relay.nix); path units reload nginx when the
+    # files change. onlySSL because the euer name is ULA-only — a forceSSL
+    # redirect port would be unreachable from outside euer — and the lan name
+    # keeps serving plain ws:// on the vhost above for the bot.
+    //
+      lib.genAttrs
+        [
+          "nostr.${config.makefu.cert-relay.euer.domain}"
+          "nostr.${config.makefu.cert-relay.lan.domain}"
+        ]
+        (
+          name:
+          let
+            domain = lib.removePrefix "nostr." name;
+          in
+          {
+            onlySSL = true;
+            sslCertificate = "/var/lib/cert-relay/${domain}/fullchain.pem";
+            sslCertificateKey = "/var/lib/cert-relay/${domain}/key.pem";
+            locations."/" = {
+              proxyPass = "http://127.0.0.1:${toString config.services.strfry.settings.relay.port}";
+              proxyWebsockets = true;
+            };
+          }
+        );
   };
-
-  # Public HTTPS: the real LE wildcard cert for *.euer.syntax-fehler.de is
-  # relayed from gum over the euer tunnel (3modules/cert-relay.nix); the
-  # path unit reloads nginx when the files change. onlySSL because public
-  # DNS for this name is ULA-only — a forceSSL redirect port would be
-  # unreachable from outside euer anyway.
-  services.nginx.virtualHosts."nostr.${config.makefu.cert-relay.euer.domain}" = {
-    onlySSL = true;
-    sslCertificate = "/var/lib/cert-relay/${config.makefu.cert-relay.euer.domain}/fullchain.pem";
-    sslCertificateKey = "/var/lib/cert-relay/${config.makefu.cert-relay.euer.domain}/key.pem";
-    locations."/" = {
-      proxyPass = "http://127.0.0.1:${toString config.services.strfry.settings.relay.port}";
-      proxyWebsockets = true;
-    };
-  };
-
-  # nginx must start before the first push lands: self-signed placeholder,
-  # replaced by the relayed cert (2770 root:nginx dir is group-writable,
-  # and preStart runs as the nginx service user).
-  services.nginx.preStart = ''
-    d=/var/lib/cert-relay/${config.makefu.cert-relay.euer.domain}
-    [ -f "$d/key.pem" ] || ${pkgs.openssl}/bin/openssl req -x509 -newkey rsa:2048 -nodes \
-      -keyout "$d/key.pem" -out "$d/fullchain.pem" -days 1 \
-      -subj "/CN=nostr.${config.makefu.cert-relay.euer.domain}"
-  '';
 }
