@@ -18,8 +18,35 @@ in
       settings = {
         plugins = {
           # Local plugin dir (xdg.dataDir)/noctalia/plugins, installed by
-          # 2configs/gui/wayland-common/noctalia/nostr-chat.nix.
-          enabled = [ "makefu/nostr-chat" ];
+          # the nostr-chat.nix / ibm-fan.nix snippets.
+          enabled = [
+            "makefu/nostr-chat"
+            "makefu/ibm-fan"
+          ];
+        };
+        # Bar layout; the fan widget from 2configs/.../noctalia/ibm-fan.nix
+        # sits before control-center (was hand-edited in config.toml).
+        bar.default = {
+          start = [
+            "launcher"
+            "wallpaper"
+            "workspaces"
+          ];
+          center = [ "clock" ];
+          end = [
+            "media"
+            "tray"
+            "notifications"
+            "clipboard"
+            "network"
+            "bluetooth"
+            "volume"
+            "brightness"
+            "battery"
+            "makefu/ibm-fan:bar"
+            "control-center"
+            "session"
+          ];
         };
         plugin_settings = {
           "makefu/nostr-chat" = {
