@@ -30,8 +30,6 @@
         inputs.ha-stadtbibliothek.overlays.default
         inputs.bib-tracker.overlays.default
         (this: super: {
-          # overlay definitions for using packages from stable channel
-          #calibre = inputs.nixpkgs-stable.legacyPackages.${pkgs.stdenv.hostPlatform.system}.calibre;
         })
       ];
 

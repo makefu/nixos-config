@@ -1,7 +1,8 @@
 { config, pkgs, inputs, lib, ... }:
 let
   configFile = config.sops.secrets."bgt-isso.conf".path;
-  pkg = inputs.nixpkgs-stable.legacyPackages.${pkgs.stdenv.hostPlatform.system}.isso;
+  #pkg = inputs.nixpkgs-stable.legacyPackages.${pkgs.stdenv.hostPlatform.system}.isso;
+  pkg = pkgs.isso;
 in {
 
   sops.secrets."bgt-isso.conf" = {

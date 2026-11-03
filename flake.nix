@@ -3,13 +3,12 @@
     #nixpkgs.url = "github:NixOS/nixpkgs/nixos-25.05";
     #nixpkgs.url = "github:NixOS/nixpkgs/master";
     nixpkgs.url = "https://channels.nixos.org/nixos-unstable/nixexprs.tar.xz";
-    nixpkgs-stable.url = "github:NixOS/nixpkgs/nixos-26.05";
+    # nixpkgs-stable.url = "github:NixOS/nixpkgs/nixos-27.05";
     brockman = {
       url = "github:brockman-news/brockman";
       #inputs.nixpkgs.follows = "nixpkgs";
     };
     hyprland.url = "github:hyprwm/Hyprland";
-
 
     clan-core = {
       url = "git+https://git.clan.lol/clan/clan-core";
@@ -19,6 +18,7 @@
     };
 
     nixos-hardware.url = "github:nixos/nixos-hardware";
+    nixos-hardware.inputs.nixpkgs.follows = "nixpkgs";
 
     #home-manager.url = "github:nix-community/home-manager/release-23.11";
     home-manager.url = "github:nix-community/home-manager";
@@ -38,10 +38,11 @@
     kartei.url = "github:krebs/kartei";
     kartei.inputs.tincr.follows = "tincr";
 
-    picsender.url = "git+https://cgit.euer.krebsco.de/makefu/citadel_picsender.git";
+    #picsender.url = "git+https://cgit.euer.krebsco.de/makefu/citadel_picsender.git";
+    #picsender.inputs.nixpkgs.follows = "nixpkgs";
 
-    brother_ql_web.url = "github:makefu/brother_ql_web";
-
+    # used in cybahn now
+    # brother_ql_web.url = "github:makefu/brother_ql_web";
     #brother_ql_web.inputs.nixpkgs.follows = "nixpkgs";
 
     nix-writers.url = "git+https://cgit.krebsco.de/nix-writers";
@@ -53,11 +54,11 @@
 
 
     # bam inputs
-    ha-ara-menu.url = "github:kalauerclub/ha_ara_menu";
-    ha-ara-menu.inputs.nixpkgs.follows = "nixpkgs";
-    ha-ara-menu.inputs.poetry2nix.follows = "poetry2nix";
+    #ha-ara-menu.url = "github:kalauerclub/ha_ara_menu";
+    #ha-ara-menu.inputs.nixpkgs.follows = "nixpkgs";
+    #ha-ara-menu.inputs.poetry2nix.follows = "poetry2nix";
 
-    inventory4ce.url = "github:kalauerclub/inventory4ce";
+    #inventory4ce.url = "github:kalauerclub/inventory4ce";
     #inventory4ce.inputs.nixpkgs.follows = "nixpkgs";
     #inventory4ce.inputs.poetry2nix.follows = "poetry2nix";
 
@@ -138,6 +139,7 @@
     };
 
     yamtrack.url = "github:makefu/yamtrack/feature/migration";
+    yamtrack.inputs.nixpkgs.follows = "nixpkgs";
 
     diyhue.url = "github:makefu/diyHue";
     diyhue.inputs.nixpkgs.follows = "nixpkgs";

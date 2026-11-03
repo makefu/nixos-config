@@ -63,7 +63,7 @@ in
     # nixpkgs master: photoprism's tensorflow-bin does not support the
     # current default python (3.14) -> eval failure. Take the package from
     # the stable channel until upstream catches up.
-    package = inputs.nixpkgs-stable.legacyPackages.${pkgs.stdenv.hostPlatform.system}.photoprism;
+    # package = inputs.nixpkgs-stable.legacyPackages.${pkgs.stdenv.hostPlatform.system}.photoprism;
     inherit port originalsPath;
     address = internal-ip;
     passwordFile = config.sops.secrets."omo-photoprism-pw".path;
