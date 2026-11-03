@@ -20,16 +20,20 @@
 
 
       # Security
-      ../../2configs/sshd-totp.nix
+      # ../../2configs/sshd-totp.nix
       ../../2configs/bgt/login.nix
+      {
+        services.openssh.settings.PermitRootLogin = "prohibit-password"; # make default explicit, root user may never log in via password on savarcast
+      }
 
       # Tools
       ../../2configs/tools/core.nix
       ../../2configs/zsh
-      ../../2configs/mosh.nix
+      # ../../2configs/mosh.nix
       # Networking
-      ../../2configs/tinc/retiolum.nix
-      ../../2configs/wireguard/wiregrill-client.nix
+      # savarcast is special-purpose system, no need for other ways inside the machine, ingo will fix if we shout
+      # ../../2configs/tinc/retiolum.nix
+      # ../../2configs/wireguard/wiregrill-client.nix
 
       # services
       ../../2configs/bgt/savarcast/download.nix
@@ -39,17 +43,11 @@
       ../../2configs/bgt/etherpad.binaergewitter.de.nix
       ../../2configs/bgt/plan.binaergewitter.de.nix
 
-      # backup
-      #../../2configs/backup/state.nix
       # TODO: migration required
       # ../../2configs/bgt/backup.nix
       # TODO: isso + isso backup
 
-      # misc
-      # ../../2configs/support-nixos.nix
     ];
-    # TODO: ingo:
-    # "ssh-rsa AAAAB3NzaC1yc2EAAAABIwAAAIEA5G4SzPWZAJHrxpN2hQ0TzfPz5KO4eZISZxL3j/pkPs+6/YLXwB22AuU5qvNBi5uVIIZNqJBoaAcj/NePkiu6i2iAVzntAVWhBQlCLIlN0YXwXZ7E19fVUxvG65XV8D86YXSKrKkeDqk6SmQhReeWexMxTIKtj9Ipa7i9lPHBsls="
 
   clan.core.networking.targetHost = "root@savarcast";
   # Network
