@@ -11,7 +11,8 @@
 
 
       # Monitoring
-      ../../2configs/nix-community/supervision.nix
+      ../../2configs/bgt/telegraf.nix
+      # ../../2configs/nix-community/supervision.nix
 
       # users
       ../../2configs/home-manager
