@@ -194,6 +194,11 @@ let
         systemd.services = lib.mkMerge [
           (pushServiceDefs all)
           (certReloadDefs all)
+          # nginx runs ProtectSystem=strict; preStart must be able to write
+          # the placeholders into the relay dirs.
+          (lib.mkIf (lib.any receiveEnabled (lib.attrValues all)) {
+            nginx.serviceConfig.ReadWritePaths = [ "/var/lib/cert-relay" ];
+          })
         ];
         systemd.timers = pushTimerDefs all;
         systemd.paths = certPathDefs all;
@@ -222,6 +227,19 @@ let
             ) all;
           };
         };
+
+        # nginx must start before the first push lands: self-signed
+        # placeholders per receive domain, replaced later by the relayed
+        # cert. The 2770 root:nginx dirs let cert-receiver replace files
+        # regardless of who created them (unlink needs dir write, not
+        # ownership; the dirs are not sticky).
+        services.nginx.preStart = lib.mkIf (lib.any receiveEnabled (lib.attrValues all)) (
+          lib.concatMapStrings (cfg: ''
+            d=/var/lib/cert-relay/${cfg.domain}
+            [ -f "$d/key.pem" ] || ${pkgs.openssl}/bin/openssl req -x509 -newkey rsa:2048 -nodes \
+              -keyout "$d/key.pem" -out "$d/fullchain.pem" -days 1 -subj "/CN=*.${cfg.domain}"
+          '') (lib.filter receiveEnabled (lib.attrValues all))
+        );
 
         # hosts with the receive side terminate relayed TLS
         networking.firewall.allowedTCPPorts = lib.optionals (lib.any receiveEnabled (lib.attrValues all)) [
