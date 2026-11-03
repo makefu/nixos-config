@@ -74,7 +74,7 @@
         pigstarter.User = "makefu";
         "pigstarter.krebsco.de".User = "makefu";
         savarcast = {
-          HostName = "home.savar.de";
+          HostName = "download.binaergewitter.de";
           Port = 2299;
           User = "root";
         };
