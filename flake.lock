@@ -276,11 +276,11 @@
     },
     "crane_3": {
       "locked": {
-        "lastModified": 1789760033,
-        "narHash": "sha256-jtT4yxZpR8seYnlCMMWSSPlFN92zO6ICuZ8pJrmi86k=",
+        "lastModified": 1792350552,
+        "narHash": "sha256-292lvpvxTGKryKxh3/3tcIVi85CwYGdl4oOi113Sob8=",
         "owner": "ipetkov",
         "repo": "crane",
-        "rev": "73b980519cefc727a5f6cc8e5c0947a2f9be6edd",
+        "rev": "e675a36b7377bebe41d548388a2501cbb16d380d",
         "type": "github"
       },
       "original": {
@@ -409,11 +409,11 @@
         "rust-analyzer-src": "rust-analyzer-src_2"
       },
       "locked": {
-        "lastModified": 1790858958,
-        "narHash": "sha256-am3DS8g9vyeQLKk9QQvmJoZLHGBUB1rtd6zVaGeq2Mc=",
+        "lastModified": 1793277514,
+        "narHash": "sha256-oazTcfIGr1pFdY8oNZ9A5yEsNBa5fzsV3w5bEdXmJl4=",
         "owner": "nix-community",
         "repo": "fenix",
-        "rev": "025bf5b6b0293c5ee3a3506a7e43ba64bc8bb1b7",
+        "rev": "cf57f8966c3c129e31caaf29790caf8a6a93e0a6",
         "type": "github"
       },
       "original": {
@@ -1563,11 +1563,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1793692629,
-        "narHash": "sha256-d9in5DWjl+ky5YBnQ2oNFJPFJ3vHVmGA1vmZmU5M1g8=",
+        "lastModified": 1794092224,
+        "narHash": "sha256-CbIvqL50+5yBF0eEk0MXs4s14aemG11SJ4q9tXRYLzM=",
         "owner": "makefu",
         "repo": "noctalia-plugins",
-        "rev": "e63f4794e24146c26cd4694dee18b8adce3c22cd",
+        "rev": "00361212682a9837e0573664eca075df5a92f0fc",
         "type": "github"
       },
       "original": {
@@ -1583,16 +1583,17 @@
         ]
       },
       "locked": {
-        "lastModified": 1793676314,
-        "narHash": "sha256-/He0g2IYutiafqOvCkR0Nb4tdb9Cnn+gAIZ0hzECIMc=",
-        "owner": "noctalia-dev",
-        "repo": "noctalia-shell",
-        "rev": "3c7e6343efac4cb683eb102374cccb210c05dc1c",
+        "lastModified": 1794083133,
+        "narHash": "sha256-8hds3KuOkByGNDq0E42JVpDtE5xAb8QQkmER4rIwFRE=",
+        "owner": "makefu",
+        "repo": "noctalia",
+        "rev": "82a6fafe81b1594ba6f9acfd3709e7ba5dfddb22",
         "type": "github"
       },
       "original": {
-        "owner": "noctalia-dev",
-        "repo": "noctalia-shell",
+        "owner": "makefu",
+        "ref": "feat/selectable-markdown",
+        "repo": "noctalia",
         "type": "github"
       }
     },
@@ -1846,11 +1847,11 @@
     "rust-analyzer-src_2": {
       "flake": false,
       "locked": {
-        "lastModified": 1790532271,
-        "narHash": "sha256-j8y/AO3AMDF9p+11aIDhnA21JnNj5PjvcejTI43vI8Q=",
+        "lastModified": 1793114798,
+        "narHash": "sha256-UtdQwK4PBKyXYRtopcJbBWZ9lPr7eRICTzrBQ+NNyf0=",
         "owner": "rust-lang",
         "repo": "rust-analyzer",
-        "rev": "03fcb77246f2568adb0e9b2fa60d19c6cc1686f4",
+        "rev": "889bb47e853003f62b0a593b955ab9afc97e7885",
         "type": "github"
       },
       "original": {
@@ -2148,11 +2149,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1791150519,
-        "narHash": "sha256-fyveJ++QrDxbWvSxz7TPKPschB3hYtmkXm2k22MIhYQ=",
+        "lastModified": 1793568433,
+        "narHash": "sha256-IVXcXkk5PVJnVvIyygEPJP6qAbmUpi8AtWQlK8TCMus=",
         "owner": "Mic92",
         "repo": "tincr",
-        "rev": "7af9101b51cdf8d46fb37bc014246bbafb0c3e43",
+        "rev": "09804a637976137793e8638670422ce8aebcec19",
         "type": "github"
       },
       "original": {
