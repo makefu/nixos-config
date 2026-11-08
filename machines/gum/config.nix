@@ -155,6 +155,7 @@
     #../../2configs/nginx/public_html.nix
     #../../2configs/nginx/update.connector.one.nix
     ../../2configs/nginx/misa-felix-hochzeit.ml.nix
+    ../../2configs/nginx/jack.r.nix
     # ../../2configs/nginx/gold.krebsco.de.nix
     # ../../2configs/nginx/iso.euer.nix
 
