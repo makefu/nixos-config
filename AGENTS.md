@@ -65,12 +65,17 @@ nixos-rebuild-ng + age + euer-add-device):
 
 ```sh
 clan machines update <host>             # build remotely on host & switch
+clan machines update <host> --build-host localhost   # build here, copy, switch
 clan machines update <host> --target-host root@<other-ip>   # one-off target override
 nixos-rebuild switch --flake .#<host> --target-host root@<host>   # alt
 ```
 
 `clan.core.networking.targetHost` per machine sets the default ssh
 target; override with `--target-host` when reachability changes.
+
+ATTENTION: `gum` and `omo` MUST always be deployed with
+`--build-host localhost` — remote builds on those hosts are too slow /
+underpowered (omo also runs the container workloads).
 
 ATTENTION: never deploy hosts until explicitly requested to. Explicitly ask for permission if blocked from continuing. building hosts is ok.
 
