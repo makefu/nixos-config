@@ -1,180 +1,123 @@
 { self, pkgs, config, ... }:
 let
-  # Same package the CLI client gets (home-manager programs.omp defaults to
-  # inputs.omp packages.default), so agent and interactive shell run one omp.
-  ompPkg = self.inputs.omp.packages.${pkgs.stdenv.hostPlatform.system}.default;
-  # inference.p0.contact serves an OpenAI-compatible vLLM endpoint. omp's
-  # built-in vllm provider defaults to http://127.0.0.1:8000/v1, so the base
-  # URL needs overriding. models.yml is read by both the service and the
-  # `opencrow-pi` wrapper, which does not inherit the service environment —
-  # hence the token comes from a `!cmd` read of the bind-mounted secret
-  # rather than from an environment variable.
-  vllmModels = {
-    providers.vllm = {
-      baseUrl = "https://inference.p0.contact/v1";
-      apiKey = "!cat /run/secrets/opencrow-vllm-api-key";
-      # The endpoint happily takes image_url parts, but vLLM's /v1/models
-      # advertises no modality, so discovery stamps the model text-only and
-      # omp refuses to attach images. Declare the capability by hand.
-      modelOverrides."Qwen3.8-27B-FP8".input = [
-        "text"
-        "image"
-      ];
-    };
-  };
-  # Pin the default model role so an omp invocation without --model (e.g. the
-  # interactive wrapper) does not fall back to the anthropic default.
-  commonPiSettings = {
-    modelRoles.default = "vllm/Qwen3.8-27B-FP8";
-    modelRoles.vision = "vllm/Qwen3.8-27B-FP8";
-    # Nothing local runs inside the container; without this every omp spawn
-    # waits on three discovery probes to 127.0.0.1 before it can answer.
-    disabledProviders = [
-      "ollama"
-      "llama.cpp"
-      "lm-studio"
-    ];
-    # omp's builtin memory backend, same as the CLI config
-    # (2configs/tools/home-manager/omp.nix), instead of the bundled sediment
-    # extension. DB lands in the writable PI_CODING_AGENT_DIR/memories.
-    memory.backend = "mnemopi";
-    mnemopi.scoping = "per-project";
-    # Suppress omp's first-run setup wizard in the non-interactive service.
-    setupVersion = 2;
-  };
-  vllmBind = {
-    "/run/secrets/opencrow-vllm-api-key" = {
-      hostPath = config.sops.secrets.opencrow-vllm-api-key.path;
-      isReadOnly = true;
-    };
-  };
-  extraPackages = with pkgs;[
-    jq
-    wget
-    curl
-    ripgrep
-    fd
-    git
-    python3
-    w3m
-    dnsutils
-    nodejs
-  ];
+  hermes = config.services.hermes-agent;
+  # nix-store tools the agent invokes from its terminal tool inside the
+  # container. The container is Ubuntu; only /nix/store (ro) and stateDir are
+  # mounted, so anything not baked into the image or apt-provisioned must be
+  # on PATH explicitly. podman create runs as root and the entrypoint only
+  # prepends its uv venv, so this PATH (base dirs + venv kept) is the single
+  # PATH source; there is deliberately no PATH key in the rendered .env —
+  # hermes load_dotenv would clobber the container env.
+  agentPath =
+    pkgs.lib.makeBinPath [
+      pkgs.nodejs
+      pkgs.jq
+      pkgs.ripgrep
+      pkgs.fd
+      pkgs.git
+      pkgs.curl
+      pkgs.wget
+      pkgs.python3
+      pkgs.w3m
+      pkgs.bind
+      self.inputs.mics-skills.packages.${pkgs.stdenv.hostPlatform.system}.kagi-search
+      (import ./kleinclaw-bin.nix {
+        inherit self pkgs;
+      })
+    ]
+    + ":/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/home/hermes/.venv/bin:/home/hermes/.local/bin";
 in
 {
   imports = [
-    self.inputs.opencrow.nixosModules.default
+    self.inputs.hermes-agent.nixosModules.default
     ./kagi.nix
     ./kleinclaw.nix
   ];
-  sops.secrets.opencrow-env = {};
-  # openclaw-nextcloud skill token. The skill reads NEXTCLOUD_TOKEN from the
-  # environment; keep it out of the nix store by sourcing an env-file secret.
-  # The secret holds a single line: NEXTCLOUD_TOKEN=<app-password>.
-  # Set with: echo -n 'NEXTCLOUD_TOKEN=<token>' | clan secrets set --machine omo --user makefu opencrow-nextcloud-token
-  sops.secrets.opencrow-nextcloud-token = {};
-  # Bearer token for the inference endpoint. omp resolves it per request via
-  # the `!cmd` apiKey in piModels below, so it never lands in the nix store.
-  # The container shares the host's uid namespace; 998 is the opencrow user
-  # inside it, which does not exist on the host and so cannot be named here.
-  sops.secrets.opencrow-vllm-api-key = {
-    uid = 998;
-    mode = "0400";
-  };
-  services.opencrow = {
+
+  # Single dotenv block: MATRIX_ACCESS_TOKEN, MATRIX_USER_ID,
+  # OPENAI_API_KEY, NEXTCLOUD_TOKEN. The module concatenates it into
+  # $HERMES_HOME/.env at activation (runs as root, so default 0400 root is
+  # enough). Migrated from opencrow-env with the keys renamed to the
+  # MATRIX_*/OPENAI_* names hermes and its skills expect:
+  #   clan secrets set --machine omo --user makefu hermes-env
+  sops.secrets.hermes-env = { };
+
+  services.hermes-agent = {
     enable = true;
-    piPackage = ompPkg;
-    inherit extraPackages;
-    skills = {
-      nextcloud = "${self.inputs.openclaw-nextcloud}/";
+
+    # Podman (omo already imports 2configs/virtualisation/podman.nix) instead
+    # of the native unit: the agent self-modifies (apt/pip/npm) in a
+    # persistent writable layer; nix rebuilds only swap the ro /nix/store
+    # package behind the current-package symlink.
+    container = {
+      enable = true;
+      backend = "podman";
+      # Pulled from Docker Hub on first container create (deploy step).
+      image = "ubuntu:24.04";
+      extraOptions = [ "--env" "PATH=${agentPath}" ];
+      extraVolumes = [
+        # Skills: each directory (with SKILL.md) mounts under /skills, the
+        # single skills.external_dirs root. The container runs podman as
+        # root, so sops' 0400 kagi token is bind-readable; inside, the group
+        # bits (group=hermes, same gid via HERMES_GID) gate access.
+        "${config.sops.secrets.opencrow-kagi-session-token.path}:/run/secrets/kagi-session-token:ro"
+        # openclaw-nextcloud skill (node scripts/nextcloud.js; token +
+        # NEXTCLOUD_URL/USER from .env / environment above).
+        "${self.inputs.openclaw-nextcloud}:/skills/nextcloud:ro"
+      ];
     };
+
+    settings = {
+      # inference.p0.contact serves an OpenAI-compatible vLLM endpoint.
+      # Custom provider reads its key from OPENAI_API_KEY in .env, so the
+      # token never lands in the nix store.
+      model = {
+        provider = "custom";
+        base_url = "https://inference.p0.contact/v1";
+        default = "Qwen3.8-27B-FP8";
+        # The custom runtime only sends OPENAI_API_KEY to openai.com hosts or
+        # one bound via OPENAI_BASE_URL (credential-leak gate); key_env on the
+        # model block is the declared rung for a bare custom provider and is
+        # read only when base_url matches this endpoint.
+        key_env = "OPENAI_API_KEY";
+      };
+      # vLLM's /v1/models advertises no modality; without this hermes treats
+      # the model as text-only and never attaches images.
+      model_overrides."custom.Qwen3.8-27B-FP8".supports_vision = true;
+      # One session per room (not per participant), matching the old
+      # opencrow bot's behaviour.
+      group_sessions_per_user = false;
+      matrix = {
+        require_mention = true;
+      };
+      skills.external_dirs = [ "/skills" ];
+    };
+
+    # Persona. Written to $HERMES_HOME/SOUL.md (host: ${hermes.stateDir}/.hermes).
+    hermesHomeFiles."SOUL.md" = ./soul.md;
+
+    environmentFiles = [ config.sops.secrets.hermes-env.path ];
+
+    # Non-secret env. MATRIX_DEVICE_ID must equal the access token's device
+    # (HTi5uohXSs): password logins mint a fresh device per start, which
+    # would orphan the migrated olm crypto store (BAD_ACCOUNT_KEY) and — via
+    # _reset_crypto_store_if_device_changed — silently wipe it.
     environment = {
-      OPENCROW_SOUL_FILE = "${./soul.md}";
-      OPENCROW_MATRIX_HOMESERVER = "https://matrix.cybahn.de";
-      # Inference runs on the vLLM endpoint configured in piModels below, not
-      # on a cloud provider; opencrow always passes --provider/--model to omp.
-      OPENCROW_PI_PROVIDER = "vllm";
-      OPENCROW_PI_MODEL = "vllm/Qwen3.8-27B-FP8";
-      # openclaw-nextcloud: non-sensitive config. Token comes via env-file secret.
+      MATRIX_HOMESERVER = "https://matrix.cybahn.de";
+      MATRIX_ALLOWED_USERS = "@makefu:matrix.cybahn.de";
+      MATRIX_DEVICE_ID = "HTi5uohXSs";
+      # Fail loudly at startup instead of degrading to blind drops of
+      # encrypted events (olm + mautrix.crypto ship in the nix package).
+      MATRIX_E2EE_MODE = "required";
+      MATRIX_AUTO_THREAD = "true";
+      # openclaw-nextcloud skill: non-sensitive config; token from .env.
       NEXTCLOUD_URL = "https://o.euer.krebsco.de";
       NEXTCLOUD_USER = "makefu";
     };
-
-    # Extra packages available to the agent inside the container.
-    # nodejs: openclaw-nextcloud runs `node scripts/nextcloud.js`.
-    environmentFiles = [
-      # matrix config
-      # https://github.com/pinpox/opencrow/blob/master/docs/tutorial.md#4-provide-secrets
-      config.sops.secrets.opencrow-env.path
-      # openclaw-nextcloud token (NEXTCLOUD_TOKEN=...)
-      config.sops.secrets.opencrow-nextcloud-token.path
-    ];
-    piModels = vllmModels;
-
-    extraBindMounts = vllmBind;
-
-    piSettings = commonPiSettings;
-
-    extensions = {
-      # Bundled sediment memory replaced by omp's mnemopi backend above.
-      memory = false;
-      reminders = true;
-    };
   };
 
-  # nostr identity for the second instance. Env-file form keeps the private
-  # key out of the nix store; systemd injects it via EnvironmentFile.
-  # The secret holds a single line: OPENCROW_NOSTR_PRIVATE_KEY=<hex>.
-  # Set with: echo -n 'OPENCROW_NOSTR_PRIVATE_KEY=<hex>' | clan secrets set --machine omo --user makefu opencrow-nostr-env
-  sops.secrets.opencrow-nostr-env = {};
-  # Second bot talking nostr through the euer-internal strfry relay
-  # (2configs/home/nostr-relay.nix, also on this host). opencrow supports exactly one
-  # backend per instance, so the Matrix bot above stays untouched and this
-  # one runs in its own container `opencrow-nostr`.
-  services.opencrow.instances.nostr = {
-    enable = true;
-    piPackage = ompPkg;
-    inherit extraPackages;
-    environment = {
-      OPENCROW_BACKEND = "nostr";
-      OPENCROW_NOSTR_RELAYS = "ws://nostr.euer";
-      OPENCROW_NOSTR_NAME = "opencrow";
-      OPENCROW_NOSTR_DISPLAY_NAME = "opencrow";
-      OPENCROW_PI_PROVIDER = "vllm";
-      OPENCROW_PI_MODEL = "vllm/Qwen3.8-27B-FP8";
-      OPENCROW_SOUL_FILE = "${./soul.md}";
-      # charts/images upload here (2configs/home/nostr-files.nix on this host)
-      OPENCROW_NOSTR_BLOSSOM_SERVERS = "http://nostr-files.euer";
-      # openclaw-nextcloud: non-sensitive config. Token comes via env-file secret.
-      NEXTCLOUD_URL = "https://o.euer.krebsco.de";
-      NEXTCLOUD_USER = "makefu";
-    };
-    environmentFiles = [
-      config.sops.secrets.opencrow-nostr-env.path
-      # openclaw-nextcloud token (NEXTCLOUD_TOKEN=...)
-      config.sops.secrets.opencrow-nextcloud-token.path
-    ];
-    piModels = vllmModels;
-    piSettings = commonPiSettings;
-    extraBindMounts = vllmBind;
-    extensions = {
-      memory = false;
-      reminders = true;
-    };
-  };
-
-  # The strfry relay (2configs/home/nostr-relay.nix) runs on this host;
-  # without this entry the name is unresolvable inside the container. The
-  # container shares the host's network namespace, so the omo euer addresses
-  # hit the local nginx vhost.
-  containers.opencrow-nostr.config.networking.hosts = {
-    "fd42:e1e0::2" = [
-      "nostr.euer"
-      "nostr-files.euer"
-    ];
-    "172.27.70.2" = [
-      "nostr.euer"
-      "nostr-files.euer"
-    ];
-  };
+  # Kleinclaw workspace for miniclaw config.yaml + ad drafts.
+  systemd.tmpfiles.rules = [
+    "d ${hermes.stateDir}/kleinanzeigen 0750 ${hermes.user} ${hermes.group} -"
+  ];
 }

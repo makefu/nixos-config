@@ -144,7 +144,7 @@
     diyhue.url = "github:makefu/diyHue";
     diyhue.inputs.nixpkgs.follows = "nixpkgs";
 
-    noctalia-shell.url = "github:noctalia-dev/noctalia-shell";
+    noctalia-shell.url = "github:makefu/noctalia/feat/selectable-markdown";
     noctalia-shell.inputs.nixpkgs.follows = "nixpkgs";
 
     noctalia-plugins.url = "github:makefu/noctalia-plugins";
@@ -163,6 +163,10 @@
     };
 
     opencrow.url = "github:pinpox/opencrow";
+
+    # Matrix/agent framework by NousResearch; replaces opencrow (omp-based)
+    # on omo. No follows — hermes pins its own nixpkgs for its uv2nix build.
+    hermes-agent.url = "github:NousResearch/hermes-agent";
     #opencrow.inputs.nixpkgs.follows = "nixpkgs";
 
     freshrss-extensions = {
