@@ -62,6 +62,10 @@
         { name = "GEOlino Spezial"; url = "https://cdn.audiorella.com/podcasts/1688-geolino-spezial-der-wissenspodcast-fur-junge-entdeckerinnen-und-entdecker/feed.rss"; cut_ads = true; }
         { name = "Winnis wilde Nachbarn"; url = "https://winnis-wilde-nachbarn.podigee.io/rssfeed"; }
         { name = "Tigerentenclub Hörspielshow"; url = "https://www.kindernetz.de/~podcast/sendungen/hoerspielshow/podcast-hoerspielshow-100.xml"; }
+        { name = "The Magnus Archives"; output_dir = "/media/silent/audiobooks/en/the.magnus.archives"; url = "https://feeds.acast.com/public/shows/b6085bcd-3542-4a43-b6a8-021e3fd251b8"; cut_ads = true; }
+        { name = "The Silt Verses"; output_dir = "/media/silent/audiobooks/en/the.silt.verses";url = "https://feeds.acast.com/public/shows/5fec690f8211cf453a1b89e2"; cut_ads = true; }
+        { name = "NoSleep Podcast"; output_dir = "/media/silent/audiobooks/en/nosleep";url = "https://audioboom.com/channels/5101646.rss"; cut_ads = true; }
+        { name = "SCP Archive Podcast"; output_dir = "/media/silent/audiobooks/en/scp.archive";url = "https://feeds.simplecast.com/b7dgNp7A"; cut_ads = true; }
         # { name = "Eric erforscht..."; url = "http://feeds.libsyn.com/299396/rss"; slug = "eric.erforscht"; } #404
         # { name = "Professorin Domino"; url = "https://sr-mediathek.de/pcast/feeds/SR1_DO_P/feed.xml"; slug = "professorin.domino"; } #404
       ];
