@@ -1599,22 +1599,6 @@
         "url": "https://channels.nixos.org/nixos-unstable/nixexprs.tar.xz"
       }
     },
-    "nixpkgs_8": {
-      "locked": {
-        "lastModified": 1792502884,
-        "narHash": "sha256-IoNisKcGbUjdd45qCqywGMCYmZ5EnkxezvLII0FWwNA=",
-        "owner": "NixOS",
-        "repo": "nixpkgs",
-        "rev": "02c087f3fe673c9e317f206a627cb6b910336dbe",
-        "type": "github"
-      },
-      "original": {
-        "owner": "NixOS",
-        "ref": "nixos-unstable",
-        "repo": "nixpkgs",
-        "type": "github"
-      }
-    },
     "nixvim": {
       "inputs": {
         "flake-parts": "flake-parts_5",
@@ -1719,25 +1703,6 @@
         "type": "github"
       }
     },
-    "opencrow": {
-      "inputs": {
-        "nixpkgs": "nixpkgs_8",
-        "treefmt-nix": "treefmt-nix_6"
-      },
-      "locked": {
-        "lastModified": 1782727145,
-        "narHash": "sha256-buooDQiylOxQBO6nvATodIpC/jp9Vic+JvWYYrTCv7M=",
-        "owner": "pinpox",
-        "repo": "opencrow",
-        "rev": "b6a2b714bbb8d10f848b9f859283bb5745f7dccf",
-        "type": "github"
-      },
-      "original": {
-        "owner": "pinpox",
-        "repo": "opencrow",
-        "type": "github"
-      }
-    },
     "pi-agent-extensions": {
       "flake": false,
       "locked": {
@@ -1784,7 +1749,7 @@
           "nixpkgs"
         ],
         "systems": "systems_12",
-        "treefmt-nix": "treefmt-nix_7"
+        "treefmt-nix": "treefmt-nix_6"
       },
       "locked": {
         "lastModified": 1743690424,
@@ -1948,14 +1913,13 @@
         "noctalia-shell": "noctalia-shell",
         "omp": "omp",
         "openclaw-nextcloud": "openclaw-nextcloud",
-        "opencrow": "opencrow",
         "pi-agent-extensions": "pi-agent-extensions",
         "podfetch": "podfetch",
         "poetry2nix": "poetry2nix",
         "rate-everything": "rate-everything",
         "systems": "systems_14",
         "tincr": "tincr",
-        "treefmt-nix": "treefmt-nix_8",
+        "treefmt-nix": "treefmt-nix_7",
         "yamtrack": "yamtrack"
       }
     },
@@ -2404,27 +2368,6 @@
     "treefmt-nix_6": {
       "inputs": {
         "nixpkgs": [
-          "opencrow",
-          "nixpkgs"
-        ]
-      },
-      "locked": {
-        "lastModified": 1773297127,
-        "narHash": "sha256-6E/yhXP7Oy/NbXtf1ktzmU8SdVqJQ09HC/48ebEGBpk=",
-        "owner": "numtide",
-        "repo": "treefmt-nix",
-        "rev": "71b125cd05fbfd78cab3e070b73544abe24c5016",
-        "type": "github"
-      },
-      "original": {
-        "owner": "numtide",
-        "repo": "treefmt-nix",
-        "type": "github"
-      }
-    },
-    "treefmt-nix_7": {
-      "inputs": {
-        "nixpkgs": [
           "poetry2nix",
           "nixpkgs"
         ]
@@ -2443,7 +2386,7 @@
         "type": "github"
       }
     },
-    "treefmt-nix_8": {
+    "treefmt-nix_7": {
       "inputs": {
         "nixpkgs": [
           "nixpkgs"

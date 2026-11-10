@@ -162,7 +162,7 @@
       flake = false;
     };
 
-    opencrow.url = "github:pinpox/opencrow";
+    # opencrow.url = "github:pinpox/opencrow";
 
     # Matrix/agent framework by NousResearch; replaces opencrow (omp-based)
     # on omo. No follows — hermes pins its own nixpkgs for its uv2nix build.
