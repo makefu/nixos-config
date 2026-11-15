@@ -35,6 +35,7 @@
     ../../2configs/hw/smartcard.nix
     ../../2configs/hw/upower.nix
     ../../2configs/hw/cdrip.nix
+    ../../2configs/hw/m-flasher.nix
     # ../../2configs/audio/raop-discover.nix
     #../../2configs/hw/ps4-compat.nix
 
