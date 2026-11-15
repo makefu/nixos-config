@@ -185,21 +185,23 @@ ASCII fallback:
 
 ## Consumer example (omo)
 
-`2configs/home/nostr-relay.nix` / `nostr-files.nix` import the four
-cert-relay files (shared instantiation + client for both domains) and define
-vhosts like:
+`2configs/home/nostr-relay.nix` / `nostr-files.nix` import the client files
+for both domains and hand the vhost bodies to the module, which generates
+the TLS vhosts:
 
 ```nix
-"nostr.euer.syntax-fehler.de" = {
-  onlySSL = true;
-  sslCertificate = "/var/lib/cert-relay/euer.syntax-fehler.de/fullchain.pem";
-  sslCertificateKey = "/var/lib/cert-relay/euer.syntax-fehler.de/key.pem";
-  ...
+# 2configs/home/nostr-relay.nix
+makefu.cert-relay.euer.client.nginxVhosts = {
+  nostr = { locations."/".proxyPass = "http://127.0.0.1:7777"; locations."/".proxyWebsockets = true; };
 };
 ```
 
-Plain-HTTP vhosts (`nostr.euer`, `nostr.lan`) coexist for wireguard/LAN-only
-consumers that don't need TLS.
+For each prefix the module creates
+`services.nginx.virtualHosts."prefix.<domain>"` with `onlySSL` and
+`sslCertificate`/`sslCertificateKey` =
+`/var/lib/cert-relay/<domain>/{fullchain,key}.pem`; do not set those keys in
+the vhost body. Plain-HTTP vhosts (`nostr.euer`, `nostr.lan`) coexist for
+wireguard/LAN-only consumers (e.g. ws:// bots) that don't need TLS.
 
 ## Runbook: adding a new internal client/service that needs HTTPS
 
@@ -223,7 +225,9 @@ Cheapest path; nothing to issue, the wildcard already covers it.
      ../../2configs/cert-relay/client-lan.nix
    ];
    ```
-4. Point the nginx vhost at `/var/lib/cert-relay/<domain>/{fullchain,key}.pem`
+4. Add
+   `makefu.cert-relay.<euer|lan>.client.nginxVhosts.foo = { locations = …; };`
+   — the module creates `foo.<domain>` with onlySSL + the relayed cert
    (see nostr-relay above).
 5. Rebuild. If the cert on disk might be stale, re-trigger the push (not the
    issuance): on gum run `systemctl start cert-push-lan.service`

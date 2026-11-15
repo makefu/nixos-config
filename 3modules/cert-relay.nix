@@ -46,6 +46,26 @@ let
                   type = lib.types.listOf lib.types.str;
                   default = [ "nginx.service" ];
                 };
+                nginxVhosts = lib.mkOption {
+                  type = lib.types.attrsOf lib.types.anything;
+                  default = { };
+                  example = {
+                    nostr = {
+                      locations."/".proxyPass = "http://127.0.0.1:7777";
+                      locations."/".proxyWebsockets = true;
+                    };
+                  };
+                  description = ''
+                    Relayed-HTTPS vhosts served by this host with this instance's
+                    wildcard cert. Each key is a short prefix; the module creates
+                    services.nginx.virtualHosts."prefix.''${domain}" with onlySSL
+                    and sslCertificate/sslCertificateKey pointing at
+                    /var/lib/cert-relay/<domain>/. The value is an ordinary nginx
+                    vhost attrset (locations, serverAliases, extraConfig, …); do
+                    not set onlySSL/addSSL/forceSSL or the cert paths here — the
+                    module owns those. Requires client.enable.
+                  '';
+                };
               };
             };
             config = {
@@ -146,6 +166,30 @@ let
       # ---- receive side (each target host) ----
       receiveEnabled = cfg: cfg.client.enable;
 
+      # Instances whose relayed cert nginx actually serves.
+      receiveWithVhosts = cfg: receiveEnabled cfg && cfg.client.nginxVhosts != { };
+
+      anyRelayedVhosts = lib.any receiveWithVhosts (lib.attrValues all);
+
+      # One mkIf'd attrset per instance, merged into the statically-named
+      # services.nginx.virtualHosts (per-instance iteration stays in a value,
+      # see header comment — same shape as certReloadDefs/pushServiceDefs).
+      relayedVhostDefs =
+        n: cfg:
+        lib.mkIf (receiveEnabled cfg) (
+          lib.mapAttrs' (
+            prefix: vhost:
+            lib.nameValuePair "${prefix}.${cfg.domain}" (
+              vhost
+              // {
+                onlySSL = true;
+                sslCertificate = "/var/lib/cert-relay/${cfg.domain}/fullchain.pem";
+                sslCertificateKey = "/var/lib/cert-relay/${cfg.domain}/key.pem";
+              }
+            )
+          ) cfg.client.nginxVhosts
+        );
+
       receiveTmpfiles =
         n: cfg:
         lib.optionals (receiveEnabled cfg) [
@@ -196,7 +240,7 @@ let
           (certReloadDefs all)
           # nginx runs ProtectSystem=strict; preStart must be able to write
           # the placeholders into the relay dirs.
-          (lib.mkIf (lib.any receiveEnabled (lib.attrValues all)) {
+          (lib.mkIf anyRelayedVhosts {
             nginx.serviceConfig.ReadWritePaths = [ "/var/lib/cert-relay" ];
           })
         ];
@@ -233,16 +277,19 @@ let
         # cert. The 2770 root:nginx dirs let cert-receiver replace files
         # regardless of who created them (unlink needs dir write, not
         # ownership; the dirs are not sticky).
-        services.nginx.preStart = lib.mkIf (lib.any receiveEnabled (lib.attrValues all)) (
+        services.nginx.preStart = lib.mkIf anyRelayedVhosts (
           lib.concatMapStrings (cfg: ''
             d=/var/lib/cert-relay/${cfg.domain}
             [ -f "$d/key.pem" ] || ${pkgs.openssl}/bin/openssl req -x509 -newkey rsa:2048 -nodes \
               -keyout "$d/key.pem" -out "$d/fullchain.pem" -days 1 -subj "/CN=*.${cfg.domain}"
-          '') (lib.filter receiveEnabled (lib.attrValues all))
+          '') (lib.filter receiveWithVhosts (lib.attrValues all))
         );
 
+        services.nginx.enable = lib.mkIf anyRelayedVhosts (lib.mkDefault true);
+        services.nginx.virtualHosts = lib.mkMerge (lib.mapAttrsToList relayedVhostDefs all);
+
         # hosts with the receive side terminate relayed TLS
-        networking.firewall.allowedTCPPorts = lib.optionals (lib.any receiveEnabled (lib.attrValues all)) [
+        networking.firewall.allowedTCPPorts = lib.optionals anyRelayedVhosts [
           443
         ];
       };
