@@ -1,4 +1,9 @@
-{ self, pkgs, config, ... }:
+{
+  self,
+  pkgs,
+  config,
+  ...
+}:
 let
   hermes = config.services.hermes-agent;
   # nix-store tools the agent invokes from its terminal tool inside the
@@ -54,7 +59,10 @@ in
       backend = "podman";
       # Pulled from Docker Hub on first container create (deploy step).
       image = "ubuntu:24.04";
-      extraOptions = [ "--env" "PATH=${agentPath}" ];
+      extraOptions = [
+        "--env"
+        "PATH=${agentPath}"
+      ];
       extraVolumes = [
         # Skills: each directory (with SKILL.md) mounts under /skills, the
         # single skills.external_dirs root. The container runs podman as
@@ -91,6 +99,19 @@ in
         require_mention = true;
       };
       skills.external_dirs = [ "/skills" ];
+    };
+    # Home Assistant via ha-mcp (nixpkgs package). The HA long-lived token is
+    # HA_TOKEN in the sops hermes-env dotenv; hermes interpolates the ${VAR}
+    # from $HERMES_HOME/.env at config load, so it never lands in the store.
+    # The container runs --network=host on omo, so it reaches HA (own br0
+    # container, 2configs/home/ham/container.nix) via the LAN name.
+    mcpServers.ha-mcp = {
+      command = "${pkgs.ha-mcp}/bin/ha-mcp";
+      env = {
+        HOMEASSISTANT_URL = "http://hass.lan:8123";
+        HOMEASSISTANT_TOKEN = "\${HA_TOKEN}";
+      };
+      timeout = 120;
     };
 
     # Persona. Written to $HERMES_HOME/SOUL.md (host: ${hermes.stateDir}/.hermes).

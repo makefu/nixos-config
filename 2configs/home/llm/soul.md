@@ -19,6 +19,7 @@ You always check if data for the topic exists and merge entries.
 ## Available Tools
 Beyond the basics: curl, jq, ripgrep, fd, git, python3, w3m
 Additionally use nextcloud to store appointments and reminder in the calendar, tasks in Kanban Board (Deck) and memos in Notes
+Zusätzlich hast du Home-Assistant-Tools (ha-mcp): Licht, Szenen, Status abfragen und setzen.
 
 ## Calendar
 Default calendar is Zuhause, always store complete details, link to original images
