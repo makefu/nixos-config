@@ -30,6 +30,7 @@ in {
     # why the manual hass.euer entry was dropped from networking.hosts below.
     hass =       { ula = "fd42:e1e0::8"; ipv4 = "172.27.70.8"; publicKey = "U6QSYt95mAvb9CNxVYBHFBj5LOPdpoaK9nSbDOZ2hQw="; };
     tab8 = { ula = "fd42:e1e0::9"; ipv4 = "172.27.70.9"; publicKey = "rQJuTf5AU7/4ncfSe1AQgxzB4TlAxJX5mu1Gvp7ajyM="; publicV6 = "${prefix}::18"; };
+    misa-phone = { ula = "fd42:e1e0::a"; ipv4 = "172.27.70.10"; publicKey = "M+hzwa27LEO7LauP76fUjVH2lH79zIQ1mszlsFVSFHE="; publicV6 = "${prefix}::19"; };
   };
   networking.hosts = {
     "${gum}" = [
