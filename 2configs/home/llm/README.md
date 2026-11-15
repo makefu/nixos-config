@@ -89,3 +89,29 @@ Tools come from the nix store, bind-mounted `/nix/store:ro`;
 `container.extraOptions` sets the full `--env PATH=...` (store bins +
 Ubuntu dirs + the uv venv). There is deliberately no `PATH` key in the
 rendered `.env` — hermes `load_dotenv` would clobber the container env.
+
+## Web dashboard (hermes webapp)
+
+`hermes-webapp.nix` turns on the hermes gateway's Webapp listener
+(`settings.webapp`: 127.0.0.1:9120 inside the container, which is host
+loopback because it runs `--network=host`) and fronts it with nginx:
+`https://hermes.euer.syntax-fehler.de` + `https://hermes.lan.syntax-fehler.de`
+(cert-relay) and plain `http://hermes.euer` / `hermes.lan`.
+
+- Login is the bundled `plugins/dashboard_auth/basic` provider
+  (username/password, stdlib scrypt). Enabled by the dotenv secret
+  `hermes-webapp-basic-auth-env` (`HERMES_DASHBOARD_BASIC_AUTH_USERNAME`
+  / `_PASSWORD_HASH` / `_SECRET`); values are single-quoted (dotenv
+  interpolates `$…` only inside double quotes). Regenerate a hash with the
+  nix package's python: `python -c "from plugins.dashboard_auth.basic
+  import hash_password; print(hash_password('pw'))"`.
+- `webapp.public_url` is the ONLY hostname the webapp's Host/Origin gate
+  trusts (plus the bound loopback). So every nginx vhost rewrites
+  `Host` and `Origin` to the canonical one, with
+  `recommendedProxySettings = false` (the module's include would set
+  `Host $host` after our lines). Consequence: the session cookie is
+  stored per visited host — one login on LAN, one on euer.
+- Settings changes restart the container: the snippet adds a
+  `restartTriggers` hashing `services.hermes-agent.settings`
+  (open-webui.nix covers only environment/environmentFiles, and the
+  gateway reads `webapp:` only at process start).

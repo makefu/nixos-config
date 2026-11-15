@@ -147,6 +147,7 @@
 
     ../../2configs/home/llm/agent.nix
     ../../2configs/home/llm/open-webui.nix
+    ../../2configs/home/llm/hermes-webapp.nix
     ../../2configs/home/nostr-relay.nix
     ../../2configs/home/nostr-files.nix
 
