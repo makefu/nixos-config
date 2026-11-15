@@ -3,11 +3,19 @@
   lib,
   ...
 }:
+let
+  port = config.services.strfry.settings.relay.port;
+  # one proxy body, reused for the plain vhost and both relayed TLS vhosts
+  relayLocations = {
+    "/" = {
+      proxyPass = "http://127.0.0.1:${toString port}";
+      proxyWebsockets = true; # nostr is websocket; nixos nginx provides $connection_upgrade
+    };
+  };
+in
 {
   imports = [
-    ../cert-relay/euer.nix
     ../cert-relay/client-euer.nix
-    ../cert-relay/lan.nix
     ../cert-relay/client-lan.nix
   ];
   services.strfry = {
@@ -22,6 +30,19 @@
       };
     };
   };
+  # Relayed HTTPS: 3modules/cert-relay.nix generates
+  # nostr.<domain> vhosts (onlySSL + the relayed LE wildcard cert) from
+  # these; path units reload nginx when the cert files change.
+  makefu.cert-relay.euer.client.nginxVhosts = {
+    nostr = {
+      locations = relayLocations;
+    };
+  };
+  makefu.cert-relay.lan.client.nginxVhosts = {
+    nostr = {
+      locations = relayLocations;
+    };
+  };
   services.nginx = {
     enable = true;
     virtualHosts = {
@@ -33,37 +54,8 @@
       # (2configs/home/alerting/nginx.nix).
       "nostr.euer" = {
         serverAliases = [ "nostr.lan" ];
-        locations."/" = {
-          proxyPass = "http://127.0.0.1:${toString config.services.strfry.settings.relay.port}";
-          proxyWebsockets = true; # nostr is websocket; nixos nginx provides $connection_upgrade
-        };
+        locations = relayLocations;
       };
-    }
-    # Public HTTPS: the real LE wildcard certs are relayed from gum over the
-    # euer tunnel (3modules/cert-relay.nix); path units reload nginx when the
-    # files change. onlySSL because the euer name is ULA-only — a forceSSL
-    # redirect port would be unreachable from outside euer — and the lan name
-    # keeps serving plain ws:// on the vhost above for the bot.
-    //
-      lib.genAttrs
-        [
-          "nostr.${config.makefu.cert-relay.euer.domain}"
-          "nostr.${config.makefu.cert-relay.lan.domain}"
-        ]
-        (
-          name:
-          let
-            domain = lib.removePrefix "nostr." name;
-          in
-          {
-            onlySSL = true;
-            sslCertificate = "/var/lib/cert-relay/${domain}/fullchain.pem";
-            sslCertificateKey = "/var/lib/cert-relay/${domain}/key.pem";
-            locations."/" = {
-              proxyPass = "http://127.0.0.1:${toString config.services.strfry.settings.relay.port}";
-              proxyWebsockets = true;
-            };
-          }
-        );
+    };
   };
 }

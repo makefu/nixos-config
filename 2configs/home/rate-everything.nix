@@ -1,16 +1,31 @@
-{ pkgs, inputs, config, ... }:
+{
+  pkgs,
+  inputs,
+  config,
+  ...
+}:
 let
-    outdir = "/var/lib/rate-everything";
-    port = 3002;
-    # sslport = 3102;
-    # ty on current nixpkgs flags 127 pre-existing diagnostics in the
-    # project's installCheckPhase and fails the build; skip the check until
-    # upstream rate-everything is ty-clean.
-    pkg = (inputs.rate-everything.packages.${pkgs.stdenv.hostPlatform.system}.default).overrideAttrs (_: {
-      doInstallCheck = false;
-    });
-in {
-  sops.secrets."rate-everything_secrets" = {};
+  outdir = "/var/lib/rate-everything";
+  port = 3002;
+  rateLocations = {
+    "/" = {
+      proxyPass = "https://localhost:${toString port}"; # app serves self-signed TLS (WITH_SSL)
+      proxyWebsockets = true;
+    };
+  };
+  # sslport = 3102;
+  # ty on current nixpkgs flags 127 pre-existing diagnostics in the
+  # project's installCheckPhase and fails the build; skip the check until
+  # upstream rate-everything is ty-clean.
+  pkg =
+    (inputs.rate-everything.packages.${pkgs.stdenv.hostPlatform.system}.default).overrideAttrs
+      (_: {
+        doInstallCheck = false;
+      });
+in
+{
+  imports = [ ../cert-relay/client-euer.nix ];
+  sops.secrets."rate-everything_secrets" = { };
   systemd.services.rate-everything = {
     description = "rate-everything";
     wantedBy = [ "multi-user.target" ];
@@ -24,7 +39,7 @@ in {
       HOME = outdir; # set for whisper download dir
       WITH_SSL = "true"; # testing only
       ALLOWED_HOSTS = "*"; # testing only
-      STT_BACKEND = "mistral_voxtral"; #apikey in SECRETS_FILE
+      STT_BACKEND = "mistral_voxtral"; # apikey in SECRETS_FILE
       SECRETS_FILE = "/run/credentials/rate-everything.service/secrets";
     };
     serviceConfig = {
@@ -36,17 +51,18 @@ in {
       DynamicUser = true;
       Restart = "always";
     };
-};
+  };
 
   networking.firewall.allowedTCPPorts = [ port ];
+  # Relayed HTTPS: 3modules/cert-relay.nix generates
+  # rate.euer.syntax-fehler.de (onlySSL + the relayed LE wildcard cert).
+  makefu.cert-relay.euer.client.nginxVhosts = {
+    rate = {
+      locations = rateLocations;
+    };
+  };
   services.nginx.virtualHosts."rate-everything" = {
-      serverAliases = [ "rate.lan" ];
-      #addSSL = true;
-      #listen = [
-      #    { port = sslport; ssl = true; }
-      #];
-
-    locations."/".proxyPass = "https://localhost:${toString port}";
-    locations."/".proxyWebsockets = true;
+    serverAliases = [ "rate.lan" ];
+    locations = rateLocations;
   };
 }

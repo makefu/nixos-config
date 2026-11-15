@@ -4,19 +4,35 @@
 #
 # Ported from Mic92/dotfiles machines/eve/modules/route96.nix (same stack he
 # runs publicly as nostr-files.thalheim.io); packaging lives in
-# 5pkgs/route96/. Plain HTTP like the strfry relay (2configs/home/nostr-relay.nix):
-# *.euer has no public DNS for ACME, wireguard encrypts the transport; *.lan
-# is the router wildcard. Test: curl http://nostr-files.euer/.well-known/health
+# 5pkgs/route96/. Plain HTTP vhost like the strfry relay
+# (2configs/home/nostr-relay.nix), plus public HTTPS via cert-relay
+# nginxVhosts (3modules/cert-relay.nix). *.lan is the router wildcard.
+# Test: curl http://nostr-files.euer/.well-known/health
 {
   config,
   pkgs,
-  lib,
   ...
 }:
 let
   route96 = pkgs.route96;
   port = 8396;
   dataDir = "/var/lib/route96";
+
+  proxyLocations = {
+    "/" = {
+      proxyPass = "http://127.0.0.1:${toString port}";
+      extraConfig = ''
+        proxy_set_header Host $host;
+        proxy_set_header X-Real-IP $remote_addr;
+        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+        proxy_set_header X-Forwarded-Proto $scheme;
+        proxy_http_version 1.1;
+        proxy_set_header Upgrade $http_upgrade;
+        proxy_set_header Connection $connection_upgrade;
+        client_max_body_size 100m;
+      '';
+    };
+  };
 
   configFile = pkgs.writeText "route96-config.yaml" ''
     listen: "127.0.0.1:${toString port}"
@@ -92,57 +108,25 @@ in
   };
   users.groups.route96 = { };
 
-  services.nginx.virtualHosts = {
-    "nostr-files.euer" = {
-      serverAliases = [ "nostr-files.lan" ];
-      locations."/" = {
-        proxyPass = "http://127.0.0.1:${toString port}";
-        extraConfig = ''
-          proxy_set_header Host $host;
-          proxy_set_header X-Real-IP $remote_addr;
-          proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
-          proxy_set_header X-Forwarded-Proto $scheme;
-          proxy_http_version 1.1;
-          proxy_set_header Upgrade $http_upgrade;
-          proxy_set_header Connection $connection_upgrade;
-          client_max_body_size 100m;
-        '';
-      };
+  # Relayed HTTPS: 3modules/cert-relay.nix generates
+  # nostr-files.<domain> vhosts (onlySSL + the relayed LE wildcard cert) from
+  # these; path units reload nginx when the cert files change. Plain HTTP
+  # vhost below stays for the bot's internal uploads. NIP-96/Blossom URLs
+  # keep pointing at nostr-files.euer (http) — clients upgrade by resolving
+  # the public names.
+  makefu.cert-relay.euer.client.nginxVhosts = {
+    nostr-files = {
+      locations = proxyLocations;
     };
-  }
-  # Public HTTPS: real LE wildcard certs (*.euer.syntax-fehler.de,
-  # *.lan.syntax-fehler.de) relayed from gum via 3modules/cert-relay.nix;
-  # path units reload nginx on change. Plain HTTP vhost above stays for the
-  # bot's internal uploads. NIP-96/Blossom URLs keep pointing at
-  # nostr-files.euer (http) — clients upgrade by resolving the public names.
-  //
-    lib.genAttrs
-      [
-        "nostr-files.${config.makefu.cert-relay.euer.domain}"
-        "nostr-files.${config.makefu.cert-relay.lan.domain}"
-      ]
-      (
-        name:
-        let
-          domain = lib.removePrefix "nostr-files." name;
-        in
-        {
-          onlySSL = true;
-          sslCertificate = "/var/lib/cert-relay/${domain}/fullchain.pem";
-          sslCertificateKey = "/var/lib/cert-relay/${domain}/key.pem";
-          locations."/" = {
-            proxyPass = "http://127.0.0.1:${toString port}";
-            extraConfig = ''
-              proxy_set_header Host $host;
-              proxy_set_header X-Real-IP $remote_addr;
-              proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
-              proxy_set_header X-Forwarded-Proto $scheme;
-              proxy_http_version 1.1;
-              proxy_set_header Upgrade $http_upgrade;
-              proxy_set_header Connection $connection_upgrade;
-              client_max_body_size 100m;
-            '';
-          };
-        }
-      );
+  };
+  makefu.cert-relay.lan.client.nginxVhosts = {
+    nostr-files = {
+      locations = proxyLocations;
+    };
+  };
+
+  services.nginx.virtualHosts."nostr-files.euer" = {
+    serverAliases = [ "nostr-files.lan" ];
+    locations = proxyLocations;
+  };
 }

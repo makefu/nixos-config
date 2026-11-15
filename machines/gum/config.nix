@@ -150,7 +150,6 @@
     #../../2configs/nginx/euer.test.nix
     ../../2configs/nginx/euer.mon.nix
     ../../2configs/nginx/euer.blog.nix
-    ../../2configs/nginx/music.euer.nix
     ## ../../2configs/nginx/gum.krebsco.de.nix
     #../../2configs/nginx/public_html.nix
     #../../2configs/nginx/update.connector.one.nix
