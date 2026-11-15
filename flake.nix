@@ -212,6 +212,7 @@
           ./6hotfix/php.nix
           ./6hotfix/influxdb.nix
           ./6hotfix/lego.nix
+          ./6hotfix/posthog.nix
           clan-core.inputs.disko.nixosModules.disko
           # nix-ld.nixosModules.nix-ld
           home-manager.nixosModules.default
