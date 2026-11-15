@@ -43,8 +43,15 @@ in
   #   clan secrets set --machine omo --user makefu hermes-api-server-env
   #   clan secrets set --machine omo --user makefu open-webui-env
   # Same key value on both sides: open-webui presents it as the OpenAI key to hermes.
-  sops.secrets."hermes-api-server-env" = { };
-  sops.secrets."open-webui-env" = { };
+  # restartUnits: the gateway reads its .env and open-webui its EnvironmentFile
+  # only at process start; restartTriggers hash file paths, not content, so a
+  # rotated key needs sops to bounce the unit itself.
+  sops.secrets."hermes-api-server-env" = {
+    restartUnits = [ "hermes-agent.service" ];
+  };
+  sops.secrets."open-webui-env" = {
+    restartUnits = [ "open-webui.service" ];
+  };
 
   # ── hermes side: enable the OpenAI-compatible api_server platform ──
   # _api_server (gateway/config_env.py) enables the platform iff API_SERVER_KEY is usable

@@ -56,7 +56,11 @@ in
   # canonical surface, but a hash+secret there would land in the nix store).
   # HERMES_DASHBOARD_BASIC_AUTH_SECRET makes the HMAC session tokens survive
   # gateway restarts.
-  sops.secrets."hermes-webapp-basic-auth-env" = { };
+  # restartUnits: dotenv is read by the gateway at process start only; content
+  # changes do not trip the path-hashing restartTriggers.
+  sops.secrets."hermes-webapp-basic-auth-env" = {
+    restartUnits = [ "hermes-agent.service" ];
+  };
 
   services.hermes-agent = {
     environmentFiles = [ config.sops.secrets."hermes-webapp-basic-auth-env".path ];

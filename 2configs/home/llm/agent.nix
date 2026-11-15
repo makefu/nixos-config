@@ -45,7 +45,13 @@ in
   # enough). Migrated from opencrow-env with the keys renamed to the
   # MATRIX_*/OPENAI_* names hermes and its skills expect:
   #   clan secrets set --machine omo --user makefu hermes-env
-  sops.secrets.hermes-env = { };
+  # restartUnits: .env is concatenated from this file at activation, but the
+  # gateway reads it only at process start and restartTriggers hash the file
+  # *path* — without this a rotated secret sits in .env until an unrelated
+  # restart (hit on 2026-11-15: HA_TOKEN added, gateway kept the old env).
+  sops.secrets.hermes-env = {
+    restartUnits = [ "hermes-agent.service" ];
+  };
 
   services.hermes-agent = {
     enable = true;
