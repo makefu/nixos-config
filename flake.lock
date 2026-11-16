@@ -62,11 +62,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1791315097,
-        "narHash": "sha256-i7vhaZPuV9X3IojwAAfpFYV2v3/AKtTy/pDCZUnFkLY=",
+        "lastModified": 1794841912,
+        "narHash": "sha256-abD+7FWPR0pUQFRo/Kfu3x9WR719ypwP+diBVRltnKY=",
         "owner": "makefu",
         "repo": "bib-tracker",
-        "rev": "53d3c037ff2177b1149014898e521506c9e5d83c",
+        "rev": "e575abc8b07c689de4272ccc88cf7de637797b2f",
         "type": "github"
       },
       "original": {
@@ -759,16 +759,16 @@
         ]
       },
       "locked": {
-        "lastModified": 1791235760,
-        "narHash": "sha256-Vep3EKNH9znPINKtHdK4pYqKaMwQJcBNn5Ohw7mDTw0=",
+        "lastModified": 1794839319,
+        "narHash": "sha256-zG6qkgAmEACXvW5zUDx5Ki8A7lBh0UuNfs4Cn9r2rwg=",
         "owner": "makefu",
         "repo": "ha_stadtbibliothek",
-        "rev": "003bf2895375327ec5ae08dfb869cd0a99181614",
+        "rev": "446f6a8774df208478aa34e727bb840fc17bd6f3",
         "type": "github"
       },
       "original": {
         "owner": "makefu",
-        "ref": "v1.4.2",
+        "ref": "v1.4.3",
         "repo": "ha_stadtbibliothek",
         "type": "github"
       }
@@ -780,11 +780,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1791235760,
-        "narHash": "sha256-Vep3EKNH9znPINKtHdK4pYqKaMwQJcBNn5Ohw7mDTw0=",
+        "lastModified": 1794839319,
+        "narHash": "sha256-zG6qkgAmEACXvW5zUDx5Ki8A7lBh0UuNfs4Cn9r2rwg=",
         "owner": "makefu",
         "repo": "ha_stadtbibliothek",
-        "rev": "003bf2895375327ec5ae08dfb869cd0a99181614",
+        "rev": "446f6a8774df208478aa34e727bb840fc17bd6f3",
         "type": "github"
       },
       "original": {
