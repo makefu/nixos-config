@@ -31,6 +31,24 @@ let
       })
     ]
     + ":/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/home/hermes/.venv/bin:/home/hermes/.local/bin";
+  # Browser: hermes' browser_exec drives its PM-downloaded Chromium
+  # (/data/.hermes/tools/chromium-*), but the writable layer is a bare Ubuntu
+  # image — the entrypoint only apt-installs sudo/curl/nodejs, never the
+  # chrome runtime libs upstream's own Dockerfile ships (libnss3, libgbm1,
+  # libglib…). Result: "Chromium exited with code 127 … error while loading
+  # shared libraries: libglib". Instead pin browser.executable_path (wins over
+  # the PM download, and its presence suppresses the auto-install) to the
+  # nixpkgs Chromium wrapper, which carries its own LD_LIBRARY_PATH and runs
+  # fine in the container (/nix/store is bind-mounted ro). FONTCONFIG_FILE
+  # points at a store fontconfig whose fonts.conf references store fonts:
+  # without it Chromium finds no fonts in the Ubuntu image (no /etc/fonts) and
+  # screenshots/gfx hit harfbuzz errors. Both must be extraPackages so the
+  # hermes user profile keeps them GC-rooted — the container only sees them as
+  # path strings in config.yaml/.env, which are not nix GC roots.
+  browserPkgs = [
+    pkgs.chromium
+    pkgs.fontconfig
+  ];
 in
 {
   imports = [
@@ -54,6 +72,9 @@ in
   };
 
   services.hermes-agent = {
+    # GC roots: the container only references these as path strings
+    # (config.yaml/.env), which nix would collect otherwise.
+    extraPackages = browserPkgs;
     enable = true;
 
     # Podman (omo already imports 2configs/virtualisation/podman.nix) instead
@@ -105,6 +126,12 @@ in
         require_mention = true;
       };
       skills.external_dirs = [ "/skills" ];
+      # Pin the browser to the nixpkgs Chromium wrapper (see browserPkgs):
+      # the PM-downloaded chromium-1208 in the writable layer cannot load its
+      # libs in the bare Ubuntu image. An explicit executable_path also
+      # suppresses hermes' PM auto-install (browser_launcher
+      # _explicit_executable_configured).
+      browser.executable_path = "${pkgs.chromium}/bin/chromium";
     };
     # Home Assistant via ha-mcp (nixpkgs package). The HA long-lived token is
     # HA_TOKEN in the sops hermes-env dotenv; hermes interpolates the ${VAR}
@@ -140,6 +167,11 @@ in
       # openclaw-nextcloud skill: non-sensitive config; token from .env.
       NEXTCLOUD_URL = "https://o.euer.krebsco.de";
       NEXTCLOUD_USER = "makefu";
+      # Chromium child processes inherit this: the Ubuntu image has no
+      # /etc/fonts, so without a fontconfig pointing at store fonts, text
+      # rendering fails (harfbuzz errors, blank screenshots).
+      # bin output; fonts.conf ships in `out`.
+      FONTCONFIG_FILE = "${pkgs.fontconfig.out}/etc/fonts/fonts.conf";
     };
   };
 

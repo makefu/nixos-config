@@ -172,7 +172,7 @@
     ../../2configs/home/yamtrack-module.nix
     ../../2configs/home/changedetection.nix
     ../../2configs/home/hue.nix
-    ../../2configs/home/bibchecker.nix
+    # ../../2configs/home/bibchecker.nix
     ../../2configs/home/rate-everything.nix
     ../../2configs/home/bib-tracker.nix
     ../../2configs/home/goprocopy.nix
