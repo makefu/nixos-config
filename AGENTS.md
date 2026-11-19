@@ -341,6 +341,54 @@ host bind-mount.
 External (non-NixOS) wg peers also get
 `<device>-euer-wireguard-config` (full client config string).
 
+## DNS — netcup zones (`netcup-dns`)
+
+Public DNS for `syntax-fehler.de` (and other netcup zones) is managed
+with `2configs/tools/netcup-dns.py` against the netcup **legacy JSON
+session API**. It is in the dev shell (`nix develop` → `netcup-dns`)
+and exposed as `nix run .#packages.x86_64-linux.netcup-dns -- …`.
+Python 3.13 stdlib only.
+
+Creds come from env or `-e` env file (KEY=VALUE). Use the clan secret,
+**not** `clan secrets get` (that truncates values at 50 chars):
+
+```sh
+sops -d sops/secrets/lego-syntax-fehler/secret > /tmp/nc.env
+netcup-dns -e /tmp/nc.env syntax-fehler.de list
+```
+
+Commands (hostname accepts `@`, short `rss.euer`, or full FQDN; all
+operations fetch the live zone first, diff locally, then send one
+`updateDnsRecords` call — idempotent):
+
+```sh
+netcup-dns <dom> list | json [-o f]        # read
+netcup-dns <dom> pull zone.json             # backup / edit-apply source
+netcup-dns <dom> push zone.json             # replace zone: rows missing in the file are DELETED
+netcup-dns <dom> add    rss.euer A 172.27.70.1        # fails if row exists
+netcup-dns <dom> set    rss.euer A 172.27.70.1        # replace all rows for host+type
+netcup-dns <dom> rm     rss.euer AAAA [destination]   # destination optional = all rows of host+type
+netcup-dns --dry-run <dom> …                # print the diff, send nothing
+```
+
+Agentic workflow: `pull` → edit JSON → `--dry-run push` → verify the
+`+`/`-` diff → `push`. `add`/`set`/`rm` are the shortcut for single
+rows.
+
+API quirks (baked into the script; do not hand-roll curl against this
+API): every param is lowercase (`customernumber`, `apikey`,
+`apisessionid`, `domainname`), and the record list must be nested as
+`{"dnsrecordset":{"dnsrecords":[…]}}` — flat/camelCase fails with
+statuscode 4008/4018. `updateDnsRecords` only upserts the rows it is
+given; omitted rows are NOT deleted, so deletions are sent as
+explicit `deleterecord: true` rows. netcup ignores per-record ttl on
+this zone (records read back `ttl: null` = zone default); `--ttl` is
+best-effort. Cert issuance for these names runs on gum via the
+cert-relay server (`dnsProvider = "netcup"` legacy, secret
+`lego-syntax-fehler`) — DNS here must stay consistent with the
+`*.euer` wildcard pointing at omo and the explicit `rss.euer` /
+`euer` records pointing at gum's euer/public addresses.
+
 ## Build / eval recipes
 
 ```sh

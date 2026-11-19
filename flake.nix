@@ -280,6 +280,13 @@
       ];
       text = builtins.readFile ./2configs/wireguard/euer/add-device.sh;
     };
+    packages.x86_64-linux.netcup-dns = let
+      pkgs = nixpkgs.legacyPackages.x86_64-linux;
+    in pkgs.writeShellApplication {
+      name = "netcup-dns";
+      runtimeInputs = [ pkgs.python3 ];
+      text = ''exec ${pkgs.python3.interpreter} ${./2configs/tools/netcup-dns.py} "$@"'';
+    };
     # Standalone home-manager configuration exposing the ai.nix module.
     # Lets us build just the ai bits without rebuilding a full machine, e.g.
     # `nix build .#homeConfigurations.ai-makefu.activationPackage` and then
@@ -307,6 +314,7 @@
               pkgs.nixos-rebuild-ng
             pkgs.age
             self.packages.x86_64-linux.euer-add-device
+            self.packages.x86_64-linux.netcup-dns
           ];
     };
   };
