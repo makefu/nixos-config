@@ -134,6 +134,8 @@
     ../../2configs/hw/cdrip.nix
 
     # services
+    # disable HTTP/2 for all vhosts (nginx module defaults it on per TLS block)
+    ../../2configs/nginx/disable-http2.nix
     {
       # firewall ports for nginx (80) + Home Assistant (8123) live in
       # ./networking.nix alongside the rest of the host networking.

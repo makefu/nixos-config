@@ -1,6 +1,6 @@
 { pkgs, lib, config, ... }:
 let
-  fqdn = "rss.euer.krebsco.de";
+  fqdn = "rss.euer.syntax-fehler.de";
   ratt-path = "/var/lib/ratt/";
   out-path = "${ratt-path}/all.xml";
 in {

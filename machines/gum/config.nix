@@ -49,7 +49,7 @@
     # networking
     # ../../2configs/vpn/vpnws/server.nix
     #../../2configs/dnscrypt/server.nix
-    ../../2configs/iodined.nix
+    # ../../2configs/iodined.nix
 
     # broken on unstable
     # ../../2configs/ipfs/hetzner-serve.nix
@@ -69,7 +69,7 @@
 
     # ../../2configs/remote-build/slave.nix
     # ../../2configs/remote-build/aarch64-community.nix
-    ../../2configs/taskd.nix
+    # ../../2configs/taskd.nix
 
     # services
     # ../../2configs/sabnzbd.nix
@@ -119,7 +119,7 @@
     ### Web
 
     ../../2configs/bitwarden.nix # postgres backend
-    ../../2configs/deployment/rss/rss.euer.krebsco.de.nix # postgres backend
+    ../../2configs/deployment/rss/rss.euer.syntax-fehler.de.nix # postgres backend
     ../../2configs/deployment/rss/ratt.nix
 
     ../../2configs/deployment/ntfysh.nix
@@ -146,6 +146,7 @@
       #};
     }
 
+    ../../2configs/nginx/disable-http2.nix
     ../../2configs/nginx/dl.euer.krebsco.de.nix
     #../../2configs/nginx/euer.test.nix
     ../../2configs/nginx/euer.mon.nix
@@ -170,7 +171,6 @@
     ../../2configs/deployment/wiki.euer.nix
 
     # ../../2configs/deployment/mdrss-proxy.nix
-    ../../2configs/deployment/abook-proxy.nix
     # ../../2configs/deployment/book-proxy.nix
     #../../2configs/workadventure
 

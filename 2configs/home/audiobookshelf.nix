@@ -5,6 +5,7 @@ let
   domain = "abook.euer";
 in
 {
+  imports = [ ../cert-relay/client-euer.nix ];
   services.audiobookshelf = {
     enable = true;
     host = "::"; # for forwarding from gum, ipv6 binding
@@ -19,6 +20,20 @@ in
       locations."/" = {
         proxyPass = "http://localhost:${toString port}";
         proxyWebsockets = true;
+      };
+    };
+  };
+  # Relayed HTTPS for the VPN-only public name: 3modules/cert-relay.nix
+  # generates abook.euer.syntax-fehler.de (onlySSL + the relayed LE wildcard
+  # cert pushed from gum). *.euer.syntax-fehler.de already resolves to omo's
+  # euer tunnel addresses, so this is reachable from euer members only.
+  makefu.cert-relay.euer.client.nginxVhosts = {
+    abook = {
+      locations = {
+        "/" = {
+          proxyPass = "http://localhost:${toString port}";
+          proxyWebsockets = true;
+        };
       };
     };
   };
