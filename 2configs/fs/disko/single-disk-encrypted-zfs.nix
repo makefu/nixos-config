@@ -71,6 +71,8 @@
               encryption = "aes-256-gcm";
               keyformat = "passphrase";
               "com.sun:auto-snapshot" = "true";
+              # ensure login/journald/nix-activation still works when tank is full
+              refreservation = "1G";
             };
             #keylocation = "file:///tmp/secret.key";
           };
